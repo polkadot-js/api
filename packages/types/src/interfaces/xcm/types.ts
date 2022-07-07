@@ -820,7 +820,7 @@ export interface XcmOrderV0 extends Enum {
   } & Struct;
   readonly isInitiateTeleport: boolean;
   readonly asInitiateTeleport: {
-    readonly assets: Vec<MultiAsset>;
+    readonly assets: Vec<MultiAssetV0>;
     readonly dest: MultiLocationV0;
     readonly effects: Vec<XcmOrderV0>;
   } & Struct;
@@ -832,7 +832,7 @@ export interface XcmOrderV0 extends Enum {
   } & Struct;
   readonly isBuyExecution: boolean;
   readonly asBuyExecution: {
-    readonly fees: MultiAsset;
+    readonly fees: MultiAssetV0;
     readonly weight: u64;
     readonly debt: u64;
     readonly haltOnError: bool;

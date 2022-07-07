@@ -204,7 +204,7 @@ export const v0: DefinitionsTypes = {
         effects: 'Vec<XcmOrderV0>'
       },
       InitiateTeleport: {
-        assets: 'Vec<MultiAsset>',
+        assets: 'Vec<MultiAssetV0>',
         dest: 'MultiLocationV0',
         effects: 'Vec<XcmOrderV0>'
       },
@@ -214,7 +214,7 @@ export const v0: DefinitionsTypes = {
         assets: 'Vec<MultiAssetV0>'
       },
       BuyExecution: {
-        fees: 'MultiAsset',
+        fees: 'MultiAssetV0',
         weight: 'u64',
         debt: 'u64',
         haltOnError: 'bool',
