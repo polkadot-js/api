@@ -1,4 +1,4 @@
-    3104	Jaco                          	Opaque{Metadata, Multiaddr, PeerId} -> WrapperOpaque<Bytes> (#5038)
+    3105	Jaco                          	Alias for WrapperOpaque to Opaque (#5039)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
