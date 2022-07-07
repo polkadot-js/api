@@ -6,7 +6,7 @@ import { AnyString } from '../types';
 type Mapper = (value: string) => string;
 
 const BOUNDED = ['BTreeMap', 'BTreeSet', 'HashMap', 'Vec'];
-const ALLOWED_BOXES = BOUNDED.concat(['Compact', 'DoNotConstruct', 'Int', 'Linkage', 'Range', 'RangeInclusive', 'Result', 'Option', 'UInt', 'WrapperKeepOpaque', 'WrapperOpaque']);
+const ALLOWED_BOXES = BOUNDED.concat(['Compact', 'DoNotConstruct', 'Int', 'Linkage', 'Range', 'RangeInclusive', 'Result', 'Opaque', 'Option', 'UInt', 'WrapperKeepOpaque', 'WrapperOpaque']);
 const BOX_PRECEDING = ['<', '(', '[', '"', ',', ' ']; // start of vec, tuple, fixed array, part of struct def or in tuple
 
 const mappings: Mapper[] = [
