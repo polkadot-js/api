@@ -226,6 +226,7 @@ const wrappedExtraction: [string, string, TypeDefInfo][] = [
   ['BTreeSet<', '>', TypeDefInfo.BTreeSet],
   ['Compact<', '>', TypeDefInfo.Compact],
   ['Linkage<', '>', TypeDefInfo.Linkage],
+  ['Opaque<', '>', TypeDefInfo.WrapperOpaque],
   ['Option<', '>', TypeDefInfo.Option],
   ['Range<', '>', TypeDefInfo.Range],
   ['RangeInclusive<', '>', TypeDefInfo.RangeInclusive],

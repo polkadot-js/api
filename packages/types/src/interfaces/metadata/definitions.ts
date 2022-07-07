@@ -44,7 +44,7 @@ export default {
     StorageHasher: 'StorageHasherV14',
 
     // additional types
-    OpaqueMetadata: 'WrapperOpaque<Bytes>',
+    OpaqueMetadata: 'Opaque<Bytes>',
 
     // the enum containing all the mappings
     MetadataAll: {
