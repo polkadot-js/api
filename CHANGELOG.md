@@ -7,6 +7,7 @@ Changes:
 - Adjust `Opaque{Metadata, Multiaddr, PeerId}` decoding to `Opaque<Bytes>`
 - Adjust type generation to correctly cater for ambient definitions
 - Improve type argument generation for `Option<...>` types
+- Add `XcmOrderV1Prev` to cater for change where `BuyExecution { order }` exists
 
 
 ## 8.11.3 Jul 5, 2022

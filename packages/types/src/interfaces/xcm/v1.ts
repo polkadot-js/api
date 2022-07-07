@@ -146,6 +146,58 @@ export const v1: DefinitionsTypes = {
       }
     }
   },
+  // As above but with XcmOrderV1Prev included
+  XcmV1Prev: {
+    _enum: {
+      WithdrawAsset: {
+        assets: 'MultiAssetsV1',
+        effects: 'Vec<XcmOrderV1Prev>'
+      },
+      ReserveAssetDeposit: {
+        assets: 'MultiAssetsV1',
+        effects: 'Vec<XcmOrderV1Prev>'
+      },
+      ReceiveTeleportedAsset: {
+        assets: 'MultiAssetsV1',
+        effects: 'Vec<XcmOrderV1Prev>'
+      },
+      QueryResponse: {
+        queryId: 'Compact<u64>',
+        response: 'ResponseV1'
+      },
+      TransferAsset: {
+        assets: 'MultiAssetsV1',
+        dest: 'MultiLocationV1'
+      },
+      TransferReserveAsset: {
+        assets: 'MultiAssetsV1',
+        dest: 'MultiLocationV1',
+        effects: 'Vec<XcmOrderV1Prev>'
+      },
+      Transact: {
+        originType: 'XcmOriginKind',
+        requireWeightAtMost: 'u64',
+        call: 'DoubleEncodedCall'
+      },
+      HrmpNewChannelOpenRequest: {
+        sender: 'Compact<u32>',
+        maxMessageSize: 'Compact<u32>',
+        maxCapacity: 'Compact<u32>'
+      },
+      HrmpChannelAccepted: {
+        recipient: 'Compact<u32>'
+      },
+      HrmpChannelClosing: {
+        initiator: 'Compact<u32>',
+        sender: 'Compact<u32>',
+        recipient: 'Compact<u32>'
+      },
+      RelayedFrom: {
+        who: 'MultiLocationV1',
+        message: 'XcmV1Prev'
+      }
+    }
+  },
   XcmErrorV1: {
     _enum: {
       Undefined: 'Null',
@@ -218,6 +270,52 @@ export const v1: DefinitionsTypes = {
         debt: 'u64',
         haltOnError: 'bool',
         instructions: 'Vec<XcmV1>'
+      }
+    }
+  },
+  // As above, but change mid-way to V1 caters for the oders
+  // field in BuyExecution
+  // https://github.com/polkadot-js/api/issues/4083
+  XcmOrderV1Prev: {
+    _enum: {
+      Noop: 'Null',
+      DepositAsset: {
+        assets: 'MultiAssetFilterV1',
+        maxAssets: 'u32',
+        beneficiary: 'MultiLocationV1'
+      },
+      DepositReserveAsset: {
+        assets: 'MultiAssetFilterV1',
+        maxAssets: 'u32',
+        dest: 'MultiLocationV1',
+        effects: 'Vec<XcmOrderV1Prev>'
+      },
+      ExchangeAsset: {
+        give: 'MultiAssetFilterV1',
+        receive: 'MultiAssetsV1'
+      },
+      InitiateReserveWithdraw: {
+        assets: 'MultiAssetFilterV1',
+        reserve: 'MultiLocationV1',
+        effects: 'Vec<XcmOrderV1Prev>'
+      },
+      InitiateTeleport: {
+        assets: 'MultiAssetFilterV1',
+        dest: 'MultiLocationV1',
+        effects: 'Vec<XcmOrderV1Prev>'
+      },
+      QueryHolding: {
+        queryId: 'Compact<u64>',
+        dest: 'MultiLocationV1',
+        assets: 'MultiAssetFilterV1'
+      },
+      BuyExecution: {
+        fees: 'MultiAssetV1',
+        weight: 'u64',
+        debt: 'u64',
+        haltOnError: 'bool',
+        orders: 'Vec<XcmOrderV1Prev>',
+        instructions: 'Vec<XcmV1Prev>'
       }
     }
   }

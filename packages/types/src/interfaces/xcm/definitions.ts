@@ -158,6 +158,16 @@ export default {
         V2: 'XcmV2'
       }
     },
+    // there was an in-cycle change in the V1 structures -
+    // using this type can evaluate and parse those
+    // https://github.com/polkadot-js/api/issues/4083
+    VersionedXcmV1Prev: {
+      _enum: {
+        V0: 'XcmV0',
+        V1: 'XcmV1Prev',
+        V2: 'XcmV2'
+      }
+    },
     XcmVersion: 'u32'
   })
 } as Definitions;
