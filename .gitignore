@@ -9,6 +9,8 @@ docs/.vuepress/dist/
 docs/substrate/*.md
 node_modules/
 tmp/
+/import_map.json
+/mod.ts
 NOTES.md
 .DS_Store
 .env.local
