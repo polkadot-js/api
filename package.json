@@ -9,8 +9,8 @@
     "type": "git",
     "url": "https://github.com/polkadot-js/api.git"
   },
+  "type": "module",
   "sideEffects": false,
-  "type": "commonjs",
   "version": "8.11.4-13-x",
   "workspaces": [
     "packages/*"
@@ -27,8 +27,7 @@
     "lint": "polkadot-dev-run-lint",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
-    "test:one": "polkadot-dev-run-test --detectOpenHandles --forceExit",
-    "test:watch": "polkadot-dev-run-test --watch"
+    "test:one": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --detectOpenHandles --forceExit"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",

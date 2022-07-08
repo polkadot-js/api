@@ -74,7 +74,7 @@ const healthCheckerFactory = () => {
   };
 };
 
-// jest.mock('./Health', () => healthCheckerFactory());
+jest.mock('./Health', () => healthCheckerFactory());
 
 type MockChain = Chain & {
   _spec: () => string
@@ -202,7 +202,7 @@ beforeAll(async () => {
   mockedConnector = (await import(
     '@substrate/connect'
   )) as unknown as ReturnType<typeof connectorFactory>;
-  mockedHealthChecker = healthCheckerFactory();
+  mockedHealthChecker = healthCheckerFactory(); // await import('./Health')
 });
 
 describe('ScProvider', () => {
