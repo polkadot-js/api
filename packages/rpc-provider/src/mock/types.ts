@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Server } from 'mock-socket';
-import type nock from 'nock';
 import type { Constructor } from '@polkadot/types/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -11,7 +10,7 @@ export interface Global extends NodeJS.Global {
   fetch: any;
 }
 
-export interface Mock extends nock.Scope {
+export interface Mock {
   body: Record<string, Record<string, unknown>>;
   requests: number;
   server: Server;

@@ -11,12 +11,18 @@ interface Request {
   reply?: Record<string, unknown>;
 }
 
+interface HttpMock extends Mock {
+  post: (uri: string) => {
+    reply: (code: number, handler: (uri: string, body: { id: string }) => unknown) => HttpMock
+  }
+}
+
 export const TEST_HTTP_URL = 'http://localhost:9944';
 
 export function mockHttp (requests: Request[]): Mock {
   nock.cleanAll();
 
-  return requests.reduce((scope: Mock, request: Request) =>
+  return requests.reduce((scope: HttpMock, request: Request) =>
     scope
       .post('/')
       .reply(request.code || 200, (uri: string, body: { id: string }) => {
@@ -24,6 +30,6 @@ export function mockHttp (requests: Request[]): Mock {
         scope.body[request.method] = body;
 
         return Object.assign({ id: body.id, jsonrpc: '2.0' }, request.reply || {}) as unknown;
-      }) as Mock,
-  nock(TEST_HTTP_URL) as Mock);
+      }),
+  nock(TEST_HTTP_URL) as unknown as HttpMock);
 }
