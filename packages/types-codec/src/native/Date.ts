@@ -7,6 +7,7 @@ import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from 
 import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 const BITLENGTH: UIntBitLength = 64;
+const U8A_OPTS = { bitLength: BITLENGTH, isLe: true };
 
 function decodeDate (value: CodecDate | Date | AnyNumber): Date {
   if (isU8a(value)) {
@@ -156,6 +157,6 @@ export class CodecDate extends Date implements INumber {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this.toNumber(), BITLENGTH, true);
+    return bnToU8a(this.toNumber(), U8A_OPTS);
   }
 }

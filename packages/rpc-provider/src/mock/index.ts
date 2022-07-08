@@ -227,8 +227,8 @@ export class MockProvider implements ProviderInterface {
       number: blockNumber,
       parentHash: blockNumber.isZero()
         ? new Uint8Array(32)
-        : bnToU8a(this.prevNumber, 256, false),
-      stateRoot: bnToU8a(blockNumber, 256, false)
+        : bnToU8a(this.prevNumber, { bitLength: 256, isLe: false }),
+      stateRoot: bnToU8a(blockNumber, { bitLength: 256, isLe: false })
     });
 
     this.prevNumber = blockNumber;
@@ -237,7 +237,7 @@ export class MockProvider implements ProviderInterface {
   }
 
   private setStateBn (key: Uint8Array, value: BN | number): void {
-    this.db[u8aToHex(key)] = bnToU8a(value, 64, true);
+    this.db[u8aToHex(key)] = bnToU8a(value, { bitLength: 64, isLe: true });
   }
 
   private updateSubs (method: string, value: Codec): void {

@@ -11,7 +11,7 @@ export interface Global extends NodeJS.Global {
 }
 
 export interface Mock {
-  body: Record<string, any>;
+  body: Record<string, Record<string, unknown>>;
   requests: number;
   server: Server;
   done: () => Record<string, unknown>;
