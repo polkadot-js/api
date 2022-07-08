@@ -23,7 +23,7 @@ function decodeString (registry: Registry, value: string): GenericEthereumAccoun
 
   return decoded.length === 20
     ? registry.createTypeUnsafe('EthereumAccountId', [decoded])
-    : registry.createTypeUnsafe('AccountIndex', [u8aToBn(decoded, true)]);
+    : registry.createTypeUnsafe('AccountIndex', [u8aToBn(decoded)]);
 }
 
 /** @internal */

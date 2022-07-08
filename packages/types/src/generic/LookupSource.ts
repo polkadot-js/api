@@ -23,7 +23,7 @@ function decodeString (registry: Registry, value: string): GenericAccountId | Ge
 
   return decoded.length === 32
     ? registry.createTypeUnsafe('AccountId', [decoded])
-    : registry.createTypeUnsafe('AccountIndex', [u8aToBn(decoded, true)]);
+    : registry.createTypeUnsafe('AccountIndex', [u8aToBn(decoded)]);
 }
 
 /** @internal */
