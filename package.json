@@ -9,9 +9,9 @@
     "type": "git",
     "url": "https://github.com/polkadot-js/api.git"
   },
-  "type": "module",
   "sideEffects": false,
-  "version": "8.11.4-13-x",
+  "type": "module",
+  "version": "8.11.4-14-x",
   "workspaces": [
     "packages/*"
   ],
