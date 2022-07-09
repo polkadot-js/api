@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 8.12.1 Jul 9, 2022
 
 Changes:
 
@@ -12,6 +12,7 @@ Changes:
 - Runtime call typegen from `system.version` constant value
 - Expose query flags on `derive.staking.account`
 - Update to latest Substrate, Polkadot & Kusama metadata
+- Update to `@polkadot/util` 10.0.1
 
 
 ## 8.11.3 Jul 5, 2022
