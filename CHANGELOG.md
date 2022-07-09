@@ -8,6 +8,8 @@ Changes:
 - Fix historic `XcmV0` definitions for `BuyExecution`
 - Adjust type generation to correctly cater for ambient definitions
 - Improve type argument generation for `Option<...>` types
+- Adjust usage of deprecated `@polkadot/util` methods
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 8.11.3 Jul 5, 2022
