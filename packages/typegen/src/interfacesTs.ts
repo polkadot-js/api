@@ -10,7 +10,7 @@ import substrate from '@polkadot/types-support/metadata/static-substrate';
 import { generateDefaultCalls, generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultInterface, generateDefaultLookup, generateDefaultQuery, generateDefaultRpc, generateDefaultTsDef, generateDefaultTx } from './generate';
 
 const BASE = 'packages/api-augment/src';
-const METAS = Object.entries({ kusama, polkadot, substrate }) as [string, HexString][];
+const METAS = Object.entries<HexString>({ kusama, polkadot, substrate });
 
 export function main (): void {
   generateDefaultInterface();
