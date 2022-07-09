@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeRegistry } from '@polkadot/types/create';
+import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { DefinitionCallNamed, Definitions } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types';
@@ -67,7 +67,7 @@ function getDefs (apis: Apis | null, defs: Record<string, Definitions>): Record<
 }
 
 /** @internal */
-export function generateCallTypes (registry: TypeRegistry, dest: string, apis: Apis | null, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
+export function generateCallTypes (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes: ExtraTypes = {
       '@polkadot/types-augment': {
@@ -80,6 +80,24 @@ export function generateCallTypes (registry: TypeRegistry, dest: string, apis: A
       ...extraTypes
     };
     const imports = createImports(allTypes);
+
+    // find the system.Version in metadata
+    let apis: Apis | null = null;
+    const { pallets, registry } = meta.asLatest;
+    const sysp = pallets.find(({ name }) => name.eq('System'));
+
+    if (sysp) {
+      const verc = sysp.constants.find(({ name }) => name.eq('Version'));
+
+      if (verc) {
+        apis = registry.createType('RuntimeVersion', verc.value).apis.map(([k, v]): [HexString, number] => [k.toHex(), v.toNumber()]);
+      } else {
+        console.error('Unable to find System.Version pallet, skipping API extraction');
+      }
+    } else {
+      console.error('Unable to find System pallet, skipping API extraction');
+    }
+
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
@@ -145,13 +163,12 @@ export function generateCallTypes (registry: TypeRegistry, dest: string, apis: A
   });
 }
 
-export function generateDefaultCalls (dest: string, data: HexString, rtVersion: { apis: Apis } | null = null, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
-  const { registry } = initMeta(data, extraTypes);
+export function generateDefaultCalls (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+  const { metadata } = initMeta(data, extraTypes);
 
   generateCallTypes(
-    registry,
+    metadata,
     dest,
-    rtVersion && rtVersion.apis,
     extraTypes,
     isStrict,
     customLookupDefinitions
