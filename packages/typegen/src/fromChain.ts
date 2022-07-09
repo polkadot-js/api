@@ -12,9 +12,7 @@ import { formatNumber } from '@polkadot/util';
 import { generateDefaultCalls, generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
 import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
 
-type Version = { apis: [HexString, number][] };
-
-function generate (metaHex: HexString, version: Version | null, pkg: string | undefined, output: string, isStrict?: boolean): void {
+function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
   const outputPath = assertDir(path.join(process.cwd(), output));
@@ -48,7 +46,7 @@ function generate (metaHex: HexString, version: Version | null, pkg: string | un
   generateDefaultQuery(path.join(outputPath, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultRpc(path.join(outputPath, 'augment-api-rpc.ts'), extraTypes);
   generateDefaultTx(path.join(outputPath, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultCalls(path.join(outputPath, 'augment-api-runtime.ts'), metaHex, version, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultCalls(path.join(outputPath, 'augment-api-runtime.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
 
   writeFile(path.join(outputPath, 'augment-api.ts'), (): string =>
     [
@@ -64,10 +62,10 @@ function generate (metaHex: HexString, version: Version | null, pkg: string | un
   process.exit(0);
 }
 
-type ArgV = { endpoint: string; output: string; package?: string; strict?: boolean, version?: string };
+type ArgV = { endpoint: string; output: string; package?: string; strict?: boolean };
 
 export function main (): void {
-  const { endpoint, output, package: pkg, strict: isStrict, version } = yargs.strict().options({
+  const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
       required: true,
@@ -85,28 +83,17 @@ export function main (): void {
     strict: {
       description: 'Turns on strict mode, no output of catch-all generic versions',
       type: 'boolean'
-    },
-    version: {
-      description: 'Pass through a version JSON (if endpoint is non-wss)',
-      type: 'string'
     }
   }).argv as ArgV;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
     getMetadataViaWs(endpoint)
-      .then(({ metadata, version }) => generate(metadata, version, pkg, output, isStrict))
+      .then((metadata) => generate(metadata, pkg, output, isStrict))
       .catch(() => process.exit(1));
   } else {
-    let rtv: Version | null = null;
-
-    if (version) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      rtv = (require(assertFile(path.join(process.cwd(), version))) as Record<string, Version>).result;
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const metadata = (require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result;
 
-    generate(metadata, rtv, pkg, output, isStrict);
+    generate(metadata, pkg, output, isStrict);
   }
 }

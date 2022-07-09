@@ -72,7 +72,7 @@ export function main (): void {
   if (endpoint) {
     if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
       getMetadataViaWs(endpoint)
-        .then(({ metadata }) => generateDefaultLookup(inputPath, metadata))
+        .then((metadata) => generateDefaultLookup(inputPath, metadata))
         .catch(() => process.exit(1));
     } else {
       // eslint-disable-next-line @typescript-eslint/no-var-requires

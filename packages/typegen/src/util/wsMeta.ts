@@ -41,14 +41,6 @@ async function getWsData <T> (endpoint: string, method: 'state_getMetadata' | 's
   });
 }
 
-export async function getMetadataViaWs (endpoint: string): Promise<{ metadata: HexString, version: { apis: [HexString, number][] } }> {
-  return Promise
-    .all([
-      getWsData<HexString>(endpoint, 'state_getMetadata'),
-      getWsData<{ apis: [HexString, number][] }>(endpoint, 'state_getRuntimeVersion')
-    ])
-    .then(([metadata, version]) => ({
-      metadata,
-      version
-    }));
+export async function getMetadataViaWs (endpoint: string): Promise<HexString> {
+  return getWsData<HexString>(endpoint, 'state_getMetadata');
 }

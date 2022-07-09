@@ -9,6 +9,7 @@ Changes:
 - Adjust type generation to correctly cater for ambient definitions
 - Improve type argument generation for `Option<...>` types
 - Adjust usage of deprecated `@polkadot/util` methods
+- Runtime call typegen from `system.version` constant value
 - Update to latest Substrate, Polkadot & Kusama metadata
 
 
