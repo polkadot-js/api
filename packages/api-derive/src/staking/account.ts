@@ -5,6 +5,7 @@ import type { Observable } from 'rxjs';
 import type { Balance } from '@polkadot/types/interfaces';
 import type { PalletStakingStakingLedger, PalletStakingUnlockChunk } from '@polkadot/types/lookup';
 import type { DeriveApi, DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
+import type { StakingQueryFlags } from './types';
 
 import { combineLatest, map, switchMap } from 'rxjs';
 
@@ -64,13 +65,13 @@ function parseResult (api: DeriveApi, sessionInfo: DeriveSessionInfo, keys: Deri
 /**
  * @description From a list of stashes, fill in all the relevant staking details
  */
-export function accounts (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[]) => Observable<DeriveStakingAccount[]> {
-  return memo(instanceId, (accountIds: (Uint8Array | string)[]): Observable<DeriveStakingAccount[]> =>
+export function accounts (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], opts?: StakingQueryFlags) => Observable<DeriveStakingAccount[]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[], opts: StakingQueryFlags = QUERY_OPTS): Observable<DeriveStakingAccount[]> =>
     api.derive.session.info().pipe(
       switchMap((sessionInfo) =>
         combineLatest([
           api.derive.staking.keysMulti(accountIds),
-          api.derive.staking.queryMulti(accountIds, QUERY_OPTS)
+          api.derive.staking.queryMulti(accountIds, opts)
         ]).pipe(
           map(([keys, queries]) =>
             queries.map((q, index) => parseResult(api, sessionInfo, keys[index], q))
@@ -85,6 +86,6 @@ export function accounts (instanceId: string, api: DeriveApi): (accountIds: (Uin
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
 export const account = firstMemo(
-  (api: DeriveApi, accountId: Uint8Array | string) =>
-    api.derive.staking.accounts([accountId])
+  (api: DeriveApi, accountId: Uint8Array | string, opts?: StakingQueryFlags) =>
+    api.derive.staking.accounts([accountId], opts)
 );
