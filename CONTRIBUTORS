@@ -1,4 +1,4 @@
-    3112	Jaco                          	Use system.version constant for runtime typegen (#5048)
+    3113	Jaco                          	Pass StakingQueryFlags through to derive staking.account (#5049)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
