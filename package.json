@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "8.12.1",
+  "version": "8.12.2-0-x",
   "workspaces": [
     "packages/*"
   ],
