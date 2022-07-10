@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 8.12.2 Jul 10, 2022
+
+Changes:
+
+- Update to `@polkadot/util` 10.0.2
+
+
 ## 8.12.1 Jul 9, 2022
 
 Changes:
