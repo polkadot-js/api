@@ -1,9 +1,6 @@
 _book/
 build/
-build-cjs/
-build-esm/
-build-deno/
-build-docs/
+build-*/
 coverage/
 docs/.vuepress/dist/
 docs/substrate/*.md

@@ -6,8 +6,7 @@ const base = require('@polkadot/dev/config/eslint.cjs');
 module.exports = {
   ...base,
   ignorePatterns: [
-    ...base.ignorePatterns,
-    '**/deno/*.ts'
+    ...base.ignorePatterns
   ],
   parserOptions: {
     ...base.parserOptions,

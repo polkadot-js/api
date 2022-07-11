@@ -15,7 +15,7 @@ import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assert, assertReturn, BN_ZERO, isUndefined, logger, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assertReturn, BN_ZERO, isUndefined, logger, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { Decorate } from './Decorate';
@@ -180,7 +180,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   private async _getBlockRegistryViaHash (blockHash: Uint8Array): Promise<VersionedRegistry<ApiType>> {
     // ensure we have everything required
-    assert(this._genesisHash && this._runtimeVersion, 'Cannot retrieve data on an uninitialized chain');
+    if (!this._genesisHash || !this._runtimeVersion) {
+      throw new Error('Cannot retrieve data on an uninitialized chain');
+    }
 
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
@@ -190,7 +192,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         : await firstValueFrom(this._rpcCore.chain.getHeader.raw(blockHash))
     );
 
-    assert(!header.parentHash.isEmpty, 'Unable to retrieve header and parent from supplied hash');
+    if (header.parentHash.isEmpty) {
+      throw new Error('Unable to retrieve header and parent from supplied hash');
+    }
 
     // get the runtime version, either on-chain or via an known upgrade history
     const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number);

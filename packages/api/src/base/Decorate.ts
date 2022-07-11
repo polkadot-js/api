@@ -21,7 +21,7 @@ import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, Metadata, typeDefinitions, TypeRegistry, unwrapStorageType } from '@polkadot/types';
 import { getSpecRuntime } from '@polkadot/types-known';
-import { arrayChunk, arrayFlatten, assert, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { createSubmittable } from '../submittable';
@@ -918,7 +918,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _retrieveMapKeys ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | null, args: unknown[]): Observable<StorageKey[]> {
-    assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
+    if (!iterKey || !meta.type.isMap) {
+      throw new Error('keys can only be retrieved on maps');
+    }
 
     const headKey = iterKey(...args).toHex();
     const startSubject = new BehaviorSubject<string>(headKey);
@@ -945,7 +947,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _retrieveMapKeysPaged ({ iterKey, meta, method, section }: StorageEntry, at: Hash | Uint8Array | string | undefined, opts: PaginationOptions): Observable<StorageKey[]> {
-    assert(iterKey && meta.type.isMap, 'keys can only be retrieved on maps');
+    if (!iterKey || !meta.type.isMap) {
+      throw new Error('keys can only be retrieved on maps');
+    }
 
     const setMeta = (key: StorageKey) => key.setMeta(meta, section, method);
     const query = at
