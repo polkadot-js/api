@@ -11,7 +11,7 @@ import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, BN_ZERO, compactAddLength, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
+import { BN_ZERO, compactAddLength, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
@@ -48,7 +48,9 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       ? this.abi.info.source.wasm
       : u8aToU8a(wasm);
 
-    assert(isWasm(this.code), 'No WASM code provided');
+    if (!isWasm(this.code)) {
+      throw new Error('No WASM code provided');
+    }
 
     this.abi.constructors.forEach((c): void => {
       if (isUndefined(this.#tx[c.method])) {
