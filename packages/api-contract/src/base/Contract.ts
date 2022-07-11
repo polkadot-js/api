@@ -13,7 +13,7 @@ import { map } from 'rxjs';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { assert, BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
+import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent, extractOptions, isOptions } from '../util';
@@ -87,7 +87,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   public get query (): MapMessageQuery<ApiType> {
-    assert(this.hasRpcContractsCall, ERROR_NO_CALL);
+    if (!this.hasRpcContractsCall) {
+      throw new Error(ERROR_NO_CALL);
+    }
 
     return this.#query;
   }
@@ -138,7 +140,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 
   #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
-    assert(this.hasRpcContractsCall, ERROR_NO_CALL);
+    if (!this.hasRpcContractsCall) {
+      throw new Error(ERROR_NO_CALL);
+    }
 
     const message = this.abi.findMessage(messageOrId);
 

@@ -8,7 +8,7 @@ import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, Deco
 
 import { TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
-import { assert, assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { convertVersions, enumVersions } from './toLatest';
 
@@ -35,7 +35,9 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
   ) as unknown as ContractMetadata;
   const converter = convertVersions.find(([v]) => metadata[`is${v}`]);
 
-  assert(converter, () => `Unable to convert ABI with version ${metadata.type} to latest`);
+  if (!converter) {
+    throw new Error(`Unable to convert ABI with version ${metadata.type} to latest`);
+  }
 
   return converter[1](registry, metadata[`as${converter[0]}`]);
 }
@@ -112,7 +114,9 @@ export class Abi {
     const index = data[0];
     const event = this.events[index];
 
-    assert(event, () => `Unable to find event with index ${index}`);
+    if (!event) {
+      throw new Error(`Unable to find event with index ${index}`);
+    }
 
     return event.fromU8a(data.subarray(1));
   }
@@ -142,7 +146,9 @@ export class Abi {
   #createArgs = (args: ContractMessageParamSpecLatest[], spec: unknown): AbiParam[] => {
     return args.map(({ label, type }, index): AbiParam => {
       try {
-        assert(isObject(type), 'Invalid type definition found');
+        if (!isObject(type)) {
+          throw new Error('Invalid type definition found');
+        }
 
         const displayName = type.displayName.length
           ? type.displayName[type.displayName.length - 1].toString()
@@ -233,13 +239,17 @@ export class Abi {
     const selector = trimmed.subarray(0, 4);
     const message = list.find((m) => m.selector.eq(selector));
 
-    assert(message, `Unable to find ${type} with selector ${u8aToHex(selector)}`);
+    if (!message) {
+      throw new Error(`Unable to find ${type} with selector ${u8aToHex(selector)}`);
+    }
 
     return message.fromU8a(trimmed.subarray(4));
   };
 
   #encodeArgs = ({ label, selector }: ContractMessageSpecLatest | ContractConstructorSpecLatest, args: AbiParam[], data: unknown[]): Uint8Array => {
-    assert(data.length === args.length, () => `Expected ${args.length} arguments to contract message '${label.toString()}', found ${data.length}`);
+    if (data.length !== args.length) {
+      throw new Error(`Expected ${args.length} arguments to contract message '${label.toString()}', found ${data.length}`);
+    }
 
     return compactAddLength(
       u8aConcat(
