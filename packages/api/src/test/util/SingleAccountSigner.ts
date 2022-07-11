@@ -5,7 +5,7 @@ import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { Registry, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 
-import { assert, hexToU8a, u8aToHex } from '@polkadot/util';
+import { hexToU8a, u8aToHex } from '@polkadot/util';
 
 let id = 0;
 
@@ -23,7 +23,9 @@ export class SingleAccountSigner implements Signer {
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
-    assert(payload.address === this.#keyringPair.address, 'Signer does not have the keyringPair');
+    if (payload.address !== this.#keyringPair.address) {
+      throw new Error('Signer does not have the keyringPair');
+    }
 
     return new Promise((resolve): void => {
       setTimeout((): void => {
@@ -38,7 +40,9 @@ export class SingleAccountSigner implements Signer {
   }
 
   public async signRaw ({ address, data }: SignerPayloadRaw): Promise<SignerResult> {
-    assert(address === this.#keyringPair.address, 'Signer does not have the keyringPair');
+    if (address !== this.#keyringPair.address) {
+      throw new Error('Signer does not have the keyringPair');
+    }
 
     return new Promise((resolve): void => {
       setTimeout((): void => {

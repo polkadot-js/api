@@ -7,7 +7,7 @@ import type { DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromi
 
 import { catchError, EMPTY, Subscription, tap } from 'rxjs';
 
-import { assert, isFunction, nextTick } from '@polkadot/util';
+import { isFunction, nextTick } from '@polkadot/util';
 
 interface Tracker<T> {
   reject: (value: Error) => Observable<never>;
@@ -57,7 +57,9 @@ function extractArgs (args: unknown[], needsCallback: boolean): [unknown[], Call
     : undefined;
 
   // When we need a subscription, ensure that a valid callback is actually passed
-  assert(!needsCallback || isFunction(callback), 'Expected a callback to be passed with subscriptions');
+  if (needsCallback && !isFunction(callback)) {
+    throw new Error('Expected a callback to be passed with subscriptions');
+  }
 
   return [actualArgs, callback];
 }
