@@ -430,8 +430,7 @@ export class WsProvider implements ProviderInterface {
     }
 
     if (this.#timeoutId) {
-      // different method signatures for Node vs Browser/Deno
-      clearInterval(this.#timeoutId as number);
+      clearInterval(this.#timeoutId);
       this.#timeoutId = null;
     }
 

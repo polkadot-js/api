@@ -109,8 +109,7 @@ export class MockProvider implements ProviderInterface {
   // eslint-disable-next-line @typescript-eslint/require-await
   public async disconnect (): Promise<void> {
     if (this.intervalId) {
-      // different method signatures for Node vs Browser/Deno
-      clearInterval(this.intervalId as number);
+      clearInterval(this.intervalId);
       this.intervalId = null;
     }
   }

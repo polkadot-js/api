@@ -373,7 +373,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   private _unsubscribeHealth (): void {
     if (this.#healthTimer) {
-      // different method signatures for Node vs Browser/Deno
       clearInterval(this.#healthTimer);
       this.#healthTimer = null;
     }
