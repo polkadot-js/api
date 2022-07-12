@@ -27,6 +27,6 @@
     "@polkadot/rpc-core": "8.12.3-3-x",
     "@polkadot/types": "8.12.3-3-x",
     "@polkadot/util": "^10.0.2",
-    "rxjs": "^7.5.5"
+    "rxjs": "^7.5.6"
   }
 }
