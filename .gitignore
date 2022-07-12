@@ -2,8 +2,6 @@ _book/
 build/
 build-*/
 coverage/
-docs/.vuepress/dist/
-docs/substrate/*.md
 node_modules/
 tmp/
 /import_map.json

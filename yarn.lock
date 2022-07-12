@@ -1978,7 +1978,7 @@ __metadata:
     "@polkadot/rpc-core": 8.12.3-3-x
     "@polkadot/types": 8.12.3-3-x
     "@polkadot/util": ^10.0.2
-    rxjs: ^7.5.5
+    rxjs: ^7.5.6
   languageName: unknown
   linkType: soft
 
@@ -1995,7 +1995,7 @@ __metadata:
     "@polkadot/types-create": 8.12.3-3-x
     "@polkadot/util": ^10.0.2
     "@polkadot/util-crypto": ^10.0.2
-    rxjs: ^7.5.5
+    rxjs: ^7.5.6
   languageName: unknown
   linkType: soft
 
@@ -2015,7 +2015,7 @@ __metadata:
     "@polkadot/types-support": 8.12.3-3-x
     "@polkadot/util": ^10.0.2
     "@polkadot/util-crypto": ^10.0.2
-    rxjs: ^7.5.5
+    rxjs: ^7.5.6
   languageName: unknown
   linkType: soft
 
@@ -2040,7 +2040,7 @@ __metadata:
     "@polkadot/util": ^10.0.2
     "@polkadot/util-crypto": ^10.0.2
     eventemitter3: ^4.0.7
-    rxjs: ^7.5.5
+    rxjs: ^7.5.6
   languageName: unknown
   linkType: soft
 
@@ -2186,7 +2186,7 @@ __metadata:
     "@polkadot/rpc-provider": 8.12.3-3-x
     "@polkadot/types": 8.12.3-3-x
     "@polkadot/util": ^10.0.2
-    rxjs: ^7.5.5
+    rxjs: ^7.5.6
   languageName: unknown
   linkType: soft
 
@@ -2313,7 +2313,7 @@ __metadata:
     "@polkadot/types-support": 8.12.3-3-x
     "@polkadot/util": ^10.0.2
     "@polkadot/util-crypto": ^10.0.2
-    rxjs: ^7.5.5
+    rxjs: ^7.5.6
   languageName: unknown
   linkType: soft
 
@@ -9272,12 +9272,12 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.5":
-  version: 7.5.5
-  resolution: "rxjs@npm:7.5.5"
+"rxjs@npm:^7.5.6":
+  version: 7.5.6
+  resolution: "rxjs@npm:7.5.6"
   dependencies:
     tslib: ^2.1.0
-  checksum: e034f60805210cce756dd2f49664a8108780b117cf5d0e2281506e9e6387f7b4f1532d974a8c8b09314fa7a16dd2f6cff3462072a5789672b5dcb45c4173f3c6
+  checksum: fc05f01364a74dac57490fb3e07ea63b422af04017fae1db641a009073f902ef69f285c5daac31359620dc8d9aee7d81e42b370ca2a8573d1feae0b04329383b
   languageName: node
   linkType: hard
 
