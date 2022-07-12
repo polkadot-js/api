@@ -44,8 +44,7 @@ export class MockProvider implements ProviderInterface {
 
   private emitter = new EventEmitter();
 
-  // Browser/Deno = number, Node = Timeout
-  private intervalId?: unknown | null;
+  private intervalId?: ReturnType<typeof setInterval> | null;
 
   public isUpdating = true;
 

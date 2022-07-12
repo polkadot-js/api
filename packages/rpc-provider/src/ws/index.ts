@@ -106,8 +106,7 @@ export class WsProvider implements ProviderInterface {
 
   #subscriptions: Record<string, WsStateSubscription> = {};
 
-  // Browser/Deno = number, Node = Timeout
-  #timeoutId?: unknown | null = null;
+  #timeoutId?: ReturnType<typeof setInterval> | null = null;
 
   #websocket: WebSocket | null;
 
