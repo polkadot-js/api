@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add `derive.chain.subscribeFinalizedHeads` which returns all finalized, no skips
+
+
 ## 8.12.2 Jul 10, 2022
 
 Changes:
