@@ -25,8 +25,11 @@ export function unwrapBlockNumber <T extends { number: Compact<BlockNumber> }> (
 
 export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
   // this is Moonbeam specific
-  if (queryAt.authorMapping) {
-    const mapId = (header.digest.logs[0] && header.digest.logs[0].isConsensus && header.digest.logs[0].asConsensus[1]) || (header.digest.logs[0] && header.digest.logs[0].isPreRuntime && header.digest.logs[0].asPreRuntime[1]);
+  if (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit) {
+    const mapId = header.digest.logs[0] && (
+      (header.digest.logs[0].isConsensus && header.digest.logs[0].asConsensus[1]) ||
+      (header.digest.logs[0].isPreRuntime && header.digest.logs[0].asPreRuntime[1])
+    );
 
     if (mapId) {
       return combineLatest([
