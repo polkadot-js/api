@@ -5,6 +5,7 @@
 Changes:
 
 - Add `derive.chain.subscribeFinalized{Heads, Blocks}` which returns all finalized, no skips
+- Support Moonbeam author extraction on `derive.chain.*` (w/ shared logic extraction)
 
 
 ## 8.12.2 Jul 10, 2022

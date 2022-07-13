@@ -9,6 +9,7 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { createSignedBlockExtended } from '../type';
 import { memo } from '../util';
+import { getAuthorDetails } from './util';
 
 /**
  * @name getBlock
@@ -27,19 +28,17 @@ export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<SignedBlockExtended> =>
     combineLatest([
       api.rpc.chain.getBlock(blockHash),
-      api.queryAt(blockHash).pipe(
-        switchMap((queryAt) =>
-          combineLatest([
-            queryAt.system.events(),
-            queryAt.session
-              ? queryAt.session.validators()
-              : of([])
-          ])
-        )
-      )
+      api.queryAt(blockHash)
     ]).pipe(
-      map(([signedBlock, [events, validators]]) =>
-        createSignedBlockExtended(events.registry, signedBlock, events, validators)
+      switchMap(([signedBlock, queryAt]) =>
+        combineLatest([
+          of(signedBlock),
+          queryAt.system.events(),
+          getAuthorDetails(signedBlock.block.header, queryAt)
+        ])
+      ),
+      map(([signedBlock, events, [, validators, author]]) =>
+        createSignedBlockExtended(events.registry, signedBlock, events, validators, author)
       )
     )
   );
