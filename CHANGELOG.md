@@ -4,7 +4,7 @@
 
 Changes:
 
-- Add `derive.chain.subscribeFinalizedHeads` which returns all finalized, no skips
+- Add `derive.chain.subscribeFinalized{Heads, Blocks}` which returns all finalized, no skips
 
 
 ## 8.12.2 Jul 10, 2022
