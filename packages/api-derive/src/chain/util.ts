@@ -36,9 +36,7 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
           : of(null),
         queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(mapId).pipe(
           map((opt) =>
-            opt.isSome
-              ? opt.unwrap().account
-              : null
+            opt.unwrapOr({ account: null }).account
           )
         )
       ]);
