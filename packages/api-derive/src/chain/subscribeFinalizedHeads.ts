@@ -42,6 +42,7 @@ export function subscribeFinalizedHeads (instanceId: string, api: DeriveApi): ()
         const startHash = header.parentHash;
 
         prevHash = header.hash;
+        header.createdAtHash = prevHash;
 
         return endHash === null || startHash.eq(endHash)
           ? of(header)
