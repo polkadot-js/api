@@ -30,7 +30,7 @@ export function _getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Arra
       )
     ]).pipe(
       map(([signedBlock, [events, validators]]) =>
-        createSignedBlockExtended(api.registry, signedBlock, events, validators)
+        createSignedBlockExtended(events.registry, signedBlock, events, validators)
       )
     )
   );

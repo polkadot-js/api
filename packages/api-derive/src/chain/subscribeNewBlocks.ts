@@ -32,7 +32,7 @@ export function subscribeNewBlocks (instanceId: string, api: DeriveApi): () => O
         ]);
       }),
       map(([header, block, events]) =>
-        createSignedBlockExtended(block.registry, block, events, header.validators)
+        createSignedBlockExtended(events.registry, block, events, header.validators)
       )
     )
   );
