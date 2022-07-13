@@ -1,4 +1,4 @@
-    3121	Jaco                          	Use ReturnType<typeof setInterval> for timerIds (#5060)
+    3122	Jaco                          	derive.chain.subscribeFinalizedHeads (#5063)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
