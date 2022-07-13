@@ -10,6 +10,7 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isNumber, isUndefined } from '@polkadot/util';
 
+import { unwrapBlockNumber } from '../util';
 import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
 
 interface Result {
@@ -51,7 +52,7 @@ function signingHeader (api: DeriveApi): Observable<Header> {
   ]).pipe(
     map(([current, finalized]) =>
       // determine the hash to use, current when lag > max, else finalized
-      current.number.unwrap().sub(finalized.number.unwrap()).gt(MAX_FINALITY_LAG)
+      unwrapBlockNumber(current).sub(unwrapBlockNumber(finalized)).gt(MAX_FINALITY_LAG)
         ? current
         : finalized
     )
