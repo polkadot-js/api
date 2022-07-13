@@ -10,17 +10,19 @@ import type { DeriveApi } from '../types';
 
 import { combineLatest, map, of } from 'rxjs';
 
-import { memo } from '../util';
+import { memo, unwrapBlockNumber } from '../util';
 
 // re-export these - since these needs to be resolvable from api-derive, i.e. without this
 // we would emit code with ../<somewhere>/src embedded in the *.d.ts files
 export type { BlockNumber } from '@polkadot/types/interfaces';
 
-export function unwrapBlockNumber <T extends { number: Compact<BlockNumber> }> (fn: (api: DeriveApi) => Observable<T>): (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber> {
+export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber> {
   return (instanceId: string, api: DeriveApi) =>
-    memo(instanceId, () => fn(api).pipe(
-      map((r) => r.number.unwrap())
-    ));
+    memo(instanceId, () =>
+      fn(api).pipe(
+        map(unwrapBlockNumber)
+      )
+    );
 }
 
 export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
