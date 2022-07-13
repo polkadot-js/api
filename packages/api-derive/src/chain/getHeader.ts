@@ -6,7 +6,7 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { HeaderExtended } from '../type/types';
 import type { DeriveApi } from '../types';
 
-import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { createHeaderExtended } from '../type';
 import { memo } from '../util';
@@ -25,8 +25,8 @@ import { memo } from '../util';
  * console.log(`block #${number} was authored by ${author}`);
  * ```
  */
-export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
-  return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint8Array | string) => Observable<HeaderExtended> {
+  return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended> =>
     combineLatest([
       api.rpc.chain.getHeader(blockHash),
       api.queryAt(blockHash).pipe(
@@ -39,12 +39,6 @@ export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint
     ]).pipe(
       map(([header, validators]) =>
         createHeaderExtended(header.registry, header, validators)
-      ),
-      catchError((): Observable<undefined> =>
-        // where rpc.chain.getHeader throws, we will land here - it can happen that
-        // we supplied an invalid hash. (Due to defaults, storeage will have an
-        // empty value, so only the RPC is affected). So return undefined
-        of()
       )
     ));
 }

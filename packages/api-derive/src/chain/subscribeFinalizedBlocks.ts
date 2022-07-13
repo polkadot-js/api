@@ -17,7 +17,7 @@ export function subscribeFinalizedBlocks (instanceId: string, api: DeriveApi): (
   return memo(instanceId, (): Observable<SignedBlockExtended> =>
     api.derive.chain.subscribeFinalizedHeads().pipe(
       switchMap((header) =>
-        api.derive.chain._getBlock(header.createdAtHash || header.hash)
+        api.derive.chain.getBlock(header.createdAtHash || header.hash)
       )
     )
   );
