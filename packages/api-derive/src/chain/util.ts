@@ -18,9 +18,11 @@ export type { BlockNumber } from '@polkadot/types/interfaces';
 
 export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber> {
   return (instanceId: string, api: DeriveApi) =>
-    memo(instanceId, () => fn(api).pipe(
-      map(unwrapBlockNumber)
-    ));
+    memo(instanceId, () =>
+      fn(api).pipe(
+        map(unwrapBlockNumber)
+      )
+    );
 }
 
 export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {

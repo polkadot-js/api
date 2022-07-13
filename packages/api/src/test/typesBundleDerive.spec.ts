@@ -7,7 +7,6 @@ import type { Enum, Struct } from '@polkadot/types';
 import type { Option } from '@polkadot/types/codec';
 import type { AccountId, AccountIndex, AccountInfo, Address, Balance, BlockNumber, Index } from '@polkadot/types/interfaces';
 
-import { jest } from '@jest/globals';
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
@@ -223,7 +222,7 @@ function createApi (): Promise<ApiPromise> {
   jest.setTimeout(30000);
   const provider = new WsProvider('wss://tge.equilibrium.io');
 
-  return new ApiPromise({ provider, typesBundle }).isReady;
+  return ApiPromise.create({ provider, typesBundle });
 }
 
 describe.skip('equilibrium api', () => {
