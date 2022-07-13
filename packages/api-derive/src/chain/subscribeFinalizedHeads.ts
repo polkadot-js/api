@@ -5,21 +5,17 @@ import type { Observable } from 'rxjs';
 import type { Hash, Header } from '@polkadot/types/interfaces';
 import type { DeriveApi } from '../types';
 
-import { from, map, of, switchMap } from 'rxjs';
+import { from, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-export function _getHeaderRange (instanceId: string, api: DeriveApi): (startHash: Hash, endHash: Hash) => Observable<Header[]> {
-  return memo(instanceId, (startHash: Hash, endHash: Hash): Observable<Header[]> =>
+export function _getHeaderRange (instanceId: string, api: DeriveApi): (startHash: Hash, endHash: Hash, prev?: Header[]) => Observable<Header[]> {
+  return memo(instanceId, (startHash: Hash, endHash: Hash, prev: Header[] = []): Observable<Header[]> =>
     api.rpc.chain.getHeader(startHash).pipe(
       switchMap((header) =>
         header.parentHash.eq(endHash)
-          ? of([header])
-          : api.derive.chain._getHeaderRange(header.parentHash, endHash).pipe(
-            map((headers) =>
-              headers.concat(header)
-            )
-          )
+          ? of([header, ...prev])
+          : api.derive.chain._getHeaderRange(header.parentHash, endHash, [header, ...prev])
       )
     )
   );
@@ -46,9 +42,9 @@ export function subscribeFinalizedHeads (instanceId: string, api: DeriveApi): ()
 
         return endHash === null || startHash.eq(endHash)
           ? of(header)
-          : api.derive.chain._getHeaderRange(startHash, endHash).pipe(
+          : api.derive.chain._getHeaderRange(startHash, endHash, [header]).pipe(
             switchMap((headers) =>
-              from(headers.concat(header))
+              from(headers)
             )
           );
       })
