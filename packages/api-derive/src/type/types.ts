@@ -5,7 +5,6 @@ import type { AccountId, DispatchError, DispatchInfo, Event, EventRecord, Extrin
 
 export interface HeaderExtended extends Header {
   readonly author: AccountId | undefined;
-  readonly validators: AccountId[] | undefined;
 }
 
 export interface SignedBlockExtended extends SignedBlock {

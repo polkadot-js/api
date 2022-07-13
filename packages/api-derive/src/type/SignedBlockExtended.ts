@@ -31,7 +31,7 @@ function mapExtrinsics (extrinsics: Extrinsic[], records: EventRecord[]): TxWith
   });
 }
 
-export function createSignedBlockExtended (registry: Registry, block?: SignedBlock, events?: EventRecord[], validators?: AccountId[]): SignedBlockExtended {
+export function createSignedBlockExtended (registry: Registry, block?: SignedBlock, events?: EventRecord[], validators?: AccountId[] | null, author?: AccountId | null): SignedBlockExtended {
   // an instance of the base extrinsic for us to extend
   const SignedBlockBase = registry.createClass('SignedBlock');
 
@@ -40,10 +40,10 @@ export function createSignedBlockExtended (registry: Registry, block?: SignedBlo
     readonly #events: EventRecord[];
     readonly #extrinsics: TxWithEvent[];
 
-    constructor (registry: Registry, block?: SignedBlock, events?: EventRecord[], validators?: AccountId[]) {
+    constructor (registry: Registry, block?: SignedBlock, events?: EventRecord[], validators?: AccountId[] | null, author?: AccountId | null) {
       super(registry, block);
 
-      this.#author = extractAuthor(this.block.header.digest, validators);
+      this.#author = author || extractAuthor(this.block.header.digest, validators || []);
       this.#events = events || ([] as EventRecord[]);
       this.#extrinsics = mapExtrinsics(this.block.extrinsics, this.#events);
       this.createdAtHash = block?.createdAtHash;
@@ -71,5 +71,5 @@ export function createSignedBlockExtended (registry: Registry, block?: SignedBlo
     }
   }
 
-  return new Implementation(registry, block, events, validators);
+  return new Implementation(registry, block, events, validators, author);
 }

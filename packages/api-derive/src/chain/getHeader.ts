@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountId } from '@polkadot/types/interfaces';
 import type { HeaderExtended } from '../type/types';
 import type { DeriveApi } from '../types';
 
-import { combineLatest, map, of, switchMap } from 'rxjs';
+import { combineLatest, map, switchMap } from 'rxjs';
 
 import { createHeaderExtended } from '../type';
 import { memo } from '../util';
+import { getAuthorDetails } from './util';
 
 /**
  * @name getHeader
@@ -29,16 +29,14 @@ export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended> =>
     combineLatest([
       api.rpc.chain.getHeader(blockHash),
-      api.queryAt(blockHash).pipe(
-        switchMap((queryAt) =>
-          queryAt.session
-            ? queryAt.session.validators()
-            : of([] as AccountId[])
-        )
-      )
+      api.queryAt(blockHash)
     ]).pipe(
-      map(([header, validators]) =>
-        createHeaderExtended(header.registry, header, validators)
+      switchMap(([header, queryAt]) =>
+        getAuthorDetails(header, queryAt)
+      ),
+      map(([header, validators, author]) =>
+        createHeaderExtended((validators || header).registry, header, validators, author)
       )
-    ));
+    )
+  );
 }
