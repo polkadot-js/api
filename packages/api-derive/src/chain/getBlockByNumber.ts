@@ -10,8 +10,8 @@ import { switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-export function getBlockByNumber (instanceId: string, api: DeriveApi): (blockNumber: AnyNumber) => Observable<SignedBlockExtended | undefined> {
-  return memo(instanceId, (blockNumber: AnyNumber): Observable<SignedBlockExtended | undefined> =>
+export function getBlockByNumber (instanceId: string, api: DeriveApi): (blockNumber: AnyNumber) => Observable<SignedBlockExtended> {
+  return memo(instanceId, (blockNumber: AnyNumber): Observable<SignedBlockExtended> =>
     api.rpc.chain.getBlockHash(blockNumber).pipe(
       switchMap((h) => api.derive.chain.getBlock(h))
     )

@@ -9,6 +9,9 @@ import { from, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
+/**
+ * Returns a header range from startHash to to (not including) endHash, i.e. lastBlock.parentHash === endHash
+ */
 export function _getHeaderRange (instanceId: string, api: DeriveApi): (startHash: Hash, endHash: Hash, prev?: Header[]) => Observable<Header[]> {
   return memo(instanceId, (startHash: Hash, endHash: Hash, prev: Header[] = []): Observable<Header[]> =>
     api.rpc.chain.getHeader(startHash).pipe(
@@ -39,6 +42,7 @@ export function subscribeFinalizedHeads (instanceId: string, api: DeriveApi): ()
         const startHash = header.parentHash;
 
         prevHash = header.hash;
+        header.createdAtHash = prevHash;
 
         return endHash === null || startHash.eq(endHash)
           ? of(header)
