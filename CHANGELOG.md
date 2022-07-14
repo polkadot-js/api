@@ -6,6 +6,7 @@ Changes:
 
 - Add `derive.chain.subscribeFinalized{Heads, Blocks}` which returns all finalized, no skips
 - Support Moonbeam author extraction on `derive.chain.*` (w/ shared logic extraction)
+- Ctarer for `BlockBuilder 2/3/4` & `GrandpaApi 2` runtime interface definitions
 
 
 ## 8.12.2 Jul 10, 2022
