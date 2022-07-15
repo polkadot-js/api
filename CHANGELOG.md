@@ -7,6 +7,7 @@ Changes:
 - Add `derive.chain.subscribeFinalized{Heads, Blocks}` which returns all finalized, no skips
 - Support Moonbeam author extraction on `derive.chain.*` (w/ shared logic extraction)
 - Cater for `BlockBuilder 2/3/4` & `GrandpaApi 2` runtime interface definitions
+- Support for `NominationPoolsApi` runtime interface
 - Add Kusama 9250 upgrade block
 
 
