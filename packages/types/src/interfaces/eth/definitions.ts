@@ -295,7 +295,31 @@ const types: DefinitionsTypes = objectSpread({}, V0, V1, V2, {
       None: 'Null'
     }
   },
-  EthTransaction: 'LegacyTransaction',
+  EthTransaction: {
+    hash: 'H256',
+    nonce: 'U256',
+    blockHash: 'Option<H256>',
+    blockNumber: 'Option<U256>',
+    transactionIndex: 'Option<U256>',
+    from: 'H160',
+    to: 'Option<H160>',
+    value: 'U256',
+    gasPrice: 'Option<U256>',
+    maxFeePerGas: 'Option<U256>',
+    maxPriorityFeePerGas: 'Option<U256>',
+    gas: 'U256',
+    input: 'Bytes',
+    creates: 'Option<H160>',
+    raw: 'Bytes',
+    publicKey: 'Option<H512>',
+    chainId: 'Option<U64>',
+    standardV: 'U256',
+    v: 'U256',
+    r: 'U256',
+    s: 'U256',
+    accessList: 'Option<Vec<EthAccessListItem>>',
+    transactionType: 'Option<U256>'
+  },
   EthTransactionSignature: {
     v: 'u64',
     r: 'H256',
