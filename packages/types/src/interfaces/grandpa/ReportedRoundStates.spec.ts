@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import json3 from '@polkadot/types-support/json/GrandpaRoundstate.001.json';
+import json3 from '@polkadot/types-support/json/GrandpaRoundstate.001.json' assert { type: 'json' };
 
 import { TypeRegistry } from '../../create';
 

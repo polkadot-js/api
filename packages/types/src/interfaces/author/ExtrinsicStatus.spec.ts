@@ -5,7 +5,7 @@
 
 import type { ExtrinsicStatus } from './types';
 
-import rpc from '@polkadot/types-support/json/ExtrinsicStatus.001.json';
+import rpc from '@polkadot/types-support/json/ExtrinsicStatus.001.json' assert { type: 'json' };
 
 import { TypeRegistry } from '../../create';
 

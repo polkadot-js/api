@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import kusamaData from '@polkadot/types-support/metadata/v13/kusama-hex';
-import kusamaJson from '@polkadot/types-support/metadata/v13/kusama-json.json';
+import kusamaJson from '@polkadot/types-support/metadata/v13/kusama-json.json' assert { type: 'json' };
 import polkadotData from '@polkadot/types-support/metadata/v13/polkadot-hex';
-import polkadotJson from '@polkadot/types-support/metadata/v13/polkadot-json.json';
+import polkadotJson from '@polkadot/types-support/metadata/v13/polkadot-json.json' assert { type: 'json' };
 import substrateData from '@polkadot/types-support/metadata/v13/substrate-hex';
-import substrateJson from '@polkadot/types-support/metadata/v13/substrate-json.json';
+import substrateJson from '@polkadot/types-support/metadata/v13/substrate-json.json' assert { type: 'json' };
 
 import { testMeta } from '../util/testUtil';
 

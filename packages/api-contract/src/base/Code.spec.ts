@@ -6,9 +6,9 @@ import path from 'path';
 
 import { toPromiseMethod } from '@polkadot/api';
 
-import v0contractFlipper from '../test/contracts/ink/v0/flipper.contract.json';
-import v0abiFlipper from '../test/contracts/ink/v0/flipper.json';
-import v1contractFlipper from '../test/contracts/ink/v1/flipper.contract.json';
+import v0contractFlipper from '../test/contracts/ink/v0/flipper.contract.json' assert { type: 'json' };
+import v0abiFlipper from '../test/contracts/ink/v0/flipper.json' assert { type: 'json' };
+import v1contractFlipper from '../test/contracts/ink/v1/flipper.contract.json' assert { type: 'json' };
 import { Code } from './Code';
 import { mockApi } from './mock';
 
