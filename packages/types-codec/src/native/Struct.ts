@@ -285,6 +285,8 @@ export class Struct<
     for (const [k, v] of this.entries()) {
       const jsonKey = this.#jsonMap.get(k) || k;
 
+      // We actually log inside the U8a decoding and use JSON.stringify(...), which
+      // means that the Vec may be partially populated (same applies to toHuman, same check)
       json[jsonKey as string] = v && v.toJSON();
     }
 

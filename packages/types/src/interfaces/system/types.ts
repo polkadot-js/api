@@ -171,6 +171,24 @@ export interface DispatchErrorPre6 extends Enum {
   readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'TooManyConsumers' | 'Token' | 'Arithmetic' | 'Transactional';
 }
 
+/** @name DispatchErrorPre6First */
+export interface DispatchErrorPre6First extends Enum {
+  readonly isOther: boolean;
+  readonly isCannotLookup: boolean;
+  readonly isBadOrigin: boolean;
+  readonly isModule: boolean;
+  readonly asModule: DispatchErrorModulePre6;
+  readonly isConsumerRemaining: boolean;
+  readonly isNoProviders: boolean;
+  readonly isToken: boolean;
+  readonly asToken: TokenError;
+  readonly isArithmetic: boolean;
+  readonly asArithmetic: ArithmeticError;
+  readonly isTransactional: boolean;
+  readonly asTransactional: TransactionalError;
+  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'Token' | 'Arithmetic' | 'Transactional';
+}
+
 /** @name DispatchErrorTo198 */
 export interface DispatchErrorTo198 extends Struct {
   readonly module: Option<u8>;

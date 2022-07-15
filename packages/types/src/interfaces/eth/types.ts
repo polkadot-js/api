@@ -3,7 +3,7 @@
 
 import type { GenericEthereumAccountId, GenericEthereumLookupSource } from '@polkadot/types';
 import type { Bytes, Enum, Option, Struct, U256, U64, U8aFixed, Vec, bool, f64, u32, u64 } from '@polkadot/types-codec';
-import type { BlockNumber, H160, H2048, H256, H64 } from '@polkadot/types/interfaces/runtime';
+import type { BlockNumber, H160, H2048, H256, H512, H64 } from '@polkadot/types/interfaces/runtime';
 
 /** @name BlockV0 */
 export interface BlockV0 extends Struct {
@@ -329,7 +329,31 @@ export interface EthSyncStatus extends Enum {
 }
 
 /** @name EthTransaction */
-export interface EthTransaction extends LegacyTransaction {}
+export interface EthTransaction extends Struct {
+  readonly hash: H256;
+  readonly nonce: U256;
+  readonly blockHash: Option<H256>;
+  readonly blockNumber: Option<U256>;
+  readonly transactionIndex: Option<U256>;
+  readonly from: H160;
+  readonly to: Option<H160>;
+  readonly value: U256;
+  readonly gasPrice: Option<U256>;
+  readonly maxFeePerGas: Option<U256>;
+  readonly maxPriorityFeePerGas: Option<U256>;
+  readonly gas: U256;
+  readonly input: Bytes;
+  readonly creates: Option<H160>;
+  readonly raw: Bytes;
+  readonly publicKey: Option<H512>;
+  readonly chainId: Option<U64>;
+  readonly standardV: U256;
+  readonly v: U256;
+  readonly r: U256;
+  readonly s: U256;
+  readonly accessList: Option<Vec<EthAccessListItem>>;
+  readonly transactionType: Option<U256>;
+}
 
 /** @name EthTransactionAction */
 export interface EthTransactionAction extends Enum {

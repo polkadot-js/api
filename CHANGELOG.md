@@ -10,6 +10,7 @@ Changes:
 - Support for `NominationPoolsApi` runtime interface
 - Support for `DebugRuntimeApi` runtime interface, Frontier-specific
 - Support for `NimbusApi` runtime interface (& older `AuthorFilterAPI`)
+- Add additional historic `DispatchError` enum variant for asset chains
 - Add Kusama 9250 upgrade block
 
 
