@@ -101,6 +101,21 @@ export default {
         Transactional: 'TransactionalError'
       }
     },
+    DispatchErrorPre6First: {
+      // The enum was modified mid-flight, affecting asset chains -
+      // https://github.com/paritytech/substrate/pull/10382/files#diff-e4e016b33a82268b6208dc974eea841bad47597865a749fee2f937eb6fdf67b4R498
+      _enum: {
+        Other: 'Null',
+        CannotLookup: 'Null',
+        BadOrigin: 'Null',
+        Module: 'DispatchErrorModulePre6',
+        ConsumerRemaining: 'Null',
+        NoProviders: 'Null',
+        Token: 'TokenError',
+        Arithmetic: 'ArithmeticError',
+        Transactional: 'TransactionalError'
+      }
+    },
     DispatchErrorModuleU8: {
       index: 'u8',
       error: 'u8'

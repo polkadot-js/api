@@ -119,7 +119,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     const result = new Array<AnyJson>(this.length);
 
     for (let i = 0; i < this.length; i++) {
-      result[i] = this[i].toHuman(isExtended);
+      result[i] = this[i] && this[i].toHuman(isExtended);
     }
 
     return result;
@@ -132,7 +132,9 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     const result = new Array<AnyJson>(this.length);
 
     for (let i = 0; i < this.length; i++) {
-      result[i] = this[i].toJSON();
+      // We actually log inside the U8a decoding and use JSON.stringify(...), which
+      // means that the Vec may be partially populated (same applies to toHuman, same check)
+      result[i] = this[i] && this[i].toJSON();
     }
 
     return result;

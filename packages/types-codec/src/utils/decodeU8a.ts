@@ -42,6 +42,8 @@ export function decodeU8a <T extends Codec = Codec> (registry: Registry, result:
       i++;
     }
   } catch (error) {
+    // console.error(JSON.stringify(result, null, 2));
+
     throw new Error(formatFailure(registry, error as Error, u8a.subarray(offset), i, count, Types[i], keys[i]));
   }
 
@@ -68,6 +70,8 @@ export function decodeU8aStruct (registry: Registry, result: [string, Codec][], 
       i++;
     }
   } catch (error) {
+    // console.error(JSON.stringify(result, null, 2));
+
     throw new Error(formatFailure(registry, error as Error, u8a.subarray(offset), i, count, Types[i], keys[i]));
   }
 
@@ -94,6 +98,8 @@ export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, resu
       i++;
     }
   } catch (error) {
+    console.error(JSON.stringify(result, null, 2));
+
     throw new Error(formatFailure(registry, error as Error, u8a.subarray(offset), i, count, Type));
   }
 

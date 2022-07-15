@@ -28,7 +28,11 @@ const sharedTypes = {
 const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, 3],
-    types: objectSpread({}, sharedTypes, mapXcmTypes('V0'))
+    types: objectSpread({
+      // Enum was modified mid-flight -
+      // https://github.com/paritytech/substrate/pull/10382/files#diff-e4e016b33a82268b6208dc974eea841bad47597865a749fee2f937eb6fdf67b4R498
+      DispatchError: 'DispatchErrorPre6First'
+    }, sharedTypes, mapXcmTypes('V0'))
   },
   {
     minmax: [4, 5],
