@@ -1,4 +1,4 @@
-    3128	Jaco                          	Remove old test infrastructure (#5070)
+    3129	Jaco                          	Support for NominationPoolsApi runtime (#5069)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
