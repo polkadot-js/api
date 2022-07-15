@@ -1,4 +1,4 @@
-    3130	Jaco                          	Asupport for NimbusApi on runtime (#5071)
+    3131	Jaco                          	Use type asserts for json imports (#5072)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
