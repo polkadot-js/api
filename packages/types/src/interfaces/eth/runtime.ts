@@ -21,6 +21,41 @@ export const runtime: DefinitionsCall = {
       version: 2
     }
   ],
+  DebugRuntimeApi: [
+    {
+      methods: {
+        trace_block: {
+          description: 'Trace all block extrinsics',
+          params: [
+            {
+              name: 'extrinsics',
+              type: 'Vec<Extrinsic>'
+            },
+            {
+              name: 'knownTransactions',
+              type: 'Vec<H256>'
+            }
+          ],
+          type: 'Result<(), DispatchError>'
+        },
+        trace_transaction: {
+          description: 'Trace transaction extrinsics',
+          params: [
+            {
+              name: 'extrinsics',
+              type: 'Vec<Extrinsic>'
+            },
+            {
+              name: 'transaction',
+              type: 'EthTransaction'
+            }
+          ],
+          type: 'Result<(), DispatchError>'
+        }
+      },
+      version: 4
+    }
+  ],
   EthereumRuntimeRPCApi: [
     {
       methods: {
