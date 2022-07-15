@@ -37,6 +37,7 @@ export * from './identity/types';
 export * from './imOnline/types';
 export * from './lottery/types';
 export * from './mmr/types';
+export * from './nimbus/types';
 export * from './nompools/types';
 export * from './offchain/types';
 export * from './offences/types';

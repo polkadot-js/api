@@ -64,7 +64,8 @@ export { default as xcm } from './xcm/definitions';
 export { default as contractsAbi } from './contractsAbi/definitions';
 export { default as eth } from './eth/definitions';
 
-// orml definitions
+// additional known/community definitions
+export { default as nimbus } from './nimbus/definitions';
 export { default as ormlOracle } from './ormlOracle/definitions';
 export { default as ormlTokens } from './ormlTokens/definitions';
 
