@@ -339,7 +339,7 @@ Changes:
 - Only explicitly support LSB on `BitVec` types
 - Change `toHuman()` on `BitVec` to output default LSB
 - Add `bytes{Sent, Recv}` to provider stats
-- Clear connection timout on provider `disconnect()`
+- Clear connection timeout on provider `disconnect()`
 - Add support for `dev_getBlockStats` RPC
 
 
