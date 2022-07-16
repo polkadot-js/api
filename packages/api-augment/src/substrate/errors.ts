@@ -856,13 +856,13 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoVotes: AugmentedError<ApiType>;
       /**
-       * Cannot report self.
-       **/
-      ReportSelf: AugmentedError<ApiType>;
-      /**
        * Runner cannot re-submit candidacy.
        **/
       RunnerUpSubmit: AugmentedError<ApiType>;
+      /**
+       * Too many candidates have been created.
+       **/
+      TooManyCandidates: AugmentedError<ApiType>;
       /**
        * Cannot vote more than candidates.
        **/
@@ -1207,6 +1207,10 @@ declare module '@polkadot/api-base/types/errors' {
       MetadataExceedsMaxLen: AugmentedError<ApiType>;
       /**
        * The amount does not meet the minimum bond to either join or create a pool.
+       * 
+       * The depositor can never unbond to a value less than
+       * `Pallet::depositor_min_bond`. The caller does not have nominating
+       * permissions for the pool. Members can never unbond to a value below `MinJoinBond`.
        **/
       MinimumBondNotMet: AugmentedError<ApiType>;
       /**
@@ -1215,10 +1219,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotDestroying: AugmentedError<ApiType>;
       /**
-       * Not enough points. Ty unbonding less.
-       **/
-      NotEnoughPointsToUnbond: AugmentedError<ApiType>;
-      /**
        * Either a) the caller cannot make a valid kick or b) the pool is not destroying.
        **/
       NotKickerOrDestroying: AugmentedError<ApiType>;
@@ -1226,11 +1226,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The caller does not have nominating permissions for the pool.
        **/
       NotNominator: AugmentedError<ApiType>;
-      /**
-       * The depositor must be the only member in the bonded pool in order to unbond. And the
-       * depositor must be the only member in the sub pools in order to withdraw unbonded.
-       **/
-      NotOnlyPoolMember: AugmentedError<ApiType>;
       /**
        * The pool is not open to join
        **/
@@ -2059,6 +2054,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BadWitness: AugmentedError<ApiType>;
       /**
+       * The provided bid is too low.
+       **/
+      BidTooLow: AugmentedError<ApiType>;
+      /**
        * The item or collection is frozen.
        **/
       Frozen: AugmentedError<ApiType>;
@@ -2091,6 +2090,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoPermission: AugmentedError<ApiType>;
       /**
+       * Item is not for sale.
+       **/
+      NotForSale: AugmentedError<ApiType>;
+      /**
        * The named owner has not signed ownership of the collection is acceptable.
        **/
       Unaccepted: AugmentedError<ApiType>;
@@ -2102,6 +2105,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The given item ID is unknown.
        **/
       UnknownCollection: AugmentedError<ApiType>;
+      /**
+       * The given item ID is unknown.
+       **/
+      UnknownItem: AugmentedError<ApiType>;
       /**
        * The delegate turned out to be different to what was expected.
        **/
