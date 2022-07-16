@@ -4,7 +4,7 @@
 
 Changes:
 
-- `{BTree|Hash}Map.toHuman()` now display `Vec<u8>` keys as ascii (if detected)
+- `{BTree|Hash}Map.toHuman()` now display `Raw` keys as ascii (if detected)
 
 
 ## 8.13.1 Jul 16, 2022
