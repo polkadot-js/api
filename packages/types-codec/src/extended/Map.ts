@@ -8,6 +8,7 @@ import { compactFromU8aLim, compactToU8a, isHex, isObject, isU8a, logger, string
 
 import { AbstractArray } from '../abstract/Array';
 import { Enum } from '../base/Enum';
+import { Raw } from '../native/Raw';
 import { Struct } from '../native/Struct';
 import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils';
 
@@ -182,7 +183,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     const json: Record<string, AnyJson> = {};
 
     for (const [k, v] of this.entries()) {
-      json[k.toString()] = v.toHuman(isExtended);
+      json[
+        k instanceof Raw && k.isAscii
+          ? k.toUtf8()
+          : k.toString()
+      ] = v.toHuman(isExtended);
     }
 
     return json;

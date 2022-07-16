@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- `{BTree|Hash}Map.toHuman()` now display `Raw` keys as ascii (if detected)
+
+
 ## 8.13.1 Jul 16, 2022
 
 Changes:
@@ -332,7 +339,7 @@ Changes:
 - Only explicitly support LSB on `BitVec` types
 - Change `toHuman()` on `BitVec` to output default LSB
 - Add `bytes{Sent, Recv}` to provider stats
-- Clear connection timout on provider `disconnect()`
+- Clear connection timeout on provider `disconnect()`
 - Add support for `dev_getBlockStats` RPC
 
 
