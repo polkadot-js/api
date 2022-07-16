@@ -158,7 +158,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup779: kusama_runtime::Runtime
+   * Lookup777: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };

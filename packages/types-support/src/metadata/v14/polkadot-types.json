@@ -17694,7 +17694,13 @@
                   "docs": []
                 },
                 {
-                  "name": "has_replacement",
+                  "name": "slash_bond",
+                  "type": 42,
+                  "typeName": "bool",
+                  "docs": []
+                },
+                {
+                  "name": "rerun_election",
                   "type": 42,
                   "typeName": "bool",
                   "docs": []
@@ -17706,7 +17712,11 @@
                 "the outgoing member is slashed.",
                 "",
                 "If a runner-up is available, then the best runner-up will be removed and replaces the",
-                "outgoing member. Otherwise, a new phragmen election is started.",
+                "outgoing member. Otherwise, if `rerun_election` is `true`, a new phragmen election is",
+                "started, else, nothing happens.",
+                "",
+                "If `slash_bond` is set to true, the bond of the member being removed is slashed. Else,",
+                "it is returned.",
                 "",
                 "The dispatch origin of this call must be root.",
                 "",
@@ -34424,19 +34434,19 @@
               ]
             },
             {
-              "name": "ReportSelf",
+              "name": "DuplicatedCandidate",
               "fields": [],
               "index": 7,
               "docs": [
-                "Cannot report self."
+                "Duplicated candidate submission."
               ]
             },
             {
-              "name": "DuplicatedCandidate",
+              "name": "TooManyCandidates",
               "fields": [],
               "index": 8,
               "docs": [
-                "Duplicated candidate submission."
+                "Too many candidates have been created."
               ]
             },
             {

@@ -21707,7 +21707,13 @@
                   "docs": []
                 },
                 {
-                  "name": "has_replacement",
+                  "name": "slash_bond",
+                  "type": 35,
+                  "typeName": "bool",
+                  "docs": []
+                },
+                {
+                  "name": "rerun_election",
                   "type": 35,
                   "typeName": "bool",
                   "docs": []
@@ -21719,7 +21725,11 @@
                 "the outgoing member is slashed.",
                 "",
                 "If a runner-up is available, then the best runner-up will be removed and replaces the",
-                "outgoing member. Otherwise, a new phragmen election is started.",
+                "outgoing member. Otherwise, if `rerun_election` is `true`, a new phragmen election is",
+                "started, else, nothing happens.",
+                "",
+                "If `slash_bond` is set to true, the bond of the member being removed is slashed. Else,",
+                "it is returned.",
                 "",
                 "The dispatch origin of this call must be root.",
                 "",
@@ -29812,7 +29822,9 @@
                 "Bond `extra` more funds from `origin` into the pool to which they already belong.",
                 "",
                 "Additional funds can come from either the free balance of the account, of from the",
-                "accumulated rewards, see [`BondExtra`]."
+                "accumulated rewards, see [`BondExtra`].",
+                "",
+                "Bonding extra funds implies an automatic payout of all pending rewards as well."
               ]
             },
             {
@@ -30037,8 +30049,14 @@
               "docs": [
                 "Set a new state for the pool.",
                 "",
-                "The dispatch origin of this call must be signed by the state toggler, or the root role",
-                "of the pool."
+                "If a pool is already in the `Destroying` state, then under no condition can its state",
+                "change again.",
+                "",
+                "The dispatch origin of this call must be either:",
+                "",
+                "1. signed by the state toggler, or the root role of the pool,",
+                "2. if the pool conditions to be open are NOT met (as described by `ok_to_be_open`), and",
+                "   then the state of the pool can be permissionlessly changed to `Destroying`."
               ]
             },
             {
@@ -37100,19 +37118,19 @@
               ]
             },
             {
-              "name": "ReportSelf",
+              "name": "DuplicatedCandidate",
               "fields": [],
               "index": 7,
               "docs": [
-                "Cannot report self."
+                "Duplicated candidate submission."
               ]
             },
             {
-              "name": "DuplicatedCandidate",
+              "name": "TooManyCandidates",
               "fields": [],
               "index": 8,
               "docs": [
-                "Duplicated candidate submission."
+                "Too many candidates have been created."
               ]
             },
             {
@@ -41445,9 +41463,9 @@
               "docs": []
             },
             {
-              "name": "reward_pool_total_earnings",
-              "type": 6,
-              "typeName": "BalanceOf<T>",
+              "name": "last_recorded_reward_counter",
+              "type": 218,
+              "typeName": "T::RewardCounter",
               "docs": []
             },
             {
@@ -41640,21 +41658,21 @@
         "composite": {
           "fields": [
             {
-              "name": "balance",
+              "name": "last_recorded_reward_counter",
+              "type": 218,
+              "typeName": "T::RewardCounter",
+              "docs": []
+            },
+            {
+              "name": "last_recorded_total_payouts",
               "type": 6,
               "typeName": "BalanceOf<T>",
               "docs": []
             },
             {
-              "name": "total_earnings",
+              "name": "total_rewards_claimed",
               "type": 6,
               "typeName": "BalanceOf<T>",
-              "docs": []
-            },
-            {
-              "name": "points",
-              "type": 671,
-              "typeName": "RewardPoints",
               "docs": []
             }
           ]
@@ -41665,43 +41683,6 @@
   },
   {
     "id": 671,
-    "type": {
-      "path": [
-        "primitive_types",
-        "U256"
-      ],
-      "params": [],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 672,
-              "typeName": "[u64; 4]",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 672,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "array": {
-          "len": 4,
-          "type": 8
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 673,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -41718,13 +41699,13 @@
           "fields": [
             {
               "name": "no_era",
-              "type": 674,
+              "type": 672,
               "typeName": "UnbondPool<T>",
               "docs": []
             },
             {
               "name": "with_era",
-              "type": 675,
+              "type": 673,
               "typeName": "UnbondingPoolsWithEra<T>",
               "docs": []
             }
@@ -41735,7 +41716,7 @@
     }
   },
   {
-    "id": 674,
+    "id": 672,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -41769,7 +41750,7 @@
     }
   },
   {
-    "id": 675,
+    "id": 673,
     "type": {
       "path": [
         "sp_runtime",
@@ -41784,7 +41765,7 @@
         },
         {
           "name": "V",
-          "type": 674
+          "type": 672
         },
         {
           "name": "S",
@@ -41796,7 +41777,7 @@
           "fields": [
             {
               "name": null,
-              "type": 676,
+              "type": 674,
               "typeName": "BTreeMap<K, V>",
               "docs": []
             }
@@ -41807,7 +41788,7 @@
     }
   },
   {
-    "id": 676,
+    "id": 674,
     "type": {
       "path": [
         "BTreeMap"
@@ -41819,7 +41800,7 @@
         },
         {
           "name": "V",
-          "type": 674
+          "type": 672
         }
       ],
       "def": {
@@ -41827,7 +41808,7 @@
           "fields": [
             {
               "name": null,
-              "type": 677,
+              "type": 675,
               "typeName": null,
               "docs": []
             }
@@ -41838,34 +41819,34 @@
     }
   },
   {
-    "id": 677,
+    "id": 675,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 678
+          "type": 676
         }
       },
       "docs": []
     }
   },
   {
-    "id": 678,
+    "id": 676,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           4,
-          674
+          672
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 679,
+    "id": 677,
     "type": {
       "path": [
         "sp_runtime",
@@ -41899,7 +41880,7 @@
     }
   },
   {
-    "id": 680,
+    "id": 678,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -42084,7 +42065,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 681,
+                  "type": 679,
                   "typeName": "DefensiveError",
                   "docs": []
                 }
@@ -42120,7 +42101,7 @@
     }
   },
   {
-    "id": 681,
+    "id": 679,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -42168,7 +42149,7 @@
     }
   },
   {
-    "id": 682,
+    "id": 680,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -42449,34 +42430,34 @@
     }
   },
   {
-    "id": 683,
+    "id": 681,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 684
+          "type": 682
         }
       },
       "docs": []
     }
   },
   {
-    "id": 684,
+    "id": 682,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           4,
-          682
+          680
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 685,
+    "id": 683,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -42510,7 +42491,7 @@
     }
   },
   {
-    "id": 686,
+    "id": 684,
     "type": {
       "path": [],
       "params": [],
@@ -42523,7 +42504,7 @@
     }
   },
   {
-    "id": 687,
+    "id": 685,
     "type": {
       "path": [],
       "params": [],
@@ -42536,7 +42517,7 @@
     }
   },
   {
-    "id": 688,
+    "id": 686,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -42571,7 +42552,7 @@
     }
   },
   {
-    "id": 689,
+    "id": 687,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -42646,7 +42627,7 @@
     }
   },
   {
-    "id": 690,
+    "id": 688,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -42907,7 +42888,7 @@
     }
   },
   {
-    "id": 691,
+    "id": 689,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -42931,7 +42912,7 @@
             },
             {
               "name": "backing_validators_per_candidate",
-              "type": 692,
+              "type": 690,
               "typeName": "Vec<(CandidateReceipt<H>, Vec<(ValidatorIndex, ValidityAttestation)>)\n>",
               "docs": []
             },
@@ -42943,6 +42924,33 @@
             }
           ]
         }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 690,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 691
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 691,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "tuple": [
+          97,
+          692
+        ]
       },
       "docs": []
     }
@@ -42967,33 +42975,6 @@
       "params": [],
       "def": {
         "tuple": [
-          97,
-          694
-        ]
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 694,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
-          "type": 695
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 695,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "tuple": [
           501,
           512
         ]
@@ -43002,7 +42983,7 @@
     }
   },
   {
-    "id": 696,
+    "id": 694,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43077,20 +43058,20 @@
     }
   },
   {
-    "id": 697,
+    "id": 695,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 686
+          "type": 684
         }
       },
       "docs": []
     }
   },
   {
-    "id": 698,
+    "id": 696,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43103,7 +43084,7 @@
           "fields": [
             {
               "name": "queue",
-              "type": 699,
+              "type": 697,
               "typeName": "Vec<QueuedParathread>",
               "docs": []
             },
@@ -43120,20 +43101,20 @@
     }
   },
   {
-    "id": 699,
+    "id": 697,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 700
+          "type": 698
         }
       },
       "docs": []
     }
   },
   {
-    "id": 700,
+    "id": 698,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43146,7 +43127,7 @@
           "fields": [
             {
               "name": "claim",
-              "type": 701,
+              "type": 699,
               "typeName": "ParathreadEntry",
               "docs": []
             },
@@ -43163,7 +43144,7 @@
     }
   },
   {
-    "id": 701,
+    "id": 699,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -43176,7 +43157,7 @@
           "fields": [
             {
               "name": "claim",
-              "type": 702,
+              "type": 700,
               "typeName": "ParathreadClaim",
               "docs": []
             },
@@ -43193,7 +43174,7 @@
     }
   },
   {
-    "id": 702,
+    "id": 700,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -43223,20 +43204,20 @@
     }
   },
   {
-    "id": 703,
+    "id": 701,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 704
+          "type": 702
         }
       },
       "docs": []
     }
   },
   {
-    "id": 704,
+    "id": 702,
     "type": {
       "path": [
         "Option"
@@ -43244,7 +43225,7 @@
       "params": [
         {
           "name": "T",
-          "type": 705
+          "type": 703
         }
       ],
       "def": {
@@ -43261,7 +43242,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 705,
+                  "type": 703,
                   "typeName": null,
                   "docs": []
                 }
@@ -43276,7 +43257,7 @@
     }
   },
   {
-    "id": 705,
+    "id": 703,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -43292,7 +43273,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "ParathreadEntry",
                   "docs": []
                 }
@@ -43313,7 +43294,7 @@
     }
   },
   {
-    "id": 706,
+    "id": 704,
     "type": {
       "path": [],
       "params": [],
@@ -43326,20 +43307,20 @@
     }
   },
   {
-    "id": 707,
+    "id": 705,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 708
+          "type": 706
         }
       },
       "docs": []
     }
   },
   {
-    "id": 708,
+    "id": 706,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43364,7 +43345,7 @@
             },
             {
               "name": "kind",
-              "type": 709,
+              "type": 707,
               "typeName": "AssignmentKind",
               "docs": []
             },
@@ -43381,7 +43362,7 @@
     }
   },
   {
-    "id": 709,
+    "id": 707,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43424,7 +43405,7 @@
     }
   },
   {
-    "id": 710,
+    "id": 708,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43466,7 +43447,7 @@
             },
             {
               "name": "causes",
-              "type": 711,
+              "type": 709,
               "typeName": "Vec<PvfCheckCause<BlockNumber>>",
               "docs": []
             }
@@ -43477,20 +43458,20 @@
     }
   },
   {
-    "id": 711,
+    "id": 709,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 712
+          "type": 710
         }
       },
       "docs": []
     }
   },
   {
-    "id": 712,
+    "id": 710,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43545,7 +43526,7 @@
     }
   },
   {
-    "id": 713,
+    "id": 711,
     "type": {
       "path": [],
       "params": [],
@@ -43558,7 +43539,7 @@
     }
   },
   {
-    "id": 714,
+    "id": 712,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43618,7 +43599,7 @@
     }
   },
   {
-    "id": 715,
+    "id": 713,
     "type": {
       "path": [],
       "params": [],
@@ -43632,7 +43613,7 @@
     }
   },
   {
-    "id": 716,
+    "id": 714,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43650,7 +43631,7 @@
           "fields": [
             {
               "name": "upgrade_times",
-              "type": 717,
+              "type": 715,
               "typeName": "Vec<ReplacementTimes<N>>",
               "docs": []
             },
@@ -43667,20 +43648,20 @@
     }
   },
   {
-    "id": 717,
+    "id": 715,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 718
+          "type": 716
         }
       },
       "docs": []
     }
   },
   {
-    "id": 718,
+    "id": 716,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43715,20 +43696,20 @@
     }
   },
   {
-    "id": 719,
+    "id": 717,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 715
+          "type": 713
         }
       },
       "docs": []
     }
   },
   {
-    "id": 720,
+    "id": 718,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -43758,7 +43739,7 @@
     }
   },
   {
-    "id": 721,
+    "id": 719,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -43782,7 +43763,7 @@
     }
   },
   {
-    "id": 722,
+    "id": 720,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43818,7 +43799,7 @@
     }
   },
   {
-    "id": 723,
+    "id": 721,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43941,20 +43922,20 @@
     }
   },
   {
-    "id": 724,
+    "id": 722,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 725
+          "type": 723
         }
       },
       "docs": []
     }
   },
   {
-    "id": 725,
+    "id": 723,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -43967,13 +43948,13 @@
           "fields": [
             {
               "name": "validators",
-              "type": 687,
+              "type": 685,
               "typeName": "Vec<ValidatorId>",
               "docs": []
             },
             {
               "name": "queued",
-              "type": 687,
+              "type": 685,
               "typeName": "Vec<ValidatorId>",
               "docs": []
             },
@@ -43990,20 +43971,20 @@
     }
   },
   {
-    "id": 726,
+    "id": 724,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 727
+          "type": 725
         }
       },
       "docs": []
     }
   },
   {
-    "id": 727,
+    "id": 725,
     "type": {
       "path": [
         "polkadot_core_primitives",
@@ -44037,7 +44018,7 @@
     }
   },
   {
-    "id": 728,
+    "id": 726,
     "type": {
       "path": [],
       "params": [],
@@ -44051,7 +44032,7 @@
     }
   },
   {
-    "id": 729,
+    "id": 727,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -44093,7 +44074,7 @@
     }
   },
   {
-    "id": 730,
+    "id": 728,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -44147,7 +44128,7 @@
     }
   },
   {
-    "id": 731,
+    "id": 729,
     "type": {
       "path": [],
       "params": [],
@@ -44160,7 +44141,7 @@
     }
   },
   {
-    "id": 732,
+    "id": 730,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -44203,7 +44184,7 @@
             },
             {
               "name": "mqc_head",
-              "type": 733,
+              "type": 731,
               "typeName": "Option<Hash>",
               "docs": []
             },
@@ -44226,7 +44207,7 @@
     }
   },
   {
-    "id": 733,
+    "id": 731,
     "type": {
       "path": [
         "Option"
@@ -44266,20 +44247,20 @@
     }
   },
   {
-    "id": 734,
+    "id": 732,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 735
+          "type": 733
         }
       },
       "docs": []
     }
   },
   {
-    "id": 735,
+    "id": 733,
     "type": {
       "path": [
         "polkadot_core_primitives",
@@ -44313,34 +44294,34 @@
     }
   },
   {
-    "id": 736,
+    "id": 734,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 737
+          "type": 735
         }
       },
       "docs": []
     }
   },
   {
-    "id": 737,
+    "id": 735,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           4,
-          706
+          704
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 738,
+    "id": 736,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -44518,7 +44499,7 @@
     }
   },
   {
-    "id": 739,
+    "id": 737,
     "type": {
       "path": [],
       "params": [],
@@ -44531,7 +44512,7 @@
     }
   },
   {
-    "id": 740,
+    "id": 738,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -44544,7 +44525,7 @@
           "fields": [
             {
               "name": "active_validator_indices",
-              "type": 686,
+              "type": 684,
               "typeName": "Vec<ValidatorIndex>",
               "docs": []
             },
@@ -44562,25 +44543,25 @@
             },
             {
               "name": "validators",
-              "type": 687,
+              "type": 685,
               "typeName": "Vec<ValidatorId>",
               "docs": []
             },
             {
               "name": "discovery_keys",
-              "type": 741,
+              "type": 739,
               "typeName": "Vec<AuthorityDiscoveryId>",
               "docs": []
             },
             {
               "name": "assignment_keys",
-              "type": 739,
+              "type": 737,
               "typeName": "Vec<AssignmentId>",
               "docs": []
             },
             {
               "name": "validator_groups",
-              "type": 697,
+              "type": 695,
               "typeName": "Vec<Vec<ValidatorIndex>>",
               "docs": []
             },
@@ -44627,7 +44608,7 @@
     }
   },
   {
-    "id": 741,
+    "id": 739,
     "type": {
       "path": [],
       "params": [],
@@ -44640,7 +44621,7 @@
     }
   },
   {
-    "id": 742,
+    "id": 740,
     "type": {
       "path": [],
       "params": [],
@@ -44654,7 +44635,7 @@
     }
   },
   {
-    "id": 743,
+    "id": 741,
     "type": {
       "path": [
         "polkadot_primitives",
@@ -44701,7 +44682,7 @@
     }
   },
   {
-    "id": 744,
+    "id": 742,
     "type": {
       "path": [
         "polkadot_runtime_parachains",
@@ -44783,7 +44764,7 @@
     }
   },
   {
-    "id": 745,
+    "id": 743,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -44828,7 +44809,7 @@
     }
   },
   {
-    "id": 746,
+    "id": 744,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -44967,7 +44948,7 @@
     }
   },
   {
-    "id": 747,
+    "id": 745,
     "type": {
       "path": [],
       "params": [],
@@ -44980,7 +44961,7 @@
     }
   },
   {
-    "id": 748,
+    "id": 746,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -45022,7 +45003,7 @@
     }
   },
   {
-    "id": 749,
+    "id": 747,
     "type": {
       "path": [],
       "params": [],
@@ -45036,21 +45017,21 @@
     }
   },
   {
-    "id": 750,
+    "id": 748,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "array": {
           "len": 36,
-          "type": 751
+          "type": 749
         }
       },
       "docs": []
     }
   },
   {
-    "id": 751,
+    "id": 749,
     "type": {
       "path": [
         "Option"
@@ -45058,7 +45039,7 @@
       "params": [
         {
           "name": "T",
-          "type": 752
+          "type": 750
         }
       ],
       "def": {
@@ -45075,7 +45056,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 752,
+                  "type": 750,
                   "typeName": null,
                   "docs": []
                 }
@@ -45090,7 +45071,7 @@
     }
   },
   {
-    "id": 752,
+    "id": 750,
     "type": {
       "path": [],
       "params": [],
@@ -45105,7 +45086,7 @@
     }
   },
   {
-    "id": 753,
+    "id": 751,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -45187,7 +45168,7 @@
     }
   },
   {
-    "id": 754,
+    "id": 752,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -45253,7 +45234,7 @@
             },
             {
               "name": "last_contribution",
-              "type": 755,
+              "type": 753,
               "typeName": "LastContribution<BlockNumber>",
               "docs": []
             },
@@ -45282,7 +45263,7 @@
     }
   },
   {
-    "id": 755,
+    "id": 753,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -45337,7 +45318,7 @@
     }
   },
   {
-    "id": 756,
+    "id": 754,
     "type": {
       "path": [
         "polkadot_runtime_common",
@@ -45547,7 +45528,7 @@
     }
   },
   {
-    "id": 757,
+    "id": 755,
     "type": {
       "path": [
         "pallet_xcm",
@@ -45574,7 +45555,7 @@
                 },
                 {
                   "name": "maybe_notify",
-                  "type": 758,
+                  "type": 756,
                   "typeName": "Option<(u8, u8)>",
                   "docs": []
                 },
@@ -45612,7 +45593,7 @@
               "fields": [
                 {
                   "name": "response",
-                  "type": 760,
+                  "type": 758,
                   "typeName": "VersionedResponse",
                   "docs": []
                 },
@@ -45633,7 +45614,7 @@
     }
   },
   {
-    "id": 758,
+    "id": 756,
     "type": {
       "path": [
         "Option"
@@ -45641,7 +45622,7 @@
       "params": [
         {
           "name": "T",
-          "type": 759
+          "type": 757
         }
       ],
       "def": {
@@ -45658,7 +45639,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 759,
+                  "type": 757,
                   "typeName": null,
                   "docs": []
                 }
@@ -45673,7 +45654,7 @@
     }
   },
   {
-    "id": 759,
+    "id": 757,
     "type": {
       "path": [],
       "params": [],
@@ -45687,7 +45668,7 @@
     }
   },
   {
-    "id": 760,
+    "id": 758,
     "type": {
       "path": [
         "xcm",
@@ -45743,7 +45724,7 @@
     }
   },
   {
-    "id": 761,
+    "id": 759,
     "type": {
       "path": [],
       "params": [],
@@ -45757,7 +45738,7 @@
     }
   },
   {
-    "id": 762,
+    "id": 760,
     "type": {
       "path": [],
       "params": [],
@@ -45772,7 +45753,7 @@
     }
   },
   {
-    "id": 763,
+    "id": 761,
     "type": {
       "path": [
         "sp_runtime",
@@ -45783,7 +45764,7 @@
       "params": [
         {
           "name": "T",
-          "type": 764
+          "type": 762
         },
         {
           "name": "S",
@@ -45795,7 +45776,7 @@
           "fields": [
             {
               "name": null,
-              "type": 765,
+              "type": 763,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -45806,7 +45787,7 @@
     }
   },
   {
-    "id": 764,
+    "id": 762,
     "type": {
       "path": [],
       "params": [],
@@ -45820,20 +45801,20 @@
     }
   },
   {
-    "id": 765,
+    "id": 763,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 764
+          "type": 762
         }
       },
       "docs": []
     }
   },
   {
-    "id": 766,
+    "id": 764,
     "type": {
       "path": [
         "pallet_xcm",
@@ -45882,7 +45863,7 @@
     }
   },
   {
-    "id": 767,
+    "id": 765,
     "type": {
       "path": [
         "pallet_xcm",
@@ -46014,7 +45995,7 @@
     }
   },
   {
-    "id": 768,
+    "id": 766,
     "type": {
       "path": [
         "sp_runtime",
@@ -46037,7 +46018,7 @@
         },
         {
           "name": "Extra",
-          "type": 769
+          "type": 767
         }
       ],
       "def": {
@@ -46056,27 +46037,27 @@
     }
   },
   {
-    "id": 769,
+    "id": 767,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
+          768,
+          769,
           770,
           771,
           772,
-          773,
           774,
-          776,
-          777,
-          778
+          775,
+          776
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 770,
+    "id": 768,
     "type": {
       "path": [
         "frame_system",
@@ -46099,7 +46080,7 @@
     }
   },
   {
-    "id": 771,
+    "id": 769,
     "type": {
       "path": [
         "frame_system",
@@ -46122,7 +46103,7 @@
     }
   },
   {
-    "id": 772,
+    "id": 770,
     "type": {
       "path": [
         "frame_system",
@@ -46145,7 +46126,7 @@
     }
   },
   {
-    "id": 773,
+    "id": 771,
     "type": {
       "path": [
         "frame_system",
@@ -46168,7 +46149,7 @@
     }
   },
   {
-    "id": 774,
+    "id": 772,
     "type": {
       "path": [
         "frame_system",
@@ -46187,7 +46168,7 @@
           "fields": [
             {
               "name": null,
-              "type": 775,
+              "type": 773,
               "typeName": "Era",
               "docs": []
             }
@@ -46198,7 +46179,7 @@
     }
   },
   {
-    "id": 775,
+    "id": 773,
     "type": {
       "path": [
         "sp_runtime",
@@ -49538,7 +49519,7 @@
     }
   },
   {
-    "id": 776,
+    "id": 774,
     "type": {
       "path": [
         "frame_system",
@@ -49568,7 +49549,7 @@
     }
   },
   {
-    "id": 777,
+    "id": 775,
     "type": {
       "path": [
         "frame_system",
@@ -49591,7 +49572,7 @@
     }
   },
   {
-    "id": 778,
+    "id": 776,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -49619,7 +49600,7 @@
     }
   },
   {
-    "id": 779,
+    "id": 777,
     "type": {
       "path": [
         "kusama_runtime",

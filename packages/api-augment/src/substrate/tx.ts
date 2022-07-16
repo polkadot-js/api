@@ -1937,7 +1937,11 @@ declare module '@polkadot/api-base/types/submittable' {
        * the outgoing member is slashed.
        * 
        * If a runner-up is available, then the best runner-up will be removed and replaces the
-       * outgoing member. Otherwise, a new phragmen election is started.
+       * outgoing member. Otherwise, if `rerun_election` is `true`, a new phragmen election is
+       * started, else, nothing happens.
+       * 
+       * If `slash_bond` is set to true, the bond of the member being removed is slashed. Else,
+       * it is returned.
        * 
        * The dispatch origin of this call must be root.
        * 
@@ -1948,7 +1952,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * will go into phragmen, we assume full block for now.
        * # </weight>
        **/
-      removeMember: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, hasReplacement: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, bool]>;
+      removeMember: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, slashBond: bool | boolean | Uint8Array, rerunElection: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, bool, bool]>;
       /**
        * Remove `origin` as a voter.
        * 
@@ -2714,6 +2718,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Additional funds can come from either the free balance of the account, of from the
        * accumulated rewards, see [`BondExtra`].
+       * 
+       * Bonding extra funds implies an automatic payout of all pending rewards as well.
        **/
       bondExtra: AugmentedSubmittable<(extra: PalletNominationPoolsBondExtra | { FreeBalance: any } | { Rewards: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletNominationPoolsBondExtra]>;
       /**
@@ -2810,8 +2816,14 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Set a new state for the pool.
        * 
-       * The dispatch origin of this call must be signed by the state toggler, or the root role
-       * of the pool.
+       * If a pool is already in the `Destroying` state, then under no condition can its state
+       * change again.
+       * 
+       * The dispatch origin of this call must be either:
+       * 
+       * 1. signed by the state toggler, or the root role of the pool,
+       * 2. if the pool conditions to be open are NOT met (as described by `ok_to_be_open`), and
+       * then the state of the pool can be permissionlessly changed to `Destroying`.
        **/
       setState: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, state: PalletNominationPoolsPoolState | 'Open' | 'Blocked' | 'Destroying' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, PalletNominationPoolsPoolState]>;
       /**
@@ -4984,6 +4996,18 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       burn: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, checkOwner: Option<MultiAddress> | null | Uint8Array | MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string) => SubmittableExtrinsic<ApiType>, [u32, u32, Option<MultiAddress>]>;
       /**
+       * Allows to buy an item if it's up for sale.
+       * 
+       * Origin must be Signed and must not be the owner of the `item`.
+       * 
+       * - `collection`: The collection of the item.
+       * - `item`: The item the sender wants to buy.
+       * - `bid_price`: The price the sender is willing to pay.
+       * 
+       * Emits `ItemBought` on success.
+       **/
+      buyItem: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, bidPrice: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u128]>;
+      /**
        * Cancel the prior approval for the transfer of an item by a delegate.
        * 
        * Origin must be either:
@@ -5271,6 +5295,20 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight: `O(1)`
        **/
       setMetadata: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array, isFrozen: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, Bytes, bool]>;
+      /**
+       * Set (or reset) the price for an item.
+       * 
+       * Origin must be Signed and must be the owner of the asset `item`.
+       * 
+       * - `collection`: The collection of the item.
+       * - `item`: The item to set the price for.
+       * - `price`: The price for the item. Pass `None`, to reset the price.
+       * - `buyer`: Restricts the buy operation to a specific account.
+       * 
+       * Emits `ItemPriceSet` on success if the price is not `None`.
+       * Emits `ItemPriceRemoved` on success if the price is `None`.
+       **/
+      setPrice: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, price: Option<u128> | null | Uint8Array | u128 | AnyNumber, whitelistedBuyer: Option<MultiAddress> | null | Uint8Array | MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string) => SubmittableExtrinsic<ApiType>, [u32, u32, Option<u128>, Option<MultiAddress>]>;
       /**
        * Change the Issuer, Admin and Freezer of a collection.
        * 

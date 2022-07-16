@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 8.13.1 Jul 16, 2022
 
 Changes:
 
@@ -12,6 +12,7 @@ Changes:
 - Support for `NimbusApi` runtime interface (& older `AuthorFilterAPI`)
 - Add additional historic `DispatchError` enum variant for asset chains
 - Add Kusama 9250 upgrade block
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 8.12.2 Jul 10, 2022
