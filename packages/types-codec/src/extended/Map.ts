@@ -10,6 +10,7 @@ import { AbstractArray } from '../abstract/Array';
 import { Enum } from '../base/Enum';
 import { Struct } from '../native/Struct';
 import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils';
+import { Bytes } from './Bytes';
 
 const l = logger('Map');
 
@@ -182,7 +183,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     const json: Record<string, AnyJson> = {};
 
     for (const [k, v] of this.entries()) {
-      json[k.toString()] = v.toHuman(isExtended);
+      json[
+        k instanceof Bytes && k.isAscii
+          ? k.toUtf8()
+          : k.toString()
+      ] = v.toHuman(isExtended);
     }
 
     return json;
