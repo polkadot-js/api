@@ -141,6 +141,19 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): AnyJson {
+    const result = new Array<AnyJson>(this.length);
+
+    for (let i = 0; i < this.length; i++) {
+      result[i] = this[i] && this[i].toPrimitive();
+    }
+
+    return result;
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   abstract toRawType (): string;

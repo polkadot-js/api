@@ -137,6 +137,13 @@ export class CodecDate extends Date implements INumber {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): number {
+    return this.toNumber();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {

@@ -294,6 +294,23 @@ export class Struct<
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): Record<string, AnyJson> {
+    const json: Record<string, AnyJson> = {};
+
+    for (const [k, v] of this.entries()) {
+      const jsonKey = this.#jsonMap.get(k) || k;
+
+      // We actually log inside the U8a decoding and use JSON.stringify(...), which
+      // means that the Vec may be partially populated (same applies to toHuman, same check)
+      json[jsonKey as string] = v && v.toPrimitive();
+    }
+
+    return json;
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {

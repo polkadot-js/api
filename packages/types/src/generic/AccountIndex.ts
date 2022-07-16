@@ -105,6 +105,13 @@ export class GenericAccountIndex extends u32 {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public override toPrimitive (): string {
+    return this.toJSON();
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   public override toString (): string {

@@ -7,7 +7,7 @@ import { GenericVote } from '.';
 describe('GenericVote', (): void => {
   const registry = new TypeRegistry();
 
-  describe.only('construction', (): void => {
+  describe('construction', (): void => {
     it('constructs via boolean true', (): void => {
       expect(new GenericVote(registry, true).toU8a()).toEqual(new Uint8Array([128]));
       expect(new GenericVote(registry, true).isAye).toBe(true);
@@ -58,7 +58,7 @@ describe('GenericVote', (): void => {
       expect(new GenericVote(registry, new Uint8Array([1])).isNay).toBe(true);
     });
 
-    it.only('constructs via Uint8Array (aye)', (): void => {
+    it('constructs via Uint8Array (aye)', (): void => {
       const test = new GenericVote(registry, new Uint8Array([0b10000010]));
 
       expect(test.isNay).toBe(false);
@@ -68,12 +68,20 @@ describe('GenericVote', (): void => {
 
   describe('Vote with conviction', (): void => {
     it('constructs Vote with raw boolean', (): void => {
+      const vote = new GenericVote(registry, {
+        aye: true,
+        conviction: 'Locked1x'
+      });
+
       expect(
-        new GenericVote(registry, {
-          aye: true,
-          conviction: 'Locked1x'
-        }).toU8a()
+        vote.toU8a()
       ).toEqual(new Uint8Array([0b10000001]));
+      expect(
+        vote.toPrimitive()
+      ).toEqual({
+        aye: true,
+        conviction: 'Locked1x'
+      });
     });
 
     it('constructs with Vote aye is false, conviction is None', (): void => {

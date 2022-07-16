@@ -208,6 +208,15 @@ export abstract class AbstractInt extends BN implements INumber {
   }
 
   /**
+   * @description Returns the value in a primitive form, either number when <= 52 bits, or string otherwise
+   */
+  public toPrimitive (): number | string {
+    return super.bitLength() > MAX_NUMBER_BITS
+      ? this.toString()
+      : this.toNumber();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {

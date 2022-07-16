@@ -78,6 +78,11 @@ export interface Codec {
   toJSON (): AnyJson;
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  toPrimitive (): AnyJson;
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   toRawType (): string;
@@ -105,6 +110,6 @@ export interface CodecClass<T = Codec> {
   new(registry: Registry, ...args: any[]): T;
 }
 
-export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
+export type CodecTo = 'toHex' | 'toJSON' | 'toPrimitive' | 'toString' | 'toU8a';
 
 export type ArgsDef = Record<string, CodecClass | string>;

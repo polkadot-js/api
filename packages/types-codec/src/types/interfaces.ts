@@ -31,6 +31,7 @@ export interface INumber extends Codec {
   toBigInt (): bigint;
   toBn (): BN;
   toNumber (): number;
+  toPrimitive (): string | number;
 }
 
 export interface IFloat extends Codec {

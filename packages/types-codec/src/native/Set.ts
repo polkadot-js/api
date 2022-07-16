@@ -230,6 +230,13 @@ export class CodecSet extends Set<string> implements ISet<string> {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): string[] {
+    return this.toJSON();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {

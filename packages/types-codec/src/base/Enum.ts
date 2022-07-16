@@ -415,6 +415,15 @@ export class Enum implements IEnum {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): AnyJson {
+    return this.#isBasic
+      ? this.type
+      : { [stringCamelCase(this.type)]: this.#raw.toPrimitive() };
+  }
+
+  /**
    * @description Returns a raw struct representation of the enum types
    */
   protected _toRawStruct (): string[] | Record<string, string | number> {

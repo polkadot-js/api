@@ -172,6 +172,13 @@ export class Compact<T extends INumber> implements ICompact<T> {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): string | number {
+    return this.#raw.toPrimitive();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
