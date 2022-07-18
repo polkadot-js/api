@@ -5,7 +5,3 @@ export type { CodecCreateOptions as CreateOptions } from '@polkadot/types-codec/
 export type { TypeDef } from '@polkadot/types-create/types';
 
 export { TypeDefInfo } from '@polkadot/types-create';
-
-export interface SectionMetadata {
-  $path?: string;
-}
