@@ -1,4 +1,4 @@
-    3137	Jaco                          	Adjust CodecMap toHuman key representation (Bytes, if isAscii) (#5079)
+    3138	Jaco                          	Adjust lazyVariants with internal $type (#5081)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
