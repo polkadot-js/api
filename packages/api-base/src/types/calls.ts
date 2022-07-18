@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AnyFunction, Codec, DefinitionCallNamed } from '@polkadot/types/types';
+import type { AnyFunction, Codec, DefinitionCallNamed, SectionMetadata } from '@polkadot/types/types';
 import type { ApiTypes, ReturnCodec } from './base';
 
 export type DecoratedCallBase<ApiType extends ApiTypes, F extends AnyFunction = (...args: any[]) => Observable<Codec>> =
@@ -23,7 +23,7 @@ export interface AugmentedCalls<ApiType extends ApiTypes> {
 
 export interface QueryableCalls<ApiType extends ApiTypes> extends AugmentedCalls<ApiType> {
   // when non-augmented, we need to at least have Codec results
-  [key: string]: QueryableModuleCalls<ApiType>;
+  [key: string]: QueryableModuleCalls<ApiType> & SectionMetadata;
 }
 
 export interface QueryableModuleCalls<ApiType extends ApiTypes> {

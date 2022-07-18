@@ -1,11 +1,11 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
+import type { AnyString, Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
-import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes, SectionMetadata } from '../types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
@@ -57,7 +57,7 @@ function getVariantStringIdx ({ index }: SiVariant): string {
 }
 
 // create error mapping from metadata
-function injectErrors (_: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError>>): void {
+function injectErrors (_: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError> & SectionMetadata>): void {
   clearRecord(result);
 
   for (let i = 0; i < pallets.length; i++) {
@@ -82,7 +82,7 @@ function injectErrors (_: TypeRegistry, { lookup, pallets }: MetadataLatest, ver
 }
 
 // create event classes from metadata
-function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData>>>): void {
+function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData> & SectionMetadata>>): void {
   const filtered = pallets.filter(filterEventsSome);
 
   clearRecord(result);
@@ -105,7 +105,7 @@ function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLate
 }
 
 // create extrinsic mapping from metadata
-function injectExtrinsics (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>): void {
+function injectExtrinsics (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction> & SectionMetadata>): void {
   const filtered = pallets.filter(filterCallsSome);
 
   clearRecord(result);
@@ -150,11 +150,11 @@ export class TypeRegistry implements Registry {
 
   #metadataVersion = 0;
 
-  readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
+  readonly #metadataCalls: Record<string, Record<string, CallFunction> & SectionMetadata> = {};
 
-  readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
+  readonly #metadataErrors: Record<string, Record<string, RegistryError> & SectionMetadata> = {};
 
-  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
+  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>> & SectionMetadata> = {};
 
   #unknownTypes = new Map<string, boolean>();
 
@@ -403,8 +403,8 @@ export class TypeRegistry implements Registry {
     return this.#definitions.get(typeName);
   }
 
-  public getModuleInstances (specName: string, moduleName: string): string[] | undefined {
-    return this.#knownTypes?.typesBundle?.spec?.[specName]?.instances?.[moduleName];
+  public getModuleInstances (specName: AnyString, moduleName: string): string[] | undefined {
+    return this.#knownTypes?.typesBundle?.spec?.[specName.toString()]?.instances?.[moduleName];
   }
 
   public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R> {

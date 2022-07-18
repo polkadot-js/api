@@ -626,7 +626,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const lazySection = (section: string) =>
       lazyMethods({}, Object.keys(tx[section]), (method: string) =>
-        this._decorateExtrinsicEntry(tx[section][method], result)
+        method.startsWith('$')
+          ? tx[section][method]
+          : this._decorateExtrinsicEntry(tx[section][method], result)
       );
 
     const sections = Object.keys(tx);

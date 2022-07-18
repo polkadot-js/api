@@ -6,7 +6,7 @@
 import '@polkadot/types-codec/types/registry';
 import '@polkadot/types-create/types/augmentRegistry';
 
-import type { Codec, CodecClass } from '@polkadot/types-codec/types';
+import type { AnyString, Codec, CodecClass } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
@@ -41,7 +41,7 @@ declare module '@polkadot/types-codec/types/registry' {
     get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<DetectCodec<T, K>> | undefined;
     getChainProperties (): ChainProperties | undefined;
     getDefinition (typeName: string): string | undefined;
-    getModuleInstances (specName: string, moduleName: string): string[] | undefined;
+    getModuleInstances (specName: AnyString, moduleName: string): string[] | undefined;
 
     setKnownTypes (types: RegisteredTypes): void;
     setChainProperties (properties?: ChainProperties): void;

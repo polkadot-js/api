@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId, Address, ApplyExtrinsicResult, Call, DispatchError, DispatchInfo, EventRecord, Extrinsic, ExtrinsicStatus, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import type { AnyFunction, AnyNumber, AnyTuple, Callback, CallBase, Codec, IExtrinsicEra, IKeyringPair, ISubmittableResult, Signer } from '@polkadot/types/types';
+import type { AnyFunction, AnyNumber, AnyTuple, Callback, CallBase, Codec, IExtrinsicEra, IKeyringPair, ISubmittableResult, SectionMetadata, Signer } from '@polkadot/types/types';
 import type { ApiTypes, PromiseOrObs } from './base';
 
 export type AugmentedSubmittable<T extends AnyFunction, A extends AnyTuple = AnyTuple> = T & CallBase<A>;
@@ -88,7 +88,7 @@ export interface AugmentedSubmittables<ApiType extends ApiTypes> {
 export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
   (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
   // when non-augmented, we need to at least have Codec results
-  [key: string]: SubmittableModuleExtrinsics<ApiType>;
+  [key: string]: SubmittableModuleExtrinsics<ApiType> & SectionMetadata;
 }
 
 export interface SubmittableModuleExtrinsics<ApiType extends ApiTypes> {

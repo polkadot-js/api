@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletConstantMetadataLatest } from '@polkadot/types/interfaces';
-import type { Codec } from '@polkadot/types/types';
+import type { Codec, SectionMetadata } from '@polkadot/types/types';
 import type { ApiTypes } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -19,7 +19,7 @@ export interface AugmentedConsts<ApiType extends ApiTypes> {
 
 export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
   // when non-augmented, we need to at least have Codec results
-  [key: string]: QueryableModuleConsts;
+  [key: string]: QueryableModuleConsts & SectionMetadata;
 }
 
 export interface QueryableModuleConsts {
