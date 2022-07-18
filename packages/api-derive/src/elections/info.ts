@@ -55,7 +55,7 @@ function getConstants (api: DeriveApi, elections: string | null): Partial<Derive
 }
 
 function getModules (api: DeriveApi): [string, string | null] {
-  const [council] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'council') || ['council'];
+  const [council] = api.registry.getModuleInstances(api.runtimeVersion.specName, 'council') || ['council'];
   const elections = api.query.phragmenElection
     ? 'phragmenElection'
     : api.query.electionsPhragmen

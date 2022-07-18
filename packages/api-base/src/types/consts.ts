@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletConstantMetadataLatest } from '@polkadot/types/interfaces';
-import type { Codec } from '@polkadot/types/types';
-import type { ApiTypes, SectionMetadata } from './base';
+import type { Codec, SectionMetadata } from '@polkadot/types/types';
+import type { ApiTypes } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface AugmentedConst<ApiType extends ApiTypes> {

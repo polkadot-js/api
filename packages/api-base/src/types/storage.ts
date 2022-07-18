@@ -5,8 +5,8 @@ import type { Observable } from 'rxjs';
 import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, Callback, Codec, IStorageKey } from '@polkadot/types/types';
-import type { ApiTypes, DropLast, MethodResult, PaginationOptions, PromiseOrObs, ReturnCodec, SectionMetadata, UnsubscribePromise } from './base';
+import type { AnyFunction, AnyTuple, Callback, Codec, IStorageKey, SectionMetadata } from '@polkadot/types/types';
+import type { ApiTypes, DropLast, MethodResult, PaginationOptions, PromiseOrObs, ReturnCodec, UnsubscribePromise } from './base';
 
 interface StorageEntryObservableMulti<R extends Codec = Codec> {
   <T extends Codec = R>(args: (unknown[] | unknown)[]): Observable<T[]>;

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCustom } from '@polkadot/api-base/types';
-import type { AnyFunction } from '@polkadot/types/types';
+import type { AnyFunction, AnyString } from '@polkadot/types/types';
 import type { ExactDerive } from './derive';
 import type { DeriveApi } from './types';
 
@@ -84,7 +84,7 @@ const checks: Record<string, Avail> = {
   }
 };
 
-function getModuleInstances (api: DeriveApi, specName: string, moduleName: string): string[] {
+function getModuleInstances (api: DeriveApi, specName: AnyString, moduleName: string): string[] {
   return api.registry.getModuleInstances(specName, moduleName) || [];
 }
 
@@ -97,7 +97,7 @@ function injectFunctions (instanceId: string, api: DeriveApi, derives: DeriveCus
   const result: Record<string, Record<string, AnyFunction>> = {};
   const names = Object.keys(derives);
   const keys = Object.keys(api.query);
-  const specName = api.runtimeVersion.specName.toString();
+  const specName = api.runtimeVersion.specName;
 
   const filterKeys = (q: string) => keys.includes(q);
   const filterInstances = (q: string) => getModuleInstances(api, specName, q).some(filterKeys);

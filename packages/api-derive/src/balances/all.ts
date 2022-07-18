@@ -211,7 +211,7 @@ function queryCurrent (api: DeriveApi, accountId: AccountId | string, balanceIns
  * ```
  */
 export function all (instanceId: string, api: DeriveApi): (address: AccountId | string) => Observable<DeriveBalancesAll> {
-  const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), 'balances');
+  const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName, 'balances');
 
   return memo(instanceId, (address: AccountId | string): Observable<DeriveBalancesAll> =>
     combineLatest([
