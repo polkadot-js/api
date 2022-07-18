@@ -88,7 +88,7 @@ export interface AugmentedSubmittables<ApiType extends ApiTypes> {
 export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends AugmentedSubmittables<ApiType> {
   (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType>;
   // when non-augmented, we need to at least have Codec results
-  [key: string]: SubmittableModuleExtrinsics<ApiType> & { $type?: string };
+  [key: string]: SubmittableModuleExtrinsics<ApiType> & { $path?: string };
 }
 
 export interface SubmittableModuleExtrinsics<ApiType extends ApiTypes> {

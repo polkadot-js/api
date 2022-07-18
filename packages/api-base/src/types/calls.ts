@@ -23,7 +23,7 @@ export interface AugmentedCalls<ApiType extends ApiTypes> {
 
 export interface QueryableCalls<ApiType extends ApiTypes> extends AugmentedCalls<ApiType> {
   // when non-augmented, we need to at least have Codec results
-  [key: string]: QueryableModuleCalls<ApiType> & { $type?: string };
+  [key: string]: QueryableModuleCalls<ApiType> & { $path?: string };
 }
 
 export interface QueryableModuleCalls<ApiType extends ApiTypes> {

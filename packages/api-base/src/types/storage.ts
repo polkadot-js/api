@@ -125,7 +125,7 @@ export interface AugmentedQueries<ApiType extends ApiTypes> {
 
 export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
   // when non-augmented, we need to at least have Codec results
-  [key: string]: QueryableModuleStorage<ApiType> & { $type?: string };
+  [key: string]: QueryableModuleStorage<ApiType> & { $path?: string };
 }
 
 export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {

@@ -19,7 +19,7 @@ export interface AugmentedConsts<ApiType extends ApiTypes> {
 
 export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
   // when non-augmented, we need to at least have Codec results
-  [key: string]: QueryableModuleConsts & { $type?: string };
+  [key: string]: QueryableModuleConsts & { $path?: string };
 }
 
 export interface QueryableModuleConsts {

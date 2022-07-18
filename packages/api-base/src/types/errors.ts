@@ -16,7 +16,7 @@ export interface AugmentedErrors<ApiType extends ApiTypes> {
 
 export interface DecoratedErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
   // when non-augmented, we need to at least have Codec results
-  [key: string]: ModuleErrors<ApiType> & { $type?: string };
+  [key: string]: ModuleErrors<ApiType> & { $path?: string };
 }
 
 export interface ModuleErrors<ApiType extends ApiTypes> {
