@@ -3,7 +3,7 @@
 
 import type { PalletConstantMetadataLatest } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
-import type { ApiTypes } from './base';
+import type { ApiTypes, SectionMetadata } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface AugmentedConst<ApiType extends ApiTypes> {
@@ -19,7 +19,7 @@ export interface AugmentedConsts<ApiType extends ApiTypes> {
 
 export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
   // when non-augmented, we need to at least have Codec results
-  [key: string]: QueryableModuleConsts & { $path?: string };
+  [key: string]: QueryableModuleConsts & SectionMetadata;
 }
 
 export interface QueryableModuleConsts {

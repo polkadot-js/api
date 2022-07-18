@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { AnyFunction, Codec, DefinitionCallNamed } from '@polkadot/types/types';
-import type { ApiTypes, ReturnCodec } from './base';
+import type { ApiTypes, ReturnCodec, SectionMetadata } from './base';
 
 export type DecoratedCallBase<ApiType extends ApiTypes, F extends AnyFunction = (...args: any[]) => Observable<Codec>> =
   ApiType extends 'rxjs'
@@ -23,7 +23,7 @@ export interface AugmentedCalls<ApiType extends ApiTypes> {
 
 export interface QueryableCalls<ApiType extends ApiTypes> extends AugmentedCalls<ApiType> {
   // when non-augmented, we need to at least have Codec results
-  [key: string]: QueryableModuleCalls<ApiType> & { $path?: string };
+  [key: string]: QueryableModuleCalls<ApiType> & SectionMetadata;
 }
 
 export interface QueryableModuleCalls<ApiType extends ApiTypes> {

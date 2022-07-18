@@ -71,3 +71,7 @@ type AsCodec<R extends Codec | any> = R extends Codec
   : Codec;
 
 export type ReturnCodec<F extends AnyFunction> = AsCodec<ObsInnerType<ReturnType<F>>>;
+
+export interface SectionMetadata {
+  $path?: string;
+}

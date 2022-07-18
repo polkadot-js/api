@@ -3,7 +3,7 @@
 
 import type { IsEvent } from '@polkadot/types/metadata/decorate/types';
 import type { AnyTuple } from '@polkadot/types/types';
-import type { ApiTypes } from './base';
+import type { ApiTypes, SectionMetadata } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type AugmentedEvent<ApiType extends ApiTypes, T extends AnyTuple = AnyTuple, N = unknown> = IsEvent<T, N>;
@@ -17,7 +17,7 @@ export interface AugmentedEvents<ApiType extends ApiTypes> {
 
 export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
   // when non-augmented, we need to at least have Codec results
-  [key: string]: ModuleEvents<ApiType> & { $path?: string };
+  [key: string]: ModuleEvents<ApiType> & SectionMetadata;
 }
 
 export interface ModuleEvents<ApiType extends ApiTypes> {
