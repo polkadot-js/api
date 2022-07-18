@@ -148,6 +148,13 @@ export class Text extends String implements IText {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): string {
+    return this.toJSON();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {

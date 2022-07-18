@@ -72,6 +72,10 @@ export class DoNotConstruct implements Codec {
     throw this.#neverError;
   }
 
+  toPrimitive (): AnyJson {
+    throw this.#neverError;
+  }
+
   toRawType (): string {
     throw this.#neverError;
   }

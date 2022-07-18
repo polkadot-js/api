@@ -110,6 +110,19 @@ export class Json extends Map<string, any> implements Codec {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): Record<string, AnyJson> {
+    return [...this.entries()].reduce<Record<string, AnyJson>>((json, [key, value]): Record<string, AnyJson> => {
+      json[key] = isFunction((value as Codec).toHuman)
+        ? (value as Codec).toPrimitive()
+        : value as AnyJson;
+
+      return json;
+    }, {});
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {

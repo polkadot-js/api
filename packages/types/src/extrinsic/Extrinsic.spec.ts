@@ -43,6 +43,7 @@ describe('Extrinsic', (): void => {
       expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 0]));
       expect(extrinsic.args[0].toHex()).toEqual('0x00495e1e506f266418af07fa0c5c108dd436f2faa59fe7d9e54403779f5bbd7718');
       expect(extrinsic.args[1].toHuman()).toEqual('104,560,923,320,000'); // ('104.5609 Unit');
+      expect(extrinsic.toPrimitive()).toEqual({ method: { args: { dest: { id: '5DiuK2zR4asj2CEh77SKtUgTswTLkD8eiAKrByg5G3wL5w9b' }, value: 104560923320000 }, callIndex: '0x0600' }, signature: { era: { mortalEra: [1024, 186] }, nonce: 68, signature: { ed25519: '0xd99ffe3e610ad234e1414bda5831395a6df9098bf80b01561ce89a5065ae89d5c10e1619c6c99131b0bea4fb73ef04d07c07770e2ae9df5c325c331769ccb300' }, signer: { id: '5Hn8KKEp8qruCGWaN9MEsjTs4FXB4wv9xn7g1RWkNeKKNXCr' }, tip: 30000000000 } });
     });
   });
 });

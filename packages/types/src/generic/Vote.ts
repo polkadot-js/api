@@ -116,6 +116,16 @@ export class GenericVote extends U8aFixed {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public override toPrimitive (): any {
+    return {
+      aye: this.isAye,
+      conviction: this.conviction.toPrimitive()
+    };
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {

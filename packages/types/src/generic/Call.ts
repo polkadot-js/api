@@ -104,6 +104,13 @@ export class GenericCallIndex extends U8aFixed {
   constructor (registry: Registry, value?: AnyU8a) {
     super(registry, value, 16);
   }
+
+  /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public override toPrimitive (): string {
+    return this.toHex();
+  }
 }
 
 /**

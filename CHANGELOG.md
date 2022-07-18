@@ -5,6 +5,7 @@
 Changes:
 
 - `{BTree|Hash}Map.toHuman()` now display `Raw` keys as ascii (if detected)
+- Add `toPrimitive()` to all base `Codec` interfaces (string/boolean/number)
 
 
 ## 8.13.1 Jul 16, 2022

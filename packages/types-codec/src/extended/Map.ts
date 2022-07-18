@@ -207,6 +207,23 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): AnyJson {
+    const json: Record<string, AnyJson> = {};
+
+    for (const [k, v] of this.entries()) {
+      json[
+        k instanceof Raw && k.isAscii
+          ? k.toUtf8()
+          : k.toString()
+      ] = v.toPrimitive();
+    }
+
+    return json;
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {

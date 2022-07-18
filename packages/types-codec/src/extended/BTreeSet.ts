@@ -194,6 +194,19 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): AnyJson {
+    const json: AnyJson = [];
+
+    for (const v of this.values()) {
+      json.push(v.toPrimitive());
+    }
+
+    return json;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   public override toString (): string {

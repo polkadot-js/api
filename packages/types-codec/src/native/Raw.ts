@@ -111,6 +111,20 @@ export class Raw extends Uint8Array implements IU8a {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (): AnyJson {
+    return this.toPrimitive();
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
+  public toJSON (): string {
+    return this.toHex();
+  }
+
+  /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): AnyJson {
     if (this.isAscii) {
       const text = this.toUtf8();
 
@@ -121,13 +135,6 @@ export class Raw extends Uint8Array implements IU8a {
     }
 
     return this.toJSON();
-  }
-
-  /**
-   * @description Converts the Object to JSON, typically used for RPC transfers
-   */
-  public toJSON (): string {
-    return this.toHex();
   }
 
   /**

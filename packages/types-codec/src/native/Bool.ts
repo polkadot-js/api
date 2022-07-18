@@ -106,6 +106,13 @@ export class bool extends Boolean implements Codec {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): boolean {
+    return this.toJSON();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {

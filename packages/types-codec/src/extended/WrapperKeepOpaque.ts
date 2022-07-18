@@ -93,6 +93,15 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public override toPrimitive (): any {
+    return this.#decoded
+      ? this.#decoded.toPrimitive()
+      : super.toPrimitive();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {

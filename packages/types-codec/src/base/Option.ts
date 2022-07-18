@@ -207,6 +207,15 @@ export class Option<T extends Codec> implements IOption<T> {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public toPrimitive (): AnyJson {
+    return this.isNone
+      ? null
+      : this.#raw.toPrimitive();
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (isBare?: boolean): string {

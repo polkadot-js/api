@@ -36,6 +36,7 @@ describe('Raw', (): void => {
 
   testEncode('toJSON', '0x0102030405');
   testEncode('toHex', '0x0102030405');
+  testEncode('toPrimitive', '0x0102030405');
   testEncode('toString', '0x0102030405');
   testEncode('toU8a', Uint8Array.from([1, 2, 3, 4, 5]));
 
@@ -77,6 +78,11 @@ describe('Raw', (): void => {
     it('has valid isAscii', (): void => {
       expect(u8a.isAscii).toBe(false);
       expect(new Raw(registry, '0x2021222324').isAscii).toBe(true);
+    });
+
+    it('has valid toPrimitive', (): void => {
+      expect(new Raw(registry, 'testing').toPrimitive()).toEqual('testing');
+      expect(new Raw(registry, '0xe4bda0e5a5bd').toPrimitive()).toEqual('0xe4bda0e5a5bd');
     });
 
     it('has valid toUtf8', (): void => {
