@@ -3,7 +3,6 @@
 
 import type { SiLookupTypeId, SiVariant } from '../interfaces';
 import type { PortableRegistry } from '../metadata';
-import type { SectionMetadata } from './types';
 
 import { lazyMethod } from '@polkadot/util';
 
@@ -12,17 +11,12 @@ interface TypeHolder {
 }
 
 export function lazyVariants <T> (lookup: PortableRegistry, { type }: TypeHolder, getName: (v: SiVariant) => string, creator: (v: SiVariant) => T): Record<string, T> {
-  const result: Record<string, T> & SectionMetadata = {};
-  const { def, path } = lookup.getSiType(type);
-  const variants = def.asVariant.variants;
+  const result: Record<string, T> = {};
+  const variants = lookup.getSiType(type).def.asVariant.variants;
 
   for (let i = 0; i < variants.length; i++) {
     lazyMethod(result, variants[i], creator, getName);
   }
-
-  result.$path = path.length
-    ? path.join('::')
-    : undefined;
 
   return result;
 }

@@ -5,7 +5,7 @@ import type { AnyString, Codec, CodecClass, IU8a } from '@polkadot/types-codec/t
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
-import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes, SectionMetadata } from '../types';
+import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
@@ -57,7 +57,7 @@ function getVariantStringIdx ({ index }: SiVariant): string {
 }
 
 // create error mapping from metadata
-function injectErrors (_: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError> & SectionMetadata>): void {
+function injectErrors (_: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError>>): void {
   clearRecord(result);
 
   for (let i = 0; i < pallets.length; i++) {
@@ -82,7 +82,7 @@ function injectErrors (_: TypeRegistry, { lookup, pallets }: MetadataLatest, ver
 }
 
 // create event classes from metadata
-function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData> & SectionMetadata>>): void {
+function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CodecClass<GenericEventData>>>): void {
   const filtered = pallets.filter(filterEventsSome);
 
   clearRecord(result);
@@ -105,20 +105,48 @@ function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLate
 }
 
 // create extrinsic mapping from metadata
-function injectExtrinsics (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction> & SectionMetadata>): void {
+function injectExtrinsics (registry: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, CallFunction>>, mapping: Record<string, string[]>): void {
   const filtered = pallets.filter(filterCallsSome);
 
   clearRecord(result);
+  clearRecord(mapping);
 
   for (let i = 0; i < filtered.length; i++) {
     const { calls, index, name } = filtered[i];
     const sectionIndex = version >= 12 ? index.toNumber() : i;
+    const sectionName = stringCamelCase(name);
+    const allCalls = calls.unwrap();
 
     lazyMethod(result, sectionIndex, () =>
-      lazyVariants(lookup, calls.unwrap(), getVariantStringIdx, (variant: SiVariant) =>
-        createCallFunction(registry, lookup, variant, stringCamelCase(name), sectionIndex)
+      lazyVariants(lookup, allCalls, getVariantStringIdx, (variant: SiVariant) =>
+        createCallFunction(registry, lookup, variant, sectionName, sectionIndex)
       )
     );
+
+    const { path } = registry.lookup.getSiType(allCalls.type);
+
+    // frame_system::pallet::Call / pallet_balances::pallet::Call / polkadot_runtime_parachains::configuration::pallet::Call /
+    const palletIdx = path.findIndex((v) => v.eq('pallet'));
+
+    if (palletIdx !== -1) {
+      const name = stringCamelCase(
+        path
+          .slice(0, palletIdx)
+          .map((p, i) =>
+            i === 0
+              // frame_system || pallet_balances
+              ? p.replace(/^(frame|pallet)_/, '')
+              : p
+          )
+          .join(' ')
+      );
+
+      if (!mapping[name]) {
+        mapping[name] = [sectionName];
+      } else {
+        mapping[name].push(sectionName);
+      }
+    }
   }
 }
 
@@ -150,11 +178,13 @@ export class TypeRegistry implements Registry {
 
   #metadataVersion = 0;
 
-  readonly #metadataCalls: Record<string, Record<string, CallFunction> & SectionMetadata> = {};
+  readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
 
-  readonly #metadataErrors: Record<string, Record<string, RegistryError> & SectionMetadata> = {};
+  readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
 
-  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>> & SectionMetadata> = {};
+  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
+
+  readonly #moduleMap: Record<string, string[]> = {};
 
   #unknownTypes = new Map<string, boolean>();
 
@@ -404,7 +434,7 @@ export class TypeRegistry implements Registry {
   }
 
   public getModuleInstances (specName: AnyString, moduleName: string): string[] | undefined {
-    return this.#knownTypes?.typesBundle?.spec?.[specName.toString()]?.instances?.[moduleName];
+    return this.#knownTypes?.typesBundle?.spec?.[specName.toString()]?.instances?.[moduleName] || this.#moduleMap[moduleName];
   }
 
   public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R> {
@@ -527,7 +557,7 @@ export class TypeRegistry implements Registry {
     // attach the lookup at this point (before injecting)
     this.setLookup(this.#metadata.lookup);
 
-    injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls);
+    injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls, this.#moduleMap);
     injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);
     injectEvents(this, this.#metadata, this.#metadataVersion, this.#metadataEvents);
 
