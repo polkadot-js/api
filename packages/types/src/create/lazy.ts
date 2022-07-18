@@ -10,9 +10,11 @@ interface TypeHolder {
   type: SiLookupTypeId
 }
 
-export function lazyVariants <T> (lookup: PortableRegistry, { type }: TypeHolder, getName: (v: SiVariant) => string, creator: (v: SiVariant) => T): Record<string, T> {
-  const result: Record<string, T> = {};
+export function lazyVariants <T> (lookup: PortableRegistry, { type }: TypeHolder, getName: (v: SiVariant) => string, creator: (v: SiVariant) => T): Record<string, T> & { $type?: string } {
+  const result: Record<string, T> & { $type?: string } = {};
   const variants = lookup.getSiType(type).def.asVariant.variants;
+
+  result.$type = lookup.getTypeDef(type).lookupName;
 
   for (let i = 0; i < variants.length; i++) {
     lazyMethod(result, variants[i], creator, getName);
