@@ -12,10 +12,12 @@ interface TypeHolder {
 
 export function lazyVariants <T> (lookup: PortableRegistry, { type }: TypeHolder, getName: (v: SiVariant) => string, creator: (v: SiVariant) => T): Record<string, T> & { $path?: string } {
   const result: Record<string, T> & { $path?: string } = {};
-  const { def, path } = lookup.getSiType(type);
-  const variants = def.asVariant.variants;
+  const siType = lookup.getSiType(type);
+  const variants = siType.def.asVariant.variants;
 
-  result.$path = path.join('::');
+  result.$path = siType.path.length
+    ? siType.path.join('::')
+    : undefined;
 
   for (let i = 0; i < variants.length; i++) {
     lazyMethod(result, variants[i], creator, getName);
