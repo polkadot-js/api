@@ -4,6 +4,4 @@
 export { HttpProvider } from './http';
 export { packageInfo } from './packageInfo';
 export { WsProvider } from './ws';
-
-// ESM-only, only export top-level when we have dual versions
 export { ScProvider } from './substrate-connect';
