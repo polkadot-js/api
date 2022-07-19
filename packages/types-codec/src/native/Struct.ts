@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Registry } from '../types';
 
-import { isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils';
 
@@ -130,21 +130,34 @@ export class Struct<
   }
 
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
-    const keys = Object.keys(Types);
-
     let definition: Definition | undefined;
 
     // eslint-disable-next-line no-return-assign
     const setDefinition = (d: Definition) =>
       definition = d;
 
-    return class extends Struct<S> {
+    const S = class extends Struct<S> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap, { definition, setDefinition });
-
-        objectProperties(this, keys, (k) => this.get(k));
       }
     };
+
+    const keys = Object.keys(Types);
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+
+      if (!(key in S.prototype)) {
+        Object.defineProperty(S.prototype, key, {
+          enumerable: true,
+          get: function (): unknown {
+            return (this as Struct).get(key);
+          }
+        });
+      }
+    }
+
+    return S;
   }
 
   /**

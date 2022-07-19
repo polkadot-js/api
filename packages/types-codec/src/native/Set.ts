@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { CodecClass, Inspect, ISet, IU8a, Registry } from '../types';
 
-import { BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringify, stringPascalCase, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, stringify, stringPascalCase, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { compareArray } from '../utils';
 
@@ -109,20 +109,28 @@ export class CodecSet extends Set<string> implements ISet<string> {
   }
 
   public static with (values: SetValues, bitLength?: number): CodecClass<CodecSet> {
-    const keys = Object.keys(values);
-    const isKeys = new Array<string>(keys.length);
-
-    for (let i = 0; i < keys.length; i++) {
-      isKeys[i] = `is${stringPascalCase(keys[i])}`;
-    }
-
-    return class extends CodecSet {
+    const S = class extends CodecSet {
       constructor (registry: Registry, value?: string[] | Set<string> | Uint8Array | BN | number | string) {
         super(registry, values, value, bitLength);
-
-        objectProperties(this, isKeys, (_, i) => this.strings.includes(keys[i]));
       }
     };
+
+    const keys = Object.keys(values);
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = `is${stringPascalCase(keys[i])}`;
+
+      if (!(key in S.prototype)) {
+        Object.defineProperty(S.prototype, key, {
+          enumerable: true,
+          get: function (): boolean {
+            return (this as CodecSet).strings.includes(keys[i]);
+          }
+        });
+      }
+    }
+
+    return S;
   }
 
   /**

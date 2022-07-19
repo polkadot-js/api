@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
 
-import { isHex, isNumber, isObject, isString, isU8a, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, isNumber, isObject, isString, isU8a, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { mapToTypeMap, typesToMap } from '../utils';
 import { Null } from './Null';
@@ -223,39 +223,53 @@ export class Enum implements IEnum {
   }
 
   public static with (Types: Record<string, string | CodecClass> | Record<string, number> | string[]): EnumCodecClass<Enum> {
-    const keys = Array.isArray(Types)
-      ? Types
-      : Object.keys(Types);
-    const asKeys = new Array<string>(keys.length);
-    const isKeys = new Array<string>(keys.length);
-
-    for (let i = 0; i < keys.length; i++) {
-      const name = stringPascalCase(keys[i]);
-
-      asKeys[i] = `as${name}`;
-      isKeys[i] = `is${name}`;
-    }
-
     let definition: Definition | undefined;
 
     // eslint-disable-next-line no-return-assign
     const setDefinition = (d: Definition) =>
       definition = d;
 
-    return class extends Enum {
+    const E = class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index, { definition, setDefinition });
-
-        objectProperties(this, isKeys, (_, i) => this.type === keys[i]);
-        objectProperties(this, asKeys, (k, i): Codec => {
-          if (!this[isKeys[i] as keyof this]) {
-            throw new Error(`Cannot convert '${this.type}' via ${k}`);
-          }
-
-          return this.value;
-        });
       }
     };
+
+    const keys = Array.isArray(Types)
+      ? Types
+      : Object.keys(Types);
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = `is${stringPascalCase(keys[i])}`;
+
+      if (!(key in E.prototype)) {
+        Object.defineProperty(E.prototype, key, {
+          enumerable: true,
+          get: function (): boolean {
+            return (this as Enum).type === keys[i];
+          }
+        });
+      }
+    }
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = `as${stringPascalCase(keys[i])}`;
+
+      if (!(key in E.prototype)) {
+        Object.defineProperty(E.prototype, key, {
+          enumerable: true,
+          get: function (): unknown {
+            if ((this as Enum).type !== keys[i]) {
+              throw new Error(`Cannot convert '${(this as Enum).type}' via ${key}`);
+            }
+
+            return (this as Enum).value;
+          }
+        });
+      }
+    }
+
+    return E;
   }
 
   /**
