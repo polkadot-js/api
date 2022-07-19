@@ -1,21 +1,22 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { EraIndex, EraRewardPoints } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveEraPoints, DeriveEraValPoints } from '../types';
+import type { Observable } from 'rxjs';
+import type { EraIndex } from '@polkadot/types/interfaces';
+import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
+import type { DeriveApi, DeriveEraPoints, DeriveEraValPoints } from '../types';
+
+import { map, of } from 'rxjs';
 
 import { BN_ZERO } from '@polkadot/util';
-import { of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
-import { deriveCache, memo } from '../util';
-import { filterEras } from './util';
+import { memo } from '../util';
+import { filterCachedEras, getEraMultiCache, setEraMultiCache } from './cache';
+import { erasHistoricApply, filterEras } from './util';
 
 const CACHE_KEY = 'eraPoints';
 
-function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
+function mapValidators ({ individual }: PalletStakingEraRewardPoints): DeriveEraValPoints {
   return [...individual.entries()]
     .filter(([, points]) => points.gt(BN_ZERO))
     .reduce((result: DeriveEraValPoints, [validatorId, points]): DeriveEraValPoints => {
@@ -25,7 +26,7 @@ function mapValidators ({ individual }: EraRewardPoints): DeriveEraValPoints {
     }, {});
 }
 
-function mapPoints (eras: EraIndex[], points: EraRewardPoints[]): DeriveEraPoints[] {
+function mapPoints (eras: EraIndex[], points: PalletStakingEraRewardPoints[]): DeriveEraPoints[] {
   return eras.map((era, index): DeriveEraPoints => ({
     era,
     eraPoints: points[index].total,
@@ -33,40 +34,21 @@ function mapPoints (eras: EraIndex[], points: EraRewardPoints[]): DeriveEraPoint
   }));
 }
 
-export function _erasPoints (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPoints[]> {
+export function _erasPoints (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraPoints[]> {
   return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraPoints[]> => {
     if (!eras.length) {
       return of([]);
     }
 
-    const cached: DeriveEraPoints[] = withActive
-      ? []
-      : eras
-        .map((era) => deriveCache.get<DeriveEraPoints>(`${CACHE_KEY}-${era.toString()}`))
-        .filter((value): value is DeriveEraPoints => !!value);
+    const cached = getEraMultiCache<DeriveEraPoints>(CACHE_KEY, eras, withActive);
     const remaining = filterEras(eras, cached);
 
     return !remaining.length
       ? of(cached)
-      : api.query.staking.erasRewardPoints.multi<EraRewardPoints>(remaining).pipe(
-        map((points): DeriveEraPoints[] => {
-          const query = mapPoints(remaining, points);
-
-          !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era.toString()}`, q));
-
-          return eras.map((era): DeriveEraPoints =>
-            cached.find((cached) => era.eq(cached.era)) ||
-            query.find((query) => era.eq(query.era)) as DeriveEraPoints
-          );
-        })
+      : api.query.staking.erasRewardPoints.multi(remaining).pipe(
+        map((p) => filterCachedEras(eras, cached, setEraMultiCache(CACHE_KEY, withActive, mapPoints(remaining, p))))
       );
   });
 }
 
-export function erasPoints (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraPoints[]> {
-  return memo(instanceId, (withActive = false): Observable<DeriveEraPoints[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasPoints(eras, withActive))
-    )
-  );
-}
+export const erasPoints = erasHistoricApply('_erasPoints');

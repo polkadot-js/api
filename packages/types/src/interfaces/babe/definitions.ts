@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -6,14 +6,12 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+import { runtime } from './runtime';
+
 export default {
-  rpc: {
-    epochAuthorship: {
-      description: 'Returns data about which slots (primary or secondary) can be claimed in the current epoch with the keys in the keystore',
-      params: [],
-      type: 'HashMap<AuthorityId, EpochAuthorship>'
-    }
-  },
+  rpc,
+  runtime,
   types: {
     AllowedSlots: {
       _enum: ['PrimarySlots', 'PrimaryAndSecondaryPlainSlots', 'PrimaryAndSecondaryVRFSlots']
@@ -30,9 +28,33 @@ export default {
       firstHeader: 'Header',
       secondHeader: 'Header'
     },
+    BabeGenesisConfiguration: {
+      slotDuration: 'u64',
+      epochLength: 'u64',
+      c: '(u64, u64)',
+      genesisAuthorities: 'Vec<(AuthorityId, BabeAuthorityWeight)>',
+      randomness: 'Randomness',
+      allowedSlots: 'AllowedSlots'
+    },
+    BabeGenesisConfigurationV1: {
+      slotDuration: 'u64',
+      epochLength: 'u64',
+      c: '(u64, u64)',
+      genesisAuthorities: 'Vec<(AuthorityId, BabeAuthorityWeight)>',
+      randomness: 'Randomness',
+      secondarySlots: 'bool'
+    },
     BabeWeight: 'u64',
     MaybeRandomness: 'Option<Randomness>',
     MaybeVrf: 'Option<VrfData>',
+    Epoch: {
+      epochIndex: 'u64',
+      startSlot: 'Slot',
+      duration: 'u64',
+      authorities: 'Vec<(AuthorityId, BabeAuthorityWeight)>',
+      randomness: 'Hash', // [u8; VRF_OUTPUT_LENGTH],
+      config: 'BabeEpochConfiguration'
+    },
     EpochAuthorship: {
       primary: 'Vec<u64>',
       secondary: 'Vec<u64>',
@@ -48,7 +70,8 @@ export default {
       c: '(u64, u64)',
       allowedSlots: 'AllowedSlots'
     },
-    Randomness: 'Hash',
+    OpaqueKeyOwnershipProof: 'Bytes',
+    Randomness: 'Hash', // [u8; RANDOMNESS_LENGTH],
     RawBabePreDigest: {
       _enum: {
         Phantom: 'Null', // index starts at 1... empty slot at 0

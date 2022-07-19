@@ -1,20 +1,20 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx, SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SubmittableExtrinsic } from '@polkadot/api-base/types';
 import type { Bytes, Option, StorageKey } from '@polkadot/types';
-import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
+import type { Bounty, BountyIndex, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
+import type { DeriveApi, DeriveCollectiveProposal } from '../types';
+
+import { firstValueFrom, of } from 'rxjs';
 
 import { ApiPromise } from '@polkadot/api';
-import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { Proposal } from '@polkadot/types/interfaces';
-import { of } from '@polkadot/x-rxjs';
 
-import { BountyFactory } from '../../test/bountyFactory';
-import { BytesFactory } from '../../test/bytesFactory';
-import { createApiWithAugmentations } from '../../test/helpers';
-import { ProposalFactory } from '../../test/proposalFactory';
+import { BountyFactory } from '../test/bountyFactory';
+import { BytesFactory } from '../test/bytesFactory';
+import { createApiWithAugmentations } from '../test/helpers';
+import { ProposalFactory } from '../test/proposalFactory';
 import { bounties } from '.';
 
 const DEFAULT_PROPOSER = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
@@ -29,7 +29,7 @@ describe('bounties derive', () => {
   let bytes: (value: string) => Bytes;
   let api: ApiPromise;
   let createProposal: (method: SubmittableExtrinsic<'promise'>) => Proposal;
-  let defaultMockApi: ApiInterfaceRx;
+  let defaultMockApi: DeriveApi;
 
   beforeAll(() => {
     api = createApiWithAugmentations();
@@ -65,7 +65,7 @@ describe('bounties derive', () => {
         }
       },
       tx: api.tx
-    } as unknown as ApiInterfaceRx;
+    } as unknown as DeriveApi;
   });
 
   it('creates storage key', function () {
@@ -96,9 +96,9 @@ describe('bounties derive', () => {
           }
         }
       }
-    } as unknown as ApiInterfaceRx;
+    } as unknown as DeriveApi;
 
-    const result = await bounties('', mockApi)().toPromise();
+    const result = await firstValueFrom(bounties('', mockApi)());
 
     expect(result).toHaveLength(2);
     expect(result[0].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
@@ -110,7 +110,7 @@ describe('bounties derive', () => {
   });
 
   it('returns motions', async () => {
-    const result = await bounties('', defaultMockApi)().toPromise();
+    const result = await firstValueFrom(bounties('', defaultMockApi)());
 
     expect(result).toHaveLength(2);
     expect(result[0].proposals).toHaveLength(0);
@@ -124,9 +124,9 @@ describe('bounties derive', () => {
         ...defaultMockApi.query,
         council: null
       }
-    } as unknown as ApiInterfaceRx;
+    } as unknown as DeriveApi;
 
-    const result = await bounties('', mockApi)().toPromise();
+    const result = await firstValueFrom(bounties('', mockApi)());
 
     expect(result).toHaveLength(2);
     expect(result[0].bounty.proposer.toString()).toEqual(DEFAULT_PROPOSER);
@@ -149,13 +149,13 @@ describe('bounties derive', () => {
             { proposal: createProposal(api.tx.treasury.approveProposal(1)) }] as DeriveCollectiveProposal[])
         }
       }
-    } as unknown as ApiInterfaceRx;
+    } as unknown as DeriveApi;
 
-    const result = await bounties('', mockApi)().toPromise();
+    const result = await firstValueFrom(bounties('', mockApi)());
 
     expect(result).toHaveLength(2);
     expect(result[0].proposals).toHaveLength(0);
     expect(result[1].proposals).toHaveLength(1);
-    expect(result[1].proposals[0].proposal.method).toEqual('approveBounty');
+    expect(result[1].proposals[0].proposal && result[1].proposals[0].proposal.method).toEqual('approveBounty');
   });
 });

@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BTreeSet, Bytes, Enum, Option, Struct, U64, Vec, u32, u64 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
+import type { BTreeSet, Bytes, Enum, Option, Struct, U64, Vec, u32, u64 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { AuthoritySignature } from '@polkadot/types/interfaces/imOnline';
@@ -38,6 +38,7 @@ export interface DelayKind extends Enum {
   readonly isFinalized: boolean;
   readonly isBest: boolean;
   readonly asBest: DelayKindBest;
+  readonly type: 'Finalized' | 'Best';
 }
 
 /** @name DelayKindBest */
@@ -75,6 +76,7 @@ export interface GrandpaEquivocation extends Enum {
   readonly asPrevote: GrandpaEquivocationValue;
   readonly isPrecommit: boolean;
   readonly asPrecommit: GrandpaEquivocationValue;
+  readonly type: 'Prevote' | 'Precommit';
 }
 
 /** @name GrandpaEquivocationProof */
@@ -193,6 +195,7 @@ export interface StoredState extends Enum {
   readonly isPaused: boolean;
   readonly isPendingResume: boolean;
   readonly asPendingResume: PendingResume;
+  readonly type: 'Live' | 'PendingPause' | 'Paused' | 'PendingResume';
 }
 
 export type PHANTOM_GRANDPA = 'grandpa';

@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '../types';
+import type { Inspect, Registry } from '@polkadot/types-codec/types';
 
+import { Enum } from '@polkadot/types-codec';
 import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { Enum } from '../codec/Enum';
 import { GenericAccountId } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 
@@ -16,23 +16,24 @@ function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
   } else if (u8a.length === 20) {
     return { Address20: u8a };
   } else if (u8a.length <= 8) {
-    return { Index: registry.createType('AccountIndex', u8a).toNumber() };
+    return { Index: registry.createTypeUnsafe<GenericAccountIndex>('AccountIndex', [u8a]).toNumber() };
   }
 
   return u8a;
 }
 
 function decodeMultiAny (registry: Registry, value?: unknown): unknown {
-  if (value instanceof GenericMultiAddress) {
-    return value;
-  } else if (value instanceof GenericAccountId) {
+  if (value instanceof GenericAccountId) {
     return { Id: value };
+  } else if (isU8a(value)) {
+    // NOTE This is after the AccountId check (which is U8a)
+    return decodeU8a(registry, value);
+  } else if (value instanceof GenericMultiAddress) {
+    return value;
   } else if (value instanceof GenericAccountIndex || isBn(value) || isNumber(value)) {
     return { Index: isNumber(value) ? value : value.toNumber() };
   } else if (isString(value)) {
     return decodeU8a(registry, decodeAddress(value.toString()));
-  } else if (isU8a(value)) {
-    return decodeU8a(registry, value);
   }
 
   return value;
@@ -49,6 +50,18 @@ export class GenericMultiAddress extends Enum {
       // eslint-disable-next-line sort-keys
       Address20: 'H160'
     }, decodeMultiAny(registry, value));
+  }
+
+  /**
+   * @description Returns a breakdown of the hex encoding for this Codec
+   */
+  override inspect (): Inspect {
+    const { inner, outer = [] } = this.inner.inspect();
+
+    return {
+      inner,
+      outer: [new Uint8Array([this.index]), ...outer]
+    };
   }
 
   /**

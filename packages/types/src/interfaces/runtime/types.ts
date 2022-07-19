@@ -1,14 +1,21 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, DoNotConstruct, Enum, GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericLookupSource, GenericMultiAddress, Int, Null, Option, StorageKey, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
+import type { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericEthereumAccountId, GenericLookupSource, GenericMultiAddress, StorageKey } from '@polkadot/types';
+import type { Bytes, Compact, DoNotConstruct, Enum, Int, Null, Option, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { SystemOrigin } from '@polkadot/types/interfaces/system';
 
 /** @name AccountId */
-export interface AccountId extends GenericAccountId {}
+export interface AccountId extends AccountId32 {}
+
+/** @name AccountId20 */
+export interface AccountId20 extends GenericEthereumAccountId {}
+
+/** @name AccountId32 */
+export interface AccountId32 extends GenericAccountId {}
 
 /** @name AccountIdOf */
 export interface AccountIdOf extends AccountId {}
@@ -34,6 +41,12 @@ export interface Block extends GenericBlock {}
 /** @name BlockNumber */
 export interface BlockNumber extends u32 {}
 
+/** @name BlockNumberFor */
+export interface BlockNumberFor extends BlockNumber {}
+
+/** @name BlockNumberOf */
+export interface BlockNumberOf extends BlockNumber {}
+
 /** @name Call */
 export interface Call extends GenericCall {}
 
@@ -53,6 +66,7 @@ export interface ChangesTrieConfiguration extends Struct {
 export interface ChangesTrieSignal extends Enum {
   readonly isNewConfiguration: boolean;
   readonly asNewConfiguration: Option<ChangesTrieConfiguration>;
+  readonly type: 'NewConfiguration';
 }
 
 /** @name CodecHash */
@@ -63,6 +77,13 @@ export interface Consensus extends ITuple<[ConsensusEngineId, Bytes]> {}
 
 /** @name ConsensusEngineId */
 export interface ConsensusEngineId extends GenericConsensusEngineId {}
+
+/** @name CrateVersion */
+export interface CrateVersion extends Struct {
+  readonly major: u16;
+  readonly minor: u8;
+  readonly patch: u8;
+}
 
 /** @name Digest */
 export interface Digest extends Struct {
@@ -87,6 +108,8 @@ export interface DigestItem extends Enum {
   readonly asPreRuntime: PreRuntime;
   readonly isChangesTrieSignal: boolean;
   readonly asChangesTrieSignal: ChangesTrieSignal;
+  readonly isRuntimeEnvironmentUpdated: boolean;
+  readonly type: 'Other' | 'AuthoritiesChange' | 'ChangesTrieRoot' | 'SealV0' | 'Consensus' | 'Seal' | 'PreRuntime' | 'ChangesTrieSignal' | 'RuntimeEnvironmentUpdated';
 }
 
 /** @name EncodedJustification */
@@ -205,6 +228,7 @@ export interface MultiSigner extends Enum {
   readonly asSr25519: U8aFixed;
   readonly isEcdsa: boolean;
   readonly asEcdsa: U8aFixed;
+  readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
 }
 
 /** @name OpaqueCall */
@@ -217,6 +241,7 @@ export interface Origin extends DoNotConstruct {}
 export interface OriginCaller extends Enum {
   readonly isSystem: boolean;
   readonly asSystem: SystemOrigin;
+  readonly type: 'System';
 }
 
 /** @name PalletId */
@@ -236,6 +261,7 @@ export interface PalletVersion extends Struct {
 export interface Pays extends Enum {
   readonly isYes: boolean;
   readonly isNo: boolean;
+  readonly type: 'Yes' | 'No';
 }
 
 /** @name Perbill */
@@ -274,6 +300,7 @@ export interface Releases extends Enum {
   readonly isV8: boolean;
   readonly isV9: boolean;
   readonly isV10: boolean;
+  readonly type: 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6' | 'V7' | 'V8' | 'V9' | 'V10';
 }
 
 /** @name RuntimeDbWeight */
@@ -306,8 +333,20 @@ export interface SignedBlockWithJustifications extends Struct {
 /** @name Slot */
 export interface Slot extends u64 {}
 
+/** @name SlotDuration */
+export interface SlotDuration extends u64 {}
+
 /** @name StorageData */
 export interface StorageData extends Bytes {}
+
+/** @name StorageInfo */
+export interface StorageInfo extends Struct {
+  readonly palletName: Bytes;
+  readonly storage_name: Bytes;
+  readonly prefix: Bytes;
+  readonly maxValues: Option<u32>;
+  readonly maxSize: Option<u32>;
+}
 
 /** @name StorageProof */
 export interface StorageProof extends Struct {
@@ -322,6 +361,9 @@ export interface TransactionInfo extends Struct {
   readonly blockChunks: u32;
 }
 
+/** @name TransactionLongevity */
+export interface TransactionLongevity extends u64 {}
+
 /** @name TransactionPriority */
 export interface TransactionPriority extends u64 {}
 
@@ -330,6 +372,9 @@ export interface TransactionStorageProof extends Struct {
   readonly chunk: Bytes;
   readonly proof: Vec<Bytes>;
 }
+
+/** @name TransactionTag */
+export interface TransactionTag extends Bytes {}
 
 /** @name U32F32 */
 export interface U32F32 extends UInt {}

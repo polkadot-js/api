@@ -1,36 +1,60 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { HexString } from '@polkadot/util/types';
 
 import path from 'path';
 import yargs from 'yargs';
 
+import { Definitions } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';
-import { WebSocket } from '@polkadot/x-ws';
 
-import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
-import { HEADER, writeFile } from './util';
+import { generateDefaultCalls, generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
+import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
 
-function generate (metaHex: string, pkg: string | undefined, output: string, isStrict?: boolean): void {
+function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
-  const extraTypes = pkg
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    ? { [pkg]: require(path.join(process.cwd(), output, 'definitions')) as Record<string, any> }
-    : {};
+  const outputPath = assertDir(path.join(process.cwd(), output));
+  let extraTypes: Record<string, any> = {};
+  let customLookupDefinitions: Definitions = { rpc: {}, types: {} };
 
-  generateDefaultConsts(path.join(process.cwd(), output, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultErrors(path.join(process.cwd(), output, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultEvents(path.join(process.cwd(), output, 'augment-api-events.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultQuery(path.join(process.cwd(), output, 'augment-api-query.ts'), metaHex, extraTypes, isStrict);
-  generateDefaultRpc(path.join(process.cwd(), output, 'augment-api-rpc.ts'), extraTypes);
-  generateDefaultTx(path.join(process.cwd(), output, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict);
+  if (pkg) {
+    try {
+      extraTypes = {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-argument
+        [pkg]: require(assertFile(path.join(outputPath, 'definitions.ts'))) as Record<string, any>
+      };
+    } catch (error) {
+      console.error('ERROR: No custom definitions found:', (error as Error).message);
+    }
+  }
 
-  writeFile(path.join(process.cwd(), output, 'augment-api.ts'), (): string =>
+  try {
+    customLookupDefinitions = {
+      rpc: {},
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+      types: require(assertFile(path.join(outputPath, 'lookup.ts'))).default
+    };
+  } catch (error) {
+    console.error('ERROR: No lookup definitions found:', (error as Error).message);
+  }
+
+  generateDefaultConsts(path.join(outputPath, 'augment-api-consts.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultErrors(path.join(outputPath, 'augment-api-errors.ts'), metaHex, extraTypes, isStrict);
+  generateDefaultEvents(path.join(outputPath, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultQuery(path.join(outputPath, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultRpc(path.join(outputPath, 'augment-api-rpc.ts'), extraTypes);
+  generateDefaultTx(path.join(outputPath, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+  generateDefaultCalls(path.join(outputPath, 'augment-api-runtime.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
+
+  writeFile(path.join(outputPath, 'augment-api.ts'), (): string =>
     [
       HEADER('chain'),
       ...[
-        '@polkadot/api/augment/rpc',
-        ...['consts', 'errors', 'events', 'query', 'tx', 'rpc'].filter((key) => !!key).map((key) => `./augment-api-${key}`)
+        ...['consts', 'errors', 'events', 'query', 'tx', 'rpc', 'runtime']
+          .filter((key) => !!key)
+          .map((key) => `./augment-api-${key}`)
       ].map((path) => `import '${path}';\n`)
     ].join('')
   );
@@ -63,33 +87,13 @@ export function main (): void {
   }).argv as ArgV;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    try {
-      const websocket = new WebSocket(endpoint);
-
-      websocket.onclose = (event: { code: number; reason: string }): void => {
-        console.error(`disconnected, code: '${event.code}' reason: '${event.reason}'`);
-        process.exit(1);
-      };
-
-      websocket.onerror = (event: any): void => {
-        console.error(event);
-        process.exit(1);
-      };
-
-      websocket.onopen = (): void => {
-        console.log('connected');
-        websocket.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
-      };
-
-      websocket.onmessage = (message: any): void => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        generate(JSON.parse(message.data).result, pkg, output, isStrict);
-      };
-    } catch (error) {
-      process.exit(1);
-    }
+    getMetadataViaWs(endpoint)
+      .then((metadata) => generate(metadata, pkg, output, isStrict))
+      .catch(() => process.exit(1));
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access
-    generate(require(path.join(process.cwd(), endpoint)).result, pkg, output, isStrict);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const metadata = (require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result;
+
+    generate(metadata, pkg, output, isStrict);
   }
 }

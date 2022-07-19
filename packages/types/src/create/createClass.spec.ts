@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDefInfo } from '../types';
+import { TypeDefInfo } from '@polkadot/types-create';
+
 import { createClass, getTypeClass, TypeRegistry } from '.';
 
 describe('createClass', (): void => {
@@ -29,7 +30,11 @@ describe('getTypeClass', (): void => {
     const spy = jest.spyOn(console, 'warn');
     const typeDef = { info: TypeDefInfo.Plain, type: 'ABC' };
 
-    getTypeClass(registry, typeDef);
+    try {
+      getTypeClass(registry, typeDef);
+    } catch {
+      // ignore
+    }
 
     expect(spy).toHaveBeenCalledWith(
       expect.anything(),

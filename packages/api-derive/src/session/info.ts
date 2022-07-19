@@ -1,18 +1,17 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveSessionInfo } from '../types';
+import type { Observable } from 'rxjs';
+import type { DeriveApi, DeriveSessionInfo } from '../types';
 
-import { map } from '@polkadot/x-rxjs/operators';
+import { map } from 'rxjs';
 
 import { memo } from '../util';
 
 /**
  * @description Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
  */
-export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionInfo> {
+export function info (instanceId: string, api: DeriveApi): () => Observable<DeriveSessionInfo> {
   return memo(instanceId, (): Observable<DeriveSessionInfo> =>
     api.derive.session.indexes().pipe(
       map((indexes) => {

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Option, Struct, u32 } from '@polkadot/types';
+import type { Enum, Option, Struct, u32 } from '@polkadot/types-codec';
 import type { LeasePeriod } from '@polkadot/types/interfaces/parachains';
 import type { AccountId, Balance, BlockNumber, MultiSigner } from '@polkadot/types/interfaces/runtime';
 
@@ -29,6 +29,7 @@ export interface LastContribution extends Enum {
   readonly asPreEnding: u32;
   readonly isEnding: boolean;
   readonly asEnding: BlockNumber;
+  readonly type: 'Never' | 'PreEnding' | 'Ending';
 }
 
 /** @name TrieIndex */

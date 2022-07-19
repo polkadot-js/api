@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -6,14 +6,10 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+
 export default {
-  rpc: {
-    methods: {
-      description: 'Retrieves the list of RPC methods that are exposed by the node',
-      params: [],
-      type: 'RpcMethods'
-    }
-  },
+  rpc,
   types: {
     RpcMethods: {
       version: 'u32',

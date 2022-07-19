@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, u32 } from '@polkadot/types';
+import type { Option, u32, u64 } from '@polkadot/types';
 import type { BlockNumber, EraIndex, Moment, SessionIndex } from '@polkadot/types/interfaces';
 
 export interface DeriveSessionIndexes {
@@ -15,7 +15,7 @@ export interface DeriveSessionIndexes {
 export interface DeriveSessionInfo extends DeriveSessionIndexes {
   eraLength: BlockNumber;
   isEpoch: boolean;
-  sessionLength: BlockNumber;
+  sessionLength: u64;
   sessionsPerEra: SessionIndex;
 }
 

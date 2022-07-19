@@ -1,9 +1,16 @@
 {{> header }}
 
-{{{ imports }}}
+// import type lookup before we augment - in some environments
+// this is required to allow for ambient/previous definitions
+import '@polkadot/api-base/types/storage';
 
-declare module '@polkadot/api/types/storage' {
-  export interface AugmentedQueries<ApiType> {
+{{{ importsAll }}}
+
+export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType, () => unknown>;
+export type __QueryableStorageEntry<ApiType extends ApiTypes> = QueryableStorageEntry<ApiType>;
+
+declare module '@polkadot/api-base/types/storage' {
+  interface AugmentedQueries<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}
@@ -18,12 +25,5 @@ declare module '@polkadot/api/types/storage' {
       {{/unless}}
     };
     {{/each}}
-  }
-
-  export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
-    {{#unless isStrict}}
-    [key: string]: QueryableModuleStorage<ApiType>;
-    {{/unless}}
-  }
-}
-{{> footer }}
+  } // AugmentedQueries
+} // declare module

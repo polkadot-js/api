@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "resolveJsonModule": true,
+    "noEmit": true
+  },
+  "include": [
+    "**/checkTypes.manual.ts",
+    "**/*.spec.ts"
+  ],
+  "references": [
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-augment/tsconfig.build.json" },
+    { "path": "../types-codec/tsconfig.build.json" },
+    { "path": "../types-create/tsconfig.build.json" },
+    { "path": "../types-support/tsconfig.build.json" }
+  ]
+}

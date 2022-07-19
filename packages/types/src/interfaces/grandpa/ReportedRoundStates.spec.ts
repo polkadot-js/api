@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import json3 from '@polkadot/types-support/json/GrandpaRoundstate.001.json' assert { type: 'json' };
+
 import { TypeRegistry } from '../../create';
-import json3 from '../../json/GrandpaRoundstate.001.json';
 
 describe('ReportedRoundStates', (): void => {
   const registry = new TypeRegistry();

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Struct, Vec, u32 } from '@polkadot/types';
+import type { Bytes, Struct, Vec, WrapperOpaque, u32 } from '@polkadot/types-codec';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { BlockNumber } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
@@ -30,7 +30,7 @@ export interface HeartbeatTo244 extends Struct {
 }
 
 /** @name OpaqueMultiaddr */
-export interface OpaqueMultiaddr extends Bytes {}
+export interface OpaqueMultiaddr extends WrapperOpaque<Bytes> {}
 
 /** @name OpaqueNetworkState */
 export interface OpaqueNetworkState extends Struct {
@@ -39,6 +39,6 @@ export interface OpaqueNetworkState extends Struct {
 }
 
 /** @name OpaquePeerId */
-export interface OpaquePeerId extends Bytes {}
+export interface OpaquePeerId extends WrapperOpaque<Bytes> {}
 
 export type PHANTOM_IMONLINE = 'imOnline';

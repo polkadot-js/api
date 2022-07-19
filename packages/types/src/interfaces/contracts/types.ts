@@ -1,8 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, Enum, Null, Option, Raw, Struct, Text, U8aFixed, bool, u32, u64, u8 } from '@polkadot/types';
+import type { Bytes, Compact, Enum, Null, Option, Raw, Result, Set, Struct, Text, U8aFixed, bool, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/interfaces/runtime';
+import type { DispatchError } from '@polkadot/types/interfaces/system';
 
 /** @name AliveContractInfo */
 export interface AliveContractInfo extends Struct {
@@ -20,51 +21,83 @@ export interface AliveContractInfo extends Struct {
 /** @name CodeHash */
 export interface CodeHash extends Hash {}
 
+/** @name CodeSource */
+export interface CodeSource extends Enum {
+  readonly isUpload: boolean;
+  readonly asUpload: Bytes;
+  readonly isExisting: boolean;
+  readonly asExisting: Hash;
+  readonly type: 'Upload' | 'Existing';
+}
+
+/** @name CodeUploadRequest */
+export interface CodeUploadRequest extends Struct {
+  readonly origin: AccountId;
+  readonly code: Bytes;
+  readonly storageDepositLimit: Option<Balance>;
+}
+
+/** @name CodeUploadResult */
+export interface CodeUploadResult extends Result<CodeUploadResultValue, DispatchError> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchError;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: DispatchError;
+  readonly isOk: boolean;
+  readonly asOk: CodeUploadResultValue;
+}
+
+/** @name CodeUploadResultValue */
+export interface CodeUploadResultValue extends Struct {
+  readonly codeHash: CodeHash;
+  readonly deposit: Balance;
+}
+
+/** @name ContractCallFlags */
+export interface ContractCallFlags extends Set {
+  readonly isForwardInput: boolean;
+  readonly isCloneInput: boolean;
+  readonly isTailCall: boolean;
+  readonly isAllowReentry: boolean;
+}
+
 /** @name ContractCallRequest */
 export interface ContractCallRequest extends Struct {
   readonly origin: AccountId;
   readonly dest: AccountId;
   readonly value: Balance;
   readonly gasLimit: u64;
+  readonly storageDepositLimit: Option<Balance>;
   readonly inputData: Bytes;
 }
 
 /** @name ContractExecResult */
 export interface ContractExecResult extends Struct {
   readonly gasConsumed: u64;
+  readonly gasRequired: u64;
+  readonly storageDeposit: StorageDeposit;
   readonly debugMessage: Text;
   readonly result: ContractExecResultResult;
 }
 
-/** @name ContractExecResultErr */
-export interface ContractExecResultErr extends Enum {
-  readonly isOther: boolean;
-  readonly asOther: Text;
-  readonly isCannotLookup: boolean;
-  readonly isBadOrigin: boolean;
-  readonly isModule: boolean;
-  readonly asModule: ContractExecResultErrModule;
-}
-
-/** @name ContractExecResultErrModule */
-export interface ContractExecResultErrModule extends Struct {
-  readonly index: u8;
-  readonly error: u8;
-  readonly message: Option<Text>;
-}
-
 /** @name ContractExecResultOk */
 export interface ContractExecResultOk extends Struct {
-  readonly flags: u32;
+  readonly flags: ContractReturnFlags;
   readonly data: Bytes;
 }
 
 /** @name ContractExecResultResult */
-export interface ContractExecResultResult extends Enum {
+export interface ContractExecResultResult extends Result<ContractExecResultOk, DispatchError> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchError;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: DispatchError;
   readonly isOk: boolean;
   readonly asOk: ContractExecResultOk;
-  readonly isErr: boolean;
-  readonly asErr: ContractExecResultErr;
 }
 
 /** @name ContractExecResultSuccessTo255 */
@@ -75,7 +108,7 @@ export interface ContractExecResultSuccessTo255 extends Struct {
 
 /** @name ContractExecResultSuccessTo260 */
 export interface ContractExecResultSuccessTo260 extends Struct {
-  readonly flags: u32;
+  readonly flags: ContractReturnFlags;
   readonly data: Bytes;
   readonly gasConsumed: u64;
 }
@@ -85,6 +118,7 @@ export interface ContractExecResultTo255 extends Enum {
   readonly isSuccess: boolean;
   readonly asSuccess: ContractExecResultSuccessTo255;
   readonly isError: boolean;
+  readonly type: 'Success' | 'Error';
 }
 
 /** @name ContractExecResultTo260 */
@@ -92,6 +126,14 @@ export interface ContractExecResultTo260 extends Enum {
   readonly isSuccess: boolean;
   readonly asSuccess: ContractExecResultSuccessTo260;
   readonly isError: boolean;
+  readonly type: 'Success' | 'Error';
+}
+
+/** @name ContractExecResultTo267 */
+export interface ContractExecResultTo267 extends Struct {
+  readonly gasConsumed: u64;
+  readonly debugMessage: Text;
+  readonly result: ContractExecResultResult;
 }
 
 /** @name ContractInfo */
@@ -100,13 +142,39 @@ export interface ContractInfo extends Enum {
   readonly asAlive: AliveContractInfo;
   readonly isTombstone: boolean;
   readonly asTombstone: TombstoneContractInfo;
+  readonly type: 'Alive' | 'Tombstone';
 }
 
 /** @name ContractInstantiateResult */
-export interface ContractInstantiateResult extends Enum {
-  readonly isOk: boolean;
-  readonly asOk: InstantiateReturnValue;
+export interface ContractInstantiateResult extends Struct {
+  readonly gasConsumed: u64;
+  readonly gasRequired: u64;
+  readonly storageDeposit: StorageDeposit;
+  readonly debugMessage: Text;
+  readonly result: InstantiateReturnValue;
+}
+
+/** @name ContractInstantiateResultTo267 */
+export interface ContractInstantiateResultTo267 extends Result<InstantiateReturnValueTo267, Null> {
   readonly isErr: boolean;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  readonly isOk: boolean;
+  readonly asOk: InstantiateReturnValueTo267;
+}
+
+/** @name ContractInstantiateResultTo299 */
+export interface ContractInstantiateResultTo299 extends Result<InstantiateReturnValueOk, Null> {
+  readonly isErr: boolean;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  readonly isOk: boolean;
+  readonly asOk: InstantiateReturnValueOk;
+}
+
+/** @name ContractReturnFlags */
+export interface ContractReturnFlags extends Set {
+  readonly isRevert: boolean;
 }
 
 /** @name ContractStorageKey */
@@ -120,7 +188,7 @@ export interface DeletedContract extends Struct {
 
 /** @name ExecReturnValue */
 export interface ExecReturnValue extends Struct {
-  readonly flags: u32;
+  readonly flags: ContractReturnFlags;
   readonly data: Bytes;
 }
 
@@ -235,15 +303,55 @@ export interface HostFnWeightsTo264 extends Struct {
 /** @name InstantiateRequest */
 export interface InstantiateRequest extends Struct {
   readonly origin: AccountId;
-  readonly endowment: Balance;
+  readonly value: Balance;
+  readonly gasLimit: Gas;
+  readonly storageDepositLimit: Option<Balance>;
+  readonly code: CodeSource;
+  readonly data: Bytes;
+  readonly salt: Bytes;
+}
+
+/** @name InstantiateRequestV1 */
+export interface InstantiateRequestV1 extends Struct {
+  readonly origin: AccountId;
+  readonly value: Balance;
   readonly gasLimit: Gas;
   readonly code: Bytes;
   readonly data: Bytes;
   readonly salt: Bytes;
 }
 
+/** @name InstantiateRequestV2 */
+export interface InstantiateRequestV2 extends Struct {
+  readonly origin: AccountId;
+  readonly value: Balance;
+  readonly gasLimit: Gas;
+  readonly storageDepositLimit: Option<Balance>;
+  readonly code: Bytes;
+  readonly data: Bytes;
+  readonly salt: Bytes;
+}
+
 /** @name InstantiateReturnValue */
-export interface InstantiateReturnValue extends Struct {
+export interface InstantiateReturnValue extends Result<InstantiateReturnValueOk, DispatchError> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchError;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: DispatchError;
+  readonly isOk: boolean;
+  readonly asOk: InstantiateReturnValueOk;
+}
+
+/** @name InstantiateReturnValueOk */
+export interface InstantiateReturnValueOk extends Struct {
+  readonly result: ExecReturnValue;
+  readonly accountId: AccountId;
+}
+
+/** @name InstantiateReturnValueTo267 */
+export interface InstantiateReturnValueTo267 extends Struct {
   readonly result: ExecReturnValue;
   readonly accountId: AccountId;
   readonly rentProjection: Option<RentProjection>;
@@ -345,6 +453,7 @@ export interface RentProjection extends Enum {
   readonly isEvictionAt: boolean;
   readonly asEvictionAt: BlockNumber;
   readonly isNoEviction: boolean;
+  readonly type: 'EvictionAt' | 'NoEviction';
 }
 
 /** @name Schedule */
@@ -406,6 +515,15 @@ export interface ScheduleTo264 extends Struct {
 
 /** @name SeedOf */
 export interface SeedOf extends Hash {}
+
+/** @name StorageDeposit */
+export interface StorageDeposit extends Enum {
+  readonly isRefund: boolean;
+  readonly asRefund: Balance;
+  readonly isCharge: boolean;
+  readonly asCharge: Balance;
+  readonly type: 'Refund' | 'Charge';
+}
 
 /** @name TombstoneContractInfo */
 export interface TombstoneContractInfo extends Hash {}

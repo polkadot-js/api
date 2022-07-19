@@ -1,15 +1,15 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { Observable } from 'rxjs';
 import type { HeaderExtended } from '../type/types';
+import type { DeriveApi } from '../types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { createHeaderExtended } from '../type';
 import { memo } from '../util';
+import { getAuthorDetails } from './util';
 
 /**
  * @name subscribeNewHeads
@@ -24,18 +24,22 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function subscribeNewHeads (instanceId: string, api: ApiInterfaceRx): () => Observable<HeaderExtended> {
+export function subscribeNewHeads (instanceId: string, api: DeriveApi): () => Observable<HeaderExtended> {
   return memo(instanceId, (): Observable<HeaderExtended> =>
-    combineLatest([
-      api.rpc.chain.subscribeNewHeads(),
-      api.query.session
-        ? api.query.session.validators()
-        : of(undefined)
-    ]).pipe(
-      map(([header, validators]): HeaderExtended => {
+    api.rpc.chain.subscribeNewHeads().pipe(
+      switchMap((header) =>
+        combineLatest([
+          of(header),
+          api.queryAt(header.hash)
+        ])
+      ),
+      switchMap(([header, queryAt]) =>
+        getAuthorDetails(header, queryAt)
+      ),
+      map(([header, validators, author]): HeaderExtended => {
         header.createdAtHash = header.hash;
 
-        return createHeaderExtended(header.registry, header, validators);
+        return createHeaderExtended(header.registry, header, validators, author);
       })
     )
   );

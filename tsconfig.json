@@ -1,38 +1,13 @@
 {
-  "extends": "@polkadot/dev/config/tsconfig.json",
-  "exclude": [
-    "build/**/*",
-    "**/build/**/*",
-    "docs/examples/promise/90_typegen/*"
-  ],
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths":
-    {
-      "@polkadot/api": ["packages/api/src"],
-      "@polkadot/api/package-info.json": ["packages/api/package.json"],
-      "@polkadot/api/*": ["packages/api/src/*"],
-      "@polkadot/api-contract": ["packages/api-contract/src"],
-      "@polkadot/api-contract/*": ["packages/api-contract/src/*"],
-      "@polkadot/api-derive": ["packages/api-derive/src"],
-      "@polkadot/api-derive/*": ["packages/api-derive/src/*"],
-      "@polkadot/metadata": ["packages/metadata/src"],
-      "@polkadot/metadata/package-info.json": ["packages/metadata/package.json"],
-      "@polkadot/metadata/*": ["packages/metadata/src/*"],
-      "@polkadot/rpc-core": ["packages/rpc-core/src"],
-      "@polkadot/rpc-core/*": ["packages/rpc-core/src/*"],
-      "@polkadot/rpc-provider": ["packages/rpc-provider/src"],
-      "@polkadot/rpc-provider/*": ["packages/rpc-provider/src/*"],
-      "@polkadot/types": ["packages/types/src"],
-      "@polkadot/types/package-info.json": ["packages/types/package.json"],
-      "@polkadot/types/*": ["packages/types/src/*"],
-      "@polkadot/types-known": ["packages/types-known/src"],
-      "@polkadot/types-known/*": ["packages/types-known/src/*"]
-    },
-    "skipLibCheck": true,
-    "typeRoots": [
-      "./node_modules/@polkadot/ts",
-      "./node_modules/@types"
-    ]
-  }
+    "baseUrl": "./packages",
+    "composite": false
+  },
+  "include": [
+    "packages/**/src/**/*"
+  ],
+  "exclude": [
+    "**/node_modules/**/*"
+  ]
 }

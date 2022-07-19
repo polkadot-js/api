@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/api-contract authors & contributors
+// Copyright 2017-2022 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiBase } from '@polkadot/api/base';
 import type { ApiTypes } from '@polkadot/api/types';
 import type { Text, u64 } from '@polkadot/types';
-import type { ContractExecResultResult, ContractSelector } from '@polkadot/types/interfaces';
-import type { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
+import type { ContractExecResultResult, ContractSelector, StorageDeposit } from '@polkadot/types/interfaces';
+import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { Abi } from '.';
 
@@ -40,9 +40,10 @@ export interface AbiMessage {
   isMutating?: boolean;
   isPayable?: boolean;
   method: string;
+  path: string[];
   returnType?: TypeDef | null;
   selector: ContractSelector;
-  toU8a: (params: CodecArg[]) => Uint8Array;
+  toU8a: (params: unknown[]) => Uint8Array;
 }
 
 export type AbiConstructor = AbiMessage;
@@ -55,8 +56,10 @@ export interface InterfaceContractCalls {
 export interface ContractCallOutcome {
   debugMessage: Text;
   gasConsumed: u64;
+  gasRequired: u64;
   output: Codec | null;
   result: ContractExecResultResult;
+  storageDeposit: StorageDeposit;
 }
 
 export interface DecodedEvent {
@@ -69,13 +72,12 @@ export interface DecodedMessage {
   message: AbiMessage;
 }
 
-export interface BlueprintOptions {
-  gasLimit?: BigInt | string | number | BN;
-  salt?: Uint8Array | string | null;
-  value?: BigInt | string | number | BN;
+export interface ContractOptions {
+  gasLimit?: bigint | string | number | BN;
+  storageDepositLimit?: bigint | string | number | BN | null;
+  value?: bigint | BN | string | number;
 }
 
-export interface ContractOptions {
-  gasLimit?: BigInt | BN | string | number;
-  value?: BigInt | BN | string | number;
+export interface BlueprintOptions extends ContractOptions {
+  salt?: Uint8Array | string | null;
 }

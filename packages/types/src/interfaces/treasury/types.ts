@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Option, Struct, Vec, bool, u32 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
+import type { Enum, Option, Struct, Vec, bool, u32 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId, Balance, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name Bounty */
@@ -29,6 +29,7 @@ export interface BountyStatus extends Enum {
   readonly asActive: BountyStatusActive;
   readonly isPendingPayout: boolean;
   readonly asPendingPayout: BountyStatusPendingPayout;
+  readonly type: 'Proposed' | 'Approved' | 'Funded' | 'CuratorProposed' | 'Active' | 'PendingPayout';
 }
 
 /** @name BountyStatusActive */

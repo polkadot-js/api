@@ -1,17 +1,17 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '../create/types';
+import type { AnyJson, Codec, CodecClass } from '@polkadot/types-codec/types';
+import type { TypeDef } from '@polkadot/types-create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { EventId } from '../interfaces/system';
-import type { AnyJson, Codec, Constructor, IEvent, IEventData, Registry } from '../types';
+import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types';
 
-import { Struct } from '../codec/Struct';
-import { Tuple } from '../codec/Tuple';
-import { Null } from '../primitive/Null';
+import { Null, Struct, Tuple } from '@polkadot/types-codec';
+import { objectProperties, objectSpread } from '@polkadot/util';
 
 interface Decoded {
-  DataType: Constructor<Null> | Constructor<GenericEventData>;
+  DataType: CodecClass<Null> | CodecClass<GenericEventData>;
   value?: {
     index: Uint8Array;
     data: Uint8Array;
@@ -45,17 +45,31 @@ export class GenericEventData extends Tuple implements IEventData {
 
   readonly #method: string;
 
+  readonly #names: string[] | null = null;
+
   readonly #section: string;
 
   readonly #typeDef: TypeDef[];
 
-  constructor (registry: Registry, value: Uint8Array, Types: Constructor[] = [], typeDef: TypeDef[] = [], meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
-    super(registry, Types, value);
+  constructor (registry: Registry, value: Uint8Array, meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
+    const fields = meta?.fields || [];
+
+    super(registry, fields.map(({ type }) => registry.createLookupType(type) as keyof InterfaceTypes), value);
 
     this.#meta = meta;
     this.#method = method;
     this.#section = section;
-    this.#typeDef = typeDef;
+    this.#typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
+
+    const names = fields
+      .map(({ name }) => registry.lookup.sanitizeField(name)[0])
+      .filter((n): n is string => !!n);
+
+    if (names.length === fields.length) {
+      this.#names = names;
+
+      objectProperties(this, names, (_, i) => this[i]);
+    }
   }
 
   /**
@@ -73,6 +87,13 @@ export class GenericEventData extends Tuple implements IEventData {
   }
 
   /**
+   * @description The field names (as available)
+   */
+  public get names (): string[] | null {
+    return this.#names;
+  }
+
+  /**
    * @description The section as a string
    */
   public get section (): string {
@@ -84,6 +105,23 @@ export class GenericEventData extends Tuple implements IEventData {
    */
   public get typeDef (): TypeDef[] {
     return this.#typeDef;
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
+  public override toHuman (isExtended?: boolean): AnyJson {
+    if (this.#names !== null) {
+      const json: Record<string, AnyJson> = {};
+
+      for (let i = 0; i < this.#names.length; i++) {
+        json[this.#names[i]] = this[i].toHuman(isExtended);
+      }
+
+      return json;
+    }
+
+    return super.toHuman(isExtended);
   }
 }
 
@@ -109,15 +147,15 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
   /**
    * @description The wrapped [[EventData]]
    */
-  public get data (): GenericEventData {
-    return this.get('data') as GenericEventData;
+  public get data (): IEvent<Codec[]>['data'] {
+    return this.getT('data');
   }
 
   /**
    * @description The [[EventId]], identifying the raw event
    */
   public get index (): EventId {
-    return this.get('index') as EventId;
+    return this.getT('index');
   }
 
   /**
@@ -152,14 +190,15 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public override toHuman (isExpanded?: boolean): Record<string, AnyJson> {
-    return {
-      method: this.method,
-      section: this.section,
-      ...(isExpanded
-        ? { documentation: this.meta.documentation.map((d) => d.toString()) }
-        : {}
-      ),
-      ...super.toHuman(isExpanded)
-    };
+    return objectSpread(
+      {
+        method: this.method,
+        section: this.section
+      },
+      isExpanded
+        ? { docs: this.meta.docs.map((d) => d.toString()) }
+        : null,
+      super.toHuman(isExpanded)
+    );
   }
 }

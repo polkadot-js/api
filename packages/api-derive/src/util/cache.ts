@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCache } from './types';
@@ -18,7 +18,7 @@ function wrapCache (keyStart: string, cache: DeriveCache): DeriveCache {
   return {
     del: (partial: string): void => cache.del(`${keyStart}${partial}`),
     forEach: cache.forEach,
-    get: <T = any> (partial: string): T | undefined => {
+    get: <T> (partial: string): T | undefined => {
       const key = `${keyStart}${partial}`;
       const cached = cache.get<CacheValue<T>>(key);
 
@@ -40,7 +40,7 @@ function wrapCache (keyStart: string, cache: DeriveCache): DeriveCache {
 function clearCache (cache: DeriveCache): void {
   // clear all expired values
   const now = Date.now();
-  const all: any[] = [];
+  const all: string[] = [];
 
   cache.forEach((key: string, { x }: CacheValue<any>): void => {
     ((now - x) > CHACHE_EXPIRY) && all.push(key);

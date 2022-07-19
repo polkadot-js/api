@@ -1,49 +1,43 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignOptions } from '@polkadot/keyring/types';
-import type { BN } from '@polkadot/util';
+import type { AnyTuple, Codec, IMethod as IMethodBase, INumber, IText } from '@polkadot/types-codec/types';
 import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../interfaces/metadata';
-import type { Hash } from '../interfaces/runtime';
-import type { AnyTuple, ArgsDef, Codec } from './codec';
+import type { Registry } from './registry';
 
-export interface ICompact<T> extends Codec {
-  toBigInt (): bigint;
-  toBn (): BN;
-  toNumber (): number;
-  unwrap (): T;
+export type { ICompact, IEnum, IMap, INumber, IOption, IResult, ISet, IStruct, IText, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
+
+export interface IMethod<A extends AnyTuple = AnyTuple, M = FunctionMetadataLatest> extends IMethodBase<A, M> {
+  readonly registry: Registry;
 }
 
 export interface IKeyringPair {
-  address: string;
-  addressRaw: Uint8Array;
-  publicKey: Uint8Array;
+  readonly address: string;
+  readonly addressRaw: Uint8Array;
+  readonly publicKey: Uint8Array;
 
   sign: (data: Uint8Array, options?: SignOptions) => Uint8Array;
 }
 
-export interface IMethod<A extends AnyTuple = AnyTuple> extends Codec {
-  readonly args: A;
-  readonly argsDef: ArgsDef;
-  readonly callIndex: Uint8Array;
-  readonly data: Uint8Array;
-  readonly hash: Hash;
-  readonly meta: FunctionMetadataLatest;
-
-  is: (tx: IMethod<AnyTuple>) => tx is IMethod<A>;
+export interface IRuntimeVersionBase {
+  readonly apis: unknown[];
+  readonly authoringVersion: unknown;
+  readonly implName: unknown;
+  readonly implVersion: unknown;
+  readonly specName: unknown;
+  readonly specVersion: unknown;
+  readonly transactionVersion: unknown;
 }
 
-export interface IRuntimeVersion {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly apis: any[];
-  readonly authoringVersion: BN;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  readonly implName: String;
-  readonly implVersion: BN;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  readonly specName: String;
-  readonly specVersion: BN;
-  readonly transactionVersion: BN;
+export interface IRuntimeVersion extends IRuntimeVersionBase {
+  readonly apis: Codec[];
+  readonly authoringVersion: INumber;
+  readonly implName: IText;
+  readonly implVersion: INumber;
+  readonly specName: IText;
+  readonly specVersion: INumber;
+  readonly transactionVersion: INumber;
 }
 
 export interface IStorageKey<A extends AnyTuple> {
@@ -54,14 +48,4 @@ export interface IStorageKey<A extends AnyTuple> {
   readonly section: string | undefined;
 
   is: (key: IStorageKey<AnyTuple>) => key is IStorageKey<A>;
-}
-
-// A type alias for [Type1, Type2] & Codec, representing a tuple (Type1, Type2)
-// FIXME Implement this generic <Sub> on Tuple.ts itself.
-export type ITuple<Sub extends AnyTuple> = Sub & Codec
-
-export interface IU8a extends Uint8Array, Codec {
-  bitLength (): number;
-  toHuman (isExtended?: boolean): any;
-  toJSON (): any;
 }

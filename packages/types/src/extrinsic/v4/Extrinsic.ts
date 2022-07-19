@@ -1,14 +1,14 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics';
 import type { Address, Call } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicOptions } from '../types';
 
+import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
-
-import { Struct } from '../../codec/Struct';
 
 export const EXTRINSIC_VERSION = 4;
 
@@ -35,12 +35,12 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
     if (value instanceof GenericExtrinsicV4) {
       return value;
-    } else if (value instanceof registry.createClass('Call')) {
-      return { method: value };
+    } else if (value instanceof registry.createClassUnsafe('Call')) {
+      return { method: value as Call };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = registry.createType('ExtrinsicSignatureV4', value, { isSigned });
-      const method = registry.createType('Call', value.subarray(signature.encodedLength));
+      const signature = registry.createTypeUnsafe<ExtrinsicSignatureV4>('ExtrinsicSignatureV4', [value, { isSigned }]);
+      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
 
       return {
         method,
@@ -48,7 +48,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
       };
     }
 
-    return value || {};
+    return (value as ExtrinsicValueV4) || {};
   }
 
   /**
@@ -62,14 +62,14 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
    * @description The [[Call]] this extrinsic wraps
    */
   public get method (): Call {
-    return this.get('method') as Call;
+    return this.getT('method');
   }
 
   /**
    * @description The [[ExtrinsicSignatureV4]]
    */
   public get signature (): ExtrinsicSignatureV4 {
-    return this.get('signature') as ExtrinsicSignatureV4;
+    return this.getT('signature');
   }
 
   /**
@@ -82,7 +82,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   /**
    * @description Add an [[ExtrinsicSignatureV4]] to the extrinsic (already generated)
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): GenericExtrinsicV4 {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV4 {
     this.signature.addSignature(signer, signature, payload);
 
     return this;

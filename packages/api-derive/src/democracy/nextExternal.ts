@@ -1,19 +1,18 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { Option } from '@polkadot/types';
-import type { Hash, VoteThreshold } from '@polkadot/types/interfaces';
+import type { H256 } from '@polkadot/types/interfaces';
+import type { PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveProposalExternal } from '../types';
+import type { DeriveApi, DeriveProposalExternal } from '../types';
 
-import { of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-function withImage (api: ApiInterfaceRx, nextOpt: Option<ITuple<[Hash, VoteThreshold]>>): Observable<DeriveProposalExternal | null> {
+function withImage (api: DeriveApi, nextOpt: Option<ITuple<[H256, PalletDemocracyVoteThreshold]>>): Observable<DeriveProposalExternal | null> {
   if (nextOpt.isNone) {
     return of(null);
   }
@@ -29,10 +28,10 @@ function withImage (api: ApiInterfaceRx, nextOpt: Option<ITuple<[Hash, VoteThres
   );
 }
 
-export function nextExternal (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveProposalExternal | null> {
+export function nextExternal (instanceId: string, api: DeriveApi): () => Observable<DeriveProposalExternal | null> {
   return memo(instanceId, (): Observable<DeriveProposalExternal | null> =>
     api.query.democracy?.nextExternal
-      ? api.query.democracy.nextExternal<Option<ITuple<[Hash, VoteThreshold]>>>().pipe(
+      ? api.query.democracy.nextExternal().pipe(
         switchMap((nextOpt) => withImage(api, nextOpt))
       )
       : of(null)

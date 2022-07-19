@@ -1,24 +1,23 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
-import type { Address, Balance, Call, Index } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IExtrinsicSignature, IKeyringPair, Registry, SignatureOptions } from '../../types';
+import type { Address, Call } from '../../interfaces/runtime';
+import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, Registry, SignatureOptions } from '../../types';
 import type { ExtrinsicSignatureOptions } from '../types';
 
-import { assert, isU8a, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { Struct } from '@polkadot/types-codec';
+import { isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
 
-import { Compact } from '../../codec/Compact';
-import { Enum } from '../../codec/Enum';
-import { Struct } from '../../codec/Struct';
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
 import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
 
-const FAKE_NONE = new Uint8Array();
-const FAKE_SOME = new Uint8Array([1]);
+// Ensure we have enough data for all types of signatures
+const FAKE_SIGNATURE = new Uint8Array(256).fill(1);
 
 function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
-  return registry.createType('Address', isU8a(address) ? u8aToHex(address) : address);
+  return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
 }
 
 /**
@@ -27,19 +26,24 @@ function toAddress (registry: Registry, address: Address | Uint8Array | string):
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
-  #fakePrefix: Uint8Array;
+  #signKeys: string[];
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
-    super(registry, {
-      signer: 'Address',
-      // eslint-disable-next-line sort-keys
-      signature: 'ExtrinsicSignature',
-      ...registry.getSignedExtensionTypes()
-    }, GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned));
+    const signTypes = registry.getSignedExtensionTypes();
 
-    this.#fakePrefix = registry.createType('ExtrinsicSignature') instanceof Enum
-      ? FAKE_SOME
-      : FAKE_NONE;
+    super(
+      registry,
+      objectSpread(
+        // eslint-disable-next-line sort-keys
+        { signer: 'Address', signature: 'ExtrinsicSignature' },
+        signTypes
+      ),
+      GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned)
+    );
+
+    this.#signKeys = Object.keys(signTypes);
+
+    objectProperties(this, this.#signKeys, (k) => this.get(k));
   }
 
   /** @internal */
@@ -75,14 +79,14 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
    */
   public get era (): ExtrinsicEra {
-    return this.get('era') as ExtrinsicEra;
+    return this.getT('era');
   }
 
   /**
    * @description The [[Index]] for the signature
    */
-  public get nonce (): Compact<Index> {
-    return this.get('nonce') as Compact<Index>;
+  public get nonce (): ICompact<INumber> {
+    return this.getT('nonce');
   }
 
   /**
@@ -97,29 +101,37 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description The raw [[ExtrinsicSignature]]
    */
   public get multiSignature (): ExtrinsicSignature {
-    return this.get('signature') as ExtrinsicSignature;
+    return this.getT('signature');
   }
 
   /**
    * @description The [[Address]] that signed
    */
   public get signer (): Address {
-    return this.get('signer') as Address;
+    return this.getT('signer');
   }
 
   /**
    * @description The [[Balance]] tip
    */
-  public get tip (): Compact<Balance> {
-    return this.get('tip') as Compact<Balance>;
+  public get tip (): ICompact<INumber> {
+    return this.getT('tip');
   }
 
-  protected _injectSignature (signer: Address, signature: ExtrinsicSignature, { era, nonce, tip }: GenericExtrinsicPayloadV4): IExtrinsicSignature {
-    this.set('era', era);
-    this.set('nonce', nonce);
+  protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV4): IExtrinsicSignature {
+    // use the fields exposed to guide the getters
+    for (let i = 0; i < this.#signKeys.length; i++) {
+      const k = this.#signKeys[i];
+      const v = payload.get(k);
+
+      if (!isUndefined(v)) {
+        this.set(k, v);
+      }
+    }
+
+    // additional fields (exposed in struct itself)
     this.set('signer', signer);
     this.set('signature', signature);
-    this.set('tip', tip);
 
     return this;
   }
@@ -127,10 +139,10 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description Adds a raw signature
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): IExtrinsicSignature {
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): IExtrinsicSignature {
     return this._injectSignature(
       toAddress(this.registry, signer),
-      this.registry.createType('ExtrinsicSignature', signature),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [signature]),
       new GenericExtrinsicPayloadV4(this.registry, payload)
     );
   }
@@ -138,43 +150,49 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description Creates a payload from the supplied options
    */
-  public createPayload (method: Call, { blockHash, era, genesisHash, nonce, runtimeVersion: { specVersion, transactionVersion }, tip }: SignatureOptions): GenericExtrinsicPayloadV4 {
-    return new GenericExtrinsicPayloadV4(this.registry, {
-      blockHash,
+  public createPayload (method: Call, options: SignatureOptions): GenericExtrinsicPayloadV4 {
+    const { era, runtimeVersion: { specVersion, transactionVersion } } = options;
+
+    return new GenericExtrinsicPayloadV4(this.registry, objectSpread<ExtrinsicPayloadValue>({}, options, {
       era: era || IMMORTAL_ERA,
-      genesisHash,
       method: method.toHex(),
-      nonce,
       specVersion,
-      tip: tip || 0,
-      transactionVersion: transactionVersion || 0
-    });
+      transactionVersion
+    }));
   }
 
   /**
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    assert(account && account.addressRaw, () => `Expected a valid keypair for signing, found ${stringify(account)}`);
+    if (!account || !account.addressRaw) {
+      throw new Error(`Expected a valid keypair for signing, found ${stringify(account)}`);
+    }
 
-    const signer = toAddress(this.registry, account.addressRaw);
     const payload = this.createPayload(method, options);
-    const signature = this.registry.createType('ExtrinsicSignature', payload.sign(account));
 
-    return this._injectSignature(signer, signature, payload);
+    return this._injectSignature(
+      toAddress(this.registry, account.addressRaw),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [payload.sign(account)]),
+      payload
+    );
   }
 
   /**
    * @description Generate a payload and applies a fake signature
    */
   public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
-    assert(address, () => `Expected a valid address for signing, found ${stringify(address)}`);
+    if (!address) {
+      throw new Error(`Expected a valid address for signing, found ${stringify(address)}`);
+    }
 
-    const signer = toAddress(this.registry, address);
     const payload = this.createPayload(method, options);
-    const signature = this.registry.createType('ExtrinsicSignature', u8aConcat(this.#fakePrefix, new Uint8Array(64).fill(0x42)));
 
-    return this._injectSignature(signer, signature, payload);
+    return this._injectSignature(
+      toAddress(this.registry, address),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [FAKE_SIGNATURE]),
+      payload
+    );
   }
 
   /**

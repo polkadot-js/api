@@ -1,0 +1,14 @@
+{{> header }}
+
+// import type lookup before we augment - in some environments
+// this is required to allow for ambient/previous definitions
+import '@polkadot/types/lookup';
+
+{{{ importsAll }}}
+
+declare module '@polkadot/types/lookup' {
+  {{#each items}}
+{{{this}}}
+
+  {{/each}}
+} // declare module

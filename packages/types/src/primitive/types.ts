@@ -1,12 +1,18 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StorageEntryMetadataLatest } from '../interfaces/metadata';
-import type { Codec } from '../types';
+import type { Codec, Inspect } from '../types';
+
+export interface StorageEntryIterator {
+  (...args: unknown[]): Uint8Array & Codec;
+  meta: StorageEntryMetadataLatest;
+}
 
 export interface StorageEntry {
-  (arg?: unknown): Uint8Array;
-  iterKey?: (...args: unknown[]) => Uint8Array & Codec;
+  (...args: unknown[]): Uint8Array;
+  iterKey?: StorageEntryIterator;
+  inspect: (...args: unknown[]) => Inspect;
   keyPrefix: (...args: unknown[]) => Uint8Array;
   meta: StorageEntryMetadataLatest;
   method: string;

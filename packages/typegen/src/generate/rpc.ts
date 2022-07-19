@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TypeRegistry } from '@polkadot/types/create';
@@ -8,6 +8,7 @@ import type { ExtraTypes } from './types';
 import Handlebars from 'handlebars';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
+import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 
 import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
 
@@ -24,13 +25,12 @@ interface ModuleDef {
   name: string;
 }
 
-const StorageKeyTye = 'StorageKey | string | Uint8Array | any';
+const StorageKeyType = 'StorageKey | string | Uint8Array | any';
 
-const template = readTemplate('rpc');
-const generateRpcTypesTemplate = Handlebars.compile(template);
+const generateRpcTypesTemplate = Handlebars.compile(readTemplate('rpc'));
 
 /** @internal */
-export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: ExtraTypes = {}): void {
+export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Record<string, Definitions>, dest: string, extraTypes: ExtraTypes): void {
   writeFile(dest, (): string => {
     const allTypes: ExtraTypes = { '@polkadot/types/interfaces': importDefinitions, ...extraTypes };
     const imports = createImports(allTypes);
@@ -46,7 +46,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
 
     const additional: Record<string, ModuleDef> = {};
     const modules = rpcKeys.map((sectionFullName) => {
-      const rpc = definitions[sectionFullName].rpc;
+      const rpc = definitions[sectionFullName].rpc || {};
       const section = sectionFullName.split('/').pop();
 
       const allMethods = Object.keys(rpc).sort().map((methodName) => {
@@ -62,19 +62,19 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
 
           if (methodName === 'getStorage') {
             generic = 'T = Codec';
-            args = [`key: ${StorageKeyTye}, block?: Hash | Uint8Array | string`];
+            args = [`key: ${StorageKeyType}, block?: Hash | Uint8Array | string`];
             type = 'T';
           } else if (methodName === 'queryStorage') {
             generic = 'T = Codec[]';
-            args = [`keys: Vec<StorageKey> | (${StorageKeyTye})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string`];
+            args = [`keys: Vec<StorageKey> | (${StorageKeyType})[], fromBlock?: Hash | Uint8Array | string, toBlock?: Hash | Uint8Array | string`];
             type = '[Hash, T][]';
           } else if (methodName === 'queryStorageAt') {
             generic = 'T = Codec[]';
-            args = [`keys: Vec<StorageKey> | (${StorageKeyTye})[], at?: Hash | Uint8Array | string`];
+            args = [`keys: Vec<StorageKey> | (${StorageKeyType})[], at?: Hash | Uint8Array | string`];
             type = 'T';
           } else if (methodName === 'subscribeStorage') {
             generic = 'T = Codec[]';
-            args = [`keys?: Vec<StorageKey> | (${StorageKeyTye})[]`];
+            args = [`keys?: Vec<StorageKey> | (${StorageKeyType})[]`];
             type = 'T';
           }
         }
@@ -90,7 +90,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
             return `${param.name}${param.isOptional ? '?' : ''}: ${similarTypes.join(' | ')}`;
           });
 
-          type = formatType(allDefs, def.type, imports);
+          type = formatType(registry, allDefs, def.type, imports);
           generic = '';
         }
 
@@ -126,24 +126,26 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
 
     imports.typesTypes.Observable = true;
 
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      }))
-    ];
-
     return generateRpcTypesTemplate({
       headerType: 'chain',
       imports,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath.replace('@polkadot/types-augment', '@polkadot/types'),
+          types: Object.keys(imports.localTypes[packagePath])
+        })),
+        {
+          file: '@polkadot/rpc-core/types',
+          types: ['AugmentedRpc']
+        }
+      ]
     });
   });
 }
 
-export function generateDefaultRpc (dest = 'packages/api/src/augment/rpc.ts', extraTypes: ExtraTypes = {}): void {
-  const { registry } = initMeta(undefined, extraTypes);
+export function generateDefaultRpc (dest = 'packages/rpc-augment/src/augment/jsonrpc.ts', extraTypes: ExtraTypes = {}): void {
+  const { registry } = initMeta(staticSubstrate, extraTypes);
 
   generateRpcTypes(
     registry,

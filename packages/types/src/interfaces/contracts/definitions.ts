@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -6,77 +6,12 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+import { runtime } from './runtime';
+
 export default {
-  rpc: {
-    call: {
-      description: 'Executes a call to a contract',
-      params: [
-        {
-          name: 'callRequest',
-          type: 'ContractCallRequest'
-        },
-        {
-          name: 'at',
-          type: 'BlockHash',
-          isHistoric: true,
-          isOptional: true
-        }
-      ],
-      type: 'ContractExecResult'
-    },
-    instantiate: {
-      description: 'Instantiate a new contract',
-      params: [
-        {
-          name: 'request',
-          type: 'InstantiateRequest'
-        },
-        {
-          name: 'at',
-          type: 'BlockHash',
-          isHstoric: true,
-          isOptional: true
-        }
-      ],
-      type: 'ContractInstantiateResult'
-    },
-    getStorage: {
-      description: 'Returns the value under a specified storage key in a contract',
-      params: [
-        {
-          name: 'address',
-          type: 'AccountId'
-        },
-        {
-          name: 'key',
-          type: 'H256'
-        },
-        {
-          name: 'at',
-          type: 'BlockHash',
-          isHistoric: true,
-          isOptional: true
-        }
-      ],
-      type: 'Option<Bytes>'
-    },
-    rentProjection: {
-      description: 'Returns the projected time a given contract will be able to sustain paying its rent',
-      params: [
-        {
-          name: 'address',
-          type: 'AccountId'
-        },
-        {
-          name: 'at',
-          type: 'BlockHash',
-          isHistoric: true,
-          isOptional: true
-        }
-      ],
-      type: 'Option<BlockNumber>'
-    }
-  },
+  rpc,
+  runtime,
   types: {
     AliveContractInfo: {
       trieId: 'TrieId',
@@ -90,11 +25,28 @@ export default {
       _reserved: 'Option<Null>'
     },
     CodeHash: 'Hash',
+    CodeSource: {
+      _enum: {
+        Upload: 'Bytes',
+        Existing: 'Hash'
+      }
+    },
+    CodeUploadRequest: {
+      origin: 'AccountId',
+      code: 'Bytes',
+      storageDepositLimit: 'Option<Balance>'
+    },
+    CodeUploadResult: 'Result<CodeUploadResultValue, DispatchError>',
+    CodeUploadResultValue: {
+      codeHash: 'CodeHash',
+      deposit: 'Balance'
+    },
     ContractCallRequest: {
       origin: 'AccountId',
       dest: 'AccountId',
       value: 'Balance',
       gasLimit: 'u64',
+      storageDepositLimit: 'Option<Balance>',
       inputData: 'Bytes'
     },
     ContractExecResultSuccessTo255: {
@@ -108,7 +60,7 @@ export default {
       }
     },
     ContractExecResultSuccessTo260: {
-      flags: 'u32',
+      flags: 'ContractReturnFlags',
       data: 'Bytes',
       gasConsumed: 'u64'
     },
@@ -118,31 +70,20 @@ export default {
         Error: 'Null'
       }
     },
-    ContractExecResultErrModule: {
-      index: 'u8',
-      error: 'u8',
-      message: 'Option<Text>'
-    },
-    ContractExecResultErr: {
-      _enum: {
-        Other: 'Text',
-        CannotLookup: 'Null',
-        BadOrigin: 'Null',
-        Module: 'ContractExecResultErrModule'
-      }
-    },
     ContractExecResultOk: {
-      flags: 'u32',
+      flags: 'ContractReturnFlags',
       data: 'Bytes'
     },
-    ContractExecResultResult: {
-      _enum: {
-        Ok: 'ContractExecResultOk',
-        Err: 'ContractExecResultErr'
-      }
+    ContractExecResultResult: 'Result<ContractExecResultOk, DispatchError>',
+    ContractExecResultTo267: {
+      gasConsumed: 'u64',
+      debugMessage: 'Text',
+      result: 'ContractExecResultResult'
     },
     ContractExecResult: {
       gasConsumed: 'u64',
+      gasRequired: 'u64',
+      storageDeposit: 'StorageDeposit',
       debugMessage: 'Text',
       result: 'ContractExecResultResult'
     },
@@ -152,13 +93,28 @@ export default {
         Tombstone: 'TombstoneContractInfo'
       }
     },
+    ContractCallFlags: {
+      _set: {
+        _bitLength: 32,
+        ForwardInput: 0b0000_0001,
+        CloneInput: 0b0000_0010,
+        TailCall: 0b0000_0100,
+        AllowReentry: 0b0000_1000
+      }
+    },
+    ContractReturnFlags: {
+      _set: {
+        _bitLength: 32,
+        Revert: 0x0000_0001
+      }
+    },
     ContractStorageKey: '[u8; 32]',
     DeletedContract: {
       pairCount: 'u32',
       trieId: 'TrieId'
     },
     ExecReturnValue: {
-      flags: 'u32',
+      flags: 'ContractReturnFlags',
       data: 'Bytes'
     },
     Gas: 'u64',
@@ -263,25 +219,54 @@ export default {
       hashBlake2128PerByte: 'Weight',
       rentParams: 'Weight'
     },
-    InstantiateRequest: {
+    InstantiateRequestV1: {
       origin: 'AccountId',
-      endowment: 'Balance',
+      value: 'Balance',
       gasLimit: 'Gas',
       code: 'Bytes',
       data: 'Bytes',
       salt: 'Bytes'
     },
-    ContractInstantiateResult: {
-      _enum: {
-        Ok: 'InstantiateReturnValue',
-        Err: 'Null'
-      }
+    InstantiateRequestV2: {
+      _fallback: 'InstantiateRequestV1',
+      origin: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'Gas',
+      storageDepositLimit: 'Option<Balance>',
+      code: 'Bytes',
+      data: 'Bytes',
+      salt: 'Bytes'
     },
-    InstantiateReturnValue: {
+    InstantiateRequest: {
+      _fallback: 'InstantiateRequestV2',
+      origin: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'Gas',
+      storageDepositLimit: 'Option<Balance>',
+      code: 'CodeSource',
+      data: 'Bytes',
+      salt: 'Bytes'
+    },
+    ContractInstantiateResultTo267: 'Result<InstantiateReturnValueTo267, Null>',
+    ContractInstantiateResultTo299: 'Result<InstantiateReturnValueOk, Null>',
+    ContractInstantiateResult: {
+      _fallback: 'ContractInstantiateResultTo299',
+      gasConsumed: 'u64',
+      gasRequired: 'u64',
+      storageDeposit: 'StorageDeposit',
+      debugMessage: 'Text',
+      result: 'InstantiateReturnValue'
+    },
+    InstantiateReturnValueTo267: {
       result: 'ExecReturnValue',
       accountId: 'AccountId',
       rentProjection: 'Option<RentProjection>'
     },
+    InstantiateReturnValueOk: {
+      result: 'ExecReturnValue',
+      accountId: 'AccountId'
+    },
+    InstantiateReturnValue: 'Result<InstantiateReturnValueOk, DispatchError>',
     InstructionWeights: {
       i64const: 'u32',
       i64load: 'u32',
@@ -421,6 +406,12 @@ export default {
       hostFnWeights: 'HostFnWeights'
     },
     SeedOf: 'Hash',
+    StorageDeposit: {
+      _enum: {
+        Refund: 'Balance',
+        Charge: 'Balance'
+      }
+    },
     TombstoneContractInfo: 'Hash',
     TrieId: 'Bytes'
   }

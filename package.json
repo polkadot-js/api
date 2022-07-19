@@ -1,38 +1,48 @@
 {
-  "repository": "https://github.com/polkadot-js/api",
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "license": "Apache-2",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "homepage": "https://github.com/polkadot-js/api#readme",
+  "license": "Apache-2.0",
+  "packageManager": "yarn@3.2.0",
   "private": true,
-  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "8.13.2-4-x",
+  "versions": {
+    "git": "8.13.2-4-x",
+    "npm": "8.13.1"
+  },
   "workspaces": [
     "packages/*"
   ],
-  "resolutions": {
-    "typescript": "^4.3.4"
-  },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
     "build:extra": "(cd packages/typegen && copyfiles scripts/* build)",
     "build:interfaces": "polkadot-types-internal-interfaces",
     "build:release": "polkadot-ci-ghact-build",
-    "docs:metadata": "polkadot-types-internal-metadata",
+    "build:rollup": "polkadot-exec-rollup --config",
     "chain:info": "polkadot-types-chain-info",
-    "lint": "polkadot-dev-run-lint",
     "clean": "polkadot-dev-clean-build",
+    "deno": "yarn polkadot-dev-deno-map && yarn build && deno check --import-map=import_map.json mod.ts",
+    "lint": "polkadot-dev-run-lint",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "polkadot-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
-    "test:one": "polkadot-dev-run-test --detectOpenHandles --forceExit",
-    "test:watch": "polkadot-dev-run-test --watch"
+    "test": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
+    "test:one": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --detectOpenHandles --forceExit"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/register": "^7.14.5",
-    "@babel/runtime": "^7.14.6",
-    "@polkadot/dev": "^0.62.43",
-    "@polkadot/ts": "^0.4.1",
+    "@babel/core": "^7.18.9",
+    "@babel/register": "^7.18.9",
+    "@babel/runtime": "^7.18.9",
+    "@polkadot/dev": "^0.67.84",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^28.1.6",
     "copyfiles": "^2.4.1"
   },
-  "version": "4.15.2-6"
+  "resolutions": {
+    "typescript": "^4.7.4"
+  }
 }

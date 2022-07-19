@@ -1,16 +1,17 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option, u64, Vec } from '@polkadot/types';
-import type { BlockNumber, Hash, ReferendumIndex, Scheduled } from '@polkadot/types/interfaces';
+import type { Observable } from 'rxjs';
+import type { Option, Vec } from '@polkadot/types';
+import type { BlockNumber, Call, Hash, ReferendumIndex, Scheduled } from '@polkadot/types/interfaces';
+import type { FrameSupportScheduleMaybeHashed, PalletSchedulerScheduledV3 } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveDispatch, DeriveProposalImage } from '../types';
+import type { DeriveApi, DeriveDispatch, DeriveProposalImage } from '../types';
 
+import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
+
+import { Enum } from '@polkadot/types';
 import { isFunction, stringToHex } from '@polkadot/util';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -22,7 +23,12 @@ interface SchedulerInfo {
   index: ReferendumIndex;
 }
 
-function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
+function isMaybeHashed (call: FrameSupportScheduleMaybeHashed | Call): call is FrameSupportScheduleMaybeHashed {
+  // check for enum
+  return call instanceof Enum;
+}
+
+function queryQueue (api: DeriveApi): Observable<DeriveDispatch[]> {
   return api.query.democracy.dispatchQueue<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>().pipe(
     switchMap((dispatches) =>
       combineLatest([
@@ -42,7 +48,7 @@ function queryQueue (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   );
 }
 
-function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], Option<Scheduled>[][]]> {
+function schedulerEntries (api: DeriveApi): Observable<[BlockNumber[], Option<PalletSchedulerScheduledV3 | Scheduled>[][]]> {
   // We don't get entries, but rather we get the keys (triggered via finished referendums) and
   // the subscribe to those keys - this means we pickup when the schedulers actually executes
   // at a block, the entry for that block will become empty
@@ -53,31 +59,41 @@ function schedulerEntries (api: ApiInterfaceRx): Observable<[BlockNumber[], Opti
     switchMap((keys) => {
       const blockNumbers = keys.map(({ args: [blockNumber] }) => blockNumber);
 
-      return combineLatest([
-        of(blockNumbers),
-        api.query.scheduler.agenda.multi<Vec<Option<Scheduled>>>(blockNumbers)
-      ]);
+      return blockNumbers.length
+        ? combineLatest([
+          of(blockNumbers),
+          // this should simply be api.query.scheduler.agenda.multi,
+          // however we have had cases on Darwinia where the indices have moved around after an
+          // upgrade, which results in invalid on-chain data
+          api.query.scheduler.agenda.multi(blockNumbers).pipe(
+            catchError(() => of(blockNumbers.map(() => [])))
+          )
+        ])
+        : of<[BlockNumber[], Option<PalletSchedulerScheduledV3 | Scheduled>[][]]>([[], []]);
     })
   );
 }
 
-function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
+function queryScheduler (api: DeriveApi): Observable<DeriveDispatch[]> {
   return schedulerEntries(api).pipe(
     switchMap(([blockNumbers, agendas]): Observable<[SchedulerInfo[], (DeriveProposalImage | undefined)[]]> => {
       const result: SchedulerInfo[] = [];
 
       blockNumbers.forEach((at, index): void => {
-        agendas[index].filter((optScheduled) => optScheduled.isSome).forEach((optScheduled): void => {
-          const scheduled = optScheduled.unwrap();
+        (agendas[index] || []).filter((o) => o.isSome).forEach((o): void => {
+          const scheduled = o.unwrap();
 
           if (scheduled.maybeId.isSome) {
             const id = scheduled.maybeId.unwrap().toHex();
 
             if (id.startsWith(DEMOCRACY_ID)) {
-              const [, index] = api.registry.createType('(u64, ReferendumIndex)' as any, id) as ITuple<[u64, ReferendumIndex]>;
-              const imageHash = scheduled.call.args[0] as Hash;
+              const imageHash = isMaybeHashed(scheduled.call)
+                ? scheduled.call.isHash
+                  ? scheduled.call.asHash
+                  : scheduled.call.asValue.args[0] as Hash
+                : scheduled.call.args[0] as Hash;
 
-              result.push({ at, imageHash, index });
+              result.push({ at, imageHash, index: api.registry.createType('(u64, ReferendumIndex)', id)[1] });
             }
           }
         });
@@ -85,7 +101,9 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
 
       return combineLatest([
         of(result),
-        api.derive.democracy.preimages(result.map(({ imageHash }) => imageHash))
+        result.length
+          ? api.derive.democracy.preimages(result.map(({ imageHash }) => imageHash))
+          : of([])
       ]);
     }),
     map(([infos, images]): DeriveDispatch[] =>
@@ -94,7 +112,7 @@ function queryScheduler (api: ApiInterfaceRx): Observable<DeriveDispatch[]> {
   );
 }
 
-export function dispatchQueue (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveDispatch[]> {
+export function dispatchQueue (instanceId: string, api: DeriveApi): () => Observable<DeriveDispatch[]> {
   return memo(instanceId, (): Observable<DeriveDispatch[]> =>
     isFunction(api.query.scheduler?.agenda)
       ? queryScheduler(api)

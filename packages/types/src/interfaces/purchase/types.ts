@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, Struct } from '@polkadot/types';
+import type { Bytes, Enum, Struct } from '@polkadot/types-codec';
 import type { Balance, Permill } from '@polkadot/types/interfaces/runtime';
 
 /** @name AccountStatus */
@@ -21,6 +21,7 @@ export interface AccountValidity extends Enum {
   readonly isValidLow: boolean;
   readonly isValidHigh: boolean;
   readonly isCompleted: boolean;
+  readonly type: 'Invalid' | 'Initiated' | 'Pending' | 'ValidLow' | 'ValidHigh' | 'Completed';
 }
 
 export type PHANTOM_PURCHASE = 'purchase';

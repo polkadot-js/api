@@ -1,0 +1,12 @@
+{{> header }}
+
+/* eslint-disable sort-keys */
+
+export default {
+  {{#each defs}}
+  {{> docs}}
+  {{#each defs}}
+  {{{this}}}
+  {{/each}}
+  {{/each}}
+};

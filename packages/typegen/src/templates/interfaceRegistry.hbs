@@ -1,12 +1,15 @@
 {{> header }}
 
-{{{ imports }}}
+// import type lookup before we augment - in some environments
+// this is required to allow for ambient/previous definitions
+import '@polkadot/types/types/registry';
+
+{{{ importsAll }}}
 
 declare module '@polkadot/types/types/registry' {
-  export interface InterfaceTypes {
+  interface InterfaceTypes {
     {{#each items}}
-    {{{this}}}
+    {{{this}}}: {{{this}}};
     {{/each}}
-  }
-}
-{{> footer }}
+  } // InterfaceTypes
+} // declare module

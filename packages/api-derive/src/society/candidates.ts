@@ -1,32 +1,32 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, Bid, BidKind } from '@polkadot/types/interfaces';
+import type { Observable } from 'rxjs';
+import type { BalanceOf } from '@polkadot/types/interfaces';
+import type { PalletSocietyBid, PalletSocietyBidKind } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveSocietyCandidate } from '../types';
+import type { Option } from '@polkadot/types-codec';
+import type { DeriveApi, DeriveSocietyCandidate } from '../types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
-type ResultSuspend = Option<ITuple<[BalanceOf, BidKind]>>;
-type Result = [Bid[], ResultSuspend[]]
+type ResultSuspend = Option<ITuple<[BalanceOf, PalletSocietyBidKind]>>;
+type Result = [PalletSocietyBid[], ResultSuspend[]]
 
 /**
  * @description Get the candidate info for a society
  */
-export function candidates (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSocietyCandidate[]> {
+export function candidates (instanceId: string, api: DeriveApi): () => Observable<DeriveSocietyCandidate[]> {
   return memo(instanceId, (): Observable<DeriveSocietyCandidate[]> =>
-    api.query.society.candidates<Vec<Bid>>().pipe(
-      switchMap((candidates: Vec<Bid>): Observable<Result> =>
+    api.query.society.candidates().pipe(
+      switchMap((candidates): Observable<Result> =>
         combineLatest([
           of(candidates),
-          api.query.society.suspendedCandidates.multi<ResultSuspend>(
-            candidates.map(({ who }): AccountId => who))
+          api.query.society.suspendedCandidates.multi(
+            candidates.map(({ who }) => who)
+          )
         ])
       ),
       map(([candidates, suspended]: Result): DeriveSocietyCandidate[] =>

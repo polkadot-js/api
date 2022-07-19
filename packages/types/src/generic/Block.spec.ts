@@ -1,15 +1,23 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable sort-keys */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { Metadata } from '@polkadot/metadata';
-import metadataStatic from '@polkadot/metadata/static';
+import type { BlockValue } from './Block';
+
+import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json' assert { type: 'json' };
+import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 
 import { TypeRegistry } from '../create';
-import block00300 from '../json/SignedBlock.003.00.json';
+import { Metadata } from '../metadata';
 import { GenericBlock as Block } from './Block';
+
+interface BlockJson {
+  result: {
+    block: BlockValue;
+  };
+}
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, metadataStatic);
@@ -30,9 +38,9 @@ describe('Block', (): void => {
   });
 
   it('re-encodes digest items correctly', (): void => {
-    const digest = new Block(registry, block00300.result.block).header.digest;
+    const digest = new Block(registry, (block00300 as BlockJson).result.block).header.digest;
 
-    expect(digest.logs[0].toHex()).toEqual(block00300.result.block.header.digest.logs[0]);
-    expect(digest.logs[1].toHex()).toEqual(block00300.result.block.header.digest.logs[1]);
+    expect(digest.logs[0].toHex()).toEqual((block00300 as BlockJson).result.block.header?.digest?.logs[0]);
+    expect(digest.logs[1].toHex()).toEqual((block00300 as BlockJson).result.block.header?.digest?.logs[1]);
   });
 });

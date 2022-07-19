@@ -1,42 +1,16 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { AccountIdAndIndex } from '../types';
+import type { AccountIdAndIndex, DeriveApi } from '../types';
+
+import { map, of } from 'rxjs';
 
 import { isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
-import { of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
-
-function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIndex | Uint8Array | string | null | undefined): Observable<AccountIdAndIndex> {
-  try {
-    // yes, this can fail, don't care too much, catch will catch it
-    const decoded = isU8a(address)
-      ? address
-      : decodeAddress((address || '').toString());
-
-    if (decoded.length > 8) {
-      const accountId = api.registry.createType('AccountId', decoded);
-
-      return api.derive.accounts.idToIndex(accountId).pipe(
-        map((accountIndex): AccountIdAndIndex => [accountId, accountIndex])
-      );
-    }
-
-    const accountIndex = api.registry.createType('AccountIndex', decoded);
-
-    return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
-      map((accountId): AccountIdAndIndex => [accountId, accountIndex])
-    );
-  } catch (error) {
-    return of([undefined, undefined]);
-  }
-}
 
 /**
  * @name idAndIndex
@@ -51,7 +25,29 @@ function retrieve (api: ApiInterfaceRx, address: Address | AccountId | AccountIn
  * });
  * ```
  */
-export function idAndIndex (instanceId: string, api: ApiInterfaceRx): (address?: Address | AccountId | AccountIndex | Uint8Array | string | null) => Observable<AccountIdAndIndex> {
-  return memo(instanceId, (address?: Address | AccountId | AccountIndex | Uint8Array | string | null): Observable<AccountIdAndIndex> =>
-    retrieve(api, address));
+export function idAndIndex (instanceId: string, api: DeriveApi): (address?: Address | AccountId | AccountIndex | Uint8Array | string | null) => Observable<AccountIdAndIndex> {
+  return memo(instanceId, (address?: Address | AccountId | AccountIndex | Uint8Array | string | null): Observable<AccountIdAndIndex> => {
+    try {
+      // yes, this can fail, don't care too much, catch will catch it
+      const decoded = isU8a(address)
+        ? address
+        : decodeAddress((address || '').toString());
+
+      if (decoded.length > 8) {
+        const accountId = api.registry.createType('AccountId', decoded);
+
+        return api.derive.accounts.idToIndex(accountId).pipe(
+          map((accountIndex): AccountIdAndIndex => [accountId, accountIndex])
+        );
+      }
+
+      const accountIndex = api.registry.createType('AccountIndex', decoded);
+
+      return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
+        map((accountId): AccountIdAndIndex => [accountId, accountIndex])
+      );
+    } catch (error) {
+      return of([undefined, undefined]);
+    }
+  });
 }

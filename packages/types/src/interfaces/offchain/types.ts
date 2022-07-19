@@ -1,12 +1,13 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum } from '@polkadot/types';
+import type { Enum } from '@polkadot/types-codec';
 
 /** @name StorageKind */
 export interface StorageKind extends Enum {
   readonly isPersistent: boolean;
   readonly isLocal: boolean;
+  readonly type: 'Persistent' | 'Local';
 }
 
 export type PHANTOM_OFFCHAIN = 'offchain';

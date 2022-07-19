@@ -1,11 +1,14 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
+import '@polkadot/api-augment';
+
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
+import type { FrameSystemAccountInfo } from '@polkadot/types/lookup';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { ApiPromise } from '@polkadot/api';
@@ -16,12 +19,26 @@ import { SubmittableResult } from './';
 
 const registry = new TypeRegistry();
 
+async function calls (api: ApiPromise): Promise<void> {
+  // it allows defaults
+  const testSetId = await api.call.grandpaApi.currentSetId();
+
+  // it allows type overrides (generally shouldn't be used, but available)
+  const testSetIdO = await api.call.grandpaApi.currentSetId<AccountId>();
+
+  // it allows actual params
+  const nonce = await api.call.accountNonceApi.accountNonce('5Test');
+
+  console.log(testSetId.toNumber(), testSetIdO.isAscii, nonce.toNumber());
+}
+
 function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
     api.consts.foo.bar,
     api.consts.balances.existentialDeposit.toNumber(),
-    api.consts.balances.existentialDeposit.meta.documentation.map((s): string => s.toString()).join('')
+    api.consts.balances.existentialDeposit.meta.docs.map((s) => s.toString()).join(''),
+    api.consts.system.blockWeights.maxBlock.divn(123).toNumber()
   );
 }
 
@@ -30,9 +47,9 @@ async function derive (api: ApiPromise): Promise<void> {
     console.log('current author:', header.author);
   });
 
-  const fees = await api.derive.balances.fees();
+  const info = await api.derive.balances.account('0x1234');
 
-  console.log('fees', fees);
+  console.log('info', info);
 }
 
 function errors (api: ApiPromise): void {
@@ -54,14 +71,33 @@ function events (api: ApiPromise): void {
   // existing
   if (api.events.balances.Transfer.is(event)) {
     // the types are correctly expanded
-    const [from, to, amount] = event.data;
+    const [afrom, ato, aamount] = event.data;
 
-    console.log(from.toHuman(), to.toHuman(), amount.toBn());
+    console.log(
+      afrom.toHuman(),
+      ato.toHuman(),
+      aamount.toBn()
+    );
+
+    // the types have getters
+    const { amount, from, to } = event.data;
+
+    console.log(
+      from.toHuman(),
+      to.toHuman(),
+      amount.toBn()
+    );
   }
 
-  // something random
+  // something with only tuple data
+  if (api.events.staking.Bonded.is(event)) {
+    const [account, amount] = event.data;
+
+    console.log(account.toHuman(), amount.toBn());
+  }
+
+  // something random, just codec[]
   if (api.events.something.Random.is(event)) {
-    // the types are just codec
     const [a, b] = event.data;
 
     console.log(a.toHuman(), b.toHuman());
@@ -79,30 +115,14 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   const bal2 = await api.query.balances.totalIssuance('WRONG_ARG'); // bal2 is Codec (wrong args)
   const override = await api.query.balances.totalIssuance<Header>(); // override is still available
   const oldBal = await api.query.balances.totalIssuance.at('abcd');
-  // It's hard to correctly type .multi. Expected: `Balance[]`, actual: Codec[].
-  // In the meantime, we can case with `<Balance>` (this is not available on recent chains)
-  const multi = await api.query.balances.freeBalance.multi<Balance>([pairs.alice.address, pairs.bob.address]);
+  // For older queries we can cast with `<Balance>` (newer chain have multi typed)
+  const multia = await api.query.balances.freeBalance.multi<Balance>([pairs.alice.address, pairs.bob.address]);
+  const multib = await api.query.system.account.multi([pairs.alice.address, pairs.bob.address]);
 
-  console.log('query types:', bar, bal, bal2, override, oldBal, multi);
+  await api.query.system.account(pairs.alice.address);
+  await api.query.system.account<FrameSystemAccountInfo>(pairs.alice.address);
 
-  // check multi for unsub
-  const multiUnsub = await api.queryMulti([
-    [api.query.staking.validators],
-    [api.query.system.events]
-  ], (values): void => {
-    console.log('values', values);
-
-    multiUnsub();
-  });
-
-  // check multi , Promise result
-  const multiRes = await api.queryMulti([
-    [api.query.system.account, pairs.eve.address],
-    // older chains only
-    [api.query.system.accountNonce, pairs.eve.address]
-  ]);
-
-  console.log(multiRes);
+  console.log('query types:', bar, bal, bal2, override, oldBal, multia, multib);
 }
 
 async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
@@ -154,6 +174,37 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
   }
 }
 
+async function queryMulti (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
+  // check multi for unsub
+  const multiUnsub = await api.queryMulti([
+    [api.query.staking.validators],
+    [api.query.system.events]
+  ], (values): void => {
+    console.log('values', values);
+
+    multiUnsub();
+  });
+
+  // check multi , Promise result
+  const multiRes = await api.queryMulti([
+    [api.query.system.account, pairs.eve.address],
+    // older chains only
+    [api.query.system.accountNonce, pairs.eve.address]
+  ]);
+
+  console.log(multiRes);
+
+  // check multi, via at
+  const apiAt = await api.at('0x12345678');
+  const multiResAt = await apiAt.queryMulti([
+    api.query.timestamp.now,
+    [apiAt.query.staking.validators],
+    [apiAt.query.system.account, pairs.eve.address]
+  ]);
+
+  console.log(multiResAt);
+}
+
 async function rpc (api: ApiPromise): Promise<void> {
   // defaults
   await api.rpc.chain.subscribeNewHeads((header): void => {
@@ -166,12 +217,10 @@ async function rpc (api: ApiPromise): Promise<void> {
   });
 
   // using json & raw
-  await api.rpc.chain.getBlock.json('0x123456');
   await api.rpc.chain.getBlock.raw('0x123456');
 
   // using raw subs
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  api.rpc.chain.subscribeNewHeads.raw((result: Uint8Array): void => {
+  await api.rpc.chain.subscribeNewHeads.raw((result: Uint8Array): void => {
     console.log(result);
   });
 }
@@ -181,17 +230,20 @@ function types (api: ApiPromise): void {
   const balance = registry.createType('Balance', 2);
   const gas = registry.createType('Gas', 2);
   const compact = registry.createType('Compact<u32>', 2);
+  const f32 = registry.createType('f32');
+  const u32 = registry.createType('u32');
+  const raw = registry.createType('Raw');
   // const random = registry.createType('RandomType', 2); // This one should deliberately show a TS error
 
   const gasUnsafe = createTypeUnsafe(registry, 'Gas', [2]);
   const overriddenUnsafe = createTypeUnsafe<Header>(registry, 'Gas', [2]);
 
-  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, api.createType('AccountData'));
+  console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, u32.toNumber(), f32.toNumber(), api.createType('AccountData'), raw.subarray(0, 10));
 }
 
 async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
-  // transfer, also allows for BigInt inputs here
-  const transfer = api.tx.balances.transfer(pairs.bob.address, 123456789n);
+  // transfer, also allows for bigint inputs here
+  const transfer = api.tx.balances.transfer(pairs.bob.address, BigInt(123456789));
 
   console.log('transfer casted', transfer as IMethod<AnyTuple>, transfer as IExtrinsic<AnyTuple>);
 
@@ -239,21 +291,34 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   }
 }
 
+async function at (api: ApiPromise): Promise<void> {
+  const apiAt = await api.at('0x1234');
+
+  // get old balances
+  console.log(await apiAt.query.balances.freeBalance('0x1234'));
+
+  // get some constants
+  console.log(apiAt.consts.balances.existentialDeposit);
+}
+
 async function main (): Promise<void> {
   const api = await ApiPromise.create();
   const pairs = createTestPairs();
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   Promise.all([
+    calls(api),
     consts(api),
     derive(api),
     errors(api),
     events(api),
     query(api, pairs),
     queryExtra(api, pairs),
+    queryMulti(api, pairs),
     rpc(api),
     types(api),
-    tx(api, pairs)
+    tx(api, pairs),
+    at(api)
   ]);
 }
 

@@ -1,9 +1,15 @@
 {{> header }}
 
-{{{ imports }}}
+// import type lookup before we augment - in some environments
+// this is required to allow for ambient/previous definitions
+import '@polkadot/api-base/types/errors';
 
-declare module '@polkadot/api/types/errors' {
-  export interface AugmentedErrors<ApiType> {
+{{{ importsAll }}}
+
+export type __AugmentedError<ApiType extends ApiTypes> = AugmentedError<ApiType>;
+
+declare module '@polkadot/api-base/types/errors' {
+  interface AugmentedErrors<ApiType extends ApiTypes> {
     {{#each modules}}
     {{{name}}}: {
       {{#each items}}
@@ -18,12 +24,5 @@ declare module '@polkadot/api/types/errors' {
       {{/unless}}
     };
     {{/each}}
-  }
-
-  export interface DecoratedErrors<ApiType extends ApiTypes> extends AugmentedErrors<ApiType> {
-    {{#unless isStrict}}
-    [key: string]: ModuleErrors<ApiType>;
-    {{/unless}}
-  }
-}
-{{> footer }}
+  } // AugmentedErrors
+} // declare module

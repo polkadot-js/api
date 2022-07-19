@@ -1,13 +1,29 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, Struct, Text, Vec, u256 } from '@polkadot/types';
+import type { Bytes, Enum, Struct, Text, U256, Vec, u256 } from '@polkadot/types-codec';
 import type { H160, H256 } from '@polkadot/types/interfaces/runtime';
 
 /** @name EvmAccount */
 export interface EvmAccount extends Struct {
   readonly nonce: u256;
   readonly balance: u256;
+}
+
+/** @name EvmCallInfo */
+export interface EvmCallInfo extends Struct {
+  readonly exitReason: ExitReason;
+  readonly value: Bytes;
+  readonly usedGas: U256;
+  readonly logs: Vec<EvmLog>;
+}
+
+/** @name EvmCreateInfo */
+export interface EvmCreateInfo extends Struct {
+  readonly exitReason: ExitReason;
+  readonly value: H160;
+  readonly usedGas: U256;
+  readonly logs: Vec<EvmLog>;
 }
 
 /** @name EvmLog */
@@ -40,6 +56,7 @@ export interface ExitError extends Enum {
   readonly isCreateEmpty: boolean;
   readonly isOther: boolean;
   readonly asOther: Text;
+  readonly type: 'StackUnderflow' | 'StackOverflow' | 'InvalidJump' | 'InvalidRange' | 'DesignatedInvalid' | 'CallTooDeep' | 'CreateCollision' | 'CreateContractLimit' | 'OutOfOffset' | 'OutOfGas' | 'OutOfFund' | 'PcUnderflow' | 'CreateEmpty' | 'Other';
 }
 
 /** @name ExitFatal */
@@ -50,6 +67,7 @@ export interface ExitFatal extends Enum {
   readonly asCallErrorAsFatal: ExitError;
   readonly isOther: boolean;
   readonly asOther: Text;
+  readonly type: 'NotSupported' | 'UnhandledInterrupt' | 'CallErrorAsFatal' | 'Other';
 }
 
 /** @name ExitReason */
@@ -62,11 +80,13 @@ export interface ExitReason extends Enum {
   readonly asRevert: ExitRevert;
   readonly isFatal: boolean;
   readonly asFatal: ExitFatal;
+  readonly type: 'Succeed' | 'Error' | 'Revert' | 'Fatal';
 }
 
 /** @name ExitRevert */
 export interface ExitRevert extends Enum {
   readonly isReverted: boolean;
+  readonly type: 'Reverted';
 }
 
 /** @name ExitSucceed */
@@ -74,6 +94,7 @@ export interface ExitSucceed extends Enum {
   readonly isStopped: boolean;
   readonly isReturned: boolean;
   readonly isSuicided: boolean;
+  readonly type: 'Stopped' | 'Returned' | 'Suicided';
 }
 
 export type PHANTOM_EVM = 'evm';

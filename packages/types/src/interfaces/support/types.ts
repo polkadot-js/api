@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Struct, bool, u8 } from '@polkadot/types';
+import type { Struct, bool, u8 } from '@polkadot/types-codec';
 import type { Balance, Perbill } from '@polkadot/types/interfaces/runtime';
 
 /** @name WeightToFeeCoefficient */

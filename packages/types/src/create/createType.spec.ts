@@ -1,8 +1,9 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CodecSet, Int } from '../codec';
-import { createClass, createTypeUnsafe, TypeRegistry } from '.';
+import { CodecSet, Int } from '@polkadot/types-codec';
+
+import { createClass, TypeRegistry } from '.';
 
 describe('createType', (): void => {
   const registry = new TypeRegistry();
@@ -27,7 +28,7 @@ describe('createType', (): void => {
 
   it('allows creation of a Struct', (): void => {
     const raw = '{"balance":"Balance","index":"u32"}';
-    const struct = createTypeUnsafe(registry, raw, [{
+    const struct = registry.createTypeUnsafe(raw, [{
       balance: 1234,
       index: '0x10'
     }]);
@@ -41,49 +42,49 @@ describe('createType', (): void => {
 
   it('allows creation of a BTreeMap', (): void => {
     expect(
-      createTypeUnsafe(registry, 'BTreeMap<Text,u32>', ['0x041c62617a7a696e6745000000']).toString()
+      registry.createTypeUnsafe('BTreeMap<Text,u32>', ['0x041c62617a7a696e6745000000']).toString()
     ).toEqual('{"bazzing":69}');
   });
 
   it('allows creation of a BTreeSet', (): void => {
     expect(
-      createTypeUnsafe(registry, 'BTreeSet<u32>', ['0x1002000000180000001e00000050000000']).toString()
+      registry.createTypeUnsafe('BTreeSet<u32>', ['0x1002000000180000001e00000050000000']).toString()
     ).toEqual('[2,24,30,80]');
   });
 
   it('allows creation of a Enum (simple)', (): void => {
     expect(
-      createTypeUnsafe(registry, '{"_enum": ["A", "B", "C"]}', [1]).toJSON()
+      registry.createTypeUnsafe('{"_enum": ["A", "B", "C"]}', [1]).toJSON()
     ).toEqual('B');
   });
 
   it('allows creation of a Enum (with types)', (): void => {
     expect(
-      createTypeUnsafe(registry, '{"_enum": {"A": null, "B": "u32", "C": null} }', [1]).toJSON()
+      registry.createTypeUnsafe('{"_enum": {"A": null, "B": "u32", "C": null} }', [1]).toJSON()
     ).toEqual({ b: 0 });
   });
 
   it('allows creation of a Enum (with indexes)', (): void => {
     expect(
-      createTypeUnsafe(registry, '{"_enum": {"A": 42, "B": 69, "C": 255} }', [69]).toJSON()
+      registry.createTypeUnsafe('{"_enum": {"A": 42, "B": 69, "C": 255} }', [69]).toJSON()
     ).toEqual('B');
   });
 
   it('allows creation of a Result', (): void => {
     expect(
-      createTypeUnsafe(registry, 'Result<u32,Text>', ['0x011064656667']).toJSON()
+      registry.createTypeUnsafe('Result<u32,Text>', ['0x011064656667']).toJSON()
     ).toEqual({ err: 'defg' });
   });
 
   it('allows creation of a Set', (): void => {
     expect(
-      createTypeUnsafe<CodecSet>(registry, '{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', [1 + 4 + 16 + 64]).strings
+      registry.createTypeUnsafe<CodecSet>('{"_set": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 16, "G": 32, "H": 64, "I": 128 } }', [1 + 4 + 16 + 64]).strings
     ).toEqual(['A', 'C', 'E', 'H']);
   });
 
   it('allows creation of a Tuple', (): void => {
     expect(
-      createTypeUnsafe(registry, '(Balance,u32)', [[1234, 5678]]).toJSON()
+      registry.createTypeUnsafe('(Balance,u32)', [[1234, 5678]]).toJSON()
     ).toEqual([
       1234, // '0x000000000000000000000000000004d2',
       5678
@@ -92,13 +93,13 @@ describe('createType', (): void => {
 
   it('allows creation for a UInt<bitLength>', (): void => {
     expect(
-      createTypeUnsafe(registry, 'UInt<2048>').toRawType()
+      registry.createType('UInt<2048>').toRawType()
     ).toEqual('u2048');
   });
 
   it('fails creation for a UInt<bitLength> where bitLength is not power of 8', (): void => {
     expect(
-      () => createTypeUnsafe(registry, 'UInt<20>').toRawType()
+      () => registry.createType('UInt<20>').toRawType()
     ).toThrow('UInt<20>: Only support for UInt<bitLength>, where length <= 8192 and a power of 8');
   });
 
@@ -112,44 +113,44 @@ describe('createType', (): void => {
 
   it('allows creation of a [u8; 8]', (): void => {
     expect(
-      createTypeUnsafe(registry, '[u8; 8]', [[0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67, 0x00]]).toHex()
+      registry.createTypeUnsafe('[u8; 8]', [[0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67, 0x00]]).toHex()
     ).toEqual('0x1200230045006700');
   });
 
   it('allows creation of a [u16; 4]', (): void => {
     expect(
-      createTypeUnsafe(registry, '[u16; 4]', [[0x1200, 0x2300, 0x4500, 0x6700]]).toU8a()
+      registry.createTypeUnsafe('[u16; 4]', [[0x1200, 0x2300, 0x4500, 0x6700]]).toU8a()
     ).toEqual(new Uint8Array([0x00, 0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67]));
   });
 
   describe('isPedantic', (): void => {
     it('correctly decodes Bytes', (): void => {
       expect(
-        createTypeUnsafe(registry, 'Bytes', ['0x12345678'], { isPedantic: true }).toHex()
+        registry.createTypeUnsafe('Bytes', ['0x12345678'], { isPedantic: true }).toHex()
       ).toEqual('0x12345678');
     });
 
     it('correctly decodes Bytes (prefixed)', (): void => {
       expect(
-        createTypeUnsafe(registry, 'Bytes', [new Uint8Array([4 << 2, 0x12, 0x34, 0x56, 0x78])], { isPedantic: true }).toHex()
+        registry.createTypeUnsafe('Bytes', [new Uint8Array([4 << 2, 0x12, 0x34, 0x56, 0x78])], { isPedantic: true }).toHex()
       ).toEqual('0x12345678');
     });
 
     it('correctly decodes Text', (): void => {
       expect(
-        createTypeUnsafe(registry, 'Text', ['0x70726f7669646572'], { isPedantic: true }).toString()
+        registry.createTypeUnsafe('Text', ['0x70726f7669646572'], { isPedantic: true }).toString()
       ).toEqual('provider');
     });
 
     it('correctly decodes Type', (): void => {
       expect(
-        createTypeUnsafe(registry, 'Type', ['0x5665633c75383e'], { isPedantic: true }).toString()
+        registry.createTypeUnsafe('Type', ['0x5665633c75383e'], { isPedantic: true }).toString()
       ).toEqual('Bytes'); // Vec<u8> -> Bytes
     });
 
     it('correctly decodes [u16; 4]', (): void => {
       expect(
-        createTypeUnsafe(registry, '[u16; 4]', ['0x0012002300450067'], { isPedantic: true }).toHex()
+        registry.createTypeUnsafe('[u16; 4]', ['0x0012002300450067'], { isPedantic: true }).toHex()
       ).toEqual('0x0012002300450067');
     });
   });
@@ -180,12 +181,12 @@ describe('createType', (): void => {
         }
       });
 
-      const value = createTypeUnsafe(registry, 'TestComplex', [{
+      const value = registry.createType('TestComplex', {
         accountId: '0x1234567812345678123456781234567812345678123456781234567812345678',
         balance: 123,
         fromSrml: 0,
         log: [456, 789]
-      }]);
+      });
 
       expect(value instanceof createClass(registry, 'TestComplex')).toBe(true);
     });
@@ -204,7 +205,8 @@ describe('createType', (): void => {
       expect(balu32.bitLength()).toEqual(32);
     });
 
-    it('allows for re-registration of a type (affecting derives)', (): void => {
+    it('allows for re-registration of a type (derived types)', (): void => {
+      registry.clearCache();
       registry.register({
         Balance: 'u128',
         TestComplex: {
@@ -218,15 +220,26 @@ describe('createType', (): void => {
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const cmpDef: any = createTypeUnsafe(registry, 'TestComplex');
+      const cmpDef: any = registry.createType('TestComplex');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       expect(cmpDef.balance.bitLength()).toEqual(128);
 
-      registry.register({ Balance: 'u32' });
+      registry.clearCache();
+      registry.register({
+        Balance: 'u32',
+        TestComplex: {
+          balance: 'Balance',
+          // eslint-disable-next-line sort-keys
+          accountId: 'AccountId',
+          log: '(u64, u32)',
+          // eslint-disable-next-line sort-keys
+          fromSrml: 'Gas'
+        }
+      });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const cmpu32: any = createTypeUnsafe(registry, 'TestComplex');
+      const cmpu32: any = registry.createType('TestComplex');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       expect(cmpu32.balance.bitLength()).toEqual(32);

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -6,7 +6,24 @@
 
 import type { Definitions } from '../../types';
 
+import { runtime } from './runtime';
+
 const dmpQueue = {
+  CollationInfo: {
+    upwardMessages: 'Vec<UpwardMessage>',
+    horizontalMessages: 'Vec<OutboundHrmpMessage>',
+    newValidationCode: 'Option<ValidationCode>',
+    processedDownwardMessages: 'u32',
+    hrmpWatermark: 'RelayBlockNumber',
+    headData: 'HeadData'
+  },
+  CollationInfoV1: {
+    upwardMessages: 'Vec<UpwardMessage>',
+    horizontalMessages: 'Vec<OutboundHrmpMessage>',
+    newValidationCode: 'Option<ValidationCode>',
+    processedDownwardMessages: 'u32',
+    hrmpWatermark: 'RelayBlockNumber'
+  },
   ConfigData: {
     maxIndividual: 'Weight'
   },
@@ -22,7 +39,6 @@ const dmpQueue = {
 
 export default {
   rpc: {},
-  types: {
-    ...dmpQueue
-  }
+  runtime,
+  types: dmpQueue
 } as Definitions;

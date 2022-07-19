@@ -1,15 +1,12 @@
-// Copyright 2017-2021 @polkadot/metadata authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { FunctionArgumentMetadataLatest, FunctionMetadataLatest } from '../interfaces/metadata';
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, CallBase, CallFunction, IMethod, Registry } from '../types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, Codec, IMethod, Registry } from '@polkadot/types-codec/types';
+import type { FunctionMetadataLatest } from '../interfaces/metadata';
+import type { CallBase, CallFunction, InterfaceTypes } from '../types';
 
-import { isHex, isObject, isU8a, u8aToU8a } from '@polkadot/util';
-
-import { Struct } from '../codec/Struct';
-import { U8aFixed } from '../codec/U8aFixed';
-import { getTypeClass } from '../create/createClass';
-import { getTypeDef } from '../create/getTypeDef';
+import { Struct, U8aFixed } from '@polkadot/types-codec';
+import { isHex, isObject, isU8a, objectSpread, u8aToU8a } from '@polkadot/util';
 
 interface DecodeMethodInput {
   args: unknown;
@@ -30,11 +27,8 @@ interface DecodedMethod extends DecodeMethodInput {
  * @internal
  */
 function getArgsDef (registry: Registry, meta: FunctionMetadataLatest): ArgsDef {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return GenericCall.filterOrigin(meta).reduce((result, { name, type }): ArgsDef => {
-    const Type = getTypeClass(registry, getTypeDef(type));
-
-    result[name.toString()] = Type;
+  return meta.fields.reduce((result, { name, type }, index): ArgsDef => {
+    result[name.unwrapOr(`param${index}`).toString()] = registry.createLookupType(type) as keyof InterfaceTypes;
 
     return result;
   }, {} as ArgsDef);
@@ -65,7 +59,7 @@ function decodeCallViaObject (registry: Registry, value: DecodedMethod, _meta?: 
 /** @internal */
 function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: FunctionMetadataLatest): DecodedMethod {
   // We need 2 bytes for the callIndex
-  const callIndex = new Uint8Array(2);
+  const callIndex = registry.firstCallIndex.slice();
 
   callIndex.set(value.subarray(0, 2), 0);
 
@@ -92,7 +86,7 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  * @internal
  */
 function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
-  if (isHex(value) || isU8a(value)) {
+  if (isU8a(value) || isHex(value)) {
     return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
   } else if (isObject(value) && value.callIndex && value.args) {
     return decodeCallViaObject(registry, value as DecodedMethod, _meta);
@@ -109,6 +103,13 @@ function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8A
 export class GenericCallIndex extends U8aFixed {
   constructor (registry: Registry, value?: AnyU8a) {
     super(registry, value, 16);
+  }
+
+  /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public override toPrimitive (): string {
+    return this.toHex();
   }
 }
 
@@ -146,22 +147,11 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
     this._meta = decoded.meta;
   }
 
-  // If the extrinsic function has an argument of type `Origin`, we ignore it
-  public static filterOrigin (meta?: FunctionMetadataLatest): FunctionArgumentMetadataLatest[] {
-    // FIXME should be `arg.type !== Origin`, but doesn't work...
-    return meta
-      ? meta.args.filter(({ type }): boolean =>
-        type.toString() !== 'Origin'
-      )
-      : [];
-  }
-
   /**
    * @description The arguments for the function call
    */
   public get args (): A {
-    // FIXME This should return a Struct instead of an Array
-    return [...(this.get('args') as Struct).values()] as A;
+    return [...this.getT<Struct>('args').values()] as A;
   }
 
   /**
@@ -172,17 +162,24 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   }
 
   /**
+   * @description The argument entries
+   */
+  public get argsEntries (): [string, Codec][] {
+    return [...this.getT<Struct>('args').entries()];
+  }
+
+  /**
    * @description The encoded `[sectionIndex, methodIndex]` identifier
    */
   public get callIndex (): Uint8Array {
-    return (this.get('callIndex') as GenericCallIndex).toU8a();
+    return this.getT<GenericCallIndex>('callIndex').toU8a();
   }
 
   /**
    * @description The encoded data
    */
   public get data (): Uint8Array {
-    return (this.get('args') as Struct).toU8a();
+    return this.getT<Struct>('args').toU8a();
   }
 
   /**
@@ -225,20 +222,17 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
       // swallow
     }
 
-    return {
-      args: this.args.map((arg) => arg.toHuman(isExpanded)),
-      // args: this.args.map((arg, index) => call
-      //   ? { [call.meta.args[index].name.toString()]: arg.toHuman(isExpanded) }
-      //   : arg.toHuman(isExpanded)
-      // ),
-      // callIndex: u8aToHex(this.callIndex),
-      method: call?.method,
-      section: call?.section,
-      ...(isExpanded && call
-        ? { documentation: call.meta.documentation.map((d) => d.toString()) }
-        : {}
-      )
-    };
+    return objectSpread(
+      {
+        args: this.argsEntries.reduce<Record<string, AnyJson>>((args, [n, a]) =>
+          objectSpread(args, { [n]: a.toHuman(isExpanded) }), {}),
+        method: call?.method,
+        section: call?.section
+      },
+      isExpanded && call
+        ? { docs: call.meta.docs.map((d) => d.toString()) }
+        : null
+    );
   }
 
   /**

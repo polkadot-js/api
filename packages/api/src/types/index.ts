@@ -1,34 +1,39 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// Augment the modules
-import '@polkadot/api/augment';
-
-import type { DeriveCustom, ExactDerive } from '@polkadot/api-derive';
-import type { Metadata } from '@polkadot/metadata';
-import type { RpcInterface } from '@polkadot/rpc-core/types';
+import type { ApiTypes, DeriveCustom, QueryableStorageMulti } from '@polkadot/api-base/types';
+import type { ApiInterfaceRx as ApiInterfaceBase } from '@polkadot/api-base/types/api';
+import type { QueryableCalls } from '@polkadot/api-base/types/calls';
+import type { QueryableConsts } from '@polkadot/api-base/types/consts';
+import type { DecoratedErrors } from '@polkadot/api-base/types/errors';
+import type { DecoratedEvents } from '@polkadot/api-base/types/events';
+import type { QueryableStorage } from '@polkadot/api-base/types/storage';
 import type { ProviderInterface, ProviderInterfaceEmitted } from '@polkadot/rpc-provider/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
-import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import type { DefinitionRpc, DefinitionRpcSub, RegisteredTypes, Registry, SignatureOptions, Signer } from '@polkadot/types/types';
+import type { Call, Extrinsic, Hash, RuntimeVersionPartial } from '@polkadot/types/interfaces';
+import type { CallFunction, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base';
-import type { DeriveAllSections } from '../util/decorate';
-import type { QueryableConsts } from './consts';
-import type { DecoratedRpc } from './rpc';
-import type { QueryableStorage, QueryableStorageMulti } from './storage';
-import type { SubmittableExtrinsics } from './submittable';
+import type { SubmittableExtrinsic } from '../types/submittable';
+import type { AllDerives } from '../util/decorate';
 
-export { Signer, SignerResult } from '@polkadot/types/types';
+export * from '@polkadot/api-base/types';
+export * from '@polkadot/api/types/calls';
+export * from '@polkadot/api/types/consts';
+export * from '@polkadot/api/types/errors';
+export * from '@polkadot/api/types/events';
+export * from '@polkadot/api/types/storage';
+export * from '@polkadot/api/types/submittable';
+
+export type { Signer, SignerResult } from '@polkadot/types/types';
+
 export { ApiBase } from '../base';
-export * from '../submittable/types';
-export * from './base';
-export * from './consts';
-export * from './errors';
-export * from './events';
-export * from './rpc';
-export * from './storage';
-export * from './submittable';
+
+// A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
+export interface ApiInterfaceRx extends ApiInterfaceBase {
+  derive: AllDerives<'rxjs'>;
+}
 
 export interface ApiOptions extends RegisteredTypes {
   /**
@@ -43,7 +48,7 @@ export interface ApiOptions extends RegisteredTypes {
    * @description pre-bundles is a map of 'genesis hash and runtime spec version' as key to a metadata hex string
    * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
    */
-  metadata?: Record<string, string>;
+  metadata?: Record<string, HexString>;
   /**
    * @description Transport Provider from rpc-provider. If not specified, it will default to
    * connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`
@@ -57,6 +62,10 @@ export interface ApiOptions extends RegisteredTypes {
    * @description User-defined RPC methods
    */
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+  /**
+   * @description Overrides for state_call usage (this will be removed in some future version)
+   */
+  runtime?: DefinitionsCall;
   /**
    * @description Any chain-specific signed extensions that are now well-known
    */
@@ -79,27 +88,27 @@ export interface ApiOptions extends RegisteredTypes {
   throwOnUnknown?: boolean;
 }
 
-// A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
-export interface ApiInterfaceRx {
-  consts: QueryableConsts<'rxjs'>;
-  // TODO This needs to be typed correctly
-  derive: DeriveAllSections<'rxjs', ExactDerive>;
-  extrinsicType: number;
-  genesisHash?: Hash;
-  hasSubscriptions: boolean;
-  registry: Registry;
-  runtimeMetadata: Metadata;
-  runtimeVersion: RuntimeVersion;
-  query: QueryableStorage<'rxjs'>;
-  queryMulti: QueryableStorageMulti<'rxjs'>;
-  rpc: DecoratedRpc<'rxjs', RpcInterface>;
-  tx: SubmittableExtrinsics<'rxjs'>;
-  signer?: Signer;
-}
-
-export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'ready';
+export type ApiInterfaceEvents = ProviderInterfaceEmitted | 'ready' | 'decorated';
 
 export interface SignerOptions extends SignatureOptions {
   blockNumber: BN;
   genesisHash: Hash;
+}
+
+export interface ApiDecoration<ApiType extends ApiTypes> {
+  call: QueryableCalls<ApiType>;
+  consts: QueryableConsts<ApiType>;
+  errors: DecoratedErrors<ApiType>;
+  events: DecoratedEvents<ApiType>;
+  query: QueryableStorage<ApiType>;
+  registry: Registry;
+  runtimeVersion: RuntimeVersionPartial;
+  rx: {
+    query: QueryableStorage<'rxjs'>;
+  };
+  tx: (extrinsic: Call | Extrinsic | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
+
+  findCall (callIndex: Uint8Array | string): CallFunction;
+  findError (errorIndex: Uint8Array | string): RegistryError;
+  queryMulti: QueryableStorageMulti<ApiType>;
 }

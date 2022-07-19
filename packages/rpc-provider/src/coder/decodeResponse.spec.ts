@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { JsonRpcResponse } from '../types';
@@ -15,7 +15,7 @@ describe('decodeResponse', (): void => {
   it('expects a non-empty input object', (): void => {
     expect(
       () => coder.decodeResponse(undefined as unknown as JsonRpcResponse)
-    ).toThrow(/Empty response/);
+    ).toThrow(/Invalid jsonrpc/);
   });
 
   it('expects a valid jsonrpc field', (): void => {

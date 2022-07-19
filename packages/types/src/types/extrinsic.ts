@@ -1,12 +1,14 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyJson, AnyNumber, AnyTuple, AnyU8a, Codec } from '@polkadot/types-codec/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicStatus } from '../interfaces/author';
 import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics';
-import type { Address, Balance, Call, H256, Index } from '../interfaces/runtime';
+import type { Address, Call, H256, Hash } from '../interfaces/runtime';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system';
-import type { AnyJson, AnyNumber, AnyTuple, AnyU8a, Codec } from './codec';
-import type { ICompact, IKeyringPair, IMethod, IRuntimeVersion } from './interfaces';
+import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } from './interfaces';
+import type { Registry } from './registry';
 
 export interface ISubmittableResult {
   readonly dispatchError?: DispatchError;
@@ -19,6 +21,8 @@ export interface ISubmittableResult {
   readonly isFinalized: boolean;
   readonly isInBlock: boolean;
   readonly isWarning: boolean;
+  readonly txHash: Hash;
+  readonly txIndex?: number;
 
   filterRecords (section: string, method: string): EventRecord[];
   findRecord (section: string, method: string): EventRecord | undefined;
@@ -125,7 +129,7 @@ export interface SignerResult {
   /**
    * @description The resulting signature in hex
    */
-  signature: string;
+  signature: HexString;
 }
 
 export interface Signer {
@@ -155,19 +159,20 @@ export interface SignatureOptions {
   era?: IExtrinsicEra;
   genesisHash: Uint8Array | string;
   nonce: AnyNumber;
-  runtimeVersion: IRuntimeVersion;
+  runtimeVersion: IRuntimeVersionBase;
   signedExtensions?: string[];
   signer?: Signer;
   tip?: AnyNumber;
+  assetId?: AnyNumber;
 }
 
 interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
-  readonly nonce: ICompact<Index>;
+  readonly nonce: ICompact<INumber>;
   readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature;
   readonly signer: Address;
-  readonly tip: ICompact<Balance>;
+  readonly tip: ICompact<INumber>;
 }
 
 export interface ExtrinsicPayloadValue {
@@ -179,21 +184,26 @@ export interface ExtrinsicPayloadValue {
   specVersion: AnyNumber;
   tip: AnyNumber;
   transactionVersion: AnyNumber;
+  assetId?: AnyNumber;
 }
 
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: Uint8Array | string): IExtrinsicSignature;
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: Uint8Array | HexString): IExtrinsicSignature;
   sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature;
   signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature;
+
+  readonly registry: Registry;
 }
 
-interface IExtrinsicSignable<T> {
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, payload: ExtrinsicPayloadValue | Uint8Array | string): T;
+interface IExtrinsicSignable<T> extends Codec {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): T;
   sign (account: IKeyringPair, options: SignatureOptions): T;
   signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
+
+  readonly registry: Registry;
 }
 
-export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl>, Codec {
+export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl> {
   readonly method: Call;
   readonly signature: IExtrinsicSignature;
   readonly version: number;

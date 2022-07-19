@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
-import { Metadata } from '@polkadot/metadata';
-import metadataStatic from '@polkadot/metadata/static';
+import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 import { BN_ZERO } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create';
+import { Metadata } from '../../metadata';
 import { GenericExtrinsicSignatureV4 as ExtrinsicSignature } from '.';
 
 const signOptions = {
@@ -68,9 +68,9 @@ describe('ExtrinsicSignatureV4', (): void => {
       '00' + // MultiAddress
       'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
       '01' +
-      '4242424242424242424242424242424242424242424242424242424242424242' +
-      '4242424242424242424242424242424242424242424242424242424242424242' +
-      '00a50100'
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '00a5010000'
     );
   });
 
@@ -92,14 +92,40 @@ describe('ExtrinsicSignatureV4', (): void => {
       ).toHex()
     ).toEqual(
       '0x' +
-      // Address = AccountId
-      // '00' +
+      // Address = AccountId, no prefix
       'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
       // This is a prefix-less signature, anySignture as opposed to Multi above
-      // '01' +
-      '4242424242424242424242424242424242424242424242424242424242424242' +
-      '4242424242424242424242424242424242424242424242424242424242424242' +
-      '00a50100'
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '00a5010000'
+    );
+  });
+
+  it('fake signs with non-enum signature', (): void => {
+    const registry = new TypeRegistry();
+    const metadata = new Metadata(registry, metadataStatic);
+
+    registry.setMetadata(metadata);
+    registry.register({
+      Address: 'AccountId',
+      ExtrinsicSignature: '[u8;65]'
+    });
+
+    expect(
+      new ExtrinsicSignature(registry).signFake(
+        registry.createType('Call'),
+        pairs.alice.address,
+        signOptions
+      ).toHex()
+    ).toEqual(
+      '0x' +
+      // Address = AccountId, no prefix
+      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
+      // 65 bytes here
+      '01' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '0101010101010101010101010101010101010101010101010101010101010101' +
+      '00a5010000'
     );
   });
 
@@ -122,7 +148,7 @@ describe('ExtrinsicSignatureV4', (): void => {
       '01' +
       '0101010101010101010101010101010101010101010101010101010101010101' +
       '0101010101010101010101010101010101010101010101010101010101010101' +
-      '000000'
+      '00000000'
     );
   });
 });

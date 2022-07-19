@@ -1,81 +1,92 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Metadata } from '@polkadot/metadata/Metadata';
+import type { Metadata } from '@polkadot/types/metadata/Metadata';
+import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types';
 
 import Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
+import { Definitions } from '@polkadot/types/types';
+import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util';
 
-const template = readTemplate('consts');
-const generateForMetaTemplate = Handlebars.compile(template);
+const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
 
 /** @internal */
-function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean): void {
+function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
-    const allTypes = { '@polkadot/types/interfaces': defaultDefs, ...extraTypes };
+    const allTypes = {
+      '@polkadot/types-augment': {
+        lookup: {
+          ...lookupDefinitions,
+          ...customLookupDefinitions
+        }
+      },
+      '@polkadot/types/interfaces': defaultDefs,
+      ...extraTypes
+    };
     const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
+    const { lookup, pallets, registry } = meta.asLatest;
 
-    const modules = meta.asLatest.modules
-      .sort(compareName)
-      .filter((mod) => mod.constants.length > 0)
+    const modules = pallets
+      .filter(({ constants }) => constants.length > 0)
       .map(({ constants, name }) => {
         if (!isStrict) {
           setImports(allDefs, imports, ['Codec']);
         }
 
         const items = constants
-          .sort(compareName)
-          .map(({ documentation, name, type }) => {
-            const returnType = formatType(allDefs, type.toString(), imports);
+          .map(({ docs, name, type }) => {
+            const typeDef = lookup.getTypeDef(type);
+            const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
 
             setImports(allDefs, imports, [returnType]);
 
             return {
-              docs: documentation,
+              docs,
               name: stringCamelCase(name),
               type: returnType
             };
-          });
+          })
+          .sort(compareName);
 
         return {
           items,
           name: stringCamelCase(name)
         };
-      });
-
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      })),
-      {
-        file: '@polkadot/api/types',
-        types: ['ApiTypes']
-      }
-    ];
+      })
+      .sort(compareName);
 
     return generateForMetaTemplate({
       headerType: 'chain',
       imports,
       isStrict,
       modules,
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map<{ file: string; types: string[] }>((packagePath) => ({
+          file: packagePath.replace('@polkadot/types-augment', '@polkadot/types'),
+          types: Object.keys(imports.localTypes[packagePath])
+        })),
+        {
+          file: '@polkadot/api-base/types',
+          types: ['ApiTypes', 'AugmentedConst']
+        }
+      ]
     });
   });
 }
 
 // Call `generateForMeta()` with current static metadata
 /** @internal */
-export function generateDefaultConsts (dest = 'packages/api/src/augment/consts.ts', data?: string, extraTypes: ExtraTypes = {}, isStrict = false): void {
+export function generateDefaultConsts (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
   const { metadata } = initMeta(data, extraTypes);
 
-  return generateForMeta(metadata, dest, extraTypes, isStrict);
+  return generateForMeta(metadata, dest, extraTypes, isStrict, customLookupDefinitions);
 }

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
@@ -68,12 +68,20 @@ describe('GenericVote', (): void => {
 
   describe('Vote with conviction', (): void => {
     it('constructs Vote with raw boolean', (): void => {
+      const vote = new GenericVote(registry, {
+        aye: true,
+        conviction: 'Locked1x'
+      });
+
       expect(
-        new GenericVote(registry, {
-          aye: true,
-          conviction: 'Locked1x'
-        }).toU8a()
+        vote.toU8a()
       ).toEqual(new Uint8Array([0b10000001]));
+      expect(
+        vote.toPrimitive()
+      ).toEqual({
+        aye: true,
+        conviction: 'Locked1x'
+      });
     });
 
     it('constructs with Vote aye is false, conviction is None', (): void => {

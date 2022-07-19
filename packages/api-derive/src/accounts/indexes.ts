@@ -1,23 +1,21 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { AccountIndexes } from '../types';
+import type { Observable } from 'rxjs';
+import type { AccountIndexes, DeriveApi } from '../types';
 
-import { of } from '@polkadot/x-rxjs';
-import { map, startWith } from '@polkadot/x-rxjs/operators';
+import { map, of, startWith } from 'rxjs';
 
 import { memo } from '../util';
 
 let indicesCache: AccountIndexes | null = null;
 
-function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
+function queryAccounts (api: DeriveApi): Observable<AccountIndexes> {
   return api.query.indices.accounts.entries().pipe(
     map((entries): AccountIndexes =>
       entries.reduce((indexes: AccountIndexes, [key, idOpt]): AccountIndexes => {
         if (idOpt.isSome) {
-          indexes[idOpt.unwrap()[0].toString()] = key.args[0];
+          indexes[idOpt.unwrap()[0].toString()] = api.registry.createType('AccountIndex', key.args[0]);
         }
 
         return indexes;
@@ -41,7 +39,7 @@ function queryAccounts (api: ApiInterfaceRx): Observable<AccountIndexes> {
  * });
  * ```
  */
-export function indexes (instanceId: string, api: ApiInterfaceRx): () => Observable<AccountIndexes> {
+export function indexes (instanceId: string, api: DeriveApi): () => Observable<AccountIndexes> {
   return memo(instanceId, (): Observable<AccountIndexes> =>
     indicesCache
       ? of(indicesCache)

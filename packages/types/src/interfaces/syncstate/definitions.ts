@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -6,19 +6,9 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+
 export default {
-  rpc: {
-    genSyncSpec: {
-      endpoint: 'sync_state_genSyncSpec',
-      description: 'Returns the json-serialized chainspec running the node, with a sync state.',
-      params: [
-        {
-          name: 'raw',
-          type: 'bool'
-        }
-      ],
-      type: 'Json'
-    }
-  },
+  rpc,
   types: {}
 } as Definitions;

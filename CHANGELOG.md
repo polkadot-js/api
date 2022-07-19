@@ -4,10 +4,1173 @@
 
 Changes:
 
-- Add Kusama & Westend 9050 upgrade blocks
+- `{BTree|Hash}Map.toHuman()` now display `Raw` keys as ascii (if detected)
+- Add `toPrimitive()` to all base `Codec` interfaces (string/boolean/number)
+
+
+## 8.13.1 Jul 16, 2022
+
+Changes:
+
+- Add `derive.chain.subscribeFinalized{Heads, Blocks}` which returns all finalized, no skips
+- Support Moonbeam author extraction on `derive.chain.*` (w/ shared logic dedupe)
+- Cater for older `BlockBuilder 2/3/4` & `GrandpaApi 2` runtime interface definitions
+- Support for `NominationPoolsApi` runtime interface
+- Support for `DebugRuntimeApi` runtime interface, Frontier-specific
+- Support for `NimbusApi` runtime interface (& older `AuthorFilterAPI`)
+- Add additional historic `DispatchError` enum variant for asset chains
+- Add Kusama 9250 upgrade block
+- Update to latest Substrate, Polkadot & Kusama metadata
+
+
+## 8.12.2 Jul 10, 2022
+
+Changes:
+
+- Update to `@polkadot/util` 10.0.2
+
+
+## 8.12.1 Jul 9, 2022
+
+Changes:
+
+- Adjust `Opaque{Metadata, Multiaddr, PeerId}` decoding to `Opaque<Bytes>`
+- Fix historic `XcmV0` definitions for `BuyExecution`
+- Adjust type generation to correctly cater for ambient definitions
+- Improve type argument generation for `Option<...>` types
+- Adjust usage of deprecated `@polkadot/util` methods
+- Runtime call typegen from `system.version` constant value
+- Expose query flags on `derive.staking.account`
+- Update to latest Substrate, Polkadot & Kusama metadata
+- Update to `@polkadot/util` 10.0.1
+
+
+## 8.11.3 Jul 5, 2022
+
+Changes:
+
+- Ensure historic `DispatchError` is always the non-current variant
+- Adjust type signatures for non-required use of `@types/node`
+
+
+## 8.11.2 Jul 4, 2022
+
+Changes:
+
+- Bump to `@polkadot/util-crypto` 9.7.2 (w/ `@polkadot/wasm-crypto` 6.2.2)
+
+
+## 8.11.1 Jul 2, 2022
+
+Contributed:
+
+- Adjust `api.{tx, query, ...}` with no external side-effects (Thanks to https://github.com/btwiuse)
+
+Changes:
+
+- Support for `state_call` definitions via API config (exposed on `api.call.*`)
+- Base type definitions for `state_call` from Substrate, Polkadot & Orml
+- Align runtime types with latest Substrate master
+- Type generation for runtime call definitions (internal & external)
+- Update to latest Substrate, Polkadot & Kusama metadata
+
+
+## 8.10.1 Jun 26, 2022
+
+Contributed:
+
+- Bump `@substrate/connect` to 0.7.7 (Thanks to https://github.com/wirednkod)
+- Support `feeHistory` & `maxPriorityFeePerGas` eth RPCs (Thanks to https://github.com/crystalin)
+
+Changes:
+
+- Align `BeefyPayload` with Substrate master
+- Use `static get [Symbol.species] ()` for `Array` & `Uint8Array` types
+- Add support for (optional, non-runtime recommended) `f32` & `f64` types
+- Add future-use `AbstrateBigInt` wrapper extension
+- Update Codec-internal performance tests
+- Add Westend 9250 upgrade block
+- Update to latest Substrate, Polkadot & Kusama metadata
+
+
+## 8.9.1 Jun 19, 2022
+
+Contributed:
+
+- Update `@substrate/connect` to 0.7.6 (Thanks to https://github.com/tomaka)
+
+Changes:
+
+- Deupe all internal type property getters
+- Adjust `@polkadot/types-codec` asserts
+- Rename `Base` type to `AbstractBase` (reflecting usage)
+- Alias `blockHash` on `rpc.engine.createBlock` return
+- Instantiate `Compact/UInt/Int` with `number` when passed
+- Adjust name extraction in `PortableRegistry` (maintainability)
+- Adjust string type path extraction (maintainability)
+- Add Kusama 9230 upgrade block
+- Update to latest Substrate metadata
+
+
+## 8.8.2 Jun 14, 2022
+
+Changes:
+
+- Align historic `DispatchErrorModule` with `U8` variant
+- Extend lookup type name generation when conflicts arrise
+- Update to latest Substrate metadata
+
+
+## 8.8.1 Jun 12, 2022
+
+Contributed:
+
+- Ensure typegen disconnects from WS endpoint (Thanks to https://github.com/rflechtner)
+
+Changes:
+
+- Ensure storage `Option<Option<Type>>` are correctly handled
+- Cater for named event fields (expose on event data as available)
+- Expose (partial) `runtimeVersion` on `api.at` interfaces
+- Add aliases for `DispatchError{U8, U8a}` (default to new `U8a` variant)
+- Align `DispatchError` definition with latest Substrate
+- Adjust contracts RPC definitions with `DispatchError` return
+- Ensure `blockHash` is passed through with `era` sign options
+- Workaround for default calls on chains with non-standard indexes
+- Optimization for value returns on merged queries
+- Update `derive.bagsList` to detect `voterList` pallet
+- Add Polkadot 9200/9220 & Westend 9230 upgrade blocks
+
+
+## 8.7.1 Jun 4, 2022
+
+Changes:
+
+- Add internal merge of single storage queries
+- Expose provider stats on API intrerface via `.stats`
+- Adjust flag extraction for latest phragmen types
+- Support for `Range` in typegen for `Enum`
+- Add Kusama 9220 upgrade block
+
+
+## 8.6.2 May 30, 2022
+
+Changes:
+
+- Don't apply default to `Option<bool>` opt-in
+- Lower default historic LRU cache size (128 entries, 192MB est)
+- Cater for updates required by TS 4.7.2
+
+
+## 8.6.1 May 29, 2022
+
+Changes:
+
+- Add codec support for specialized `Option<bool>`
+- Optimization for `createClass` with shortcut typeDef creation
+- Optimization of `registry.getOrUnknown` with lookup cache
+- Optimization of Array allocations in decoding
+- Use `compactFromU8aLim` & `u8aConcatStrict` variants
+- Adjust `.inspect()` for `ExtrinsicPayload`
+- Adjust Kusama `StakingLedger` for runtime 1051
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 8.5.1 May 22, 2022
+
+Contributed:
+
+- Bump `@substrate/connect` to 0.7.5 (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Adjust extrinsic inspect for signed/unsigned
+- Add support for `mmr_generateBatchProof` RPC
+- Add additional `isCodec` checks to error/event `.is`
+- Add support for `Vec<Option<X>>` in typegen
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 8.4.2 May 15, 2022
+
+Changes:
+
+- Expand/fix TS typings for `MortalEra.{birth, death}(...)`
+
+
+## 8.4.1 May 14, 2022
+
+Changes:
+
+- Added support for typegen over `Range/RangeInclusive` types
+- Add explicit support for `Call` typegen (inclusive of non-defaults)
+- Deupe `wss://` handling in `polkadot-types-from-{chain, defs}`
+- Allow for optional `definitions.ts` in typegen (only use chain)
+- Optimize `Compact<*>` decoding in Uint8Array streams
+- Use `I*` interfaces for extrinsic payload getters
+- Re-add support for historic linked-map queries
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Add latest upgrade blocks for Polkadot, Kusama & Westend
+
+
+## 8.3.2 May 8, 2022
+
+Contributed:
+
+- Bump `@substrate/connect` to 0.7.4 (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Adjust `BTreeSet` in typegen top-level generation
+
+
+## 8.3.1 May 1, 2022
+
+Contributed:
+
+- Fetch metadata via WS for `types-from-defs` (Thanks to https://github.com/alex-nax)
+
+Changes:
+
+- Extract metadata v14 `BTreeSet` types into correct type
+- Assert to ensure that `[u8; <size>]` has exact sizes (non-u8a inputs)
+- Adjust `tx.paymentInfo` signing process for existing signature
+- Add Kusama 9190 upgrade block
+- Add Westend 9200 upgrade block
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 8.2.1 Apr 24, 2022
+
+Contributed:
+
+- Make WS timeout check configurable (Thanks to https://github.com/isSerge)
+
+Changes:
+
+- Don't fake signature for `paymentInfo` if already signed
+- Remove `api.derive.balances.fees` (use direct constants as applicable)
+- Add Westend 9190 upgrade block
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 8.1.1 Apr 17, 2022
+
+Contributed:
+
+- Adjust typegen for `Vec<{ struct: <type> }>` (Thanks to https://github.com/zannis)
+- Adjust typegen __dirname for ESM (Thanks to https://github.com/drewstone)
+
+Changes:
+
+- Fix `entriesPaged` where no `at?: BlockHash` is specified
+- Apply windcard matches for `democracy::vote::Vote` and `identity::type::Data`
+- Adjust default "no RPC response" timeout to 60s
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 8.0.2 Apr 11, 2022
+
+Changes:
+
+- Detect typegen template location for commonjs execution
+
+
+## 8.0.1 Apr 10, 2022
+
+- **Breaking change** In this major version the commonjs outputs are moved to a sub-folder. Since the export map and main field in package.json does reflect this change, there should be no usage changes. However the packages here will all need to be on the same version for internal linkage.
+
+Contributed:
+
+- Improve `rpc-provider` README (Thanks to https://github.com/josepot)
+- Add handling for `Vec<[<Type>;<length>]>` in typegen (Thanks to https://github.com/zannis)
+
+Changes:
+
+- Add support for `apiAt.tx(...)` to construct at a specific point
+- Add basic `api.derive.bagsList.*` support
+- Return sorted names for `api.registry.lookup.names`
+- Optimize JSONRPC requests/response handling
+- Output commonjs files under the `cjs/**` root
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Add latest Polkadot 9180 upgrade block
+- Update to `@polkadot/util` 9.0.1
+
+
+## 7.15.1 Apr 3, 2022
+
+Contributed:
+
+- Export `WellKnownChain` for `substrate-connect` (Thanks to https://github.com/josepot)
+- Add support for `{entries, keys}Paged` in `.at` (Thanks to https://github.com/xlc)
+- Align `WeightsPerClass` interface on `maxExtrinsic` (Thanks to https://github.com/HackFisher)
+
+Changes:
+
+- Cater for `DispatchError` with `error` as `[u8; 4]`
+- Add in-flight cache for parallel same-version metadata queries
+- Cater for lazy `@polkadot/util-crypto` init (adjustment for React Native)
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Update latest Westend & Kusama (up to 9180) upgrade blocks
+
+
+## 7.14.3 Mar 28, 2022
+
+Changes:
+
+- Ensure `BitVec` with MSB does not fail (used in Polkadot `DeliveredMessages`)
+
+
+## 7.14.2 Mar 28, 2022
+
+Changes:
+
+- Don't export `ScProvider` top-level in `@polkadot/rpc-provider`
+
+
+## 7.14.1 Mar 27, 2022
+
+Contributed:
+
+- Add `ScProvider` for `@substrate/substrate-connect` (Thanks to https://github.com/josepot)
+- Add support for `BTree{Map, Set}` in typegen (Thanks to https://github.com/CertainLach)
+
+Changes:
+
+- Only explicitly support LSB on `BitVec` types
+- Change `toHuman()` on `BitVec` to output default LSB
+- Add `bytes{Sent, Recv}` to provider stats
+- Clear connection timeout on provider `disconnect()`
+- Add support for `dev_getBlockStats` RPC
+
+
+## 7.13.1 Mar 19, 2022
+
+**Important** This contains an upgraded version of `@polkadot/wasm-crypto`. For users of asm.js, e.g. React Native, there are some additional upgrade instructions in the release notes for this version https://github.com/polkadot-js/wasm/releases/tag/v5.0.1
+
+Contributed:
+
+- Expose custom RPC error details (Thanks to https://github.com/intendednull)
+- Improve custom RPC error typings (Thanks to https://github.com/MOZGIII)
+
+Changes:
+
+- Support for rejection of hanging RPC requests (30s timeout)
+- Add `.stats` to provider interfaces with running counters
+- Add support for `state_trieMigrationStatus` RPC
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Update to `@polkadot/util` 8.6.1
+- Additional workaround for Vite bundling
+
+
+## 7.12.1 Mar 13, 2022
+
+Changes:
+
+- Allow for correct handling of `Option<Null>` types
+- Adjust for bundlers where `import.meta.url` is undefined
+- Update to `@polkadot/util` 8.5.1
+
+
+## 7.11.1 Mar 6, 2022
+
+Changes:
+
+- Chunk derive retrieval of `era{Exposure, Prefs, Slashes}`
+- Ensure that signer (passed via options) do get updated
+- Kusama & Polkadot 9170 upgrade blocks
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Adjustments for TypeScript 7.6.2
+
+
+## 7.10.1 Feb 27, 2022
+
+Contributed:
+
+- Ensure `updateId` is correct in signer callbacks (Thanks to https://github.com/coolcorexix)
+
+Changes:
+
+- Ensure `BTreeSet` has the correct decoded length
+- Attach `PortableRegistry` at point of metadata set
+- Add `derive.chain.getBlockByNumber`
+- Retrieve named reserves in `derive.balances.all`
+- Ensure `v13 -> v14` metadata conversion attaches primitives
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 7.9.1 Feb 20, 2022
+
+Contributed:
+
+- Support historic queries via blockNumber (Thanks to https://github.com/stwiname)
+
+Changes:
+
+- Align `grandpa_proveFinality` with Substrate
+- Allow for derive augmentation (swap base type to interfaces)
+- Kusama 9160 upgrade block
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 7.8.1 Feb 14, 2022
+
+Contributed:
+
+- Add `isHistoric` flag to ETH RPCs (Thanks to https://github.com/stwiname)
+- Align contract instantiate types with Substrate (Thanks to https://github.com/kwingram25)
+
+Changes:
+
+- Adjust map header output type with lookup id
+- Re-enable all `BitVec` tests for `toU8a`
+- Expose `txIndex` as event index on extrinsic results
+- Allow inspection of Codec encoding (experimental)
+- Allow inspection of storage key encoding (experimental)
+- Update to latest Substrate, Kusama & Polkadot static metadata
+- Update `@polkadot/util` to 8.4.1
+
+
+## 7.7.1 Feb 6, 2022
+
+Upgrade priority: Low. Recommended for users with long-running scripts.
+
+Contributed:
+
+- Fix rpc-provider LRU memory leak (Thanks to https://github.com/gdethier)
+
+Changes:
+
+- Don't warn on `Lookup*` types missing (these are resolvable)
+- Don't clear injected `PortableRegistry` types on runtime upgrade
+- Clear warning for `Call`/`Event` on non-meta v14 runtimes
+- Add `beefy_getFinalizedHead` RPC support
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 7.6.1 Jan 30, 2022
+
+Upgdare priority: Low. Recommended for users with long-running scripts and those chains based around the latest Substrate master versions.
+
+Contributed:
+
+- Fix memory leak on `.raw` RPC calls (Thanks to https://github.com/r0t0r-r0t0r)
+
+Changes:
+
+- Adjust extraction of `Call` & `Event` types for metadata v14
+- Adjust historic `WinningData` and `SlotRange` types (36-entry variant)
+- Emit `decorated` event on API on metadata decoration
+- Dedupe and extend `WrapperKeepOpaque/WrapperOpaque`
+- Align `Range/RangeInclusive` usage with similar types
+- Adjust bounty derive, return empty on no `{treasury, bounties}.bounties`
+- Ensure handling of all `TypeDefInfo` keys in extraction
+- Add support for `rpc.contracts.uploadCode`
+- Workaround for generators where `#private = { this... }` yields undefined
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 7.5.1 Jan 23, 2022
+
+Upgrade priority: Low. Recommended for users of the latest contract pallet and ink! versions.
+
+Contributed:
+
+- Add additional namespaced contract tests (Thanks to https://github.com/VargSupercolony)
+
+Changes:
+
+- Adjust `Registry` consistency, augment extensions
+- Add `.multi` support on `api.at(...).<section>.<method>`
+- Add support for ink! metadata V3 with payable constructors
+- Cleanup ink! metadata parsing, allowing for easier extension
+- Expose `contract.{query, tx}.<method>.meta`, aligning with API
+- Fix storage metadata, aligning method with decorated name
+- Adjust typegen, only using exportInterface
+- Added Kusama/Polkadot 9151 upgrade block (known types)
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 7.4.1 Jan 15, 2022
+
+Upgrade priority: Medium. Required for all chains using `Range` and `RangeInclusive` types. Also includes better error handling for number conversions.
+
+Changes:
+
+- Asserts for invalid number format inputs (MAX_SAFE_INTEGER, float)
+- Ensure `Range/RangeInclusive` variant check does not fail on encoding
+- Ensure non-option calls in api-contract are marked as `@deprecated`
+- Added Kusama 9150 upgrade block (known types)
+- Update `@polkadot/util` to 8.3.2
+
+
+## 7.3.1 Jan 9, 2022
+
+Upgrade priority: Low. Maintenance upgrade, tracking the latest `@polkadot` libraries.
+
+Changes:
+
+- Extend support for `WrapperKeepOpaque` with internal decoding (allowed to fail)
+- Adjust max-entries in historic provider LRU
+- Update to latest Substrate/Polkadot/Kusama metadata
+- Update `@polkadot/util` to 8.3.1
+- Update package paths under ESM
+
+
+## 7.2.1 Jan 3, 2022
+
+Upgrade priority: Low. Recommended for users generating TS chain-specific augmentations.
+
+Changes:
+
+- Convert contract `ReturnFlags` to set (as opposed to bare `u32`)
+- Adjust chain-specific augmentation to not auto-add RPC imports
+- Ensure package path is availble under ESM & CJS
+
+
+## 7.1.1 Dec 26, 2021
+
+Upgrade priority: Low. Recommended for users of contracts form Substrate master & Polkador/Kusama TS app developers where specific chain augmentation would be helpful.
+
+Contributed:
+
+- Expose `storageDepositLimit` on contract options (Thanks to https://github.com/kwingram25)
+
+Changes:
+
+- Expose `@polkadot/api-augment/{kusama, polkadot, substrate}` for specific augmentations (The bare `@polkadot/api-augment` is equivalent to `/substrate`, keeping the existing behavior)
+- Expose `@polkadot/types-augment/{lookup, registry}` variants (The bare `@polkadot/types-augment` applies both)
+- Expose `txHash` on submittable results, e.g. `tx.signAndSend(..., ({ txHash }) => ...)`
+- Align casing for TS & exposed queries (adjusts for `ALLCAPS` entries)
+- Additional tests for `Option` codec (explicit in expectations)
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 7.0.2 Dec 21, 2021
+
+Upgrade priority: Low. Recommended for applications where collective derives with aliasses are being used.
+
+Changes:
+
+- Fix alias module mapping in collective derives
+- Update `dispathchQueue` derive to align with latest Substrate
+- Update to latest Substrate metadata
+
+
+## 7.0.1 Dec 20, 2021
+
+Upgrade priority: Low. Recommended for TS users with their own non-Polkadot/Kusama chains.
+
+- **Breaking changes** For TS users the default API augmentation is now optional. This means that the API, for TypeScript, is not decorated by default with the Substrate types and encpoints. TS users should add a singular `import '@polkadot/api-augment';` in their code to restore old behavior. A full writeup of the rationale and other options can be found [in the FAQ](https://polkadot.js.org/docs/api/FAQ#since-upgrading-to-the-7x-series-typescript-augmentation-is-missing)
+
+- **Breaking change** To cater for the above, chain-specific interfaces generated with older versions may not be compatible with the current version of the API. Additionally, TS interfaces generated with this version of the API is not compatible with older API versions.
+
+Contributed:
+
+- Add contracts storage deposit support (Thanks to https://github.com/statictype)
+- Do not throw error on socket closes (Thanks to https://github.com/xcaptain)
+
+Changes:
+
+- Split `@polkadot/types-{codec, create}` packages from `types`
+- Extract `@polkadot/{api, rpc, types}-augment` (now optional, TS-user applied)
+- Rework build steps to use TS project references
+- Add Polkadot 9140 upgrade block
+- Update to latest Substrate, Kusama & Polkadot static metadata
+
+
+## 6.12.1 Dec 13, 2021
+
+Upgrade priority: Low. Recommended for users of contracts on the current Substrate master version and TS users who generate metadata v14 interfaces.
+
+Changes:
+
+- Add support for contracts V2 ABI metadata
+- `CheckNonZeroSender` signed extension support
+- Remove old-style capabilities detection (unneeded with metadata v14+)
+- Generated TS Enum interfaces now expose the `type` (with allowed values)
+- Split local & package imports in generated TS interfaces
+- Add Kusama 9130 upgrade block
+- Internal maintainability cleanups
+
+
+## 6.11.1 Dec 5, 2021
+
+Upgrade priority: Low. Maintenance upgrade, tracking the latest `@polkadot` libraries.
+
+Changes:
+
+- Align `state_traceBlock` RPC with Substrate
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.10.3 Nov 30, 2021
+
+Upgrade priority: Medium. Recommended for 6.10.x users
+
+Changes:
+
+- Fix ss58Prefix extraction
+
+
+## 6.10.2 Nov 30, 2021
+
+Upgrade priority: Low. Aligns TS augmentation and decoration with older behavior for ALL_CAPS identifiers.
+
+Changes:
+
+- Adjust augmentation interface consistency with top-level declarations
+- Update `@polkadot/util` to 8.0.4 with adjusted `stringCamelCase`
+
+
+## 6.10.1 Nov 29, 2021
+
+Upgrade priority: Low. Recommended for users of `HttpProvider` and for chains generating types using TS augmentation.
+
+Changes:
+
+- Fix for HttpProvider init (RPC sections with only subscriptions)
+- Re-order imports in lookup type augmentation interfaces
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.9.2 Nov 22, 2021
+
+Upgrade priority: Medium. Pulls in `@polkadot/util-crypto` fix for TS projects.
+
+Changes:
+
+- Update `@polkadot/util-crypto` with TS compilation work-around
+
+
+## 6.9.1 Nov 21, 2021
+
+Upgrade priority: Medium. Recommended for metadata v14 parachains. For TS users, the package now support TypeScript 4.5.2 and allows extraction of user types from metadata v14.
+
+Contributed:
+
+- Lookup TS generation for all metadata v14 chains (Thanks to https://github.com/savudani8)
+- Update `BeefySignedCommitment` type (Thanks to https://github.com/czl1378)
+
+Changes:
+
+- Adjust runtime `*::{Call, Event}` matching for metadata v14
+- Adjust derive decoration with (optional) known methods
+- Expose `*{Call, Event, Error}` TS types for metadata v14
+- Align Option `.toJSON` output with Substrate input
+- Optimize Enum, Struct, Option & Number decoding paths
+- Ajust PascalCase conversions with function from util
+- Prepare pre-v13 types for optional injection
+- Adjustments for TS 4.5.2 support (flatten type infers)
+
+
+## 6.8.1 Nov 11, 2021
+
+Upgrade priority: Low. Recommended for chains with non-MultiSignature variants where `paymentInfo` is required.
+
+Changes:
+
+- Adjust `paymentInfo` signatures to cater for non-MultiSignature variants
+- Remove `::generic::` from names & namespaces under metadata v14
+- Add Polkadot 9122 upgrade block
+- Cleanup Polkadot/Kusama/Westend/Rococo known types (>= v14 metadata)
+- Internal `decorateMethod{Promise, Rx}` renamed to `to{Promise, Rx}Method`
+- Add RPC provider-level LRU for historic requests
+- Add optional known runtime version param to internal `rx.queryAt`
+
+
+## 6.7.2 Nov 9, 2021
+
+Upgrade priority: Low. Recommended for chains on metadata v14 with non-default `Address` implementations.
+
+Changes:
+
+- Detect `AccountId` & `Address` types via `SpRuntime*` definitions
+- Adjust api-derive call ordering when using `.queryAt`
+
+
+## 6.7.1 Nov 7, 2021
+
+Upgrade priority: Low. Internal maintenance updates, focussed on internal optimizations.
+
+Changelog:
+
+- Optimize Extrinsic & block handling (Thanks to https://github.com/nazar-pc)
+- Add `account::AccountId20` mapping (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Use new-gen `voteLockingPeriod` in democracy derives (as available)
+- Dynamically inject getters for `Extrinsic` payloads
+- Optimize caching for complex constructed type classes per registry
+- Convert metadata, rpc and api to use lazy decoration
+- Split u8a decoding paths for `Vec` (different from general path)
+- Keep track of initial u8a decoded length inside base Codecs
+- Extract multi property assignments for `Struct`, `Set`, `Json` & `Enum`
+- Move `PortableRegistry` location inside `@polkadot/types/metadata`
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.6.1 Nov 1, 2021
+
+Upgrade priority: Low. Internal maintenance updates.
+
+Changes:
+
+- Fix construction for `palletVersion` keys with correct prefix
+- Add Polkadot `EthereumAddress` as a known `PortableRegistry` override
+- De-dupe `PortableRegistry` namespace splitting operations
+- Optimize internal `AbstractArray` & `Struct` u8a decoding
+- Shortcut `Struct` construction from `Struct` instance
+- Use internal `lookupName` in `createClass` (allows deeply recursive lookups)
+- Codec `toHex()` will now correctly return the TS `HexString` type
+- Update known upgrade blocks for Westend & Kusama
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.5.2 Oct 26, 2021
+
+Upgrade priority: Low. Recommended for users with `.at` queries on unknown blocks.
+
+Changes:
+
+- Adjust `toHuman` on `Call` to return names & (not only) values
+- Allow for optional known `RuntimeVersion` to short-circuit `api.at`
+- Ensure `Struct` decodes fully on `null` input (equivalent to `undefined` & `{}`)
+
+
+## 6.5.1 Oct 24, 2021
+
+Upgrade priority: Low. Internal maintenance upgrades.
+
+Contributed:
+
+- Add `Auction` to Polkadot pre-0.9.11 `ProxyType` (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Ecah module now exposes the Substrate-added `palletVersion` storage item
+- Adjust Websocket `maxReceivedFrameSize` under Node
+- `TypeDef` structures now contain the `typeName` from metadata v14 on fields
+- Fix browser bundle imports for xcm-mapping (move to `types-known`)
+- Expose all extracted type names in `PortableRegistry`
+- Adjust `toJSON` (Ascii) output detection on `Raw`
+- Adjust `api.rpc.*.*.raw(..args)` return to the actual over-the-wire JSON result
+- Remove `api.rpc.*.*.json(..args)` since it now overlaps with new `.raw`
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.4.2 Oct 18, 2021
+
+Upgrade priority: Low. Recommended for Westmint runtime 500+
+
+Changes:
+
+- Ensure `SignerPayload` correctly serializes `Option` with `None`
+- Add Ethereum `BlockV{0, 1, 2}` types, aligning with latest Frontier
+- Additional tests for metadata serialization/de-serialization
+
+
+## 6.4.1 Oct 17, 2021
+
+Upgrade priority: Low. Recommended for Kusama & Polkadot runtime 9110+
+
+Changes:
+
+- Adjust Statemint known types for version 4+
+- Adjust balance derives to return multiple vesting schedules
+- Adjust crowdloan derives to use paged key retrieval
+- Ensure account indices (derived) are `Accountindex` types
+- Adjust metadata v14 to include top-level type field from metadata
+- Filter metadata v14 unused enum fields in TS generation
+- Adjust derives to use more metadata v14 types on returns
+- Add Kusama & Polkadot upgrade blocks for 9100/9110
+- Align contract usage with latrest `PortableRegistry` (remove old-generation)
+- Adjust contracts `InstantiateReturnValue` type (no rent projection after 267)
+- Adjust for eslint v8 checks
+- Don't run any online tests on CI by default (uncontrolled external dependencies)
+
+
+## 6.3.1 Oct 9, 2021
+
+Upgrade priority: Low. Recommended for Kusama & Polkadot runtime 9100+
+
+Changes:
+
+- Mark `api.query.*.*.at` as deprecated (use `api.at`)
+- Expose `queryMulti`, `findError` and `findCall` on `api.at`
+- Optimize parallel metadata retrieval/decoration
+- Rework derive `.at` to ensure no additional metadata calls
+- Adjust Xcm types for Kusama, Polkadot, Westend (V1 & V2 usage)
+- Fix Xcm Fungibility type
+- Add upgrade blocks for Westend
+- Prepare for v14 metadata swap in Kusama/Polkadot (9110 runtime)
+- Adjust metadata wilcard path matching (event extraction)
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.2.1 Oct 4, 2021
+
+Upgrade priority: Low. Maintenance updates.
+
+Contributed:
+
+- Cater for new asset fee payment extension (Thanks to https://github.com/apopiak)
+
+Changes:
+
+- Extend error messages for malformed `queryMulti` inputs
+- Correctly handle non-map queries passed to `queryMulti` in map form
+- Use new metadata v14 lookup type in derive results
+- Adjust definitions to infer TS types in `.multi` queries
+- Fix TS lookup enum generation with nested Option & Tuple
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.1.2 Sep 29, 2021
+
+Upgrade priority: Low. Recommended for 6.x users using historic queries.
+
+Changes:
+
+- Fix `.at` queries/decoration for pre-V13 metadata
+- Added `BridgeMessageId` & `SpecVersion` types for bridges
+- Added `WrapperOpaque` encoding/decoding (as per latest Substrate)
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 6.1.1 Sep 27, 2021
+
+Upgrade priority: Low. Minor maintenance changes from the 6.0.x versions.
+
+Contributed:
+
+- Adjust bridges `OutboundLaneData` type (Thanks to https://github.com/HackFisher)
+- Fix README 404 (Thanks to https://github.com/nblogist)
+
+Changes:
+
+- Add `childstate_getStorageEntries` RPC
+- Allow for scale-info v0 -> v1 conversion
+
+
+## 6.0.5 Sep 20, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.4 using `api.query.*.*.at` calls
+
+Changes:
+
+- Revert cross-registry (now-inactive) change introduced in 6.0.3
+- Ensure `Option` is correctly imported for TS query generation
+
+
+## 6.0.4 Sep 20, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.3 using `api.query.*.*.at` calls
+
+Changes:
+
+- `api.query.<module>.<method>.at` will now use `at.at(<hash>)`
+- Use and expose `metadata/util/getSiName` to get human type names
+
+
+## 6.0.3 Sep 19, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.2 using `api.query.*.*.at` calls
+
+Changes:
+
+- Fix `api.query.<module>.<method>.at` queries
+- Adjust typegen formatting for metadata documentation
+
+
+## 6.0.2 Sep 18, 2021
+
+Upgrade priority: Low. Recommended for all users on 6.0.1, especially those using `api.query.substrate.*` calls
+
+Changes:
+
+- Fix `api.query.substrate.*` key generation
+
+
+## 6.0.1 Sep 18, 2021
+
+Upgrade priority: Low. Recommended for users of the latest Substrate/Polkadot with Metadata v14.
+
+- **Important** The Metadata v14 change allows the metadata to expose the chain types. This has been a major overhaul of the metadata handling, hence the major version bump.
+
+Contributed:
+
+- Allow for `.clone` on Http provider (Thanks to https://github.com/ianhe8x)
+
+Changes:
+
+- Allow for Metadata v14 parsing & usage
+- Align `DigestItem` to latest Substrate
+- Adjust Kusama `IdentityInfo` type for historic versions
+- All `null` values in bundles min/max
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 5.9.1 Sep 13, 2021
+
+Upgrade priority: Low. Recommended for chains using Xcm.
+
+Contributed:
+
+- Adjust Centrifuge `ProxyType` (Thanks to https://github.com/branan)
+
+Changes:
+
+- Additional types for parachain Disputes
+- Adjust Xcm Error enum types
+- Add Polkadot 9090 upgrade block
+- Decoding enhancements with narrowing checks for TS
+
+
+## 5.8.3 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Adjust Statemint, Rococo and Westend Xcm overrides
+
+
+## 5.8.2 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Contributed:
+
+- Correct Xcm V1 `MultiLocation` definitions (Thanks to https://github.com/apopiak)
+
+Changes:
+
+- Adjust Kusama Xcm overrides
+
+
+## 5.8.1 Sep 6, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Add `Auction` to Kusama `ProxyType` definition
+- Adjust Xcm definitions with latest v1 & v2 types
+- Support for `scale-info` 1.0 `Range` mapping
+- Bump static metadata for latest Substrate, Polkadot & Kusama
+
+
+## 5.7.1 Aug 29, 2021
+
+Upgrade priority: Low.
+
+Changes:
+
+- Optimize `Vec` construction (no re-create on new arrays)
+- Adjust output for enums in `toHuman`
+- Adjust aliases for new parachain module locations
+- Support for versioned xcm types (Polkadot master)
+- Add support for `Range` in `PortableRegistry` (used in Metadata 14)
+- Adjust balances derive for non-existent instances
+- Ensure Statemint (current) defaults to xcm v0
+- Add Kusama 9090 upgrade block
+
+
+## 5.6.1 Aug 23, 2021
+
+Upgrade priority: Low. Recommended for users of Xcm, preparing for Kusama/Westend 9100
+
+Contributed:
+
+- Support 0...N-1 args on `keys/entries` (Thanks to https://github.com/hamidra)
+
+Changes:
+
+- Updated XCM types, `AssetId`, `MultiAssets`, `MultiAssetV1`, `AssetInstanceV1`, `XcmOrderV1`
+- Rename `Null` entry in `MultiLocation` to `Here` (Xcm V1)
+- Westend 9090 upgrade block
+- Bump static Substrate, Kusama & Polkadot metadata
+
+
+## 5.5.2 Aug 19, 2021
+
+Upgrade priority: Medium. Contains fixes for parachain types, affecting historic block retrieval on Kusama.
+
+Changes:
+
+- Adjust `ValidDisputeStatementKind` enum to latest version
+- Only enable API health keepalive on connections supporting subscriptions
+
+
+## 5.5.1 Aug 15, 2021
+
+Upgrade priority: Low. Recommended for users of TS (`createType` and `bigint` adjustments)
+
+Contributed:
+
+- Add `Range` & `RangeInclusive` types (Thanks to https://github.com/c410-f3r)
+- Always use TS `bigint` type (Thanks to https://github.com/ntduan)
+
+Changes:
+
+- Loosen pedantic check not to fail on all-empty values
+- Extend `createType` auto-TS decoration for `BreeMap`, `BTreeSet`, `HashMap`, `Range`
+- Add Polkadot 9080 upgrade block
+
+
+## 5.4.1 Aug 9, 2021
+
+Upgrade priority: Low. Recommended for potential users of NMap.
+
+- **Important** The `ClassOf` alias for `createClass` has been removed, use `createClass` (with new generics) directly
+
+Contributed:
+
+- Enable `.keys()/.entries()` on NMap (Thanks to https://github.com/hamidra)
+
+Changes:
+
+- `createType<T = Codec>('...': K)` now returns `Codec` when `K` is not known
+- `createType` does basic TypeScript type matching on the input type
+- Handle `BitSequence` in `PortableRegistry`
+- Ensure API `isConnected` is set before connect/disconnect events are fired
+- Move all static test support files into `@polkadot/types-support`
+- Align static Metadata with latest Substrate, Polkadot & Kusama
+- Adjust v14 Metadata definitions to latest version
+
+
+## 5.3.2 Aug 3, 2021
+
+Upgrade priority: Low. Recommended for users of bridges.
+
+Contributed:
+
+- Add missing bridges types (Thanks to https://github.com/tomusdrw)
+
+Changes:
+
 - Align static metadata with latest Substrate
+
+
+## 5.3.1 Aug 2, 2021
+
+Upgrade priority: Low. Recommended for users of `api.at(...)` interfaces
+
+Changes:
+
+- Check specName & specVersion for historic registries (caters for runtime renames)
+- Fix circular dependencies in codec utils
+- Fix `api.at(<blockHash>)` to decorate with the correct storage hash
+- Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
+- Add Kusama 9080 upgrade block
+- Add v13/v14 static metadata for Polkadot
+- Align static metadata with latest Substrate
+
+
+## 5.2.1 Jul 26, 2021
+
+Upgrade priority: Low. Recommended for users of `BTreeMap` and `BTreeSet`
+
+Contributed:
+
+- Perform sorting on `BTree{Map, Set}`, aligning with Substrate (Thanks to https://github.com/Lezek123)
+
+Changes:
+
+- Adjust RPC to use `registry.createType` with optionality (required for metadata v14)
+- Adjust alphabetical sorting for TS type generation
+- Adjustments for upcoming metadata v14 in type creation & `PortableRegistry`
+- Provide the capability to convert v13 Metadata to upcoming v14
+
+
+## 5.1.1 Jul 19, 2021
+
+Upgrade priority: Low. Recommended for users of XCM with type fixes.
+
+- **Breaking changes** With the support for v14 metadata parsing, the `documentation` fields on metadata was renamed to `docs` for consistency, aligning with the SCALE type generators.
+
+Contributed:
+
+- Don't clear rpc decoration on Api clone (Thanks to https://github.com/ianhe8x)
+- Align Xcm Junction type with Substrate (Thanks to https://github.com/dt665m)
+
+Changes:
+
+- Update `ParaPastCodeMeta` with `ReplacementTimes`
+- Add mappings for `AccountId20` & `AccountId32` types
+- Adjust scale-info types with Substrate (mapping for api-contracts to old)
+- Allow nested structs in enum definitions & generation
+- Allow for parsing of v14 metadata (not enabled by default, not merged into Substrate as of yet)
+
+
+## 5.0.1 Jul 11, 2021
+
+Upgrade priority: Low. Recommended for users of current-generation Substrate chains.
+
+- **Breaking change** The `@polkadot/metadata` package has been removed, adjust imports to `@polkadot/types`
+- **Important** Internally rxjs has been upgraded to the 7.0 version, affecting users of the `ApiRx` interface
+
+Changes:
+
+- Remove the `@polkadot/metadata` package, consolidate into `@polkadot/types`
+- Contract reads will now expose an additional `gasRequired` (total estimated)
+- Allow schedule derives to handle scheduler entries that cannot decode
+- Add missing historic `Heartbeat: HeartbeatTo244` mapping to Westend
+- Adjust Ws `.disconnect()` logic to always clear auto-connect
+- Add `BlockNumberFor` type mapping
+- Add Westend 9080 upgrade block
+- Add `derive.crowdloan.contributions(paraId)`
+- Allow building as a completely stand-alone browser bundle (experimental)
+- Update to latest `@polkadot/x-rxjs` with RxJs 7.2
+- Align static metadata with latest Substrate
+
+
+## 4.17.1 Jul 5, 2021
+
+Upgrade priority: Low. Allows cleaner access to multiple `.at` queries via new API.
+
+Contributed:
+
+- Added `Emergency` to `ElectionPhase` (Thanks to https://github.com/arjanz)
+
+Changes:
+
+- Added `await api.at(<blockHash>)` to retrieve API instances at a point
+- Added `fallbackType` for type classes (only struct, as defined)
+- Allow `instances` API config to drive derive collective locations
+- Ensure correct registry is attached to historic metadata
+- Align static metadata with latest Substrate
+
+
+## 4.16.2 Jun 27, 2021
+
+Upgrade priority: Low. Recommended for Polkadot with runtime >= 9050.
+
+Changes:
+
+- Correct `CompactAssignments` & `RawSolution` types for Polkadot
+
+
+## 4.16.1 Jun 26, 2021
+
+Upgrade priority: Low. Recommended for full from-genesis queries on Kusama.
+
+Contributed:
+
+- Adjust types for uniques (Thanks to https://github.com/Yuripetusko)
+
+Changes:
+
+- Add Kusama, Polkadot & Westend 9050 upgrade blocks
+- Add Kusama & Westend 9070 upgrade blocks
 - Adjust API decoration to lazy-create event and storage types
 - Use TS `override` as applicable (with `--noImplicitOverrides` option)
+- Add missing historic `Heartbeat: HeartbeatTo244` mapping to Kusama
+- Remove duplication from contracts registry
+- Add explicit check for scale-info 0.7+ (contracts index lookups)
+- Align static metadata with latest Substrate
 
 
 ## 4.15.1 Jun 19, 2021

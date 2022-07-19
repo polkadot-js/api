@@ -1,15 +1,15 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { Observable } from 'rxjs';
 import type { SignedBlockExtended } from '../type/types';
+import type { DeriveApi } from '../types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { catchError, map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { createSignedBlockExtended } from '../type';
 import { memo } from '../util';
+import { getAuthorDetails } from './util';
 
 /**
  * @name getBlock
@@ -24,23 +24,22 @@ import { memo } from '../util';
  * console.log(`block #${block.header.number} was authored by ${author}`);
  * ```
  */
-export function getBlock (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<SignedBlockExtended | undefined> {
-  return memo(instanceId, (hash: Uint8Array | string): Observable<SignedBlockExtended | undefined> =>
+export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array | string) => Observable<SignedBlockExtended> {
+  return memo(instanceId, (blockHash: Uint8Array | string): Observable<SignedBlockExtended> =>
     combineLatest([
-      api.rpc.chain.getBlock(hash),
-      api.query.system.events.at(hash),
-      api.query.session
-        ? api.query.session.validators.at(hash)
-        : of([])
+      api.rpc.chain.getBlock(blockHash),
+      api.queryAt(blockHash)
     ]).pipe(
-      map(([signedBlock, events, validators]): SignedBlockExtended =>
-        createSignedBlockExtended(api.registry, signedBlock, events, validators)
+      switchMap(([signedBlock, queryAt]) =>
+        combineLatest([
+          of(signedBlock),
+          queryAt.system.events(),
+          getAuthorDetails(signedBlock.block.header, queryAt)
+        ])
       ),
-      catchError((): Observable<undefined> =>
-        // where rpc.chain.getHeader throws, we will land here - it can happen that
-        // we supplied an invalid hash. (Due to defaults, storage will have an
-        // empty value, so only the RPC is affected). So return undefined
-        of()
+      map(([signedBlock, events, [, validators, author]]) =>
+        createSignedBlockExtended(events.registry, signedBlock, events, validators, author)
       )
-    ));
+    )
+  );
 }

@@ -1,31 +1,30 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DefinitionRpcExt, DefinitionRpcSub } from '../types';
 
-import * as definitions from './definitions';
+import { objectSpread } from '@polkadot/util';
+
+import * as defs from './definitions';
 
 const jsonrpc: Record<string, Record<string, DefinitionRpcExt>> = {};
 
-Object
-  .keys(definitions)
-  .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0)
-  .forEach((_section): void => {
-    jsonrpc[_section] = {};
+Object.keys(defs).forEach((s) =>
+  Object.entries(defs[s as 'babe'].rpc || {}).forEach(([method, def]): void => {
+    // allow for section overrides
+    const section = def.aliasSection || s;
 
-    Object
-      .entries(definitions[_section as 'babe'].rpc)
-      .forEach(([method, def]): void => {
-        const isSubscription = !!(def as DefinitionRpcSub).pubsub;
-        const section = def.aliasSection || _section;
+    if (!jsonrpc[section]) {
+      jsonrpc[section] = {};
+    }
 
-        // allow for section overrides
-        if (!jsonrpc[section]) {
-          jsonrpc[section] = {};
-        }
-
-        jsonrpc[section][method] = ({ ...def, isSubscription, jsonrpc: `${section}_${method}`, method, section });
-      });
-  });
+    jsonrpc[section][method] = objectSpread({}, def, {
+      isSubscription: !!(def as DefinitionRpcSub).pubsub,
+      jsonrpc: `${section}_${method}`,
+      method,
+      section
+    });
+  })
+);
 
 export default jsonrpc;

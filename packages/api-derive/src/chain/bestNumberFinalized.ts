@@ -1,13 +1,9 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { BlockNumber } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveApi } from '../types';
 
-import { map } from '@polkadot/x-rxjs/operators';
-
-import { memo } from '../util';
+import { createBlockNumberDerive } from './util';
 
 /**
  * @name bestNumberFinalized
@@ -22,9 +18,7 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function bestNumberFinalized (instanceId: string, api: ApiInterfaceRx): () => Observable<BlockNumber> {
-  return memo(instanceId, (): Observable<BlockNumber> =>
-    api.rpc.chain.subscribeFinalizedHeads().pipe(
-      map((header) => header.number.unwrap())
-    ));
-}
+export const bestNumberFinalized = createBlockNumberDerive(
+  (api: DeriveApi) =>
+    api.rpc.chain.subscribeFinalizedHeads()
+);

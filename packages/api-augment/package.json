@@ -1,0 +1,37 @@
+{
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
+  "description": "API generated augmentation",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-augment#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/api-augment",
+  "repository": {
+    "directory": "packages/api-augment",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.cjs"
+  ],
+  "type": "module",
+  "version": "8.13.2-4-x",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/runtime": "^7.18.9",
+    "@polkadot/api-base": "8.13.2-4-x",
+    "@polkadot/rpc-augment": "8.13.2-4-x",
+    "@polkadot/types": "8.13.2-4-x",
+    "@polkadot/types-augment": "8.13.2-4-x",
+    "@polkadot/types-codec": "8.13.2-4-x",
+    "@polkadot/util": "^10.0.2"
+  },
+  "devDependencies": {
+    "@polkadot/types-support": "8.13.2-4-x"
+  }
+}

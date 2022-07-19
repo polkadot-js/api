@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../api/tsconfig.build.json" },
+    { "path": "../api-augment/tsconfig.build.json" },
+    { "path": "../rpc-augment/tsconfig.build.json" },
+    { "path": "../rpc-provider/tsconfig.build.json" },
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-augment/tsconfig.build.json" },
+    { "path": "../types-codec/tsconfig.build.json" },
+    { "path": "../types-create/tsconfig.build.json" },
+    { "path": "../types-support/tsconfig.build.json" }
+  ]
+}

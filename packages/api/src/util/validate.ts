@@ -1,59 +1,36 @@
-// Copyright 2017-2019 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Type } from '@polkadot/types';
+import type { SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
+import type { Registry } from '@polkadot/types/types';
 
-import { assert, isUndefined } from '@polkadot/util';
+import { isUndefined } from '@polkadot/util';
 
-function sig ({ method, section }: StorageEntry, args: Type[]): string {
-  return `${section}.${method}(${args.join(', ')})`;
-}
-
-function doDoubleMap (creator: StorageEntry, args: unknown[]): [StorageEntry, [any, any]] {
-  const { key1, key2 } = creator.meta.type.asDoubleMap;
-
-  assert(args.length === 2, () => `${sig(creator, [key1, key2])} is a double map, requiring 2 arguments, ${args.length} found`);
-
-  // pass as tuple
-  return [creator, args as [any, any]];
-}
-
-function doMap (creator: StorageEntry, args: unknown[]): [StorageEntry] | [StorageEntry, any] {
-  const { key } = creator.meta.type.asMap;
-
-  assert(args.length === 1, () => `${sig(creator, [key])} is a map, requiring 1 argument, ${args.length} found`);
-
-  // expand
-  return args.length
-    ? [creator, args[0]]
-    : [creator];
-}
-
-function doNMap (creator: StorageEntry, args: unknown[]): [StorageEntry, any[]] {
-  const { keyVec } = creator.meta.type.asNMap;
-
-  assert(args.length === keyVec.length, () => `${sig(creator, keyVec)} is a multi map, requiring ${keyVec.length} arguments, ${args.length} found`);
-
-  // pass as tuple
-  return [creator, args];
+function sig ({ lookup }: Registry, { method, section }: StorageEntry, args: SiLookupTypeId[]): string {
+  return `${section}.${method}(${args.map((a) => lookup.getTypeDef(a).type).join(', ')})`;
 }
 
 // sets up the arguments in the form of [creator, args] ready to be used in a storage
 // call. Additionally, it verifies that the correct number of arguments have been passed
-export function extractStorageArgs (creator: StorageEntry, _args: unknown[]): [StorageEntry, any[]] | [StorageEntry] | [StorageEntry, any] {
-  const args = _args.filter((arg) => !isUndefined(arg));
+export function extractStorageArgs (registry: Registry, creator: StorageEntry, _args: unknown[]): [StorageEntry, unknown[]] {
+  const args = _args.filter((a) => !isUndefined(a));
 
-  if (creator.meta.type.isDoubleMap) {
-    return doDoubleMap(creator, args);
-  } else if (creator.meta.type.isMap) {
-    return doMap(creator, args);
-  } else if (creator.meta.type.isNMap) {
-    return doNMap(creator, args);
+  if (creator.meta.type.isPlain) {
+    if (args.length !== 0) {
+      throw new Error(`${sig(registry, creator, [])} does not take any arguments, ${args.length} found`);
+    }
+  } else {
+    const { hashers, key } = creator.meta.type.asMap;
+    const keys = hashers.length === 1
+      ? [key]
+      : registry.lookup.getSiType(key).def.asTuple.map((t) => t);
+
+    if (args.length !== keys.length) {
+      throw new Error(`${sig(registry, creator, keys)} is a map, requiring ${keys.length} arguments, ${args.length} found`);
+    }
   }
 
-  assert(args.length === 0, () => `${sig(creator, [])} does not take any arguments, ${args.length} found`);
-
-  // no args
-  return [creator];
+  // pass as tuple
+  return [creator, args];
 }

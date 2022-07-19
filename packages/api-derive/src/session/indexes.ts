@@ -1,14 +1,12 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { Option, u32 } from '@polkadot/types';
 import type { ActiveEraInfo, EraIndex, Moment, SessionIndex } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveSessionIndexes } from '../types';
+import type { DeriveApi, DeriveSessionIndexes } from '../types';
 
-import { of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map, of } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -24,7 +22,7 @@ function parse ([currentIndex, activeEra, activeEraStart, currentEra, validatorC
 }
 
 // query based on latest
-function queryStaking (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
+function queryStaking (api: DeriveApi): Observable<DeriveSessionIndexes> {
   return api.queryMulti<[SessionIndex, Option<ActiveEraInfo>, Option<EraIndex>, u32]>([
     api.query.session.currentIndex,
     api.query.staking.activeEra,
@@ -46,7 +44,7 @@ function queryStaking (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
 }
 
 // query based on latest
-function querySession (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
+function querySession (api: DeriveApi): Observable<DeriveSessionIndexes> {
   return api.query.session.currentIndex().pipe(
     map((currentIndex): DeriveSessionIndexes => parse([
       currentIndex,
@@ -59,7 +57,7 @@ function querySession (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
 }
 
 // empty set when none is available
-function empty (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
+function empty (api: DeriveApi): Observable<DeriveSessionIndexes> {
   return of(parse([
     api.registry.createType('SessionIndex', 1),
     api.registry.createType('EraIndex'),
@@ -69,7 +67,7 @@ function empty (api: ApiInterfaceRx): Observable<DeriveSessionIndexes> {
   ]));
 }
 
-export function indexes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionIndexes> {
+export function indexes (instanceId: string, api: DeriveApi): () => Observable<DeriveSessionIndexes> {
   return memo(instanceId, (): Observable<DeriveSessionIndexes> =>
     api.query.session
       ? api.query.staking

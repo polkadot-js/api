@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -6,7 +6,10 @@
 
 import type { Definitions } from '../../types';
 
+import { objectSpread } from '@polkadot/util';
+
 import hrmpTypes from './hrmp';
+import { runtime } from './runtime';
 import slotTypes from './slots';
 
 // proposeParachain
@@ -30,13 +33,53 @@ const cumulusTypes = {
   }
 };
 
+const disputeTypes = {
+  DisputeLocation: {
+    _enum: ['Local', 'Remote']
+  },
+  DisputeResult: {
+    _enum: ['Valid', 'Invalid']
+  },
+  DisputeState: {
+    validatorsFor: 'BitVec',
+    validatorsAgainst: 'BitVec',
+    start: 'BlockNumber',
+    concludedAt: 'Option<BlockNumber>'
+  },
+  DisputeStatement: {
+    _enum: {
+      Valid: 'ValidDisputeStatementKind',
+      Invalid: 'InvalidDisputeStatementKind'
+    }
+  },
+  DisputeStatementSet: {
+    candidateHash: 'CandidateHash',
+    session: 'SessionIndex',
+    statements: 'Vec<(DisputeStatement, ParaValidatorIndex, ValidatorSignature)>'
+  },
+  ExplicitDisputeStatement: {
+    valid: 'bool',
+    candidateHash: 'CandidateHash',
+    session: 'SessionIndex'
+  },
+  InvalidDisputeStatementKind: {
+    _enum: ['Explicit']
+  },
+  MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
+  ValidDisputeStatementKind: {
+    _enum: {
+      Explicit: 'Null',
+      BackingSeconded: 'Hash',
+      BackingValid: 'Hash',
+      ApprovalChecking: 'Null'
+    }
+  }
+};
+
 export default {
   rpc: {},
-  types: {
-    ...cumulusTypes,
-    ...hrmpTypes,
-    ...proposeTypes,
-    ...slotTypes,
+  runtime,
+  types: objectSpread({}, cumulusTypes, disputeTypes, hrmpTypes, proposeTypes, slotTypes, {
     AbridgedCandidateReceipt: {
       parachainIndex: 'ParaId',
       relayParent: 'Hash',
@@ -113,6 +156,13 @@ export default {
       paraHead: 'Hash',
       validationCodeHash: 'ValidationCodeHash'
     },
+    CandidateEvent: {
+      _enum: {
+        CandidateBacked: '(CandidateReceipt, HeadData, CoreIndex, GroupIndex)',
+        CandidateIncluded: '(CandidateReceipt, HeadData, CoreIndex, GroupIndex)',
+        CandidateTimedOut: '(CandidateReceipt, HeadData, CoreIndex)'
+      }
+    },
     CandidateHash: 'Hash',
     CandidateInfo: {
       who: 'AccountId',
@@ -156,35 +206,12 @@ export default {
         Parachain: 'Null'
       }
     },
-    DisputeStatementSet: {
-      candidateHash: 'CandidateHash',
-      session: 'SessionIndex',
-      statements: 'Vec<(DisputeStatement, ValidatorIndex, ValidatorSignature)>'
-    },
-    MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
-    DisputeStatement: {
+    CoreState: {
       _enum: {
-        Valid: 'ValidDisputeStatementKind',
-        Invalid: 'InvalidDisputeStatementKind'
+        Occupied: 'OccupiedCore',
+        Scheduled: 'ScheduledCore',
+        Free: 'Null'
       }
-    },
-    ValidDisputeStatementKind: {
-      _enum: [
-        'Explicit',
-        'BackingSeconded',
-        'BackingValid',
-        'ApprovalChecking'
-      ]
-    },
-    InvalidDisputeStatementKind: {
-      _enum: [
-        'Explicit'
-      ]
-    },
-    ExplicitDisputeStatement: {
-      valid: 'bool',
-      candidateHash: 'CandidateHash',
-      session: 'SessionIndex'
     },
     DoubleVoteReport: {
       identity: 'ValidatorId',
@@ -195,6 +222,11 @@ export default {
     },
     DownwardMessage: 'Bytes',
     GroupIndex: 'u32',
+    GroupRotationInfo: {
+      sessionStartBlock: 'BlockNumber',
+      groupRotationFrequency: 'BlockNumber',
+      now: 'BlockNumber'
+    },
     GlobalValidationSchedule: {
       maxCodeSize: 'u32',
       maxHeadDataSize: 'u32',
@@ -262,6 +294,19 @@ export default {
       horizontalMessages: 'BTreeMap<ParaId, InboundHrmpMessages>'
     },
     MessageQueueChain: 'RelayChainHash',
+    OccupiedCore: {
+      nextUpOnAvailable: 'Option<ScheduledCore>',
+      occupiedSince: 'BlockNumber',
+      timeOutAt: 'BlockNumber',
+      nextUpOnTimeOut: 'Option<ScheduledCore>',
+      availability: 'BitVec',
+      groupResponsible: 'GroupIndex',
+      candidateHash: 'CandidateHash',
+      candidateDescriptor: 'CandidateDescriptor'
+    },
+    OccupiedCoreAssumption: {
+      _enum: ['Included,', 'TimedOut', 'Free']
+    },
     OutboundHrmpMessage: {
       recipient: 'u32',
       data: 'Bytes'
@@ -296,7 +341,7 @@ export default {
       _enum: ['Onboarding', 'Parathread', 'Parachain', 'UpgradingToParachain', 'DowngradingToParathread', 'OutgoingParathread', 'OutgoingParachain']
     },
     ParaPastCodeMeta: {
-      upgradeTimes: 'Vec<BlockNumber>',
+      upgradeTimes: 'Vec<ReplacementTimes>',
       lastPruned: 'Option<BlockNumber>'
     },
     ParaScheduling: {
@@ -318,29 +363,63 @@ export default {
       relayParentStorageRoot: 'Hash',
       maxPovSize: 'u32'
     },
-    RelayBlockNumber: 'u32',
-    RelayChainBlockNumber: 'RelayBlockNumber',
-    RelayHash: 'Hash',
-    RelayChainHash: 'RelayHash',
+    PvfCheckStatement: {
+      accept: 'bool',
+      subject: 'ValidationCodeHash',
+      sessionIndex: 'SessionIndex',
+      validatorIndex: 'ParaValidatorIndex'
+    },
     QueuedParathread: {
       claim: 'ParathreadEntry',
       coreOffset: 'u32'
     },
+    RelayBlockNumber: 'u32',
+    RelayChainBlockNumber: 'RelayBlockNumber',
+    RelayHash: 'Hash',
+    RelayChainHash: 'RelayHash',
     Remark: '[u8; 32]',
+    ReplacementTimes: {
+      expectedAt: 'BlockNumber',
+      activatedAt: 'BlockNumber'
+    },
     Retriable: {
       _enum: {
         Never: 'Null',
         WithRetries: 'u32'
       }
     },
+    ScheduledCore: {
+      paraId: 'ParaId',
+      collator: 'Option<CollatorId>'
+    },
     Scheduling: {
       _enum: ['Always', 'Dynamic']
     },
+    ScrapedOnChainVotes: {
+      session: 'SessionIndex',
+      backingValidatorsPerCandidate: 'Vec<(CandidateReceipt, Vec<(ParaValidatorIndex, ValidityAttestation)>)>',
+      disputes: 'MultiDisputeStatementSet'
+    },
     SessionInfo: {
+      activeValidatorIndices: 'Vec<ParaValidatorIndex>',
+      randomSeed: '[u8; 32]',
+      disputePeriod: 'SessionIndex',
       validators: 'Vec<ValidatorId>',
       discoveryKeys: 'Vec<AuthorityDiscoveryId>',
       assignmentKeys: 'Vec<AssignmentId>',
-      validatorGroups: 'Vec<SessionInfoValidatorGroup>',
+      validatorGroups: 'Vec<Vec<ValidatorIndex>>',
+      nCores: 'u32',
+      zerothDelayTrancheWidth: 'u32',
+      relayVrfModuloSamples: 'u32',
+      nDelayTranches: 'u32',
+      noShowSlots: 'u32',
+      neededApprovals: 'u32'
+    },
+    OldV1SessionInfo: {
+      validators: 'Vec<ValidatorId>',
+      discoveryKeys: 'Vec<AuthorityDiscoveryId>',
+      assignmentKeys: 'Vec<AssignmentId>',
+      validatorGroups: 'Vec<Vec<ParaValidatorIndex>>',
       nCores: 'u32',
       zerothDelayTrancheWidth: 'u32',
       relayVrfModuloSamples: 'u32',
@@ -374,6 +453,12 @@ export default {
       codeUpgradeAllowed: 'Option<BlockNumber>',
       dmqLength: 'u32'
     },
+    UpgradeGoAhead: {
+      _enum: ['Abort', 'GoAhead']
+    },
+    UpgradeRestriction: {
+      _enum: ['Present']
+    },
     UpwardMessage: 'Bytes',
     ValidationFunctionParams: {
       maxCodeSize: 'u32',
@@ -405,5 +490,5 @@ export default {
     MessagingStateSnapshotEgressEntry: '(ParaId, AbridgedHrmpChannel)',
     SystemInherentData: 'ParachainInherentData',
     VecInboundHrmpMessage: 'Vec<InboundHrmpMessage>'
-  }
+  })
 } as Definitions;

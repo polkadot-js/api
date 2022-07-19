@@ -1,23 +1,22 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyString, AnyU8a, Registry } from '../types';
+import type { AnyString, AnyU8a, Registry } from '@polkadot/types-codec/types';
 
-import { assert, hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { U8aFixed } from '@polkadot/types-codec';
+import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-
-import { U8aFixed } from '../codec/U8aFixed';
 
 /** @internal */
 function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
-  if (!value) {
-    return new Uint8Array();
-  } else if (isU8a(value) || Array.isArray(value)) {
+  if (isU8a(value) || Array.isArray(value)) {
     return u8aToU8a(value);
+  } else if (!value) {
+    return new Uint8Array();
   } else if (isHex(value)) {
     return hexToU8a(value);
   } else if (isString(value)) {
-    return decodeAddress(value);
+    return decodeAddress(value.toString());
   }
 
   throw new Error(`Unknown type passed to AccountId constructor, found typeof ${typeof value}`);
@@ -35,7 +34,9 @@ export class GenericAccountId extends U8aFixed {
     const decoded = decodeAccountId(value);
 
     // Part of stream containing >= 32 bytes or a all empty (defaults)
-    assert(decoded.length >= 32 || !decoded.some((b) => b), () => `Invalid AccountId provided, expected 32 bytes, found ${decoded.length}`);
+    if (decoded.length < 32 && decoded.some((b) => b)) {
+      throw new Error(`Invalid AccountId provided, expected 32 bytes, found ${decoded.length}`);
+    }
 
     super(registry, decoded, 256);
   }
@@ -59,6 +60,13 @@ export class GenericAccountId extends U8aFixed {
    */
   public override toJSON (): string {
     return this.toString();
+  }
+
+  /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public override toPrimitive (): string {
+    return this.toJSON();
   }
 
   /**

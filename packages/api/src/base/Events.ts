@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceEvents } from '../types';
@@ -8,7 +8,7 @@ import EventEmitter from 'eventemitter3';
 export class Events {
   #eventemitter = new EventEmitter();
 
-  protected emit (type: ApiInterfaceEvents, ...args: any[]): boolean {
+  protected emit (type: ApiInterfaceEvents, ...args: unknown[]): boolean {
     return this.#eventemitter.emit(type, ...args);
   }
 

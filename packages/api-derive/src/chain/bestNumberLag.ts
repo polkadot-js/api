@@ -1,12 +1,11 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { BlockNumber } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveApi } from '../types';
 
-import { combineLatest } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -23,7 +22,7 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function bestNumberLag (instanceId: string, api: ApiInterfaceRx): () => Observable<BlockNumber> {
+export function bestNumberLag (instanceId: string, api: DeriveApi): () => Observable<BlockNumber> {
   return memo(instanceId, (): Observable<BlockNumber> =>
     combineLatest([
       api.derive.chain.bestNumber(),

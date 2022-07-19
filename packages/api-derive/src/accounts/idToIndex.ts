@@ -1,12 +1,11 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { AccountId, AccountIndex } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { AccountIndexes } from '../types';
+import type { AccountIndexes, DeriveApi } from '../types';
 
-import { map } from '@polkadot/x-rxjs/operators';
+import { map } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -24,7 +23,7 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function idToIndex (instanceId: string, api: ApiInterfaceRx): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
+export function idToIndex (instanceId: string, api: DeriveApi): (accountId: AccountId | string) => Observable<AccountIndex | undefined> {
   return memo(instanceId, (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     api.derive.accounts.indexes().pipe(
       map((indexes: AccountIndexes): AccountIndex | undefined =>

@@ -1,13 +1,14 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, Balance, EraIndex, Exposure, RewardDestination, RewardPoint, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, EraIndex, RewardPoint } from '@polkadot/types/interfaces';
+import type { PalletStakingExposure, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveSessionIndexes } from '../session/types';
 
 export type DeriveEraValPoints = Record<string, RewardPoint>;
 
-export type DeriveEraValPrefs = Record<string, ValidatorPrefs>;
+export type DeriveEraValPrefs = Record<string, PalletStakingValidatorPrefs>;
 
 export type DeriveEraValSlash = Record<string, Balance>;
 
@@ -40,9 +41,9 @@ export interface DeriveStakerPoints {
 }
 
 export interface DeriveOwnExposure {
-  clipped: Exposure;
+  clipped: PalletStakingExposure;
   era: EraIndex;
-  exposure: Exposure;
+  exposure: PalletStakingExposure;
 }
 
 export interface DeriveEraExposureNominating {
@@ -52,7 +53,7 @@ export interface DeriveEraExposureNominating {
 
 export type DeriveEraNominatorExposure = Record<string, DeriveEraExposureNominating[]>;
 
-export type DeriveEraValidatorExposure = Record<string, Exposure>;
+export type DeriveEraValidatorExposure = Record<string, PalletStakingExposure>;
 
 export interface DeriveEraExposure {
   era: EraIndex;
@@ -70,7 +71,7 @@ export interface DeriveStakerExposure {
 
 export interface DeriveStakerPrefs {
   era: EraIndex;
-  validatorPrefs: ValidatorPrefs;
+  validatorPrefs: PalletStakingValidatorPrefs;
 }
 
 export interface DeriveStakerRewardValidator {
@@ -106,16 +107,16 @@ export interface DeriveStakingValidators {
 
 export interface DeriveStakingStash {
   controllerId: AccountId | null;
-  exposure: Exposure;
+  exposure: PalletStakingExposure;
   nominators: AccountId[];
-  rewardDestination: RewardDestination;
+  rewardDestination: PalletStakingRewardDestination;
   stashId: AccountId;
-  validatorPrefs: ValidatorPrefs;
+  validatorPrefs: PalletStakingValidatorPrefs;
 }
 
 export interface DeriveStakingQuery extends DeriveStakingStash {
   accountId: AccountId;
-  stakingLedger: StakingLedger;
+  stakingLedger: PalletStakingStakingLedger;
 }
 
 export interface DeriveStakingElected {

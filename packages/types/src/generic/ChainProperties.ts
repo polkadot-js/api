@@ -1,15 +1,11 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, Registry } from '../types';
+import type { Registry } from '@polkadot/types-codec/types';
+import type { Codec } from '../types';
 
+import { Json, Option, Text, u32, Vec } from '@polkadot/types-codec';
 import { isFunction, isNull, isUndefined } from '@polkadot/util';
-
-import { Json } from '../codec/Json';
-import { Option } from '../codec/Option';
-import { Vec } from '../codec/Vec';
-import { Text } from '../primitive/Text';
-import { u32 } from '../primitive/U32';
 
 function createValue (registry: Registry, type: string, value: unknown, asArray = true): Option<Codec> {
   // We detect codec here as well - when found, generally this is constructed from itself
@@ -17,15 +13,17 @@ function createValue (registry: Registry, type: string, value: unknown, asArray 
     return value as Option<Codec>;
   }
 
-  return registry.createType(
-    type as 'Option<u32>',
-    asArray
-      ? isNull(value) || isUndefined(value)
-        ? null
-        : Array.isArray(value)
-          ? value
-          : [value]
-      : value
+  return registry.createTypeUnsafe<Option<u32>>(
+    type,
+    [
+      asArray
+        ? isNull(value) || isUndefined(value)
+          ? null
+          : Array.isArray(value)
+            ? value
+            : [value]
+        : value
+    ]
   );
 }
 
@@ -50,9 +48,9 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
 
     return all;
   }, {
-    ss58Format: registry.createType('Option<u32>'),
-    tokenDecimals: registry.createType('Option<Vec<u32>>' as 'Vec<u32>'),
-    tokenSymbol: registry.createType('Option<Vec<Text>>' as 'Vec<Text>')
+    ss58Format: registry.createTypeUnsafe('Option<u32>', []),
+    tokenDecimals: registry.createTypeUnsafe('Option<Vec<u32>>', []),
+    tokenSymbol: registry.createTypeUnsafe('Option<Vec<Text>>', [])
   });
 }
 
@@ -65,20 +63,20 @@ export class GenericChainProperties extends Json {
    * @description The chain ss58Format
    */
   public get ss58Format (): Option<u32> {
-    return this.get('ss58Format') as Option<u32>;
+    return this.getT('ss58Format');
   }
 
   /**
    * @description The decimals for each of the tokens
    */
   public get tokenDecimals (): Option<Vec<u32>> {
-    return this.get('tokenDecimals') as Option<Vec<u32>>;
+    return this.getT('tokenDecimals');
   }
 
   /**
    * @description The symbols for the tokens
    */
   public get tokenSymbol (): Option<Vec<Text>> {
-    return this.get('tokenSymbol') as Option<Vec<Text>>;
+    return this.getT('tokenSymbol');
   }
 }

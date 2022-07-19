@@ -1,16 +1,27 @@
 {
-  "name": "@polkadot/typegen",
-  "version": "4.15.2-6",
-  "type": "module",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
   "description": "Type generation scripts",
-  "main": "index.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/typegen",
+  "repository": {
+    "directory": "packages/typegen",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
   "sideEffects": [
     "./detectPackage.js",
     "./detectPackage.cjs"
   ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
+  "type": "module",
+  "version": "8.13.2-4-x",
+  "main": "index.js",
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
     "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.cjs",
@@ -18,28 +29,28 @@
     "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.cjs",
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
   },
-  "repository": "github:polkadot-js/api",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
-  "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "dependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/register": "^7.14.5",
-    "@babel/runtime": "^7.14.6",
-    "@polkadot/api": "4.15.2-6",
-    "@polkadot/metadata": "4.15.2-6",
-    "@polkadot/rpc-provider": "4.15.2-6",
-    "@polkadot/types": "4.15.2-6",
-    "@polkadot/util": "^6.9.2-9",
+    "@babel/core": "^7.18.9",
+    "@babel/register": "^7.18.9",
+    "@babel/runtime": "^7.18.9",
+    "@polkadot/api": "8.13.2-4-x",
+    "@polkadot/api-augment": "8.13.2-4-x",
+    "@polkadot/rpc-augment": "8.13.2-4-x",
+    "@polkadot/rpc-provider": "8.13.2-4-x",
+    "@polkadot/types": "8.13.2-4-x",
+    "@polkadot/types-augment": "8.13.2-4-x",
+    "@polkadot/types-codec": "8.13.2-4-x",
+    "@polkadot/types-create": "8.13.2-4-x",
+    "@polkadot/types-support": "8.13.2-4-x",
+    "@polkadot/util": "^10.0.2",
+    "@polkadot/util-crypto": "^10.0.2",
+    "@polkadot/x-ws": "^10.0.2",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
-    "yargs": "^17.0.1"
+    "yargs": "^17.5.1"
   },
   "devDependencies": {
-    "@types/websocket": "^1.0.2",
-    "@types/yargs": "^17.0.0"
+    "@types/websocket": "^1.0.5",
+    "@types/yargs": "^17.0.10"
   }
 }

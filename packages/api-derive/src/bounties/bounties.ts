@@ -1,18 +1,18 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { Observable } from 'rxjs';
 import type { Bytes, Option } from '@polkadot/types';
-import type { Bounty, BountyIndex, ProposalIndex } from '@polkadot/types/interfaces';
+import type { BountyIndex } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty } from '@polkadot/types/lookup';
+import type { DeriveApi, DeriveBounties, DeriveCollectiveProposal } from '../types';
 
-import { memo } from '@polkadot/api-derive/util';
-import { combineLatest, Observable, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
+import { memo } from '../util';
 import { filterBountiesProposals } from './helpers/filterBountyProposals';
 
-type Result = [Option<Bounty>[], Option<Bytes>[], BountyIndex[], DeriveCollectiveProposal[]];
+type Result = [Option<PalletBountiesBounty>[], Option<Bytes>[], BountyIndex[], DeriveCollectiveProposal[]];
 
 function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: Result): DeriveBounties {
   const bounties: DeriveBounties = [];
@@ -23,7 +23,9 @@ function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: 
         bounty: bounty.unwrap(),
         description: maybeDescriptions[index].unwrapOrDefault().toUtf8(),
         index: ids[index],
-        proposals: bountyProposals.filter((bountyProposal) => ids[index].eq(bountyProposal.proposal.args[0]))
+        proposals: bountyProposals.filter((bountyProposal) =>
+          bountyProposal.proposal && ids[index].eq(bountyProposal.proposal.args[0])
+        )
       });
     }
   });
@@ -31,35 +33,35 @@ function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: 
   return bounties;
 }
 
-export function bounties (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveBounties> {
+export function bounties (instanceId: string, api: DeriveApi): () => Observable<DeriveBounties> {
   const bountyBase = api.query.bounties || api.query.treasury;
 
   return memo(instanceId, (): Observable<DeriveBounties> =>
-    combineLatest([
-      bountyBase.bountyCount<BountyIndex>(),
-      api.query.council
-        ? api.query.council.proposalCount<ProposalIndex>()
-        : of(0)
-    ]).pipe(
-      switchMap(() =>
-        combineLatest([
-          bountyBase.bounties.keys<[BountyIndex]>(),
+    bountyBase.bounties
+      ? combineLatest([
+        bountyBase.bountyCount(),
+        api.query.council
+          ? api.query.council.proposalCount()
+          : of(0)
+      ]).pipe(
+        switchMap(() => combineLatest([
+          bountyBase.bounties.keys(),
           api.derive.council
             ? api.derive.council.proposals()
             : of([])
-        ])
-      ),
-      switchMap(([keys, proposals]): Observable<Result> => {
-        const ids = keys.map(({ args: [id] }) => id);
+        ])),
+        switchMap(([keys, proposals]): Observable<Result> => {
+          const ids = keys.map(({ args: [id] }) => id);
 
-        return combineLatest([
-          bountyBase.bounties.multi<Option<Bounty>>(ids),
-          bountyBase.bountyDescriptions.multi<Option<Bytes>>(ids),
-          of(ids),
-          of(filterBountiesProposals(api, proposals))
-        ]);
-      }),
-      map(parseResult)
-    )
+          return combineLatest([
+            bountyBase.bounties.multi(ids),
+            bountyBase.bountyDescriptions.multi(ids),
+            of(ids),
+            of(filterBountiesProposals(api, proposals))
+          ]);
+        }),
+        map(parseResult)
+      )
+      : of(parseResult([[], [], [], []]))
   );
 }

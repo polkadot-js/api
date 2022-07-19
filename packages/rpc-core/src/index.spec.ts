@@ -1,5 +1,7 @@
-// Copyright 2017-2021 @polkadot/rpc-core authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { ProviderInterface } from '@polkadot/rpc-provider/types';
 
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
@@ -12,7 +14,7 @@ describe('Api', (): void => {
 
   it('requires a provider with a send method', (): void => {
     expect(
-      () => new RpcCore('234', registry, {} as any)
+      () => new RpcCore('234', registry, {} as unknown as ProviderInterface)
     ).toThrow(/Expected Provider/);
   });
 
@@ -28,8 +30,7 @@ describe('Api', (): void => {
       }
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(isFunction((rpc as any).testing.foo)).toBe(true);
+    expect(isFunction((rpc as unknown as Record<string, Record<string, boolean>>).testing.foo)).toBe(true);
     expect(rpc.sections.includes('testing')).toBe(true);
     expect(rpc.mapping.get('testing_foo')).toEqual({
       description: 'foo',

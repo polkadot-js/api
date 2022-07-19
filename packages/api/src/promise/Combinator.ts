@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Callback } from '@polkadot/types/types';
@@ -6,13 +6,13 @@ import type { UnsubscribePromise } from '../types';
 
 import { isFunction } from '@polkadot/util';
 
-export type CombinatorCallback <T extends any[]> = Callback<T>;
+export type CombinatorCallback <T extends unknown[]> = Callback<T>;
 
 export interface CombinatorFunction {
   (cb: Callback<any>): UnsubscribePromise;
 }
 
-export class Combinator<T extends any[] = any[]> {
+export class Combinator<T extends unknown[] = unknown[]> {
   #allHasFired = false;
 
   #callback: CombinatorCallback<T>;
@@ -23,11 +23,11 @@ export class Combinator<T extends any[] = any[]> {
 
   #isActive = true;
 
-  #results: any[] = [];
+  #results: unknown[] = [];
 
   #subscriptions: UnsubscribePromise[] = [];
 
-  constructor (fns: (CombinatorFunction | [CombinatorFunction, ...any[]])[], callback: CombinatorCallback<T>) {
+  constructor (fns: (CombinatorFunction | [CombinatorFunction, ...unknown[]])[], callback: CombinatorCallback<T>) {
     this.#callback = callback;
 
     // eslint-disable-next-line @typescript-eslint/require-await

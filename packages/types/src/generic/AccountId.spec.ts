@@ -1,11 +1,12 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { Raw } from '../codec/Raw';
+import { Raw } from '@polkadot/types-codec';
+import jsonVec from '@polkadot/types-support/json/AccountIdVec.001.json' assert { type: 'json' };
+
 import { TypeRegistry } from '../create';
-import jsonVec from '../json/AccountIdVec.001.json';
 import { GenericAccountId as AccountId } from '.';
 
 describe('AccountId', (): void => {

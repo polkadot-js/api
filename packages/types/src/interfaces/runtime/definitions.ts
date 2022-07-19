@@ -1,10 +1,14 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
 import type { Definitions } from '../../types';
+
+import { objectSpread } from '@polkadot/util';
+
+import { runtime } from './runtime';
 
 const numberTypes = {
   Fixed64: 'Int<64, Fixed64>',
@@ -22,11 +26,34 @@ const numberTypes = {
   Perquintill: 'UInt<64, Perquintill>'
 };
 
+// Since we don't have insight into the origin specification, we can only define what we know about
+// in a pure Substrate/Polkadot implementation, any other custom origins won't be handled at all
+export const knownOrigins: Record<string, string> = {
+  //
+  // (1) Defaults from Substrate
+  //
+  Council: 'CollectiveOrigin',
+  System: 'SystemOrigin',
+  TechnicalCommittee: 'CollectiveOrigin',
+  //
+  // (2) Defaults from Polkadot
+  //
+  Xcm: 'XcmOrigin',
+  XcmPallet: 'XcmOrigin',
+  //
+  // (3) Defaults from Acala
+  //
+  Authority: 'AuthorityOrigin',
+  GeneralCouncil: 'CollectiveOrigin'
+};
+
 export default {
   rpc: {},
-  types: {
-    ...numberTypes,
-    AccountId: 'GenericAccountId',
+  runtime,
+  types: objectSpread({}, numberTypes, {
+    AccountId: 'AccountId32',
+    AccountId20: 'GenericEthereumAccountId',
+    AccountId32: 'GenericAccountId',
     AccountIdOf: 'AccountId',
     AccountIndex: 'GenericAccountIndex',
     Address: 'MultiAddress',
@@ -35,6 +62,8 @@ export default {
     BalanceOf: 'Balance',
     Block: 'GenericBlock',
     BlockNumber: 'u32',
+    BlockNumberFor: 'BlockNumber',
+    BlockNumberOf: 'BlockNumber',
     Call: 'GenericCall',
     CallHash: 'Hash',
     CallHashOf: 'CallHash',
@@ -49,6 +78,11 @@ export default {
     },
     ConsensusEngineId: 'GenericConsensusEngineId',
     CodecHash: 'Hash',
+    CrateVersion: {
+      major: 'u16',
+      minor: 'u8',
+      patch: 'u8'
+    },
     Digest: {
       logs: 'Vec<DigestItem>'
     },
@@ -61,7 +95,8 @@ export default {
         Consensus: 'Consensus', // 4
         Seal: 'Seal', // 5
         PreRuntime: 'PreRuntime', // 6
-        ChangesTrieSignal: 'ChangesTrieSignal' // 7
+        ChangesTrieSignal: 'ChangesTrieSignal', // 7
+        RuntimeEnvironmentUpdated: 'Null' // 8
       }
     },
     ExtrinsicsWeight: {
@@ -146,11 +181,21 @@ export default {
       justifications: 'Option<Justifications>'
     },
     Slot: 'u64',
+    SlotDuration: 'u64',
     StorageData: 'Bytes',
+    StorageInfo: {
+      palletName: 'Bytes',
+      storage_name: 'Bytes',
+      prefix: 'Bytes',
+      maxValues: 'Option<u32>',
+      maxSize: 'Option<u32>'
+    },
     StorageProof: {
       trieNodes: 'Vec<Bytes>'
     },
     TransactionPriority: 'u64',
+    TransactionLongevity: 'u64',
+    TransactionTag: 'Bytes',
     TransactionInfo: {
       _alias: {
         dataSize: 'size'
@@ -174,5 +219,5 @@ export default {
     SealV0: '(u64, Signature)',
     Seal: '(ConsensusEngineId, Bytes)',
     Consensus: '(ConsensusEngineId, Bytes)'
-  }
+  })
 } as Definitions;

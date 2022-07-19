@@ -1,11 +1,10 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { TypeRegistry } from '@polkadot/types/create';
-
-import json from '../../json/StorageChangeSet.001.json';
+import json from '@polkadot/types-support/json/StorageChangeSet.001.json' assert { type: 'json' };
 
 describe('StorageChangeSet', (): void => {
   const registry = new TypeRegistry();

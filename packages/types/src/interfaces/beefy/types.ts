@@ -1,9 +1,18 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types';
-import type { Signature } from '@polkadot/types/interfaces/extrinsics';
+import type { Bytes, Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
+import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import type { EcdsaSignature } from '@polkadot/types/interfaces/extrinsics';
 import type { BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
+
+/** @name BeefyAuthoritySet */
+export interface BeefyAuthoritySet extends Struct {
+  readonly id: u64;
+  readonly len: u32;
+  readonly root: H256;
+}
 
 /** @name BeefyCommitment */
 export interface BeefyCommitment extends Struct {
@@ -23,16 +32,25 @@ export interface BeefyNextAuthoritySet extends Struct {
 }
 
 /** @name BeefyPayload */
-export interface BeefyPayload extends MmrRootHash {}
+export interface BeefyPayload extends Vec<ITuple<[BeefyPayloadId, Bytes]>> {}
+
+/** @name BeefyPayloadId */
+export interface BeefyPayloadId extends U8aFixed {}
 
 /** @name BeefySignedCommitment */
 export interface BeefySignedCommitment extends Struct {
   readonly commitment: BeefyCommitment;
-  readonly signatures: Vec<Option<Signature>>;
+  readonly signatures: Vec<Option<EcdsaSignature>>;
 }
 
 /** @name MmrRootHash */
 export interface MmrRootHash extends H256 {}
+
+/** @name ValidatorSet */
+export interface ValidatorSet extends Struct {
+  readonly validators: Vec<AuthorityId>;
+  readonly id: ValidatorSetId;
+}
 
 /** @name ValidatorSetId */
 export interface ValidatorSetId extends u64 {}

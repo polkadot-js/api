@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Compact, Enum, Struct } from '@polkadot/types';
+import type { Compact, Enum, Struct } from '@polkadot/types-codec';
 import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name AssetOptions */
@@ -15,6 +15,7 @@ export interface Owner extends Enum {
   readonly isNone: boolean;
   readonly isAddress: boolean;
   readonly asAddress: AccountId;
+  readonly type: 'None' | 'Address';
 }
 
 /** @name PermissionLatest */
@@ -31,6 +32,7 @@ export interface PermissionsV1 extends Struct {
 export interface PermissionVersions extends Enum {
   readonly isV1: boolean;
   readonly asV1: PermissionsV1;
+  readonly type: 'V1';
 }
 
 export type PHANTOM_GENERICASSET = 'genericAsset';
