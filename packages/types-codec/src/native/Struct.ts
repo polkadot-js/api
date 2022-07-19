@@ -139,10 +139,16 @@ export class Struct<
       definition = d;
 
     return class extends Struct<S> {
+      // static {
+      //   objectProperties(super.prototype, keys, (k) => super.prototype.get(k));
+      // }
+
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap, { definition, setDefinition });
 
-        objectProperties(this, keys, (k) => this.get(k));
+        objectProperties(this, keys, (k) =>
+          this.get(k)
+        );
       }
     };
   }
@@ -152,10 +158,6 @@ export class Struct<
    */
   public get defKeys (): string[] {
     return this.#Types[1];
-  }
-
-  public getT <T> (key: string): T {
-    return this.get(key) as unknown as T;
   }
 
   /**
@@ -169,20 +171,6 @@ export class Struct<
     }
 
     return true;
-  }
-
-  /**
-   * @description Returns the Type description of the structure
-   */
-  public get Type (): E {
-    const result: Record<string, string> = {};
-    const [Types, keys] = this.#Types;
-
-    for (let i = 0; i < keys.length; i++) {
-      result[keys[i]] = new Types[i](this.registry).toRawType();
-    }
-
-    return result as E;
   }
 
   /**
@@ -206,6 +194,20 @@ export class Struct<
   }
 
   /**
+   * @description Returns the Type description of the structure
+   */
+  public get Type (): E {
+    const result: Record<string, string> = {};
+    const [Types, keys] = this.#Types;
+
+    for (let i = 0; i < keys.length; i++) {
+      result[keys[i]] = new Types[i](this.registry).toRawType();
+    }
+
+    return result as E;
+  }
+
+  /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: unknown): boolean {
@@ -214,10 +216,10 @@ export class Struct<
 
   /**
    * @description Returns a specific names entry in the structure
-   * @param name The name of the entry to retrieve
+   * @param key The name of the entry to retrieve
    */
-  public override get (name: keyof S): Codec | undefined {
-    return super.get(name);
+  public override get (key: keyof S): Codec | undefined {
+    return super.get(key);
   }
 
   /**
@@ -225,6 +227,13 @@ export class Struct<
    */
   public getAtIndex (index: number): Codec {
     return this.toArray()[index];
+  }
+
+  /**
+   * @description Returns the a types value by name
+   */
+  public getT <T> (key: string): T {
+    return super.get(key) as unknown as T;
   }
 
   /**

@@ -243,10 +243,27 @@ export class Enum implements IEnum {
       definition = d;
 
     return class extends Enum {
+      // static {
+      //   objectProperties(this.prototype, isKeys, (_, i) =>
+      //     this.prototype.type === keys[i]
+      //   );
+
+      //   objectProperties(this.prototype, asKeys, (k, i): Codec => {
+      //     if (this.prototype.type === keys[i]) {
+      //       throw new Error(`Cannot convert '${this.prototype.type}' via ${k}`);
+      //     }
+
+      //     return this.prototype.value;
+      //   });
+      // }
+
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index, { definition, setDefinition });
 
-        objectProperties(this, isKeys, (_, i) => this.type === keys[i]);
+        objectProperties(this, isKeys, (_, i) =>
+          this.type === keys[i]
+        );
+
         objectProperties(this, asKeys, (k, i): Codec => {
           if (!this[isKeys[i] as keyof this]) {
             throw new Error(`Cannot convert '${this.type}' via ${k}`);
