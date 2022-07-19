@@ -9,39 +9,40 @@ import type { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    ClassId: 'u32',
-    InstanceId: 'u32',
+    CollectionId: 'u32',
+    ItemId: 'u32',
     DepositBalance: 'Balance',
     DepositBalanceOf: 'Balance',
-    ClassDetails: {
+    ItemPrice: 'Balance',
+    CollectionDetails: {
       owner: 'AccountId',
       issuer: 'AccountId',
       admin: 'AccountId',
       freezer: 'AccountId',
       totalDeposit: 'DepositBalance',
       freeHolding: 'bool',
-      instances: 'u32',
-      instanceMetadatas: 'u32',
+      items: 'u32',
+      itemMetadatas: 'u32',
       attributes: 'u32',
       isFrozen: 'bool'
     },
     DestroyWitness: {
-      instances: 'Compact<u32>',
-      instanceMetadatas: 'Compact<u32>',
+      items: 'Compact<u32>',
+      itemMetadatas: 'Compact<u32>',
       attributes: 'Compact<u32>'
     },
-    InstanceDetails: {
+    ItemDetails: {
       owner: 'AccountId',
       approved: 'Option<AccountId>',
       isFrozen: 'bool',
       deposit: 'DepositBalance'
     },
-    ClassMetadata: {
+    CollectionMetadata: {
       deposit: 'DepositBalance',
       data: 'Vec<u8>',
       isFrozen: 'bool'
     },
-    InstanceMetadata: {
+    ItemMetadata: {
       deposit: 'DepositBalance',
       data: 'Vec<u8>',
       isFrozen: 'bool'
