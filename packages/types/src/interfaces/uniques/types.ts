@@ -4,25 +4,25 @@
 import type { Bytes, Compact, Option, Struct, bool, u32 } from '@polkadot/types-codec';
 import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
-/** @name ClassDetails */
-export interface ClassDetails extends Struct {
+/** @name CollectionDetails */
+export interface CollectionDetails extends Struct {
   readonly owner: AccountId;
   readonly issuer: AccountId;
   readonly admin: AccountId;
   readonly freezer: AccountId;
   readonly totalDeposit: DepositBalance;
   readonly freeHolding: bool;
-  readonly instances: u32;
-  readonly instanceMetadatas: u32;
+  readonly items: u32;
+  readonly itemMetadatas: u32;
   readonly attributes: u32;
   readonly isFrozen: bool;
 }
 
-/** @name ClassId */
-export interface ClassId extends u32 {}
+/** @name CollectionId */
+export interface CollectionId extends u32 {}
 
-/** @name ClassMetadata */
-export interface ClassMetadata extends Struct {
+/** @name CollectionMetadata */
+export interface CollectionMetadata extends Struct {
   readonly deposit: DepositBalance;
   readonly data: Bytes;
   readonly isFrozen: bool;
@@ -36,27 +36,30 @@ export interface DepositBalanceOf extends Balance {}
 
 /** @name DestroyWitness */
 export interface DestroyWitness extends Struct {
-  readonly instances: Compact<u32>;
-  readonly instanceMetadatas: Compact<u32>;
+  readonly items: Compact<u32>;
+  readonly itemMetadatas: Compact<u32>;
   readonly attributes: Compact<u32>;
 }
 
-/** @name InstanceDetails */
-export interface InstanceDetails extends Struct {
+/** @name ItemDetails */
+export interface ItemDetails extends Struct {
   readonly owner: AccountId;
   readonly approved: Option<AccountId>;
   readonly isFrozen: bool;
   readonly deposit: DepositBalance;
 }
 
-/** @name InstanceId */
-export interface InstanceId extends u32 {}
+/** @name ItemId */
+export interface ItemId extends u32 {}
 
-/** @name InstanceMetadata */
-export interface InstanceMetadata extends Struct {
+/** @name ItemMetadata */
+export interface ItemMetadata extends Struct {
   readonly deposit: DepositBalance;
   readonly data: Bytes;
   readonly isFrozen: bool;
 }
+
+/** @name ItemPrice */
+export interface ItemPrice extends Balance {}
 
 export type PHANTOM_UNIQUES = 'uniques';

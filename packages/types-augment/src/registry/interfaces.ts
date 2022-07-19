@@ -64,7 +64,7 @@ import type { AccountInfo, AccountInfoWithDualRefCount, AccountInfoWithProviders
 import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatusCuratorProposed, BountyStatusPendingPayout, OpenTip, OpenTipFinderTo225, OpenTipTip, OpenTipTo225, TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { TransactionSource, TransactionValidity, ValidTransaction } from '@polkadot/types/interfaces/txqueue';
-import type { ClassDetails, ClassId, ClassMetadata, DepositBalance, DepositBalanceOf, DestroyWitness, InstanceDetails, InstanceId, InstanceMetadata } from '@polkadot/types/interfaces/uniques';
+import type { CollectionDetails, CollectionId, CollectionMetadata, DepositBalance, DepositBalanceOf, DestroyWitness, ItemDetails, ItemId, ItemMetadata, ItemPrice } from '@polkadot/types/interfaces/uniques';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
 import type { AssetInstance, AssetInstanceV0, AssetInstanceV1, AssetInstanceV2, BodyId, BodyPart, DoubleEncodedCall, Fungibility, FungibilityV0, FungibilityV1, FungibilityV2, InboundStatus, InstructionV2, InteriorMultiLocation, Junction, JunctionV0, JunctionV1, JunctionV2, Junctions, JunctionsV1, JunctionsV2, MultiAsset, MultiAssetFilter, MultiAssetFilterV1, MultiAssetFilterV2, MultiAssetV0, MultiAssetV1, MultiAssetV2, MultiAssets, MultiAssetsV1, MultiAssetsV2, MultiLocation, MultiLocationV0, MultiLocationV1, MultiLocationV2, NetworkId, OriginKindV0, OriginKindV1, OriginKindV2, OutboundStatus, Outcome, QueryId, QueryStatus, QueueConfigData, Response, ResponseV0, ResponseV1, ResponseV2, ResponseV2Error, ResponseV2Result, VersionMigrationStage, VersionedMultiAsset, VersionedMultiAssets, VersionedMultiLocation, VersionedResponse, VersionedXcm, WeightLimitV2, WildFungibility, WildFungibilityV0, WildFungibilityV1, WildFungibilityV2, WildMultiAsset, WildMultiAssetV1, WildMultiAssetV2, Xcm, XcmAssetId, XcmError, XcmErrorV0, XcmErrorV1, XcmErrorV2, XcmOrder, XcmOrderV0, XcmOrderV1, XcmOrderV2, XcmOrigin, XcmOriginKind, XcmV0, XcmV1, XcmV2, XcmVersion, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
@@ -213,9 +213,6 @@ declare module '@polkadot/types/types/registry' {
     ChangesTrieConfiguration: ChangesTrieConfiguration;
     ChangesTrieSignal: ChangesTrieSignal;
     CheckInherentsResult: CheckInherentsResult;
-    ClassDetails: ClassDetails;
-    ClassId: ClassId;
-    ClassMetadata: ClassMetadata;
     CodecHash: CodecHash;
     CodeHash: CodeHash;
     CodeSource: CodeSource;
@@ -226,6 +223,9 @@ declare module '@polkadot/types/types/registry' {
     CollationInfoV1: CollationInfoV1;
     CollatorId: CollatorId;
     CollatorSignature: CollatorSignature;
+    CollectionDetails: CollectionDetails;
+    CollectionId: CollectionId;
+    CollectionMetadata: CollectionMetadata;
     CollectiveOrigin: CollectiveOrigin;
     CommittedCandidateReceipt: CommittedCandidateReceipt;
     CompactAssignments: CompactAssignments;
@@ -564,9 +564,6 @@ declare module '@polkadot/types/types/registry' {
     InherentData: InherentData;
     InherentIdentifier: InherentIdentifier;
     InitializationData: InitializationData;
-    InstanceDetails: InstanceDetails;
-    InstanceId: InstanceId;
-    InstanceMetadata: InstanceMetadata;
     InstantiateRequest: InstantiateRequest;
     InstantiateRequestV1: InstantiateRequestV1;
     InstantiateRequestV2: InstantiateRequestV2;
@@ -578,6 +575,10 @@ declare module '@polkadot/types/types/registry' {
     InteriorMultiLocation: InteriorMultiLocation;
     InvalidDisputeStatementKind: InvalidDisputeStatementKind;
     InvalidTransaction: InvalidTransaction;
+    ItemDetails: ItemDetails;
+    ItemId: ItemId;
+    ItemMetadata: ItemMetadata;
+    ItemPrice: ItemPrice;
     Json: Json;
     Junction: Junction;
     Junctions: Junctions;
