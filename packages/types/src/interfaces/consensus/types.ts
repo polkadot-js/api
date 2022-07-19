@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { U8aFixed } from '@polkadot/types';
+import type { U8aFixed } from '@polkadot/types-codec';
 import type { AccountId } from '@polkadot/types/interfaces/runtime';
 
 /** @name AuthorityId */

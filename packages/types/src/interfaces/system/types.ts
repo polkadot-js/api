@@ -1,8 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Compact, Enum, GenericChainProperties, GenericEvent, HashMap, Option, Result, Struct, Text, U8aFixed, Vec, bool, i32, u32, u64, u8 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
+import type { GenericChainProperties, GenericEvent } from '@polkadot/types';
+import type { Bytes, Compact, Enum, HashMap, Option, Result, Struct, Text, U8aFixed, Vec, bool, i32, u32, u64, u8 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountData } from '@polkadot/types/interfaces/balances';
 import type { AccountId, BlockNumber, Digest, Hash, Index, Pays, Weight } from '@polkadot/types/interfaces/runtime';
 
@@ -27,6 +28,13 @@ export interface AccountInfoWithRefCount extends Struct {
   readonly data: AccountData;
 }
 
+/** @name AccountInfoWithRefCountU8 */
+export interface AccountInfoWithRefCountU8 extends Struct {
+  readonly nonce: Index;
+  readonly refcount: u8;
+  readonly data: AccountData;
+}
+
 /** @name AccountInfoWithTripleRefCount */
 export interface AccountInfoWithTripleRefCount extends Struct {
   readonly nonce: Index;
@@ -48,11 +56,24 @@ export interface ApplyExtrinsicResult extends Result<DispatchOutcome, Transactio
   readonly asOk: DispatchOutcome;
 }
 
+/** @name ApplyExtrinsicResultPre6 */
+export interface ApplyExtrinsicResultPre6 extends Result<DispatchOutcomePre6, TransactionValidityError> {
+  readonly isErr: boolean;
+  readonly asErr: TransactionValidityError;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: TransactionValidityError;
+  readonly isOk: boolean;
+  readonly asOk: DispatchOutcomePre6;
+}
+
 /** @name ArithmeticError */
 export interface ArithmeticError extends Enum {
   readonly isUnderflow: boolean;
   readonly isOverflow: boolean;
   readonly isDivisionByZero: boolean;
+  readonly type: 'Underflow' | 'Overflow' | 'DivisionByZero';
 }
 
 /** @name BlockLength */
@@ -77,6 +98,7 @@ export interface ChainType extends Enum {
   readonly isLive: boolean;
   readonly isCustom: boolean;
   readonly asCustom: Text;
+  readonly type: 'Development' | 'Local' | 'Live' | 'Custom';
 }
 
 /** @name ConsumedWeight */
@@ -90,6 +112,7 @@ export interface DispatchClass extends Enum {
   readonly isNormal: boolean;
   readonly isOperational: boolean;
   readonly isMandatory: boolean;
+  readonly type: 'Normal' | 'Operational' | 'Mandatory';
 }
 
 /** @name DispatchError */
@@ -101,16 +124,69 @@ export interface DispatchError extends Enum {
   readonly asModule: DispatchErrorModule;
   readonly isConsumerRemaining: boolean;
   readonly isNoProviders: boolean;
+  readonly isTooManyConsumers: boolean;
   readonly isToken: boolean;
   readonly asToken: TokenError;
   readonly isArithmetic: boolean;
   readonly asArithmetic: ArithmeticError;
+  readonly isTransactional: boolean;
+  readonly asTransactional: TransactionalError;
+  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'TooManyConsumers' | 'Token' | 'Arithmetic' | 'Transactional';
 }
 
 /** @name DispatchErrorModule */
-export interface DispatchErrorModule extends Struct {
+export interface DispatchErrorModule extends DispatchErrorModuleU8a {}
+
+/** @name DispatchErrorModulePre6 */
+export interface DispatchErrorModulePre6 extends DispatchErrorModuleU8 {}
+
+/** @name DispatchErrorModuleU8 */
+export interface DispatchErrorModuleU8 extends Struct {
   readonly index: u8;
   readonly error: u8;
+}
+
+/** @name DispatchErrorModuleU8a */
+export interface DispatchErrorModuleU8a extends Struct {
+  readonly index: u8;
+  readonly error: U8aFixed;
+}
+
+/** @name DispatchErrorPre6 */
+export interface DispatchErrorPre6 extends Enum {
+  readonly isOther: boolean;
+  readonly isCannotLookup: boolean;
+  readonly isBadOrigin: boolean;
+  readonly isModule: boolean;
+  readonly asModule: DispatchErrorModulePre6;
+  readonly isConsumerRemaining: boolean;
+  readonly isNoProviders: boolean;
+  readonly isTooManyConsumers: boolean;
+  readonly isToken: boolean;
+  readonly asToken: TokenError;
+  readonly isArithmetic: boolean;
+  readonly asArithmetic: ArithmeticError;
+  readonly isTransactional: boolean;
+  readonly asTransactional: TransactionalError;
+  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'TooManyConsumers' | 'Token' | 'Arithmetic' | 'Transactional';
+}
+
+/** @name DispatchErrorPre6First */
+export interface DispatchErrorPre6First extends Enum {
+  readonly isOther: boolean;
+  readonly isCannotLookup: boolean;
+  readonly isBadOrigin: boolean;
+  readonly isModule: boolean;
+  readonly asModule: DispatchErrorModulePre6;
+  readonly isConsumerRemaining: boolean;
+  readonly isNoProviders: boolean;
+  readonly isToken: boolean;
+  readonly asToken: TokenError;
+  readonly isArithmetic: boolean;
+  readonly asArithmetic: ArithmeticError;
+  readonly isTransactional: boolean;
+  readonly asTransactional: TransactionalError;
+  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'Token' | 'Arithmetic' | 'Transactional';
 }
 
 /** @name DispatchErrorTo198 */
@@ -147,6 +223,18 @@ export interface DispatchOutcome extends Result<ITuple<[]>, DispatchError> {
   readonly isError: boolean;
   /** @deprecated Use asErr */
   readonly asError: DispatchError;
+  readonly isOk: boolean;
+  readonly asOk: ITuple<[]>;
+}
+
+/** @name DispatchOutcomePre6 */
+export interface DispatchOutcomePre6 extends Result<ITuple<[]>, DispatchErrorPre6> {
+  readonly isErr: boolean;
+  readonly asErr: DispatchErrorPre6;
+  /** @deprecated Use isErr */
+  readonly isError: boolean;
+  /** @deprecated Use asErr */
+  readonly asError: DispatchErrorPre6;
   readonly isOk: boolean;
   readonly asOk: ITuple<[]>;
 }
@@ -214,6 +302,8 @@ export interface InvalidTransaction extends Enum {
   readonly asCustom: u8;
   readonly isBadMandatory: boolean;
   readonly isMandatoryDispatch: boolean;
+  readonly isBadSigner: boolean;
+  readonly type: 'Call' | 'Payment' | 'Future' | 'Stale' | 'BadProof' | 'AncientBirthBlock' | 'ExhaustsResources' | 'Custom' | 'BadMandatory' | 'MandatoryDispatch' | 'BadSigner';
 }
 
 /** @name Key */
@@ -256,6 +346,7 @@ export interface NodeRole extends Enum {
   readonly isAuthority: boolean;
   readonly isUnknownRole: boolean;
   readonly asUnknownRole: u8;
+  readonly type: 'Full' | 'LightClient' | 'Authority' | 'UnknownRole';
 }
 
 /** @name NotConnectedPeer */
@@ -328,6 +419,7 @@ export interface Phase extends Enum {
   readonly asApplyExtrinsic: u32;
   readonly isFinalization: boolean;
   readonly isInitialization: boolean;
+  readonly type: 'ApplyExtrinsic' | 'Finalization' | 'Initialization';
 }
 
 /** @name RawOrigin */
@@ -336,6 +428,7 @@ export interface RawOrigin extends Enum {
   readonly isSigned: boolean;
   readonly asSigned: AccountId;
   readonly isNone: boolean;
+  readonly type: 'Root' | 'Signed' | 'None';
 }
 
 /** @name RefCount */
@@ -362,8 +455,17 @@ export interface TokenError extends Enum {
   readonly isCannotCreate: boolean;
   readonly isUnknownAsset: boolean;
   readonly isFrozen: boolean;
+  readonly isUnsupported: boolean;
   readonly isUnderflow: boolean;
   readonly isOverflow: boolean;
+  readonly type: 'NoFunds' | 'WouldDie' | 'BelowMinimum' | 'CannotCreate' | 'UnknownAsset' | 'Frozen' | 'Unsupported' | 'Underflow' | 'Overflow';
+}
+
+/** @name TransactionalError */
+export interface TransactionalError extends Enum {
+  readonly isLimitReached: boolean;
+  readonly isNoLayer: boolean;
+  readonly type: 'LimitReached' | 'NoLayer';
 }
 
 /** @name TransactionValidityError */
@@ -372,6 +474,7 @@ export interface TransactionValidityError extends Enum {
   readonly asInvalid: InvalidTransaction;
   readonly isUnknown: boolean;
   readonly asUnknown: UnknownTransaction;
+  readonly type: 'Invalid' | 'Unknown';
 }
 
 /** @name UnknownTransaction */
@@ -380,12 +483,13 @@ export interface UnknownTransaction extends Enum {
   readonly isNoUnsignedValidator: boolean;
   readonly isCustom: boolean;
   readonly asCustom: u8;
+  readonly type: 'CannotLookup' | 'NoUnsignedValidator' | 'Custom';
 }
 
 /** @name WeightPerClass */
 export interface WeightPerClass extends Struct {
   readonly baseExtrinsic: Weight;
-  readonly maxExtrinsic: Weight;
+  readonly maxExtrinsic: Option<Weight>;
   readonly maxTotal: Option<Weight>;
   readonly reserved: Option<Weight>;
 }

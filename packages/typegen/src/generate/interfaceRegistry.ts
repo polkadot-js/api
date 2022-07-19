@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import Handlebars from 'handlebars';
@@ -8,7 +8,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import * as defaultPrimitives from '@polkadot/types/primitive';
 
-import { createImports, getDerivedTypes, readTemplate, setImports, writeFile } from '../util';
+import { createImports, readTemplate, setImports, writeFile } from '../util';
 import { ModuleTypes } from '../util/imports';
 
 const primitiveClasses = {
@@ -17,8 +17,7 @@ const primitiveClasses = {
   Raw
 };
 
-const template = readTemplate('interfaceRegistry');
-const generateInterfaceTypesTemplate = Handlebars.compile(template);
+const generateInterfaceTypesTemplate = Handlebars.compile(readTemplate('interfaceRegistry'));
 
 /** @internal */
 export function generateInterfaceTypes (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, dest: string): void {
@@ -35,10 +34,10 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
     Object
       .keys(primitiveClasses)
       .filter((name) => !name.includes('Generic'))
-      .forEach((primitiveName) => {
+      .forEach((primitiveName): void => {
         setImports(definitions, imports, [primitiveName]);
 
-        items.push(...getDerivedTypes(registry, definitions, primitiveName, primitiveName, imports));
+        items.push(primitiveName);
       });
 
     const existingTypes: Record<string, boolean> = {};
@@ -55,25 +54,23 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
 
       const uniqueTypes = Object.keys(types).filter((type) => !existingTypes[type]);
 
-      uniqueTypes.forEach((type) => {
+      uniqueTypes.forEach((type): void => {
         existingTypes[type] = true;
 
-        items.push(...getDerivedTypes(registry, definitions, type, types[type] as string, imports));
+        items.push(type);
       });
     });
-
-    const types = [
-      ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
-        file: packagePath,
-        types: Object.keys(imports.localTypes[packagePath])
-      }))
-    ];
 
     return generateInterfaceTypesTemplate({
       headerType: 'defs',
       imports,
       items: items.sort((a, b) => a.localeCompare(b)),
-      types
+      types: [
+        ...Object.keys(imports.localTypes).sort().map((packagePath): { file: string; types: string[] } => ({
+          file: packagePath,
+          types: Object.keys(imports.localTypes[packagePath])
+        }))
+      ]
     });
   });
 }
@@ -82,6 +79,6 @@ export function generateInterfaceTypes (importDefinitions: { [importPath: string
 export function generateDefaultInterface (): void {
   generateInterfaceTypes(
     { '@polkadot/types/interfaces': defaultDefinitions },
-    'packages/types/src/augment/registry.ts'
+    'packages/types-augment/src/registry/interfaces.ts'
   );
 }

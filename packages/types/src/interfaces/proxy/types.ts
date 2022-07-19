@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Struct } from '@polkadot/types';
+import type { Enum, Struct } from '@polkadot/types-codec';
 import type { AccountId, BlockNumber, Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name ProxyAnnouncement */
@@ -24,6 +24,7 @@ export interface ProxyType extends Enum {
   readonly isNonTransfer: boolean;
   readonly isGovernance: boolean;
   readonly isStaking: boolean;
+  readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking';
 }
 
 export type PHANTOM_PROXY = 'proxy';

@@ -1,9 +1,11 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // As per frontier
 
 import type { DefinitionsRpc } from '../../types';
+
+import { objectSpread } from '@polkadot/util';
 
 // We use aliasSection here to override since these are in another namespace
 const netRpc: DefinitionsRpc = {
@@ -41,9 +43,7 @@ const web3Rpc: DefinitionsRpc = {
   }
 };
 
-export const rpc: DefinitionsRpc = {
-  ...netRpc,
-  ...web3Rpc,
+export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
   accounts: {
     description: 'Returns accounts list.',
     params: [],
@@ -62,6 +62,7 @@ export const rpc: DefinitionsRpc = {
         type: 'EthCallRequest'
       },
       {
+        isHistoric: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -87,12 +88,31 @@ export const rpc: DefinitionsRpc = {
         type: 'EthCallRequest'
       },
       {
+        isHistoric: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
       }
     ],
     type: 'U256'
+  },
+  feeHistory: {
+    description: 'Returns fee history for given block count & reward percentiles',
+    params: [
+      {
+        name: 'blockCount',
+        type: 'U256'
+      },
+      {
+        name: 'newestBlock',
+        type: 'BlockNumber'
+      },
+      {
+        name: 'rewardPercentiles',
+        type: 'Option<Vec<f64>>'
+      }
+    ],
+    type: 'EthFeeHistory'
   },
   gasPrice: {
     description: 'Returns current gas price.',
@@ -107,6 +127,7 @@ export const rpc: DefinitionsRpc = {
         type: 'H160'
       },
       {
+        isHistoric: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -167,6 +188,7 @@ export const rpc: DefinitionsRpc = {
         type: 'H160'
       },
       {
+        isHistoric: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -234,6 +256,7 @@ export const rpc: DefinitionsRpc = {
         type: 'U256'
       },
       {
+        isHistoric: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -287,6 +310,7 @@ export const rpc: DefinitionsRpc = {
         type: 'H256'
       },
       {
+        isHistoric: true,
         isOptional: true,
         name: 'number',
         type: 'BlockNumber'
@@ -359,6 +383,11 @@ export const rpc: DefinitionsRpc = {
   },
   hashrate: {
     description: 'Returns the number of hashes per second that the node is mining with.',
+    params: [],
+    type: 'U256'
+  },
+  maxPriorityFeePerGas: {
+    description: 'Returns max priority fee per gas',
     params: [],
     type: 'U256'
   },
@@ -476,4 +505,4 @@ export const rpc: DefinitionsRpc = {
     ],
     type: 'bool'
   }
-};
+});

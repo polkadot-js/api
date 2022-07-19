@@ -1,14 +1,12 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { Option, u64 } from '@polkadot/types';
-import type { SessionIndex } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveSessionInfo, DeriveSessionProgress } from '../types';
+import type { BlockNumber, SessionIndex } from '@polkadot/types/interfaces';
+import type { DeriveApi, DeriveSessionInfo, DeriveSessionProgress } from '../types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -16,7 +14,16 @@ type ResultSlotsNoSession = [u64, u64, u64];
 type ResultSlots = [u64, u64, u64, Option<SessionIndex>];
 type ResultSlotsFlat = [u64, u64, u64, SessionIndex];
 
-function createDerive (api: ApiInterfaceRx, info: DeriveSessionInfo, [currentSlot, epochIndex, epochOrGenesisStartSlot, activeEraStartSessionIndex]: ResultSlotsFlat): DeriveSessionProgress {
+function withProgressField (field: 'eraLength' | 'eraProgress' | 'sessionProgress'): (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber> {
+  return (instanceId: string, api: DeriveApi) =>
+    memo(instanceId, (): Observable<BlockNumber> =>
+      api.derive.session.progress().pipe(
+        map((info) => info[field])
+      )
+    );
+}
+
+function createDerive (api: DeriveApi, info: DeriveSessionInfo, [currentSlot, epochIndex, epochOrGenesisStartSlot, activeEraStartSessionIndex]: ResultSlotsFlat): DeriveSessionProgress {
   const epochStartSlot = epochIndex.mul(info.sessionLength).iadd(epochOrGenesisStartSlot);
   const sessionProgress = currentSlot.sub(epochStartSlot);
   const eraProgress = info.currentIndex.sub(activeEraStartSessionIndex).imul(info.sessionLength).iadd(sessionProgress);
@@ -28,7 +35,7 @@ function createDerive (api: ApiInterfaceRx, info: DeriveSessionInfo, [currentSlo
   };
 }
 
-function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
+function queryAura (api: DeriveApi): Observable<DeriveSessionProgress> {
   return api.derive.session.info().pipe(
     map((info): DeriveSessionProgress => ({
       ...info,
@@ -38,7 +45,7 @@ function queryAura (api: ApiInterfaceRx): Observable<DeriveSessionProgress> {
   );
 }
 
-function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
+function queryBabe (api: DeriveApi): Observable<[DeriveSessionInfo, ResultSlotsFlat]> {
   return api.derive.session.info().pipe(
     switchMap((info): Observable<[DeriveSessionInfo, ResultSlots | ResultSlotsNoSession]> =>
       combineLatest([
@@ -67,7 +74,7 @@ function queryBabe (api: ApiInterfaceRx): Observable<[DeriveSessionInfo, ResultS
 /**
  * @description Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
  */
-export function progress (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSessionProgress> {
+export function progress (instanceId: string, api: DeriveApi): () => Observable<DeriveSessionProgress> {
   return memo(instanceId, (): Observable<DeriveSessionProgress> =>
     api.query.babe
       ? queryBabe(api).pipe(
@@ -78,3 +85,7 @@ export function progress (instanceId: string, api: ApiInterfaceRx): () => Observ
       : queryAura(api)
   );
 }
+
+export const eraLength = withProgressField('eraLength');
+export const eraProgress = withProgressField('eraProgress');
+export const sessionProgress = withProgressField('sessionProgress');

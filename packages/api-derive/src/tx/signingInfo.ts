@@ -1,15 +1,16 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveApi } from '../types';
+
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isNumber, isUndefined } from '@polkadot/util';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
+import { unwrapBlockNumber } from '../util';
 import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
 
 interface Result {
@@ -18,44 +19,47 @@ interface Result {
   nonce: Index;
 }
 
-function latestNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
+function latestNonce (api: DeriveApi, address: string): Observable<Index> {
   return api.derive.balances.account(address).pipe(
     map(({ accountNonce }) => accountNonce)
   );
 }
 
-function nextNonce (api: ApiInterfaceRx, address: string): Observable<Index> {
+function nextNonce (api: DeriveApi, address: string): Observable<Index> {
   return api.rpc.system?.accountNextIndex
     ? api.rpc.system.accountNextIndex(address)
     : latestNonce(api, address);
 }
 
-function signingHeader (api: ApiInterfaceRx): Observable<Header> {
+function signingHeader (api: DeriveApi): Observable<Header> {
   return combineLatest([
-    api.rpc.chain.getHeader(),
-    api.rpc.chain.getFinalizedHead()
-  ]).pipe(
-    switchMap(([bestHeader, finHash]) =>
-      // retrieve the headers - in the case of the current block, we use the parent
-      // to minimize (not completely remove) the impact that forks do have on the system
-      // (when at genesis, just return the current header as the last known)
-      bestHeader.parentHash.isEmpty
-        ? of([bestHeader, bestHeader])
-        : combineLatest([
-          api.rpc.chain.getHeader(bestHeader.parentHash),
-          api.rpc.chain.getHeader(finHash)
-        ])
+    api.rpc.chain.getHeader().pipe(
+      switchMap((header) =>
+        // check for chains at genesis (until block 1 is produced, e.g. 6s), since
+        // we do need to allow transactions at chain start (also dev/seal chains)
+        header.parentHash.isEmpty
+          ? of(header)
+          // in the case of the current block, we use the parent to minimize the
+          // impact of forks on the system, but not completely remove it
+          : api.rpc.chain.getHeader(header.parentHash)
+      )
     ),
+    api.rpc.chain.getFinalizedHead().pipe(
+      switchMap((hash) =>
+        api.rpc.chain.getHeader(hash)
+      )
+    )
+  ]).pipe(
     map(([current, finalized]) =>
       // determine the hash to use, current when lag > max, else finalized
-      current.number.unwrap().sub(finalized.number.unwrap()).gt(MAX_FINALITY_LAG)
+      unwrapBlockNumber(current).sub(unwrapBlockNumber(finalized)).gt(MAX_FINALITY_LAG)
         ? current
         : finalized
     )
   );
 }
 
-export function signingInfo (_instanceId: string, api: ApiInterfaceRx): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
+export function signingInfo (_instanceId: string, api: DeriveApi): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
   // no memo, we want to do this fresh on each run
   return (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number): Observable<Result> =>
     combineLatest([
@@ -75,7 +79,11 @@ export function signingInfo (_instanceId: string, api: ApiInterfaceRx): (address
         mortalLength: Math.min(
           api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
           MORTAL_PERIOD
-            .div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || FALLBACK_PERIOD)
+            .div(
+              api.consts.babe?.expectedBlockTime ||
+              api.consts.timestamp?.minimumPeriod.muln(2) ||
+              FALLBACK_PERIOD
+            )
             .iadd(MAX_FINALITY_LAG)
             .toNumber()
         ),

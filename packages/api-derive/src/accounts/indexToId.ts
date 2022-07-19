@@ -1,14 +1,11 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Option } from '@polkadot/types';
-import type { AccountId, AccountIndex, BalanceOf } from '@polkadot/types/interfaces';
-import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { Observable } from 'rxjs';
+import type { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+import type { DeriveApi } from '../types';
 
-import { of } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { map, of } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -25,10 +22,10 @@ import { memo } from '../util';
  * });
  * ```
  */
-export function indexToId (instanceId: string, api: ApiInterfaceRx): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
+export function indexToId (instanceId: string, api: DeriveApi): (accountIndex: AccountIndex | string) => Observable<AccountId | undefined> {
   return memo(instanceId, (accountIndex: AccountIndex | string): Observable<AccountId | undefined> =>
     api.query.indices
-      ? api.query.indices.accounts<Option<ITuple<[AccountId, BalanceOf]>>>(accountIndex).pipe(
+      ? api.query.indices.accounts(accountIndex).pipe(
         map((optResult): AccountId | undefined =>
           optResult.unwrapOr([])[0]
         )

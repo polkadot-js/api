@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -9,7 +9,6 @@ import type { Definitions } from '../../types';
 export default {
   rpc: {},
   types: {
-    EthereumAddress: 'H160',
     StatementKind: {
       _enum: ['Regular', 'Saft']
     }

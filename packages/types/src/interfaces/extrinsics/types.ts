@@ -1,7 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload, U8aFixed } from '@polkadot/types';
+import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types';
+import type { Enum, U8aFixed } from '@polkadot/types-codec';
 import type { H512 } from '@polkadot/types/interfaces/runtime';
 
 /** @name AnySignature */
@@ -12,6 +13,9 @@ export interface EcdsaSignature extends U8aFixed {}
 
 /** @name Ed25519Signature */
 export interface Ed25519Signature extends H512 {}
+
+/** @name Era */
+export interface Era extends ExtrinsicEra {}
 
 /** @name Extrinsic */
 export interface Extrinsic extends GenericExtrinsic {}
@@ -54,6 +58,7 @@ export interface MultiSignature extends Enum {
   readonly asSr25519: Sr25519Signature;
   readonly isEcdsa: boolean;
   readonly asEcdsa: EcdsaSignature;
+  readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
 }
 
 /** @name Signature */

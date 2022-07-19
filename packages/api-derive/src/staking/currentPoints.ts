@@ -1,22 +1,22 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { EraRewardPoints } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { Observable } from 'rxjs';
+import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
+import type { DeriveApi } from '../types';
 
-import { switchMap } from '@polkadot/x-rxjs/operators';
+import { switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
 /**
  * @description Retrieve the staking overview, including elected and points earned
  */
-export function currentPoints (instanceId: string, api: ApiInterfaceRx): () => Observable<EraRewardPoints> {
-  return memo(instanceId, (): Observable<EraRewardPoints> =>
+export function currentPoints (instanceId: string, api: DeriveApi): () => Observable<PalletStakingEraRewardPoints> {
+  return memo(instanceId, (): Observable<PalletStakingEraRewardPoints> =>
     api.derive.session.indexes().pipe(
       switchMap(({ activeEra }) =>
-        api.query.staking.erasRewardPoints<EraRewardPoints>(activeEra)
+        api.query.staking.erasRewardPoints(activeEra)
       )
     ));
 }

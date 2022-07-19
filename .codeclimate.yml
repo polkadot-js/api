@@ -1,3 +1,17 @@
+checks:
+  argument-count:
+    config:
+      threshold: 5
+  method-complexity:
+    config:
+      threshold: 7
+  method-count:
+    config:
+      threshold: 25
+  method-lines:
+    config:
+      threshold: 30
+
 exclude_patterns:
 - "**/*.spec.js"
 - "**/*.spec.ts"
@@ -5,7 +19,8 @@ exclude_patterns:
 - "**/*.test.ts"
 - "docs/**/*.js"
 - "docs/**/*.ts"
-- "packages/api/src/augment/"
+- "packages/*-augment/"
+- "packages/*-augment-*/"
 - "packages/typegen/scripts"
 - "packages/typegen/src"
 - "packages/types/src/interfaces/"

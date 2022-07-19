@@ -1,0 +1,15 @@
+{{> header }}
+
+/* eslint-disable sort-keys */
+
+export default {
+  rpc: {},
+  types: {
+    {{#each defs}}
+    {{> docs}}
+    {{#each defs}}
+    {{{this}}}
+    {{/each}}
+    {{/each}}
+  }
+};

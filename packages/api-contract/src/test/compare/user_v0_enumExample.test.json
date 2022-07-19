@@ -1,0 +1,303 @@
+[
+  {
+    "info": "Plain",
+    "lookupIndex": 1,
+    "type": "i32",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 2,
+    "type": "u32",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 3,
+    "type": "u8",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 4,
+    "lookupName": "EnumExampleVariant",
+    "type": "{\"_enum\":{\"None\":\"Null\",\"Weekday\":\"EnumExampleWeekday\",\"TupleMaybeSigned\":\"EnumExampleTupleMaybeSigned\",\"NamedMaybeSigned\":\"EnumExampleNamedMaybeSigned\",\"Color\":\"EnumExampleColor\"}}",
+    "docs": [],
+    "namespace": "enum_example::enum_example::Variant",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "None"
+      },
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 5,
+        "lookupName": "EnumExampleWeekday",
+        "type": "Lookup5",
+        "index": 1,
+        "name": "Weekday"
+      },
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 6,
+        "lookupName": "EnumExampleTupleMaybeSigned",
+        "type": "Lookup6",
+        "index": 2,
+        "name": "TupleMaybeSigned"
+      },
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 7,
+        "lookupName": "EnumExampleNamedMaybeSigned",
+        "type": "Lookup7",
+        "index": 3,
+        "name": "NamedMaybeSigned"
+      },
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 8,
+        "lookupName": "EnumExampleColor",
+        "type": "Lookup8",
+        "index": 4,
+        "name": "Color"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 5,
+    "lookupName": "EnumExampleWeekday",
+    "type": "{\"_enum\":[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"]}",
+    "docs": [],
+    "namespace": "enum_example::enum_example::Weekday",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "Monday"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "Tuesday"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 2,
+        "name": "Wednesday"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 3,
+        "name": "Thursday"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 4,
+        "name": "Friday"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 5,
+        "name": "Saturday"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 6,
+        "name": "Sunday"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 6,
+    "lookupName": "EnumExampleTupleMaybeSigned",
+    "type": "{\"_enum\":{\"Signed\":\"i32\",\"Unsigned\":\"u32\"}}",
+    "docs": [],
+    "namespace": "enum_example::enum_example::TupleMaybeSigned",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 1,
+        "type": "i32",
+        "docs": [],
+        "namespace": "",
+        "index": 0,
+        "name": "Signed"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "index": 1,
+        "name": "Unsigned"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 7,
+    "lookupName": "EnumExampleNamedMaybeSigned",
+    "type": "{\"_enum\":{\"Signed\":\"{\\\"value\\\":\\\"i32\\\"}\",\"Unsigned\":\"{\\\"value\\\":\\\"u32\\\"}\"}}",
+    "docs": [],
+    "namespace": "enum_example::enum_example::NamedMaybeSigned",
+    "sub": [
+      {
+        "info": "Struct",
+        "sub": [
+          {
+            "info": "Plain",
+            "lookupIndex": 1,
+            "type": "i32",
+            "docs": [],
+            "namespace": "",
+            "name": "value"
+          }
+        ],
+        "type": "{\"value\":\"i32\"}",
+        "index": 0,
+        "name": "Signed"
+      },
+      {
+        "info": "Struct",
+        "sub": [
+          {
+            "info": "Plain",
+            "lookupIndex": 2,
+            "type": "u32",
+            "docs": [],
+            "namespace": "",
+            "name": "value"
+          }
+        ],
+        "type": "{\"value\":\"u32\"}",
+        "index": 1,
+        "name": "Unsigned"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 8,
+    "lookupName": "EnumExampleColor",
+    "type": "{\"_enum\":{\"Red\":\"Null\",\"Blue\":\"Null\",\"Green\":\"Null\",\"Yellow\":\"Null\",\"Rgb\":\"{\\\"r\\\":\\\"u8\\\",\\\"g\\\":\\\"u8\\\",\\\"b\\\":\\\"u8\\\"}\",\"Rgba\":\"{\\\"r\\\":\\\"u8\\\",\\\"g\\\":\\\"u8\\\",\\\"b\\\":\\\"u8\\\",\\\"a\\\":\\\"u8\\\"}\"}}",
+    "docs": [],
+    "namespace": "enum_example::enum_example::Color",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "Red"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "Blue"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 2,
+        "name": "Green"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 3,
+        "name": "Yellow"
+      },
+      {
+        "info": "Struct",
+        "sub": [
+          {
+            "info": "Plain",
+            "lookupIndex": 3,
+            "type": "u8",
+            "docs": [],
+            "namespace": "",
+            "name": "r"
+          },
+          {
+            "info": "Plain",
+            "lookupIndex": 3,
+            "type": "u8",
+            "docs": [],
+            "namespace": "",
+            "name": "g"
+          },
+          {
+            "info": "Plain",
+            "lookupIndex": 3,
+            "type": "u8",
+            "docs": [],
+            "namespace": "",
+            "name": "b"
+          }
+        ],
+        "type": "{\"r\":\"u8\",\"g\":\"u8\",\"b\":\"u8\"}",
+        "index": 4,
+        "name": "Rgb"
+      },
+      {
+        "info": "Struct",
+        "sub": [
+          {
+            "info": "Plain",
+            "lookupIndex": 3,
+            "type": "u8",
+            "docs": [],
+            "namespace": "",
+            "name": "r"
+          },
+          {
+            "info": "Plain",
+            "lookupIndex": 3,
+            "type": "u8",
+            "docs": [],
+            "namespace": "",
+            "name": "g"
+          },
+          {
+            "info": "Plain",
+            "lookupIndex": 3,
+            "type": "u8",
+            "docs": [],
+            "namespace": "",
+            "name": "b"
+          },
+          {
+            "info": "Plain",
+            "lookupIndex": 3,
+            "type": "u8",
+            "docs": [],
+            "namespace": "",
+            "name": "a"
+          }
+        ],
+        "type": "{\"r\":\"u8\",\"g\":\"u8\",\"b\":\"u8\",\"a\":\"u8\"}",
+        "index": 5,
+        "name": "Rgba"
+      }
+    ]
+  }
+]

@@ -1,8 +1,10 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import fs from 'fs';
 import path from 'path';
+
+import { packageInfo } from '../packageInfo';
 
 export function writeFile (dest: string, generator: () => string, noLog?: boolean): void {
   !noLog && console.log(`${dest}\n\tGenerating`);
@@ -21,5 +23,19 @@ export function writeFile (dest: string, generator: () => string, noLog?: boolea
 }
 
 export function readTemplate (template: string): string {
-  return fs.readFileSync(path.join(__dirname, `../templates/${template}.hbs`)).toString();
+  // Inside the api repo itself, it will be 'auto'
+  const rootDir = packageInfo.path === 'auto'
+    ? path.join(__dirname, '..')
+    : packageInfo.path;
+
+  // NOTE With cjs in a subdir, search one lower as well
+  const file = ['./templates', '../templates']
+    .map((p) => path.join(rootDir, p, `${template}.hbs`))
+    .find((p) => fs.existsSync(p));
+
+  if (!file) {
+    throw new Error(`Unable to locate ${template}.hbs from ${rootDir}`);
+  }
+
+  return fs.readFileSync(file).toString();
 }

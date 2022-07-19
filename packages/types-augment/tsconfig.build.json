@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../types/tsconfig.build.json" },
+    { "path": "../types-codec/tsconfig.build.json" }
+  ]
+}

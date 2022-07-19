@@ -1,18 +1,16 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveStakingWaiting, StakingQueryFlags } from '../types';
+import type { Observable } from 'rxjs';
+import type { DeriveApi, DeriveStakingWaiting, StakingQueryFlags } from '../types';
 
-import { combineLatest } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
 const DEFAULT_FLAGS = { withController: true, withPrefs: true };
 
-export function waitingInfo (instanceId: string, api: ApiInterfaceRx): (flags?: StakingQueryFlags) => Observable<DeriveStakingWaiting> {
+export function waitingInfo (instanceId: string, api: DeriveApi): (flags?: StakingQueryFlags) => Observable<DeriveStakingWaiting> {
   return memo(instanceId, (flags: StakingQueryFlags = DEFAULT_FLAGS): Observable<DeriveStakingWaiting> =>
     combineLatest([
       api.derive.staking.validators(),

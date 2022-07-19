@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { of, timer } from '@polkadot/x-rxjs';
+import { jest } from '@jest/globals';
+import { of, timer } from 'rxjs';
 
 import { drr } from '.';
 
@@ -13,7 +14,9 @@ describe('drr', (): void => {
   it('should not fire twice the same value', (done): void => {
     let count = 0;
 
-    const sub = of(1, 1).pipe(drr({ delay: 500 })).subscribe((): void => { ++count; });
+    const sub = of(1, 1).pipe(drr({ delay: 500 })).subscribe((): void => {
+      ++count;
+    });
 
     setTimeout((): void => {
       expect(count).toBe(1);

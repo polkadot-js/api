@@ -1,0 +1,30 @@
+{{> header }}
+
+// import type lookup before we augment - in some environments
+// this is required to allow for ambient/previous definitions
+import '@polkadot/api-base/types/calls';
+
+{{{ importsAll }}}
+
+export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
+export type __DecoratedCallBase<ApiType extends ApiTypes> = DecoratedCallBase<ApiType>;
+
+declare module '@polkadot/api-base/types/calls' {
+  interface AugmentedCalls<ApiType extends ApiTypes> {
+    {{#each modules}}
+    /** {{{sectionHash}}}/{{{sectionVersion}}} */
+    {{{name}}}: {
+      {{#each items}}
+      {{> docs}}
+      {{{name}}}: AugmentedCall<ApiType, ({{{args}}}) => Observable<{{{type}}}>>;
+      {{/each}}
+      {{#unless @root.isStrict}}
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+      {{/unless}}
+    };
+    {{/each}}
+  } // AugmentedCalls
+} // declare module

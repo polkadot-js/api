@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -12,6 +12,18 @@ export default {
     EvmAccount: {
       nonce: 'u256',
       balance: 'u256'
+    },
+    EvmCallInfo: {
+      exitReason: 'ExitReason',
+      value: 'Bytes',
+      usedGas: 'U256',
+      logs: 'Vec<EvmLog>'
+    },
+    EvmCreateInfo: {
+      exitReason: 'ExitReason',
+      value: 'H160',
+      usedGas: 'U256',
+      logs: 'Vec<EvmLog>'
     },
     EvmLog: {
       address: 'H160',

@@ -1,17 +1,16 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { Option } from '@polkadot/types';
 import type { Balance, EraIndex } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveEraRewards } from '../types';
+import type { DeriveApi, DeriveEraRewards } from '../types';
 
-import { of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { map, of } from 'rxjs';
 
-import { deriveCache, memo } from '../util';
-import { filterEras } from './util';
+import { memo } from '../util';
+import { filterCachedEras, getEraMultiCache, setEraMultiCache } from './cache';
+import { erasHistoricApply, filterEras } from './util';
 
 const CACHE_KEY = 'eraRewards';
 
@@ -22,42 +21,23 @@ function mapRewards (eras: EraIndex[], optRewards: Option<Balance>[]): DeriveEra
   }));
 }
 
-export function _erasRewards (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraRewards[]> {
+export function _erasRewards (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraRewards[]> {
   return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraRewards[]> => {
     if (!eras.length) {
       return of([]);
     }
 
-    const cached: DeriveEraRewards[] = withActive
-      ? []
-      : eras
-        .map((era) => deriveCache.get<DeriveEraRewards>(`${CACHE_KEY}-${era.toString()}`))
-        .filter((value): value is DeriveEraRewards => !!value);
+    const cached = getEraMultiCache<DeriveEraRewards>(CACHE_KEY, eras, withActive);
     const remaining = filterEras(eras, cached);
 
     if (!remaining.length) {
       return of(cached);
     }
 
-    return api.query.staking.erasValidatorReward.multi<Option<Balance>>(remaining).pipe(
-      map((optRewards) => {
-        const query = mapRewards(remaining, optRewards);
-
-        !withActive && query.forEach((q) => deriveCache.set(`${CACHE_KEY}-${q.era.toString()}`, q));
-
-        return eras.map((era): DeriveEraRewards =>
-          cached.find((cached) => era.eq(cached.era)) ||
-          query.find((query) => era.eq(query.era)) as DeriveEraRewards
-        );
-      })
+    return api.query.staking.erasValidatorReward.multi(remaining).pipe(
+      map((r) => filterCachedEras(eras, cached, setEraMultiCache(CACHE_KEY, withActive, mapRewards(remaining, r))))
     );
   });
 }
 
-export function erasRewards (instanceId: string, api: ApiInterfaceRx): (withActive?: boolean) => Observable<DeriveEraRewards[]> {
-  return memo(instanceId, (withActive = false): Observable<DeriveEraRewards[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._erasRewards(eras, withActive))
-    )
-  );
-}
+export const erasRewards = erasHistoricApply('_erasRewards');

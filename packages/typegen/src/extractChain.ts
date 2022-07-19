@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Connects to the local chain and outputs a re-usable calls-only chain definition in  the form
@@ -12,7 +12,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 /** @internal */
 async function run (ws: string): Promise<void> {
   const provider = new WsProvider(ws);
-  const api = await ApiPromise.create({ provider });
+  const api = await ApiPromise.create({ provider, throwOnConnect: true });
   const [chain, props] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.properties()

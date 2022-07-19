@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef, ExtInfo } from './types';
@@ -30,6 +30,7 @@ export const substrate: ExtDef = {
     }
   },
   CheckMortality,
+  CheckNonZeroSender: emptyCheck,
   CheckNonce: {
     extrinsic: {
       nonce: 'Compact<Index>'

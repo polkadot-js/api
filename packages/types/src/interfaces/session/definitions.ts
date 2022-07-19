@@ -1,10 +1,14 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
 import type { Definitions } from '../../types';
+
+import { objectSpread } from '@polkadot/util';
+
+import { runtime } from './runtime';
 
 // The runtime definition of SessionKeys are passed as a Trait to session
 // Defined in `node/runtime/src/lib.rs` as follow
@@ -37,16 +41,16 @@ const keyTypes = {
 
 export default {
   rpc: {},
-  types: {
-    ...keyTypes,
+  runtime,
+  types: objectSpread({}, keyTypes, {
     FullIdentification: 'Exposure',
     IdentificationTuple: '(ValidatorId, FullIdentification)',
     MembershipProof: {
       session: 'SessionIndex',
-      trieNodes: 'Vec<Vec<u8>>',
+      trieNodes: 'Vec<Bytes>',
       validatorCount: 'ValidatorCount'
     },
     SessionIndex: 'u32',
     ValidatorCount: 'u32'
-  }
+  })
 } as Definitions;

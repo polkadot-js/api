@@ -1,12 +1,11 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyNumber, Registry } from '../types';
+import type { AnyNumber, Registry } from '@polkadot/types-codec/types';
 
+import { u32 } from '@polkadot/types-codec';
 import { BN, bnToBn, isBigInt, isBn, isHex, isNumber, isU8a } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
-
-import { u32 } from '../primitive/U32';
 
 const PREFIX_1BYTE = 0xef;
 const PREFIX_2BYTE = 0xfc;
@@ -17,7 +16,7 @@ const MAX_2BYTE = new BN(1).shln(16);
 const MAX_4BYTE = new BN(1).shln(32);
 
 /** @internal */
-function decodeAccountIndex (value: AnyNumber): BN | BigInt | Uint8Array | number | string {
+function decodeAccountIndex (value: AnyNumber): BN | bigint | Uint8Array | number | string {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   if (value instanceof GenericAccountIndex) {
     // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an
@@ -88,7 +87,7 @@ export class GenericAccountIndex extends u32 {
     }
 
     // convert and compare
-    return super.eq(this.registry.createType('AccountIndex', other));
+    return super.eq(this.registry.createTypeUnsafe('AccountIndex', [other]));
   }
 
   /**
@@ -103,6 +102,13 @@ export class GenericAccountIndex extends u32 {
    */
   public override toJSON (): string {
     return this.toString();
+  }
+
+  /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public override toPrimitive (): string {
+    return this.toJSON();
   }
 
   /**

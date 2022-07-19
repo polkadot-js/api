@@ -1,13 +1,11 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { IU8a, Registry } from '@polkadot/types-codec/types';
 import type { H256 } from '../interfaces/runtime';
-import type { Registry } from '../types';
 
-import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
-
-import { Enum } from '../codec/Enum';
-import { Bytes } from './Bytes';
+import { Bytes, Enum } from '@polkadot/types-codec';
+import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 /** @internal */
 function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uint8Array, number | undefined] {
@@ -20,7 +18,7 @@ function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uin
     const data = value.subarray(1, length + 1);
 
     // in this case, we are passing a Raw back (since we have no length)
-    return [registry.createType('Raw', data), 1];
+    return [registry.createTypeUnsafe<IU8a>('Raw', [data]), 1];
   } else if (indicator >= 34 && indicator <= 37) {
     return [value.subarray(1, 32 + 1), indicator - 32]; // 34 becomes 2
   }
@@ -30,10 +28,10 @@ function decodeDataU8a (registry: Registry, value: Uint8Array): [undefined | Uin
 
 /** @internal */
 function decodeData (registry: Registry, value?: Record<string, any> | Uint8Array | Enum | string): [any, number | undefined] {
-  if (!value) {
-    return [undefined, undefined];
-  } else if (isU8a(value) || isString(value)) {
+  if (isU8a(value) || isString(value)) {
     return decodeDataU8a(registry, u8aToU8a(value));
+  } else if (!value) {
+    return [undefined, undefined];
   }
 
   // assume we have an Enum or an  object input, handle this via the normal Enum decoding
@@ -58,7 +56,9 @@ export class Data extends Enum {
       ShaThree256: 'H256' // 5
     }, ...decodeData(registry, value));
 
-    assert(!this.isRaw || this.asRaw.length <= 32, 'Data.Raw values are limited to a maximum length of 32 bytes');
+    if (this.isRaw && this.asRaw.length > 32) {
+      throw new Error('Data.Raw values are limited to a maximum length of 32 bytes');
+    }
   }
 
   public get asBlakeTwo256 (): H256 {

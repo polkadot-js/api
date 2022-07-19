@@ -1,43 +1,46 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
+import type { QueryableModuleStorage } from '@polkadot/api-base/types';
 import type { Vec } from '@polkadot/types';
-import type { AccountId, Balance, Voter } from '@polkadot/types/interfaces';
+import type { AccountId, Balance } from '@polkadot/types/interfaces';
+import type { PalletElectionsPhragmenVoter } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveCouncilVote, DeriveCouncilVotes } from '../types';
+import type { DeriveApi, DeriveCouncilVote, DeriveCouncilVotes } from '../types';
 
-import { combineLatest } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of } from 'rxjs';
 
 import { memo } from '../util';
 
 // Voter is current tuple is 2.x-era
-type VoteEntry = Voter | ITuple<[Balance, Vec<AccountId>]>;
+type VoteEntry = PalletElectionsPhragmenVoter | ITuple<[Balance, Vec<AccountId>]>;
 
-function isVoter (value: VoteEntry): value is Voter {
+function isVoter (value: VoteEntry): value is PalletElectionsPhragmenVoter {
   return !Array.isArray(value);
 }
 
-function retrieveStakeOf (api: ApiInterfaceRx): Observable<[AccountId, Balance][]> {
-  return (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections).stakeOf.entries<Balance, [AccountId]>().pipe(
+function retrieveStakeOf (elections: QueryableModuleStorage<'rxjs'>): Observable<[AccountId, Balance][]> {
+  return elections.stakeOf.entries<Balance, [AccountId]>().pipe(
     map((entries) =>
       entries.map(([{ args: [accountId] }, stake]) => [accountId, stake])
     )
   );
 }
 
-function retrieveVoteOf (api: ApiInterfaceRx): Observable<[AccountId, AccountId[]][]> {
-  return (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections).votesOf.entries<Vec<AccountId>, [AccountId]>().pipe(
+function retrieveVoteOf (elections: QueryableModuleStorage<'rxjs'>): Observable<[AccountId, AccountId[]][]> {
+  return elections.votesOf.entries<Vec<AccountId>, [AccountId]>().pipe(
     map((entries) =>
       entries.map(([{ args: [accountId] }, votes]) => [accountId, votes])
     )
   );
 }
 
-function retrievePrev (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
-  return combineLatest([retrieveStakeOf(api), retrieveVoteOf(api)]).pipe(
+function retrievePrev (api: DeriveApi, elections: QueryableModuleStorage<'rxjs'>): Observable<DeriveCouncilVotes> {
+  return combineLatest([
+    retrieveStakeOf(elections),
+    retrieveVoteOf(elections)
+  ]).pipe(
     map(([stakes, votes]): DeriveCouncilVotes => {
       const result: DeriveCouncilVotes = [];
 
@@ -60,9 +63,7 @@ function retrievePrev (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
   );
 }
 
-function retrieveCurrent (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
-  const elections = (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections);
-
+function retrieveCurrent (elections: QueryableModuleStorage<'rxjs'>): Observable<DeriveCouncilVotes> {
   return elections.voting.entries<VoteEntry, [AccountId]>().pipe(
     map((entries): DeriveCouncilVotes =>
       entries.map(([{ args: [accountId] }, value]): [AccountId, DeriveCouncilVote] => [
@@ -75,10 +76,14 @@ function retrieveCurrent (api: ApiInterfaceRx): Observable<DeriveCouncilVotes> {
   );
 }
 
-export function votes (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveCouncilVotes> {
+export function votes (instanceId: string, api: DeriveApi): () => Observable<DeriveCouncilVotes> {
+  const elections = api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections;
+
   return memo(instanceId, (): Observable<DeriveCouncilVotes> =>
-    (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections).stakeOf
-      ? retrievePrev(api)
-      : retrieveCurrent(api)
+    elections
+      ? elections.stakeOf
+        ? retrievePrev(api, elections)
+        : retrieveCurrent(elections)
+      : of([])
   );
 }

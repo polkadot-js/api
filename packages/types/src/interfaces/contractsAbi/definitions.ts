@@ -1,7 +1,9 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Definitions } from '../../types';
+
+import { objectSpread } from '@polkadot/util';
 
 // order important in structs... :)
 /* eslint-disable sort-keys */
@@ -55,40 +57,115 @@ const layout = {
 };
 
 const spec = {
-  ContractConstructorSpec: {
+  ContractConstructorSpecV0: {
     name: 'Text',
     selector: 'ContractSelector',
-    args: 'Vec<ContractMessageParamSpec>',
+    args: 'Vec<ContractMessageParamSpecV0>',
     docs: 'Vec<Text>'
   },
-  ContractContractSpec: {
-    constructors: 'Vec<ContractConstructorSpec>',
-    messages: 'Vec<ContractMessageSpec>',
-    events: 'Vec<ContractEventSpec>',
+  ContractConstructorSpecV1: {
+    name: 'Vec<Text>',
+    selector: 'ContractSelector',
+    args: 'Vec<ContractMessageParamSpecV0>',
+    docs: 'Vec<Text>'
+  },
+  ContractConstructorSpecV2: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    docs: 'Vec<Text>'
+  },
+  ContractConstructorSpecV3: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    docs: 'Vec<Text>'
+  },
+  ContractContractSpecV0: {
+    constructors: 'Vec<ContractConstructorSpecV0>',
+    messages: 'Vec<ContractMessageSpecV0>',
+    events: 'Vec<ContractEventSpecV0>',
+    docs: 'Vec<Text>'
+  },
+  ContractContractSpecV1: {
+    constructors: 'Vec<ContractConstructorSpecV1>',
+    messages: 'Vec<ContractMessageSpecV1>',
+    events: 'Vec<ContractEventSpecV1>',
+    docs: 'Vec<Text>'
+  },
+  ContractContractSpecV2: {
+    constructors: 'Vec<ContractConstructorSpecV2>',
+    messages: 'Vec<ContractMessageSpecV2>',
+    events: 'Vec<ContractEventSpecV2>',
+    docs: 'Vec<Text>'
+  },
+  ContractContractSpecV3: {
+    constructors: 'Vec<ContractConstructorSpecV3>',
+    messages: 'Vec<ContractMessageSpecV2>',
+    events: 'Vec<ContractEventSpecV2>',
     docs: 'Vec<Text>'
   },
   ContractDisplayName: 'SiPath',
-  ContractEventParamSpec: {
+  ContractEventParamSpecV0: {
     name: 'Text',
     indexed: 'bool',
     type: 'ContractTypeSpec',
     docs: 'Vec<Text>'
   },
-  ContractEventSpec: {
-    name: 'Text',
-    args: 'Vec<ContractEventParamSpec>',
+  ContractEventParamSpecV2: {
+    label: 'Text',
+    indexed: 'bool',
+    type: 'ContractTypeSpec',
     docs: 'Vec<Text>'
   },
-  ContractMessageParamSpec: {
+  ContractEventSpecV0: {
+    name: 'Text',
+    args: 'Vec<ContractEventParamSpecV0>',
+    docs: 'Vec<Text>'
+  },
+  ContractEventSpecV1: {
+    name: 'Text',
+    args: 'Vec<ContractEventParamSpecV0>',
+    docs: 'Vec<Text>'
+  },
+  ContractEventSpecV2: {
+    label: 'Text',
+    args: 'Vec<ContractEventParamSpecV2>',
+    docs: 'Vec<Text>'
+  },
+  ContractMessageParamSpecV0: {
     name: 'Text',
     type: 'ContractTypeSpec'
   },
-  ContractMessageSpec: {
+  ContractMessageParamSpecV2: {
+    label: 'Text',
+    type: 'ContractTypeSpec'
+  },
+  ContractMessageSpecV0: {
     name: 'Text',
     selector: 'ContractSelector',
     mutates: 'bool',
     payable: 'bool',
-    args: 'Vec<ContractMessageParamSpec>',
+    args: 'Vec<ContractMessageParamSpecV0>',
+    returnType: 'Option<ContractTypeSpec>',
+    docs: 'Vec<Text>'
+  },
+  ContractMessageSpecV1: {
+    name: 'Vec<Text>',
+    selector: 'ContractSelector',
+    mutates: 'bool',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV0>',
+    returnType: 'Option<ContractTypeSpec>',
+    docs: 'Vec<Text>'
+  },
+  ContractMessageSpecV2: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    mutates: 'bool',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
     returnType: 'Option<ContractTypeSpec>',
     docs: 'Vec<Text>'
   },
@@ -99,28 +176,67 @@ const spec = {
   }
 };
 
+const ContractMetadataV0 = {
+  types: 'Vec<Si0Type>',
+  spec: 'ContractContractSpecV0'
+};
+
+const ContractMetadataV1 = {
+  types: 'Vec<PortableType>',
+  spec: 'ContractContractSpecV1'
+};
+
+const ContractMetadataV2 = {
+  types: 'Vec<PortableType>',
+  spec: 'ContractContractSpecV2'
+};
+
+const ContractMetadataV3 = {
+  types: 'Vec<PortableType>',
+  spec: 'ContractContractSpecV3'
+};
+
+const ContractProjectInfo = {
+  source: 'ContractProjectSource',
+  contract: 'ContractProjectContract'
+};
+
+const latest = {
+  ContractConstructorSpecLatest: 'ContractConstructorSpecV3',
+  ContractEventSpecLatest: 'ContractEventSpecV2',
+  ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
+  ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
+  ContractMessageSpecLatest: 'ContractMessageSpecV2',
+  ContractMetadataLatest: 'ContractMetadataV3'
+};
+
 export default {
   rpc: {},
-  types: {
-    ...layout,
-    ...spec,
-    ContractProject: {
-      // added by ABI serialization
-      metadataVersion: 'Text',
-      source: 'ContractProjectSource',
-      contract: 'ContractProjectContract',
-      // expanded scale registry: RegistryReadOnly
-      types: 'Vec<SiType>',
-      // renamed from layout (ignored for now, incomplete)
-      // storage: 'ContractStorageLayout',
-      spec: 'ContractContractSpec'
+  types: objectSpread({}, layout, spec, latest, {
+    ContractProjectInfo,
+    ContractMetadataV0,
+    ContractMetadataV1,
+    ContractMetadataV2,
+    ContractMetadataV3,
+    ContractMetadata: {
+      _enum: {
+        V0: 'ContractMetadataV0',
+        V1: 'ContractMetadataV1',
+        V2: 'ContractMetadataV2',
+        V3: 'ContractMetadataV3'
+      }
     },
+    ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),
+    ContractProject: '(ContractProjectInfo, ContractMetadata)',
     ContractProjectContract: {
+      _alias: {
+        docs: 'documentation'
+      },
       name: 'Text',
       version: 'Text',
       authors: 'Vec<Text>',
       description: 'Option<Text>',
-      documentation: 'Option<Text>',
+      docs: 'Option<Text>',
       repository: 'Option<Text>',
       homepage: 'Option<Text>',
       license: 'Option<Text>'
@@ -134,5 +250,5 @@ export default {
       compiler: 'Text',
       wasm: 'Raw'
     }
-  }
+  })
 } as Definitions;

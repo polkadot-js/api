@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { u8aToHex } from '@polkadot/util';
@@ -23,14 +23,14 @@ describe('ExtrinsicPayload', (): void => {
     const a = new ExtrinsicPayload(registry, TEST, { version: 4 });
     const b = new ExtrinsicPayload(registry, a.toU8a(), { version: 4 });
 
-    expect(a).toEqual(b);
+    expect(a.toJSON()).toEqual(b.toJSON());
   });
 
   it('creates and can re-create from itself (hex)', (): void => {
     const a = new ExtrinsicPayload(registry, TEST, { version: 4 });
     const b = new ExtrinsicPayload(registry, a.toHex(), { version: 4 });
 
-    expect(a).toEqual(b);
+    expect(a.toJSON()).toEqual(b.toJSON());
   });
 
   it('handles toU8a(true) correctly', (): void => {

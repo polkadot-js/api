@@ -1,20 +1,15 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '@polkadot/types/create/types';
 import type { Constructor, Registry } from '@polkadot/types/types';
+import type { TypeDef } from '@polkadot/types-create/types';
 
-import { Compact, Enum, Option, Struct, Tuple, UInt, Vec } from '@polkadot/types/codec';
-import { AbstractInt } from '@polkadot/types/codec/AbstractInt';
-import { ClassOfUnsafe, getTypeDef } from '@polkadot/types/create';
-import { TypeDefInfo } from '@polkadot/types/create/types';
-import { GenericAccountId, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
+import { GenericAccountId, GenericCall, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
-import { Null } from '@polkadot/types/primitive';
-import * as primitiveClasses from '@polkadot/types/primitive';
+import { AbstractInt, bool, Compact, Enum, Null, Option, Struct, Tuple, UInt, Vec, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
+import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { isChildClass, stringify } from '@polkadot/util';
 
-import { isCompactEncodable } from './class';
 import { formatType } from './formatting';
 import { ModuleTypes, setImports, TypeImports } from './imports';
 
@@ -24,43 +19,6 @@ function arrayToStrType (arr: string[]): string {
 
 const voteConvictions = arrayToStrType(AllConvictions);
 
-// From `T`, generate `Compact<T>, Option<T>, Vec<T>`
-/** @internal */
-export function getDerivedTypes (registry: Registry, definitions: Record<string, ModuleTypes>, type: string, primitiveName: string, imports: TypeImports): string[] {
-  // `primitiveName` represents the actual primitive type our type is mapped to
-  const isCompact = isCompactEncodable((primitiveClasses as Record<string, any>)[primitiveName] || ClassOfUnsafe(registry, type));
-  const def = getTypeDef(type);
-
-  setImports(definitions, imports, ['Option', 'Vec', isCompact ? 'Compact' : '']);
-
-  const types = [
-    {
-      info: TypeDefInfo.Option,
-      sub: def,
-      type
-    },
-    {
-      info: TypeDefInfo.Vec,
-      sub: def,
-      type
-    }
-  ];
-
-  if (isCompact) {
-    types.unshift({
-      info: TypeDefInfo.Compact,
-      sub: def,
-      type
-    });
-  }
-
-  const result = types.map((t) => formatType(definitions, t, imports)).map((t) => `'${t}': ${t};`);
-
-  result.unshift(`${type}: ${type};`);
-
-  return result;
-}
-
 // Make types a little bit more flexible
 // - if param instanceof AbstractInt, then param: u64 | Uint8array | AnyNumber
 // etc
@@ -68,12 +26,12 @@ export function getDerivedTypes (registry: Registry, definitions: Record<string,
 export function getSimilarTypes (registry: Registry, definitions: Record<string, ModuleTypes>, _type: string, imports: TypeImports): string[] {
   const typeParts = _type.split('::');
   const type = typeParts[typeParts.length - 1];
-  const possibleTypes = [formatType(definitions, type, imports)];
+  const possibleTypes = [formatType(registry, definitions, type, imports)];
 
   if (type === 'Extrinsic') {
     setImports(definitions, imports, ['IExtrinsic']);
 
-    return ['IExtrinsic'];
+    return ['Extrinsic', 'IExtrinsic', 'string', 'Uint8Array'];
   } else if (type === 'Keys') {
     // This one is weird... surely it should popup as a Tuple? (but either way better as defined hex)
     return ['Keys', 'string', 'Uint8Array'];
@@ -84,7 +42,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     return ['null'];
   }
 
-  const Clazz = ClassOfUnsafe(registry, type);
+  const Clazz = registry.createClass(type);
 
   if (isChildClass(Vec, Clazz)) {
     const vecDef = getTypeDef(type);
@@ -100,18 +58,23 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
         );
 
         possibleTypes.push(`([${subs.join(', ')}])[]`);
+      } else if (subDef.info === TypeDefInfo.Option || subDef.info === TypeDefInfo.Vec || subDef.info === TypeDefInfo.VecFixed) {
+        // TODO: Add possibleTypes so imports work
+      } else if (subDef.info === TypeDefInfo.Struct) {
+        // TODO: Add possibleTypes so imports work
       } else {
         throw new Error(`Unhandled subtype in Vec, ${stringify(subDef)}`);
       }
     }
   } else if (isChildClass(Enum, Clazz)) {
-    const e = new (Clazz as Constructor)(registry) as Enum;
+    const { defKeys, isBasic } = new (Clazz as Constructor)(registry) as Enum;
+    const keys = defKeys.filter((v) => !v.startsWith('__Unused'));
 
-    if (e.isBasic) {
-      possibleTypes.push(arrayToStrType(e.defKeys), 'number');
+    if (isBasic) {
+      possibleTypes.push(arrayToStrType(keys), 'number');
     } else {
       // TODO We don't really want any here, these should be expanded
-      possibleTypes.push(...e.defKeys.map((key): string => `{ ${key}: any }`), 'string');
+      possibleTypes.push(...keys.map((k) => `{ ${k}: any }`), 'string');
     }
 
     possibleTypes.push('Uint8Array');
@@ -121,7 +84,9 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'LookupSource', 'string', 'Uint8Array');
   } else if (isChildClass(GenericAccountId, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
-  } else if (isChildClass(registry.createClass('bool'), Clazz)) {
+  } else if (isChildClass(GenericCall, Clazz)) {
+    possibleTypes.push('IMethod', 'string', 'Uint8Array');
+  } else if (isChildClass(bool, Clazz)) {
     possibleTypes.push('boolean', 'Uint8Array');
   } else if (isChildClass(Null, Clazz)) {
     possibleTypes.push('null');
@@ -131,10 +96,21 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
 
     possibleTypes.push(`{ ${obj} }`, 'string', 'Uint8Array');
   } else if (isChildClass(Option, Clazz)) {
-    // TODO inspect container
-    possibleTypes.push('null', 'object', 'string', 'Uint8Array');
+    possibleTypes.push('null', 'Uint8Array');
+
+    const optDef = getTypeDef(type);
+    const subDef = (optDef.sub) as TypeDef;
+
+    if (subDef) {
+      possibleTypes.push(...getSimilarTypes(registry, definitions, subDef.type, imports));
+    } else {
+      possibleTypes.push('object', 'string');
+    }
   } else if (isChildClass(GenericVote, Clazz)) {
     possibleTypes.push(`{ aye: boolean; conviction?: ${voteConvictions} | number }`, 'boolean', 'string', 'Uint8Array');
+  } else if (isChildClass(WrapperKeepOpaque, Clazz) || isChildClass(WrapperOpaque, Clazz)) {
+    // TODO inspect container
+    possibleTypes.push('object', 'string', 'Uint8Array');
   } else if (isChildClass(Uint8Array, Clazz)) {
     possibleTypes.push('string', 'Uint8Array');
   } else if (isChildClass(String, Clazz)) {

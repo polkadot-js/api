@@ -1,26 +1,36 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Codec } from '@polkadot/types-codec/types';
+import type { TypeDef } from '@polkadot/types-create/types';
 import type { EventMetadataLatest } from '../interfaces/metadata';
 import type { Hash } from '../interfaces/runtime';
 import type { EventId, Phase } from '../interfaces/system';
-import type { Codec } from './codec';
-import type { ITuple } from './interfaces';
 
-export interface IEventRecord<T extends Codec[]> {
+export interface IEventRecord<T extends Codec[]> extends Codec {
   readonly phase: Phase;
   readonly event: IEvent<T>;
   readonly topics: Hash[];
 }
 
-export interface IEventData {
+export interface IEventData extends Codec {
   readonly meta: EventMetadataLatest;
   readonly method: string;
+  readonly names: string[] | null;
   readonly section: string;
+  readonly typeDef: TypeDef[];
 }
 
-export interface IEvent<T extends Codec[]> {
-  readonly data: ITuple<T> & IEventData;
+export interface IEventLike {
+  readonly index: unknown;
+  readonly method: unknown;
+  readonly section: unknown;
+}
+
+export interface IEvent<T extends Codec[], N = unknown> extends IEventLike, Codec {
+  readonly data: N extends Record<string, Codec>
+    ? N & T & IEventData
+    : T & IEventData;
   readonly index: EventId;
   readonly method: string;
   readonly section: string;

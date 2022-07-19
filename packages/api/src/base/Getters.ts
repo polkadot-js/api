@@ -1,15 +1,16 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Metadata } from '@polkadot/metadata';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
+import type { ProviderInterface } from '@polkadot/rpc-provider/types';
 import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
-import type { ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
-
-import { assertReturn } from '@polkadot/util';
+import type { Metadata } from '@polkadot/types/metadata';
+import type { CallFunction, RegistryError } from '@polkadot/types/types';
+import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
 import { packageInfo } from '../packageInfo';
+import { findCall, findError } from './find';
 import { Init } from './Init';
 
 interface PkgJson {
@@ -18,10 +19,21 @@ interface PkgJson {
 }
 
 function assertResult<T> (value: T | undefined): T {
-  return assertReturn(value, 'Api needs to be initialized before using, listen on \'ready\'');
+  if (value === undefined) {
+    throw new Error("Api interfaces needs to be initialized before using, wait for 'isReady'");
+  }
+
+  return value;
 }
 
-export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> {
+export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> implements ApiDecoration<ApiType> {
+  /**
+   * @description Runtime call interfaces (currently untyped, only decorated via API options)
+   */
+  public get call (): QueryableCalls<ApiType> {
+    return assertResult(this._call);
+  }
+
   /**
    * @description Contains the parameter types (constants) of all modules.
    *
@@ -182,8 +194,15 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> {
   /**
    * @description The underlying Rx API interface
    */
-  public get rx (): Pick<ApiInterfaceRx, 'tx' | 'rpc'> {
-    return assertResult(this._rx as Pick<ApiInterfaceRx, 'tx' | 'rpc'>);
+  public get rx (): Pick<ApiInterfaceRx, 'tx' | 'rpc' | 'query'> {
+    return assertResult(this._rx as Pick<ApiInterfaceRx, 'tx' | 'rpc' | 'query'>);
+  }
+
+  /**
+   * @description Returns the underlying provider stats
+   */
+  public get stats (): ProviderInterface['stats'] | undefined {
+    return this._rpcCore.provider.stats;
   }
 
   /**
@@ -209,5 +228,19 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> {
    */
   public get tx (): SubmittableExtrinsics<ApiType> {
     return assertResult(this._extrinsics);
+  }
+
+  /**
+   * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
+   */
+  public findCall (callIndex: Uint8Array | string): CallFunction {
+    return findCall(this.registry, callIndex);
+  }
+
+  /**
+   * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
+   */
+  public findError (errorIndex: Uint8Array | string): RegistryError {
+    return findError(this.registry, errorIndex);
   }
 }

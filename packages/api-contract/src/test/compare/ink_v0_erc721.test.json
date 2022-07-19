@@ -1,0 +1,415 @@
+[
+  {
+    "info": "Struct",
+    "lookupIndex": 1,
+    "lookupName": "InkStorageCollectionsStashHeader",
+    "type": "{\"lastVacant\":\"u32\",\"len\":\"u32\",\"lenEntries\":\"u32\"}",
+    "docs": [],
+    "namespace": "ink_storage::collections::stash::Header",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "name": "lastVacant"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "name": "len"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "name": "lenEntries"
+      }
+    ]
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 2,
+    "type": "u32",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 3,
+    "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"u32\"}}",
+    "docs": [],
+    "namespace": "ink_storage::collections::stash::Entry",
+    "sub": [
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 4,
+        "lookupName": "InkStorageCollectionsStashVacantEntry",
+        "type": "Lookup4",
+        "index": 0,
+        "name": "Vacant"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "index": 1,
+        "name": "Occupied"
+      }
+    ]
+  },
+  {
+    "info": "Struct",
+    "lookupIndex": 4,
+    "lookupName": "InkStorageCollectionsStashVacantEntry",
+    "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
+    "docs": [],
+    "namespace": "ink_storage::collections::stash::VacantEntry",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "name": "next"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "name": "prev"
+      }
+    ]
+  },
+  {
+    "info": "Struct",
+    "lookupIndex": 5,
+    "type": "{\"value\":\"AccountId\",\"keyIndex\":\"u32\"}",
+    "docs": [],
+    "namespace": "ink_storage::collections::hashmap::ValueEntry",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 6,
+        "type": "AccountId",
+        "docs": [],
+        "namespace": "ink_env::types::AccountId",
+        "lookupNameRoot": "InkEnvAccountId",
+        "name": "value"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "name": "keyIndex"
+      }
+    ]
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 6,
+    "type": "AccountId",
+    "docs": [],
+    "namespace": "ink_env::types::AccountId",
+    "lookupNameRoot": "InkEnvAccountId"
+  },
+  {
+    "info": "VecFixed",
+    "lookupIndex": 7,
+    "type": "[u8;32]",
+    "docs": [],
+    "namespace": "",
+    "length": 32,
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 8,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 8,
+    "type": "u8",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 9,
+    "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"AccountId\"}}",
+    "docs": [],
+    "namespace": "ink_storage::collections::stash::Entry",
+    "sub": [
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 4,
+        "lookupName": "InkStorageCollectionsStashVacantEntry",
+        "type": "Lookup4",
+        "index": 0,
+        "name": "Vacant"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 6,
+        "type": "AccountId",
+        "docs": [],
+        "namespace": "ink_env::types::AccountId",
+        "lookupNameRoot": "InkEnvAccountId",
+        "index": 1,
+        "name": "Occupied"
+      }
+    ]
+  },
+  {
+    "info": "Struct",
+    "lookupIndex": 10,
+    "lookupName": "InkStorageCollectionsHashmapValueEntryEntry",
+    "type": "{\"value\":\"u32\",\"keyIndex\":\"u32\"}",
+    "docs": [],
+    "namespace": "ink_storage::collections::hashmap::ValueEntry",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "name": "value"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "name": "keyIndex"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 11,
+    "lookupName": "InkStorageCollectionsStashEntry",
+    "type": "{\"_enum\":{\"Vacant\":\"InkStorageCollectionsStashVacantEntry\",\"Occupied\":\"(AccountId,AccountId)\"}}",
+    "docs": [],
+    "namespace": "ink_storage::collections::stash::Entry",
+    "sub": [
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 4,
+        "lookupName": "InkStorageCollectionsStashVacantEntry",
+        "type": "Lookup4",
+        "index": 0,
+        "name": "Vacant"
+      },
+      {
+        "info": "Tuple",
+        "lookupIndex": 12,
+        "type": "(AccountId,AccountId)",
+        "docs": [],
+        "namespace": "",
+        "sub": [
+          {
+            "info": "Plain",
+            "lookupIndex": 6,
+            "type": "AccountId",
+            "docs": [],
+            "namespace": "ink_env::types::AccountId",
+            "lookupNameRoot": "InkEnvAccountId"
+          },
+          {
+            "info": "Plain",
+            "lookupIndex": 6,
+            "type": "AccountId",
+            "docs": [],
+            "namespace": "ink_env::types::AccountId",
+            "lookupNameRoot": "InkEnvAccountId"
+          }
+        ],
+        "index": 1,
+        "name": "Occupied"
+      }
+    ]
+  },
+  {
+    "info": "Tuple",
+    "lookupIndex": 12,
+    "type": "(AccountId,AccountId)",
+    "docs": [],
+    "namespace": "",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 6,
+        "type": "AccountId",
+        "docs": [],
+        "namespace": "ink_env::types::AccountId",
+        "lookupNameRoot": "InkEnvAccountId"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 6,
+        "type": "AccountId",
+        "docs": [],
+        "namespace": "ink_env::types::AccountId",
+        "lookupNameRoot": "InkEnvAccountId"
+      }
+    ]
+  },
+  {
+    "info": "Struct",
+    "lookupIndex": 13,
+    "lookupName": "InkStorageCollectionsHashmapValueEntryOption",
+    "type": "{\"value\":\"bool\",\"keyIndex\":\"u32\"}",
+    "docs": [],
+    "namespace": "ink_storage::collections::hashmap::ValueEntry",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 14,
+        "type": "bool",
+        "docs": [],
+        "namespace": "",
+        "name": "value"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "name": "keyIndex"
+      }
+    ]
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 14,
+    "type": "bool",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Option",
+    "lookupIndex": 15,
+    "type": "Option<AccountId>",
+    "docs": [],
+    "namespace": "Option",
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 6,
+      "type": "AccountId",
+      "docs": [],
+      "namespace": "ink_env::types::AccountId",
+      "lookupNameRoot": "InkEnvAccountId"
+    }
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 16,
+    "type": "Result<Null, Erc721Error>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 17,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 18,
+        "lookupName": "Erc721Error",
+        "type": "Lookup18"
+      }
+    ]
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 17,
+    "type": "Null",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 18,
+    "lookupName": "Erc721Error",
+    "type": "{\"_enum\":[\"NotOwner\",\"NotApproved\",\"TokenExists\",\"TokenNotFound\",\"CannotInsert\",\"CannotRemove\",\"CannotFetchValue\",\"NotAllowed\"]}",
+    "docs": [],
+    "namespace": "erc721::erc721::Error",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "NotOwner"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "NotApproved"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 2,
+        "name": "TokenExists"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 3,
+        "name": "TokenNotFound"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 4,
+        "name": "CannotInsert"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 5,
+        "name": "CannotRemove"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 6,
+        "name": "CannotFetchValue"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 7,
+        "name": "NotAllowed"
+      }
+    ]
+  }
+]

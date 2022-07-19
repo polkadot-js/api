@@ -1,22 +1,22 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { Option, u32, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, Bid } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveSociety } from '../types';
+import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
+import type { PalletSocietyBid } from '@polkadot/types/lookup';
+import type { DeriveApi, DeriveSociety } from '../types';
 
-import { map } from '@polkadot/x-rxjs/operators';
+import { map } from 'rxjs';
 
 import { memo } from '../util';
 
-type Result = [Vec<Bid>, Option<AccountId>, Option<AccountId>, Option<AccountId>, u32, BalanceOf]
+type Result = [Vec<PalletSocietyBid>, Option<AccountId>, Option<AccountId>, Option<AccountId>, u32, BalanceOf]
 
 /**
  * @description Get the overall info for a society
  */
-export function info (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveSociety> {
+export function info (instanceId: string, api: DeriveApi): () => Observable<DeriveSociety> {
   return memo(instanceId, (): Observable<DeriveSociety> =>
     api.queryMulti<Result>([
       api.query.society.bids,

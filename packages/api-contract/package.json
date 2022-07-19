@@ -1,28 +1,39 @@
 {
-  "name": "@polkadot/api-contract",
-  "version": "4.15.2-6",
-  "type": "module",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
   "description": "Interfaces for interacting with contracts and contract ABIs",
-  "main": "index.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-contract#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/api-contract",
+  "repository": {
+    "directory": "packages/api-contract",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
   "sideEffects": [
     "./detectPackage.js",
     "./detectPackage.cjs"
   ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
-  "repository": "github:polkadot-js/api",
-  "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-contract#readme",
+  "type": "module",
+  "version": "8.13.2-4-x",
+  "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.14.6",
-    "@polkadot/api": "4.15.2-6",
-    "@polkadot/types": "4.15.2-6",
-    "@polkadot/util": "^6.9.2-9",
-    "@polkadot/x-rxjs": "^6.9.2-9"
+    "@babel/runtime": "^7.18.9",
+    "@polkadot/api": "8.13.2-4-x",
+    "@polkadot/types": "8.13.2-4-x",
+    "@polkadot/types-codec": "8.13.2-4-x",
+    "@polkadot/types-create": "8.13.2-4-x",
+    "@polkadot/util": "^10.0.2",
+    "@polkadot/util-crypto": "^10.0.2",
+    "rxjs": "^7.5.6"
+  },
+  "devDependencies": {
+    "@polkadot/api-augment": "8.13.2-4-x",
+    "@polkadot/keyring": "^10.0.2"
   }
 }

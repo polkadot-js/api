@@ -1,9 +1,11 @@
-// Copyright 2017-2021 @polkadot/types-known authors & contributors
+// Copyright 2017-2022 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable sort-keys */
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
+
+import { objectSpread } from '@polkadot/util';
 
 const sharedTypes = {
   // Anchor
@@ -12,6 +14,7 @@ const sharedTypes = {
     docRoot: 'H256',
     id: 'H256'
   },
+  DispatchErrorModule: 'DispatchErrorModuleU8',
   PreCommitData: {
     expirationBlock: 'u64',
     identity: 'H256',
@@ -66,26 +69,49 @@ const sharedTypes = {
   RegistryInfo: {
     fields: 'Vec<Bytes>',
     ownerCanBurn: 'bool'
+  },
+
+  ProxyType: {
+    _enum: [
+      'Any',
+      'NonTransfer',
+      'Governance',
+      'Staking',
+      'NonProxy'
+    ]
   }
 };
 
+const standaloneTypes = objectSpread({}, sharedTypes, {
+  AccountInfo: 'AccountInfoWithRefCount',
+  Address: 'LookupSource',
+  LookupSource: 'IndicesLookupSource',
+  Multiplier: 'Fixed64',
+  RefCount: 'RefCountTo259'
+});
+
 const versioned: OverrideVersionedType[] = [
   {
-    minmax: [240, 999],
-    types: {
-      ...sharedTypes,
-      AccountInfo: 'AccountInfoWithRefCount',
-      Address: 'LookupSource',
-      LookupSource: 'IndicesLookupSource',
-      Multiplier: 'Fixed64',
-      RefCount: 'RefCountTo259'
-    }
+    minmax: [240, 243],
+    types: objectSpread({}, standaloneTypes, {
+      ProxyType: {
+        _enum: [
+          'Any',
+          'NonTransfer',
+          'Governance',
+          'Staking',
+          'Vesting'
+        ]
+      }
+    })
+  },
+  {
+    minmax: [244, 999],
+    types: objectSpread({}, standaloneTypes)
   },
   {
     minmax: [1000, undefined],
-    types: {
-      ...sharedTypes
-    }
+    types: objectSpread({}, sharedTypes)
   }
 ];
 

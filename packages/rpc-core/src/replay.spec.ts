@@ -1,12 +1,10 @@
-// Copyright 2017-2021 @polkadot/rpc-core authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RpcInterface } from '@polkadot/rpc-core/types.jsonrpc';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { RpcInterface } from './types';
 
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
-import { of } from '@polkadot/x-rxjs';
 
 import { RpcCore } from '.';
 
@@ -24,21 +22,6 @@ describe('replay', (): void => {
     await provider.disconnect();
   });
 
-  it('subscribes via the rpc section', (done): void => {
-    // we don't honor types or number of params here
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    (rpc.chain as any).getBlockHash = jest.fn((): Observable<number> => of(1));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    (rpc.chain as any).getBlockHash(123, false).subscribe((): void => {
-      expect(
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        rpc.chain.getBlockHash
-      ).toHaveBeenCalledWith(123, false);
-
-      done();
-    });
-  });
-
   it('returns the observable value', (done): void => {
     rpc.system.chain().subscribe((value: any): void => {
       if (value) {
@@ -53,7 +36,9 @@ describe('replay', (): void => {
     const observable = rpc.system.chain();
     let a: any | undefined;
 
-    observable.subscribe((value?: unknown): void => { a = value; });
+    observable.subscribe((value?: unknown): void => {
+      a = value;
+    });
 
     setTimeout((): void => {
       // Subscribe again to the same observable, it should fire value immediately

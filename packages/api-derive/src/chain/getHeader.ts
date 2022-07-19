@@ -1,15 +1,15 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { Observable } from 'rxjs';
 import type { HeaderExtended } from '../type/types';
+import type { DeriveApi } from '../types';
 
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { catchError, map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, switchMap } from 'rxjs';
 
 import { createHeaderExtended } from '../type';
 import { memo } from '../util';
+import { getAuthorDetails } from './util';
 
 /**
  * @name getHeader
@@ -25,22 +25,18 @@ import { memo } from '../util';
  * console.log(`block #${number} was authored by ${author}`);
  * ```
  */
-export function getHeader (instanceId: string, api: ApiInterfaceRx): (hash: Uint8Array | string) => Observable<HeaderExtended | undefined> {
-  return memo(instanceId, (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
+export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint8Array | string) => Observable<HeaderExtended> {
+  return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended> =>
     combineLatest([
-      api.rpc.chain.getHeader(hash),
-      api.query.session
-        ? api.query.session.validators.at(hash)
-        : of([])
+      api.rpc.chain.getHeader(blockHash),
+      api.queryAt(blockHash)
     ]).pipe(
-      map(([header, validators]): HeaderExtended =>
-        createHeaderExtended(header.registry, header, validators)
+      switchMap(([header, queryAt]) =>
+        getAuthorDetails(header, queryAt)
       ),
-      catchError((): Observable<undefined> =>
-        // where rpc.chain.getHeader throws, we will land here - it can happen that
-        // we supplied an invalid hash. (Due to defaults, storeage will have an
-        // empty value, so only the RPC is affected). So return undefined
-        of()
+      map(([header, validators, author]) =>
+        createHeaderExtended((validators || header).registry, header, validators, author)
       )
-    ));
+    )
+  );
 }

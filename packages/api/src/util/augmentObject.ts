@@ -1,7 +1,11 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { logger } from '@polkadot/util';
+import { lazyMethod, logger, objectClear } from '@polkadot/util';
+
+type Sections <T> = Record<string, Methods<T>>;
+
+type Methods <T> = Record<string, T>;
 
 type StringsStrings = [string[], string[]];
 
@@ -26,16 +30,17 @@ function warn (prefix: string, type: 'calls' | 'modules', [added, removed]: Stri
   }
 }
 
-function extractKeys (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
-  return [Object.keys(src), Object.keys(dst)];
-}
-
 function findSectionExcludes (a: string[], b: string[]): string[] {
-  return a.filter((section) => !b.includes(section));
+  return a.filter((s) => !b.includes(s));
 }
 
-function extractSections (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
-  const [srcSections, dstSections] = extractKeys(src, dst);
+function findSectionIncludes (a: string[], b: string[]): string[] {
+  return a.filter((s) => b.includes(s));
+}
+
+function extractSections <T> (src: Sections<T>, dst: Sections<T>): StringsStrings {
+  const srcSections = Object.keys(src);
+  const dstSections = Object.keys(dst);
 
   return [
     findSectionExcludes(srcSections, dstSections),
@@ -43,64 +48,78 @@ function extractSections (src: Record<string, Record<string, any>>, dst: Record<
   ];
 }
 
-function findMethodExcludes (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): string[] {
+function findMethodExcludes <T> (src: Sections<T>, dst: Sections<T>): string[] {
   const srcSections = Object.keys(src);
-  const dstSections = Object.keys(dst);
+  const dstSections = findSectionIncludes(Object.keys(dst), srcSections);
+  const excludes: string[] = [];
 
-  return dstSections
-    .filter((section) => srcSections.includes(section))
-    .reduce((rmMethods: string[], section): string[] => {
-      const srcMethods = Object.keys(src[section]);
+  for (let s = 0; s < dstSections.length; s++) {
+    const section = dstSections[s];
+    const srcMethods = Object.keys(src[section]);
+    const dstMethods = Object.keys(dst[section]);
 
-      return rmMethods.concat(
-        ...Object
-          .keys(dst[section])
-          .filter((method) => !srcMethods.includes(method))
-          .map((method) => `${section}.${method}`)
-      );
-    }, []);
+    excludes.push(
+      ...dstMethods
+        .filter((m) => !srcMethods.includes(m))
+        .map((m) => `${section}.${m}`)
+    );
+  }
+
+  return excludes;
 }
 
-function extractMethods (src: Record<string, Record<string, any>>, dst: Record<string, Record<string, any>>): StringsStrings {
+function extractMethods <T> (src: Sections<T>, dst: Sections<T>): StringsStrings {
   return [
     findMethodExcludes(dst, src),
     findMethodExcludes(src, dst)
   ];
 }
 
+function lazySection <T> (src: Methods<T>, dst: Methods<T>): void {
+  const creator = (m: string) => src[m];
+  const methods = Object.keys(src);
+
+  for (let i = 0; i < methods.length; i++) {
+    const method = methods[i];
+
+    // We use hasOwnproperty here to only check for the existence of the key,
+    // instead of reading dst[section][method] which will evaluate when already
+    // set as a lazy value previously
+    if (!Object.prototype.hasOwnProperty.call(dst, method)) {
+      lazyMethod(dst, method, creator);
+    }
+  }
+}
+
 /**
- * Takes a decorated api section (e.g. api.tx) and augment it with the details. It does not override what is
- * already available, but rather just adds new missing ites into the result object.
+ * @description Takes a decorated api section (e.g. api.tx) and augment it with the details. It does not override what is
+ * already available, but rather just adds new missing items into the result object.
  * @internal
  */
-export function augmentObject (prefix: string | null, src: Record<string, Record<string, unknown>>, dst: Record<string, Record<string, unknown>>, fromEmpty = false): Record<string, Record<string, any>> {
-  if (fromEmpty) {
-    Object.keys(dst).forEach((key): void => {
-      delete dst[key];
-    });
-  }
+export function augmentObject <T> (prefix: string | null, src: Sections<T>, dst: Sections<T>, fromEmpty = false): Sections<T> {
+  fromEmpty && objectClear(dst);
 
+  // NOTE: This part is slightly problematic since it will get the
+  // values for at least all the sections and the names of the methods
+  // (Since methods won't be decorated before lazy, this _may_ be ok)
   if (prefix && Object.keys(dst).length) {
     warn(prefix, 'modules', extractSections(src, dst));
     warn(prefix, 'calls', extractMethods(src, dst));
   }
 
-  return Object
-    .keys(src)
-    .reduce((newSection, sectionName): Record<string, Record<string, unknown>> => {
-      const section = src[sectionName];
+  const sections = Object.keys(src);
 
-      newSection[sectionName] = Object
-        .keys(section)
-        .reduce((result, methodName): Record<string, unknown> => {
-          // TODO When it does match, check the actual details and warn when there are differences
-          if (!result[methodName]) {
-            result[methodName] = section[methodName];
-          }
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
 
-          return result;
-        }, dst[sectionName] || {});
+    // We don't set here with a lazy interface, we decorate based
+    // on the top-level structure (this bypasses adding lazy onto lazy)
+    if (!dst[section]) {
+      dst[section] = {};
+    }
 
-      return newSection;
-    }, dst);
+    lazySection(src[section], dst[section]);
+  }
+
+  return dst;
 }

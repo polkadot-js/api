@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCache } from './types';
@@ -10,10 +10,8 @@ export const deriveMapCache: DeriveCache = {
     mapCache.delete(key);
   },
   forEach: (cb: (key: string, value: any) => void): void => {
-    const entries = mapCache.entries();
-
-    for (const entry in entries) {
-      cb(entry[0], entry[1]);
+    for (const [k, v] of mapCache.entries()) {
+      cb(k, v);
     }
   },
   get: <T = any> (key: string): T | undefined => {

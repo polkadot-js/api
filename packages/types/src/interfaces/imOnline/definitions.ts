@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -24,8 +24,8 @@ export default {
       sessionIndex: 'SessionIndex',
       authorityIndex: 'AuthIndex'
     },
-    OpaqueMultiaddr: 'Bytes',
-    OpaquePeerId: 'Bytes',
+    OpaqueMultiaddr: 'Opaque<Bytes>',
+    OpaquePeerId: 'Opaque<Bytes>',
     OpaqueNetworkState: {
       peerId: 'OpaquePeerId',
       externalAddresses: 'Vec<OpaqueMultiaddr>'

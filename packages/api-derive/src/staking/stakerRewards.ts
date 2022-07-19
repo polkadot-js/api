@@ -1,24 +1,24 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { AccountId, EraIndex, StakingLedger } from '@polkadot/types/interfaces';
+import type { Observable } from 'rxjs';
+import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
+import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
+import type { DeriveApi, DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPoints, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
 import type { DeriveStakingQuery } from './types';
 
-import { BN_BILLION, BN_ZERO } from '@polkadot/util';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { BN_BILLION, BN_ZERO } from '@polkadot/util';
+
+import { firstMemo, memo } from '../util';
 
 type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
-function parseRewards (api: ApiInterfaceRx, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
+function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
-    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: BN_ZERO, validators: {} };
+    const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: BN_ZERO, validators: {} as DeriveEraValPoints };
     const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: api.registry.createType('Balance') };
     const { validators: allValPrefs } = erasPrefs.find((p) => p.era.eq(era)) || { validators: {} as DeriveEraValPrefs };
     const validators: Record<string, DeriveStakerRewardValidator> = {};
@@ -97,7 +97,7 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
     if (index !== -1) {
       const valLedger = queryValidators[index].stakingLedger;
 
-      if (valLedger?.claimedRewards.some((era) => reward.era.eq(era))) {
+      if (valLedger?.claimedRewards.some((e) => reward.era.eq(e))) {
         rm.push(validatorId);
       }
     }
@@ -108,15 +108,15 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
   });
 }
 
-function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: StakingLedger }): DeriveStakerReward[] {
-  const filter = eras.filter((era) => !stakingLedger.claimedRewards.some((e) => e.eq(era)));
+function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: PalletStakingStakingLedger }): DeriveStakerReward[] {
+  const filter = eras.filter((e) => !stakingLedger.claimedRewards.some((s) => s.eq(e)));
   const validators = valInfo.map(([v]) => v);
   const queryValidators = valInfo.map(([, q]) => q);
 
   return rewards
     .filter(({ isEmpty }) => !isEmpty)
     .filter((reward): boolean => {
-      if (!filter.some((filter) => reward.era.eq(filter))) {
+      if (!filter.some((e) => reward.era.eq(e))) {
         return false;
       }
 
@@ -131,8 +131,8 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
     }));
 }
 
-export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (eras: EraIndex[], withActive: boolean) => Observable<ErasResult> {
-  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<ErasResult> =>
+export function _stakerRewardsEras (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive?: boolean) => Observable<ErasResult> {
+  return memo(instanceId, (eras: EraIndex[], withActive = false): Observable<ErasResult> =>
     combineLatest([
       api.derive.staking._erasPoints(eras, withActive),
       api.derive.staking._erasPrefs(eras, withActive),
@@ -141,8 +141,8 @@ export function _stakerRewardsEras (instanceId: string, api: ApiInterfaceRx): (e
   );
 }
 
-export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerReward[][]> {
-  return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive: boolean): Observable<DeriveStakerReward[][]> =>
+export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive = false): Observable<DeriveStakerReward[][]> =>
     combineLatest([
       api.derive.staking.queryMulti(accountIds, { withLedger: true }),
       api.derive.staking._stakerExposures(accountIds, eras, withActive),
@@ -183,16 +183,14 @@ export function _stakerRewards (instanceId: string, api: ApiInterfaceRx): (accou
   );
 }
 
-export function stakerRewards (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerReward[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerReward[]> =>
+export const stakerRewards = firstMemo(
+  (api: DeriveApi, accountId: Uint8Array | string, withActive?: boolean) =>
     api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive)),
-      map(([first]) => first)
+      switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive))
     )
-  );
-}
+);
 
-export function stakerRewardsMultiEras (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], eras: EraIndex[]) => Observable<DeriveStakerReward[][]> {
+export function stakerRewardsMultiEras (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], eras: EraIndex[]) => Observable<DeriveStakerReward[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[]): Observable<DeriveStakerReward[][]> =>
     accountIds.length && eras.length
       ? api.derive.staking._stakerRewards(accountIds, eras, false)
@@ -200,7 +198,7 @@ export function stakerRewardsMultiEras (instanceId: string, api: ApiInterfaceRx)
   );
 }
 
-export function stakerRewardsMulti (instanceId: string, api: ApiInterfaceRx): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
+export function stakerRewardsMulti (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], withActive = false): Observable<DeriveStakerReward[][]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) => api.derive.staking.stakerRewardsMultiEras(accountIds, eras))

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -11,12 +11,12 @@ import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions
 import EventEmitter from 'eventemitter3';
 
 import { createTestKeyring } from '@polkadot/keyring/testing';
-import { decorateStorage, Metadata } from '@polkadot/metadata';
-import rpcMetadata from '@polkadot/metadata/static';
+import { decorateStorage, Metadata } from '@polkadot/types';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import rpcHeader from '@polkadot/types/json/Header.004.json';
-import rpcSignedBlock from '@polkadot/types/json/SignedBlock.004.immortal.json';
-import { assert, BN, bnToU8a, logger, u8aToHex } from '@polkadot/util';
+import rpcHeader from '@polkadot/types-support/json/Header.004.json' assert { type: 'json' };
+import rpcSignedBlock from '@polkadot/types-support/json/SignedBlock.004.immortal.json' assert { type: 'json' };
+import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
+import { BN, bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
 const INTERVAL = 1000;
@@ -44,7 +44,7 @@ export class MockProvider implements ProviderInterface {
 
   private emitter = new EventEmitter();
 
-  private intervalId?: NodeJS.Timeout | null;
+  private intervalId?: ReturnType<typeof setInterval> | null;
 
   public isUpdating = true;
 
@@ -68,6 +68,7 @@ export class MockProvider implements ProviderInterface {
     state_getRuntimeVersion: () => this.registry.createType('RuntimeVersion').toHex(),
     state_getStorage: (storage: MockStateDb, [key]: string[]) => u8aToHex(storage[key]),
     system_chain: () => 'mockChain',
+    system_health: () => ({}),
     system_name: () => 'mockClient',
     system_properties: () => ({ ss58Format: 42 }),
     system_upgradedToTripleRefCount: () => this.registry.createType('bool', true),
@@ -129,7 +130,9 @@ export class MockProvider implements ProviderInterface {
   public async send <T = any> (method: string, params: unknown[]): Promise<T> {
     l.debug(() => ['send', method, params]);
 
-    assert(this.requests[method], () => `provider.send: Invalid method '${method}'`);
+    if (!this.requests[method]) {
+      throw new Error(`provider.send: Invalid method '${method}'`);
+    }
 
     return this.requests[method](this.db, params) as T;
   }
@@ -138,7 +141,9 @@ export class MockProvider implements ProviderInterface {
   public async subscribe (type: string, method: string, ...params: unknown[]): Promise<number> {
     l.debug(() => ['subscribe', method, params]);
 
-    assert(this.subscriptions[method], () => `provider.subscribe: Invalid method '${method}'`);
+    if (!this.subscriptions[method]) {
+      throw new Error(`provider.subscribe: Invalid method '${method}'`);
+    }
 
     const callback = params.pop() as MockStateSubscriptionCallback;
     const id = ++this.subscriptionId;
@@ -159,7 +164,9 @@ export class MockProvider implements ProviderInterface {
 
     l.debug(() => ['unsubscribe', id, sub]);
 
-    assert(sub, () => `Unable to find subscription for ${id}`);
+    if (!sub) {
+      throw new Error(`Unable to find subscription for ${id}`);
+    }
 
     delete this.subscriptionMap[id];
     delete this.subscriptions[sub].callbacks[id];
@@ -218,17 +225,17 @@ export class MockProvider implements ProviderInterface {
       number: blockNumber,
       parentHash: blockNumber.isZero()
         ? new Uint8Array(32)
-        : bnToU8a(this.prevNumber, 256, false),
-      stateRoot: bnToU8a(blockNumber, 256, false)
+        : bnToU8a(this.prevNumber, { bitLength: 256, isLe: false }),
+      stateRoot: bnToU8a(blockNumber, { bitLength: 256, isLe: false })
     });
 
     this.prevNumber = blockNumber;
 
-    return header;
+    return header as unknown as Header;
   }
 
   private setStateBn (key: Uint8Array, value: BN | number): void {
-    this.db[u8aToHex(key)] = bnToU8a(value, 64, true);
+    this.db[u8aToHex(key)] = bnToU8a(value, { bitLength: 64, isLe: true });
   }
 
   private updateSubs (method: string, value: Codec): void {

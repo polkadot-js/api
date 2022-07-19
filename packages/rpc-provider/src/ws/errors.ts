@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // from https://stackoverflow.com/questions/19304157/getting-the-reason-why-websockets-closed-with-close-code-1006

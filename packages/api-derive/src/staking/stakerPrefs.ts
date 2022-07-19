@@ -1,19 +1,19 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { EraIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveStakerPrefs } from '../types';
+import type { Observable } from 'rxjs';
+import type { EraIndex } from '@polkadot/types/interfaces';
+import type { DeriveApi, DeriveStakerPrefs } from '../types';
 
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
+import { map } from 'rxjs';
 
 import { memo } from '../util';
+import { erasHistoricApplyAccount } from './util';
 
-export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerPrefs[]> {
+export function _stakerPrefs (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerPrefs[]> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveStakerPrefs[]> =>
-    api.query.staking.erasValidatorPrefs.multi<ValidatorPrefs>(eras.map((era) => [era, accountId])).pipe(
+    api.query.staking.erasValidatorPrefs.multi(eras.map((e) => [e, accountId])).pipe(
       map((all): DeriveStakerPrefs[] =>
         all.map((validatorPrefs, index): DeriveStakerPrefs => ({
           era: eras[index],
@@ -24,10 +24,4 @@ export function _stakerPrefs (instanceId: string, api: ApiInterfaceRx): (account
   );
 }
 
-export function stakerPrefs (instanceId: string, api: ApiInterfaceRx): (accountId: Uint8Array | string, withActive?: boolean) => Observable<DeriveStakerPrefs[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, withActive = false): Observable<DeriveStakerPrefs[]> =>
-    api.derive.staking.erasHistoric(withActive).pipe(
-      switchMap((eras) => api.derive.staking._stakerPrefs(accountId, eras, withActive))
-    )
-  );
-}
+export const stakerPrefs = erasHistoricApplyAccount('_stakerPrefs');

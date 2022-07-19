@@ -1,8 +1,10 @@
-// Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { mockWs } from '../../test/mockWs';
-import { Mock } from './../mock/types';
+import type { Request } from '../mock/mockWs';
+
+import { mockWs } from '../mock/mockWs';
+import { Mock } from '../mock/types';
 import { WsProvider } from './';
 
 const TEST_WS_URL = 'ws://localhost-index.spec.ts:9977';
@@ -10,9 +12,9 @@ const TEST_WS_URL = 'ws://localhost-index.spec.ts:9977';
 let provider: WsProvider | null;
 let mock: Mock;
 
-function createWs (requests: any[], autoConnect = 1000, headers?: Record<string, string>): WsProvider {
+function createWs (requests: Request[], autoConnect = 1000, headers?: Record<string, string>, timeout?: number): WsProvider {
   mock = mockWs(requests, TEST_WS_URL);
-  provider = new WsProvider(TEST_WS_URL, autoConnect, headers);
+  provider = new WsProvider(TEST_WS_URL, autoConnect, headers, timeout);
 
   return provider;
 }
@@ -37,6 +39,13 @@ describe('Ws', (): void => {
 
   it('allows you to initialize the provider with custom headers', () => {
     createWs([], 100, { foo: 'bar' });
+  });
+
+  it('allows you to set custom timeout value for handlers', () => {
+    const CUSTOM_TIMEOUT_S = 90;
+    const CUSTOM_TIMEOUT_MS = CUSTOM_TIMEOUT_S * 1000;
+
+    createWs([], 100, { foo: 'bar' }, CUSTOM_TIMEOUT_MS);
   });
 });
 

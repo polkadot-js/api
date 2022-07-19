@@ -1,0 +1,36 @@
+{
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
+  "description": "Implementation of the SCALE codec",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-codec#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/types-codec",
+  "repository": {
+    "directory": "packages/types-codec",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.cjs"
+  ],
+  "type": "module",
+  "version": "8.13.2-4-x",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/runtime": "^7.18.9",
+    "@polkadot/util": "^10.0.2",
+    "@polkadot/x-bigint": "^10.0.2"
+  },
+  "devDependencies": {
+    "@polkadot/types": "8.13.2-4-x",
+    "@polkadot/types-augment": "8.13.2-4-x",
+    "@polkadot/types-support": "8.13.2-4-x",
+    "@polkadot/util-crypto": "^10.0.2"
+  }
+}

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -6,43 +6,12 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+import { runtime } from './runtime';
+
 export default {
-  rpc: {
-    proveFinality: {
-      description: 'Prove finality for the range (begin; end] hash.',
-      params: [
-        {
-          name: 'begin',
-          type: 'BlockHash'
-        },
-        {
-          name: 'end',
-          type: 'BlockHash'
-        },
-        {
-          name: 'authoritiesSetId',
-          type: 'u64',
-          isOptional: true
-        }
-      ],
-      type: 'Option<EncodedFinalityProofs>'
-    },
-    roundState: {
-      description: 'Returns the state of the current best round state as well as the ongoing background rounds',
-      params: [],
-      type: 'ReportedRoundStates'
-    },
-    subscribeJustifications: {
-      description: 'Subscribes to grandpa justifications',
-      params: [],
-      pubsub: [
-        'justifications',
-        'subscribeJustifications',
-        'unsubscribeJustifications'
-      ],
-      type: 'JustificationNotification'
-    }
-  },
+  rpc,
+  runtime,
   types: {
     AuthorityIndex: 'u64',
     AuthorityList: 'Vec<NextAuthority>',

@@ -1,32 +1,29 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Address, Balance, BlockNumber, Call, ExtrinsicEra, Hash, Index, RuntimeVersion } from '../interfaces';
-import type { Codec, InterfaceTypes, ISignerPayload, Registry, SignerPayloadJSON, SignerPayloadRaw } from '../types';
+import type { Registry } from '@polkadot/types-codec/types';
+import type { HexString } from '@polkadot/util/types';
+import type { Address, Call, ExtrinsicEra, Hash } from '../interfaces';
+import type { Codec, ICompact, INumber, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
-import { u8aToHex } from '@polkadot/util';
-
-import { Compact } from '../codec/Compact';
-import { Struct } from '../codec/Struct';
-import { Vec } from '../codec/Vec';
-import { Text } from '../primitive/Text';
-import { u8 } from '../primitive/U8';
+import { Option, Struct, Text, Vec } from '@polkadot/types-codec';
+import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';
 
 export interface SignerPayloadType extends Codec {
   address: Address;
   blockHash: Hash;
-  blockNumber: BlockNumber;
+  blockNumber: INumber;
   era: ExtrinsicEra;
   genesisHash: Hash;
   method: Call;
-  nonce: Compact<Index>;
-  runtimeVersion: RuntimeVersion;
+  nonce: ICompact<INumber>;
+  runtimeVersion: IRuntimeVersion;
   signedExtensions: Vec<Text>;
-  tip: Compact<Balance>;
-  version: u8;
+  tip: ICompact<INumber>;
+  version: INumber;
 }
 
-const knownTypes: Record<string, keyof InterfaceTypes> = {
+const knownTypes: Record<string, string> = {
   address: 'Address',
   blockHash: 'Hash',
   blockNumber: 'BlockNumber',
@@ -46,84 +43,90 @@ const knownTypes: Record<string, keyof InterfaceTypes> = {
  * A generic signer payload that can be used for serialization between API and signer
  */
 export class GenericSignerPayload extends Struct implements ISignerPayload, SignerPayloadType {
-  private readonly _extraTypes: Record<string, keyof InterfaceTypes>;
+  readonly #extraTypes: Record<string, string>;
 
-  constructor (registry: Registry, value?: string | { [x: string]: any; } | Map<unknown, unknown> | unknown[]) {
-    const extensionTypes = {
-      ...registry.getSignedExtensionTypes(),
-      ...registry.getSignedExtensionExtra()
-    };
+  constructor (registry: Registry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
+    const extensionTypes = objectSpread<Record<string, string>>({}, registry.getSignedExtensionTypes(), registry.getSignedExtensionExtra());
 
-    super(registry, {
-      ...extensionTypes,
-      ...knownTypes
-    }, value);
+    super(registry, objectSpread<Record<string, string>>({}, extensionTypes, knownTypes), value);
+
+    this.#extraTypes = {};
+    const getter = (key: string) => this.get(key);
 
     // add all extras that are not in the base types
-    this._extraTypes = Object.entries(extensionTypes).reduce<Record<string, keyof InterfaceTypes>>((map, [key, type]) => {
+    for (const [key, type] of Object.entries(extensionTypes)) {
       if (!knownTypes[key]) {
-        map[key] = type;
+        this.#extraTypes[key] = type;
       }
 
-      return map;
-    }, {});
+      objectProperty(this, key, getter);
+    }
   }
 
   get address (): Address {
-    return this.get('address') as Address;
+    return this.getT('address');
   }
 
   get blockHash (): Hash {
-    return this.get('blockHash') as Hash;
+    return this.getT('blockHash');
   }
 
-  get blockNumber (): BlockNumber {
-    return this.get('blockNumber') as BlockNumber;
+  get blockNumber (): INumber {
+    return this.getT('blockNumber');
   }
 
   get era (): ExtrinsicEra {
-    return this.get('era') as ExtrinsicEra;
+    return this.getT('era');
   }
 
   get genesisHash (): Hash {
-    return this.get('genesisHash') as Hash;
+    return this.getT('genesisHash');
   }
 
   get method (): Call {
-    return this.get('method') as Call;
+    return this.getT('method');
   }
 
-  get nonce (): Compact<Index> {
-    return this.get('nonce') as Compact<Index>;
+  get nonce (): ICompact<INumber> {
+    return this.getT('nonce');
   }
 
-  get runtimeVersion (): RuntimeVersion {
-    return this.get('runtimeVersion') as RuntimeVersion;
+  get runtimeVersion (): IRuntimeVersion {
+    return this.getT('runtimeVersion');
   }
 
   get signedExtensions (): Vec<Text> {
-    return this.get('signedExtensions') as Vec<Text>;
+    return this.getT('signedExtensions');
   }
 
-  get tip (): Compact<Balance> {
-    return this.get('tip') as Compact<Balance>;
+  get tip (): ICompact<INumber> {
+    return this.getT('tip');
   }
 
-  get version (): u8 {
-    return this.get('version') as u8;
+  get version (): INumber {
+    return this.getT('version');
   }
 
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayloadJSON {
-    return {
-      // add any explicit overrides we may have
-      ...(Object.keys(this._extraTypes).reduce<Record<string, string>>((map, key) => {
-        map[key] = (this.get(key) as Codec).toHex();
+    const result: Record<string, string> = {};
+    const keys = Object.keys(this.#extraTypes);
 
-        return map;
-      }, {})),
+    // add any explicit overrides we may have
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const value = this.get(key) as Codec;
+      const isOption = value instanceof Option;
+
+      // Don't include Option.isNone
+      if (!isOption || value.isSome) {
+        result[key] = value.toHex();
+      }
+    }
+
+    return objectSpread(result, {
       // the known defaults as managed explicitly and has different
       // formatting in cases, e.g. we mostly expose a hex format here
       address: this.address.toString(),
@@ -138,7 +141,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       tip: this.tip.toHex(),
       transactionVersion: this.runtimeVersion.transactionVersion.toHex(),
       version: this.version.toNumber()
-    };
+    });
   }
 
   /**
@@ -148,7 +151,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     const payload = this.toPayload();
     const data = u8aToHex(
       this.registry
-        .createType('ExtrinsicPayload', payload, { version: payload.version })
+        .createTypeUnsafe('ExtrinsicPayload', [payload, { version: payload.version }])
         // NOTE Explicitly pass the bare flag so the method is encoded un-prefixed (non-decodable, for signing only)
         .toU8a({ method: true })
     );

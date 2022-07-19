@@ -1,19 +1,18 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyString, AnyU8a, Registry } from '../types';
+import type { AnyString, AnyU8a, Registry } from '@polkadot/types-codec/types';
 
+import { U8aFixed } from '@polkadot/types-codec';
 import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import { ethereumEncode, isEthereumAddress } from '@polkadot/util-crypto';
-
-import { U8aFixed } from '../codec/U8aFixed';
 
 /** @internal */
 function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {
   if (isU8a(value) || Array.isArray(value)) {
     return u8aToU8a(value);
-  } else if (isHex(value) || isEthereumAddress(value)) {
-    return hexToU8a(value);
+  } else if (isHex(value) || isEthereumAddress(value.toString())) {
+    return hexToU8a(value.toString());
   } else if (isString(value)) {
     return u8aToU8a(value);
   }
@@ -31,10 +30,6 @@ function decodeAccountId (value: AnyU8a | AnyString): AnyU8a {
 export class GenericEthereumAccountId extends U8aFixed {
   constructor (registry: Registry, value: AnyU8a = new Uint8Array()) {
     super(registry, decodeAccountId(value), 160);
-  }
-
-  public static encode (value: Uint8Array): string {
-    return ethereumEncode(value);
   }
 
   /**
@@ -59,10 +54,17 @@ export class GenericEthereumAccountId extends U8aFixed {
   }
 
   /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public override toPrimitive (): string {
+    return this.toJSON();
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   public override toString (): string {
-    return GenericEthereumAccountId.encode(this);
+    return ethereumEncode(this);
   }
 
   /**

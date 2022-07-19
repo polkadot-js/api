@@ -1,12 +1,12 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Struct, bool } from '@polkadot/types';
+import type { Struct, bool } from '@polkadot/types-codec';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 
 /** @name CreatedBlock */
 export interface CreatedBlock extends Struct {
-  readonly hash: BlockHash;
+  readonly blockHash: BlockHash;
   readonly aux: ImportedAux;
 }
 

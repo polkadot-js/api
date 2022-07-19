@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -6,146 +6,27 @@
 
 import type { Definitions } from '../../types';
 
+import { rpc } from './rpc';
+import { runtime } from './runtime';
+
 export default {
-  rpc: {
-    accountNextIndex: {
-      alias: ['account_nextIndex'],
-      description: 'Retrieves the next accountIndex as available on the node',
-      params: [
-        {
-          name: 'accountId',
-          type: 'AccountId'
-        }
-      ],
-      type: 'Index'
-    },
-    dryRun: {
-      alias: ['system_dryRunAt'],
-      description: 'Dry run an extrinsic at a given block',
-      params: [
-        {
-          name: 'extrinsic',
-          type: 'Bytes'
-        },
-        {
-          name: 'at',
-          type: 'BlockHash',
-          isHistoric: true,
-          isOptional: true
-        }
-      ],
-      type: 'ApplyExtrinsicResult'
-    },
-    name: {
-      description: 'Retrieves the node name',
-      params: [],
-      type: 'Text'
-    },
-    version: {
-      description: 'Retrieves the version of the node',
-      params: [],
-      type: 'Text'
-    },
-    chain: {
-      description: 'Retrieves the chain',
-      params: [],
-      type: 'Text'
-    },
-    chainType: {
-      description: 'Retrieves the chain type',
-      params: [],
-      type: 'ChainType'
-    },
-    properties: {
-      description: 'Get a custom set of properties as a JSON object, defined in the chain spec',
-      params: [],
-      type: 'ChainProperties'
-    },
-    health: {
-      description: 'Return health status of the node',
-      params: [],
-      type: 'Health'
-    },
-    localPeerId: {
-      description: 'Returns the base58-encoded PeerId of the node',
-      params: [],
-      type: 'Text'
-    },
-    localListenAddresses: {
-      description: 'The addresses include a trailing /p2p/ with the local PeerId, and are thus suitable to be passed to addReservedPeer or as a bootnode address for example',
-      params: [],
-      type: 'Vec<Text>'
-    },
-    peers: {
-      description: 'Returns the currently connected peers',
-      params: [],
-      type: 'Vec<PeerInfo>'
-    },
-    networkState: {
-      alias: ['system_unstable_networkState'],
-      description: 'Returns current state of the network',
-      params: [],
-      type: 'NetworkState'
-    },
-    addReservedPeer: {
-      description: 'Adds a reserved peer',
-      params: [
-        {
-          name: 'peer',
-          type: 'Text'
-        }
-      ],
-      type: 'Text'
-    },
-    removeReservedPeer: {
-      description: 'Remove a reserved peer',
-      params: [
-        {
-          name: 'peerId',
-          type: 'Text'
-        }
-      ],
-      type: 'Text'
-    },
-    reservedPeers: {
-      description: 'Returns the list of reserved peers',
-      params: [],
-      type: 'Vec<Text>'
-    },
-    nodeRoles: {
-      description: 'Returns the roles the node is running as',
-      params: [],
-      type: 'Vec<NodeRole>'
-    },
-    syncState: {
-      description: 'Returns the state of the syncing of the node',
-      params: [],
-      type: 'SyncState'
-    },
-    addLogFilter: {
-      description: 'Adds the supplied directives to the current log filter',
-      params: [
-        {
-          name: 'directives',
-          type: 'Text'
-        }
-      ],
-      type: 'Null'
-    },
-    resetLogFilter: {
-      description: 'Resets the log filter to Substrate defaults',
-      params: [],
-      type: 'Null'
-    }
-  },
+  rpc,
+  runtime,
   types: {
     AccountInfo: 'AccountInfoWithTripleRefCount',
+    AccountInfoWithRefCountU8: {
+      nonce: 'Index',
+      refcount: 'u8',
+      data: 'AccountData'
+    },
     AccountInfoWithRefCount: {
+      _fallback: 'AccountInfoWithRefCountU8',
       nonce: 'Index',
       refcount: 'RefCount',
       data: 'AccountData'
     },
     AccountInfoWithDualRefCount: {
+      _fallback: 'AccountInfoWithRefCount',
       nonce: 'Index',
       consumers: 'RefCount',
       providers: 'RefCount',
@@ -154,6 +35,7 @@ export default {
     // original naming
     AccountInfoWithProviders: 'AccountInfoWithDualRefCount',
     AccountInfoWithTripleRefCount: {
+      _fallback: 'AccountInfoWithDualRefCount',
       nonce: 'Index',
       consumers: 'RefCount',
       providers: 'RefCount',
@@ -161,6 +43,7 @@ export default {
       data: 'AccountData'
     },
     ApplyExtrinsicResult: 'Result<DispatchOutcome, TransactionValidityError>',
+    ApplyExtrinsicResultPre6: 'Result<DispatchOutcomePre6, TransactionValidityError>',
     ArithmeticError: {
       _enum: [
         'Underflow',
@@ -198,14 +81,51 @@ export default {
         Module: 'DispatchErrorModule',
         ConsumerRemaining: 'Null',
         NoProviders: 'Null',
+        TooManyConsumers: 'Null',
         Token: 'TokenError',
-        Arithmetic: 'ArithmeticError'
+        Arithmetic: 'ArithmeticError',
+        Transactional: 'TransactionalError'
       }
     },
-    DispatchErrorModule: {
+    DispatchErrorPre6: {
+      _enum: {
+        Other: 'Null',
+        CannotLookup: 'Null',
+        BadOrigin: 'Null',
+        Module: 'DispatchErrorModulePre6',
+        ConsumerRemaining: 'Null',
+        NoProviders: 'Null',
+        TooManyConsumers: 'Null',
+        Token: 'TokenError',
+        Arithmetic: 'ArithmeticError',
+        Transactional: 'TransactionalError'
+      }
+    },
+    DispatchErrorPre6First: {
+      // The enum was modified mid-flight, affecting asset chains -
+      // https://github.com/paritytech/substrate/pull/10382/files#diff-e4e016b33a82268b6208dc974eea841bad47597865a749fee2f937eb6fdf67b4R498
+      _enum: {
+        Other: 'Null',
+        CannotLookup: 'Null',
+        BadOrigin: 'Null',
+        Module: 'DispatchErrorModulePre6',
+        ConsumerRemaining: 'Null',
+        NoProviders: 'Null',
+        Token: 'TokenError',
+        Arithmetic: 'ArithmeticError',
+        Transactional: 'TransactionalError'
+      }
+    },
+    DispatchErrorModuleU8: {
       index: 'u8',
       error: 'u8'
     },
+    DispatchErrorModuleU8a: {
+      index: 'u8',
+      error: '[u8; 4]'
+    },
+    DispatchErrorModule: 'DispatchErrorModuleU8a',
+    DispatchErrorModulePre6: 'DispatchErrorModuleU8',
     DispatchErrorTo198: {
       module: 'Option<u8>',
       error: 'u8'
@@ -225,6 +145,7 @@ export default {
       paysFee: 'bool'
     },
     DispatchOutcome: 'Result<(), DispatchError>',
+    DispatchOutcomePre6: 'Result<(), DispatchErrorPre6>',
     DispatchResult: 'Result<(), DispatchError>',
     DispatchResultOf: 'DispatchResult',
     DispatchResultTo198: 'Result<(), Text>',
@@ -252,7 +173,8 @@ export default {
         ExhaustsResources: 'Null',
         Custom: 'u8',
         BadMandatory: 'Null',
-        MandatoryDispatch: 'Null'
+        MandatoryDispatch: 'Null',
+        BadSigner: 'Null'
       }
     },
     Key: 'Bytes',
@@ -366,6 +288,7 @@ export default {
         'CannotCreate',
         'UnknownAsset',
         'Frozen',
+        'Unsupported',
         // these are dropped, but still in older versions
         // (if this adjusts, will need to take a re-look)
         'Underflow',
@@ -378,6 +301,12 @@ export default {
         Unknown: 'UnknownTransaction'
       }
     },
+    TransactionalError: {
+      _enum: [
+        'LimitReached',
+        'NoLayer'
+      ]
+    },
     UnknownTransaction: {
       _enum: {
         CannotLookup: 'Null',
@@ -387,7 +316,7 @@ export default {
     },
     WeightPerClass: {
       baseExtrinsic: 'Weight',
-      maxExtrinsic: 'Weight',
+      maxExtrinsic: 'Option<Weight>',
       maxTotal: 'Option<Weight>',
       reserved: 'Option<Weight>'
     }

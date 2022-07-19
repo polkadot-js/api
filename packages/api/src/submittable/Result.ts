@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/api authors & contributors
+// Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchError, DispatchInfo, EventRecord, ExtrinsicStatus } from '@polkadot/types/interfaces';
+import type { DispatchError, DispatchInfo, EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 import type { SubmittableResultValue } from './types';
 
@@ -9,22 +9,29 @@ const recordIdentity = (record: EventRecord) => record;
 
 function filterAndApply <T> (events: EventRecord[], section: string, methods: string[], onFound: (record: EventRecord) => T): T[] {
   return events
-    .filter(({ event }) => section === event.section && methods.includes(event.method))
+    .filter(({ event }) =>
+      section === event.section &&
+      methods.includes(event.method)
+    )
     .map((record) => onFound(record));
 }
 
+function getDispatchError ({ event: { data: [dispatchError] } }: EventRecord): DispatchError {
+  return dispatchError as DispatchError;
+}
+
+function getDispatchInfo ({ event: { data, method } }: EventRecord): DispatchInfo {
+  return method === 'ExtrinsicSuccess'
+    ? data[0] as DispatchInfo
+    : data[1] as DispatchInfo;
+}
+
 function extractError (events: EventRecord[] = []): DispatchError | undefined {
-  return filterAndApply(events, 'system', ['ExtrinsicFailed'], ({ event: { data } }) =>
-    data[0] as DispatchError
-  )[0];
+  return filterAndApply(events, 'system', ['ExtrinsicFailed'], getDispatchError)[0];
 }
 
 function extractInfo (events: EventRecord[] = []): DispatchInfo | undefined {
-  return filterAndApply(events, 'system', ['ExtrinsicFailed', 'ExtrinsicSuccess'], ({ event: { data, method } }) =>
-    method === 'ExtrinsicSuccess'
-      ? data[0] as DispatchInfo
-      : data[1] as DispatchInfo
-  )[0];
+  return filterAndApply(events, 'system', ['ExtrinsicFailed', 'ExtrinsicSuccess'], getDispatchInfo)[0];
 }
 
 export class SubmittableResult implements ISubmittableResult {
@@ -38,12 +45,18 @@ export class SubmittableResult implements ISubmittableResult {
 
   public readonly status: ExtrinsicStatus;
 
-  constructor ({ dispatchError, dispatchInfo, events, internalError, status }: SubmittableResultValue) {
+  public readonly txHash: Hash;
+
+  public readonly txIndex?: number;
+
+  constructor ({ dispatchError, dispatchInfo, events, internalError, status, txHash, txIndex }: SubmittableResultValue) {
     this.dispatchError = dispatchError || extractError(events);
     this.dispatchInfo = dispatchInfo || extractInfo(events);
     this.events = events || [];
     this.internalError = internalError;
     this.status = status;
+    this.txHash = txHash;
+    this.txIndex = txIndex;
   }
 
   public get isCompleted (): boolean {
@@ -87,7 +100,7 @@ export class SubmittableResult implements ISubmittableResult {
     return {
       dispatchError: this.dispatchError?.toHuman(),
       dispatchInfo: this.dispatchInfo?.toHuman(),
-      events: this.events.map((event) => event.toHuman(isExtended)),
+      events: this.events.map((e) => e.toHuman(isExtended)),
       internalError: this.internalError?.message.toString(),
       status: this.status.toHuman(isExtended)
     };

@@ -1,20 +1,18 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest } from '@polkadot/types/interfaces/metadata';
+import type { MetadataLatest, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { PortableRegistry } from '@polkadot/types/metadata';
 import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
 import fs from 'fs';
 
-import { Metadata } from '@polkadot/metadata';
-import { getStorage as getSubstrateStorage } from '@polkadot/metadata/decorate/storage/getStorage';
-import rpcdata from '@polkadot/metadata/static';
-import { Vec } from '@polkadot/types/codec';
-import { TypeRegistry } from '@polkadot/types/create';
-import { GenericCall as Call } from '@polkadot/types/generic';
+import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
+import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
 import { Text } from '@polkadot/types/primitive';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import rpcdata from '@polkadot/types-support/metadata/static-substrate';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 interface SectionItem {
@@ -42,15 +40,22 @@ const DESC_CONSTANTS = `The following sections contain the module constants, als
 const DESC_EXTRINSICS = `The following sections contain Extrinsics methods are part of the default Substrate runtime. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${STATIC_TEXT}`;
 const DESC_ERRORS = `This page lists the errors that can be encountered in the different modules. ${STATIC_TEXT}`;
 const DESC_EVENTS = `Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime. ${STATIC_TEXT}`;
-const DESC_RPC = 'The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit.';
+const DESC_RPC = 'The following sections contain known RPC methods that may be available on specific nodes (depending on configuration and available pallets) and allow you to interact with the actual node, query, and submit.';
+const DESC_RUNTIME = 'The following section contains known runtime calls that may be available on specific runtimes (depending on configuration and available pallets). These call directly into the WASM runtime for queries and operations.';
 const DESC_STORAGE = `The following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}`;
 
 /** @internal */
-function documentationVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
+function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
   const md = docLines
-    .map((docLine) => docLine && docLine.substring(1)) // trim the leading space
-    .reduce((md, docLine): string => // generate paragraphs
-      !docLine.trim().length
+    .map((docLine) =>
+      docLine
+        .toString()
+        .trimStart()
+        .replace(/^r"/g, '')
+        .trimStart()
+    )
+    .reduce((md, docLine) => // generate paragraphs
+      !docLine.length
         ? `${md}\n\n` // empty line
         : /^[*-]/.test(docLine.trimStart()) && !md.endsWith('\n\n')
           ? `${md}\n\n${docLine}` // line calling for a preceding linebreak
@@ -97,7 +102,7 @@ function renderPage (page: Page): string {
         md += `\n- **${bullet}**: ${
           // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           item[bullet] instanceof Vec
-            ? documentationVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
+            ? docsVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
             : item[bullet]
         }`;
       });
@@ -115,6 +120,12 @@ function sortByName<T extends { name: Codec | string }> (a: T, b: T): number {
   return a.name.toString().toUpperCase().localeCompare(b.name.toString().toUpperCase());
 }
 
+function getSiName (lookup: PortableRegistry, type: SiLookupTypeId): string {
+  const typeDef = lookup.getTypeDef(type);
+
+  return typeDef.lookupName || typeDef.type;
+}
+
 /** @internal */
 function addRpc (): string {
   const sections = Object
@@ -128,10 +139,11 @@ function addRpc (): string {
       .reduce((all: Section[], _sectionName): Section[] => {
         const section = definitions[_sectionName as 'babe'];
 
-        Object.keys(section.rpc)
+        Object
+          .keys(section.rpc || {})
           .sort()
           .forEach((methodName) => {
-            const method = section.rpc[methodName];
+            const method = (section.rpc || {})[methodName];
             const sectionName = method.aliasSection || _sectionName;
             const topName = method.aliasSection ? `${_sectionName}/${method.aliasSection}` : _sectionName;
             let container = all.find(({ name }) => name === topName);
@@ -165,25 +177,67 @@ function addRpc (): string {
 }
 
 /** @internal */
-function addConstants (metadata: MetadataLatest): string {
+function addRuntime (): string {
+  const sections = Object
+    .keys(definitions)
+    .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0);
+
+  return renderPage({
+    description: DESC_RUNTIME,
+    sections: sections
+      .sort()
+      .reduce((all: Section[], _sectionName): Section[] => {
+        Object
+          .entries(definitions[_sectionName as 'babe'].runtime || {})
+          .forEach(([apiName, [{ methods }]]) => {
+            const container: Section = { items: [], name: apiName };
+
+            all.push(container);
+
+            Object
+              .entries(methods)
+              .sort(([a], [b]) => a.localeCompare(b))
+              .forEach(([methodName, { description, params, type }]): void => {
+                const args = params.map(({ name, type }): string => {
+                  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                  return name + ': `' + type + '`';
+                }).join(', ');
+
+                container.items.push({
+                  interface: '`' + `api.call.${stringCamelCase(apiName)}.${stringCamelCase(methodName)}` + '`',
+                  name: `${stringCamelCase(methodName)}(${args}): ${'`' + type + '`'}`,
+                  runtime: '`' + `${apiName}_${methodName}` + '`',
+                  summary: description
+                });
+              });
+          });
+
+        return all;
+      }, []).sort(sortByName),
+    title: 'Runtime'
+  });
+}
+
+/** @internal */
+function addConstants ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_CONSTANTS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
-      .filter((moduleMetadata) => !moduleMetadata.constants.isEmpty)
-      .map((moduleMetadata) => {
-        const sectionName = stringLowerFirst(moduleMetadata.name);
+      .filter(({ constants }) => !constants.isEmpty)
+      .map(({ constants, name }) => {
+        const sectionName = stringLowerFirst(name);
 
         return {
-          items: moduleMetadata.constants
+          items: constants
             .sort(sortByName)
-            .map((func) => {
-              const methodName = stringCamelCase(func.name);
+            .map(({ docs, name, type }) => {
+              const methodName = stringCamelCase(name);
 
               return {
                 interface: '`' + `api.consts.${sectionName}.${methodName}` + '`',
-                name: `${methodName}: ` + '`' + func.type.toString() + '`',
-                ...(func.documentation.length && { summary: func.documentation })
+                name: `${methodName}: ` + '`' + getSiName(lookup, type) + '`',
+                ...(docs.length && { summary: docs })
               };
             }),
           name: sectionName
@@ -194,9 +248,9 @@ function addConstants (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addStorage (metadata: MetadataLatest): string {
-  const { substrate } = getSubstrateStorage(metadata.registry);
-  const moduleSections = metadata.modules
+function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
+  const { substrate } = getSubstrateStorage(registry);
+  const moduleSections = pallets
     .sort(sortByName)
     .filter((moduleMetadata) => !moduleMetadata.storage.isNone)
     .map((moduleMetadata): Section => {
@@ -206,20 +260,25 @@ function addStorage (metadata: MetadataLatest): string {
         items: moduleMetadata.storage.unwrap().items
           .sort(sortByName)
           .map((func) => {
-            const arg = func.type.isMap
-              ? ('`' + func.type.asMap.key.toString() + '`')
-              : func.type.isDoubleMap
-                ? ('`' + func.type.asDoubleMap.key1.toString() + ', ' + func.type.asDoubleMap.key2.toString() + '`')
-                : func.type.isNMap
-                  ? ('`' + func.type.asNMap.keyVec.map((k) => k.toString()).join(', ') + '`')
-                  : '';
+            let arg = '';
+
+            if (func.type.isMap) {
+              const { hashers, key } = func.type.asMap;
+
+              arg = '`' + (
+                hashers.length === 1
+                  ? getSiName(lookup, key)
+                  : lookup.getSiType(key).def.asTuple.map((t) => getSiName(lookup, t)).join(', ')
+              ) + '`';
+            }
+
             const methodName = stringLowerFirst(func.name);
-            const outputType = unwrapStorageType(func.type, func.modifier.isOptional);
+            const outputType = unwrapStorageType(registry, func.type, func.modifier.isOptional);
 
             return {
               interface: '`' + `api.query.${sectionName}.${methodName}` + '`',
               name: `${methodName}(${arg}): ` + '`' + outputType + '`',
-              ...(func.documentation.length && { summary: func.documentation })
+              ...(func.docs.length && { summary: func.docs })
             };
           }),
         name: sectionName
@@ -232,17 +291,15 @@ function addStorage (metadata: MetadataLatest): string {
       description: 'These are well-known keys that are always available to the runtime implementation of any Substrate-based network.',
       items: Object.entries(substrate).map(([name, { meta }]) => {
         const arg = meta.type.isMap
-          ? ('`' + meta.type.asMap.key.toString() + '`')
-          : meta.type.isDoubleMap
-            ? ('`' + meta.type.asDoubleMap.key1.toString() + ', ' + meta.type.asDoubleMap.key2.toString() + '`')
-            : '';
+          ? ('`' + getSiName(lookup, meta.type.asMap.key) + '`')
+          : '';
         const methodName = stringLowerFirst(name);
-        const outputType = unwrapStorageType(meta.type, meta.modifier.isOptional);
+        const outputType = unwrapStorageType(registry, meta.type, meta.modifier.isOptional);
 
         return {
           interface: '`' + `api.query.substrate.${methodName}` + '`',
           name: `${methodName}(${arg}): ` + '`' + outputType + '`',
-          summary: meta.documentation
+          summary: meta.docs
         };
       }),
       name: 'substrate'
@@ -252,26 +309,28 @@ function addStorage (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addExtrinsics (metadata: MetadataLatest): string {
+function addExtrinsics ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_EXTRINSICS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
-      .filter((meta) => !meta.calls.isNone && meta.calls.unwrap().length !== 0)
-      .map((meta) => {
-        const sectionName = stringCamelCase(meta.name);
+      .filter(({ calls }) => calls.isSome)
+      .map(({ calls, name }) => {
+        const sectionName = stringCamelCase(name);
 
         return {
-          items: meta.calls.unwrap()
+          items: lookup.getSiType(calls.unwrap().type).def.asVariant.variants
             .sort(sortByName)
-            .map((func) => {
-              const methodName = stringCamelCase(func.name);
-              const args = Call.filterOrigin(func).map(({ name, type }) => `${name.toString()}: ` + '`' + type.toString() + '`').join(', ');
+            .map(({ docs, fields, name }, index) => {
+              const methodName = stringCamelCase(name);
+              const args = fields.map(({ name, type }) =>
+                `${name.isSome ? name.toString() : `param${index}`}: ` + '`' + getSiName(lookup, type) + '`'
+              ).join(', ');
 
               return {
                 interface: '`' + `api.tx.${sectionName}.${methodName}` + '`',
                 name: `${methodName}(${args})`,
-                ...(func.documentation.length && { summary: func.documentation })
+                ...(docs.length && { summary: docs })
               };
             }),
           name: sectionName
@@ -282,23 +341,25 @@ function addExtrinsics (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addEvents (metadata: MetadataLatest): string {
+function addEvents ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_EVENTS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
-      .filter((meta) => !meta.events.isNone && meta.events.unwrap().length !== 0)
+      .filter(({ events }) => events.isSome)
       .map((meta) => ({
-        items: meta.events.unwrap()
+        items: lookup.getSiType(meta.events.unwrap().type).def.asVariant.variants
           .sort(sortByName)
-          .map((func) => {
-            const methodName = func.name.toString();
-            const args = func.args.map((type): string => '`' + type.toString() + '`').join(', ');
+          .map(({ docs, fields, name }) => {
+            const methodName = name.toString();
+            const args = fields.map(({ type }) =>
+              '`' + getSiName(lookup, type) + '`'
+            ).join(', ');
 
             return {
               interface: '`' + `api.events.${stringCamelCase(meta.name)}.${methodName}.is` + '`',
               name: `${methodName}(${args})`,
-              ...(func.documentation.length && { summary: func.documentation })
+              ...(docs.length && { summary: docs })
             };
           }),
         name: stringCamelCase(meta.name)
@@ -308,19 +369,19 @@ function addEvents (metadata: MetadataLatest): string {
 }
 
 /** @internal */
-function addErrors (metadata: MetadataLatest): string {
+function addErrors ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: DESC_ERRORS,
-    sections: metadata.modules
+    sections: pallets
       .sort(sortByName)
-      .filter((moduleMetadata) => !moduleMetadata.errors.isEmpty)
+      .filter(({ errors }) => errors.isSome)
       .map((moduleMetadata) => ({
-        items: moduleMetadata.errors
+        items: lookup.getSiType(moduleMetadata.errors.unwrap().type).def.asVariant.variants
           .sort(sortByName)
           .map((error) => ({
             interface: '`' + `api.errors.${stringCamelCase(moduleMetadata.name)}.${error.name.toString()}.is` + '`',
             name: error.name.toString(),
-            ...(error.documentation.length && { summary: error.documentation })
+            ...(error.docs.length && { summary: error.docs })
           })),
         name: stringLowerFirst(moduleMetadata.name)
       })),
@@ -352,6 +413,7 @@ export function main (): void {
   const latest = metadata.asLatest;
 
   writeFile('docs/substrate/rpc.md', addRpc());
+  writeFile('docs/substrate/runtime.md', addRuntime());
   writeFile('docs/substrate/constants.md', addConstants(latest));
   writeFile('docs/substrate/storage.md', addStorage(latest));
   writeFile('docs/substrate/extrinsics.md', addExtrinsics(latest));

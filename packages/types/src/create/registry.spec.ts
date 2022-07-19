@@ -1,15 +1,14 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import type { Codec, Constructor } from '../types';
+import type { Codec, CodecClass } from '@polkadot/types-codec/types';
 
+import { DoNotConstruct, Struct, Text, U32 } from '@polkadot/types-codec';
 import { isChildClass, u8aToU8a } from '@polkadot/util';
 import { keccakAsU8a } from '@polkadot/util-crypto';
 
-import { Struct } from '../codec';
-import { DoNotConstruct, Text, U32 } from '../primitive';
 import { TypeRegistry } from '.';
 
 describe('TypeRegistry', (): void => {
@@ -20,8 +19,8 @@ describe('TypeRegistry', (): void => {
   });
 
   it('throws on non-existent via getOrThrow', (): void => {
-    expect((): Constructor<Codec> => registry.getOrThrow('non-exist')).toThrow('type non-exist not found');
-    expect((): Constructor<Codec> => registry.getOrThrow('non-exist', 'foo bar blah')).toThrow('foo bar blah');
+    expect((): CodecClass<Codec> => registry.getOrThrow('non-exist')).toThrow('type non-exist not found');
+    expect((): CodecClass<Codec> => registry.getOrThrow('non-exist', 'foo bar blah')).toThrow('foo bar blah');
   });
 
   it('handles non exist type as Unknown (via getOrUnknown)', (): void => {

@@ -1,14 +1,13 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyJson, Registry } from '@polkadot/types-codec/types';
 import type { Conviction } from '../interfaces/democracy';
 import type { AllConvictions } from '../interfaces/democracy/definitions';
-import type { AnyJson, ArrayElementType, Registry } from '../types';
+import type { ArrayElementType } from '../types';
 
+import { Bool, U8aFixed } from '@polkadot/types-codec';
 import { isBoolean, isNumber, isU8a, isUndefined } from '@polkadot/util';
-
-import { U8aFixed } from '../codec/U8aFixed';
-import { bool as Bool } from '../primitive/Bool';
 
 interface VoteType {
   aye: boolean;
@@ -40,20 +39,24 @@ function decodeVoteU8a (value: Uint8Array): Uint8Array {
 
 /** @internal */
 function decodeVoteType (registry: Registry, value: VoteType): Uint8Array {
-  const vote = new Bool(registry, value.aye).isTrue ? AYE_BITS : NAY_BITS;
-  const conviction = registry.createType('Conviction', value.conviction || DEF_CONV);
-
-  return new Uint8Array([vote | conviction.index]);
+  return new Uint8Array([
+    (
+      new Bool(registry, value.aye).isTrue
+        ? AYE_BITS
+        : NAY_BITS
+    ) |
+    registry.createTypeUnsafe<Conviction>('Conviction', [value.conviction || DEF_CONV]).index
+  ]);
 }
 
 /** @internal */
 function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
-  if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
+  if (isU8a(value)) {
+    return decodeVoteU8a(value);
+  } else if (isUndefined(value) || value instanceof Boolean || isBoolean(value)) {
     return decodeVoteBool(new Bool(registry, value).isTrue);
   } else if (isNumber(value)) {
     return decodeVoteBool(value < 0);
-  } else if (isU8a(value)) {
-    return decodeVoteU8a(value);
   }
 
   return decodeVoteType(registry, value);
@@ -65,9 +68,9 @@ function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
  * A number of lock periods, plus a vote, one way or the other.
  */
 export class GenericVote extends U8aFixed {
-  private _aye: boolean;
+  #aye: boolean;
 
-  private _conviction: Conviction;
+  #conviction: Conviction;
 
   constructor (registry: Registry, value?: InputTypes) {
     // decoded is just 1 byte
@@ -77,22 +80,22 @@ export class GenericVote extends U8aFixed {
 
     super(registry, decoded, 8);
 
-    this._aye = (decoded[0] & AYE_BITS) === AYE_BITS;
-    this._conviction = this.registry.createType('Conviction', decoded[0] & CON_MASK);
+    this.#aye = (decoded[0] & AYE_BITS) === AYE_BITS;
+    this.#conviction = this.registry.createTypeUnsafe('Conviction', [decoded[0] & CON_MASK]);
   }
 
   /**
    * @description returns a V2 conviction
    */
   public get conviction (): Conviction {
-    return this._conviction;
+    return this.#conviction;
   }
 
   /**
    * @description true if the wrapped value is a positive vote
    */
   public get isAye (): boolean {
-    return this._aye;
+    return this.#aye;
   }
 
   /**
@@ -109,6 +112,16 @@ export class GenericVote extends U8aFixed {
     return {
       conviction: this.conviction.toHuman(isExpanded),
       vote: this.isAye ? 'Aye' : 'Nay'
+    };
+  }
+
+  /**
+   * @description Converts the value in a best-fit primitive form
+   */
+  public override toPrimitive (): any {
+    return {
+      aye: this.isAye,
+      conviction: this.conviction.toPrimitive()
     };
   }
 

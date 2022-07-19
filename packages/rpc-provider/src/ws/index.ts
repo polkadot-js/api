@@ -1,18 +1,19 @@
-// Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
 
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
+import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
 
 import EventEmitter from 'eventemitter3';
 
-import { assert, isChildClass, isNull, isUndefined, logger } from '@polkadot/util';
+import { isChildClass, isNull, isUndefined, logger, objectSpread } from '@polkadot/util';
 import { xglobal } from '@polkadot/x-global';
 import { WebSocket } from '@polkadot/x-ws';
 
 import { RpcCoder } from '../coder';
 import defaults from '../defaults';
+import { LRUCache } from '../lru';
 import { getWSErrorString } from './errors';
 
 interface SubscriptionHandler {
@@ -24,6 +25,7 @@ interface WsStateAwaiting {
   callback: ProviderInterfaceCallback;
   method: string;
   params: unknown[];
+  start: number;
   subscription?: SubscriptionHandler;
 }
 
@@ -38,7 +40,12 @@ const ALIASES: { [index: string]: string } = {
   chain_unsubscribeFinalisedHeads: 'chain_unsubscribeFinalizedHeads'
 };
 
-const RETRY_DELAY = 2500;
+const RETRY_DELAY = 2_500;
+
+const DEFAULT_TIMEOUT_MS = 60 * 1000;
+const TIMEOUT_INTERVAL = 5_000;
+
+const MEGABYTE = 1024 * 1024;
 
 const l = logger('api-ws');
 
@@ -73,6 +80,8 @@ function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): voi
  * @see [[HttpProvider]]
  */
 export class WsProvider implements ProviderInterface {
+  readonly #callCache = new LRUCache();
+
   readonly #coder: RpcCoder;
 
   readonly #endpoints: string[];
@@ -85,6 +94,8 @@ export class WsProvider implements ProviderInterface {
 
   readonly #isReadyPromise: Promise<WsProvider>;
 
+  readonly #stats: ProviderStats;
+
   readonly #waitingForId: Record<string, JsonRpcResponse> = {};
 
   #autoConnectMs: number;
@@ -95,21 +106,30 @@ export class WsProvider implements ProviderInterface {
 
   #subscriptions: Record<string, WsStateSubscription> = {};
 
+  #timeoutId?: ReturnType<typeof setInterval> | null = null;
+
   #websocket: WebSocket | null;
+
+  #timeout: number;
 
   /**
    * @param {string | string[]}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
    * @param {boolean} autoConnect Whether to connect automatically or not.
+   * @param {number} [timeout] Custom timeout value
    */
-  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}) {
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number) {
     const endpoints = Array.isArray(endpoint)
       ? endpoint
       : [endpoint];
 
-    assert(endpoints.length !== 0, 'WsProvider requires at least one Endpoint');
+    if (endpoints.length === 0) {
+      throw new Error('WsProvider requires at least one Endpoint');
+    }
 
     endpoints.forEach((endpoint) => {
-      assert(/^(wss|ws):\/\//.test(endpoint), () => `Endpoint should start with 'ws://', received '${endpoint}'`);
+      if (!/^(wss|ws):\/\//.test(endpoint)) {
+        throw new Error(`Endpoint should start with 'ws://', received '${endpoint}'`);
+      }
     });
 
     this.#eventemitter = new EventEmitter();
@@ -119,6 +139,11 @@ export class WsProvider implements ProviderInterface {
     this.#endpoints = endpoints;
     this.#headers = headers;
     this.#websocket = null;
+    this.#stats = {
+      active: { requests: 0, subscriptions: 0 },
+      total: { bytesRecv: 0, bytesSent: 0, cached: 0, errors: 0, requests: 0, subscriptions: 0, timeout: 0 }
+    };
+    this.#timeout = timeout || DEFAULT_TIMEOUT_MS;
 
     if (autoConnectMs > 0) {
       this.connectWithRetry().catch((): void => {
@@ -171,7 +196,9 @@ export class WsProvider implements ProviderInterface {
   public async connect (): Promise<void> {
     try {
       this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
-      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket, WebSocket)
+
+      // the as typeof WebSocket here is Deno-specific - not available on the globalThis
+      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as typeof WebSocket, WebSocket)
         ? new WebSocket(this.#endpoints[this.#endpointIndex])
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
@@ -179,15 +206,22 @@ export class WsProvider implements ProviderInterface {
           // default: true
           fragmentOutgoingMessages: true,
           // default: 16K (bump, the Node has issues with too many fragments, e.g. on setCode)
-          fragmentationThreshold: 256 * 1024,
-          // default: 8MB (however Polkadot api.query.staking.erasStakers.entries(356) is over that)
-          maxReceivedMessageSize: 16 * 1024 * 1024
+          fragmentationThreshold: 1 * MEGABYTE,
+          // default: 1MiB (also align with maxReceivedMessageSize)
+          maxReceivedFrameSize: 24 * MEGABYTE,
+          // default: 8MB (however Polkadot api.query.staking.erasStakers.entries(356) is over that, 16M is ok there)
+          maxReceivedMessageSize: 24 * MEGABYTE
         });
 
-      this.#websocket.onclose = this.#onSocketClose;
-      this.#websocket.onerror = this.#onSocketError;
-      this.#websocket.onmessage = this.#onSocketMessage;
-      this.#websocket.onopen = this.#onSocketOpen;
+      if (this.#websocket) {
+        this.#websocket.onclose = this.#onSocketClose;
+        this.#websocket.onerror = this.#onSocketError;
+        this.#websocket.onmessage = this.#onSocketMessage;
+        this.#websocket.onopen = this.#onSocketOpen;
+      }
+
+      // timeout any handlers that have not had a response
+      this.#timeoutId = setInterval(() => this.#timeoutHandlers(), TIMEOUT_INTERVAL);
     } catch (error) {
       l.error(error);
 
@@ -215,18 +249,18 @@ export class WsProvider implements ProviderInterface {
   }
 
   /**
-   * @description Manually disconnect from the connection, clearing autoconnect logic
+   * @description Manually disconnect from the connection, clearing auto-connect logic
    */
   // eslint-disable-next-line @typescript-eslint/require-await
   public async disconnect (): Promise<void> {
+    // switch off autoConnect, we are in manual mode now
+    this.#autoConnectMs = 0;
+
     try {
-      assert(!isNull(this.#websocket), 'Cannot disconnect on a non-connected websocket');
-
-      // switch off autoConnect, we are in manual mode now
-      this.#autoConnectMs = 0;
-
-      // 1000 - Normal closure; the connection successfully completed
-      this.#websocket.close(1000);
+      if (this.#websocket) {
+        // 1000 - Normal closure; the connection successfully completed
+        this.#websocket.close(1000);
+      }
     } catch (error) {
       l.error(error);
 
@@ -234,6 +268,19 @@ export class WsProvider implements ProviderInterface {
 
       throw error;
     }
+  }
+
+  /**
+   * @description Returns the connection stats
+   */
+  public get stats (): ProviderStats {
+    return {
+      active: {
+        requests: Object.keys(this.#handlers).length,
+        subscriptions: Object.keys(this.#subscriptions).length
+      },
+      total: this.#stats.total
+    };
   }
 
   /**
@@ -256,13 +303,33 @@ export class WsProvider implements ProviderInterface {
    * @param params Encoded parameters as applicable for the method
    * @param subscription Subscription details (internally used)
    */
-  public send <T = any> (method: string, params: unknown[], subscription?: SubscriptionHandler): Promise<T> {
+  public send <T = any> (method: string, params: unknown[], isCacheable?: boolean, subscription?: SubscriptionHandler): Promise<T> {
+    this.#stats.total.requests++;
+
+    const [id, body] = this.#coder.encodeJson(method, params);
+    let resultPromise: Promise<T> | null = isCacheable
+      ? this.#callCache.get(body)
+      : null;
+
+    if (!resultPromise) {
+      resultPromise = this.#send(id, body, method, params, subscription);
+
+      if (isCacheable) {
+        this.#callCache.set(body, resultPromise);
+      }
+    } else {
+      this.#stats.total.cached++;
+    }
+
+    return resultPromise;
+  }
+
+  async #send <T> (id: number, body: string, method: string, params: unknown[], subscription?: SubscriptionHandler): Promise<T> {
     return new Promise<T>((resolve, reject): void => {
       try {
-        assert(this.isConnected && !isNull(this.#websocket), 'WebSocket is not connected');
-
-        const json = this.#coder.encodeJson(method, params);
-        const id = this.#coder.getId();
+        if (!this.isConnected || this.#websocket === null) {
+          throw new Error('WebSocket is not connected');
+        }
 
         const callback = (error?: Error | null, result?: T): void => {
           error
@@ -270,17 +337,20 @@ export class WsProvider implements ProviderInterface {
             : resolve(result as T);
         };
 
-        l.debug(() => ['calling', method, json]);
+        l.debug(() => ['calling', method, body]);
 
         this.#handlers[id] = {
           callback,
           method,
           params,
+          start: Date.now(),
           subscription
         };
-
-        this.#websocket.send(json);
+        this.#stats.total.bytesSent += body.length;
+        this.#websocket.send(body);
       } catch (error) {
+        this.#stats.total.errors++;
+
         reject(error);
       }
     });
@@ -305,7 +375,10 @@ export class WsProvider implements ProviderInterface {
    * ```
    */
   public subscribe (type: string, method: string, params: unknown[], callback: ProviderInterfaceCallback): Promise<number | string> {
-    return this.send<number | string>(method, params, { callback, type });
+    this.#stats.total.subscriptions++;
+
+    // subscriptions are not cached, LRU applies to .at(<blockHash>) only
+    return this.send<number | string>(method, params, false, { callback, type });
   }
 
   /**
@@ -337,7 +410,7 @@ export class WsProvider implements ProviderInterface {
 
   #emit = (type: ProviderInterfaceEmitted, ...args: unknown[]): void => {
     this.#eventemitter.emit(type, ...args);
-  }
+  };
 
   #onSocketClose = (event: CloseEvent): void => {
     const error = new Error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
@@ -356,10 +429,22 @@ export class WsProvider implements ProviderInterface {
       this.#websocket = null;
     }
 
+    if (this.#timeoutId) {
+      clearInterval(this.#timeoutId);
+      this.#timeoutId = null;
+    }
+
     this.#emit('disconnected');
 
     // reject all hanging requests
-    eraseRecord(this.#handlers, (h) => h.callback(error, undefined));
+    eraseRecord(this.#handlers, (h) => {
+      try {
+        h.callback(error, undefined);
+      } catch (err) {
+        // does not throw
+        l.error(err);
+      }
+    });
     eraseRecord(this.#waitingForId);
 
     if (this.#autoConnectMs > 0) {
@@ -369,22 +454,24 @@ export class WsProvider implements ProviderInterface {
         });
       }, this.#autoConnectMs);
     }
-  }
+  };
 
   #onSocketError = (error: Event): void => {
     l.debug(() => ['socket error', error]);
     this.#emit('error', error);
-  }
+  };
 
   #onSocketMessage = (message: MessageEvent<string>): void => {
     l.debug(() => ['received', message.data]);
+
+    this.#stats.total.bytesRecv += message.data.length;
 
     const response = JSON.parse(message.data) as JsonRpcResponse;
 
     return isUndefined(response.method)
       ? this.#onSocketMessageResult(response)
       : this.#onSocketMessageSubscribe(response);
-  }
+  };
 
   #onSocketMessageResult = (response: JsonRpcResponse): void => {
     const handler = this.#handlers[response.id];
@@ -406,11 +493,10 @@ export class WsProvider implements ProviderInterface {
       if (subscription) {
         const subId = `${subscription.type}::${result}`;
 
-        this.#subscriptions[subId] = {
-          ...subscription,
+        this.#subscriptions[subId] = objectSpread({}, subscription, {
           method,
           params
-        };
+        });
 
         // if we have a result waiting for this subscription already
         if (this.#waitingForId[subId]) {
@@ -418,11 +504,13 @@ export class WsProvider implements ProviderInterface {
         }
       }
     } catch (error) {
-      handler.callback(error, undefined);
+      this.#stats.total.errors++;
+
+      handler.callback(error as Error, undefined);
     }
 
     delete this.#handlers[response.id];
-  }
+  };
 
   #onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
     const method = ALIASES[response.method as string] || response.method || 'invalid';
@@ -446,12 +534,16 @@ export class WsProvider implements ProviderInterface {
 
       handler.callback(null, result);
     } catch (error) {
-      handler.callback(error, undefined);
+      this.#stats.total.errors++;
+
+      handler.callback(error as Error, undefined);
     }
-  }
+  };
 
   #onSocketOpen = (): boolean => {
-    assert(!isNull(this.#websocket), 'WebSocket cannot be null in onOpen');
+    if (this.#websocket === null) {
+      throw new Error('WebSocket cannot be null in onOpen');
+    }
 
     l.debug(() => ['connected to', this.#endpoints[this.#endpointIndex]]);
 
@@ -461,7 +553,7 @@ export class WsProvider implements ProviderInterface {
     this.#resubscribe();
 
     return true;
-  }
+  };
 
   #resubscribe = (): void => {
     const subscriptions = this.#subscriptions;
@@ -484,5 +576,25 @@ export class WsProvider implements ProviderInterface {
         l.error(error);
       }
     })).catch(l.error);
-  }
+  };
+
+  #timeoutHandlers = (): void => {
+    const now = Date.now();
+    const ids = Object.keys(this.#handlers);
+
+    for (let i = 0; i < ids.length; i++) {
+      const handler = this.#handlers[ids[i]];
+
+      if ((now - handler.start) > this.#timeout) {
+        try {
+          handler.callback(new Error(`No response received from RPC endpoint in ${this.#timeout / 1000}s`), undefined);
+        } catch {
+          // ignore
+        }
+
+        this.#stats.total.timeout++;
+        delete this.#handlers[ids[i]];
+      }
+    }
+  };
 }

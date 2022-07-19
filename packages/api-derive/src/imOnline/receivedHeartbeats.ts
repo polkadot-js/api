@@ -1,19 +1,21 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Bytes, Option, u32 } from '@polkadot/types';
+import type { Observable } from 'rxjs';
+import type { Option, u32, WrapperOpaque } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveHeartbeats } from '../types';
+import type { PalletImOnlineBoundedOpaqueNetworkState } from '@polkadot/types/lookup';
+import type { DeriveApi, DeriveHeartbeats } from '../types';
+
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { BN_ZERO } from '@polkadot/util';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
-function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbeats, AccountId[], Option<Bytes>[], u32[]]): DeriveHeartbeats {
+type HeartbeatsOpt = Option<WrapperOpaque<PalletImOnlineBoundedOpaqueNetworkState>>;
+
+function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbeats, AccountId[], HeartbeatsOpt[], u32[]]): DeriveHeartbeats {
   validators.forEach((validator, index): void => {
     const validatorId = validator.toString();
     const blockCount = numBlocks[index];
@@ -35,17 +37,17 @@ function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbea
 /**
  * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
  */
-export function receivedHeartbeats (instanceId: string, api: ApiInterfaceRx): () => Observable<DeriveHeartbeats> {
+export function receivedHeartbeats (instanceId: string, api: DeriveApi): () => Observable<DeriveHeartbeats> {
   return memo(instanceId, (): Observable<DeriveHeartbeats> =>
     api.query.imOnline?.receivedHeartbeats
       ? api.derive.staking.overview().pipe(
-        switchMap(({ currentIndex, validators }): Observable<[DeriveHeartbeats, AccountId[], Option<Bytes>[], u32[]]> =>
+        switchMap(({ currentIndex, validators }): Observable<[DeriveHeartbeats, AccountId[], HeartbeatsOpt[], u32[]]> =>
           combineLatest([
             of({}),
             of(validators),
-            api.query.imOnline.receivedHeartbeats.multi<Option<Bytes>>(
+            api.query.imOnline.receivedHeartbeats.multi(
               validators.map((_address, index) => [currentIndex, index])),
-            api.query.imOnline.authoredBlocks.multi<u32>(
+            api.query.imOnline.authoredBlocks.multi(
               validators.map((address) => [currentIndex, address]))
           ])
         ),

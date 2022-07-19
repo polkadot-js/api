@@ -1,8 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, HashMap, Option, StorageKey, Struct, Text, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
+import type { StorageKey } from '@polkadot/types';
+import type { Bytes, Enum, HashMap, Option, Struct, Text, U8aFixed, Vec, bool, u32, u64, u8 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { Hash, StorageData } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApiId */
@@ -42,6 +43,12 @@ export interface BlockTraceSpan extends Struct {
 /** @name KeyValueOption */
 export interface KeyValueOption extends ITuple<[StorageKey, Option<StorageData>]> {}
 
+/** @name MigrationStatusResult */
+export interface MigrationStatusResult extends Struct {
+  readonly topRemainingToMigrate: u64;
+  readonly childRemainingToMigrate: u64;
+}
+
 /** @name ReadProof */
 export interface ReadProof extends Struct {
   readonly at: Hash;
@@ -57,6 +64,7 @@ export interface RuntimeVersion extends Struct {
   readonly implVersion: u32;
   readonly apis: Vec<RuntimeVersionApi>;
   readonly transactionVersion: u32;
+  readonly stateVersion: u8;
 }
 
 /** @name RuntimeVersionApi */
@@ -66,7 +74,32 @@ export interface RuntimeVersionApi extends ITuple<[ApiId, u32]> {}
 export interface RuntimeVersionPartial extends Struct {
   readonly specName: Text;
   readonly specVersion: u32;
+  readonly apis: Vec<RuntimeVersionApi>;
 }
+
+/** @name RuntimeVersionPre3 */
+export interface RuntimeVersionPre3 extends Struct {
+  readonly specName: Text;
+  readonly implName: Text;
+  readonly authoringVersion: u32;
+  readonly specVersion: u32;
+  readonly implVersion: u32;
+  readonly apis: Vec<RuntimeVersionApi>;
+}
+
+/** @name RuntimeVersionPre4 */
+export interface RuntimeVersionPre4 extends Struct {
+  readonly specName: Text;
+  readonly implName: Text;
+  readonly authoringVersion: u32;
+  readonly specVersion: u32;
+  readonly implVersion: u32;
+  readonly apis: Vec<RuntimeVersionApi>;
+  readonly transactionVersion: u32;
+}
+
+/** @name SpecVersion */
+export interface SpecVersion extends u32 {}
 
 /** @name StorageChangeSet */
 export interface StorageChangeSet extends Struct {
@@ -80,6 +113,7 @@ export interface TraceBlockResponse extends Enum {
   readonly asTraceError: TraceError;
   readonly isBlockTrace: boolean;
   readonly asBlockTrace: BlockTrace;
+  readonly type: 'TraceError' | 'BlockTrace';
 }
 
 /** @name TraceError */

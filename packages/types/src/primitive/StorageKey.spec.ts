@@ -1,10 +1,10 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { decorateStorage, Metadata } from '@polkadot/metadata';
-import rpcDataV11 from '@polkadot/metadata/v11/static';
+import rpcDataV11 from '@polkadot/types-support//metadata/v11/substrate-hex';
 
 import { TypeRegistry } from '../create';
+import { decorateStorage, Metadata } from '../metadata';
 import { StorageKey } from '.';
 
 describe('StorageKey', (): void => {

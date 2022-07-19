@@ -1,12 +1,11 @@
-// Copyright 2017-2021 @polkadot/typegen authors & contributors
+// Copyright 2017-2022 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import * as codecClasses from '@polkadot/types/codec';
-import { getTypeDef } from '@polkadot/types/create';
-import { TypeDefInfo } from '@polkadot/types/create/types';
 import * as extrinsicClasses from '@polkadot/types/extrinsic';
 import * as genericClasses from '@polkadot/types/generic';
 import * as primitiveClasses from '@polkadot/types/primitive';
+import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 
 export interface ModuleTypes {
   types: Record<string, unknown>;
@@ -26,8 +25,9 @@ export interface TypeImports {
   genericTypes: TypeExist; // `import {} from '@polkadot/types/generic`
   ignoredTypes: string[]; // No need to import these types
   localTypes: TypeExistMap; // `import {} from '../something'`
+  lookupTypes: TypeExistMap; // `import {} from '@polkadot/types/lookup`
   primitiveTypes: TypeExist; // `import {} from '@polkadot/types/primitive`
-  metadataTypes: TypeExist; // `import {} from '@polkadot/metadata`
+  metadataTypes: TypeExist; // `import {} from '@polkadot/types/metadata`
   typesTypes: TypeExist; // `import {} from '@polkadot/types/types`
   definitions: Record<string, ModuleTypes>; // all definitions
   typeToModule: Record<string, string>;
@@ -36,15 +36,15 @@ export interface TypeImports {
 // Maps the types as found to the source location. This is used to generate the
 // imports in the output file, dep-duped and sorted
 /** @internal */
-export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeImports, types: string[]): void {
+export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeImports, types: (string | null | undefined)[]): void {
   const { codecTypes, extrinsicTypes, genericTypes, ignoredTypes, localTypes, metadataTypes, primitiveTypes, typesTypes } = imports;
 
-  types.forEach((type): void => {
+  types.filter((t): t is string => !!t).forEach((type): void => {
     if (ignoredTypes.includes(type)) {
       // do nothing
-    } else if (['AnyNumber', 'CallFunction', 'Codec', 'IExtrinsic', 'ITuple'].includes(type)) {
+    } else if (['AnyNumber', 'CallFunction', 'Codec', 'IExtrinsic', 'IMethod', 'ITuple'].includes(type)) {
       typesTypes[type] = true;
-    } else if (type === 'Metadata') {
+    } else if (['Metadata', 'PortableRegistry'].includes(type)) {
       metadataTypes[type] = true;
     } else if ((codecClasses as Record<string, unknown>)[type]) {
       codecTypes[type] = true;
@@ -64,10 +64,10 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
 
       // TypeDef.sub is a `TypeDef | TypeDef[]`
       if (Array.isArray(typeDef.sub)) {
-        typeDef.sub.forEach((subType) => setImports(allDefs, imports, [subType.type]));
+        typeDef.sub.forEach((subType) => setImports(allDefs, imports, [subType.lookupName || subType.type]));
       } else if (typeDef.sub && (typeDef.info !== TypeDefInfo.VecFixed || typeDef.sub.type !== 'u8')) {
         // typeDef.sub is a TypeDef in this case
-        setImports(allDefs, imports, [typeDef.sub.type]);
+        setImports(allDefs, imports, [typeDef.sub.lookupName || typeDef.sub.type]);
       }
     } else if (type.includes('[') && type.includes('|')) {
       // We split the types (we already dod the check above, so safe-path should not be caught)
@@ -120,6 +120,7 @@ export function createImports (importDefinitions: Record<string, Record<string, 
 
       return local;
     }, {}),
+    lookupTypes: {},
     metadataTypes: {},
     primitiveTypes: {},
     typeToModule,

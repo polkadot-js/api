@@ -1,27 +1,33 @@
 {
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
+  "description": "Known type definitions",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-known#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
   "name": "@polkadot/types-known",
-  "version": "4.15.2-6",
-  "type": "module",
-  "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
-  "main": "index.js",
+  "repository": {
+    "directory": "packages/types-known",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
   "sideEffects": [
     "./detectPackage.js",
     "./detectPackage.cjs"
   ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
-  "repository": "github:polkadot-js/api",
-  "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-known#readme",
+  "type": "module",
+  "version": "8.13.2-4-x",
+  "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.14.6",
-    "@polkadot/networks": "^6.9.2-9",
-    "@polkadot/types": "4.15.2-6",
-    "@polkadot/util": "^6.9.2-9"
+    "@babel/runtime": "^7.18.9",
+    "@polkadot/networks": "^10.0.2",
+    "@polkadot/types": "8.13.2-4-x",
+    "@polkadot/types-codec": "8.13.2-4-x",
+    "@polkadot/types-create": "8.13.2-4-x",
+    "@polkadot/util": "^10.0.2"
   }
 }

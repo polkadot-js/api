@@ -1,37 +1,40 @@
 {
-  "name": "@polkadot/rpc-provider",
-  "version": "4.15.2-6",
-  "type": "module",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/api/issues",
+  "contributors": [],
   "description": "Transport providers for the API",
-  "main": "index.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/rpc-provider",
+  "repository": {
+    "directory": "packages/rpc-provider",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/api.git"
+  },
   "sideEffects": [
     "./detectPackage.js",
     "./detectPackage.cjs"
   ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
-  "repository": "github:polkadot-js/api",
-  "bugs": "https://github.com/polkadot-js/api/issues",
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
+  "type": "module",
+  "version": "8.13.2-4-x",
+  "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.14.6",
-    "@polkadot/types": "4.15.2-6",
-    "@polkadot/util": "^6.9.2-9",
-    "@polkadot/util-crypto": "^6.9.2-9",
-    "@polkadot/x-fetch": "^6.9.2-9",
-    "@polkadot/x-global": "^6.9.2-9",
-    "@polkadot/x-ws": "^6.9.2-9",
-    "eventemitter3": "^4.0.7"
-  },
-  "devDependencies": {
-    "@polkadot/keyring": "^6.9.2-9",
-    "@polkadot/metadata": "4.15.2-6",
-    "mock-socket": "^9.0.3",
-    "nock": "^13.1.0"
+    "@babel/runtime": "^7.18.9",
+    "@polkadot/keyring": "^10.0.2",
+    "@polkadot/types": "8.13.2-4-x",
+    "@polkadot/types-support": "8.13.2-4-x",
+    "@polkadot/util": "^10.0.2",
+    "@polkadot/util-crypto": "^10.0.2",
+    "@polkadot/x-fetch": "^10.0.2",
+    "@polkadot/x-global": "^10.0.2",
+    "@polkadot/x-ws": "^10.0.2",
+    "@substrate/connect": "0.7.8",
+    "eventemitter3": "^4.0.7",
+    "mock-socket": "^9.1.5",
+    "nock": "^13.2.8"
   }
 }

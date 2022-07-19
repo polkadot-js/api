@@ -1,16 +1,12 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Bytes, Option } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber, PreimageStatus, Proposal, ReferendumInfo, ReferendumInfoTo239, ReferendumStatus, Tally, VoteThreshold } from '@polkadot/types/interfaces';
-import type { ITuple } from '@polkadot/types/types';
-import type { DeriveProposalImage, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
+import type { ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
+import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
+import type { Option } from '@polkadot/types-codec';
+import type { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
 import { BN, bnSqrt } from '@polkadot/util';
-
-type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
-type OldPreimage = ITuple<PreimageInfo>;
 
 interface ApproxState {
   votedAye: BN;
@@ -18,16 +14,12 @@ interface ApproxState {
   votedTotal: BN;
 }
 
-function isOldInfo (info: ReferendumInfo | ReferendumInfoTo239): info is ReferendumInfoTo239 {
+function isOldInfo (info: PalletDemocracyReferendumInfo | ReferendumInfoTo239): info is ReferendumInfoTo239 {
   return !!(info as ReferendumInfoTo239).proposalHash;
 }
 
-function isCurrentStatus (status: ReferendumStatus | ReferendumInfoTo239): status is ReferendumStatus {
-  return !!(status as ReferendumStatus).tally;
-}
-
-function isCurrentPreimage (api: ApiInterfaceRx, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): imageOpt is Option<PreimageStatus> {
-  return !!imageOpt && !api.query.democracy.dispatchQueue;
+function isCurrentStatus (status: PalletDemocracyReferendumStatus | ReferendumInfoTo239): status is PalletDemocracyReferendumStatus {
+  return !!(status as PalletDemocracyReferendumStatus).tally;
 }
 
 export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
@@ -57,18 +49,18 @@ export function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
   }
 }
 
-function calcPassingOther (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState): boolean {
+function calcPassingOther (threshold: PalletDemocracyVoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState): boolean {
   const sqrtVoters = bnSqrt(votedTotal);
 
   return sqrtVoters.isZero()
     ? false
-    : threshold.isSupermajorityapproval
+    : threshold.isSuperMajorityApprove
       ? compareRationals(votedNay, sqrtVoters, votedAye, sqrtElectorate)
       : compareRationals(votedNay, sqrtElectorate, votedAye, sqrtVoters);
 }
 
-export function calcPassing (threshold: VoteThreshold, sqrtElectorate: BN, state: ApproxState): boolean {
-  return threshold.isSimplemajority
+export function calcPassing (threshold: PalletDemocracyVoteThreshold, sqrtElectorate: BN, state: ApproxState): boolean {
+  return threshold.isSimpleMajority
     ? state.votedAye.gt(state.votedNay)
     : calcPassingOther(threshold, sqrtElectorate, state);
 }
@@ -134,51 +126,17 @@ export function calcVotes (sqrtElectorate: BN, referendum: DeriveReferendum, vot
   };
 }
 
-export function getStatus (info: Option<ReferendumInfo | ReferendumInfoTo239>): ReferendumStatus | ReferendumInfoTo239 | null {
+export function getStatus (info: Option<PalletDemocracyReferendumInfo | ReferendumInfoTo239>): PalletDemocracyReferendumStatus | ReferendumInfoTo239 | null {
   if (info.isNone) {
     return null;
   }
 
   const unwrapped = info.unwrap();
 
-  if (isOldInfo(unwrapped)) {
-    return unwrapped;
-  } else if (unwrapped.isOngoing) {
-    return unwrapped.asOngoing;
-  }
-
-  // done, we don't include it here... only currently active
-  return null;
-}
-
-function constructProposal (api: ApiInterfaceRx, [bytes, proposer, balance, at]: PreimageInfo): DeriveProposalImage {
-  let proposal: Proposal | undefined;
-
-  try {
-    proposal = api.registry.createType('Proposal', bytes.toU8a(true));
-  } catch (error) {
-    console.error(error);
-  }
-
-  return { at, balance, proposal, proposer };
-}
-
-export function parseImage (api: ApiInterfaceRx, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): DeriveProposalImage | undefined {
-  if (imageOpt.isNone) {
-    return;
-  }
-
-  if (isCurrentPreimage(api, imageOpt)) {
-    const status = imageOpt.unwrap();
-
-    if (status.isMissing) {
-      return;
-    }
-
-    const { data, deposit, provider, since } = status.asAvailable;
-
-    return constructProposal(api, [data, provider, deposit, since]);
-  }
-
-  return constructProposal(api, imageOpt.unwrap());
+  return isOldInfo(unwrapped)
+    ? unwrapped
+    : unwrapped.isOngoing
+      ? unwrapped.asOngoing
+      // done, we don't include it here... only currently active
+      : null;
 }

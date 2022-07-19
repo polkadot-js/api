@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { createTypeUnsafe, TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create';
 
 const ACTUAL = '0x' +
   // Vec<ValidatorIndex>
@@ -181,15 +181,15 @@ describe('CompactAssignments', (): void => {
 
   it('has a valid vote1 ([Type; <number>] equivalency)', (): void => {
     expect(test.votes1.toHex()).toEqual(
-      createTypeUnsafe(registry, 'Vec<(u32, u16)>', [[
+      registry.createType('Vec<(u32, u16)>', [
         [1, 3]
-      ]]).toHex()
+      ]).toHex()
     );
   });
 
   it('hash valid vote2 (actual tuple values)', (): void => {
     expect(test.votes2.toHex()).toEqual(
-      createTypeUnsafe(registry, 'Vec<(u32, [(u16, u16); 1], u16)>', [votes2]).toHex()
+      registry.createType('Vec<(u32, [(u16, u16); 1], u16)>', votes2).toHex()
     );
   });
 
@@ -199,7 +199,7 @@ describe('CompactAssignments', (): void => {
 
   it('decodes an actual solution from the chain', (): void => {
     expect(
-      createTypeUnsafe(registry, '(Vec<ValidatorIndex>, CompactAssignmentsTo257, PhragmenScore, EraIndex)', [ACTUAL]).toHex()
+      registry.createType('(Vec<ValidatorIndex>, CompactAssignmentsTo257, PhragmenScore, EraIndex)', ACTUAL).toHex()
     ).toEqual(ACTUAL);
   });
 });

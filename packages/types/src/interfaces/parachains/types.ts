@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BTreeMap, BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, bool, u32 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
+import type { BTreeMap, BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, bool, u32 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, Header, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { MembershipProof, SessionIndex } from '@polkadot/types/interfaces/session';
@@ -50,6 +50,7 @@ export interface AssignmentKind extends Enum {
   readonly isParachain: boolean;
   readonly isParathread: boolean;
   readonly asParathread: ITuple<[CollatorId, u32]>;
+  readonly type: 'Parachain' | 'Parathread';
 }
 
 /** @name AttestedCandidate */
@@ -87,6 +88,7 @@ export interface Bidder extends Enum {
   readonly asNew: NewBidder;
   readonly isExisting: boolean;
   readonly asExisting: ParaId;
+  readonly type: 'New' | 'Existing';
 }
 
 /** @name BufferedSessionChange */
@@ -118,6 +120,17 @@ export interface CandidateDescriptor extends Struct {
   readonly signature: CollatorSignature;
   readonly paraHead: Hash;
   readonly validationCodeHash: ValidationCodeHash;
+}
+
+/** @name CandidateEvent */
+export interface CandidateEvent extends Enum {
+  readonly isCandidateBacked: boolean;
+  readonly asCandidateBacked: ITuple<[CandidateReceipt, HeadData, CoreIndex, GroupIndex]>;
+  readonly isCandidateIncluded: boolean;
+  readonly asCandidateIncluded: ITuple<[CandidateReceipt, HeadData, CoreIndex, GroupIndex]>;
+  readonly isCandidateTimedOut: boolean;
+  readonly asCandidateTimedOut: ITuple<[CandidateReceipt, HeadData, CoreIndex]>;
+  readonly type: 'CandidateBacked' | 'CandidateIncluded' | 'CandidateTimedOut';
 }
 
 /** @name CandidateHash */
@@ -175,6 +188,39 @@ export interface CoreOccupied extends Enum {
   readonly isParathread: boolean;
   readonly asParathread: ParathreadEntry;
   readonly isParachain: boolean;
+  readonly type: 'Parathread' | 'Parachain';
+}
+
+/** @name CoreState */
+export interface CoreState extends Enum {
+  readonly isOccupied: boolean;
+  readonly asOccupied: OccupiedCore;
+  readonly isScheduled: boolean;
+  readonly asScheduled: ScheduledCore;
+  readonly isFree: boolean;
+  readonly type: 'Occupied' | 'Scheduled' | 'Free';
+}
+
+/** @name DisputeLocation */
+export interface DisputeLocation extends Enum {
+  readonly isLocal: boolean;
+  readonly isRemote: boolean;
+  readonly type: 'Local' | 'Remote';
+}
+
+/** @name DisputeResult */
+export interface DisputeResult extends Enum {
+  readonly isValid: boolean;
+  readonly isInvalid: boolean;
+  readonly type: 'Valid' | 'Invalid';
+}
+
+/** @name DisputeState */
+export interface DisputeState extends Struct {
+  readonly validatorsFor: BitVec;
+  readonly validatorsAgainst: BitVec;
+  readonly start: BlockNumber;
+  readonly concludedAt: Option<BlockNumber>;
 }
 
 /** @name DisputeStatement */
@@ -183,13 +229,14 @@ export interface DisputeStatement extends Enum {
   readonly asValid: ValidDisputeStatementKind;
   readonly isInvalid: boolean;
   readonly asInvalid: InvalidDisputeStatementKind;
+  readonly type: 'Valid' | 'Invalid';
 }
 
 /** @name DisputeStatementSet */
 export interface DisputeStatementSet extends Struct {
   readonly candidateHash: CandidateHash;
   readonly session: SessionIndex;
-  readonly statements: Vec<ITuple<[DisputeStatement, ValidatorIndex, ValidatorSignature]>>;
+  readonly statements: Vec<ITuple<[DisputeStatement, ParaValidatorIndex, ValidatorSignature]>>;
 }
 
 /** @name DoubleVoteReport */
@@ -227,6 +274,13 @@ export interface GlobalValidationSchedule extends Struct {
 
 /** @name GroupIndex */
 export interface GroupIndex extends u32 {}
+
+/** @name GroupRotationInfo */
+export interface GroupRotationInfo extends Struct {
+  readonly sessionStartBlock: BlockNumber;
+  readonly groupRotationFrequency: BlockNumber;
+  readonly now: BlockNumber;
+}
 
 /** @name HeadData */
 export interface HeadData extends Bytes {}
@@ -326,6 +380,7 @@ export interface IncomingParachain extends Enum {
   readonly asFixed: IncomingParachainFixed;
   readonly isDeploy: boolean;
   readonly asDeploy: IncomingParachainDeploy;
+  readonly type: 'Unset' | 'Fixed' | 'Deploy';
 }
 
 /** @name IncomingParachainDeploy */
@@ -344,6 +399,7 @@ export interface IncomingParachainFixed extends Struct {
 /** @name InvalidDisputeStatementKind */
 export interface InvalidDisputeStatementKind extends Enum {
   readonly isExplicit: boolean;
+  readonly type: 'Explicit';
 }
 
 /** @name LeasePeriod */
@@ -386,6 +442,40 @@ export interface NewBidder extends Struct {
   readonly sub: SubId;
 }
 
+/** @name OccupiedCore */
+export interface OccupiedCore extends Struct {
+  readonly nextUpOnAvailable: Option<ScheduledCore>;
+  readonly occupiedSince: BlockNumber;
+  readonly timeOutAt: BlockNumber;
+  readonly nextUpOnTimeOut: Option<ScheduledCore>;
+  readonly availability: BitVec;
+  readonly groupResponsible: GroupIndex;
+  readonly candidateHash: CandidateHash;
+  readonly candidateDescriptor: CandidateDescriptor;
+}
+
+/** @name OccupiedCoreAssumption */
+export interface OccupiedCoreAssumption extends Enum {
+  readonly isIncluded: boolean;
+  readonly isTimedOut: boolean;
+  readonly isFree: boolean;
+  readonly type: 'Included' | 'TimedOut' | 'Free';
+}
+
+/** @name OldV1SessionInfo */
+export interface OldV1SessionInfo extends Struct {
+  readonly validators: Vec<ValidatorId>;
+  readonly discoveryKeys: Vec<AuthorityDiscoveryId>;
+  readonly assignmentKeys: Vec<AssignmentId>;
+  readonly validatorGroups: Vec<Vec<ParaValidatorIndex>>;
+  readonly nCores: u32;
+  readonly zerothDelayTrancheWidth: u32;
+  readonly relayVrfModuloSamples: u32;
+  readonly nDelayTranches: u32;
+  readonly noShowSlots: u32;
+  readonly neededApprovals: u32;
+}
+
 /** @name OutboundHrmpMessage */
 export interface OutboundHrmpMessage extends Struct {
   readonly recipient: u32;
@@ -397,6 +487,7 @@ export interface ParachainDispatchOrigin extends Enum {
   readonly isSigned: boolean;
   readonly isParachain: boolean;
   readonly isRoot: boolean;
+  readonly type: 'Signed' | 'Parachain' | 'Root';
 }
 
 /** @name ParachainInherentData */
@@ -450,11 +541,12 @@ export interface ParaLifecycle extends Enum {
   readonly isDowngradingToParathread: boolean;
   readonly isOutgoingParathread: boolean;
   readonly isOutgoingParachain: boolean;
+  readonly type: 'Onboarding' | 'Parathread' | 'Parachain' | 'UpgradingToParachain' | 'DowngradingToParathread' | 'OutgoingParathread' | 'OutgoingParachain';
 }
 
 /** @name ParaPastCodeMeta */
 export interface ParaPastCodeMeta extends Struct {
-  readonly upgradeTimes: Vec<BlockNumber>;
+  readonly upgradeTimes: Vec<ReplacementTimes>;
   readonly lastPruned: Option<BlockNumber>;
 }
 
@@ -462,6 +554,7 @@ export interface ParaPastCodeMeta extends Struct {
 export interface ParaScheduling extends Enum {
   readonly isAlways: boolean;
   readonly isDynamic: boolean;
+  readonly type: 'Always' | 'Dynamic';
 }
 
 /** @name ParathreadClaim */
@@ -488,6 +581,14 @@ export interface PersistedValidationData extends Struct {
   readonly relayParentNumber: RelayChainBlockNumber;
   readonly relayParentStorageRoot: Hash;
   readonly maxPovSize: u32;
+}
+
+/** @name PvfCheckStatement */
+export interface PvfCheckStatement extends Struct {
+  readonly accept: bool;
+  readonly subject: ValidationCodeHash;
+  readonly sessionIndex: SessionIndex;
+  readonly validatorIndex: ParaValidatorIndex;
 }
 
 /** @name QueuedParathread */
@@ -517,31 +618,56 @@ export interface RelayHash extends Hash {}
 /** @name Remark */
 export interface Remark extends U8aFixed {}
 
+/** @name ReplacementTimes */
+export interface ReplacementTimes extends Struct {
+  readonly expectedAt: BlockNumber;
+  readonly activatedAt: BlockNumber;
+}
+
 /** @name Retriable */
 export interface Retriable extends Enum {
   readonly isNever: boolean;
   readonly isWithRetries: boolean;
   readonly asWithRetries: u32;
+  readonly type: 'Never' | 'WithRetries';
+}
+
+/** @name ScheduledCore */
+export interface ScheduledCore extends Struct {
+  readonly paraId: ParaId;
+  readonly collator: Option<CollatorId>;
 }
 
 /** @name Scheduling */
 export interface Scheduling extends Enum {
   readonly isAlways: boolean;
   readonly isDynamic: boolean;
+  readonly type: 'Always' | 'Dynamic';
+}
+
+/** @name ScrapedOnChainVotes */
+export interface ScrapedOnChainVotes extends Struct {
+  readonly session: SessionIndex;
+  readonly backingValidatorsPerCandidate: Vec<ITuple<[CandidateReceipt, Vec<ITuple<[ParaValidatorIndex, ValidityAttestation]>>]>>;
+  readonly disputes: MultiDisputeStatementSet;
 }
 
 /** @name ServiceQuality */
 export interface ServiceQuality extends Enum {
   readonly isOrdered: boolean;
   readonly isFast: boolean;
+  readonly type: 'Ordered' | 'Fast';
 }
 
 /** @name SessionInfo */
 export interface SessionInfo extends Struct {
+  readonly activeValidatorIndices: Vec<ParaValidatorIndex>;
+  readonly randomSeed: U8aFixed;
+  readonly disputePeriod: SessionIndex;
   readonly validators: Vec<ValidatorId>;
   readonly discoveryKeys: Vec<AuthorityDiscoveryId>;
   readonly assignmentKeys: Vec<AssignmentId>;
-  readonly validatorGroups: Vec<SessionInfoValidatorGroup>;
+  readonly validatorGroups: Vec<Vec<ValidatorIndex>>;
   readonly nCores: u32;
   readonly zerothDelayTrancheWidth: u32;
   readonly relayVrfModuloSamples: u32;
@@ -575,12 +701,54 @@ export interface SlotRange extends Enum {
   readonly isZeroOne: boolean;
   readonly isZeroTwo: boolean;
   readonly isZeroThree: boolean;
+  readonly isZeroFour: boolean;
+  readonly isZeroFive: boolean;
+  readonly isZeroSix: boolean;
+  readonly isZeroSeven: boolean;
+  readonly isOneOne: boolean;
+  readonly isOneTwo: boolean;
+  readonly isOneThree: boolean;
+  readonly isOneFour: boolean;
+  readonly isOneFive: boolean;
+  readonly isOneSix: boolean;
+  readonly isOneSeven: boolean;
+  readonly isTwoTwo: boolean;
+  readonly isTwoThree: boolean;
+  readonly isTwoFour: boolean;
+  readonly isTwoFive: boolean;
+  readonly isTwoSix: boolean;
+  readonly isTwoSeven: boolean;
+  readonly isThreeThree: boolean;
+  readonly isThreeFour: boolean;
+  readonly isThreeFive: boolean;
+  readonly isThreeSix: boolean;
+  readonly isThreeSeven: boolean;
+  readonly isFourFour: boolean;
+  readonly isFourFive: boolean;
+  readonly isFourSix: boolean;
+  readonly isFourSeven: boolean;
+  readonly isFiveFive: boolean;
+  readonly isFiveSix: boolean;
+  readonly isFiveSeven: boolean;
+  readonly isSixSix: boolean;
+  readonly isSixSeven: boolean;
+  readonly isSevenSeven: boolean;
+  readonly type: 'ZeroZero' | 'ZeroOne' | 'ZeroTwo' | 'ZeroThree' | 'ZeroFour' | 'ZeroFive' | 'ZeroSix' | 'ZeroSeven' | 'OneOne' | 'OneTwo' | 'OneThree' | 'OneFour' | 'OneFive' | 'OneSix' | 'OneSeven' | 'TwoTwo' | 'TwoThree' | 'TwoFour' | 'TwoFive' | 'TwoSix' | 'TwoSeven' | 'ThreeThree' | 'ThreeFour' | 'ThreeFive' | 'ThreeSix' | 'ThreeSeven' | 'FourFour' | 'FourFive' | 'FourSix' | 'FourSeven' | 'FiveFive' | 'FiveSix' | 'FiveSeven' | 'SixSix' | 'SixSeven' | 'SevenSeven';
+}
+
+/** @name SlotRange10 */
+export interface SlotRange10 extends Enum {
+  readonly isZeroZero: boolean;
+  readonly isZeroOne: boolean;
+  readonly isZeroTwo: boolean;
+  readonly isZeroThree: boolean;
   readonly isOneOne: boolean;
   readonly isOneTwo: boolean;
   readonly isOneThree: boolean;
   readonly isTwoTwo: boolean;
   readonly isTwoThree: boolean;
   readonly isThreeThree: boolean;
+  readonly type: 'ZeroZero' | 'ZeroOne' | 'ZeroTwo' | 'ZeroThree' | 'OneOne' | 'OneTwo' | 'OneThree' | 'TwoTwo' | 'TwoThree' | 'ThreeThree';
 }
 
 /** @name Statement */
@@ -592,6 +760,7 @@ export interface Statement extends Enum {
   readonly asValid: Hash;
   readonly isInvalid: boolean;
   readonly asInvalid: Hash;
+  readonly type: 'Never' | 'Candidate' | 'Valid' | 'Invalid';
 }
 
 /** @name SubId */
@@ -607,6 +776,19 @@ export interface TransientValidationData extends Struct {
   readonly balance: Balance;
   readonly codeUpgradeAllowed: Option<BlockNumber>;
   readonly dmqLength: u32;
+}
+
+/** @name UpgradeGoAhead */
+export interface UpgradeGoAhead extends Enum {
+  readonly isAbort: boolean;
+  readonly isGoAhead: boolean;
+  readonly type: 'Abort' | 'GoAhead';
+}
+
+/** @name UpgradeRestriction */
+export interface UpgradeRestriction extends Enum {
+  readonly isPresent: boolean;
+  readonly type: 'Present';
 }
 
 /** @name UpwardMessage */
@@ -644,8 +826,11 @@ export interface ValidatorSignature extends Signature {}
 export interface ValidDisputeStatementKind extends Enum {
   readonly isExplicit: boolean;
   readonly isBackingSeconded: boolean;
+  readonly asBackingSeconded: Hash;
   readonly isBackingValid: boolean;
+  readonly asBackingValid: Hash;
   readonly isApprovalChecking: boolean;
+  readonly type: 'Explicit' | 'BackingSeconded' | 'BackingValid' | 'ApprovalChecking';
 }
 
 /** @name ValidityAttestation */
@@ -655,6 +840,7 @@ export interface ValidityAttestation extends Enum {
   readonly asImplicit: ValidatorSignature;
   readonly isExplicit: boolean;
   readonly asExplicit: ValidatorSignature;
+  readonly type: 'Never' | 'Implicit' | 'Explicit';
 }
 
 /** @name VecInboundHrmpMessage */
@@ -663,11 +849,20 @@ export interface VecInboundHrmpMessage extends Vec<InboundHrmpMessage> {}
 /** @name WinnersData */
 export interface WinnersData extends Vec<WinnersDataTuple> {}
 
+/** @name WinnersData10 */
+export interface WinnersData10 extends Vec<WinnersDataTuple10> {}
+
 /** @name WinnersDataTuple */
 export interface WinnersDataTuple extends ITuple<[AccountId, ParaId, BalanceOf, SlotRange]> {}
 
+/** @name WinnersDataTuple10 */
+export interface WinnersDataTuple10 extends ITuple<[AccountId, ParaId, BalanceOf, SlotRange10]> {}
+
 /** @name WinningData */
 export interface WinningData extends Vec<WinningDataEntry> {}
+
+/** @name WinningData10 */
+export interface WinningData10 extends Vec<WinningDataEntry> {}
 
 /** @name WinningDataEntry */
 export interface WinningDataEntry extends Option<ITuple<[AccountId, ParaId, BalanceOf]>> {}

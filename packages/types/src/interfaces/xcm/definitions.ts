@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -6,121 +6,40 @@
 
 import type { Definitions } from '../../types';
 
+import { mapXcmTypes } from '@polkadot/types-create';
+import { objectSpread } from '@polkadot/util';
+
+import { v0 } from './v0';
+import { v1 } from './v1';
+import { v2 } from './v2';
+
+const XCM_LATEST = 'V2';
+
 const xcm = {
-  XcmAssetEffects: {
-    assets: 'Vec<MultiAsset>',
-    effects: 'Vec<XcmOrder>'
-  },
-  XcmWithdrawAsset: 'XcmAssetEffects',
-  XcmReserveAssetDeposit: 'XcmAssetEffects',
-  XcmTeleportAsset: 'XcmAssetEffects',
-  XcmQueryResponse: { queryId: 'Compact<u64>', response: 'XcmResponse' },
-  XcmTransferAsset: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation' },
-  XcmTransferReserveAsset: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation', effects: 'Vec<XcmOrder>' },
-  XcmTransact: { originType: 'XcmOriginKind', requireWeightAtMost: 'u64', call: 'DoubleEncodedCall' },
-  XcmHrmpNewChannelOpenRequest: { sender: 'Compact<u32>', maxMessageSize: 'Compact<u32>', maxCapacity: 'Compact<u32>' },
-  XcmHrmpChannelAccepted: { recipient: 'Compact<u32>' },
-  XcmHrmpChannelClosing: { initiator: 'Compact<u32>', sender: 'Compact<u32>', recipient: 'Compact<u32>' },
-  XcmRelayedFrom: { who: 'MultiLocation', message: 'Xcm' },
   XcmOrigin: {
     _enum: {
       Xcm: 'MultiLocation'
     }
   },
-  Xcm: {
-    _enum: {
-      WithdrawAsset: 'XcmWithdrawAsset',
-      ReserveAssetDeposit: 'XcmReserveAssetDeposit',
-      TeleportAsset: 'XcmTeleportAsset',
-      QueryResponse: 'XcmQueryResponse',
-      TransferAsset: 'XcmTransferAsset',
-      TransferReserveAsset: 'XcmTransferReserveAsset',
-      Transact: 'XcmTransact',
-      HrmpNewChannelOpenRequest: 'XcmHrmpNewChannelOpenRequest',
-      HrmpChannelAccepted: 'XcmHrmpChannelAccepted',
-      HrmpChannelClosing: 'XcmHrmpChannelClosing',
-      RelayedFrom: 'XcmRelayedFrom'
-    }
-  },
   XcmpMessageFormat: {
     _enum: ['ConcatenatedVersionedXcm', 'ConcatenatedEncodedBlob', 'Signals']
   },
-  VersionedXcm: {
+  XcmAssetId: {
     _enum: {
-      V0: 'Xcm'
+      Concrete: 'MultiLocation',
+      Abstract: 'Bytes'
     }
-  }
-};
-
-const xmcOrder = {
-  XcmOrderDepositAsset: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation' },
-  XcmOrderDepositReserveAsset: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation', effects: 'Vec<XcmOrder>' },
-  XcmOrderExchangeAsset: { give: 'Vec<MultiAsset>', receive: 'Vec<MultiAsset>' },
-  XcmOrderInitiateReserveWithdraw: { assets: 'Vec<MultiAsset>', reserve: 'MultiLocation', effects: 'Vec<XcmOrder>' },
-  XcmOrderInitiateTeleport: { assets: 'Vec<MultiAsset>', dest: 'MultiLocation', effects: 'Vec<XcmOrder>' },
-  XcmOrderQueryHolding: { queryId: 'Compact<u64>', dest: 'MultiLocation', assets: 'Vec<MultiAsset>' },
-  XcmOrderBuyExecution: { fees: 'MultiAsset', weight: 'u64', debt: 'u64', haltOnError: 'bool', xcm: 'Vec<Xcm>' },
-  XcmOrder: {
-    _enum: {
-      Null: 'Null',
-      DepositAsset: 'XcmOrderDepositAsset',
-      DepositReserveAsset: 'XcmOrderDepositReserveAsset',
-      ExchangeAsset: 'XcmOrderExchangeAsset',
-      InitiateReserveWithdraw: 'XcmOrderInitiateReserveWithdraw',
-      InitiateTeleport: 'XcmOrderInitiateTeleport',
-      QueryHolding: 'XcmOrderQueryHolding',
-      BuyExecution: 'XcmOrderBuyExecution'
-    }
-  }
-};
-
-const multiAsset = {
+  },
   InboundStatus: {
     _enum: ['Ok', 'Suspended']
   },
   OutboundStatus: {
     _enum: ['Ok', 'Suspended']
   },
-  MultiAssetAbstractFungible: {
-    id: 'Vec<u8>',
-    instance: 'Compact<u128>'
-  },
-  MultiAssetAbstractNonFungible: {
-    class: 'Vec<u8>',
-    instance: 'AssetInstance'
-  },
-  MultiAssetConcreteFungible: {
-    id: 'MultiLocation',
-    amount: 'Compact<u128>'
-  },
-  MultiAssetConcreteNonFungible: {
-    class: 'MultiLocation',
-    instance: 'AssetInstance'
-  },
-  MultiAsset: {
-    _enum: {
-      None: 'Null',
-      All: 'Null',
-      AllFungible: 'Null',
-      AllNonFungible: 'Null',
-      AllAbstractFungible: 'Vec<u8>',
-      AllAbstractNonFungible: 'Vec<u8>',
-      AllConcreteFungible: 'MultiLocation',
-      AllConcreteNonFungible: 'MultiLocation',
-      AbstractFungible: 'MultiAssetAbstractFungible',
-      AbstractNonFungible: 'MultiAssetAbstractNonFungible',
-      ConcreteFungible: 'MultiAssetConcreteFungible',
-      ConcreteNonFungible: 'MultiAssetConcreteNonFungible'
-    }
-  },
-  VersionedMultiAsset: {
-    _enum: {
-      V0: 'MultiAsset'
-    }
-  }
+  MultiAssets: 'Vec<MultiAsset>'
 };
 
-const junction = {
+const location = {
   BodyId: {
     _enum: {
       Unit: 'Null',
@@ -136,44 +55,21 @@ const junction = {
     _enum: {
       Voice: 'Null',
       Members: 'Compact<u32>',
-      Fraction: 'BodyPartFraction',
-      AtLeastProportion: 'BodyPartAtLeastProportion',
-      MoreThanProportion: 'BodyPartMoreThanProportion'
+      Fraction: {
+        nom: 'Compact<u32>',
+        denom: 'Compact<u32>'
+      },
+      AtLeastProportion: {
+        nom: 'Compact<u32>',
+        denom: 'Compact<u32>'
+      },
+      MoreThanProportion: {
+        nom: 'Compact<u32>',
+        denom: 'Compact<u32>'
+      }
     }
   },
-  BodyPartFraction: { nom: 'Compact<u32>', denom: 'Compact<u32>' },
-  BodyPartAtLeastProportion: { nom: 'Compact<u32>', denom: 'Compact<u32>' },
-  BodyPartMoreThanProportion: { nom: 'Compact<u32>', denom: 'Compact<u32>' },
-  AccountId32Junction: {
-    network: 'NetworkId',
-    id: 'AccountId'
-  },
-  AccountIndex64Junction: {
-    network: 'NetworkId',
-    index: 'Compact<u64>'
-  },
-  AccountKey20Junction: {
-    network: 'NetworkId',
-    index: '[u8; 20]'
-  },
-  PluralityJunction: {
-    id: 'BodyId',
-    part: 'BodyPart'
-  },
-  Junction: {
-    _enum: {
-      Parent: 'Null',
-      Parachain: 'Compact<u32>',
-      AccountId32: 'AccountId32Junction',
-      AccountIndex64: 'AccountIndex64Junction',
-      AccountKey20: 'AccountKey20Junction',
-      PalletInstance: 'u8',
-      GeneralIndex: 'Compact<u128>',
-      GeneralKey: 'Vec<u8>',
-      OnlyChild: 'Null',
-      Plurality: 'PluralityJunction'
-    }
-  },
+  InteriorMultiLocation: 'Junctions',
   NetworkId: {
     _enum: {
       Any: 'Null',
@@ -186,68 +82,32 @@ const junction = {
 
 export default {
   rpc: {},
-  types: {
-    ...junction,
-    ...multiAsset,
-    ...xcm,
-    ...xmcOrder,
-    DoubleEncodedCall: { encoded: 'Vec<u8>' },
+  types: objectSpread({}, location, xcm, v0, v1, v2, mapXcmTypes(XCM_LATEST), {
+    DoubleEncodedCall: {
+      encoded: 'Vec<u8>'
+    },
     XcmOriginKind: {
       _enum: ['Native', 'SovereignAccount', 'Superuser', 'Xcm']
-    },
-    XcmResponse: {
-      _enum: {
-        Assets: 'Vec<MultiAsset>'
-      }
-    },
-    XcmError: {
-      _enum: {
-        Undefined: 'Null',
-        Overflow: 'Null',
-        Unimplemented: 'Null',
-        UnhandledXcmVersion: 'Null',
-        UnhandledXcmMessage: 'Null',
-        UnhandledEffect: 'Null',
-        EscalationOfPrivilege: 'Null',
-        UntrustedReserveLocation: 'Null',
-        UntrustedTeleportLocation: 'Null',
-        DestinationBufferOverflow: 'Null',
-        SendFailed: 'Null', // (#[codec(skip)] &'static str),
-        CannotReachDestination: '(MultiLocation, Xcm)',
-        MultiLocationFull: 'Null',
-        FailedToDecode: 'Null',
-        BadOrigin: 'Null',
-        ExceedsMaxMessageSize: 'Null',
-        FailedToTransactAsset: 'Null', // (#[codec(skip)] &'static str),
-        WeightLimitReached: 'Weight',
-        Wildcard: 'Null',
-        TooMuchWeightRequired: 'Null',
-        NotHoldingFees: 'Null',
-        WeightNotComputable: 'Null',
-        Barrier: 'Null',
-        NotWithdrawable: 'Null',
-        LocationCannotHold: 'Null',
-        TooExpensive: 'Null'
-      }
-    },
-    MultiLocation: {
-      _enum: {
-        Null: 'Null',
-        X1: 'Junction',
-        X2: '(Junction, Junction)',
-        X3: '(Junction, Junction, Junction)',
-        X4: '(Junction, Junction, Junction, Junction)',
-        X5: '(Junction, Junction, Junction, Junction, Junction)',
-        X6: '(Junction, Junction, Junction, Junction, Junction, Junction)',
-        X7: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction)',
-        X8: '(Junction, Junction, Junction, Junction, Junction, Junction, Junction, Junction)'
-      }
     },
     Outcome: {
       _enum: {
         Complete: 'Weight',
-        Incomplete: '(Weight, XcmError)',
-        Error: 'XcmError'
+        Incomplete: '(Weight, XcmErrorV0)',
+        Error: 'XcmErrorV0'
+      }
+    },
+    QueryId: 'u64',
+    QueryStatus: {
+      _enum: {
+        Pending: {
+          responder: 'VersionedMultiLocation',
+          maybeNotify: 'Option<(u8, u8)>',
+          timeout: 'BlockNumber'
+        },
+        Ready: {
+          response: 'VersionedResponse',
+          at: 'BlockNumber'
+        }
       }
     },
     QueueConfigData: {
@@ -257,25 +117,47 @@ export default {
       thresholdWeight: 'Weight',
       weightRestrictDecay: 'Weight'
     },
-    VersionedMultiLocation: {
+    VersionMigrationStage: {
       _enum: {
-        V0: 'MultiLocation'
+        MigrateSupportedVersion: 'Null',
+        MigrateVersionNotifiers: 'Null',
+        NotifyCurrentTargets: 'Option<Bytes>',
+        MigrateAndNotifyOldTargets: 'Null'
       }
     },
-    AssetInstance: {
+    VersionedMultiAsset: {
       _enum: {
-        Undefined: 'Null',
-        Index8: 'u8',
-        Index16: 'Compact<u16>',
-        Index32: 'Compact<u32>',
-        Index64: 'Compact<u64>',
-        Index128: 'Compact<u128>',
-        Array4: '[u8; 4]',
-        Array8: '[u8; 8]',
-        Array16: '[u8; 16]',
-        Array32: '[u8; 32]',
-        Blob: 'Vec<u8>'
+        V0: 'MultiAssetV0',
+        V1: 'MultiAssetV1',
+        V2: 'MultiAssetV2'
       }
-    }
-  }
+    },
+    VersionedMultiAssets: {
+      _enum: {
+        V0: 'Vec<MultiAssetV0>',
+        V1: 'MultiAssetsV1',
+        V2: 'MultiAssetsV2'
+      }
+    },
+    VersionedMultiLocation: {
+      _enum: {
+        V0: 'MultiLocationV0',
+        V1: 'MultiLocationV1',
+        V2: 'MultiLocationV2'
+      }
+    },
+    VersionedResponse: {
+      V0: 'ResponseV0',
+      V1: 'ResponseV1',
+      V2: 'ResponseV2'
+    },
+    VersionedXcm: {
+      _enum: {
+        V0: 'XcmV0',
+        V1: 'XcmV1',
+        V2: 'XcmV2'
+      }
+    },
+    XcmVersion: 'u32'
+  })
 } as Definitions;

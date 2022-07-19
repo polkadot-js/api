@@ -1,12 +1,11 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { EventRecord, Hash, SignedBlock } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { DeriveApi } from '../types';
 
-import { combineLatest } from '@polkadot/x-rxjs';
-import { map } from '@polkadot/x-rxjs/operators';
+import { combineLatest, map, switchMap } from 'rxjs';
 
 import { memo } from '../util';
 
@@ -15,16 +14,17 @@ interface Result {
   events: EventRecord[];
 }
 
-export function events (instanceId: string, api: ApiInterfaceRx): (at: Hash) => Observable<Result> {
-  return memo(instanceId, (at: Hash): Observable<Result> =>
+export function events (instanceId: string, api: DeriveApi): (at: Hash) => Observable<Result> {
+  return memo(instanceId, (blockHash: Hash) =>
     combineLatest([
-      api.query.system.events.at(at),
-      api.rpc.chain.getBlock(at)
+      api.rpc.chain.getBlock(blockHash),
+      api.queryAt(blockHash).pipe(
+        switchMap((queryAt) =>
+          queryAt.system.events()
+        )
+      )
     ]).pipe(
-      map(([events, block]) => ({
-        block,
-        events
-      }))
+      map(([block, events]) => ({ block, events }))
     )
   );
 }

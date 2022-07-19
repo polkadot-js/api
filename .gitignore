@@ -1,11 +1,12 @@
 _book/
 build/
-build-docs/
+build-*/
 coverage/
-docs/.vuepress/dist/
-docs/substrate/*.md
 node_modules/
 tmp/
+/import_map.json
+/mod.ts
+NOTES.md
 .DS_Store
 .env.local
 .env.development.local
@@ -21,6 +22,7 @@ tmp/
 cc-test-reporter
 lerna-debug.log*
 npm-debug.log*
+package-lock.json
+tsconfig*buildinfo
 yarn-debug.log*
 yarn-error.log*
-package-lock.json

@@ -1,18 +1,39 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Metadata } from '@polkadot/metadata';
+import type { Observable } from 'rxjs';
+import type { BitVec, Bool, bool, Bytes, F32, f32, F64, f64, I8, i8, I16, i16, I32, i32, I64, i64, I128, i128, I256, i256, Json, Null, OptionBool, Raw, Text, Type, U8, u8, U16, u16, U32, u32, U64, u64, U128, u128, U256, u256, USize, usize } from '@polkadot/types-codec';
+import type { RegistryTypes } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
-import type { Observable } from '@polkadot/x-rxjs';
+import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericSignerPayload } from '../extrinsic';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { CodecHash, Hash } from '../interfaces/runtime';
-import type { ChainProperties } from '../interfaces/system';
-import type { CallFunction } from './calls';
-import type { Codec, Constructor } from './codec';
-import type { DefinitionRpc, DefinitionRpcSub } from './definitions';
+import type { GenericCall } from '../generic';
+import type { HeaderPartial } from '../interfaces/runtime';
+import type { RuntimeVersionPartial } from '../interfaces/state';
+import type { Metadata, PortableRegistry } from '../metadata';
+import type { Data, StorageKey } from '../primitive';
+import type { DefinitionRpc, DefinitionRpcSub, DefinitionsCall } from './definitions';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface InterfaceTypes { }
+export type { Registry, RegistryError, RegistryTypes } from '@polkadot/types-codec/types';
+
+export interface InterfaceTypes {
+  // base codec
+  BitVec: BitVec, Bytes: Bytes, Json: Json, Null: Null, OptionBool: OptionBool, Raw: Raw, Text: Text, Type: Type,
+  // base codec - upper variants
+  Bool: Bool, F32: F32, F64: F64, I128: I128, I16: I16, I256: I256, I32: I32, I64: I64, I8: I8, U128: U128, U16: U16, U256: U256, U32: U32, U64: U64, U8: U8, USize: USize,
+  // base codec - lower variants
+  bool: bool, f32: f32, f64: f64, i128: i128, i16: i16, i256: i256, i32: i32, i64: i64, i8: i8, u128: u128, u16: u16, u256: u256, u32: u32, u64: u64, u8: u8, usize: usize,
+  // extrinsic
+  Extrinsic: GenericExtrinsic, ExtrinsicEra: GenericExtrinsicEra, ExtrinsicPayload: GenericExtrinsicPayload, SignerPayload: GenericSignerPayload,
+  // generic
+  Call: GenericCall,
+  // primitive
+  Data: Data, StorageKey: StorageKey,
+  // metadata
+  Metadata: Metadata, PortableRegistry: PortableRegistry,
+  // interfaces
+  HeaderPartial: HeaderPartial, RuntimeVersionPartial: RuntimeVersionPartial
+}
 
 export type CodecHasher = (data: Uint8Array) => Uint8Array;
 
@@ -27,34 +48,24 @@ export interface ChainUpgrades {
   versions: ChainUpgradeVersion[];
 }
 
-export type RegistryTypes =
-  Record<string, Constructor | string | Record<string, string> |
-  { _enum: string[] | Record<string, number> | Record<string, string | null> } |
-  { _set: Record<string, number> }>;
-
-export interface RegistryError {
-  documentation: string[];
-  index: number;
-  // compat
-  method: string;
-  name: string;
-  section: string;
-}
-
 export interface OverrideVersionedType {
-  minmax: [number?, number?]; // min (v >= min) and max (v <= max)
+  // min (v >= min) and max (v <= max)
+  minmax: [number | undefined | null, number | undefined | null] | [number?, number?] | (number | undefined | null)[];
   types: RegistryTypes;
 }
 
 export type OverrideModuleType = Record<string, string>;
 export type DeriveCustom = Record<string, Record<string, (instanceId: string, api: any) => (...args: any[]) => Observable<any>>>;
 
+export type AliasDefinition = Record<string, OverrideModuleType>;
+
 export interface OverrideBundleDefinition {
-  alias?: Record<string, OverrideModuleType>;
+  alias?: AliasDefinition;
   derives?: DeriveCustom;
   hasher?: (data: Uint8Array) => Uint8Array;
   instances?: Record<string, string[]>;
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+  runtime?: DefinitionsCall;
   signedExtensions?: ExtDef;
   types?: OverrideVersionedType[];
 }
@@ -69,16 +80,15 @@ export interface RegisteredTypes {
    * @description Specify the actual hasher override to use in the API. This generally should be done via the typesBundle
    */
   hasher?: (data: Uint8Array) => Uint8Array;
-
   /**
    * @description Additional types used by runtime modules. This is necessary if the runtime modules
    * uses types not available in the base Substrate runtime.
    */
   types?: RegistryTypes;
   /**
-   * @description Alias an types, as received via the metadata, to a JS-specific type to avoid conflicts. For instance, you can rename the `Proposal` in the `treasury` module to `TreasuryProposal` as to not have conflicts with the one for democracy.
+   * @description Alias types, as received via the metadata, to a JS-specific type to avoid conflicts. For instance, you can rename the `Proposal` in the `treasury` module to `TreasuryProposal` as to not have conflicts with the one for democracy.
    */
-  typesAlias?: Record<string, OverrideModuleType>;
+  typesAlias?: AliasDefinition;
   /**
    * @description A bundle of types related to chain & spec that is injected based on what the chain contains
    */
@@ -91,46 +101,4 @@ export interface RegisteredTypes {
    * @description Additional types that are injected based on the type of node we are connecting to, as set via specName in the runtime version. There are keyed by the node, i.e. `{ 'edgeware': { ... } }`
    */
   typesSpec?: Record<string, RegistryTypes>;
-}
-
-export interface Registry {
-  readonly chainDecimals: number[];
-  readonly chainSS58: number | undefined;
-  readonly chainTokens: string[];
-  readonly knownTypes: RegisteredTypes;
-  readonly unknownTypes: string[];
-  readonly signedExtensions: string[];
-
-  createdAtHash?: Hash;
-
-  findMetaCall (callIndex: Uint8Array): CallFunction;
-  findMetaError (errorIndex: Uint8Array | { error: BN, index: BN }): RegistryError;
-  // due to same circular imports where types don't really want to import from EventData,
-  // keep this as a generic Codec, however the actual impl. returns the correct
-  findMetaEvent (eventIndex: Uint8Array): Constructor<any>;
-
-  createClass <K extends keyof InterfaceTypes> (type: K): Constructor<InterfaceTypes[K]>;
-  createType <K extends keyof InterfaceTypes> (type: K, ...params: unknown[]): InterfaceTypes[K];
-  get <T extends Codec = Codec> (name: string, withUnknown?: boolean): Constructor<T> | undefined;
-  getChainProperties (): ChainProperties | undefined;
-  getClassName (clazz: Constructor): string | undefined;
-  getDefinition (typeName: string): string | undefined;
-  getModuleInstances (specName: string, moduleName: string): string[] | undefined;
-  getOrThrow <T extends Codec = Codec> (name: string, msg?: string): Constructor<T>;
-  getOrUnknown <T extends Codec = Codec> (name: string): Constructor<T>;
-  setKnownTypes (types: RegisteredTypes): void;
-  getSignedExtensionExtra (): Record<string, keyof InterfaceTypes>;
-  getSignedExtensionTypes (): Record<string, keyof InterfaceTypes>;
-  hasClass (name: string): boolean;
-  hasDef (name: string): boolean;
-  hasType (name: string): boolean;
-  hash (data: Uint8Array): CodecHash;
-  init (): Registry;
-  register (type: Constructor | RegistryTypes): void;
-  register (name: string, type: Constructor): void;
-  register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void;
-  setChainProperties (properties?: ChainProperties): void;
-  setHasher (hasher?: CodecHasher | null): void;
-  setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void;
-  setSignedExtensions (signedExtensions?: string[], userExtensions?: ExtDef): void;
 }

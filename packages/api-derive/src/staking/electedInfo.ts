@@ -1,13 +1,13 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Observable } from 'rxjs';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveStakingElected, StakingQueryFlags } from '../types';
+import type { DeriveApi, DeriveStakingElected, StakingQueryFlags } from '../types';
+
+import { map, switchMap } from 'rxjs';
 
 import { arrayFlatten } from '@polkadot/util';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
 import { memo } from '../util';
 
@@ -17,7 +17,7 @@ function combineAccounts (nextElected: AccountId[], validators: AccountId[]): Ac
   return arrayFlatten([nextElected, validators.filter((v) => !nextElected.find((n) => n.eq(v)))]);
 }
 
-export function electedInfo (instanceId: string, api: ApiInterfaceRx): (flags?: StakingQueryFlags) => Observable<DeriveStakingElected> {
+export function electedInfo (instanceId: string, api: DeriveApi): (flags?: StakingQueryFlags) => Observable<DeriveStakingElected> {
   return memo(instanceId, (flags: StakingQueryFlags = DEFAULT_FLAGS): Observable<DeriveStakingElected> =>
     api.derive.staking.validators().pipe(
       switchMap(({ nextElected, validators }): Observable<DeriveStakingElected> =>

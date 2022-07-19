@@ -1,18 +1,21 @@
-// Copyright 2017-2021 @polkadot/api-derive authors & contributors
+// Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Data, Option } from '@polkadot/types';
-import type { AccountId, IdentityInfoAdditional, Registration } from '@polkadot/types/interfaces';
-import type { ITuple } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
-import type { DeriveAccountRegistration, DeriveHasIdentity } from '../types';
+import type { Observable } from 'rxjs';
+import type { Data } from '@polkadot/types';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { PalletIdentityIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
+import type { Option } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
+import type { DeriveAccountRegistration, DeriveApi, DeriveHasIdentity } from '../types';
+
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isHex, u8aToString } from '@polkadot/util';
-import { combineLatest, of } from '@polkadot/x-rxjs';
-import { map, switchMap } from '@polkadot/x-rxjs/operators';
 
-import { memo } from '../util';
+import { firstMemo, memo } from '../util';
+
+type IdentityInfoAdditional = PalletIdentityIdentityInfo['additional'][0];
 
 const UNDEF_HEX = { toHex: () => undefined };
 
@@ -37,7 +40,7 @@ function extractOther (additional: IdentityInfoAdditional[]): Record<string, str
   }, {});
 }
 
-function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
+function extractIdentity (identityOfOpt?: Option<PalletIdentityRegistration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
   if (!identityOfOpt?.isSome) {
     return { judgements: [] };
   }
@@ -61,16 +64,17 @@ function extractIdentity (identityOfOpt?: Option<Registration>, superOf?: [Accou
   };
 }
 
-function getParent (api: ApiInterfaceRx, identityOfOpt: Option<Registration> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<Registration> | undefined, [AccountId, Data] | undefined]> {
+function getParent (api: DeriveApi, identityOfOpt: Option<PalletIdentityRegistration> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<PalletIdentityRegistration> | undefined, [AccountId, Data] | undefined]> {
   if (identityOfOpt?.isSome) {
     // this identity has something set
     return of([identityOfOpt, undefined]);
   } else if (superOfOpt?.isSome) {
     const superOf = superOfOpt.unwrap();
 
-    // we have a super
     return combineLatest([
-      api.query.identity.identityOf<Option<Registration>>(superOf[0]),
+      api.derive.accounts._identity(superOf[0]).pipe(
+        map(([info]) => info)
+      ),
       of(superOf)
     ]);
   }
@@ -79,42 +83,45 @@ function getParent (api: ApiInterfaceRx, identityOfOpt: Option<Registration> | u
   return of([undefined, undefined]);
 }
 
-function getBase (api: ApiInterfaceRx, accountId?: AccountId | Uint8Array | string): Observable<[Option<Registration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
-  return accountId && api.query.identity?.identityOf
-    ? api.queryMulti<[Option<Registration>, Option<ITuple<[AccountId, Data]>>]>([
-      [api.query.identity.identityOf, accountId],
-      [api.query.identity.superOf, accountId]
-    ])
-    : of([undefined, undefined]);
+export function _identity (instanceId: string, api: DeriveApi): (accountId?: AccountId | Uint8Array | string) => Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
+  return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> =>
+    accountId && api.query.identity?.identityOf
+      ? combineLatest([
+        api.query.identity.identityOf(accountId),
+        api.query.identity.superOf(accountId)
+      ])
+      : of([undefined, undefined])
+  );
 }
 
 /**
  * @name identity
  * @description Returns identity info for an account
  */
-export function identity (instanceId: string, api: ApiInterfaceRx): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
+export function identity (instanceId: string, api: DeriveApi): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
   return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> =>
-    getBase(api, accountId).pipe(
-      switchMap(([identityOfOpt, superOfOpt]) => getParent(api, identityOfOpt, superOfOpt)),
-      map(([identityOfOpt, superOf]) => extractIdentity(identityOfOpt, superOf))
+    api.derive.accounts._identity(accountId).pipe(
+      switchMap(([identityOfOpt, superOfOpt]) =>
+        getParent(api, identityOfOpt, superOfOpt)
+      ),
+      map(([identityOfOpt, superOf]) =>
+        extractIdentity(identityOfOpt, superOf)
+      )
     )
   );
 }
 
-export function hasIdentity (instanceId: string, api: ApiInterfaceRx): (accountId: AccountId | Uint8Array | string) => Observable<DeriveHasIdentity> {
-  return memo(instanceId, (accountId: AccountId | Uint8Array | string): Observable<DeriveHasIdentity> =>
-    api.derive.accounts.hasIdentityMulti([accountId]).pipe(
-      map(([first]) => first)
-    )
-  );
-}
+export const hasIdentity = firstMemo(
+  (api: DeriveApi, accountId: AccountId | Uint8Array | string) =>
+    api.derive.accounts.hasIdentityMulti([accountId])
+);
 
-export function hasIdentityMulti (instanceId: string, api: ApiInterfaceRx): (accountIds: (AccountId | Uint8Array | string)[]) => Observable<DeriveHasIdentity[]> {
+export function hasIdentityMulti (instanceId: string, api: DeriveApi): (accountIds: (AccountId | Uint8Array | string)[]) => Observable<DeriveHasIdentity[]> {
   return memo(instanceId, (accountIds: (AccountId | Uint8Array | string)[]): Observable<DeriveHasIdentity[]> =>
     api.query.identity?.identityOf
       ? combineLatest([
-        api.query.identity.identityOf.multi<Option<Registration>>(accountIds),
-        api.query.identity.superOf.multi<Option<ITuple<[AccountId, Data]>>>(accountIds)
+        api.query.identity.identityOf.multi(accountIds),
+        api.query.identity.superOf.multi(accountIds)
       ]).pipe(
         map(([identities, supers]) =>
           identities.map((identityOfOpt, index): DeriveHasIdentity => {

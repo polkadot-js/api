@@ -1,12 +1,13 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import type { ExtrinsicStatus } from './types';
 
+import rpc from '@polkadot/types-support/json/ExtrinsicStatus.001.json' assert { type: 'json' };
+
 import { TypeRegistry } from '../../create';
-import rpc from '../../json/ExtrinsicStatus.001.json';
 
 describe('ExtrinsicStatus', (): void => {
   const registry = new TypeRegistry();

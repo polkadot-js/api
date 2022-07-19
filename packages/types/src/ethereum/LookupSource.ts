@@ -1,18 +1,19 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Registry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
-import type { Registry } from '../types';
+import type { HexString } from '@polkadot/util/types';
 
+import { AbstractBase } from '@polkadot/types-codec';
 import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { Base } from '../codec/Base';
 import { GenericAccountIndex } from '../generic/AccountIndex';
 import { GenericEthereumAccountId } from './AccountId';
 
 // eslint-disable-next-line no-use-before-define
-type AnyAddress = BigInt | BN | GenericEthereumLookupSource | GenericEthereumAccountId | GenericAccountIndex | number[] | Uint8Array | number | string;
+type AnyAddress = bigint | BN | GenericEthereumLookupSource | GenericEthereumAccountId | GenericAccountIndex | number[] | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
@@ -21,8 +22,8 @@ function decodeString (registry: Registry, value: string): GenericEthereumAccoun
   const decoded = decodeAddress(value);
 
   return decoded.length === 20
-    ? registry.createType('EthereumAccountId', decoded)
-    : registry.createType('AccountIndex', u8aToBn(decoded, true));
+    ? registry.createTypeUnsafe('EthereumAccountId', [decoded])
+    : registry.createTypeUnsafe('AccountIndex', [u8aToBn(decoded)]);
 }
 
 /** @internal */
@@ -30,14 +31,26 @@ function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccou
   // This allows us to instantiate an address with a raw publicKey. Do this first before
   // we checking the first byte, otherwise we may split an already-existent valid address
   if (value.length === 20) {
-    return registry.createType('EthereumAccountId', value);
+    return registry.createTypeUnsafe('EthereumAccountId', [value]);
   } else if (value[0] === 0xff) {
-    return registry.createType('EthereumAccountId', value.subarray(1));
+    return registry.createTypeUnsafe('EthereumAccountId', [value.subarray(1)]);
   }
 
   const [offset, length] = GenericAccountIndex.readLength(value);
 
-  return registry.createType('AccountIndex', u8aToBn(value.subarray(offset, offset + length), true));
+  return registry.createTypeUnsafe('AccountIndex', [u8aToBn(value.subarray(offset, offset + length))]);
+}
+
+function decodeAddressOrIndex (registry: Registry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
+  return value instanceof GenericEthereumLookupSource
+    ? value.inner
+    : value instanceof GenericEthereumAccountId || value instanceof GenericAccountIndex
+      ? value
+      : isU8a(value) || Array.isArray(value) || isHex(value)
+        ? decodeU8a(registry, u8aToU8a(value))
+        : isBn(value) || isNumber(value) || isBigInt(value)
+          ? registry.createTypeUnsafe('AccountIndex', [value])
+          : decodeString(registry, value);
 }
 
 /**
@@ -48,22 +61,9 @@ function decodeU8a (registry: Registry, value: Uint8Array): GenericEthereumAccou
  * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId | GenericAccountIndex> {
+export class GenericEthereumLookupSource extends AbstractBase<GenericEthereumAccountId | GenericAccountIndex> {
   constructor (registry: Registry, value: AnyAddress = new Uint8Array()) {
-    super(registry, GenericEthereumLookupSource._decodeAddress(registry, value));
-  }
-
-  /** @internal */
-  private static _decodeAddress (registry: Registry, value: AnyAddress): GenericEthereumAccountId | GenericAccountIndex {
-    return value instanceof GenericEthereumLookupSource
-      ? value._raw
-      : value instanceof GenericEthereumAccountId || value instanceof GenericAccountIndex
-        ? value
-        : isBn(value) || isNumber(value) || isBigInt(value)
-          ? registry.createType('AccountIndex', value)
-          : Array.isArray(value) || isHex(value) || isU8a(value)
-            ? decodeU8a(registry, u8aToU8a(value))
-            : decodeString(registry, value);
+    super(registry, decodeAddressOrIndex(registry, value));
   }
 
   /**
@@ -84,15 +84,15 @@ export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId |
    * @description The length of the raw value, either AccountIndex or AccountId
    */
   protected get _rawLength (): number {
-    return this._raw instanceof GenericAccountIndex
-      ? GenericAccountIndex.calcLength(this._raw)
-      : this._raw.encodedLength;
+    return this.inner instanceof GenericAccountIndex
+      ? GenericAccountIndex.calcLength(this.inner)
+      : this.inner.encodedLength;
   }
 
   /**
    * @description Returns a hex string representation of the value
    */
-  public override toHex (): string {
+  public override toHex (): HexString {
     return u8aToHex(this.toU8a());
   }
 
@@ -108,12 +108,12 @@ export class GenericEthereumLookupSource extends Base<GenericEthereumAccountId |
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this._raw.toU8a().subarray(0, this._rawLength);
+    const encoded = this.inner.toU8a().subarray(0, this._rawLength);
 
     return isBare
       ? encoded
       : u8aConcat(
-        this._raw instanceof GenericAccountIndex
+        this.inner instanceof GenericAccountIndex
           ? GenericAccountIndex.writeLength(encoded)
           : ACCOUNT_ID_PREFIX,
         encoded

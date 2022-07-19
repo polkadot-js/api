@@ -1,12 +1,13 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import type { RuntimeVersion } from './types';
 
+import rpc from '@polkadot/types-support/json/RuntimeVersion.002.json' assert { type: 'json' };
+
 import { TypeRegistry } from '../../create';
-import rpc from '../../json/RuntimeVersion.002.json';
 
 describe('RuntimeVersion', (): void => {
   const registry = new TypeRegistry();

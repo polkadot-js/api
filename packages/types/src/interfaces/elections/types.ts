@@ -1,7 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Compact, Enum, GenericVote, Struct, u32 } from '@polkadot/types';
+import type { GenericVote } from '@polkadot/types';
+import type { Compact, Enum, Struct, u32 } from '@polkadot/types-codec';
 import type { AccountId, Balance } from '@polkadot/types/interfaces/runtime';
 
 /** @name ApprovalFlag */
@@ -20,6 +21,7 @@ export interface Renouncing extends Enum {
   readonly isRunnerUp: boolean;
   readonly isCandidate: boolean;
   readonly asCandidate: Compact<u32>;
+  readonly type: 'Member' | 'RunnerUp' | 'Candidate';
 }
 
 /** @name SetIndex */
@@ -41,9 +43,10 @@ export interface VoterInfo extends Struct {
 
 /** @name VoteThreshold */
 export interface VoteThreshold extends Enum {
-  readonly isSupermajorityapproval: boolean;
-  readonly isSupermajorityrejection: boolean;
-  readonly isSimplemajority: boolean;
+  readonly isSuperMajorityApprove: boolean;
+  readonly isSuperMajorityAgainst: boolean;
+  readonly isSimpleMajority: boolean;
+  readonly type: 'SuperMajorityApprove' | 'SuperMajorityAgainst' | 'SimpleMajority';
 }
 
 export type PHANTOM_ELECTIONS = 'elections';

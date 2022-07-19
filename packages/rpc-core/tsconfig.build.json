@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "exclude": [
+    "**/checkTypes.manual.ts",
+    "**/*.spec.ts"
+  ],
+  "references": [
+    { "path": "../rpc-provider/tsconfig.build.json" },
+    { "path": "../types/tsconfig.build.json" }
+  ]
+}

@@ -1,14 +1,17 @@
-// Copyright 2017-2021 @polkadot/types authors & contributors
+// Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AnyJson, AnyTuple, Codec } from '@polkadot/types-codec/types';
 import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
-import type { AnyJson, AnyTuple, AnyU8a, Codec, InterfaceTypes, IStorageKey, Registry } from '../types';
+import type { AllHashers } from '../interfaces/metadata/definitions';
+import type { SiLookupTypeId } from '../interfaces/scaleInfo';
+import type { InterfaceTypes, IStorageKey, Registry } from '../types';
 import type { StorageEntry } from './types';
 
-import { assert, isFunction, isString, isU8a } from '@polkadot/util';
+import { Bytes } from '@polkadot/types-codec';
+import { isFunction, isString, isU8a } from '@polkadot/util';
 
-import { AllHashers } from '../interfaces/metadata/definitions';
-import { Bytes } from './Bytes';
+import { getSiName } from '../metadata/util';
 
 interface Decoded {
   key?: Uint8Array | string;
@@ -21,6 +24,7 @@ interface StorageKeyExtra {
   section: string;
 }
 
+// hasher type -> [initialHashLength, canDecodeKey]
 const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   // opaque
   Blake2_128: [16, false], // eslint-disable-line camelcase
@@ -32,33 +36,32 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   Twox64Concat: [8, true]
 };
 
+export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
+  return type.isPlain
+    ? type.asPlain
+    : type.asMap.value;
+}
+
 /** @internal */
-export function unwrapStorageType (type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const outputType = type.isPlain
-    ? type.asPlain.toString()
-    : type.isMap
-      ? type.asMap.value.toString()
-      : type.isDoubleMap
-        ? type.asDoubleMap.value.toString()
-        : type.asNMap.value.toString();
+export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
+  const outputType = getSiName(registry.lookup, unwrapStorageSi(type));
 
   return isOptional
-    ? `Option<${outputType}>` as keyof InterfaceTypes
+    ? `Option<${outputType}>` as unknown as keyof InterfaceTypes
     : outputType as keyof InterfaceTypes;
 }
 
 /** @internal */
-function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown]): Decoded {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  if (value instanceof StorageKey) {
+function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?]): Decoded {
+  if (isU8a(value) || !value || isString(value)) {
+    // let Bytes handle these inputs
+    return { key: value };
+  } else if (value instanceof StorageKey) {
     return {
       key: value,
       method: value.method,
       section: value.section
     };
-  } else if (!value || isString(value) || isU8a(value)) {
-    // let Bytes handle these inputs
-    return { key: value };
   } else if (isFunction(value)) {
     return {
       key: value(),
@@ -66,12 +69,22 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
       section: value.section
     };
   } else if (Array.isArray(value)) {
-    const [fn, arg] = value;
+    const [fn, args = []] = value;
 
-    assert(isFunction(fn), 'Expected function input for key construction');
+    if (!isFunction(fn)) {
+      throw new Error('Expected function input for key construction');
+    }
+
+    if (fn.meta && fn.meta.type.isMap) {
+      const map = fn.meta.type.asMap;
+
+      if (!Array.isArray(args) || args.length !== map.hashers.length) {
+        throw new Error(`Expected an array of ${map.hashers.length} values as params to a Map query`);
+      }
+    }
 
     return {
-      key: fn(arg),
+      key: fn(...args),
       method: fn.method,
       section: fn.section
     };
@@ -81,53 +94,41 @@ function decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [Storage
 }
 
 /** @internal */
-function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, string][]): A {
+function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, SiLookupTypeId][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
+  const result = new Array<Codec>(hashers.length);
 
-  return hashers.reduce((result: Codec[], [hasher, type]): Codec[] => {
+  for (let i = 0; i < hashers.length; i++) {
+    const [hasher, type] = hashers[i];
     const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
-      ? registry.createType(type as 'Raw', value.subarray(offset + hashLen))
-      : registry.createType('Raw', value.subarray(offset, offset + hashLen));
+      ? registry.createTypeUnsafe(getSiName(registry.lookup, type), [value.subarray(offset + hashLen)])
+      : registry.createTypeUnsafe('Raw', [value.subarray(offset, offset + hashLen)]);
 
     offset += hashLen + (canDecode ? decoded.encodedLength : 0);
-    result.push(decoded);
+    result[i] = decoded;
+  }
 
-    return result;
-  }, []) as A;
+  return result as A;
 }
 
 /** @internal */
 function decodeArgsFromMeta <A extends AnyTuple> (registry: Registry, value: Uint8Array, meta?: StorageEntryMetadataLatest): A {
-  if (!meta || !(meta.type.isMap || meta.type.isDoubleMap || meta.type.isNMap)) {
+  if (!meta || !meta.type.isMap) {
     return [] as unknown as A;
   }
 
-  if (meta.type.isMap) {
-    const mapInfo = meta.type.asMap;
+  const { hashers, key } = meta.type.asMap;
+  const keys = hashers.length === 1
+    ? [key]
+    : registry.lookup.getSiType(key).def.asTuple;
 
-    return decodeHashers(registry, value, [
-      [mapInfo.hasher, mapInfo.key.toString()]
-    ]);
-  } else if (meta.type.isDoubleMap) {
-    const mapInfo = meta.type.asDoubleMap;
-
-    return decodeHashers(registry, value, [
-      [mapInfo.hasher, mapInfo.key1.toString()],
-      [mapInfo.key2Hasher, mapInfo.key2.toString()]
-    ]);
-  }
-
-  const mapInfo = meta.type.asNMap;
-
-  return decodeHashers(registry, value, mapInfo.hashers.map((h, i) =>
-    [h, mapInfo.keyVec[i].toString()]
-  ));
+  return decodeHashers(registry, value, hashers.map((h, i) => [h, keys[i]]));
 }
 
 /** @internal */
-function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown]): StorageEntryMetadataLatest | undefined {
+function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown[]?]): StorageEntryMetadataLatest | undefined {
   if (value instanceof StorageKey) {
     return value.meta;
   } else if (isFunction(value)) {
@@ -142,16 +143,16 @@ function getMeta (value: StorageKey | StorageEntry | [StorageEntry, unknown]): S
 }
 
 /** @internal */
-function getType (value: StorageKey | StorageEntry | [StorageEntry, unknown]): string {
+function getType (registry: Registry, value: StorageKey | StorageEntry | [StorageEntry, unknown[]?]): string {
   if (value instanceof StorageKey) {
     return value.outputType;
   } else if (isFunction(value)) {
-    return unwrapStorageType(value.meta.type);
+    return unwrapStorageType(registry, value.meta.type);
   } else if (Array.isArray(value)) {
     const [fn] = value;
 
     if (fn.meta) {
-      return unwrapStorageType(fn.meta.type);
+      return unwrapStorageType(registry, fn.meta.type);
     }
   }
 
@@ -168,60 +169,60 @@ function getType (value: StorageKey | StorageEntry | [StorageEntry, unknown]): s
 export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements IStorageKey<A> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore This is assigned via this.decodeArgsFromMeta()
-  private _args: A;
+  #args: A;
 
-  private _meta?: StorageEntryMetadataLatest;
+  #meta?: StorageEntryMetadataLatest;
 
-  private _outputType: string;
+  #outputType: string;
 
-  private _method?: string;
+  #method?: string;
 
-  private _section?: string;
+  #section?: string;
 
-  constructor (registry: Registry, value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, unknown], override: Partial<StorageKeyExtra> = {}) {
+  constructor (registry: Registry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = decodeStorageKey(value);
 
     super(registry, key);
 
-    this._outputType = getType(value as StorageKey);
+    this.#outputType = getType(registry, value as StorageKey);
 
     // decode the args (as applicable based on the key and the hashers, after all init)
     this.setMeta(getMeta(value as StorageKey), override.section || section, override.method || method);
   }
 
   /**
-   * @description Return the decoded arguments (applicable to map/doublemap with decodable values)
+   * @description Return the decoded arguments (applicable to map with decodable values)
    */
   public get args (): A {
-    return this._args;
+    return this.#args;
   }
 
   /**
    * @description The metadata or `undefined` when not available
    */
   public get meta (): StorageEntryMetadataLatest | undefined {
-    return this._meta;
+    return this.#meta;
   }
 
   /**
    * @description The key method or `undefined` when not specified
    */
   public get method (): string | undefined {
-    return this._method;
+    return this.#method;
   }
 
   /**
    * @description The output type
    */
   public get outputType (): string {
-    return this._outputType;
+    return this.#outputType;
   }
 
   /**
    * @description The key section or `undefined` when not specified
    */
   public get section (): string | undefined {
-    return this._section;
+    return this.#section;
   }
 
   public is (key: IStorageKey<AnyTuple>): key is IStorageKey<A> {
@@ -232,16 +233,16 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
    * @description Sets the meta for this key
    */
   public setMeta (meta?: StorageEntryMetadataLatest, section?: string, method?: string): this {
-    this._meta = meta;
-    this._method = method || this._method;
-    this._section = section || this._section;
+    this.#meta = meta;
+    this.#method = method || this.#method;
+    this.#section = section || this.#section;
 
     if (meta) {
-      this._outputType = unwrapStorageType(meta.type);
+      this.#outputType = unwrapStorageType(this.registry, meta.type);
     }
 
     try {
-      this._args = decodeArgsFromMeta(this.registry, this.toU8a(true), this.meta);
+      this.#args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta);
     } catch (error) {
       // ignore...
     }
@@ -253,8 +254,8 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
    * @description Returns the Human representation for this type
    */
   public override toHuman (): AnyJson {
-    return this._args.length
-      ? this._args.map((arg) => arg.toHuman())
+    return this.#args.length
+      ? this.#args.map((a) => a.toHuman())
       : super.toHuman();
   }
 

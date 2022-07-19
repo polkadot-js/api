@@ -1,10 +1,11 @@
-// Copyright 2017-2021 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Constructor } from '@polkadot/types/types';
+import type { Request } from '../mock/mockWs';
 
-import { mockWs } from '../../test/mockWs';
-import { Global, Mock } from './../mock/types';
+import { mockWs } from '../mock/mockWs';
+import { Global, Mock } from '../mock/types';
 import { WsProvider } from './';
 
 declare const global: Global;
@@ -14,7 +15,7 @@ const TEST_WS_URL = 'ws://localhost-send.spec.ts:9965';
 let provider: WsProvider | null;
 let mock: Mock;
 
-function createMock (requests: any[]): void {
+function createMock (requests: Request[]): void {
   mock = mockWs(requests, TEST_WS_URL);
 }
 
@@ -89,7 +90,8 @@ describe('send', (): void => {
         code: 666,
         message: 'error'
       },
-      id: 1
+      id: 1,
+      method: 'something'
     }]);
 
     return createWs().then((ws) =>
