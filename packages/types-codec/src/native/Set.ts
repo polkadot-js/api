@@ -10,6 +10,12 @@ import { compareArray } from '../utils';
 
 type SetValues = Record<string, number | BN>;
 
+function injectKeys (that: CodecSet, keys: string[], isKeys: string[]): void {
+  objectProperties(that, isKeys, (_, i) =>
+    that.strings.includes(keys[i])
+  );
+}
+
 function encodeSet (setValues: SetValues, values: string[]): BN {
   const encoded = new BN(0);
 
@@ -118,17 +124,13 @@ export class CodecSet extends Set<string> implements ISet<string> {
 
     return class extends CodecSet {
       // static {
-      //   objectProperties(this.prototype, isKeys, (_, i) =>
-      //     this.prototype.strings.includes(keys[i])
-      //   );
+      //   injectKeys(this.prototype, keys, isKeys);
       // }
 
       constructor (registry: Registry, value?: string[] | Set<string> | Uint8Array | BN | number | string) {
         super(registry, values, value, bitLength);
 
-        objectProperties(this, isKeys, (_, i) =>
-          this.strings.includes(keys[i])
-        );
+        injectKeys(this, keys, isKeys);
       }
     };
   }

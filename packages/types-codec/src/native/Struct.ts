@@ -17,6 +17,12 @@ interface Options {
   setDefinition?: (d: Definition) => Definition;
 }
 
+function injectKeys (that: Struct, keys: string[]): void {
+  objectProperties(that, keys, (k) =>
+    that.get(k)
+  );
+}
+
 function noopSetDefinition (d: Definition): Definition {
   return d;
 }
@@ -140,15 +146,13 @@ export class Struct<
 
     return class extends Struct<S> {
       // static {
-      //   objectProperties(super.prototype, keys, (k) => super.prototype.get(k));
+      //   injectKeys(this.prototype, keys);
       // }
 
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap, { definition, setDefinition });
 
-        objectProperties(this, keys, (k) =>
-          this.get(k)
-        );
+        injectKeys(this, keys);
       }
     };
   }
@@ -214,13 +218,13 @@ export class Struct<
     return compareMap(this, other);
   }
 
-  /**
-   * @description Returns a specific names entry in the structure
-   * @param key The name of the entry to retrieve
-   */
-  public override get (key: keyof S): Codec | undefined {
-    return super.get(key);
-  }
+  // /**
+  //  * @description Returns a specific names entry in the structure
+  //  * @param key The name of the entry to retrieve
+  //  */
+  // public override get (key: keyof S): Codec | undefined {
+  //   return super.get(key);
+  // }
 
   /**
    * @description Returns the values of a member at a specific index (Rather use get(name) for performance)

@@ -37,6 +37,20 @@ interface Options {
   setDefinition?: (d: Definition) => Definition;
 }
 
+function injectKeys (that: Enum, keys: string[], isKeys: string[], asKeys: string[]): void {
+  objectProperties(that, isKeys, (_, i) =>
+    that.type === keys[i]
+  );
+
+  objectProperties(that, asKeys, (k, i): Codec => {
+    if (that.type !== keys[i]) {
+      throw new Error(`Cannot convert '${that.type}' via ${k}`);
+    }
+
+    return that.value;
+  });
+}
+
 function noopSetDefinition (d: Definition): Definition {
   return d;
 }
@@ -244,33 +258,13 @@ export class Enum implements IEnum {
 
     return class extends Enum {
       // static {
-      //   objectProperties(this.prototype, isKeys, (_, i) =>
-      //     this.prototype.type === keys[i]
-      //   );
-
-      //   objectProperties(this.prototype, asKeys, (k, i): Codec => {
-      //     if (this.prototype.type === keys[i]) {
-      //       throw new Error(`Cannot convert '${this.prototype.type}' via ${k}`);
-      //     }
-
-      //     return this.prototype.value;
-      //   });
+      //   injectKeys(this.prototype, keys, isKeys, asKeys);
       // }
 
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index, { definition, setDefinition });
 
-        objectProperties(this, isKeys, (_, i) =>
-          this.type === keys[i]
-        );
-
-        objectProperties(this, asKeys, (k, i): Codec => {
-          if (!this[isKeys[i] as keyof this]) {
-            throw new Error(`Cannot convert '${this.type}' via ${k}`);
-          }
-
-          return this.value;
-        });
+        injectKeys(this, keys, isKeys, asKeys);
       }
     };
   }
