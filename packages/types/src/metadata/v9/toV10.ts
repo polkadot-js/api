@@ -4,6 +4,8 @@
 import type { Registry } from '@polkadot/types-codec/types';
 import type { MetadataV9, MetadataV10, ModuleMetadataV9, ModuleMetadataV10, StorageEntryMetadataV9, StorageEntryTypeV9, StorageHasherV9, StorageHasherV10 } from '../../interfaces/metadata';
 
+import { objectSpread } from '@polkadot/util';
+
 // migrate a storage hasher type
 // see https://github.com/paritytech/substrate/pull/4462
 /** @internal */
@@ -20,18 +22,16 @@ function createStorageHasher (registry: Registry, hasher: StorageHasherV9): Stor
 /** @internal */
 function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): [any, number] {
   if (entryType.isMap) {
-    return [{
-      ...entryType.asMap,
+    return [objectSpread({}, entryType.asMap, {
       hasher: createStorageHasher(registry, entryType.asMap.hasher)
-    }, 1];
+    }), 1];
   }
 
   if (entryType.isDoubleMap) {
-    return [{
-      ...entryType.asDoubleMap,
+    return [objectSpread({}, entryType.asDoubleMap, {
       hasher: createStorageHasher(registry, entryType.asDoubleMap.hasher),
       key2Hasher: createStorageHasher(registry, entryType.asDoubleMap.key2Hasher)
-    }, 2];
+    }), 2];
   }
 
   return [entryType.asPlain, 0];
@@ -41,18 +41,17 @@ function createStorageType (registry: Registry, entryType: StorageEntryTypeV9): 
 function convertModule (registry: Registry, mod: ModuleMetadataV9): ModuleMetadataV10 {
   const storage = mod.storage.unwrapOr(null);
 
-  return registry.createTypeUnsafe('ModuleMetadataV10', [{
-    ...mod,
+  return registry.createTypeUnsafe('ModuleMetadataV10', [objectSpread({}, mod, {
     storage: storage
-      ? {
-        ...storage,
-        items: storage.items.map((item: StorageEntryMetadataV9): any => ({
-          ...item,
-          type: registry.createTypeUnsafe('StorageEntryTypeV10', createStorageType(registry, item.type))
-        }))
-      }
+      ? objectSpread({}, storage, {
+        items: storage.items.map((item: StorageEntryMetadataV9): any =>
+          objectSpread({}, item, {
+            type: registry.createTypeUnsafe('StorageEntryTypeV10', createStorageType(registry, item.type))
+          })
+        )
+      })
       : null
-  }]);
+  })]);
 }
 
 /** @internal */
