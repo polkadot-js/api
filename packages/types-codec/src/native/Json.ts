@@ -22,16 +22,16 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
  * @noInheritDoc
  */
 export class Json extends Map<string, any> implements Codec {
-  public readonly registry: Registry;
-
   public createdAtHash?: IU8a;
+
+  readonly #registry: Registry;
 
   constructor (registry: Registry, value?: Record<string, unknown> | null) {
     const decoded = decodeJson(value);
 
     super(decoded);
 
-    this.registry = registry;
+    this.#registry = registry;
 
     objectProperties(this, decoded.map(([k]) => k), (k) => this.get(k));
   }
@@ -47,7 +47,7 @@ export class Json extends Map<string, any> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -55,6 +55,13 @@ export class Json extends Map<string, any> implements Codec {
    */
   public get isEmpty (): boolean {
     return [...this.keys()].length === 0;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**

@@ -70,11 +70,11 @@ function decodeSet<V extends Codec> (registry: Registry, valType: CodecClass<V> 
 }
 
 export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V> {
-  public readonly registry: Registry;
-
   public createdAtHash?: IU8a;
 
-  readonly initialU8aLength?: number;
+  readonly #initialU8aLength?: number;
+
+  readonly #registry: Registry;
 
   readonly #ValClass: CodecClass<V>;
 
@@ -83,8 +83,8 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
     super(sortSet(values));
 
-    this.registry = registry;
-    this.initialU8aLength = decodedLength;
+    this.#registry = registry;
+    this.#initialU8aLength = decodedLength;
     this.#ValClass = ValClass;
   }
 
@@ -113,7 +113,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns a hash of the value
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -121,6 +121,20 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    */
   public get isEmpty (): boolean {
     return this.size === 0;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**
@@ -190,7 +204,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `BTreeSet<${this.registry.getClassName(this.#ValClass) || new this.#ValClass(this.registry).toRawType()}>`;
+    return `BTreeSet<${this.#registry.getClassName(this.#ValClass) || new this.#ValClass(this.#registry).toRawType()}>`;
   }
 
   /**

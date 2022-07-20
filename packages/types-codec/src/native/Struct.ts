@@ -105,9 +105,9 @@ export class Struct<
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
   public createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  readonly #initialU8aLength?: number;
 
-  public readonly registry: Registry;
+  readonly #registry: Registry;
 
   readonly #jsonMap: Map<keyof S, string>;
 
@@ -123,8 +123,8 @@ export class Struct<
 
     super(decoded);
 
-    this.initialU8aLength = decodedLength;
-    this.registry = registry;
+    this.#initialU8aLength = decodedLength;
+    this.#registry = registry;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;
   }
@@ -146,6 +146,10 @@ export class Struct<
       }
     };
   }
+
+  // public get [Symbol.toStringTag] (): string {
+  //   return 'Struct';
+  // }
 
   /**
    * @description The available keys for this struct
@@ -179,7 +183,7 @@ export class Struct<
     const [Types, keys] = this.#Types;
 
     for (let i = 0; i < keys.length; i++) {
-      result[keys[i]] = new Types[i](this.registry).toRawType();
+      result[keys[i]] = new Types[i](this.#registry).toRawType();
     }
 
     return result as E;
@@ -202,7 +206,21 @@ export class Struct<
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**
@@ -314,7 +332,7 @@ export class Struct<
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return stringify(typesToMap(this.registry, this.#Types));
+    return stringify(typesToMap(this.#registry, this.#Types));
   }
 
   /**

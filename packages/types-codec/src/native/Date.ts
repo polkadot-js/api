@@ -34,14 +34,14 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
  * @noInheritDoc
  */
 export class CodecDate extends Date implements INumber {
-  public readonly registry: Registry;
-
   public createdAtHash?: IU8a;
+
+  readonly #registry: Registry;
 
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
     super(decodeDate(value));
 
-    this.registry = registry;
+    this.#registry = registry;
   }
 
   /**
@@ -55,7 +55,7 @@ export class CodecDate extends Date implements INumber {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -63,6 +63,13 @@ export class CodecDate extends Date implements INumber {
    */
   public get isEmpty (): boolean {
     return this.getTime() === 0;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**

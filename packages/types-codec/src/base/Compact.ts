@@ -47,23 +47,23 @@ function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<
  * a number and making the compact representation thereof
  */
 export class Compact<T extends INumber> implements ICompact<T> {
-  public readonly registry: Registry;
-
   public createdAtHash?: IU8a;
 
-  readonly initialU8aLength?: number;
+  readonly #initialU8aLength?: number;
+
+  readonly #registry: Registry;
 
   readonly #Type: CodecClass<T>;
 
   readonly #raw: T;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
-    this.registry = registry;
+    this.#registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
     const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
 
-    this.initialU8aLength = decodedLength;
+    this.#initialU8aLength = decodedLength;
     this.#raw = raw;
   }
 
@@ -92,7 +92,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -100,6 +100,20 @@ export class Compact<T extends INumber> implements ICompact<T> {
    */
   public get isEmpty (): boolean {
     return this.#raw.isEmpty;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**
@@ -182,7 +196,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Compact<${this.registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
+    return `Compact<${this.#registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
   }
 
   /**

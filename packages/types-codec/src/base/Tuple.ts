@@ -55,7 +55,7 @@ function decodeTuple (registry: Registry, result: Codec[], value: Exclude<AnyTup
  * own type. It extends the base JS `Array` object.
  */
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
-  readonly initialU8aLength?: number;
+  readonly #initialU8aLength?: number;
 
   #Types: Definition;
 
@@ -70,7 +70,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
     super(registry, Classes[0].length);
 
-    this.initialU8aLength = (
+    this.#initialU8aLength = (
       isU8a(value)
         ? decodeU8a(registry, this, value, Classes)
         : decodeTuple(registry, this, value, Classes)
@@ -103,6 +103,13 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
     }
 
     return total;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**

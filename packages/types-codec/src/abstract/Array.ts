@@ -16,7 +16,7 @@ import { compareArray } from '../utils/compareArray';
  * @noInheritDoc
  */
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
-  public readonly registry: Registry;
+  #registry: Registry;
 
   public createdAtHash?: IU8a;
 
@@ -31,7 +31,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   protected constructor (registry: Registry, length: number) {
     super(length);
 
-    this.registry = registry;
+    this.#registry = registry;
   }
 
   /**
@@ -53,7 +53,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -69,6 +69,13 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   public override get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**

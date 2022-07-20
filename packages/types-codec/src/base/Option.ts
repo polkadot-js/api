@@ -66,11 +66,11 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
  * with a value if/as required/found.
  */
 export class Option<T extends Codec> implements IOption<T> {
-  public readonly registry: Registry;
-
   public createdAtHash?: IU8a;
 
-  public initialU8aLength?: number;
+  readonly #initialU8aLength?: number;
+
+  readonly #registry: Registry;
 
   readonly #Type: CodecClass<T>;
 
@@ -84,12 +84,12 @@ export class Option<T extends Codec> implements IOption<T> {
         : new Type(registry, value.subarray(1))
       : decodeOption(registry, Type, value);
 
-    this.registry = registry;
+    this.#registry = registry;
     this.#Type = Type;
     this.#raw = decoded as T;
 
     if (decoded && decoded.initialU8aLength) {
-      this.initialU8aLength = 1 + decoded.initialU8aLength;
+      this.#initialU8aLength = 1 + decoded.initialU8aLength;
     }
   }
 
@@ -121,7 +121,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -143,6 +143,20 @@ export class Option<T extends Codec> implements IOption<T> {
    */
   public get isSome (): boolean {
     return !this.isNone;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**
@@ -219,7 +233,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (isBare?: boolean): string {
-    const wrapped = this.registry.getClassName(this.#Type) || new this.#Type(this.registry).toRawType();
+    const wrapped = this.#registry.getClassName(this.#Type) || new this.#Type(this.#registry).toRawType();
 
     return isBare
       ? wrapped
@@ -280,6 +294,6 @@ export class Option<T extends Codec> implements IOption<T> {
   public unwrapOrDefault (): T {
     return this.isSome
       ? this.unwrap()
-      : new this.#Type(this.registry);
+      : new this.#Type(this.#registry);
   }
 }

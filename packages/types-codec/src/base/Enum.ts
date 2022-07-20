@@ -183,21 +183,21 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
  * an extension to enum where the value type is determined by the actual index.
  */
 export class Enum implements IEnum {
-  public readonly registry: Registry;
-
   public createdAtHash?: IU8a;
 
   readonly #def: TypesDef;
 
   readonly #entryIndex: number;
 
-  readonly initialU8aLength?: number;
+  readonly #initialU8aLength?: number;
 
   readonly #indexes: number[];
 
   readonly #isBasic: boolean;
 
   readonly #isIndexed: boolean;
+
+  readonly #registry: Registry;
 
   readonly #raw: Codec;
 
@@ -209,7 +209,7 @@ export class Enum implements IEnum {
       ? createFromU8a(registry, def, value[0], value.subarray(1))
       : decodeEnum(registry, def, value, index);
 
-    this.registry = registry;
+    this.#registry = registry;
     this.#def = def;
     this.#isBasic = isBasic;
     this.#isIndexed = isIndexed;
@@ -218,7 +218,7 @@ export class Enum implements IEnum {
     this.#raw = decoded.value;
 
     if (this.#raw.initialU8aLength) {
-      this.initialU8aLength = 1 + this.#raw.initialU8aLength;
+      this.#initialU8aLength = 1 + this.#raw.initialU8aLength;
     }
   }
 
@@ -259,6 +259,20 @@ export class Enum implements IEnum {
   }
 
   /**
+   * @description The available keys for this enum
+   */
+  public get defIndexes (): number[] {
+    return this.#indexes;
+  }
+
+  /**
+   * @description The available keys for this enum
+   */
+  public get defKeys (): string[] {
+    return Object.keys(this.#def);
+  }
+
+  /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
@@ -269,7 +283,7 @@ export class Enum implements IEnum {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -316,17 +330,17 @@ export class Enum implements IEnum {
   }
 
   /**
-   * @description The available keys for this enum
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
    */
-  public get defIndexes (): number[] {
-    return this.#indexes;
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**
-   * @description The available keys for this enum
+   * @description The registry associated with this object
    */
-  public get defKeys (): string[] {
-    return Object.keys(this.#def);
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**
@@ -439,7 +453,7 @@ export class Enum implements IEnum {
 
     const entries = Object.entries(this.#def);
 
-    return typesToMap(this.registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
+    return typesToMap(this.#registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
       out[0][i] = Type;
       out[1][i] = key;
 

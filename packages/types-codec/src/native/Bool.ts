@@ -13,9 +13,9 @@ import { isU8a, u8aToHex } from '@polkadot/util';
  * @noInheritDoc
  */
 export class bool extends Boolean implements Codec {
-  public readonly registry: Registry;
-
   public createdAtHash?: IU8a;
+
+  readonly #registry: Registry;
 
   constructor (registry: Registry, value: bool | AnyBool | Uint8Array | number = false) {
     super(
@@ -26,7 +26,7 @@ export class bool extends Boolean implements Codec {
           : !!value
     );
 
-    this.registry = registry;
+    this.#registry = registry;
   }
 
   /**
@@ -40,7 +40,7 @@ export class bool extends Boolean implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -62,6 +62,20 @@ export class bool extends Boolean implements Codec {
    */
   public get isTrue (): boolean {
     return this.valueOf();
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return 1;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**

@@ -51,9 +51,9 @@ function decodeText (value?: null | AnyString | AnyU8a | { toString: () => strin
 export class Text extends String implements IText {
   public createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  readonly #initialU8aLength?: number;
 
-  public readonly registry: Registry;
+  readonly #registry: Registry;
 
   #override: string | null = null;
 
@@ -62,9 +62,13 @@ export class Text extends String implements IText {
 
     super(str);
 
-    this.registry = registry;
-    this.initialU8aLength = decodedLength;
+    this.#registry = registry;
+    this.#initialU8aLength = decodedLength;
   }
+
+  // public get [Symbol.toStringTag] (): string {
+  //   return 'Text';
+  // }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
@@ -77,7 +81,14 @@ export class Text extends String implements IText {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
   }
 
   /**
@@ -93,6 +104,13 @@ export class Text extends String implements IText {
   public override get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**

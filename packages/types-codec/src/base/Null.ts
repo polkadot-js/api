@@ -12,19 +12,19 @@ import { isNull } from '@polkadot/util';
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Null implements Codec {
-  public readonly encodedLength = 0;
-
-  public readonly isEmpty = true;
-
-  public readonly registry: Registry;
+  readonly #registry: Registry;
 
   public createdAtHash?: IU8a;
 
-  // Added for compatibility reasons, e.g. see Option
-  public readonly initialU8aLength = 0;
-
   constructor (registry: Registry) {
-    this.registry = registry;
+    this.#registry = registry;
+  }
+
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
+  public get encodedLength (): number {
+    return 0;
   }
 
   /**
@@ -32,6 +32,27 @@ export class Null implements Codec {
    */
   public get hash (): IU8a {
     throw new Error('.hash is not implemented on Null');
+  }
+
+  /**
+   * @description Checks if the value is an empty value
+   */
+  public get isEmpty (): boolean {
+    return true;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return 0;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**

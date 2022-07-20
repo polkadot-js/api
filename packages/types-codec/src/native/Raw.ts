@@ -18,9 +18,9 @@ import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@
 export class Raw extends Uint8Array implements IU8a {
   public createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  readonly #initialU8aLength?: number;
 
-  public readonly registry: Registry;
+  readonly #registry: Registry;
 
   /**
    * @description This ensures that operators such as clice, filter, map, etc. return
@@ -33,8 +33,8 @@ export class Raw extends Uint8Array implements IU8a {
   constructor (registry: Registry, value?: AnyU8a, initialU8aLength?: number) {
     super(u8aToU8a(value));
 
-    this.registry = registry;
-    this.initialU8aLength = initialU8aLength;
+    this.#registry = registry;
+    this.#initialU8aLength = initialU8aLength;
   }
 
   /**
@@ -48,7 +48,7 @@ export class Raw extends Uint8Array implements IU8a {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -70,6 +70,20 @@ export class Raw extends Uint8Array implements IU8a {
    */
   public get isUtf8 (): boolean {
     return isUtf8(this);
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**

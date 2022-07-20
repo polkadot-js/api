@@ -193,6 +193,32 @@ describe('Struct', (): void => {
       })
     )(registry, { txt: 'foo', u32: 0x123456 });
 
+    // Struct(2) {
+    //   'txt' => [String (Text): 'foo'] {
+    //     registry: TypeRegistry {},
+    //     initialU8aLength: 0
+    //   },
+    //   'u32' => <BN: 123456>,
+    //   initialU8aLength: 0,
+    //   registry: TypeRegistry {},
+    //   txt: [Getter],
+    //   u32: [Getter]
+    // }
+
+    // Struct(2) [Map] {
+    //   'txt' => [String (Text): 'foo'] {
+    //     registry: TypeRegistry {},
+    //     initialU8aLength: 0
+    //   },
+    //   'u32' => <BN: 123456>,
+    //   initialU8aLength: 0,
+    //   registry: TypeRegistry {},
+    //   txt: [Getter],
+    //   u32: [Getter]
+    // }
+
+    console.log(struct);
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
     expect((struct as any).txt.toString()).toEqual('foo');
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call

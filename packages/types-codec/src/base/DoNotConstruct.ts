@@ -10,14 +10,9 @@ import type { AnyJson, Codec, CodecClass, Inspect, IU8a, Registry } from '../typ
  * An unknown type that fails on construction with the type info
  */
 export class DoNotConstruct implements Codec {
-  public readonly registry: Registry;
-
-  public createdAtHash?: IU8a;
-
   #neverError: Error;
 
-  constructor (registry: Registry, typeName = 'DoNotConstruct') {
-    this.registry = registry;
+  constructor (_: Registry, typeName = 'DoNotConstruct') {
     this.#neverError = new Error(`DoNotConstruct: Cannot construct unknown type ${typeName}`);
 
     throw this.#neverError;
@@ -52,7 +47,14 @@ export class DoNotConstruct implements Codec {
     throw this.#neverError;
   }
 
-  eq (): boolean {
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
+  public get registry (): Registry {
+    throw this.#neverError;
+  }
+
+  public eq (): boolean {
     throw this.#neverError;
   }
 
@@ -60,31 +62,31 @@ export class DoNotConstruct implements Codec {
     throw this.#neverError;
   }
 
-  toHex (): HexString {
+  public toHex (): HexString {
     throw this.#neverError;
   }
 
-  toHuman (): AnyJson {
+  public toHuman (): AnyJson {
     throw this.#neverError;
   }
 
-  toJSON (): AnyJson {
+  public toJSON (): AnyJson {
     throw this.#neverError;
   }
 
-  toPrimitive (): AnyJson {
+  public toPrimitive (): AnyJson {
     throw this.#neverError;
   }
 
-  toRawType (): string {
+  public toRawType (): string {
     throw this.#neverError;
   }
 
-  toString (): string {
+  public toString (): string {
     throw this.#neverError;
   }
 
-  toU8a (): Uint8Array {
+  public toU8a (): Uint8Array {
     throw this.#neverError;
   }
 }

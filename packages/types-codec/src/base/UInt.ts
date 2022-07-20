@@ -27,4 +27,8 @@ export class UInt extends AbstractInt {
       }
     };
   }
+
+  // public get [Symbol.toStringTag] (): string {
+  //   return 'UInt';
+  // }
 }

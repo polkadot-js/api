@@ -19,15 +19,13 @@ interface Options {
  * in some eth_* RPCs
  */
 export class Float extends Number implements IFloat {
-  readonly #bitLength: 32 | 64;
-
   public createdAtHash?: IU8a;
 
-  readonly encodedLength: number;
+  readonly #bitLength: 32 | 64;
 
-  readonly initialU8aLength?: number;
+  readonly #encodedLength: number;
 
-  readonly registry: Registry;
+  readonly #registry: Registry;
 
   constructor (registry: Registry, value?: AnyFloat, { bitLength = 32 }: Options = {}) {
     super(
@@ -39,9 +37,8 @@ export class Float extends Number implements IFloat {
     );
 
     this.#bitLength = bitLength;
-    this.encodedLength = bitLength / 8;
-    this.initialU8aLength = this.encodedLength;
-    this.registry = registry;
+    this.#encodedLength = bitLength / 8;
+    this.#registry = registry;
   }
 
   public static with (bitLength: 32 | 64): CodecClass<Float> {
@@ -53,10 +50,17 @@ export class Float extends Number implements IFloat {
   }
 
   /**
+  * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+  */
+  public get encodedLength (): number {
+    return this.#encodedLength;
+  }
+
+  /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   /**
@@ -64,6 +68,20 @@ export class Float extends Number implements IFloat {
    */
   get isEmpty (): boolean {
     return this.valueOf() === 0;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#encodedLength;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**

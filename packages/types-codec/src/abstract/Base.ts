@@ -11,16 +11,16 @@ import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types
 export abstract class AbstractBase<T extends Codec> implements Codec {
   public createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  #initialU8aLength?: number;
 
-  public readonly registry: Registry;
+  #registry: Registry;
 
   readonly #raw: T;
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
     this.#raw = value;
-    this.initialU8aLength = initialU8aLength;
-    this.registry = registry;
+    this.#initialU8aLength = initialU8aLength;
+    this.#registry = registry;
   }
 
   /**
@@ -34,7 +34,7 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.#registry.hash(this.toU8a());
   }
 
   public get inner (): T {
@@ -46,6 +46,20 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    */
   public get isEmpty (): boolean {
     return this.#raw.isEmpty;
+  }
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  public get initialU8aLength (): number | undefined {
+    return this.#initialU8aLength;
+  }
+
+  /**
+   * @description The registry associated with this object
+   */
+  public get registry (): Registry {
+    return this.#registry;
   }
 
   /**

@@ -31,4 +31,8 @@ export class Int extends AbstractInt {
       }
     };
   }
+
+  // public get [Symbol.toStringTag] (): string {
+  //   return 'Int';
+  // }
 }
