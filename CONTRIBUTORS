@@ -7,7 +7,7 @@
       15	Jeremías Díaz                 	feat(types): add correct tuple type to storage key (#3054)
       11	Ian He                        	HttpProvider support clone() (#3949)
       10	Axel Chalon                   	Make Enum/Tuple constructor use value directly if instance (#1954)
-       6	Nikos Kontakis                	Bump substrate connect to 0.7.8 (#5058)
+       7	Nikos Kontakis                	Bump substrate connect to 0.7.9 (Add CommonJS Support) (#5088)
        5	Chevdor                       	Fix metadata package link (#3458)
        5	Jake Naviasky                 	Fixing approvalFlagsToBools. (#1250)
        4	Alex D                        	Use derive customAccount and customLocks for balance overrides (#3248)
