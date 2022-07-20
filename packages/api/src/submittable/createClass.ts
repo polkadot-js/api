@@ -5,7 +5,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
-import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, IU8a, SignatureOptions } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types';
 import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types';
@@ -70,7 +70,7 @@ function makeSignAndSendOptions (partialOptions?: Partial<SignerOptions> | Callb
   return [options, statusCb];
 }
 
-function makeSignOptions (api: ApiInterfaceRx, partialOptions: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions {
+function makeSignOptions (api: ApiInterfaceRx, partialOptions: Partial<SignerOptions>, extras: { blockHash?: IU8a; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions {
   return objectSpread(
     { blockHash: api.genesisHash, genesisHash: api.genesisHash },
     partialOptions,
