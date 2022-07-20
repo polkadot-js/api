@@ -122,6 +122,13 @@ export abstract class AbstractInt extends BN implements INumber {
   }
 
   /**
+   * @description Checks if the value is an unsigned value
+   */
+  public get isUnsigned (): boolean {
+    return this.#isUnsigned;
+  }
+
+  /**
    * @description The registry associated with this object
    */
   public get registry (): Registry {
