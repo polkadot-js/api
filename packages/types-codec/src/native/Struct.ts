@@ -136,14 +136,13 @@ export class Struct<
     const setDefinition = (d: Definition) =>
       definition = d;
 
-    const keys = Object.keys(Types);
-
-    const getKey = (k: string, _: number, self: Struct) =>
-      self.get(k);
-
     return class extends Struct<S> {
       static {
-        objectProperties(this.prototype, keys, getKey);
+        const keys = Object.keys(Types);
+
+        objectProperties(this.prototype, keys, (k: string, _: number, self: Struct) =>
+          self.get(k)
+        );
       }
 
       constructor (registry: Registry, value?: unknown) {

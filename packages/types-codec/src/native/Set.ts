@@ -109,19 +109,18 @@ export class CodecSet extends Set<string> implements ISet<string> {
   }
 
   public static with (values: SetValues, bitLength?: number): CodecClass<CodecSet> {
-    const keys = Object.keys(values);
-    const isKeys = new Array<string>(keys.length);
-
-    for (let i = 0; i < keys.length; i++) {
-      isKeys[i] = `is${stringPascalCase(keys[i])}`;
-    }
-
-    const getIs = (_: string, i: number, self: CodecSet) =>
-      self.strings.includes(keys[i]);
-
     return class extends CodecSet {
       static {
-        objectProperties(this.prototype, isKeys, getIs);
+        const keys = Object.keys(values);
+        const isKeys = new Array<string>(keys.length);
+
+        for (let i = 0; i < keys.length; i++) {
+          isKeys[i] = `is${stringPascalCase(keys[i])}`;
+        }
+
+        objectProperties(this.prototype, isKeys, (_: string, i: number, self: CodecSet) =>
+          self.strings.includes(keys[i])
+        );
       }
 
       constructor (registry: Registry, value?: string[] | Set<string> | Uint8Array | BN | number | string) {

@@ -229,34 +229,32 @@ export class Enum implements IEnum {
     const setDefinition = (d: Definition) =>
       definition = d;
 
-    const keys = Array.isArray(Types)
-      ? Types
-      : Object.keys(Types);
-    const asKeys = new Array<string>(keys.length);
-    const isKeys = new Array<string>(keys.length);
-
-    for (let i = 0; i < keys.length; i++) {
-      const name = stringPascalCase(keys[i]);
-
-      asKeys[i] = `as${name}`;
-      isKeys[i] = `is${name}`;
-    }
-
-    const getIs = (_: string, i: number, self: Enum) =>
-      self.type === keys[i];
-
-    const getAs = (k: string, i: number, self: Enum): Codec => {
-      if (self.type !== keys[i]) {
-        throw new Error(`Cannot convert '${self.type}' via ${k}`);
-      }
-
-      return self.value;
-    };
-
     return class extends Enum {
       static {
-        objectProperties(this.prototype, isKeys, getIs);
-        objectProperties(this.prototype, asKeys, getAs);
+        const keys = Array.isArray(Types)
+          ? Types
+          : Object.keys(Types);
+        const asKeys = new Array<string>(keys.length);
+        const isKeys = new Array<string>(keys.length);
+
+        for (let i = 0; i < keys.length; i++) {
+          const name = stringPascalCase(keys[i]);
+
+          asKeys[i] = `as${name}`;
+          isKeys[i] = `is${name}`;
+        }
+
+        objectProperties(this.prototype, isKeys, (_: string, i: number, self: Enum) =>
+          self.type === keys[i]
+        );
+
+        objectProperties(this.prototype, asKeys, (k: string, i: number, self: Enum): Codec => {
+          if (self.type !== keys[i]) {
+            throw new Error(`Cannot convert '${self.type}' via ${k}`);
+          }
+
+          return self.value;
+        });
       }
 
       constructor (registry: Registry, value?: unknown, index?: number) {
