@@ -17,12 +17,6 @@ interface Options {
   setDefinition?: (d: Definition) => Definition;
 }
 
-function injectKeys (that: Struct, keys: string[]): void {
-  objectProperties(that, keys, (k) =>
-    that.get(k)
-  );
-}
-
 function noopSetDefinition (d: Definition): Definition {
   return d;
 }
@@ -144,15 +138,14 @@ export class Struct<
     const setDefinition = (d: Definition) =>
       definition = d;
 
-    return class extends Struct<S> {
-      // static {
-      //   injectKeys(this.prototype, keys);
-      // }
+    const getKey = (k: string, _: number, self: Struct) =>
+      self.get(k);
 
+    return class extends Struct<S> {
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap, { definition, setDefinition });
 
-        injectKeys(this, keys);
+        objectProperties(this, keys, getKey);
       }
     };
   }

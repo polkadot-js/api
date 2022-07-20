@@ -118,10 +118,6 @@ describe('Enum', (): void => {
     it('has correct isXyz/asXyz (Enum.with)', (): void => {
       const test = new (Enum.with({ First: Text, Second: U32, Third: U32 }))(registry, { Second: 42 }) as any as { isFirst: boolean; isSecond: boolean; asSecond: U32; isThird: boolean; asThird: never };
 
-      // for (const k in test) {
-      //   console.log(k);
-      // }
-
       const asKeys = Object.keys(test).filter((k) => k.startsWith('as'));
       const isKeys = Object.keys(test).filter((k) => k.startsWith('is'));
 

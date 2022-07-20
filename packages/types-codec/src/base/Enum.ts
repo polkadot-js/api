@@ -37,20 +37,6 @@ interface Options {
   setDefinition?: (d: Definition) => Definition;
 }
 
-function injectKeys (that: Enum, keys: string[], isKeys: string[], asKeys: string[]): void {
-  objectProperties(that, isKeys, (_, i) =>
-    that.type === keys[i]
-  );
-
-  objectProperties(that, asKeys, (k, i): Codec => {
-    if (that.type !== keys[i]) {
-      throw new Error(`Cannot convert '${that.type}' via ${k}`);
-    }
-
-    return that.value;
-  });
-}
-
 function noopSetDefinition (d: Definition): Definition {
   return d;
 }
@@ -256,15 +242,23 @@ export class Enum implements IEnum {
     const setDefinition = (d: Definition) =>
       definition = d;
 
-    return class extends Enum {
-      // static {
-      //   injectKeys(this.prototype, keys, isKeys, asKeys);
-      // }
+    const getIs = (_: string, i: number, self: Enum) =>
+      self.type === keys[i];
 
+    const getAs = (k: string, i: number, self: Enum): Codec => {
+      if (self.type !== keys[i]) {
+        throw new Error(`Cannot convert '${self.type}' via ${k}`);
+      }
+
+      return self.value;
+    };
+
+    return class extends Enum {
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index, { definition, setDefinition });
 
-        injectKeys(this, keys, isKeys, asKeys);
+        objectProperties(this, isKeys, getIs);
+        objectProperties(this, asKeys, getAs);
       }
     };
   }
