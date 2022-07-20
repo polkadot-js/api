@@ -120,10 +120,12 @@ export class CodecSet extends Set<string> implements ISet<string> {
       self.strings.includes(keys[i]);
 
     return class extends CodecSet {
+      static {
+        objectProperties(this.prototype, isKeys, getIs);
+      }
+
       constructor (registry: Registry, value?: string[] | Set<string> | Uint8Array | BN | number | string) {
         super(registry, values, value, bitLength);
-
-        objectProperties(this, isKeys, getIs);
       }
     };
   }

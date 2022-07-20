@@ -130,22 +130,24 @@ export class Struct<
   }
 
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
-    const keys = Object.keys(Types);
-
     let definition: Definition | undefined;
 
     // eslint-disable-next-line no-return-assign
     const setDefinition = (d: Definition) =>
       definition = d;
 
+    const keys = Object.keys(Types);
+
     const getKey = (k: string, _: number, self: Struct) =>
       self.get(k);
 
     return class extends Struct<S> {
+      static {
+        objectProperties(this.prototype, keys, getKey);
+      }
+
       constructor (registry: Registry, value?: unknown) {
         super(registry, Types, value as HexString, jsonMap, { definition, setDefinition });
-
-        objectProperties(this, keys, getKey);
       }
     };
   }
@@ -211,13 +213,13 @@ export class Struct<
     return compareMap(this, other);
   }
 
-  // /**
-  //  * @description Returns a specific names entry in the structure
-  //  * @param key The name of the entry to retrieve
-  //  */
-  // public override get (key: keyof S): Codec | undefined {
-  //   return super.get(key);
-  // }
+  /**
+   * @description Returns a specific names entry in the structure
+   * @param key The name of the entry to retrieve
+   */
+  public override get (key: keyof S): Codec | undefined {
+    return super.get(key);
+  }
 
   /**
    * @description Returns the values of a member at a specific index (Rather use get(name) for performance)

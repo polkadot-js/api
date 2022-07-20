@@ -223,6 +223,12 @@ export class Enum implements IEnum {
   }
 
   public static with (Types: Record<string, string | CodecClass> | Record<string, number> | string[]): EnumCodecClass<Enum> {
+    let definition: Definition | undefined;
+
+    // eslint-disable-next-line no-return-assign
+    const setDefinition = (d: Definition) =>
+      definition = d;
+
     const keys = Array.isArray(Types)
       ? Types
       : Object.keys(Types);
@@ -236,12 +242,6 @@ export class Enum implements IEnum {
       isKeys[i] = `is${name}`;
     }
 
-    let definition: Definition | undefined;
-
-    // eslint-disable-next-line no-return-assign
-    const setDefinition = (d: Definition) =>
-      definition = d;
-
     const getIs = (_: string, i: number, self: Enum) =>
       self.type === keys[i];
 
@@ -254,11 +254,13 @@ export class Enum implements IEnum {
     };
 
     return class extends Enum {
+      static {
+        objectProperties(this.prototype, isKeys, getIs);
+        objectProperties(this.prototype, asKeys, getAs);
+      }
+
       constructor (registry: Registry, value?: unknown, index?: number) {
         super(registry, Types, value, index, { definition, setDefinition });
-
-        objectProperties(this, isKeys, getIs);
-        objectProperties(this, asKeys, getAs);
       }
     };
   }
