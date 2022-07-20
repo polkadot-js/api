@@ -244,12 +244,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    */
   public override get hash (): CodecHash {
     if (!this.#hashCache) {
-      // Required for the Deno codepath - for some reason...
-      const hash = super.hash;
-
-      this.#hashCache = super.hash;
-
-      return hash;
+      this.#hashCache = super.hash as CodecHash;
     }
 
     return this.#hashCache;
