@@ -5,6 +5,7 @@ import type { AnyJson, Registry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletCallMetadataLatest } from '../../interfaces/metadata';
 
 import { Option, Text, u8 } from '@polkadot/types-codec';
+import { objectSpread } from '@polkadot/util';
 
 interface ModuleMetadataTrimmed {
   calls: Option<PalletCallMetadataLatest>;
@@ -29,10 +30,7 @@ export function toCallsOnly (registry: Registry, { extrinsic, lookup, pallets }:
       types: lookup.types.map(({ id, type }) =>
         registry.createTypeUnsafe('PortableType', [{
           id,
-          type: {
-            ...type,
-            docs: trimDocs(type.docs)
-          }
+          type: objectSpread({}, type, { docs: trimDocs(type.docs) })
         }])
       )
     },
