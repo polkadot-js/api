@@ -8,6 +8,8 @@ import type { Active, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispat
 
 import { map, of } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { memo } from '../util';
 import { didUpdateToBool } from './util';
 
@@ -65,7 +67,7 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
     didUpdate: didUpdateToBool(didUpdate, id),
     heads,
     id,
-    info: { id, ...info.unwrap() } as DeriveParachainInfo,
+    info: objectSpread<DeriveParachainInfo>({ id }, info.unwrap()),
     pendingSwapId: pendingSwap.unwrapOr(null),
     relayDispatchQueue,
     retryCollators: parseCollators(id, retryQueue),

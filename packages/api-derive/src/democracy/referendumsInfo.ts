@@ -10,7 +10,7 @@ import type { DeriveApi, DeriveBalancesAccount, DeriveReferendum, DeriveReferend
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { isFunction } from '@polkadot/util';
+import { isFunction, objectSpread } from '@polkadot/util';
 
 import { memo } from '../util';
 import { calcVotes, getStatus } from './util';
@@ -57,11 +57,12 @@ function extractVotes (mapped: [AccountId, PalletDemocracyVoteVoting][], referen
       // FIXME We are ignoring split votes
       votes.reduce((result: DeriveReferendumVote[], [, vote]): DeriveReferendumVote[] => {
         if (vote.isStandard) {
-          result.push({
-            accountId,
-            isDelegating: false,
-            ...vote.asStandard
-          });
+          result.push(
+            objectSpread({
+              accountId,
+              isDelegating: false
+            }, vote.asStandard)
+          );
         }
 
         return result;
