@@ -157,7 +157,7 @@ export function account (instanceId: string, api: DeriveApi): (address: AccountI
         (accountId
           ? combineLatest([
             of(accountId),
-            balanceInstances
+            balanceInstances && (balanceInstances.length !== 1 || balanceInstances[0] !== 'balances')
               ? queryBalancesAccount(api, accountId, balanceInstances)
               : isFunction(api.query.system?.account)
                 ? querySystemAccount(api, accountId)
