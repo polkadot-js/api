@@ -945,6 +945,10 @@ declare module '@polkadot/api-base/types/errors' {
       MetadataExceedsMaxLen: AugmentedError<ApiType>;
       /**
        * The amount does not meet the minimum bond to either join or create a pool.
+       * 
+       * The depositor can never unbond to a value less than
+       * `Pallet::depositor_min_bond`. The caller does not have nominating
+       * permissions for the pool. Members can never unbond to a value below `MinJoinBond`.
        **/
       MinimumBondNotMet: AugmentedError<ApiType>;
       /**
@@ -953,10 +957,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotDestroying: AugmentedError<ApiType>;
       /**
-       * Not enough points. Ty unbonding less.
-       **/
-      NotEnoughPointsToUnbond: AugmentedError<ApiType>;
-      /**
        * Either a) the caller cannot make a valid kick or b) the pool is not destroying.
        **/
       NotKickerOrDestroying: AugmentedError<ApiType>;
@@ -964,11 +964,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The caller does not have nominating permissions for the pool.
        **/
       NotNominator: AugmentedError<ApiType>;
-      /**
-       * The depositor must be the only member in the bonded pool in order to unbond. And the
-       * depositor must be the only member in the sub pools in order to withdraw unbonded.
-       **/
-      NotOnlyPoolMember: AugmentedError<ApiType>;
       /**
        * The pool is not open to join
        **/
