@@ -38,5 +38,40 @@ export const runtime: DefinitionsCall = {
       },
       version: 1
     }
+  ],
+  TransactionPaymentCallApi: [
+    {
+      methods: {
+        query_call_fee_details: {
+          description: 'The call fee details',
+          params: [
+            {
+              name: 'call',
+              type: 'Call'
+            },
+            {
+              name: 'len',
+              type: 'u32'
+            }
+          ],
+          type: 'FeeDetails'
+        },
+        query_call_info: {
+          description: 'The call info',
+          params: [
+            {
+              name: 'call',
+              type: 'Call'
+            },
+            {
+              name: 'len',
+              type: 'u32'
+            }
+          ],
+          type: 'RuntimeDispatchInfo'
+        }
+      },
+      version: 1
+    }
   ]
 };
