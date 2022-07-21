@@ -2,10 +2,17 @@
 
 ## master
 
+Contributed:
+
+- Update `@substrate/connect` with dual ESM/CJS support (Thanks to https://github.com/wirednkod)
+
 Changes:
 
 - `{BTree|Hash}Map.toHuman()` now display `Raw` keys as ascii (if detected)
 - Add `toPrimitive()` to all base `Codec` interfaces (string/boolean/number)
+- Adjust metadata conversion with `objectSpread` (where missing)
+- Support for `TransactionPaymentCallApi` runtime interface
+- Update to `@polkadot/util` 10.1.1
 
 
 ## 8.13.1 Jul 16, 2022
