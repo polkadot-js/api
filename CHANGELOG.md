@@ -13,6 +13,7 @@ Changes:
 - Adjust metadata conversion with `objectSpread` (where missing)
 - Support for `TransactionPaymentCallApi` runtime interface
 - Update to `@polkadot/util` 10.1.1
+- Update to latest Kusama metadata (Substrate & Polkadot are current)
 
 
 ## 8.13.1 Jul 16, 2022

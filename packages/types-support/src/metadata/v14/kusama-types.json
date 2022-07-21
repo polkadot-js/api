@@ -41967,7 +41967,11 @@
               "fields": [],
               "index": 8,
               "docs": [
-                "The amount does not meet the minimum bond to either join or create a pool."
+                "The amount does not meet the minimum bond to either join or create a pool.",
+                "",
+                "The depositor can never unbond to a value less than",
+                "`Pallet::depositor_min_bond`. The caller does not have nominating",
+                "permissions for the pool. Members can never unbond to a value below `MinJoinBond`."
               ]
             },
             {
@@ -41988,18 +41992,9 @@
               ]
             },
             {
-              "name": "NotOnlyPoolMember",
-              "fields": [],
-              "index": 11,
-              "docs": [
-                "The depositor must be the only member in the bonded pool in order to unbond. And the",
-                "depositor must be the only member in the sub pools in order to withdraw unbonded."
-              ]
-            },
-            {
               "name": "NotNominator",
               "fields": [],
-              "index": 12,
+              "index": 11,
               "docs": [
                 "The caller does not have nominating permissions for the pool."
               ]
@@ -42007,7 +42002,7 @@
             {
               "name": "NotKickerOrDestroying",
               "fields": [],
-              "index": 13,
+              "index": 12,
               "docs": [
                 "Either a) the caller cannot make a valid kick or b) the pool is not destroying."
               ]
@@ -42015,7 +42010,7 @@
             {
               "name": "NotOpen",
               "fields": [],
-              "index": 14,
+              "index": 13,
               "docs": [
                 "The pool is not open to join"
               ]
@@ -42023,7 +42018,7 @@
             {
               "name": "MaxPools",
               "fields": [],
-              "index": 15,
+              "index": 14,
               "docs": [
                 "The system is maxed out on pools."
               ]
@@ -42031,7 +42026,7 @@
             {
               "name": "MaxPoolMembers",
               "fields": [],
-              "index": 16,
+              "index": 15,
               "docs": [
                 "Too many members in the pool or system."
               ]
@@ -42039,7 +42034,7 @@
             {
               "name": "CanNotChangeState",
               "fields": [],
-              "index": 17,
+              "index": 16,
               "docs": [
                 "The pools state cannot be changed."
               ]
@@ -42047,7 +42042,7 @@
             {
               "name": "DoesNotHavePermission",
               "fields": [],
-              "index": 18,
+              "index": 17,
               "docs": [
                 "The caller does not have adequate permissions."
               ]
@@ -42055,7 +42050,7 @@
             {
               "name": "MetadataExceedsMaxLen",
               "fields": [],
-              "index": 19,
+              "index": 18,
               "docs": [
                 "Metadata exceeds [`Config::MaxMetadataLen`]"
               ]
@@ -42070,24 +42065,16 @@
                   "docs": []
                 }
               ],
-              "index": 20,
+              "index": 19,
               "docs": [
                 "Some error occurred that should never happen. This should be reported to the",
                 "maintainers."
               ]
             },
             {
-              "name": "NotEnoughPointsToUnbond",
-              "fields": [],
-              "index": 21,
-              "docs": [
-                "Not enough points. Ty unbonding less."
-              ]
-            },
-            {
               "name": "PartialUnbondNotAllowedPermissionlessly",
               "fields": [],
-              "index": 22,
+              "index": 20,
               "docs": [
                 "Partial unbonding now allowed permissionlessly."
               ]
