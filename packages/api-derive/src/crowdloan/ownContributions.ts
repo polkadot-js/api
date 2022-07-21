@@ -51,10 +51,9 @@ function _contributions (api: DeriveApi, paraId: string | number | BN, childKey:
     _getValues(api, childKey, keys),
     _watchOwnChanges(api, paraId, childKey, keys)
   ]).pipe(
-    map(([all, latest]) => ({
-      ...all,
-      ...latest
-    }))
+    map(([all, latest]) =>
+      objectSpread({}, all, latest)
+    )
   );
 }
 

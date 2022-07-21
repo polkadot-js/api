@@ -8,6 +8,8 @@ import type { DeriveApi, DeriveSessionInfo, DeriveSessionProgress } from '../typ
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { memo } from '../util';
 
 type ResultSlotsNoSession = [u64, u64, u64];
@@ -28,20 +30,20 @@ function createDerive (api: DeriveApi, info: DeriveSessionInfo, [currentSlot, ep
   const sessionProgress = currentSlot.sub(epochStartSlot);
   const eraProgress = info.currentIndex.sub(activeEraStartSessionIndex).imul(info.sessionLength).iadd(sessionProgress);
 
-  return {
-    ...info,
+  return objectSpread({}, info, {
     eraProgress: api.registry.createType('BlockNumber', eraProgress),
     sessionProgress: api.registry.createType('BlockNumber', sessionProgress)
-  };
+  });
 }
 
 function queryAura (api: DeriveApi): Observable<DeriveSessionProgress> {
   return api.derive.session.info().pipe(
-    map((info): DeriveSessionProgress => ({
-      ...info,
-      eraProgress: api.registry.createType('BlockNumber'),
-      sessionProgress: api.registry.createType('BlockNumber')
-    }))
+    map((info): DeriveSessionProgress =>
+      objectSpread({}, info, {
+        eraProgress: api.registry.createType('BlockNumber'),
+        sessionProgress: api.registry.createType('BlockNumber')
+      })
+    )
   );
 }
 

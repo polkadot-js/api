@@ -9,7 +9,7 @@ import type { StakingQueryFlags } from './types';
 
 import { combineLatest, map, switchMap } from 'rxjs';
 
-import { BN, BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO, objectSpread } from '@polkadot/util';
 
 import { firstMemo, memo } from '../util';
 
@@ -54,12 +54,10 @@ function redeemableSum (api: DeriveApi, stakingLedger: PalletStakingStakingLedge
 }
 
 function parseResult (api: DeriveApi, sessionInfo: DeriveSessionInfo, keys: DeriveStakingKeys, query: DeriveStakingQuery): DeriveStakingAccount {
-  return {
-    ...keys,
-    ...query,
+  return objectSpread({}, keys, query, {
     redeemable: redeemableSum(api, query.stakingLedger, sessionInfo),
     unlocking: calculateUnlocking(api, query.stakingLedger, sessionInfo)
-  };
+  });
 }
 
 /**

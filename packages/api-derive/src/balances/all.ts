@@ -9,7 +9,7 @@ import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData, Deriv
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { BN, BN_ZERO, bnMax, bnMin, isFunction } from '@polkadot/util';
+import { BN, BN_ZERO, bnMax, bnMin, isFunction, objectSpread } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -57,13 +57,12 @@ function calcLocked (api: DeriveApi, bestNumber: BlockNumber, locks: (PalletBala
 function calcShared (api: DeriveApi, bestNumber: BlockNumber, data: DeriveBalancesAccountData, locks: (PalletBalancesBalanceLock | BalanceLockTo212)[]): DeriveBalancesAllAccountData {
   const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
 
-  return {
-    ...data,
+  return objectSpread({}, data, {
     availableBalance: api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), data.freeBalance.sub(lockedBalance))),
     lockedBalance,
     lockedBreakdown,
     vestingLocked
-  };
+  });
 }
 
 function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountData, _vesting: PalletVestingVestingInfo[] | null): DeriveBalancesAllVesting {
@@ -102,16 +101,14 @@ function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountD
 function calcBalances (api: DeriveApi, [data, [vesting, allLocks, namedReserves], bestNumber]: Result): DeriveBalancesAll {
   const shared = calcShared(api, bestNumber, data, allLocks[0]);
 
-  return {
-    ...shared,
-    ...calcVesting(bestNumber, shared, vesting),
+  return objectSpread({}, shared, calcVesting(bestNumber, shared, vesting), {
     accountId: data.accountId,
     accountNonce: data.accountNonce,
     additional: allLocks
       .filter((_, index) => index !== 0)
       .map((l, index) => calcShared(api, bestNumber, data.additional[index], l)),
     namedReserves
-  };
+  });
 }
 
 // old
