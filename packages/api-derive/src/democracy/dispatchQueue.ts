@@ -107,9 +107,7 @@ function queryScheduler (api: DeriveApi): Observable<DeriveDispatch[]> {
       ]);
     }),
     map(([infos, images]): DeriveDispatch[] =>
-      infos.map((info, index) =>
-        objectSpread({ image: images[index] }, info)
-      )
+      infos.map((info, index) => objectSpread({ image: images[index] }, info))
     )
   );
 }
