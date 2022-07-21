@@ -33,6 +33,116 @@ describe('Struct', (): void => {
     testDecode('hex', '0x1c62617a7a696e6745000000');
     testDecode('object', { foo: 'bazzing', bar: 69 });
     testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
+
+    it('decodes null/undefined/empty correctly (& equivalent)', (): void => {
+      const Clazz = Struct.with({
+        txt: Text,
+        u32: U32
+      });
+      const expected = { txt: '', u32: '0' };
+
+      expect(new Clazz(registry, {}).toHuman()).toEqual(expected);
+      expect(new Clazz(registry, null).toHuman()).toEqual(expected);
+      expect(new Clazz(registry, undefined).toHuman()).toEqual(expected);
+    });
+
+    it('decodes with Optionals', (): void => {
+      const Clazz = Struct.with({
+        a: 'Option<Bool>',
+        b: 'Option<Bool>'
+      });
+
+      const c = new Clazz(registry, { a: false }) as unknown as { a: Option<Bool>, b: Option<Bool> };
+
+      expect(c.a.isSome).toEqual(true);
+      expect(c.a.unwrap().isTrue).toEqual(false);
+      expect(c.b.isSome).toEqual(false);
+    });
+
+    it('decodes reusing instantiated inputs', (): void => {
+      const foo = new Text(registry, 'bar');
+
+      expect(
+        (new Struct(
+          registry,
+          { foo: Text },
+          { foo }
+        )).get('foo')
+      ).toBe(foo);
+    });
+
+    it('decodes a more complicated type', (): void => {
+      const s = new Struct(registry, {
+        foo: Vec.with(Struct.with({
+          bar: Text
+        }))
+      }, { foo: [{ bar: 1 }, { bar: 2 }] });
+
+      expect(s.toString()).toBe('{"foo":[{"bar":"1"},{"bar":"2"}]}');
+    });
+
+    it('decodes a previously problematic input', (): void => {
+      let data;
+
+      try {
+        data = new Struct(registry, {
+          a: 'u32',
+          b: 'H256',
+          c: 'H256',
+          swap: Enum.with({
+            A: 'u256',
+            B: 'u256'
+          }),
+          d: Vec.with('u8'),
+          e: 'u8'
+        }, TEST_A);
+      } catch (error) {
+        console.error(error);
+
+        throw error;
+      }
+
+      expect(data.get('d')).toHaveLength(50000);
+    });
+
+    it('decodes from a Map input', (): void => {
+      const s = new Struct(registry, {
+        txt: Text,
+        foo: U32,
+        bar: U32
+      }, new Map<string, unknown>([['a', 42], ['txt', 'fubar']]));
+
+      expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
+    });
+
+    it('decodes from a snake_case input', (): void => {
+      const input = new Struct(registry, {
+        snakeCaseA: U32,
+        snakeCaseB: Text,
+        other: U32
+      }, { snake_case_a: 42, snake_case_b: 'fubar', other: 69 } as any);
+
+      expect(input.toString()).toEqual('{"snakeCaseA":42,"snakeCaseB":"fubar","other":69}');
+    });
+
+    it('throws when it cannot decode', (): void => {
+      expect(
+        (): Struct<any> => new (
+          Struct.with({
+            txt: Text,
+            u32: U32
+          })
+        )(registry, 'ABC')
+      ).toThrowError(/Cannot decode value/);
+    });
+
+    it('throws a sensical error on incorrect array values passed to structs', (): void => {
+      expect(
+        () => new Struct(registry, {
+          _: 'Vec<u32>'
+        }, [123, 456])
+      ).toThrow(/array to object with known keys/);
+    });
   });
 
   describe('encoding', (): void => {
@@ -50,116 +160,6 @@ describe('Struct', (): void => {
     testEncode('toJSON', { foo: 'bazzing', bar: 69 });
     testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
     testEncode('toString', '{"foo":"bazzing","bar":69}');
-  });
-
-  it('decodes null/undefined/empty correctly (& equivalently)', (): void => {
-    const Clazz = Struct.with({
-      txt: Text,
-      u32: U32
-    });
-    const expected = { txt: '', u32: '0' };
-
-    expect(new Clazz(registry, {}).toHuman()).toEqual(expected);
-    expect(new Clazz(registry, null).toHuman()).toEqual(expected);
-    expect(new Clazz(registry, undefined).toHuman()).toEqual(expected);
-  });
-
-  it('decodes with Optionals', (): void => {
-    const Clazz = Struct.with({
-      a: 'Option<Bool>',
-      b: 'Option<Bool>'
-    });
-
-    const c = new Clazz(registry, { a: false }) as unknown as { a: Option<Bool>, b: Option<Bool> };
-
-    expect(c.a.isSome).toEqual(true);
-    expect(c.a.unwrap().isTrue).toEqual(false);
-    expect(c.b.isSome).toEqual(false);
-  });
-
-  it('decodes reusing instantiated inputs', (): void => {
-    const foo = new Text(registry, 'bar');
-
-    expect(
-      (new Struct(
-        registry,
-        { foo: Text },
-        { foo }
-      )).get('foo')
-    ).toBe(foo);
-  });
-
-  it('decodes a more complicated type', (): void => {
-    const s = new Struct(registry, {
-      foo: Vec.with(Struct.with({
-        bar: Text
-      }))
-    }, { foo: [{ bar: 1 }, { bar: 2 }] });
-
-    expect(s.toString()).toBe('{"foo":[{"bar":"1"},{"bar":"2"}]}');
-  });
-
-  it('decodes a previously problematic input', (): void => {
-    let data;
-
-    try {
-      data = new Struct(registry, {
-        a: 'u32',
-        b: 'H256',
-        c: 'H256',
-        swap: Enum.with({
-          A: 'u256',
-          B: 'u256'
-        }),
-        d: Vec.with('u8'),
-        e: 'u8'
-      }, TEST_A);
-    } catch (error) {
-      console.error(error);
-
-      throw error;
-    }
-
-    expect(data.get('d')).toHaveLength(50000);
-  });
-
-  it('decodes from a Map input', (): void => {
-    const s = new Struct(registry, {
-      txt: Text,
-      foo: U32,
-      bar: U32
-    }, new Map<string, unknown>([['a', 42], ['txt', 'fubar']]));
-
-    expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
-  });
-
-  it('decodes from a snake_case input', (): void => {
-    const input = new Struct(registry, {
-      snakeCaseA: U32,
-      snakeCaseB: Text,
-      other: U32
-    }, { snake_case_a: 42, snake_case_b: 'fubar', other: 69 } as any);
-
-    expect(input.toString()).toEqual('{"snakeCaseA":42,"snakeCaseB":"fubar","other":69}');
-  });
-
-  it('throws when it cannot decode', (): void => {
-    expect(
-      (): Struct<any> => new (
-        Struct.with({
-          txt: Text,
-          u32: U32
-        })
-      )(registry, 'ABC')
-    ).toThrowError(/Cannot decode value/);
-  });
-
-  it('throws a sensical error on incorrect array values passed to structs', (): void => {
-    expect(
-      () => new Struct(registry, {
-        _: 'Vec<u32>'
-      }, [123, 456])
-    ).toThrow(/array to object with known keys/);
   });
 
   it('provides a clean toString()', (): void => {
@@ -257,6 +257,83 @@ describe('Struct', (): void => {
         }, test).eq(test)
       ).toBe(true);
     });
+
+    it('has a sane toPrimitive', (): void => {
+      const S = Struct.with({
+        name: 'Text',
+        description: 'Vec<Text>',
+        fooA: 'Bytes',
+        fooB: 'Bytes',
+        fooC: Struct.with({
+          a: 'u32',
+          b: 'u128',
+          c: 'Compact<u128>',
+          d: 'bool'
+        })
+      });
+
+      expect(
+        new S(registry, {
+          name: 'Something',
+          description: ['One line', 'Another line'],
+          fooA: 'hello world!',
+          fooB: '0x123456',
+          fooC: {
+            a: 1234,
+            b: BigInt('1234567890111213141516'),
+            c: 123456,
+            d: true
+          }
+        }).toPrimitive()
+      ).toEqual({
+        name: 'Something',
+        description: ['One line', 'Another line'],
+        fooA: 'hello world!',
+        fooB: '0x123456',
+        fooC: {
+          a: 1234,
+          b: '1234567890111213141516',
+          c: 123456,
+          d: true
+        }
+      });
+    });
+
+    it('generates sane toRawType', (): void => {
+      expect(
+        new Struct(registry, {
+          accountId: 'AccountId',
+          balanceCompact: registry.createClass('Compact<Balance>'),
+          blockNumber: registry.createClass('BlockNumber'),
+          compactNumber: registry.createClass('Compact<BlockNumber>'),
+          optionNumber: registry.createClass('Option<BlockNumber>'),
+          counter: U32,
+          vector: Vec.with('AccountId')
+        }).toRawType()
+      ).toEqual(JSON.stringify({
+        accountId: 'AccountId',
+        balanceCompact: 'Compact<Balance>', // Override in Uint
+        blockNumber: 'BlockNumber',
+        compactNumber: 'Compact<BlockNumber>',
+        optionNumber: 'Option<BlockNumber>',
+        counter: 'u32',
+        vector: 'Vec<AccountId>'
+      }));
+    });
+
+    it('generates sane toRawType (via with)', (): void => {
+      const Type = Struct.with({
+        accountId: 'AccountId',
+        balance: registry.createClass('Balance')
+      });
+
+      expect(
+        new Type(registry).toRawType()
+      ).toEqual(JSON.stringify({
+        accountId: 'AccountId',
+        balance: 'Balance' // Override in Uint
+      }));
+    });
   });
 
   it('allows toString with large numbers', (): void => {
@@ -266,42 +343,6 @@ describe('Struct', (): void => {
         blockNumber: registry.createClass('Option<BlockNumber>')
       }, { blockNumber: '0x0000000010abcdef' }).toString()
     ).toEqual('{"blockNumber":279694831}');
-  });
-
-  it('generates sane toRawType', (): void => {
-    expect(
-      new Struct(registry, {
-        accountId: 'AccountId',
-        balanceCompact: registry.createClass('Compact<Balance>'),
-        blockNumber: registry.createClass('BlockNumber'),
-        compactNumber: registry.createClass('Compact<BlockNumber>'),
-        optionNumber: registry.createClass('Option<BlockNumber>'),
-        counter: U32,
-        vector: Vec.with('AccountId')
-      }).toRawType()
-    ).toEqual(JSON.stringify({
-      accountId: 'AccountId',
-      balanceCompact: 'Compact<Balance>', // Override in Uint
-      blockNumber: 'BlockNumber',
-      compactNumber: 'Compact<BlockNumber>',
-      optionNumber: 'Option<BlockNumber>',
-      counter: 'u32',
-      vector: 'Vec<AccountId>'
-    }));
-  });
-
-  it('generates sane toRawType (via with)', (): void => {
-    const Type = Struct.with({
-      accountId: 'AccountId',
-      balance: registry.createClass('Balance')
-    });
-
-    expect(
-      new Type(registry).toRawType()
-    ).toEqual(JSON.stringify({
-      accountId: 'AccountId',
-      balance: 'Balance' // Override in Uint
-    }));
   });
 
   describe('toU8a', (): void => {
