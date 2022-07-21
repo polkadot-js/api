@@ -21,20 +21,17 @@ function orderBags (ids: BN[], bags: Option<PalletBagsListListBag>[]): Bag[] {
       id,
       key: id.toString()
     }))
-    .sort((a, b) => b.id.cmp(a.id))
-    .map((base, index): Bag =>
-      objectSpread({
-        bagLower: BN_ZERO,
-        bagUpper: base.id,
-        index
-      }, base)
-    );
+    .sort((a, b) => b.id.cmp(a.id));
   const max = sorted.length - 1;
 
-  return sorted.map((entry, index) =>
-    index === max
-      ? entry
-      : objectSpread({}, entry, { bagLower: sorted[index + 1].bagUpper })
+  return sorted.map((entry, index): Bag =>
+    objectSpread(entry, {
+      bagLower: index === max
+        ? BN_ZERO
+        : sorted[index + 1].id,
+      bagUpper: entry.id,
+      index
+    })
   );
 }
 
