@@ -8,7 +8,6 @@ import type { BN } from '@polkadot/util';
 import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericSignerPayload } from '../extrinsic';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { GenericCall } from '../generic';
-import type { MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
 import type { HeaderPartial } from '../interfaces/runtime';
 import type { RuntimeVersionPartial } from '../interfaces/state';
 import type { Metadata, PortableRegistry } from '../metadata';
@@ -31,7 +30,7 @@ export interface InterfaceTypes {
   // primitive
   Data: Data, StorageKey: StorageKey,
   // metadata
-  Metadata: Metadata, MetadataV9: MetadataV9, MetadataV10: MetadataV10, MetadataV11: MetadataV11, MetadataV12: MetadataV12, MetadataV13: MetadataV13, MetadataV14: MetadataV14, PortableRegistry: PortableRegistry,
+  Metadata: Metadata, PortableRegistry: PortableRegistry,
   // interfaces
   HeaderPartial: HeaderPartial, RuntimeVersionPartial: RuntimeVersionPartial
 }

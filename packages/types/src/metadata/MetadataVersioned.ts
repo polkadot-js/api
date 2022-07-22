@@ -4,7 +4,7 @@
 import type { AnyJson } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
-import type { InterfaceTypes, Registry } from '../types';
+import type { Registry } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
 
@@ -24,7 +24,7 @@ const LATEST_VERSION = KNOWN_VERSIONS[0];
 
 type MetaAll = typeof KNOWN_VERSIONS[number];
 type MetaAsX = `asV${MetaAll}`;
-type MetaMapped = InterfaceTypes[`MetadataV${MetaAll}`];
+type MetaMapped = MetadataAll[MetaAsX];
 type MetaVersions = MetaAll | 'latest';
 
 /**
