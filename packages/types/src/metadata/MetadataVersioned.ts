@@ -22,9 +22,10 @@ import { getUniqTypes, toCallsOnly } from './util';
 const ALL_VERSIONS = <const> [14, 13, 12, 11, 10, 9];
 const LATEST_VERSION = ALL_VERSIONS[0];
 
-type MetaMapped = InterfaceTypes[`MetadataV${typeof ALL_VERSIONS[number]}`];
-type MetaAsX = `asV${typeof ALL_VERSIONS[number]}`;
-type MetaVersions = typeof ALL_VERSIONS[number] | 'latest';
+type MetaAll = typeof ALL_VERSIONS[number];
+type MetaAsX = `asV${MetaAll}`;
+type MetaMapped = InterfaceTypes[`MetadataV${MetaAll}`];
+type MetaVersions = MetaAll | 'latest';
 
 /**
  * @name MetadataVersioned
