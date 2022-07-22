@@ -23,7 +23,7 @@ interface ArgsEntry <T extends WithArgs> extends NamedEntry {
   args: GetArgsType<T>['args'][0][];
 }
 
-const ARG_TYPES = {
+const ARG_TYPES = <const> {
   ContractConstructorSpec: 'ContractMessageParamSpecV2',
   ContractEventSpec: 'ContractEventParamSpecV2',
   ContractMessageSpec: 'ContractMessageParamSpecV2'
