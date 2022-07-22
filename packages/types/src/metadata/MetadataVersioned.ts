@@ -19,10 +19,10 @@ import { getUniqTypes, toCallsOnly } from './util';
 
 // Use these to generate all the Meta* types below via template keys
 // NOTE: Keep from latest -> earliest, see the LATEST_VERSION 0 index
-const ALL_VERSIONS = <const> [14, 13, 12, 11, 10, 9];
-const LATEST_VERSION = ALL_VERSIONS[0];
+const KNOWN_VERSIONS = <const> [14, 13, 12, 11, 10, 9];
+const LATEST_VERSION = KNOWN_VERSIONS[0];
 
-type MetaAll = typeof ALL_VERSIONS[number];
+type MetaAll = typeof KNOWN_VERSIONS[number];
 type MetaAsX = `asV${MetaAll}`;
 type MetaMapped = InterfaceTypes[`MetadataV${MetaAll}`];
 type MetaVersions = MetaAll | 'latest';
