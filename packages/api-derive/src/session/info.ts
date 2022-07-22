@@ -20,12 +20,12 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
         const sessionLength = api.consts?.babe?.epochDuration || api.registry.createType('u64', 1);
         const sessionsPerEra = api.consts?.staking?.sessionsPerEra || api.registry.createType('SessionIndex', 1);
 
-        return objectSpread({}, indexes, {
+        return objectSpread({
           eraLength: api.registry.createType('BlockNumber', sessionsPerEra.mul(sessionLength)),
           isEpoch: !!api.query.babe,
           sessionLength,
           sessionsPerEra
-        });
+        }, indexes);
       })
     )
   );

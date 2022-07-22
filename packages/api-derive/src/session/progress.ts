@@ -30,19 +30,19 @@ function createDerive (api: DeriveApi, info: DeriveSessionInfo, [currentSlot, ep
   const sessionProgress = currentSlot.sub(epochStartSlot);
   const eraProgress = info.currentIndex.sub(activeEraStartSessionIndex).imul(info.sessionLength).iadd(sessionProgress);
 
-  return objectSpread({}, info, {
+  return objectSpread({
     eraProgress: api.registry.createType('BlockNumber', eraProgress),
     sessionProgress: api.registry.createType('BlockNumber', sessionProgress)
-  });
+  }, info);
 }
 
 function queryAura (api: DeriveApi): Observable<DeriveSessionProgress> {
   return api.derive.session.info().pipe(
     map((info): DeriveSessionProgress =>
-      objectSpread({}, info, {
+      objectSpread({
         eraProgress: api.registry.createType('BlockNumber'),
         sessionProgress: api.registry.createType('BlockNumber')
-      })
+      }, info)
     )
   );
 }
