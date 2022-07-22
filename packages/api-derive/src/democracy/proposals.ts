@@ -56,9 +56,11 @@ export function proposals (instanceId: string, api: DeriveApi): () => Observable
             ? combineLatest([
               of(proposals),
               api.derive.democracy.preimages(
-                proposals.map(([, hash]) => hash)),
+                proposals.map(([, hash]) => hash)
+              ),
               api.query.democracy.depositOf.multi(
-                proposals.map(([index]) => index))
+                proposals.map(([index]) => index)
+              )
             ])
             : of<Result>([[], [], []])
         ),
