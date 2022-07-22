@@ -30,20 +30,18 @@ function parseActive (id: ParaId, active: Active): DeriveParachainActive | null 
   if (found && found[1].isSome) {
     const [collatorId, retriable] = found[1].unwrap();
 
-    return {
-      collatorId,
-      ...(
-        retriable.isWithRetries
-          ? {
-            isRetriable: true,
-            retries: retriable.asWithRetries.toNumber()
-          }
-          : {
-            isRetriable: false,
-            retries: 0
-          }
-      )
-    };
+    return objectSpread<DeriveParachainActive>(
+      { collatorId },
+      retriable.isWithRetries
+        ? {
+          isRetriable: true,
+          retries: retriable.asWithRetries.toNumber()
+        }
+        : {
+          isRetriable: false,
+          retries: 0
+        }
+    );
   }
 
   return null;
