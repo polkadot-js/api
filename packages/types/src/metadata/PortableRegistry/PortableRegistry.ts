@@ -34,7 +34,7 @@ interface TypeInfo {
 // Just a placeholder for a type.unrwapOr()
 const TYPE_UNWRAP = { toNumber: () => -1 };
 
-// Alias the primitive enum with out known values
+// Alias the primitive enum with our known values
 const PRIMITIVE_ALIAS: Record<string, string> = {
   Char: 'u32', // Rust char is 4-bytes
   Str: 'Text'

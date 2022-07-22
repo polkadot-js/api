@@ -7,6 +7,8 @@ import type { DeriveApi, DeriveOwnContributions } from '../types';
 
 import { combineLatest, EMPTY, map, of, startWith, switchMap } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { memo } from '../util';
 import { extractContributed } from './util';
 
@@ -21,10 +23,9 @@ function _getValues (api: DeriveApi, childKey: string, keys: string[]): Observab
             ? api.registry.createType('Balance', o.unwrap())
             : api.registry.createType('Balance')
         )
-        .reduce((all: DeriveOwnContributions, b, index): DeriveOwnContributions => ({
-          ...all,
-          [keys[index]]: b
-        }), {})
+        .reduce((all: DeriveOwnContributions, b, index): DeriveOwnContributions =>
+          objectSpread(all, { [keys[index]]: b }), {}
+        )
     )
   );
 }
@@ -51,10 +52,9 @@ function _contributions (api: DeriveApi, paraId: string | number | BN, childKey:
     _getValues(api, childKey, keys),
     _watchOwnChanges(api, paraId, childKey, keys)
   ]).pipe(
-    map(([all, latest]) => ({
-      ...all,
-      ...latest
-    }))
+    map(([all, latest]) =>
+      objectSpread({}, all, latest)
+    )
   );
 }
 

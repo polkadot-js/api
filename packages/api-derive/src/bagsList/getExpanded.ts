@@ -8,12 +8,14 @@ import type { Bag, BagExpanded } from './types';
 
 import { map, switchMap } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { memo } from '../util';
 
 export function expand (instanceId: string, api: DeriveApi): (bag: Bag) => Observable<BagExpanded> {
   return memo(instanceId, (bag: Bag): Observable<BagExpanded> =>
     api.derive.bagsList.listNodes(bag.bag).pipe(
-      map((nodes) => ({ ...bag, nodes }))
+      map((nodes) => objectSpread({ nodes }, bag))
     )
   );
 }

@@ -8,7 +8,7 @@ import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, Deco
 
 import { TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
-import { assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, objectSpread, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { convertVersions, enumVersions } from './toLatest';
 
@@ -170,7 +170,7 @@ export class Abi {
         return {
           name: camelName,
           type: displayName && !typeDef.type.startsWith(displayName)
-            ? { displayName, ...typeDef }
+            ? objectSpread({ displayName }, typeDef)
             : typeDef
         };
       } catch (error) {
@@ -200,8 +200,7 @@ export class Abi {
   #createMessage = (spec: ContractMessageSpecLatest | ContractConstructorSpecLatest, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
     const args = this.#createArgs(spec.args, spec);
     const identifier = spec.label.toString();
-    const message = {
-      ...add,
+    const message = objectSpread<AbiMessage>({}, add, {
       args,
       docs: spec.docs.map((d) => d.toString()),
       fromU8a: (data: Uint8Array): DecodedMessage => ({
@@ -215,7 +214,7 @@ export class Abi {
       selector: spec.selector,
       toU8a: (params: unknown[]) =>
         this.#encodeArgs(spec, args, params)
-    };
+    });
 
     return message;
   };

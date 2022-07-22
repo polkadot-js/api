@@ -11,7 +11,7 @@ import type { DeriveApi, DeriveDispatch, DeriveProposalImage } from '../types';
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
 import { Enum } from '@polkadot/types';
-import { isFunction, stringToHex } from '@polkadot/util';
+import { isFunction, objectSpread, stringToHex } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -107,7 +107,7 @@ function queryScheduler (api: DeriveApi): Observable<DeriveDispatch[]> {
       ]);
     }),
     map(([infos, images]): DeriveDispatch[] =>
-      infos.map((info, index) => ({ ...info, image: images[index] }))
+      infos.map((info, index) => objectSpread({ image: images[index] }, info))
     )
   );
 }

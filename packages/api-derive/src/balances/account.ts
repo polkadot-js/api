@@ -9,7 +9,7 @@ import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData } from
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { isFunction } from '@polkadot/util';
+import { isFunction, objectSpread } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -40,12 +40,11 @@ function getBalance (api: DeriveApi, [freeBalance, reservedBalance, frozenFee, f
 }
 
 function calcBalances (api: DeriveApi, [accountId, [accountNonce, [primary, ...additional]]]: [AccountId, Result]): DeriveBalancesAccount {
-  return {
+  return objectSpread({
     accountId,
     accountNonce,
-    additional: additional.map((b) => getBalance(api, b)),
-    ...getBalance(api, primary)
-  };
+    additional: additional.map((b) => getBalance(api, b))
+  }, getBalance(api, primary));
 }
 
 // old

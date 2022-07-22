@@ -10,7 +10,7 @@ import type { DeriveStakingQuery } from './types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { BN_BILLION, BN_ZERO } from '@polkadot/util';
+import { BN_BILLION, BN_ZERO, objectSpread } from '@polkadot/util';
 
 import { firstMemo, memo } from '../util';
 
@@ -125,10 +125,11 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
       return true;
     })
     .filter(({ validators }) => Object.keys(validators).length !== 0)
-    .map((reward) => ({
-      ...reward,
-      nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
-    }));
+    .map((reward) =>
+      objectSpread({
+        nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
+      }, reward)
+    );
 }
 
 export function _stakerRewardsEras (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive?: boolean) => Observable<ErasResult> {

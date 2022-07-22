@@ -8,6 +8,8 @@ import type { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } f
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { memo } from '../util';
 import { didUpdateToBool } from './util';
 
@@ -23,7 +25,7 @@ function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes]: 
   return ids.map((id, index): DeriveParachain => ({
     didUpdate: didUpdateToBool(didUpdate, id),
     id,
-    info: { id, ...infos[index].unwrapOr(null) } as DeriveParachainInfo,
+    info: objectSpread<DeriveParachainInfo>({ id }, infos[index].unwrapOr(null)),
     pendingSwapId: pendingSwaps[index].unwrapOr(null),
     relayDispatchQueueSize: relayDispatchQueueSizes[index][0].toNumber()
   }));

@@ -11,6 +11,8 @@ import type { DeriveElectionsInfo } from './types';
 
 import { combineLatest, map, of } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { memo } from '../util';
 
 // SeatHolder is current tuple is 2.x-era Substrate
@@ -107,15 +109,15 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
         ? queryAll(api, council, elections)
         : queryCouncil(api, council)
     ).pipe(
-      map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo => ({
-        ...getConstants(api, elections),
-        candidateCount: api.registry.createType('u32', candidates.length),
-        candidates: candidates.map(getCandidate),
-        members: members.length
-          ? members.map(getAccountTuple).sort(sortAccounts)
-          : councilMembers.map((a): [AccountId32, Balance] => [a, api.registry.createType('Balance')]),
-        runnersUp: runnersUp.map(getAccountTuple).sort(sortAccounts)
-      }))
+      map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo =>
+        objectSpread({
+          candidateCount: api.registry.createType('u32', candidates.length),
+          candidates: candidates.map(getCandidate),
+          members: members.length
+            ? members.map(getAccountTuple).sort(sortAccounts)
+            : councilMembers.map((a): [AccountId32, Balance] => [a, api.registry.createType('Balance')]),
+          runnersUp: runnersUp.map(getAccountTuple).sort(sortAccounts)
+        }, getConstants(api, elections)))
     );
   });
 }
