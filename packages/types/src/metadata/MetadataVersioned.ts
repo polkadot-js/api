@@ -4,7 +4,7 @@
 import type { AnyJson } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
-import type { Registry } from '../types';
+import type { InterfaceTypes, Registry } from '../types';
 
 import { Struct } from '@polkadot/types-codec';
 
@@ -17,11 +17,14 @@ import { toLatest } from './v14/toLatest';
 import { MagicNumber } from './MagicNumber';
 import { getUniqTypes, toCallsOnly } from './util';
 
-type MetaMapped = MetadataV9 | MetadataV10 | MetadataV11 | MetadataV12 | MetadataV13 | MetadataV14;
-type MetaAsX = 'asV9' | 'asV10' | 'asV11' | 'asV12' | 'asV13' | 'asV14';
-type MetaVersions = 'latest' | 9 | 10 | 11 | 12 | 13 | 14;
+// Use these to generate all the Meta* types below via template keys
+// NOTE: Keep from latest -> earliest, see the LATEST_VERSION 0 index
+const ALL_VERSIONS = <const> [14, 13, 12, 11, 10, 9];
+const LATEST_VERSION = ALL_VERSIONS[0];
 
-const LATEST_VERSION = 14;
+type MetaMapped = InterfaceTypes[`MetadataV${typeof ALL_VERSIONS[number]}`];
+type MetaAsX = `asV${typeof ALL_VERSIONS[number]}`;
+type MetaVersions = typeof ALL_VERSIONS[number] | 'latest';
 
 /**
  * @name MetadataVersioned
