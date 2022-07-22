@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-export const AllHashers = {
+export const AllHashers = <const> {
   Blake2_128: null, // eslint-disable-line camelcase
   Blake2_256: null, // eslint-disable-line camelcase
   Blake2_128Concat: null, // eslint-disable-line camelcase
