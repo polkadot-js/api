@@ -12,6 +12,7 @@ Changes:
 - Add `toPrimitive()` to all base `Codec` interfaces (string/boolean/number)
 - Adjust metadata conversion with `objectSpread` (where missing)
 - Support for `TransactionPaymentCallApi` runtime interface
+- Check `registry.getModuleInstances` against metadata paths (fallback)
 - Update to `@polkadot/util` 10.1.1
 - Update to latest Kusama metadata (Substrate & Polkadot are current)
 
