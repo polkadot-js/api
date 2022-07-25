@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Export `api.rx.call.*` for internal usage (derive, contracts)
+
+
 ## 8.14.1 Jul 23, 2022
 
 Contributed:
