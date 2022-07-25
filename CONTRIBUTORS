@@ -1,4 +1,4 @@
-    3153	Jaco                          	Export api.rx.call.* (#5106)
+    3154	Jaco                          	Convert api-contract usage of api.rpc.* to api.call.* (#5107)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
