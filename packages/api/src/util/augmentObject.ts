@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { lazyMethod, logger, objectClear } from '@polkadot/util';
+import { lazyMethods, logger, objectClear } from '@polkadot/util';
 
 type Sections <T> = Record<string, Methods<T>>;
 
@@ -58,11 +58,13 @@ function findMethodExcludes <T> (src: Sections<T>, dst: Sections<T>): string[] {
     const srcMethods = Object.keys(src[section]);
     const dstMethods = Object.keys(dst[section]);
 
-    excludes.push(
-      ...dstMethods
-        .filter((m) => !srcMethods.includes(m))
-        .map((m) => `${section}.${m}`)
-    );
+    for (let d = 0; d < dstMethods.length; d++) {
+      const method = dstMethods[d];
+
+      if (!srcMethods.includes(method)) {
+        excludes.push(`${section}.${method}`);
+      }
+    }
   }
 
   return excludes;
@@ -73,22 +75,6 @@ function extractMethods <T> (src: Sections<T>, dst: Sections<T>): StringsStrings
     findMethodExcludes(dst, src),
     findMethodExcludes(src, dst)
   ];
-}
-
-function lazySection <T> (src: Methods<T>, dst: Methods<T>): void {
-  const creator = (m: string) => src[m];
-  const methods = Object.keys(src);
-
-  for (let i = 0; i < methods.length; i++) {
-    const method = methods[i];
-
-    // We use hasOwnproperty here to only check for the existence of the key,
-    // instead of reading dst[section][method] which will evaluate when already
-    // set as a lazy value previously
-    if (!Object.prototype.hasOwnProperty.call(dst, method)) {
-      lazyMethod(dst, method, creator);
-    }
-  }
 }
 
 /**
@@ -111,6 +97,7 @@ export function augmentObject <T> (prefix: string | null, src: Sections<T>, dst:
 
   for (let i = 0; i < sections.length; i++) {
     const section = sections[i];
+    const methods = src[section];
 
     // We don't set here with a lazy interface, we decorate based
     // on the top-level structure (this bypasses adding lazy onto lazy)
@@ -118,7 +105,7 @@ export function augmentObject <T> (prefix: string | null, src: Sections<T>, dst:
       dst[section] = {};
     }
 
-    lazySection(src[section], dst[section]);
+    lazyMethods(dst[section], Object.keys(methods), (m: string) => methods[m]);
   }
 
   return dst;
