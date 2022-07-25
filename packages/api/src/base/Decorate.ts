@@ -238,9 +238,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }
 
     const runtime = this._decorateCalls(registry, this._decorateMethod, blockHash);
-    const runtimeRx = this._decorateCalls(registry, this._rxDecorateMethod, blockHash);
+    const runtimeRx = this._decorateCalls<'rxjs'>(registry, this._rxDecorateMethod, blockHash);
     const storage = this._decorateStorage(registry.decoratedMeta, this._decorateMethod, blockHash);
-    const storageRx = this._decorateStorage(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
+    const storageRx = this._decorateStorage<'rxjs'>(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
 
     augmentObject('consts', registry.decoratedMeta.consts, decoratedApi.consts, fromEmpty);
     augmentObject('errors', registry.decoratedMeta.errors, decoratedApi.errors, fromEmpty);
@@ -492,7 +492,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   // pre-metadata decoration
-  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName } }: VersionedRegistry<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
+  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName } }: VersionedRegistry<any>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
     const result = {} as QueryableCalls<ApiType>;
     const named: Record<string, Record<string, DefinitionCallNamed>> = {};
     const hashes: Record<HexString, boolean> = {};
