@@ -108,6 +108,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _runtimeVersion?: RuntimeVersion;
 
   protected _rx: ApiInterfaceRx = {
+    call: {} as QueryableCalls<'rxjs'>,
     consts: {} as QueryableConsts<'rxjs'>,
     query: {} as QueryableStorage<'rxjs'>,
     tx: {} as SubmittableExtrinsics<'rxjs'>
@@ -220,6 +221,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       query: {},
       registry,
       rx: {
+        call: {},
         query: {}
       },
       tx: createSubmittable(this._type, this._rx, this._decorateMethod, registry, blockHash)
@@ -236,6 +238,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }
 
     const runtime = this._decorateCalls(registry, this._decorateMethod, blockHash);
+    const runtimeRx = this._decorateCalls(registry, this._rxDecorateMethod, blockHash);
     const storage = this._decorateStorage(registry.decoratedMeta, this._decorateMethod, blockHash);
     const storageRx = this._decorateStorage(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
 
@@ -245,6 +248,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     augmentObject('query', storage, decoratedApi.query, fromEmpty);
     augmentObject('query', storageRx, decoratedApi.rx.query, fromEmpty);
     augmentObject('call', runtime, decoratedApi.call, fromEmpty);
+    augmentObject('call', runtimeRx, decoratedApi.rx.call, fromEmpty);
 
     decoratedApi.findCall = (callIndex: Uint8Array | string): CallFunction =>
       findCall(registry.registry, callIndex);
