@@ -146,9 +146,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) =>
         this.api.rx.call.contractsApi
-          .call(origin, this.address, value, this.#getGas(gasLimit, true), storageDepositLimit, message.toU8a(params))
+          .call<ContractExecResult>(origin, this.address, value, this.#getGas(gasLimit, true), storageDepositLimit, message.toU8a(params))
           .pipe(
-            map(({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }: ContractExecResult): ContractCallOutcome => ({
+            map(({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }): ContractCallOutcome => ({
               debugMessage,
               gasConsumed,
               gasRequired: gasRequired && !gasRequired.isZero()
