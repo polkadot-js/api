@@ -8,7 +8,11 @@ import { v0ToV1 } from './toV1';
 import { v1ToV2 } from './toV2';
 import { v2ToV3 } from './toV3';
 
-type Versions = 'V3' | 'V2' | 'V1' | 'V0';
+// The versions where an enum is used, aka V0 is missing
+// (Order from newest, i.e. we expect more on newest vs oldest)
+export const enumVersions = <const> ['V3', 'V2', 'V1'];
+
+type Versions = typeof enumVersions[number] | 'V0';
 
 type Converter = (registry: Registry, vx: any) => ContractMetadataLatest;
 
@@ -25,10 +29,6 @@ export function v3ToLatest (registry: Registry, v3: ContractMetadataV3): Contrac
 export const v2ToLatest = createConverter(v3ToLatest, v2ToV3);
 export const v1ToLatest = createConverter(v2ToLatest, v1ToV2);
 export const v0ToLatest = createConverter(v1ToLatest, v0ToV1);
-
-// The versions where an enum is used, aka V0 is missing
-// (Order from newest, i.e. we expect more on newest vs oldest)
-export const enumVersions = ['V3', 'V2', 'V1'];
 
 export const convertVersions: [Versions, Converter][] = [
   ['V3', v3ToLatest],

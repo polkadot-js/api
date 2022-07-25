@@ -17,11 +17,15 @@ import { toLatest } from './v14/toLatest';
 import { MagicNumber } from './MagicNumber';
 import { getUniqTypes, toCallsOnly } from './util';
 
-type MetaMapped = MetadataV9 | MetadataV10 | MetadataV11 | MetadataV12 | MetadataV13 | MetadataV14;
-type MetaAsX = 'asV9' | 'asV10' | 'asV11' | 'asV12' | 'asV13' | 'asV14';
-type MetaVersions = 'latest' | 9 | 10 | 11 | 12 | 13 | 14;
+// Use these to generate all the Meta* types below via template keys
+// NOTE: Keep from latest -> earliest, see the LATEST_VERSION 0 index
+const KNOWN_VERSIONS = <const> [14, 13, 12, 11, 10, 9];
+const LATEST_VERSION = KNOWN_VERSIONS[0];
 
-const LATEST_VERSION = 14;
+type MetaAll = typeof KNOWN_VERSIONS[number];
+type MetaAsX = `asV${MetaAll}`;
+type MetaMapped = MetadataAll[MetaAsX];
+type MetaVersions = MetaAll | 'latest';
 
 /**
  * @name MetadataVersioned

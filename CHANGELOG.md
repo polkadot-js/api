@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 8.14.1 Jul 23, 2022
 
 - **Breaking change** In this version the decorated field getters on `Struct` were moved to the prototype class for performance reasons. While `struct.<field>` access still behaves in the same way, this does mean that the decorated fields are not available when doing an `Object.keys(struct)` or when doing `{ ...struct }`. In some very-specific non-standard API usage patterns morphing objects, this may create issues.
 
