@@ -26,10 +26,10 @@ export abstract class Base<ApiType extends ApiTypes> {
 
     if (!api || !api.isConnected || !api.tx) {
       throw new Error('Your API has not been initialized correctly and is not connected to a chain');
-    } else if (!api.tx.contracts || !Object.keys(api.tx.contracts).length) {
+    } else if (!api.tx.contracts || !Object.keys(api.tx.contracts).length || !api.call.contractsApi) {
       throw new Error('You need to connect to a chain with a runtime that supports contracts');
-    } else if (!isFunction(api.tx.contracts.instantiateWithCode)) {
-      throw new Error('You need to connect to a chain with a runtime with a V3 contracts module. The runtime does not expose api.tx.contracts.instantiateWithCode');
+    } else if (!isFunction(api.call.contractsApi.instantiate)) {
+      throw new Error('You need to connect to a chain with a runtime with a V3 contracts module. The runtime does not expose api.call.contractsApi.instantiate');
     }
   }
 
