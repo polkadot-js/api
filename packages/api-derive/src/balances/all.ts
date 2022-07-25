@@ -101,7 +101,7 @@ function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountD
 function calcBalances (api: DeriveApi, [data, [vesting, allLocks, namedReserves], bestNumber]: Result): DeriveBalancesAll {
   const shared = calcShared(api, bestNumber, data, allLocks[0]);
 
-  return objectSpread({}, shared, calcVesting(bestNumber, shared, vesting), {
+  return objectSpread(shared, calcVesting(bestNumber, shared, vesting), {
     accountId: data.accountId,
     accountNonce: data.accountNonce,
     additional: allLocks
