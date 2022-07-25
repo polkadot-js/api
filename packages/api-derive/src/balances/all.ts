@@ -105,7 +105,7 @@ function calcBalances (api: DeriveApi, [data, [vesting, allLocks, namedReserves]
     accountId: data.accountId,
     accountNonce: data.accountNonce,
     additional: allLocks
-      .filter((_, index) => index !== 0)
+      .slice(1)
       .map((l, index) => calcShared(api, bestNumber, data.additional[index], l)),
     namedReserves
   });
