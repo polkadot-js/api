@@ -4,6 +4,8 @@
 
 Changes:
 
+- Convert `api-contract` usage of `api.rpc.*` to `api.call.*`
+- Drop support for contract runtimes without `storageDepositLimit` (runtime `contractsApi` only has unversioned support for latest)
 - Export `api.rx.call.*` for internal usage (derive, contracts)
 
 
