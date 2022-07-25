@@ -104,6 +104,7 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
   registry: Registry;
   runtimeVersion: RuntimeVersionPartial;
   rx: {
+    call: QueryableCalls<'rxjs'>;
     query: QueryableStorage<'rxjs'>;
   };
   tx: (extrinsic: Call | Extrinsic | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
