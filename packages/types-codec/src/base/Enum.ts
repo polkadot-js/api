@@ -313,14 +313,6 @@ export class Enum implements IEnum {
   }
 
   /**
-   * @description Checks if the Enum points to a [[Null]] type
-   * @deprecated use isNone
-   */
-  public get isNull (): boolean {
-    return this.isNone;
-  }
-
-  /**
    * @description The available keys for this enum
    */
   public get defIndexes (): number[] {

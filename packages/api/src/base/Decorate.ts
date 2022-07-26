@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { AugmentedCall, DeriveCustom, QueryableCalls } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
-import type { Option, Raw, StorageKey, Text, u64 } from '@polkadot/types';
+import type { StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
@@ -19,7 +19,7 @@ import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray 
 import { getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { expandMetadata, Metadata, typeDefinitions, TypeRegistry, unwrapStorageType } from '@polkadot/types';
+import { expandMetadata, Metadata, typeDefinitions, TypeRegistry } from '@polkadot/types';
 import { getSpecRuntime } from '@polkadot/types-known';
 import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -707,9 +707,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.keyPrefix = (...args: unknown[]): string =>
       u8aToHex(creator.keyPrefix(...args));
 
-    decorated.range = decorateMethod((range: [Hash, Hash?], ...args: unknown[]): Observable<[Hash, Codec][]> =>
-      this._decorateStorageRange(decorated, args, range));
-
     decorated.size = decorateMethod((...args: unknown[]): Observable<u64> =>
       this._rpcCore.state.getStorageSize(getArgs(args)));
 
@@ -881,19 +878,6 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       overrideNoSub: (...args: unknown[]) =>
         this._queueStorage(extractStorageArgs(this.#registry, creator, args), this.#storageGetQ)
     });
-  }
-
-  private _decorateStorageRange<ApiType extends ApiTypes> (decorated: QueryableStorageEntry<ApiType>, args: unknown[], range: [Hash, Hash?]): Observable<[Hash, Codec][]> {
-    const outputType = unwrapStorageType(this.#registry, decorated.creator.meta.type, decorated.creator.meta.modifier.isOptional);
-
-    return this._rpcCore.state
-      .queryStorage<[Option<Raw>]>([decorated.key(...args)], ...range)
-      .pipe(map((result: [Hash, [Option<Raw>]][]): [Hash, Codec][] =>
-        result.map(([blockHash, [value]]) => [
-          blockHash,
-          this.createType<Codec>(outputType, value.isSome ? value.unwrap().toHex() : undefined)
-        ])
-      ));
   }
 
   // retrieve a set of values for a specific set of keys - here we chunk the keys into PAGE_SIZE sizes

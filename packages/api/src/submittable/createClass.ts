@@ -5,7 +5,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
-import type { Callback, Codec, Constructor, IKeyringPair, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import type { Callback, Codec, Constructor, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types';
 import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types';
@@ -170,17 +170,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     }
 
     /**
-     * @description Sign a transaction, returning the this to allow chaining, i.e. .sign(...).send(). When options, e.g. nonce/blockHash are not specified, it will be inferred. To retrieve eg. nonce use `signAsync` (the preferred interface, this is provided for backwards compatibility)
-     * @deprecated
-     */
-    public override sign (account: IKeyringPair, partialOptions?: Partial<SignerOptions>): this {
-      super.sign(account, makeSignOptions(api, optionsOrNonce(partialOptions), {}));
-
-      return this;
-    }
-
-    /**
-     * @description Signs a transaction, returning `this` to allow chaining. E.g.: `sign(...).send()`. Like `.signAndSend` this will retrieve the nonce and blockHash to send the tx with.
+     * @description Signs a transaction, returning `this` to allow chaining. E.g.: `signAsync(...).send()`. Like `.signAndSend` this will retrieve the nonce and blockHash to send the tx with.
      */
     public signAsync (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): PromiseOrObs<ApiType, this> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call

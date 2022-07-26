@@ -125,7 +125,7 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   console.log('query types:', bar, bal, bal2, override, oldBal, multia, multib);
 }
 
-async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
+async function queryExtra (api: ApiPromise): Promise<void> {
   // events destructing
   await api.query.system.events((records): void => {
     records.forEach(({ event, phase }): void => {
@@ -154,14 +154,6 @@ async function queryExtra (api: ApiPromise, pairs: TestKeyringMap): Promise<void
   await api.query.assets.account.keys(123);
   await api.query.assets.account.entries(123);
   await api.query.assets.blah.keys();
-
-  // check range
-  await api.query.balances.freeBalance.range<Balance>(['0x1234'], pairs.bob.address);
-
-  // check range types
-  const entries = await api.query.system.events.range(['0x12345', '0x7890']);
-
-  console.log(`Received ${entries.length} entries, ${entries.map(([hash, events]) => `${hash.toHex()}: ${events.length} events`).join(', ')}`);
 
   // is
   const key = {} as StorageKey;
@@ -313,7 +305,7 @@ async function main (): Promise<void> {
     errors(api),
     events(api),
     query(api, pairs),
-    queryExtra(api, pairs),
+    queryExtra(api),
     queryMulti(api, pairs),
     rpc(api),
     types(api),

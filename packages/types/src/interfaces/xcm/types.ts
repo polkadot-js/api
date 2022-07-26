@@ -554,10 +554,6 @@ export interface ResponseV2Error extends ITuple<[u32, XcmErrorV2]> {}
 export interface ResponseV2Result extends Result<Null, ResponseV2Error> {
   readonly isErr: boolean;
   readonly asErr: ResponseV2Error;
-  /** @deprecated Use isErr */
-  readonly isError: boolean;
-  /** @deprecated Use asErr */
-  readonly asError: ResponseV2Error;
   readonly isOk: boolean;
 }
 
