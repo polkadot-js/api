@@ -14,6 +14,9 @@ Changes:
 - Drop support for contract runtimes without `storageDepositLimit` (runtime `contractsApi` only has unversioned support for latest)
 - Export `api.rx.call.*` for internal usage (derive, contracts)
 - Remove old-style param passing as opposed to options in `api-contract`
+- Add Kusama 9260 upgrade block
+- Add Polkadot 9230 & 9250 upgrade blocks
+- Add Westend 9251, 9260 & 9261 upgrade blocks
 
 
 ## 8.14.1 Jul 23, 2022
