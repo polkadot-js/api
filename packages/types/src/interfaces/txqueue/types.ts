@@ -17,10 +17,6 @@ export interface TransactionSource extends Enum {
 export interface TransactionValidity extends Result<ValidTransaction, TransactionValidityError> {
   readonly isErr: boolean;
   readonly asErr: TransactionValidityError;
-  /** @deprecated Use isErr */
-  readonly isError: boolean;
-  /** @deprecated Use asErr */
-  readonly asError: TransactionValidityError;
   readonly isOk: boolean;
   readonly asOk: ValidTransaction;
 }

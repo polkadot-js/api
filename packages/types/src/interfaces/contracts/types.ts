@@ -41,10 +41,6 @@ export interface CodeUploadRequest extends Struct {
 export interface CodeUploadResult extends Result<CodeUploadResultValue, DispatchError> {
   readonly isErr: boolean;
   readonly asErr: DispatchError;
-  /** @deprecated Use isErr */
-  readonly isError: boolean;
-  /** @deprecated Use asErr */
-  readonly asError: DispatchError;
   readonly isOk: boolean;
   readonly asOk: CodeUploadResultValue;
 }
@@ -92,10 +88,6 @@ export interface ContractExecResultOk extends Struct {
 export interface ContractExecResultResult extends Result<ContractExecResultOk, DispatchError> {
   readonly isErr: boolean;
   readonly asErr: DispatchError;
-  /** @deprecated Use isErr */
-  readonly isError: boolean;
-  /** @deprecated Use asErr */
-  readonly asError: DispatchError;
   readonly isOk: boolean;
   readonly asOk: ContractExecResultOk;
 }
@@ -157,8 +149,6 @@ export interface ContractInstantiateResult extends Struct {
 /** @name ContractInstantiateResultTo267 */
 export interface ContractInstantiateResultTo267 extends Result<InstantiateReturnValueTo267, Null> {
   readonly isErr: boolean;
-  /** @deprecated Use isErr */
-  readonly isError: boolean;
   readonly isOk: boolean;
   readonly asOk: InstantiateReturnValueTo267;
 }
@@ -166,8 +156,6 @@ export interface ContractInstantiateResultTo267 extends Result<InstantiateReturn
 /** @name ContractInstantiateResultTo299 */
 export interface ContractInstantiateResultTo299 extends Result<InstantiateReturnValueOk, Null> {
   readonly isErr: boolean;
-  /** @deprecated Use isErr */
-  readonly isError: boolean;
   readonly isOk: boolean;
   readonly asOk: InstantiateReturnValueOk;
 }
@@ -336,10 +324,6 @@ export interface InstantiateRequestV2 extends Struct {
 export interface InstantiateReturnValue extends Result<InstantiateReturnValueOk, DispatchError> {
   readonly isErr: boolean;
   readonly asErr: DispatchError;
-  /** @deprecated Use isErr */
-  readonly isError: boolean;
-  /** @deprecated Use asErr */
-  readonly asError: DispatchError;
   readonly isOk: boolean;
   readonly asOk: InstantiateReturnValueOk;
 }

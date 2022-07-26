@@ -58,11 +58,6 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmi
 
   send (statusCb: Callback<R>): SubmittableResultSubscription<ApiType, R>;
 
-  /**
-   * @deprecated
-   */
-  sign (account: IKeyringPair, _options?: Partial<SignerOptions>): this;
-
   signAsync (account: AddressOrPair, _options?: Partial<SignerOptions>): PromiseOrObs<ApiType, this>;
 
   signAndSend (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableResultResult<ApiType, R>;
