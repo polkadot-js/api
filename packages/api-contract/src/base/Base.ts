@@ -26,11 +26,9 @@ export abstract class Base<ApiType extends ApiTypes> {
 
     if (!api || !api.isConnected || !api.tx) {
       throw new Error('Your API has not been initialized correctly and is not connected to a chain');
-    } else if (!api.tx.contracts || !Object.keys(api.tx.contracts).length || !api.call.contractsApi) {
-      throw new Error('You need to connect to a chain with a runtime that supports contracts');
-    } else if (!isFunction(api.tx.contracts.instantiateWithCode) || this.api.tx.contracts.instantiateWithCode.meta.args.length !== 6) {
-      throw new Error('You need to connect to a chain with a runtime with a V3 contracts module. The runtime does not expose api.tx.contracts.instantiateWithCode');
-    } else if (!this.api.rx.call.contractsApi || !isFunction(this.api.rx.call.contractsApi?.call)) {
+    } else if (!api.tx.contracts || !isFunction(api.tx.contracts.instantiateWithCode) || api.tx.contracts.instantiateWithCode.meta.args.length !== 6) {
+      throw new Error('The runtime does not expose api.tx.contracts.instantiateWithCode with storageDepositLimit');
+    } else if (!api.call.contractsApi || !isFunction(api.call.contractsApi.call)) {
       throw new Error('Your runtime does not expose the api.call.contractsApi.call method');
     }
   }
