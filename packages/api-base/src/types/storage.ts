@@ -59,10 +59,6 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
    */
   keysAt: <K extends AnyTuple = A> (hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, StorageKey<K>[]>;
   /**
-   * @deprecated The underlying RPC this been marked unsafe and is generally not exposed
-   */
-  range: <T extends Codec | any = ReturnCodec<F>>([from, to]: [Hash | Uint8Array | string, Hash | Uint8Array | string | undefined] | [Hash | Uint8Array | string], ...args: Parameters<F>) => PromiseOrObs<ApiType, [Hash, T][]>;
-  /**
    * @deprecated Use api.at(<blockHash>)
    */
   sizeAt: (hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;

@@ -37,13 +37,6 @@ export class Result<O extends Codec, E extends Codec> extends Enum implements IR
   }
 
   /**
-   * @deprecated Use asErr
-   */
-  public get asError (): E {
-    return this.asErr;
-  }
-
-  /**
    * @description Returns the wrapper Ok value (if isOk)
    */
   public get asOk (): O {
@@ -66,13 +59,6 @@ export class Result<O extends Codec, E extends Codec> extends Enum implements IR
    */
   public get isErr (): boolean {
     return !this.isOk;
-  }
-
-  /**
-   * @deprecated Use isErr
-   */
-  public get isError (): boolean {
-    return this.isErr;
   }
 
   /**

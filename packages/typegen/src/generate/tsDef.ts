@@ -105,12 +105,12 @@ function tsNull (registry: Registry, definitions: Record<string, ModuleTypes>, {
 }
 
 /** @internal */
-function tsResultGetter (registry: Registry, definitions: Record<string, ModuleTypes>, resultName = '', getter: 'Ok' | 'Err' | 'Error', def: TypeDef, imports: TypeImports): string {
+function tsResultGetter (registry: Registry, definitions: Record<string, ModuleTypes>, resultName = '', getter: 'Ok' | 'Err', def: TypeDef, imports: TypeImports): string {
   const { info, lookupName, type } = def;
   const asGetter = type === 'Null'
     ? ''
-    : (getter === 'Error' ? '  /** @deprecated Use asErr */\n' : '') + createGetter(definitions, `as${getter}`, lookupName || (info === TypeDefInfo.Tuple ? formatType(registry, definitions, def, imports, false) : type), imports);
-  const isGetter = (getter === 'Error' ? '  /** @deprecated Use isErr */\n' : '') + createGetter(definitions, `is${getter}`, 'boolean', imports);
+    : createGetter(definitions, `as${getter}`, lookupName || (info === TypeDefInfo.Tuple ? formatType(registry, definitions, def, imports, false) : type), imports);
+  const isGetter = createGetter(definitions, `is${getter}`, 'boolean', imports);
 
   switch (info) {
     case TypeDefInfo.Option:
@@ -137,8 +137,6 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
   const [okDef, errorDef] = (def.sub as TypeDef[]);
   const inner = [
     tsResultGetter(registry, definitions, def.name, 'Err', errorDef, imports),
-    // @deprecated, use Err
-    tsResultGetter(registry, definitions, def.name, 'Error', errorDef, imports),
     tsResultGetter(registry, definitions, def.name, 'Ok', okDef, imports)
   ].join('');
 
