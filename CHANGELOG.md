@@ -11,9 +11,12 @@ Changes:
 
 - Decorate `Struct/Enum/Set` field getters on class prototypes
 - Convert `api-contract` usage of `api.rpc.*` to `api.call.*`
-- Drop support for contract runtimes without `storageDepositLimit` (runtime `contractsApi` only has unversioned support for latest)
+- Drop support for contract runtimes without `storageDepositLimit` (runtime `contractsApi` only has support for latest)
 - Export `api.rx.call.*` for internal usage (derive, contracts)
 - Remove old-style param passing as opposed to options in `api-contract`
+- Add Kusama 9260 upgrade block
+- Add Polkadot 9230 & 9250 upgrade blocks
+- Add Westend 9251, 9260 & 9261 upgrade blocks
 
 
 ## 8.14.1 Jul 23, 2022
