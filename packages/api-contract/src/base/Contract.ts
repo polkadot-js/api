@@ -16,7 +16,7 @@ import { ApiBase } from '@polkadot/api/base';
 import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
 
 import { Abi } from '../Abi';
-import { applyOnEvent, extractOptions, isOptions } from '../util';
+import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { withMeta } from './util';
 
@@ -31,18 +31,14 @@ const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is
 const l = logger('Contract');
 
 function createQuery <ApiType extends ApiTypes> (meta: AbiMessage, fn: (origin: string | AccountId | Uint8Array, options: ContractOptions, params: unknown[]) => ContractCallResult<ApiType, ContractCallOutcome>): ContractQuery<ApiType> {
-  return withMeta(meta, (origin: string | AccountId | Uint8Array, options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
-    isOptions(options)
-      ? fn(origin, options, params)
-      : fn(origin, ...extractOptions<ContractOptions>(options, params))
+  return withMeta(meta, (origin: string | AccountId | Uint8Array, options: ContractOptions, ...params: unknown[]): ContractCallResult<ApiType, ContractCallOutcome> =>
+    fn(origin, options, params)
   );
 }
 
 function createTx <ApiType extends ApiTypes> (meta: AbiMessage, fn: (options: ContractOptions, params: unknown[]) => SubmittableExtrinsic<ApiType>): ContractTx<ApiType> {
-  return withMeta(meta, (options: bigint | string | number | BN | ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
-    isOptions(options)
-      ? fn(options, params)
-      : fn(...extractOptions<ContractOptions>(options, params))
+  return withMeta(meta, (options: ContractOptions, ...params: unknown[]): SubmittableExtrinsic<ApiType> =>
+    fn(options, params)
   );
 }
 
