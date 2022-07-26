@@ -39,9 +39,7 @@ describe('Result', (): void => {
     const result = new Type(registry, { Err: 'error' });
 
     expect(result.isErr).toBe(true);
-    expect(result.isError).toBe(true);
     expect(result.asErr.toString()).toEqual('error');
-    expect(result.asError.toString()).toEqual('error');
     expect(result.toHex()).toEqual('0x01146572726f72');
   });
 
