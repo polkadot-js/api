@@ -2,8 +2,8 @@
 
 ## master
 
-- **Breaking change** In this version the decorated field getters on `Struct` were moved to the prototype class for performance reasons. While `struct.<field>` access still behaves in the same way, this does mean that the decorated fields are not available when doing an `Object.keys(struct)` or when doing `{ ...struct }`. In some very-specific non-standard API usage patterns morphing objects, this may create issues.
-- **Breaking change** Deprecated interfaces have been removed including `tx.sign(...)` (use `signAsync`), `{is, as}Error` on Result (use `{is, as}Err`) as well as storage `.range(...)` operations.
+- **Breaking change** The decorated field getters on `Struct` were moved to the prototype class for performance reasons. While `struct.<field>` access still behaves in the same way, with the same results, this does mean that the prototype getters are not visible when doing an `Object.keys(struct)` or when doing an object spread.
+- **Breaking change** Deprecated interfaces have been removed including `tx.sign(...)` (use `signAsync`), `Result.{is, as}Error` (use `{is, as}Err`) as well as storage `.range(...)` operations.
 - **Breaking change** Only current Substrate contracts pallets are supported. This means `api-contract` will detect the usage of `storageDepositLimit` in params, if not available the contract interfaces will not be available.
 - **Breaking change** Deprecated call interfaces on `api-contract` have been removed. Always ensure you pass an options options to construction and queries.
 
