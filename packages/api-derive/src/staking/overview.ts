@@ -6,6 +6,8 @@ import type { DeriveApi, DeriveStakingOverview } from '../types';
 
 import { combineLatest, map } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { memo } from '../util';
 
 /**
@@ -17,10 +19,11 @@ export function overview (instanceId: string, api: DeriveApi): () => Observable<
       api.derive.session.indexes(),
       api.derive.staking.validators()
     ]).pipe(
-      map(([indexes, { nextElected, validators }]): DeriveStakingOverview => ({
-        ...indexes,
-        nextElected,
-        validators
-      }))
+      map(([indexes, { nextElected, validators }]): DeriveStakingOverview =>
+        objectSpread({}, indexes, {
+          nextElected,
+          validators
+        })
+      )
     ));
 }

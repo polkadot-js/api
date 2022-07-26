@@ -6,6 +6,8 @@ import type { DeriveApi, DeriveReferendumExt } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { memo } from '../util';
 
 export function referendums (instanceId: string, api: DeriveApi): () => Observable<DeriveReferendumExt[]> {
@@ -20,10 +22,9 @@ export function referendums (instanceId: string, api: DeriveApi): () => Observab
           : of([[], []])
       ),
       map(([referendums, votes]) =>
-        referendums.map((referendum, index): DeriveReferendumExt => ({
-          ...referendum,
-          ...votes[index]
-        }))
+        referendums.map((referendum, index): DeriveReferendumExt =>
+          objectSpread({}, referendum, votes[index])
+        )
       )
     )
   );

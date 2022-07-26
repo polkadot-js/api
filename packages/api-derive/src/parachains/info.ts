@@ -8,6 +8,8 @@ import type { Active, DidUpdate, Heads, ParaInfoResult, PendingSwap, RelayDispat
 
 import { map, of } from 'rxjs';
 
+import { objectSpread } from '@polkadot/util';
+
 import { memo } from '../util';
 import { didUpdateToBool } from './util';
 
@@ -28,20 +30,18 @@ function parseActive (id: ParaId, active: Active): DeriveParachainActive | null 
   if (found && found[1].isSome) {
     const [collatorId, retriable] = found[1].unwrap();
 
-    return {
-      collatorId,
-      ...(
-        retriable.isWithRetries
-          ? {
-            isRetriable: true,
-            retries: retriable.asWithRetries.toNumber()
-          }
-          : {
-            isRetriable: false,
-            retries: 0
-          }
-      )
-    };
+    return objectSpread<DeriveParachainActive>(
+      { collatorId },
+      retriable.isWithRetries
+        ? {
+          isRetriable: true,
+          retries: retriable.asWithRetries.toNumber()
+        }
+        : {
+          isRetriable: false,
+          retries: 0
+        }
+    );
   }
 
   return null;
@@ -65,7 +65,7 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
     didUpdate: didUpdateToBool(didUpdate, id),
     heads,
     id,
-    info: { id, ...info.unwrap() } as DeriveParachainInfo,
+    info: objectSpread<DeriveParachainInfo>({ id }, info.unwrap()),
     pendingSwapId: pendingSwap.unwrapOr(null),
     relayDispatchQueue,
     retryCollators: parseCollators(id, retryQueue),

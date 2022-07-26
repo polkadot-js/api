@@ -34,7 +34,7 @@ interface TypeInfo {
 // Just a placeholder for a type.unrwapOr()
 const TYPE_UNWRAP = { toNumber: () => -1 };
 
-// Alias the primitive enum with out known values
+// Alias the primitive enum with our known values
 const PRIMITIVE_ALIAS: Record<string, string> = {
   Char: 'u32', // Rust char is 4-bytes
   Str: 'Text'
@@ -655,7 +655,10 @@ export class PortableRegistry extends Struct implements ILookup {
       throw new Error(`PortableRegistry: ${lookupIndex}${namespace ? ` (${namespace})` : ''}: Error extracting ${stringify(type)}: ${(error as Error).message}`);
     }
 
-    return objectSpread({ docs: sanitizeDocs(type.docs), namespace }, typeDef);
+    return objectSpread({
+      docs: sanitizeDocs(type.docs),
+      namespace
+    }, typeDef);
   }
 
   #extractArray (_: number, { len, type }: SiTypeDefArray): TypeDef {
@@ -852,13 +855,10 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extractHistoric (_: number, type: Type): TypeDef {
-    return objectSpread(
-      {
-        displayName: type.toString(),
-        isFromSi: true
-      },
-      getTypeDef(type)
-    );
+    return objectSpread({
+      displayName: type.toString(),
+      isFromSi: true
+    }, getTypeDef(type));
   }
 
   #extractPrimitive (_: number, type: SiType): TypeDef {
@@ -937,7 +937,9 @@ export class PortableRegistry extends Struct implements ILookup {
       return withTypeString(this.registry, {
         info: TypeDefInfo.Result,
         sub: params.map(({ type }, index) =>
-          objectSpread({ name: ['Ok', 'Error'][index] }, this.#createSiDef(type.unwrap()))
+          objectSpread({
+            name: ['Ok', 'Error'][index]
+          }, this.#createSiDef(type.unwrap()))
         )
       });
     } else if (variants.length === 0) {
@@ -971,13 +973,10 @@ export class PortableRegistry extends Struct implements ILookup {
         }
 
         sub.push(
-          objectSpread(
-            this.#extractFields(-1, fields),
-            {
-              index,
-              name: name.toString()
-            }
-          )
+          objectSpread(this.#extractFields(-1, fields), {
+            index,
+            name: name.toString()
+          })
         );
       });
 

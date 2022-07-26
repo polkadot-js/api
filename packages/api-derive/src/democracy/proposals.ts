@@ -9,7 +9,7 @@ import type { DeriveApi, DeriveProposal, DeriveProposalImage } from '../types';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { isFunction } from '@polkadot/util';
+import { isFunction, objectSpread } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -33,17 +33,17 @@ function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
     .map(([index, imageHash, proposer], proposalIndex): DeriveProposal => {
       const depositors = optDepositors[proposalIndex].unwrap();
 
-      return {
-        ...(
-          isNewDepositors(depositors)
-            ? { balance: depositors[1], seconds: depositors[0] }
-            : { balance: depositors[0], seconds: depositors[1] }
-        ),
-        image: images[proposalIndex],
-        imageHash,
-        index,
-        proposer
-      };
+      return objectSpread(
+        {
+          image: images[proposalIndex],
+          imageHash,
+          index,
+          proposer
+        },
+        isNewDepositors(depositors)
+          ? { balance: depositors[1], seconds: depositors[0] }
+          : { balance: depositors[0], seconds: depositors[1] }
+      );
     });
 }
 
@@ -56,9 +56,11 @@ export function proposals (instanceId: string, api: DeriveApi): () => Observable
             ? combineLatest([
               of(proposals),
               api.derive.democracy.preimages(
-                proposals.map(([, hash]) => hash)),
+                proposals.map(([, hash]) => hash)
+              ),
               api.query.democracy.depositOf.multi(
-                proposals.map(([index]) => index))
+                proposals.map(([index]) => index)
+              )
             ])
             : of<Result>([[], [], []])
         ),

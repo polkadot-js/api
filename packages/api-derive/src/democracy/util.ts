@@ -6,7 +6,7 @@ import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, Pa
 import type { Option } from '@polkadot/types-codec';
 import type { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
-import { BN, bnSqrt } from '@polkadot/util';
+import { BN, bnSqrt, objectSpread } from '@polkadot/util';
 
 interface ApproxState {
   votedAye: BN;
@@ -119,11 +119,10 @@ export function calcVotes (sqrtElectorate: BN, referendum: DeriveReferendum, vot
     ? calcVotesCurrent(referendum.status.tally, votes)
     : calcVotesPrev(votes);
 
-  return {
-    ...state,
+  return objectSpread({}, state, {
     isPassing: calcPassing(referendum.status.threshold, sqrtElectorate, state),
     votes
-  };
+  });
 }
 
 export function getStatus (info: Option<PalletDemocracyReferendumInfo | ReferendumInfoTo239>): PalletDemocracyReferendumStatus | ReferendumInfoTo239 | null {

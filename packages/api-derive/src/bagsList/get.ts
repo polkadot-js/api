@@ -10,7 +10,7 @@ import type { Bag } from './types';
 
 import { map, of, switchMap } from 'rxjs';
 
-import { BN_ZERO, bnToBn } from '@polkadot/util';
+import { BN_ZERO, bnToBn, objectSpread } from '@polkadot/util';
 
 import { memo } from '../util';
 
@@ -21,20 +21,17 @@ function orderBags (ids: BN[], bags: Option<PalletBagsListListBag>[]): Bag[] {
       id,
       key: id.toString()
     }))
-    .sort((a, b) => b.id.cmp(a.id))
-    .map((base, index): Bag => ({
-      ...base,
-      bagLower: BN_ZERO,
-      bagUpper: base.id,
-      index
-    }));
+    .sort((a, b) => b.id.cmp(a.id));
   const max = sorted.length - 1;
 
-  return sorted.map((entry, index) =>
-    index === max
-      ? entry
-      // We could probably use a .add(BN_ONE) here
-      : { ...entry, bagLower: sorted[index + 1].bagUpper }
+  return sorted.map((entry, index): Bag =>
+    objectSpread(entry, {
+      bagLower: index === max
+        ? BN_ZERO
+        : sorted[index + 1].id,
+      bagUpper: entry.id,
+      index
+    })
   );
 }
 
