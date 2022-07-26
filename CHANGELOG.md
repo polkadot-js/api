@@ -3,10 +3,14 @@
 ## master
 
 - **Breaking change** In this version the decorated field getters on `Struct` were moved to the prototype class for performance reasons. While `struct.<field>` access still behaves in the same way, this does mean that the decorated fields are not available when doing an `Object.keys(struct)` or when doing `{ ...struct }`. In some very-specific non-standard API usage patterns morphing objects, this may create issues.
+- **Breaking change** Only current Substrate contracts pallets are supported. This means `api-contract` will detect the usage of `storageDepositLimit` in params, if not available the contract interfaces will not be available.
 
 Changes:
 
 - Decorate `Struct/Enum/Set` field getters on class prototypes
+- Convert `api-contract` usage of `api.rpc.*` to `api.call.*`
+- Drop support for contract runtimes without `storageDepositLimit` (runtime `contractsApi` only has unversioned support for latest)
+- Export `api.rx.call.*` for internal usage (derive, contracts)
 
 
 ## 8.14.1 Jul 23, 2022

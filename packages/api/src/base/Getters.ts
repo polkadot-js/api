@@ -194,8 +194,8 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
   /**
    * @description The underlying Rx API interface
    */
-  public get rx (): Pick<ApiInterfaceRx, 'tx' | 'rpc' | 'query'> {
-    return assertResult(this._rx as Pick<ApiInterfaceRx, 'tx' | 'rpc' | 'query'>);
+  public get rx (): Pick<ApiInterfaceRx, 'tx' | 'rpc' | 'query' | 'call'> {
+    return assertResult(this._rx as Pick<ApiInterfaceRx, 'tx' | 'rpc' | 'query' | 'call'>);
   }
 
   /**
