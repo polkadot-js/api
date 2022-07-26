@@ -3,6 +3,7 @@
 ## master
 
 - **Breaking change** Deprecated interfaces have been removed including `tx.sign(...)` (use `signAsync`), `{is, as}Error` on Result (use `{is, as}Err`) as well as storage `.range(...)` operations.
+- **Breaking change** Deprecated interfaces on `api-contract` has been removed. Always ensure you pass an options options to construction and queries.
 
 Changes:
 
