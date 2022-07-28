@@ -1,4 +1,4 @@
 // Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export type Collective = 'council' | 'membership' | 'technicalCommittee';
+export type Collective = 'allianceMotion' | 'council' | 'membership' | 'technicalCommittee';

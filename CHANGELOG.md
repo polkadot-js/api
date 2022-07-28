@@ -4,8 +4,8 @@
 
 - **Breaking change** The decorated field getters on `Struct` were moved to the prototype class for performance reasons. While `struct.<field>` access still behaves in the same way, with the same results, this does mean that the prototype getters are not visible when doing an `Object.keys(struct)` or when doing an object spread.
 - **Breaking change** Deprecated interfaces have been removed including `tx.sign(...)` (use `signAsync`), `Result.{is, as}Error` (use `{is, as}Err`) as well as storage `.range(...)` operations.
-- **Breaking change** Only current Substrate contracts pallets are supported. This means `api-contract` will detect the usage of `storageDepositLimit` in params, if not available the contract interfaces will not be available.
-- **Breaking change** Deprecated call interfaces on `api-contract` have been removed. Always ensure you pass an options options to construction and queries.
+- **Breaking change** Contracts access via `api-contract` will now detect the usage of `storageDepositLimit` in params, if not available the contract interfaces will not be decorated.
+- **Breaking change** Deprecated call interfaces on `api-contract` have been removed. Always ensure you pass an options object to construction and query methods.
 
 Changes:
 
@@ -14,6 +14,7 @@ Changes:
 - Drop support for contract runtimes without `storageDepositLimit` (runtime `contractsApi` only has support for latest)
 - Export `api.rx.call.*` for internal usage (derive, contracts)
 - Remove old-style param passing as opposed to options in `api-contract`
+- Support for alliance/motion collective derives
 - Add Kusama 9260 upgrade block
 - Add Polkadot 9230 & 9250 upgrade blocks
 - Add Westend 9251, 9260 & 9261 upgrade blocks
