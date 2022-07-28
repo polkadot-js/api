@@ -22,7 +22,7 @@ export { lazyDeriveSection };
 
 // Enable derive only if some of these modules are available
 const checks: Record<string, Avail> = {
-  alliance: {
+  allianceMotion: {
     instances: ['allianceMotion'],
     methods: []
   },
