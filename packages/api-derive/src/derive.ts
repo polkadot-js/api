@@ -4,6 +4,7 @@
 import type { AnyFunction } from '@polkadot/types/types';
 
 import * as accounts from './accounts';
+import * as alliance from './alliance';
 import * as bagsList from './bagsList';
 import * as balances from './balances';
 import * as bounties from './bounties';
@@ -23,7 +24,7 @@ import * as technicalCommittee from './technicalCommittee';
 import * as treasury from './treasury';
 import * as tx from './tx';
 
-export const derive = { accounts, bagsList, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
+export const derive = { accounts, alliance, bagsList, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
 
 type DeriveSection<Section> = {
   [M in keyof Section]: Section[M] extends AnyFunction
