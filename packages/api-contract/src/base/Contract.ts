@@ -13,7 +13,7 @@ import { map } from 'rxjs';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isFunction, isUndefined, logger } from '@polkadot/util';
+import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isUndefined, logger } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
@@ -26,7 +26,6 @@ export interface ContractConstructor<ApiType extends ApiTypes> {
 
 // As per Rust, 5 * GAS_PER_SEC
 const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
-const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
 
 const l = logger('Contract');
 
@@ -78,15 +77,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     });
   }
 
-  public get hasRpcContractsApi (): boolean {
-    return isFunction(this.api.rx.call.contractsApi?.call);
-  }
-
   public get query (): MapMessageQuery<ApiType> {
-    if (!this.hasRpcContractsApi) {
-      throw new Error(ERROR_NO_CALL);
-    }
-
     return this.#query;
   }
 
@@ -132,10 +123,6 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 
   #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
-    if (!this.hasRpcContractsApi) {
-      throw new Error(ERROR_NO_CALL);
-    }
-
     const message = this.abi.findMessage(messageOrId);
 
     return {
