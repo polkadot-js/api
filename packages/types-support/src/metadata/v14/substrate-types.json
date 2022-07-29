@@ -10120,6 +10120,12 @@
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
+                },
+                {
+                  "name": "era",
+                  "type": 4,
+                  "typeName": "EraIndex",
+                  "docs": []
                 }
               ],
               "index": 3,
@@ -10131,7 +10137,7 @@
                 "  pool.",
                 "- `points` is the number of points that are issued as a result of `balance` being",
                 "dissolved into the corresponding unbonding pool.",
-                "",
+                "- `era` is the era in which the balance will be unbonded.",
                 "In the absence of slashing, these values will match. In the presence of slashing, the",
                 "number of points that are issued in the unbonding pool will be less than the amount",
                 "requested to be unbonded."
@@ -31858,6 +31864,12 @@
               "fields": [],
               "index": 8,
               "docs": []
+            },
+            {
+              "name": "V10_0_0",
+              "fields": [],
+              "index": 9,
+              "docs": []
             }
           ]
         }
@@ -42348,7 +42360,7 @@
         "variant": {
           "variants": [
             {
-              "name": "MembersAlreadyInitialized",
+              "name": "AllianceAlreadyInitialized",
               "fields": [],
               "index": 0,
               "docs": [
@@ -42356,9 +42368,17 @@
               ]
             },
             {
-              "name": "AlreadyMember",
+              "name": "AllianceNotYetInitialized",
               "fields": [],
               "index": 1,
+              "docs": [
+                "The Alliance has not been initialized yet, therefore accounts cannot join it."
+              ]
+            },
+            {
+              "name": "AlreadyMember",
+              "fields": [],
+              "index": 2,
               "docs": [
                 "Account is already a member."
               ]
@@ -42366,7 +42386,7 @@
             {
               "name": "NotMember",
               "fields": [],
-              "index": 2,
+              "index": 3,
               "docs": [
                 "Account is not a member."
               ]
@@ -42374,7 +42394,7 @@
             {
               "name": "NotAlly",
               "fields": [],
-              "index": 3,
+              "index": 4,
               "docs": [
                 "Account is not an ally."
               ]
@@ -42382,7 +42402,7 @@
             {
               "name": "NotFounder",
               "fields": [],
-              "index": 4,
+              "index": 5,
               "docs": [
                 "Account is not a founder."
               ]
@@ -42390,7 +42410,7 @@
             {
               "name": "UpForKicking",
               "fields": [],
-              "index": 5,
+              "index": 6,
               "docs": [
                 "This member is up for being kicked from the Alliance and cannot perform this operation."
               ]
@@ -42398,7 +42418,7 @@
             {
               "name": "NoVotingRights",
               "fields": [],
-              "index": 6,
+              "index": 7,
               "docs": [
                 "Account does not have voting rights."
               ]
@@ -42406,7 +42426,7 @@
             {
               "name": "AlreadyElevated",
               "fields": [],
-              "index": 7,
+              "index": 8,
               "docs": [
                 "Account is already an elevated (fellow) member."
               ]
@@ -42414,7 +42434,7 @@
             {
               "name": "AlreadyUnscrupulous",
               "fields": [],
-              "index": 8,
+              "index": 9,
               "docs": [
                 "Item is already listed as unscrupulous."
               ]
@@ -42422,7 +42442,7 @@
             {
               "name": "AccountNonGrata",
               "fields": [],
-              "index": 9,
+              "index": 10,
               "docs": [
                 "Account has been deemed unscrupulous by the Alliance and is not welcome to join or be",
                 "nominated."
@@ -42431,7 +42451,7 @@
             {
               "name": "NotListedAsUnscrupulous",
               "fields": [],
-              "index": 10,
+              "index": 11,
               "docs": [
                 "Item has not been deemed unscrupulous."
               ]
@@ -42439,7 +42459,7 @@
             {
               "name": "TooManyUnscrupulousItems",
               "fields": [],
-              "index": 11,
+              "index": 12,
               "docs": [
                 "The number of unscrupulous items exceeds `MaxUnscrupulousItems`."
               ]
@@ -42447,7 +42467,7 @@
             {
               "name": "TooLongWebsiteUrl",
               "fields": [],
-              "index": 12,
+              "index": 13,
               "docs": [
                 "Length of website URL exceeds `MaxWebsiteUrlLength`."
               ]
@@ -42455,7 +42475,7 @@
             {
               "name": "InsufficientFunds",
               "fields": [],
-              "index": 13,
+              "index": 14,
               "docs": [
                 "Balance is insufficient for the required deposit."
               ]
@@ -42463,7 +42483,7 @@
             {
               "name": "WithoutIdentityDisplayAndWebsite",
               "fields": [],
-              "index": 14,
+              "index": 15,
               "docs": [
                 "The account's identity does not have display field and website field."
               ]
@@ -42471,7 +42491,7 @@
             {
               "name": "WithoutGoodIdentityJudgement",
               "fields": [],
-              "index": 15,
+              "index": 16,
               "docs": [
                 "The account's identity has no good judgement."
               ]
@@ -42479,7 +42499,7 @@
             {
               "name": "MissingProposalHash",
               "fields": [],
-              "index": 16,
+              "index": 17,
               "docs": [
                 "The proposal hash is not found."
               ]
@@ -42487,7 +42507,7 @@
             {
               "name": "NotVetoableProposal",
               "fields": [],
-              "index": 17,
+              "index": 18,
               "docs": [
                 "The proposal is not vetoable."
               ]
@@ -42495,7 +42515,7 @@
             {
               "name": "MissingAnnouncement",
               "fields": [],
-              "index": 18,
+              "index": 19,
               "docs": [
                 "The announcement is not found."
               ]
@@ -42503,7 +42523,7 @@
             {
               "name": "TooManyMembers",
               "fields": [],
-              "index": 19,
+              "index": 20,
               "docs": [
                 "Number of members exceeds `MaxMembersCount`."
               ]
@@ -42511,7 +42531,7 @@
             {
               "name": "TooManyAnnouncements",
               "fields": [],
-              "index": 20,
+              "index": 21,
               "docs": [
                 "Number of announcements exceeds `MaxAnnouncementsCount`."
               ]

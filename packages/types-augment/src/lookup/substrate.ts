@@ -1571,6 +1571,7 @@ export default {
         poolId: 'u32',
         balance: 'u128',
         points: 'u128',
+        era: 'u32',
       },
       Withdrawn: {
         member: 'AccountId32',
@@ -4142,7 +4143,7 @@ export default {
    * Lookup436: pallet_staking::Releases
    **/
   PalletStakingReleases: {
-    _enum: ['V1_0_0Ancient', 'V2_0_0', 'V3_0_0', 'V4_0_0', 'V5_0_0', 'V6_0_0', 'V7_0_0', 'V8_0_0', 'V9_0_0']
+    _enum: ['V1_0_0Ancient', 'V2_0_0', 'V3_0_0', 'V4_0_0', 'V5_0_0', 'V6_0_0', 'V7_0_0', 'V8_0_0', 'V9_0_0', 'V10_0_0']
   },
   /**
    * Lookup437: pallet_staking::pallet::pallet::Error<T>
@@ -5125,7 +5126,7 @@ export default {
    * Lookup638: pallet_alliance::pallet::Error<T, I>
    **/
   PalletAllianceError: {
-    _enum: ['MembersAlreadyInitialized', 'AlreadyMember', 'NotMember', 'NotAlly', 'NotFounder', 'UpForKicking', 'NoVotingRights', 'AlreadyElevated', 'AlreadyUnscrupulous', 'AccountNonGrata', 'NotListedAsUnscrupulous', 'TooManyUnscrupulousItems', 'TooLongWebsiteUrl', 'InsufficientFunds', 'WithoutIdentityDisplayAndWebsite', 'WithoutGoodIdentityJudgement', 'MissingProposalHash', 'NotVetoableProposal', 'MissingAnnouncement', 'TooManyMembers', 'TooManyAnnouncements']
+    _enum: ['AllianceAlreadyInitialized', 'AllianceNotYetInitialized', 'AlreadyMember', 'NotMember', 'NotAlly', 'NotFounder', 'UpForKicking', 'NoVotingRights', 'AlreadyElevated', 'AlreadyUnscrupulous', 'AccountNonGrata', 'NotListedAsUnscrupulous', 'TooManyUnscrupulousItems', 'TooLongWebsiteUrl', 'InsufficientFunds', 'WithoutIdentityDisplayAndWebsite', 'WithoutGoodIdentityJudgement', 'MissingProposalHash', 'NotVetoableProposal', 'MissingAnnouncement', 'TooManyMembers', 'TooManyAnnouncements']
   },
   /**
    * Lookup639: pallet_nomination_pools::PoolMember<T>

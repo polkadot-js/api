@@ -4,8 +4,8 @@
 
 - **Breaking change** The decorated field getters on `Struct` were moved to the prototype class for performance reasons. While `struct.<field>` access still behaves in the same way, with the same results, this does mean that the prototype getters are not visible when doing an `Object.keys(struct)` or when doing an object spread.
 - **Breaking change** Deprecated interfaces have been removed including `tx.sign(...)` (use `signAsync`), `Result.{is, as}Error` (use `{is, as}Err`) as well as storage `.range(...)` operations.
+- **Breaking change** Deprecated interfaces on `api-contract` have been removed. Always ensure you pass an options object to construction and query methods.
 - **Breaking change** Contracts access via `api-contract` will now detect the usage of `storageDepositLimit` in params, if not available the contract interfaces will not be decorated.
-- **Breaking change** Deprecated call interfaces on `api-contract` have been removed. Always ensure you pass an options object to construction and query methods.
 
 Changes:
 
@@ -18,6 +18,7 @@ Changes:
 - Add Kusama 9260 upgrade block
 - Add Polkadot 9230 & 9250 upgrade blocks
 - Add Westend 9251, 9260 & 9261 upgrade blocks
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 8.14.1 Jul 23, 2022

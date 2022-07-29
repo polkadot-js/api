@@ -236,7 +236,7 @@
             {
               "name": "BlockWeights",
               "type": 161,
-              "value": "0x20d389590100000000204aa9d1010000603b14050000000001a094cb9158010000010098f73e5d010000010000000000000000603b14050000000001a01c1efccc0100000100204aa9d1010000010088526a74000000603b140500000000000000",
+              "value": "0x5096715b0100000000204aa9d1010000603b14050000000001a094cb9158010000010098f73e5d010000010000000000000000603b14050000000001a01c1efccc0100000100204aa9d1010000010088526a74000000603b140500000000000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
               ]
@@ -268,7 +268,7 @@
             {
               "name": "Version",
               "type": 168,
-              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f74000000002c2400000000000038df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a8010000000d00000000",
+              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000362400000000000038df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a8010000000d00000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -1595,17 +1595,6 @@
                 ]
               },
               {
-                "name": "EarliestUnappliedSlash",
-                "modifier": "Optional",
-                "type": {
-                  "plain": 4
-                },
-                "fallback": "0x00",
-                "docs": [
-                  " The earliest era for which we have a pending, unapplied slash."
-                ]
-              },
-              {
                 "name": "CurrentPlannedSession",
                 "modifier": "Default",
                 "type": {
@@ -1643,7 +1632,7 @@
                 "type": {
                   "plain": 494
                 },
-                "fallback": "0x07",
+                "fallback": "0x09",
                 "docs": [
                   " True if network has been upgraded to this version.",
                   " Storage version of the pallet.",
@@ -4103,7 +4092,7 @@
             {
               "name": "SignedMaxWeight",
               "type": 8,
-              "value": "0x80c1413857010000",
+              "value": "0x50fe593657010000",
               "docs": [
                 " Maximum weight of a signed solution.",
                 "",

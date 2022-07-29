@@ -1741,6 +1741,7 @@ declare module '@polkadot/types/lookup' {
       readonly poolId: u32;
       readonly balance: u128;
       readonly points: u128;
+      readonly era: u32;
     } & Struct;
     readonly isWithdrawn: boolean;
     readonly asWithdrawn: {
@@ -4451,7 +4452,8 @@ declare module '@polkadot/types/lookup' {
     readonly isV700: boolean;
     readonly isV800: boolean;
     readonly isV900: boolean;
-    readonly type: 'V100Ancient' | 'V200' | 'V300' | 'V400' | 'V500' | 'V600' | 'V700' | 'V800' | 'V900';
+    readonly isV1000: boolean;
+    readonly type: 'V100Ancient' | 'V200' | 'V300' | 'V400' | 'V500' | 'V600' | 'V700' | 'V800' | 'V900' | 'V1000';
   }
 
   /** @name PalletStakingPalletError (437) */
@@ -5686,7 +5688,8 @@ declare module '@polkadot/types/lookup' {
 
   /** @name PalletAllianceError (638) */
   interface PalletAllianceError extends Enum {
-    readonly isMembersAlreadyInitialized: boolean;
+    readonly isAllianceAlreadyInitialized: boolean;
+    readonly isAllianceNotYetInitialized: boolean;
     readonly isAlreadyMember: boolean;
     readonly isNotMember: boolean;
     readonly isNotAlly: boolean;
@@ -5707,7 +5710,7 @@ declare module '@polkadot/types/lookup' {
     readonly isMissingAnnouncement: boolean;
     readonly isTooManyMembers: boolean;
     readonly isTooManyAnnouncements: boolean;
-    readonly type: 'MembersAlreadyInitialized' | 'AlreadyMember' | 'NotMember' | 'NotAlly' | 'NotFounder' | 'UpForKicking' | 'NoVotingRights' | 'AlreadyElevated' | 'AlreadyUnscrupulous' | 'AccountNonGrata' | 'NotListedAsUnscrupulous' | 'TooManyUnscrupulousItems' | 'TooLongWebsiteUrl' | 'InsufficientFunds' | 'WithoutIdentityDisplayAndWebsite' | 'WithoutGoodIdentityJudgement' | 'MissingProposalHash' | 'NotVetoableProposal' | 'MissingAnnouncement' | 'TooManyMembers' | 'TooManyAnnouncements';
+    readonly type: 'AllianceAlreadyInitialized' | 'AllianceNotYetInitialized' | 'AlreadyMember' | 'NotMember' | 'NotAlly' | 'NotFounder' | 'UpForKicking' | 'NoVotingRights' | 'AlreadyElevated' | 'AlreadyUnscrupulous' | 'AccountNonGrata' | 'NotListedAsUnscrupulous' | 'TooManyUnscrupulousItems' | 'TooLongWebsiteUrl' | 'InsufficientFunds' | 'WithoutIdentityDisplayAndWebsite' | 'WithoutGoodIdentityJudgement' | 'MissingProposalHash' | 'NotVetoableProposal' | 'MissingAnnouncement' | 'TooManyMembers' | 'TooManyAnnouncements';
   }
 
   /** @name PalletNominationPoolsPoolMember (639) */
