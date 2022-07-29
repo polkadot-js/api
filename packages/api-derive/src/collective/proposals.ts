@@ -58,7 +58,7 @@ export function hasProposals (section: Collective): (instanceId: string, api: De
 export function proposals (section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<DeriveCollectiveProposal[]> {
   return withSection(section, (query, api) =>
     (): Observable<DeriveCollectiveProposal[]> =>
-      api.derive[section].proposalHashes().pipe(
+      api.derive[section as 'council'].proposalHashes().pipe(
         switchMap((all) => _proposalsFrom(api, query, all))
       )
   );
