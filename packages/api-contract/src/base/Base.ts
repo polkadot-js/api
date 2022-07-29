@@ -28,7 +28,7 @@ export abstract class Base<ApiType extends ApiTypes> {
       throw new Error('Your API has not been initialized correctly and is not connected to a chain');
     } else if (!api.tx.contracts || !isFunction(api.tx.contracts.instantiateWithCode) || api.tx.contracts.instantiateWithCode.meta.args.length !== 6) {
       throw new Error('The runtime does not expose api.tx.contracts.instantiateWithCode with storageDepositLimit');
-    } else if (!api.rx.call.contractsApi || !isFunction(api.rx.call.contractsApi.call)) {
+    } else if (!api.call.contractsApi || !isFunction(api.call.contractsApi.call)) {
       throw new Error('Your runtime does not expose the api.call.contractsApi.call runtime interfaces');
     }
   }
