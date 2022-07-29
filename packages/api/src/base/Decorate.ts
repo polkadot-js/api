@@ -278,6 +278,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._errors = decoratedApi.errors;
     this._events = decoratedApi.events;
     this._query = decoratedApi.query;
+
+    this._rx.call = decoratedApi.rx.call;
     this._rx.query = decoratedApi.rx.query;
 
     const tx = this._decorateExtrinsics(decoratedMeta, this._decorateMethod);

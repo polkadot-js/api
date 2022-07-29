@@ -26,7 +26,7 @@ export interface ContractConstructor<ApiType extends ApiTypes> {
 
 // As per Rust, 5 * GAS_PER_SEC
 const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
-const ERROR_NO_CALL = 'Your node does not expose the contracts.call RPC. This is most probably due to a runtime configuration.';
+const ERROR_NO_CALL = 'Your node does not expose the contractsApi.call runtime interfaces. This is most probably due to a runtime configuration.';
 
 const l = logger('Contract');
 
@@ -79,6 +79,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   public get hasRpcContractsApi (): boolean {
+    console.log(this.api.rx.call);
+    console.log(this.api.call);
+
     return isFunction(this.api.rx.call.contractsApi?.call);
   }
 
