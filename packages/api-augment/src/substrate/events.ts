@@ -755,12 +755,12 @@ declare module '@polkadot/api-base/types/events' {
        * pool.
        * - `points` is the number of points that are issued as a result of `balance` being
        * dissolved into the corresponding unbonding pool.
-       * 
+       * - `era` is the era in which the balance will be unbonded.
        * In the absence of slashing, these values will match. In the presence of slashing, the
        * number of points that are issued in the unbonding pool will be less than the amount
        * requested to be unbonded.
        **/
-      Unbonded: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, balance: u128, points: u128], { member: AccountId32, poolId: u32, balance: u128, points: u128 }>;
+      Unbonded: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, balance: u128, points: u128, era: u32], { member: AccountId32, poolId: u32, balance: u128, points: u128, era: u32 }>;
       /**
        * The unbond pool at `era` of pool `pool_id` has been slashed to `balance`.
        **/

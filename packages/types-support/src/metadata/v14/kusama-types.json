@@ -238,7 +238,7 @@
             {
               "name": null,
               "type": 1,
-              "typeName": "[u8; /*«*/ 32 /*»*/]",
+              "typeName": "[u8; 32]",
               "docs": []
             }
           ]
@@ -6866,6 +6866,12 @@
                   "type": 6,
                   "typeName": "BalanceOf<T>",
                   "docs": []
+                },
+                {
+                  "name": "era",
+                  "type": 4,
+                  "typeName": "EraIndex",
+                  "docs": []
                 }
               ],
               "index": 3,
@@ -6877,7 +6883,7 @@
                 "  pool.",
                 "- `points` is the number of points that are issued as a result of `balance` being",
                 "dissolved into the corresponding unbonding pool.",
-                "",
+                "- `era` is the era in which the balance will be unbonded.",
                 "In the absence of slashing, these values will match. In the presence of slashing, the",
                 "number of points that are issued in the unbonding pool will be less than the amount",
                 "requested to be unbonded."
@@ -15934,6 +15940,12 @@
               "fields": [],
               "index": 8,
               "docs": []
+            },
+            {
+              "name": "V10_0_0",
+              "fields": [],
+              "index": 9,
+              "docs": []
             }
           ]
         }
@@ -17243,37 +17255,37 @@
             {
               "name": "grandpa",
               "type": 42,
-              "typeName": "</*«*/ Grandpa /*»*/ as $crate::BoundToRuntimeAppPublic>::Public",
+              "typeName": "<Grandpa as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             },
             {
               "name": "babe",
               "type": 181,
-              "typeName": "</*«*/ Babe /*»*/ as $crate::BoundToRuntimeAppPublic>::Public",
+              "typeName": "<Babe as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             },
             {
               "name": "im_online",
               "type": 45,
-              "typeName": "</*«*/ ImOnline /*»*/ as $crate::BoundToRuntimeAppPublic>::Public",
+              "typeName": "<ImOnline as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             },
             {
               "name": "para_validator",
               "type": 262,
-              "typeName": "</*«*/ Initializer /*»*/ as $crate::BoundToRuntimeAppPublic>::Public",
+              "typeName": "<Initializer as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             },
             {
               "name": "para_assignment",
               "type": 263,
-              "typeName": "</*«*/ ParaSessionInfo /*»*/ as $crate::BoundToRuntimeAppPublic>::\nPublic",
+              "typeName": "<ParaSessionInfo as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             },
             {
               "name": "authority_discovery",
               "type": 264,
-              "typeName": "</*«*/ AuthorityDiscovery /*»*/ as $crate::BoundToRuntimeAppPublic>::\nPublic",
+              "typeName": "<AuthorityDiscovery as $crate::BoundToRuntimeAppPublic>::Public",
               "docs": []
             }
           ]

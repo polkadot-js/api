@@ -18,6 +18,14 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountNonGrata: AugmentedError<ApiType>;
       /**
+       * The founders/fellows/allies have already been initialized.
+       **/
+      AllianceAlreadyInitialized: AugmentedError<ApiType>;
+      /**
+       * The Alliance has not been initialized yet, therefore accounts cannot join it.
+       **/
+      AllianceNotYetInitialized: AugmentedError<ApiType>;
+      /**
        * Account is already an elevated (fellow) member.
        **/
       AlreadyElevated: AugmentedError<ApiType>;
@@ -33,10 +41,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Balance is insufficient for the required deposit.
        **/
       InsufficientFunds: AugmentedError<ApiType>;
-      /**
-       * The founders/fellows/allies have already been initialized.
-       **/
-      MembersAlreadyInitialized: AugmentedError<ApiType>;
       /**
        * The announcement is not found.
        **/
