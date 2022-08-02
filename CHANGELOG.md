@@ -6,6 +6,10 @@ Contributed:
 
 - Update `@substrate/connect` to latest (Thanks to https://github.com/wirednkod)
 
+Changes:
+
+- Add `noInitWarn: boolean` flag to API options, disabling runtime & RPC warning availability displays
+
 
 ## 9.0.1 Jul 30, 2022
 

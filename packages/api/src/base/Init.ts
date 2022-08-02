@@ -70,7 +70,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       this._rpcCore.provider.on('disconnected', () => this.#onProviderDisconnect());
       this._rpcCore.provider.on('error', (e: Error) => this.#onProviderError(e));
       this._rpcCore.provider.on('connected', () => this.#onProviderConnect());
-    } else {
+    } else if (!this._options.noInitWarn) {
       l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
     }
 
