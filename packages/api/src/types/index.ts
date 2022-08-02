@@ -50,6 +50,10 @@ export interface ApiOptions extends RegisteredTypes {
    */
   metadata?: Record<string, HexString>;
   /**
+   * @description Don't display any warnings on initialization (missing RPC methods & runtime calls)
+   */
+  noInitWarn?: boolean;
+  /**
    * @description Transport Provider from rpc-provider. If not specified, it will default to
    * connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`
    */

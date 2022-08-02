@@ -385,7 +385,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const filterKey = (k: string) => !allKeys.includes(k);
     const unknown = exposed.filter(filterKey);
 
-    if (unknown.length) {
+    if (unknown.length && !this._options.noInitWarn) {
       l.warn(`RPC methods not decorated: ${unknown.join(', ')}`);
     }
 
@@ -540,12 +540,14 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       .filter(([a]) => !hashes[a])
       .map(([a, v]) => `${this._runtimeMap[a] || a}/${v}`);
 
-    if (older.length) {
-      l.warn(`Not decorating runtime apis without matching versions: ${older.join(', ')}`);
-    }
+    if (!this._options.noInitWarn) {
+      if (older.length) {
+        l.warn(`Not decorating runtime apis without matching versions: ${older.join(', ')}`);
+      }
 
-    if (notFound.length) {
-      l.warn(`Not decorating unknown runtime apis: ${notFound.join(', ')}`);
+      if (notFound.length) {
+        l.warn(`Not decorating unknown runtime apis: ${notFound.join(', ')}`);
+      }
     }
 
     const stateCall = blockHash
