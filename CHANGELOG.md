@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Update `@substrate/connect` to latest (Thanks to https://github.com/wirednkod)
+
+
 ## 9.0.1 Jul 30, 2022
 
 - **Breaking change** The decorated field getters on `Struct` were moved to the prototype class for performance reasons. While `struct.<field>` access still behaves in the same way, with the same results, this does mean that the prototype getters are not visible when doing an `Object.keys(struct)` or when doing an object spread.
