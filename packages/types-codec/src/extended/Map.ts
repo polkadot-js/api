@@ -46,7 +46,7 @@ function decodeMapFromMap<K extends Codec, V extends Codec> (registry: Registry,
       output.set(
         key instanceof KeyClass
           ? key
-          : new KeyClass(registry, isComplex ? JSON.parse(key as string) : key),
+          : new KeyClass(registry, isComplex && typeof key === 'string' ? JSON.parse(key) : key),
         val instanceof ValClass
           ? val
           : new ValClass(registry, val)
