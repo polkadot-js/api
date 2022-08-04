@@ -5,6 +5,7 @@
 Contributed:
 
 - Update `@substrate/connect` to latest (Thanks to https://github.com/wirednkod)
+- Handle both string and object keys in `CodecMap` (Thanks to https://github.com/CertainLach)
 
 Changes:
 
