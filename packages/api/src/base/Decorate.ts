@@ -228,7 +228,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     } as ApiDecoration<ApiType>;
   }
 
-  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, decoratedApi: ApiDecoration<ApiType> | null, blockHash?: Uint8Array): FullDecoration<ApiType> {
+  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, withLogging: boolean, decoratedApi: ApiDecoration<ApiType> | null, blockHash?: Uint8Array): FullDecoration<ApiType> {
     if (!decoratedApi) {
       decoratedApi = this._emptyDecorated(registry.registry, blockHash);
     }
@@ -237,8 +237,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       registry.decoratedMeta = expandMetadata(registry.registry, registry.metadata);
     }
 
-    const runtime = this._decorateCalls(registry, this._decorateMethod, blockHash);
-    const runtimeRx = this._decorateCalls<'rxjs'>(registry, this._rxDecorateMethod, blockHash);
+    const runtime = this._decorateCalls(registry, this._decorateMethod, blockHash, withLogging);
+    const runtimeRx = this._decorateCalls<'rxjs'>(registry, this._rxDecorateMethod, blockHash, false);
     const storage = this._decorateStorage(registry.decoratedMeta, this._decorateMethod, blockHash);
     const storageRx = this._decorateStorage<'rxjs'>(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
 
@@ -271,7 +271,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       registry.decoratedApi = this._emptyDecorated(registry.registry);
     }
 
-    const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, registry.decoratedApi);
+    const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, !registry.counter, registry.decoratedApi);
 
     this._call = decoratedApi.call;
     this._consts = decoratedApi.consts;
@@ -303,7 +303,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
    * backwards compatible endpoint for metadata injection, may be removed in the future (However, it is still useful for testing injection)
    */
   public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
-    this._injectMetadata({ metadata, registry: registry || this.#registry, runtimeVersion: this.#registry.createType('RuntimeVersionPartial') }, fromEmpty);
+    this._injectMetadata({ counter: 0, metadata, registry: registry || this.#registry, runtimeVersion: this.#registry.createType('RuntimeVersionPartial') }, fromEmpty);
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
@@ -494,7 +494,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   // pre-metadata decoration
-  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName } }: VersionedRegistry<any>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
+  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName } }: VersionedRegistry<any>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null, withLogging = true): QueryableCalls<ApiType> {
     const result = {} as QueryableCalls<ApiType>;
     const named: Record<string, Record<string, DefinitionCallNamed>> = {};
     const hashes: Record<HexString, boolean> = {};
@@ -540,7 +540,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       .filter(([a]) => !hashes[a])
       .map(([a, v]) => `${this._runtimeMap[a] || a}/${v}`);
 
-    if (!this._options.noInitWarn) {
+    if (!this._options.noInitWarn && withLogging) {
       if (older.length) {
         l.warn(`Not decorating runtime apis without matching versions: ${older.join(', ')}`);
       }
