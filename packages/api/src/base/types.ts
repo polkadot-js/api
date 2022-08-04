@@ -8,6 +8,7 @@ import type { Registry } from '@polkadot/types/types';
 import type { ApiDecoration, ApiTypes } from '../types';
 
 export interface VersionedRegistry<ApiType extends ApiTypes> {
+  counter: number;
   decoratedApi?: ApiDecoration<ApiType>;
   decoratedMeta?: DecoratedMeta;
   isDefault?: boolean;

@@ -117,7 +117,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // always create a new decoration - since we are pointing to a specific hash, this
     // means that all queries needs to use that hash (not a previous one already existing)
-    return this._createDecorated(registry, true, null, u8aHash).decoratedApi;
+    return this._createDecorated(registry, true, !registry.counter, null, u8aHash).decoratedApi;
   }
 
   private async _createBlockRegistry (blockHash: Uint8Array, header: HeaderPartial, version: RuntimeVersionPartial): Promise<VersionedRegistry<ApiType>> {
@@ -129,7 +129,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
 
     // add our new registry
-    const result = { lastBlockHash: blockHash, metadata, registry, runtimeVersion: version };
+    const result = { counter: 0, lastBlockHash: blockHash, metadata, registry, runtimeVersion: version };
 
     this.#registries.push(result);
 
@@ -168,6 +168,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       );
 
       if (existingViaVersion) {
+        existingViaVersion.counter++;
         existingViaVersion.lastBlockHash = blockHash;
 
         return existingViaVersion;
@@ -337,7 +338,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ isDefault: true, metadata, registry: this.registry, runtimeVersion });
+      this.#registries.push({ counter: 0, isDefault: true, metadata, registry: this.registry, runtimeVersion });
     }
 
     // get unique types & validate

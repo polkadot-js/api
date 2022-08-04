@@ -10,6 +10,7 @@ Contributed:
 Changes:
 
 - Add `noInitWarn: boolean` flag to API options, disabling runtime & RPC warning availability displays
+- Only log missing runtime calls on new metadata instances (not for internal instances)
 
 
 ## 9.0.1 Jul 30, 2022
