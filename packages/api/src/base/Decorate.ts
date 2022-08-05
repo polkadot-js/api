@@ -63,6 +63,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   #registry: Registry;
 
+  readonly #runtimeLog: Record<string, boolean> = {};
+
   #storageGetQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
 
   #storageSubQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
@@ -229,7 +231,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     } as ApiDecoration<ApiType>;
   }
 
-  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, withLogging: boolean, decoratedApi: ApiDecoration<ApiType> | null, blockHash?: Uint8Array): FullDecoration<ApiType> {
+  protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, decoratedApi: ApiDecoration<ApiType> | null, blockHash?: Uint8Array): FullDecoration<ApiType> {
     if (!decoratedApi) {
       decoratedApi = this._emptyDecorated(registry.registry, blockHash);
     }
@@ -238,8 +240,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       registry.decoratedMeta = expandMetadata(registry.registry, registry.metadata);
     }
 
-    const runtime = this._decorateCalls(registry, this._decorateMethod, blockHash, withLogging);
-    const runtimeRx = this._decorateCalls<'rxjs'>(registry, this._rxDecorateMethod, blockHash, false);
+    const runtime = this._decorateCalls(registry, this._decorateMethod, blockHash);
+    const runtimeRx = this._decorateCalls<'rxjs'>(registry, this._rxDecorateMethod, blockHash);
     const storage = this._decorateStorage(registry.decoratedMeta, this._decorateMethod, blockHash);
     const storageRx = this._decorateStorage<'rxjs'>(registry.decoratedMeta, this._rxDecorateMethod, blockHash);
 
@@ -273,7 +275,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       registry.decoratedApi = this._emptyDecorated(registry.registry);
     }
 
-    const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, !registry.counter, registry.decoratedApi);
+    const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, registry.decoratedApi);
 
     this._call = decoratedApi.call;
     this._consts = decoratedApi.consts;
@@ -496,12 +498,16 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   // pre-metadata decoration
-  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName } }: VersionedRegistry<any>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null, withLogging = true): QueryableCalls<ApiType> {
+  protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName, specVersion } }: VersionedRegistry<any>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
     const result = {} as QueryableCalls<ApiType>;
     const named: Record<string, Record<string, DefinitionCallNamed>> = {};
     const hashes: Record<HexString, boolean> = {};
     const sections = this._getRuntimeDefs(registry, specName, this._runtimeChain);
     const older: string[] = [];
+    const implName = `${specName.toString()}/${specVersion.toString()}`;
+    const hasLogged = this.#runtimeLog[implName] || false;
+
+    this.#runtimeLog[implName] = true;
 
     for (let i = 0; i < sections.length; i++) {
       const [_section, secs] = sections[i];
@@ -542,13 +548,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       .filter(([a]) => !hashes[a])
       .map(([a, v]) => `${this._runtimeMap[a] || a}/${v}`);
 
-    if (!this._options.noInitWarn && withLogging) {
+    if (!this._options.noInitWarn && !hasLogged) {
       if (older.length) {
-        l.warn(`Not decorating runtime apis without matching versions: ${older.join(', ')}`);
+        l.warn(`${implName}: Not decorating runtime apis without matching versions: ${older.join(', ')}`);
       }
 
       if (notFound.length) {
-        l.warn(`Not decorating unknown runtime apis: ${notFound.join(', ')}`);
+        l.warn(`${implName}: Not decorating unknown runtime apis: ${notFound.join(', ')}`);
       }
     }
 
