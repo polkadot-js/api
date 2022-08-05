@@ -29,6 +29,8 @@ function textToString (t: Text): string {
 }
 
 export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
+  #atMap: Record<string, ApiDecoration<ApiType>> = {};
+
   #healthTimer: ReturnType<typeof setInterval> | null = null;
 
   #registries: VersionedRegistry<ApiType>[] = [];
@@ -113,11 +115,16 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
    */
   public async at (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion): Promise<ApiDecoration<ApiType>> {
     const u8aHash = u8aToU8a(blockHash);
+    const u8aHex = u8aToHex(u8aHash);
     const registry = await this.getBlockRegistry(u8aHash, knownVersion);
 
-    // always create a new decoration - since we are pointing to a specific hash, this
-    // means that all queries needs to use that hash (not a previous one already existing)
-    return this._createDecorated(registry, true, !registry.counter, null, u8aHash).decoratedApi;
+    if (!this.#atMap[u8aHex]) {
+      // always create a new decoration - since we are pointing to a specific hash, this
+      // means that all queries needs to use that hash (not a previous one already existing)
+      this.#atMap[u8aHex] = this._createDecorated(registry, true, !registry.counter, null, u8aHash).decoratedApi;
+    }
+
+    return this.#atMap[u8aHex];
   }
 
   private async _createBlockRegistry (blockHash: Uint8Array, header: HeaderPartial, version: RuntimeVersionPartial): Promise<VersionedRegistry<ApiType>> {
