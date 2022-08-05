@@ -40,6 +40,7 @@ interface MetaDecoration {
 }
 
 interface FullDecoration<ApiType extends ApiTypes> {
+  createdAt?: Uint8Array;
   decoratedApi: ApiDecoration<ApiType>;
   decoratedMeta: DecoratedMeta;
 }
@@ -260,6 +261,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decoratedApi.runtimeVersion = registry.runtimeVersion;
 
     return {
+      createdAt: blockHash,
       decoratedApi,
       decoratedMeta: registry.decoratedMeta
     };
