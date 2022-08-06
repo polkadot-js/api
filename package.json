@@ -11,9 +11,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "9.0.2-9-x",
+  "version": "9.0.2-10-x",
   "versions": {
-    "git": "9.0.2-9-x",
+    "git": "9.0.2-10-x",
     "npm": "9.0.1"
   },
   "workspaces": [
