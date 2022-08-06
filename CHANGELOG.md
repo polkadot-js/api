@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 9.1.1 Aug 6, 2022
 
 Contributed:
 
@@ -9,8 +9,11 @@ Contributed:
 
 Changes:
 
-- Add `noInitWarn: boolean` flag to API options, disabling runtime & RPC warning availability displays
-- Only log missing runtime calls on new metadata instances (not for internal instances)
+- Add `noInitWarn: boolean` flag to API options, disabling runtime & RPC warnings
+- Only log missing runtime calls on new (detected) specVersion
+- Add shallow/one-blockHash cache for `api.at(...)` instances
+- Add Westend 9270 upgrade block
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 9.0.1 Jul 30, 2022
