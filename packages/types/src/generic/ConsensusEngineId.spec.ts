@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create';
-import { CID_AURA, GenericConsensusEngineId as ConsensusEngineId } from './ConsensusEngineId';
+import { CID_AURA, CID_NMBS, GenericConsensusEngineId as ConsensusEngineId } from './ConsensusEngineId';
 
 describe('ConsensusEngineId', (): void => {
   const registry = new TypeRegistry();
@@ -13,5 +13,9 @@ describe('ConsensusEngineId', (): void => {
 
   it('reverses an id to string for babe', (): void => {
     expect(new ConsensusEngineId(registry, 'BABE').toString()).toEqual('BABE');
+  });
+
+  it('creates a valid id for nimbus', (): void => {
+    expect(new ConsensusEngineId(registry, 'nmbs').toU8a()).toEqual(CID_NMBS);
   });
 });

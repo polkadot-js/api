@@ -16,7 +16,7 @@ import { memo, unwrapBlockNumber } from '../util';
 // we would emit code with ../<somewhere>/src embedded in the *.d.ts files
 export type { BlockNumber } from '@polkadot/types/interfaces';
 
-export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber> {
+export function createBlockNumberDerive<T extends { number: Compact<BlockNumber> | BlockNumber }>(fn: (api: DeriveApi) => Observable<T>): (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber> {
   return (instanceId: string, api: DeriveApi) =>
     memo(instanceId, () =>
       fn(api).pipe(
@@ -25,35 +25,41 @@ export function createBlockNumberDerive <T extends { number: Compact<BlockNumber
     );
 }
 
-export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
-  // this is Moonbeam specific
-  if (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit) {
-    const mapId = header.digest.logs[0] && (
-      (header.digest.logs[0].isConsensus && header.digest.logs[0].asConsensus[1]) ||
-      (header.digest.logs[0].isPreRuntime && header.digest.logs[0].asPreRuntime[1])
-    );
-
-    if (mapId) {
-      return combineLatest([
-        of(header),
-        queryAt.session
-          ? queryAt.session.validators()
-          : of(null),
-        queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(mapId).pipe(
-          map((opt) =>
-            opt.unwrapOr({ account: null }).account
-          )
+export function getAuthorDetails(header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
+  // Some consensus systems store author info in a digest item, e.g. Nimbus Consensus and can directly return the block author
+  let author_accountId: Observable<AccountId | null> = of(null);
+  // the consensusId from the digest must be mapped to a corresponding accountId first. The following is Nimbus specific
+  const author_consensusId = header.digest.logs[0] && (
+    (header.digest.logs[0].isConsensus && header.digest.logs[0].asConsensus[0].isNimbus && header.digest.logs[0].asConsensus[1]) ||
+    (header.digest.logs[0].isPreRuntime && header.digest.logs[0].asPreRuntime[0].isNimbus && header.digest.logs[0].asPreRuntime[1])
+  );
+  if (author_consensusId) {
+    // Nimbus specifics - Moonbeam variant, resolving NimbusId with pallet_author_mapping
+    if (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit) {
+      author_accountId = queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(author_consensusId).pipe(
+        map((opt) =>
+          opt.unwrapOr({ account: null }).account
         )
-      ]);
+      )
+    }
+    // Nimbus specifics - Manta variant, resolving NimbusId with pallet_session
+    else {
+      author_accountId = queryAt.session.keyOwner<IOption<{ account: AccountId } & Codec>>(header.digest.logs[0].asPreRuntime[0].toU8a(), author_consensusId).pipe(
+        map((opt) =>
+          opt.unwrapOr({ account: null }).account
+        )
+      );
     }
   }
 
-  // normal operation, non-mapping
+  // other chains just look up the author from the full validator set
+  const validators = queryAt.session
+    ? queryAt.session.validators()
+    : of(null);
+
   return combineLatest([
     of(header),
-    queryAt.session
-      ? queryAt.session.validators()
-      : of(null),
-    of(null)
+    validators,
+    author_accountId
   ]);
 }
