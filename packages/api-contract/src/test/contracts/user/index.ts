@@ -3,5 +3,6 @@
 
 import { createVersionedExport } from '../util';
 import * as v0 from './v0';
+import * as v3 from './v3';
 
-export default createVersionedExport({ v0 });
+export default createVersionedExport({ v0, v3 });

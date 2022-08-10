@@ -17,7 +17,6 @@ jobs:
         deno-version: vx.x.x
     - name: ${{ matrix.step }}
       if: always()
-      continue-on-error: true
       run: |
         yarn install --immutable | grep -v 'YN0013'
         yarn ${{ matrix.step }}
