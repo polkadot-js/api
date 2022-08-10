@@ -6,6 +6,7 @@ Changes:
 
 - Don't assume non-empty path specifiers on portable variant/composites
 - Explicit param length checks for all generic portable overrides
+- Add Polkadot 9260 upgrade block
 
 
 ## 9.1.1 Aug 6, 2022
