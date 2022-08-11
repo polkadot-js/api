@@ -2,10 +2,14 @@
 
 ## master
 
+- **Important** If using `import { WellKnownChain } from '@polkadot/rpc-provider'` it is recommended that you rather use `ScProvider.WellKnownChain` (the import may be dropped in a future major version)
+
 Changes:
 
 - Don't assume non-empty path specifiers on portable variant/composites
 - Explicit param length checks for all generic portable overrides
+- Re-export `ScProvider` in `@polkadot/api`, aligning with `{Http, Ws}Provider`
+- Expose `WellKnownChain` as static on `ScProvider.WellKnownChain`
 - Add Polkadot 9260 upgrade block
 
 

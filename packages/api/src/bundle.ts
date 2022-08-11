@@ -4,7 +4,7 @@
 import '@polkadot/rpc-augment';
 
 export { Keyring } from '@polkadot/keyring';
-export { WsProvider, HttpProvider } from '@polkadot/rpc-provider';
+export { HttpProvider, ScProvider, WsProvider } from '@polkadot/rpc-provider';
 
 export { packageInfo } from './packageInfo';
 export { SubmittableResult } from './submittable';
