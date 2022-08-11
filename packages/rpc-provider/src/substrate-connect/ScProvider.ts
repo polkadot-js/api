@@ -36,19 +36,18 @@ const wellKnownChains = new Set(Object.values(WellKnownChain));
 const scClients = new WeakMap<ScProvider, ScClient>();
 
 export { WellKnownChain };
+
 export class ScProvider implements ProviderInterface {
   readonly #coder: RpcCoder = new RpcCoder();
   readonly #spec: string | WellKnownChain;
   readonly #sharedSandbox?: ScProvider;
-  readonly #subscriptions: Map<
-  string,
-  [ResponseCallback, { unsubscribeMethod: string; id: string | number }]
-  > = new Map();
-
+  readonly #subscriptions: Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]> = new Map();
   readonly #requests: Map<number, ResponseCallback> = new Map();
   readonly #eventemitter: EventEmitter = new EventEmitter();
   #chain: Promise<Chain> | null = null;
   #isChainReady = false;
+
+  static WellKnownChain = WellKnownChain;
 
   public constructor (spec: string | WellKnownChain, sharedSandbox?: ScProvider) {
     this.#spec = spec;
