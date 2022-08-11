@@ -6,6 +6,7 @@ Changes:
 
 - Don't assume non-empty path specifiers on portable variant/composites
 - Explicit param length checks for all generic portable overrides
+- Re-export `ScProvider` in `@polkadot/api`
 - Add Polkadot 9260 upgrade block
 
 
