@@ -7,7 +7,7 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 import { Chain, createScClient, ScClient, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
 
-import { isError } from '@polkadot/util';
+import { isError, objectSpread } from '@polkadot/util';
 
 import { RpcCoder } from '../coder';
 import { healthChecker } from './Health';
@@ -214,15 +214,14 @@ export class ScProvider implements ProviderInterface {
         this.#eventemitter.emit(isReady ? 'connected' : 'disconnected');
       });
 
-      return {
-        ...chain,
+      return objectSpread({}, chain, {
         remove: () => {
           hc.stop();
           chain.remove();
           cleanup();
         },
         sendJsonRpc: hc.sendJsonRpc.bind(hc)
-      };
+      });
     });
 
     try {
@@ -251,10 +250,7 @@ export class ScProvider implements ProviderInterface {
     this.#eventemitter.emit('disconnected');
   }
 
-  public on (
-    type: ProviderInterfaceEmitted,
-    sub: ProviderInterfaceEmitCb
-  ): () => void {
+  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
     // It's possible. Although, quite unlikely, that by the time that polkadot
     // subscribes to the `connected` event, the Provider is already connected.
     // In that case, we must emit to let the consumer know that we are connected.
@@ -304,12 +300,7 @@ export class ScProvider implements ProviderInterface {
     }
   }
 
-  public async subscribe (
-    type: string,
-    method: string,
-    params: any[],
-    callback: ProviderInterfaceCallback
-  ): Promise<number | string> {
+  public async subscribe (type: string, method: string, params: any[], callback: ProviderInterfaceCallback): Promise<number | string> {
     if (!subscriptionUnsubscriptionMethods.has(method)) {
       throw new Error(`Unsupported subscribe method: ${method}`);
     }
@@ -336,11 +327,7 @@ export class ScProvider implements ProviderInterface {
     return id;
   }
 
-  public unsubscribe (
-    type: string,
-    method: string,
-    id: number | string
-  ): Promise<boolean> {
+  public unsubscribe (type: string, method: string, id: number | string): Promise<boolean> {
     if (!this.isConnected) {
       throw new Error('Provider is not connected');
     }
