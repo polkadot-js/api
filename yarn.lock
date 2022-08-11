@@ -2057,9 +2057,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.67.90":
-  version: 0.67.90
-  resolution: "@polkadot/dev@npm:0.67.90"
+"@polkadot/dev@npm:^0.67.92":
+  version: 0.67.92
+  resolution: "@polkadot/dev@npm:0.67.92"
   dependencies:
     "@babel/cli": ^7.18.10
     "@babel/core": ^7.18.10
@@ -2121,7 +2121,7 @@ __metadata:
     mkdirp: ^1.0.4
     prettier: ^2.7.1
     rimraf: ^3.0.2
-    rollup: ^2.77.2
+    rollup: ^2.77.3
     rollup-plugin-cleanup: ^3.2.1
     typescript: ^4.7.4
     yargs: ^17.5.1
@@ -2148,7 +2148,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 89360435ac599375bfdc3bfc4a69b523fa01bdf751c309a04dd0bb47423b74e0317b432af7e2d4b82c377e6bd8849545f5823270a5302c1b68f65ce490a60822
+  checksum: c776a7c56611e2bbb52a03fe96b5548f6e9830ce9cf89dcd26f039d1ab32b0086aca291f8077bc87ac51dab475669a8568336cfe40080d4fb50b9b29145f7751
   languageName: node
   linkType: hard
 
@@ -9271,9 +9271,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.77.2":
-  version: 2.77.2
-  resolution: "rollup@npm:2.77.2"
+"rollup@npm:^2.77.3":
+  version: 2.77.3
+  resolution: "rollup@npm:2.77.3"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -9281,7 +9281,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 5a84fb98a6f858906bceba091430442f6c1f362b07c5fa9123b708f87e39f52640e34a189cd9a1776ceae61300055c78ba648205fa03188451539ebeb19797df
+  checksum: b179c68249584565ddb5664a241e8e48c293b2207718d885b08ee25797d98857a383f06b544bb89819407da5a71557f4713309a278f61c4778bb32b1d3321a1c
   languageName: node
   linkType: hard
 
@@ -9292,7 +9292,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.18.10
     "@babel/register": ^7.18.9
     "@babel/runtime": ^7.18.9
-    "@polkadot/dev": ^0.67.90
+    "@polkadot/dev": ^0.67.92
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^28.1.6
     copyfiles: ^2.4.1
