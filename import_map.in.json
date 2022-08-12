@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "https://esm.sh/v90/@types/bn.js@~5.2/index.d.ts": "https://esm.sh/v90/@types/bn.js@5.1.0/index.d.ts"
+  }
+}
