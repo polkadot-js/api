@@ -84,61 +84,61 @@ describe('type definitions', (): void => {
   });
 });
 
-// describe('rpc definitions', (): void => {
-//   const rpcs = Object.entries(all).filter((v): v is [string, CheckDef] =>
-//     !!v[1].rpc &&
-//     Object.keys(v[1].rpc).length !== 0
-//   );
+describe('rpc definitions', (): void => {
+  const rpcs = Object.entries(all).filter((v): v is [string, CheckDef] =>
+    !!v[1].rpc &&
+    Object.keys(v[1].rpc).length !== 0
+  );
 
-//   describe.each(rpcs)('%s', (section, { rpc }): void => {
-//     const methodsEntries = Object.entries(rpc);
+  describe.each(rpcs)('%s', (section, { rpc }): void => {
+    const methodsEntries = Object.entries(rpc);
 
-//     describe.each(methodsEntries)('%s', (method, { params, type }): void => {
-//       // We cannot constuct V0, so just ignore
-//       if (section !== 'state' || method !== 'getMetadata') {
-//         it(`output ${type} is known`, (): void => {
-//           expect(() => inspectType(type)).not.toThrow();
-//         });
-//       }
+    describe.each(methodsEntries)('%s', (method, { params, type }): void => {
+      // We cannot constuct V0, so just ignore
+      if (section !== 'state' || method !== 'getMetadata') {
+        it(`output ${type} is known`, (): void => {
+          expect(() => inspectType(type)).not.toThrow();
+        });
+      }
 
-//       if (params.length) {
-//         describe('params', (): void => {
-//           it.each(params)('$name: $type is known', ({ type }): void => {
-//             expect(() => inspectType(type)).not.toThrow();
-//           });
-//         });
-//       }
-//     });
-//   });
-// });
+      if (params.length) {
+        describe('params', (): void => {
+          it.each(params)('$name: $type is known', ({ type }): void => {
+            expect(() => inspectType(type)).not.toThrow();
+          });
+        });
+      }
+    });
+  });
+});
 
-// describe('runtime definitions', (): void => {
-//   const runtimes = Object.entries(all).filter((v): v is [string, CheckDef] =>
-//     !!v[1].runtime &&
-//     Object.keys(v[1].runtime).length !== 0
-//   );
+describe('runtime definitions', (): void => {
+  const runtimes = Object.entries(all).filter((v): v is [string, CheckDef] =>
+    !!v[1].runtime &&
+    Object.keys(v[1].runtime).length !== 0
+  );
 
-//   describe.each(runtimes)('%s', (_, { runtime }): void => {
-//     const versionsEntries = Object.entries(runtime);
+  describe.each(runtimes)('%s', (_, { runtime }): void => {
+    const versionsEntries = Object.entries(runtime);
 
-//     describe.each(versionsEntries)('%s', (_, versions): void => {
-//       describe.each(versions)('version $version', ({ methods }): void => {
-//         const methodsEntries = Object.entries(methods);
+    describe.each(versionsEntries)('%s', (_, versions): void => {
+      describe.each(versions)('version $version', ({ methods }): void => {
+        const methodsEntries = Object.entries(methods);
 
-//         describe.each(methodsEntries)('%s', (_, { params, type }): void => {
-//           it(`output ${type} is known`, (): void => {
-//             expect(() => inspectType(type)).not.toThrow();
-//           });
+        describe.each(methodsEntries)('%s', (_, { params, type }): void => {
+          it(`output ${type} is known`, (): void => {
+            expect(() => inspectType(type)).not.toThrow();
+          });
 
-//           if (params.length) {
-//             describe('params', (): void => {
-//               it.each(params)('$name: $type is known', ({ type }): void => {
-//                 expect(() => inspectType(type)).not.toThrow();
-//               });
-//             });
-//           }
-//         });
-//       });
-//     });
-//   });
-// });
+          if (params.length) {
+            describe('params', (): void => {
+              it.each(params)('$name: $type is known', ({ type }): void => {
+                expect(() => inspectType(type)).not.toThrow();
+              });
+            });
+          }
+        });
+      });
+    });
+  });
+});
