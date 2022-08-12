@@ -180,7 +180,7 @@ export const runtime: DefinitionsCall = {
         current_all: {
           description: 'Return all the current data for a block in a single runtime call.',
           params: [],
-          type: '(Option<BlockV2>, Option<Vec<ReceiptV0>>, Option<Vec<TransactionStatus>>)'
+          type: '(Option<BlockV2>, Option<Vec<EthReceiptV3>>, Option<Vec<EthTransactionStatus>>)'
         },
         current_block: {
           description: 'Return the current block.',

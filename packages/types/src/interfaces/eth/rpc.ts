@@ -19,13 +19,13 @@ const netRpc: DefinitionsRpc = {
     aliasSection: 'net',
     description: 'Returns number of peers connected to node.',
     params: [],
-    type: 'String'
+    type: 'Text'
   },
   version: {
     aliasSection: 'net',
     description: 'Returns protocol version.',
     params: [],
-    type: 'String'
+    type: 'Text'
   }
 };
 const web3Rpc: DefinitionsRpc = {
@@ -33,7 +33,7 @@ const web3Rpc: DefinitionsRpc = {
     aliasSection: 'web3',
     description: 'Returns current client version.',
     params: [],
-    type: 'String'
+    type: 'Text'
   },
   sha3: {
     aliasSection: 'web3',
