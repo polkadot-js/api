@@ -46,7 +46,7 @@ export default {
       writes: 'u32',
       repeatWrites: 'u32',
       proofSize: 'u32',
-      keys: 'Vec<(Vec<u8>, u32, u32, bool)>'
+      benchKeys: 'Vec<(Vec<u8>, u32, u32, bool)>'
     }
   }
 } as Definitions;
