@@ -1,8 +1,16 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, Struct, Vec, bool, u32 } from '@polkadot/types-codec';
+import type { Bytes, Enum, Struct, Text, Vec, bool, u128, u32 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
+
+/** @name BenchmarkBatch */
+export interface BenchmarkBatch extends Struct {
+  readonly pallet: Text;
+  readonly instance: Text;
+  readonly benchmark: Text;
+  readonly results: Vec<BenchmarkResult>;
+}
 
 /** @name BenchmarkConfig */
 export interface BenchmarkConfig extends Struct {
@@ -55,6 +63,19 @@ export interface BenchmarkParameter extends Enum {
   readonly isY: boolean;
   readonly isZ: boolean;
   readonly type: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z';
+}
+
+/** @name BenchmarkResult */
+export interface BenchmarkResult extends Struct {
+  readonly components: Vec<ITuple<[BenchmarkParameter, u32]>>;
+  readonly extrinsicTime: u128;
+  readonly storageRootTime: u128;
+  readonly reads: u32;
+  readonly repeatReads: u32;
+  readonly writes: u32;
+  readonly repeatWrites: u32;
+  readonly proofSize: u32;
+  readonly benchKeys: Vec<ITuple<[Bytes, u32, u32, bool]>>;
 }
 
 export type PHANTOM_BENCHMARK = 'benchmark';

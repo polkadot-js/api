@@ -12,6 +12,12 @@ export default {
   rpc: {},
   runtime,
   types: {
+    BenchmarkBatch: {
+      pallet: 'Text',
+      instance: 'Text',
+      benchmark: 'Text',
+      results: 'Vec<BenchmarkResult>'
+    },
     BenchmarkConfig: {
       pallet: 'Bytes',
       benchmark: 'Bytes',
@@ -30,6 +36,17 @@ export default {
     },
     BenchmarkParameter: {
       _enum: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    },
+    BenchmarkResult: {
+      components: 'Vec<(BenchmarkParameter, u32)>',
+      extrinsicTime: 'u128',
+      storageRootTime: 'u128',
+      reads: 'u32',
+      repeatReads: 'u32',
+      writes: 'u32',
+      repeatWrites: 'u32',
+      proofSize: 'u32',
+      benchKeys: 'Vec<(Vec<u8>, u32, u32, bool)>'
     }
   }
 } as Definitions;
