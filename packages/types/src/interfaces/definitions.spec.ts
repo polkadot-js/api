@@ -28,14 +28,8 @@ registry.register(types as RegistryTypes);
 registry.setMetadata(new Metadata(registry, rpcMetadata));
 
 function inspectType (type: string): void {
-  console.error(type);
-
   // get the definition
-  const td = registry.isLookupType(type)
-    ? registry.lookup.getTypeDef(type)
-    : getTypeDef(type);
-
-  console.error(td);
+  const td = getTypeDef(registry.createType(type).toRawType());
 
   // inspect the subs
   if (Array.isArray(td.sub)) {
@@ -48,16 +42,6 @@ function inspectType (type: string): void {
     // see if we have it
     registry.getOrThrow(type);
   }
-
-  // create a class
-  const Clazz = registry.createClass(type);
-
-  // construct the class
-  // eslint-disable-next-line no-new
-  new Clazz(registry);
-
-  // create it
-  registry.createType(type);
 }
 
 describe('type definitions', (): void => {
