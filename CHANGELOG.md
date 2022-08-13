@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 9.2.1 Aug 13, 2022
 
 - **Important** If using `import { WellKnownChain } from '@polkadot/rpc-provider'` it is recommended that you rather use `ScProvider.WellKnownChain` (the import may be dropped in a future major version)
 
