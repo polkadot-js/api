@@ -219,8 +219,8 @@ function extendPrefixedMap (registry: Registry, itemFn: CreateItemFn, storageFn:
   const { meta: { type }, method, section } = itemFn;
 
   storageFn.iterKey = extendHeadMeta(registry, itemFn, storageFn, (...args: unknown[]): Raw => {
-    if (args.length && (type.isPlain || (args.length > type.asMap.hashers.length))) {
-      throw new Error(`Iteration ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be at least one less than the full arguments, found [${args.join(', ')}]`);
+    if (args.length && (type.isPlain || (args.length >= type.asMap.hashers.length))) {
+      throw new Error(`Iteration of ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs arguments to be at least one less than the full arguments, found [${args.join(', ')}]`);
     }
 
     if (args.length) {
