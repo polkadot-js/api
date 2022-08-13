@@ -38,9 +38,6 @@ function inspectType (type: string): void {
     }
   } else if (td.sub) {
     inspectType(td.sub.type);
-  } else if (!['Vec<u8>'].includes(type)) {
-    // see if we have it
-    registry.getOrThrow(type);
   }
 }
 
