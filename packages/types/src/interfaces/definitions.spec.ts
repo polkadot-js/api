@@ -28,16 +28,20 @@ registry.register(types as RegistryTypes);
 registry.setMetadata(new Metadata(registry, rpcMetadata));
 
 function inspectType (type: string): void {
-  // get the definition
-  const td = getTypeDef(registry.createType(type).toRawType());
+  try {
+    // get the definition
+    const { sub } = getTypeDef(registry.createType(type).toRawType());
 
-  // inspect the subs
-  if (Array.isArray(td.sub)) {
-    for (let i = 0; i < td.sub.length; i++) {
-      inspectType(td.sub[i].type);
+    // inspect the subs
+    if (Array.isArray(sub)) {
+      for (let i = 0; i < sub.length; i++) {
+        inspectType(sub[i].type);
+      }
+    } else if (sub) {
+      inspectType(sub.type);
     }
-  } else if (td.sub) {
-    inspectType(td.sub.type);
+  } catch (error) {
+    throw new Error(`${type}:: ${(error as Error).message}`);
   }
 }
 
