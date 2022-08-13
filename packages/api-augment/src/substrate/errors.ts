@@ -1791,7 +1791,11 @@ declare module '@polkadot/api-base/types/errors' {
     };
     stateTrieMigration: {
       /**
-       * bad witness data provided.
+       * Bad child root provided.
+       **/
+      BadChildRoot: AugmentedError<ApiType>;
+      /**
+       * Bad witness data provided.
        **/
       BadWitness: AugmentedError<ApiType>;
       /**
@@ -1805,7 +1809,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       KeyTooLong: AugmentedError<ApiType>;
       /**
-       * max signed limits not respected.
+       * Max signed limits not respected.
        **/
       MaxSignedLimits: AugmentedError<ApiType>;
       /**
@@ -1816,10 +1820,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Signed migration is not allowed because the maximum limit is not set yet.
        **/
       SignedMigrationNotAllowed: AugmentedError<ApiType>;
-      /**
-       * upper bound of size is exceeded,
-       **/
-      SizeUpperBoundExceeded: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
