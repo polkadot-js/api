@@ -10,6 +10,8 @@ Changes:
 - Explicit param length checks for all generic portable overrides
 - Re-export `ScProvider` in `@polkadot/api`, aligning with `{Http, Ws}Provider`
 - Expose `WellKnownChain` as static on `ScProvider.WellKnownChain`
+- Checks for non-available interface types & runtime/rpc definitions
+- Ensure `.entries/.keys` arguments is less than map-entry query
 - Add Polkadot 9260 upgrade block
 - Add Westend 9271 upgrade block
 - Update to latest Substrate metadata
