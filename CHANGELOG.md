@@ -11,6 +11,8 @@ Changes:
 - Re-export `ScProvider` in `@polkadot/api`, aligning with `{Http, Ws}Provider`
 - Expose `WellKnownChain` as static on `ScProvider.WellKnownChain`
 - Add Polkadot 9260 upgrade block
+- Add Westend 9271 upgrade block
+- Update to latest Substrate metadata
 
 
 ## 9.1.1 Aug 6, 2022

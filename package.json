@@ -23,6 +23,7 @@
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
     "build:extra": "(cd packages/typegen && copyfiles scripts/* build)",
     "build:interfaces": "polkadot-types-internal-interfaces",
+    "build:metadata": "yarn build:interfaces && yarn test:one packages/types/src/metadata/v14",
     "build:release": "polkadot-ci-ghact-build",
     "build:rollup": "polkadot-exec-rollup --config",
     "chain:info": "polkadot-types-chain-info",
