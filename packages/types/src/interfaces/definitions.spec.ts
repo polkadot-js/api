@@ -28,36 +28,21 @@ registry.register(types as RegistryTypes);
 registry.setMetadata(new Metadata(registry, rpcMetadata));
 
 function inspectType (type: string): void {
-  console.error(type);
+  try {
+    // get the definition
+    const { sub } = getTypeDef(registry.createType(type).toRawType());
 
-  // get the definition
-  const td = registry.isLookupType(type)
-    ? registry.lookup.getTypeDef(type)
-    : getTypeDef(type);
-
-  console.error(td);
-
-  // inspect the subs
-  if (Array.isArray(td.sub)) {
-    for (let i = 0; i < td.sub.length; i++) {
-      inspectType(td.sub[i].type);
+    // inspect the subs
+    if (Array.isArray(sub)) {
+      for (let i = 0; i < sub.length; i++) {
+        inspectType(sub[i].type);
+      }
+    } else if (sub) {
+      inspectType(sub.type);
     }
-  } else if (td.sub) {
-    inspectType(td.sub.type);
-  } else if (!['Vec<u8>'].includes(type)) {
-    // see if we have it
-    registry.getOrThrow(type);
+  } catch (error) {
+    throw new Error(`${type}:: ${(error as Error).message}`);
   }
-
-  // create a class
-  const Clazz = registry.createClass(type);
-
-  // construct the class
-  // eslint-disable-next-line no-new
-  new Clazz(registry);
-
-  // create it
-  registry.createType(type);
 }
 
 describe('type definitions', (): void => {
