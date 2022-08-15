@@ -124,7 +124,13 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
           (): Observable<RuntimeDispatchInfo> =>
-            api.rpc.payment.queryInfo(this.toHex(), blockHash || optionsOrHash as string)
+            api.callAt(blockHash || optionsOrHash as string).pipe(
+              switchMap((callAt): Observable<RuntimeDispatchInfo> => {
+                const u8a = this.toU8a();
+
+                return callAt.transactionPaymentApi.queryInfo(u8a, u8a.length);
+              })
+            )
         );
       }
 
@@ -140,12 +146,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
               // setup our options (same way as in signAndSend)
               const eraOptions = makeEraOptions(api, this.registry, allOptions, signingInfo);
               const signOptions = makeSignOptions(api, eraOptions, {});
+              const u8a = this.isSigned
+                ? api.tx(this).signFake(address, signOptions).toU8a()
+                : this.signFake(address, signOptions).toU8a();
 
-              return api.rpc.payment.queryInfo(
-                this.isSigned
-                  ? api.tx(this).signFake(address, signOptions).toHex()
-                  : this.signFake(address, signOptions).toHex()
-              );
+              return api.call.transactionPaymentApi.queryInfo(u8a, u8a.length);
             })
           )
       )();
