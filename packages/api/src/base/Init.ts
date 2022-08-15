@@ -14,7 +14,7 @@ import type { VersionedRegistry } from './types';
 import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
-import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
+import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes } from '@polkadot/types-known';
 import { assertReturn, BN_ZERO, isUndefined, logger, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -204,11 +204,14 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     // get the runtime version, either on-chain or via an known upgrade history
-    const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number);
+    // const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number);
     const version = this.registry.createType('RuntimeVersionPartial',
-      (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
-        ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
-        : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
+      // The issue is that historic lists do not contain the runtime apis - so we have a catchg-22, until
+      // we get to add them, we cannot re-enable this functionality (which means historic would be slower on known)
+      // (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
+      //   ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
+      //   : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
+      await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
     );
 
     return (
