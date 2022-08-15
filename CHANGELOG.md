@@ -5,6 +5,7 @@
 Changes:
 
 - Replace `rpc.payment.queryInfo` usage with `call.transactionPaymentApi.queryInfo`
+- Ensure historic runtime calls are decorated on Polkadot/Kusama/Westend
 
 
 ## 9.2.1 Aug 13, 2022
