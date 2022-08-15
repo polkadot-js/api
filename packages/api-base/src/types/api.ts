@@ -10,7 +10,7 @@ import type { Registry, Signer } from '@polkadot/types/types';
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx {
-  call: QueryableCalls<'rxjs'>,
+  call: QueryableCalls<'rxjs'>;
   consts: QueryableConsts<'rxjs'>;
   extrinsicType: number;
   genesisHash?: Hash;
@@ -19,9 +19,11 @@ export interface ApiInterfaceRx {
   runtimeMetadata: Metadata;
   runtimeVersion: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
-  queryAt: (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) => Observable<QueryableStorage<'rxjs'>>;
   queryMulti: QueryableStorageMulti<'rxjs'>;
   rpc: DecoratedRpc<'rxjs', RpcInterface>;
   tx: SubmittableExtrinsics<'rxjs'>;
   signer?: Signer;
+
+  callAt: (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) => Observable<QueryableCalls<'rxjs'>>;
+  queryAt: (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) => Observable<QueryableStorage<'rxjs'>>;
 }
