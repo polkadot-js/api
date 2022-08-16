@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## master
+## 9.2.2 Aug 16, 2022
 
 Changes:
 
 - Replace `rpc.payment.queryInfo` usage with `call.transactionPaymentApi.queryInfo`
+- Ensure that `api.call.*` is decorated on historic blocks
 
 
 ## 9.2.1 Aug 13, 2022
