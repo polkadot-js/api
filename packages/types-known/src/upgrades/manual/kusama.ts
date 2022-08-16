@@ -1,9 +1,9 @@
 // Copyright 2017-2022 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainUpgradesRaw } from './types';
+import type { ChainUpgradesManual } from '../types';
 
-const upgrades: ChainUpgradesRaw = [
+const upgrades: ChainUpgradesManual = [
   [0, 1020], [26669, 1021], [38245, 1022], [54248, 1023], [59659, 1024],
   [67651, 1025], [82191, 1027], [83238, 1028], [101503, 1029], [203466, 1030],
   [295787, 1031], [461692, 1032], [504329, 1033], [569327, 1038], [587687, 1039],
