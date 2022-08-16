@@ -2297,6 +2297,7 @@ __metadata:
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
     "@babel/runtime": ^7.18.9
+    "@polkadot/api": 9.2.2-0-x
     "@polkadot/networks": ^10.1.4
     "@polkadot/types": 9.2.2-0-x
     "@polkadot/types-codec": 9.2.2-0-x
