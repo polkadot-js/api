@@ -21,6 +21,7 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { Decorate } from './Decorate';
 
 const KEEPALIVE_INTERVAL = 10000;
+const WITH_VERSION_SHORTCUT = false;
 
 const l = logger('api/init');
 
@@ -206,7 +207,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // get the runtime version, either on-chain or via an known upgrade history
     const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number);
     const version = this.registry.createType('RuntimeVersionPartial',
-      (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
+      WITH_VERSION_SHORTCUT && (
+        firstVersion && (
+          lastVersion ||
+          firstVersion.specVersion.eq(this._runtimeVersion.specVersion)
+        )
+      )
         ? { apis: firstVersion.apis, specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
         : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
     );
