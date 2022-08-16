@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainUpgrades } from '@polkadot/types/types';
-import type { ChainUpgradesManual } from './types';
+import type { ChainUpgradesGenerated } from './types';
 
 import { selectableNetworks } from '@polkadot/networks';
 import { BN, hexToU8a, stringify } from '@polkadot/util';
 
-import * as allKnown from './manual';
+import * as allKnown from './e2e';
 
 // testnets are not available in the networks map
 const NET_EXTRA: Record<string, { genesisHash: string[] }> = {
@@ -17,7 +17,7 @@ const NET_EXTRA: Record<string, { genesisHash: string[] }> = {
 };
 
 /** @internal */
-function checkOrder (network: string, versions: ChainUpgradesManual): ChainUpgradesManual {
+function checkOrder (network: string, versions: ChainUpgradesGenerated): ChainUpgradesGenerated {
   const ooo = versions.filter((curr, index): boolean => {
     const prev = versions[index - 1];
 
@@ -34,7 +34,7 @@ function checkOrder (network: string, versions: ChainUpgradesManual): ChainUpgra
 }
 
 /** @internal */
-function mapRaw ([network, versions]: [string, ChainUpgradesManual]): ChainUpgrades {
+function mapRaw ([network, versions]: [string, ChainUpgradesGenerated]): ChainUpgrades {
   const chain = selectableNetworks.find((n) => n.network === network) || NET_EXTRA[network];
 
   if (!chain) {
@@ -44,8 +44,8 @@ function mapRaw ([network, versions]: [string, ChainUpgradesManual]): ChainUpgra
   return {
     genesisHash: hexToU8a(chain.genesisHash[0]),
     network,
-    versions: checkOrder(network, versions).map(([blockNumber, specVersion]) => ({
-      apis: [],
+    versions: checkOrder(network, versions).map(([blockNumber, specVersion, apis]) => ({
+      apis,
       blockNumber: new BN(blockNumber),
       specVersion: new BN(specVersion)
     }))
@@ -53,6 +53,6 @@ function mapRaw ([network, versions]: [string, ChainUpgradesManual]): ChainUpgra
 }
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
-const upgrades = Object.entries<ChainUpgradesManual>(allKnown).map(mapRaw);
+const upgrades = Object.entries<ChainUpgradesGenerated>(allKnown).map(mapRaw);
 
 export default upgrades;

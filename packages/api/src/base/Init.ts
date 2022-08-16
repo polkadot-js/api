@@ -207,7 +207,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number);
     const version = this.registry.createType('RuntimeVersionPartial',
       (firstVersion && (lastVersion || firstVersion.specVersion.eq(this._runtimeVersion.specVersion)))
-        ? { specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
+        ? { apis: firstVersion.apis, specName: this._runtimeVersion.specName, specVersion: firstVersion.specVersion }
         : await firstValueFrom(this._rpcCore.state.getRuntimeVersion.raw(header.parentHash))
     );
 
