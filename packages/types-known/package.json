@@ -29,5 +29,8 @@
     "@polkadot/types-codec": "9.2.2-0-x",
     "@polkadot/types-create": "9.2.2-0-x",
     "@polkadot/util": "^10.1.4"
+  },
+  "devDependencies": {
+    "@polkadot/api": "9.2.2-0-x"
   }
 }

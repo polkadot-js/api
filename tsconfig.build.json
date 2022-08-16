@@ -29,6 +29,7 @@
     { "path": "./packages/types-create/tsconfig.build.json" },
     { "path": "./packages/types-create/tsconfig.spec.json" },
     { "path": "./packages/types-known/tsconfig.build.json" },
+    { "path": "./packages/types-known/tsconfig.spec.json" },
     { "path": "./packages/types-support/tsconfig.build.json" }
   ]
 }

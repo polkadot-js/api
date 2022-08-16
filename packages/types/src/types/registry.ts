@@ -5,6 +5,7 @@ import type { Observable } from 'rxjs';
 import type { BitVec, Bool, bool, Bytes, F32, f32, F64, f64, I8, i8, I16, i16, I32, i32, I64, i64, I128, i128, I256, i256, Json, Null, OptionBool, Raw, Text, Type, U8, u8, U16, u16, U32, u32, U64, u64, U128, u128, U256, u256, USize, usize } from '@polkadot/types-codec';
 import type { RegistryTypes } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericSignerPayload } from '../extrinsic';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { GenericCall } from '../generic';
@@ -38,6 +39,7 @@ export interface InterfaceTypes {
 export type CodecHasher = (data: Uint8Array) => Uint8Array;
 
 export interface ChainUpgradeVersion {
+  apis: [HexString, number][];
   blockNumber: BN;
   specVersion: BN;
 }
