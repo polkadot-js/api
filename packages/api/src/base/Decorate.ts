@@ -19,7 +19,7 @@ import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray 
 import { getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { expandMetadata, Metadata, typeDefinitions, TypeRegistry } from '@polkadot/types';
+import { expandMetadata, GenericExtrinsic, Metadata, typeDefinitions, TypeRegistry } from '@polkadot/types';
 import { getSpecRuntime } from '@polkadot/types-known';
 import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -84,7 +84,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _extrinsics?: SubmittableExtrinsics<ApiType>;
 
-  protected _extrinsicType = 4; // latest extrinsic version
+  protected _extrinsicType = GenericExtrinsic.LATEST_EXTRINSIC_VERSION;
 
   protected _genesisHash?: Hash;
 
