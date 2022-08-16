@@ -28,14 +28,15 @@ describe.each(keys)('generate %s', (chain): void => {
   });
 
   afterAll(async (): Promise<void> => {
-    fs.writeFileSync(`${chain}.ts`, `// Copyright 2017-2022 @polkadot/types-known authors & contributors
+    fs.writeFileSync(`packages/types-known/src/generated/${chain}.ts`, `// Copyright 2017-2022 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Auto-generated, do not edit
+/* eslint-disable quotes */
 
 import type { ChainUpgradesGenerated } from '../types';
 
-const upgrades: ChainUpgradesGenerated = ${JSON.stringify(final, null, 2)};
+const upgrades: ChainUpgradesGenerated = ${JSON.stringify(final)};
 
 export default upgrades;
 `);
