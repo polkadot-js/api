@@ -8,8 +8,8 @@ import fs from 'fs';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
-import * as manual from '../manual';
-import * as generated from '.';
+import * as allMan from '../manual';
+import * as allGen from '.';
 
 const keys = <const> ['kusama', 'polkadot', 'westend'];
 const urls = {
@@ -19,7 +19,7 @@ const urls = {
 };
 
 describe.each(keys)('generate %s', (chain): void => {
-  const avail = generated[chain];
+  const avail = allGen[chain];
   const final: ChainUpgradesGenerated = [];
   let api: ApiPromise;
 
@@ -28,10 +28,10 @@ describe.each(keys)('generate %s', (chain): void => {
   });
 
   afterAll(async (): Promise<void> => {
-    fs.writeFileSync(`packages/types-known/src/upgrades/e2e/${chain}.ts`, `// Copyright 2017-2022 @polkadot/types-known authors & contributors
+    fs.writeFileSync(`packages/types-known/src/upgrades/e2e/${chain}.ts`, `// Copyright 2017-${new Date().getFullYear()} @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// Auto-generated, do not edit
+// Auto-generated from on-chain data & manual definitions, do not edit
 /* eslint-disable quotes, comma-spacing */
 
 import type { ChainUpgradesGenerated } from '../types';
@@ -43,7 +43,7 @@ export default upgrades;
     await api.disconnect();
   });
 
-  it.each(manual[chain])('%s', async (blockNumber, specVersion): Promise<void> => {
+  it.each(allMan[chain])('%s', async (blockNumber, specVersion): Promise<void> => {
     const found = avail.find(([n, s]) => n === blockNumber && s === specVersion);
 
     if (found) {
