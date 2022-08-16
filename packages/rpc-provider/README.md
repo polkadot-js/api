@@ -19,7 +19,7 @@ yarn add @polkadot/rpc-provider
 WebSocket Initialization -
 
 ```javascript
-import { WsProvider } from '@polkadot/rpc-provider/ws';
+import { WsProvider } from '@polkadot/rpc-provider';
 
 // this is the actual default endpoint
 const provider = new WsProvider('ws://127.0.0.1:9944');
@@ -44,19 +44,23 @@ console.log('latest block Hash', hash);
 
 Instantiating a Provider for the Polkadot Relay Chain:
 ```javascript
-import { ScProvider, WellKnownChain } from '@polkadot/rpc-provider/substrate-connect';
+import { ScProvider } from '@polkadot/rpc-provider';
 
-const provider = new ScProvider(WellKnownChain.polkadot);
+const provider = new ScProvider(ScProvider.WellKnownChain.polkadot);
+
 await provider.connect();
+
 const version = await provider.send('chain_getBlockHash', []);
 ```
 
 Instantiating a Provider for a Polkadot parachain:
 ```javascript
-import { ScProvider, WellKnownChain } from '@polkadot/rpc-provider/substrate-connect';
+import { ScProvider } from '@polkadot/rpc-provider';
 
-const polkadotProvider = new ScProvider(WellKnownChain.polkadot);
+const polkadotProvider = new ScProvider(ScProvider.WellKnownChain.polkadot);
 const parachainProvider = new ScProvider(parachainSpec, polkadotProvider);
+
 await parachainProvider.connect();
+
 const version = await parachainProvider.send('chain_getBlockHash', []);
 ```
