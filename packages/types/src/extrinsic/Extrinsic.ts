@@ -13,6 +13,7 @@ import type { ExtrinsicValueV4 } from './v4/Extrinsic';
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
+import { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
 
 interface CreateOptions {
@@ -33,7 +34,7 @@ const VERSIONS = [
   'ExtrinsicV4'
 ];
 
-export { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
+export { LATEST_EXTRINSIC_VERSION };
 
 /** @internal */
 function newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
@@ -234,6 +235,8 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
  */
 export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBase<A> implements IExtrinsic<A> {
   #hashCache?: CodecHash;
+
+  static LATEST_EXTRINSIC_VERSION = LATEST_EXTRINSIC_VERSION;
 
   constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
     super(registry, decodeExtrinsic(registry, value, version));
