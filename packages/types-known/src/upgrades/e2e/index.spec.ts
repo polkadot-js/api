@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { ChainUpgradesGenerated } from './types';
+import type { ChainUpgradesGenerated } from '../types';
 
 import fs from 'fs';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
-import * as generated from './generated';
-import * as manual from './manual';
+import * as manual from '../manual';
+import * as generated from '.';
 
 const keys = <const> ['kusama', 'polkadot', 'westend'];
 const urls = {
@@ -28,11 +28,11 @@ describe.each(keys)('generate %s', (chain): void => {
   });
 
   afterAll(async (): Promise<void> => {
-    fs.writeFileSync(`packages/types-known/src/generated/${chain}.ts`, `// Copyright 2017-2022 @polkadot/types-known authors & contributors
+    fs.writeFileSync(`packages/types-known/src/upgrades/e2e/${chain}.ts`, `// Copyright 2017-2022 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Auto-generated, do not edit
-/* eslint-disable quotes */
+/* eslint-disable quotes, comma-spacing */
 
 import type { ChainUpgradesGenerated } from '../types';
 

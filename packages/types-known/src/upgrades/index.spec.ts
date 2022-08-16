@@ -3,6 +3,8 @@
 
 import { u8aEq } from '@polkadot/util';
 
+import * as allGen from './e2e';
+import * as allMan from './manual';
 import all from '.';
 
 interface TestDef {
@@ -37,6 +39,27 @@ const TESTS: TestDef[] = [
     ]
   }
 ];
+
+describe('generated', (): void => {
+  it('should have all the chains', (): void => {
+    expect(Object.keys(allMan).sort()).toEqual(Object.keys(allGen).sort());
+  });
+
+  describe.each(Object.keys(allMan))('%s', (chain): void => {
+    it('should have all generated', (): void => {
+      const missing = allMan[chain as keyof typeof allMan].filter(([na, sa]) =>
+        !allGen[chain as keyof typeof allGen].some(([nb, sb]) =>
+          nb === na &&
+          sb === sa
+        )
+      );
+
+      if (missing.length !== 0) {
+        throw new Error(`${chain}:: missing generated apis found, run yarn test:one packages/types-known/src/upgrades/e2e`);
+      }
+    });
+  });
+});
 
 describe('upgrades', (): void => {
   TESTS.forEach(({ genesisHash, network, versions }): void => {
