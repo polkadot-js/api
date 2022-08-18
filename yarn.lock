@@ -2216,7 +2216,7 @@ __metadata:
     "@polkadot/x-fetch": ^10.1.4
     "@polkadot/x-global": ^10.1.4
     "@polkadot/x-ws": ^10.1.4
-    "@substrate/connect": 0.7.10
+    "@substrate/connect": 0.7.11
     eventemitter3: ^4.0.7
     mock-socket: ^9.1.5
     nock: ^13.2.9
@@ -2652,24 +2652,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:0.7.10":
-  version: 0.7.10
-  resolution: "@substrate/connect@npm:0.7.10"
+"@substrate/connect@npm:0.7.11":
+  version: 0.7.11
+  resolution: "@substrate/connect@npm:0.7.11"
   dependencies:
     "@substrate/connect-extension-protocol": ^1.0.1
-    "@substrate/smoldot-light": 0.6.27
+    "@substrate/smoldot-light": 0.6.30
     eventemitter3: ^4.0.7
-  checksum: e41823eb8b997910d11011142f52b609d7f0d94e53603ce294d14ee96217d7eb2a6cd1ae9aebc66b59f7a4bd2925b631a4ed3f3bd12bbf87123c25aaa5344fd4
+  checksum: 5964228c9aab54ffd8d2c7ea746e3ef87c8901589c35dd7ceda2099f7d865f8fb545a53d7cad980af94c7b5e30b718a9d1e14087396e0a35542c1fbaa145ef41
   languageName: node
   linkType: hard
 
-"@substrate/smoldot-light@npm:0.6.27":
-  version: 0.6.27
-  resolution: "@substrate/smoldot-light@npm:0.6.27"
+"@substrate/smoldot-light@npm:0.6.30":
+  version: 0.6.30
+  resolution: "@substrate/smoldot-light@npm:0.6.30"
   dependencies:
     pako: ^2.0.4
-    websocket: ^1.0.32
-  checksum: a45869b621e0f529b48273cf3a00dab35d37b2dd73fe460a9a74f8ed323487606583e04dc42f8c8e3aac9c980fa040f1edece5602ec509bd868cea95ba654e13
+    ws: ^8.8.1
+  checksum: 2942e4cacc685522f58f0747007271872debc8249090e037f63c162aa0d26fa65a2bcb763b786c33f299e11270d27c809afd4a87773ec78417b0ddc388791a99
   languageName: node
   linkType: hard
 
@@ -10494,7 +10494,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"websocket@npm:^1.0.32, websocket@npm:^1.0.34":
+"websocket@npm:^1.0.34":
   version: 1.0.34
   resolution: "websocket@npm:1.0.34"
   dependencies:
@@ -10676,6 +10676,21 @@ resolve@^2.0.0-next.3:
     utf-8-validate:
       optional: true
   checksum: 76f2f90e40344bf18fd544194e7067812fb1372b2a37865678d8f12afe4b478ff2ebc0c7c0aff82cd5e6b66fc43d889eec0f1865c2365d8f7a66d92da7744a77
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.8.1":
+  version: 8.8.1
+  resolution: "ws@npm:8.8.1"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 2152cf862cae0693f3775bc688a6afb2e989d19d626d215e70f5fcd8eb55b1c3b0d3a6a4052905ec320e2d7734e20aeedbf9744496d62f15a26ad79cf4cf7dae
   languageName: node
   linkType: hard
 
