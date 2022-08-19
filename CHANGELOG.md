@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust `StakingLedger` with fallback for Kusama 1050 (2 different structures on-chain)
+
+
 ## 9.2.2 Aug 16, 2022
 
 Changes:

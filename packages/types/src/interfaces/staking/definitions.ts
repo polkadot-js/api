@@ -256,6 +256,7 @@ export default {
       unlocking: 'Vec<UnlockChunk>'
     },
     StakingLedgerTo240: {
+      _fallback: 'StakingLedgerTo223',
       stash: 'AccountId',
       total: 'Compact<Balance>',
       active: 'Compact<Balance>',

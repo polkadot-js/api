@@ -99,7 +99,7 @@ const versioned: OverrideVersionedType[] = [
     })
   },
   {
-    minmax: [1046, 1050],
+    minmax: [1046, 1049],
     types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
@@ -113,7 +113,7 @@ const versioned: OverrideVersionedType[] = [
     })
   },
   {
-    minmax: [1051, 1054],
+    minmax: [1050, 1054],
     types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
