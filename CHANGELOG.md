@@ -5,6 +5,7 @@
 Changes:
 
 - Adjust `StakingLedger` with fallback for Kusama 1050 (2 different structures on-chain)
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 9.2.2 Aug 16, 2022

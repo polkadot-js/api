@@ -1264,9 +1264,6 @@ export default {
         collection: 'u32',
         maxSupply: 'u32',
       },
-      NextCollectionIdIncremented: {
-        nextId: 'u32',
-      },
       ItemPriceSet: {
         collection: 'u32',
         item: 'u32',
@@ -1637,7 +1634,7 @@ export default {
     _enum: ['Open', 'Blocked', 'Destroying']
   },
   /**
-   * Lookup129: pallet_ranked_collective::Tally<M>
+   * Lookup129: pallet_ranked_collective::Tally<T, I, M>
    **/
   PalletRankedCollectiveTally: {
     bareAyes: 'u32',
@@ -1924,7 +1921,7 @@ export default {
         _alias: {
           new_: 'new',
         },
-        new_: 'AccountId32',
+        new_: 'MultiAddress',
         index: 'u32',
       },
       free: {
@@ -1934,7 +1931,7 @@ export default {
         _alias: {
           new_: 'new',
         },
-        new_: 'AccountId32',
+        new_: 'MultiAddress',
         index: 'u32',
         freeze: 'bool',
       },
@@ -1944,7 +1941,7 @@ export default {
     }
   },
   /**
-   * Lookup172: pallet_balances::pallet::Call<T, I>
+   * Lookup174: pallet_balances::pallet::Call<T, I>
    **/
   PalletBalancesCall: {
     _enum: {
@@ -2267,7 +2264,7 @@ export default {
         which: 'u32',
       },
       delegate: {
-        to: 'AccountId32',
+        to: 'MultiAddress',
         conviction: 'PalletDemocracyConviction',
         balance: 'u128',
       },
@@ -2290,13 +2287,13 @@ export default {
         proposalLenUpperBound: 'Compact<u32>',
       },
       unlock: {
-        target: 'AccountId32',
+        target: 'MultiAddress',
       },
       remove_vote: {
         index: 'u32',
       },
       remove_other_vote: {
-        target: 'AccountId32',
+        target: 'MultiAddress',
         index: 'u32',
       },
       enact_proposal: {
@@ -2396,14 +2393,14 @@ export default {
   PalletMembershipCall: {
     _enum: {
       add_member: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
       },
       remove_member: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
       },
       swap_member: {
-        remove: 'AccountId32',
-        add: 'AccountId32',
+        remove: 'MultiAddress',
+        add: 'MultiAddress',
       },
       reset_members: {
         members: 'Vec<AccountId32>',
@@ -2412,10 +2409,10 @@ export default {
         _alias: {
           new_: 'new',
         },
-        new_: 'AccountId32',
+        new_: 'MultiAddress',
       },
       set_prime: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
       },
       clear_prime: 'Null'
     }
@@ -2626,7 +2623,7 @@ export default {
   PalletIdentityCall: {
     _enum: {
       add_registrar: {
-        account: 'AccountId32',
+        account: 'MultiAddress',
       },
       set_identity: {
         info: 'PalletIdentityIdentityInfo',
@@ -2651,7 +2648,7 @@ export default {
           new_: 'new',
         },
         index: 'Compact<u32>',
-        new_: 'AccountId32',
+        new_: 'MultiAddress',
       },
       set_fields: {
         index: 'Compact<u32>',
@@ -2739,7 +2736,7 @@ export default {
         pos: 'u32',
       },
       vouch: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
         value: 'u128',
         tip: 'u128',
       },
@@ -2755,17 +2752,17 @@ export default {
       },
       payout: 'Null',
       found: {
-        founder: 'AccountId32',
+        founder: 'MultiAddress',
         maxMembers: 'u32',
         rules: 'Bytes',
       },
       unfound: 'Null',
       judge_suspended_member: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
         forgive: 'bool',
       },
       judge_suspended_candidate: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
         judgement: 'PalletSocietyJudgement',
       },
       set_max_members: {
@@ -2785,12 +2782,12 @@ export default {
   PalletRecoveryCall: {
     _enum: {
       as_recovered: {
-        account: 'AccountId32',
+        account: 'MultiAddress',
         call: 'Call',
       },
       set_recovered: {
-        lost: 'AccountId32',
-        rescuer: 'AccountId32',
+        lost: 'MultiAddress',
+        rescuer: 'MultiAddress',
       },
       create_recovery: {
         friends: 'Vec<AccountId32>',
@@ -2798,21 +2795,21 @@ export default {
         delayPeriod: 'u32',
       },
       initiate_recovery: {
-        account: 'AccountId32',
+        account: 'MultiAddress',
       },
       vouch_recovery: {
-        lost: 'AccountId32',
-        rescuer: 'AccountId32',
+        lost: 'MultiAddress',
+        rescuer: 'MultiAddress',
       },
       claim_recovery: {
-        account: 'AccountId32',
+        account: 'MultiAddress',
       },
       close_recovery: {
-        rescuer: 'AccountId32',
+        rescuer: 'MultiAddress',
       },
       remove_recovery: 'Null',
       cancel_recovered: {
-        account: 'AccountId32'
+        account: 'MultiAddress'
       }
     }
   },
@@ -2931,17 +2928,17 @@ export default {
   PalletProxyCall: {
     _enum: {
       proxy: {
-        real: 'AccountId32',
+        real: 'MultiAddress',
         forceProxyType: 'Option<KitchensinkRuntimeProxyType>',
         call: 'Call',
       },
       add_proxy: {
-        delegate: 'AccountId32',
+        delegate: 'MultiAddress',
         proxyType: 'KitchensinkRuntimeProxyType',
         delay: 'u32',
       },
       remove_proxy: {
-        delegate: 'AccountId32',
+        delegate: 'MultiAddress',
         proxyType: 'KitchensinkRuntimeProxyType',
         delay: 'u32',
       },
@@ -2952,27 +2949,27 @@ export default {
         index: 'u16',
       },
       kill_anonymous: {
-        spawner: 'AccountId32',
+        spawner: 'MultiAddress',
         proxyType: 'KitchensinkRuntimeProxyType',
         index: 'u16',
         height: 'Compact<u32>',
         extIndex: 'Compact<u32>',
       },
       announce: {
-        real: 'AccountId32',
+        real: 'MultiAddress',
         callHash: 'H256',
       },
       remove_announcement: {
-        real: 'AccountId32',
+        real: 'MultiAddress',
         callHash: 'H256',
       },
       reject_announcement: {
-        delegate: 'AccountId32',
+        delegate: 'MultiAddress',
         callHash: 'H256',
       },
       proxy_announced: {
-        delegate: 'AccountId32',
-        real: 'AccountId32',
+        delegate: 'MultiAddress',
+        real: 'MultiAddress',
         forceProxyType: 'Option<KitchensinkRuntimeProxyType>',
         call: 'Call'
       }
@@ -3056,7 +3053,7 @@ export default {
     _enum: {
       report_awesome: {
         reason: 'Bytes',
-        who: 'AccountId32',
+        who: 'MultiAddress',
       },
       retract_tip: {
         _alias: {
@@ -3066,7 +3063,7 @@ export default {
       },
       tip_new: {
         reason: 'Bytes',
-        who: 'AccountId32',
+        who: 'MultiAddress',
         tipValue: 'Compact<u128>',
       },
       tip: {
@@ -3273,13 +3270,14 @@ export default {
   PalletUniquesCall: {
     _enum: {
       create: {
+        collection: 'u32',
         admin: 'MultiAddress',
       },
       force_create: {
+        collection: 'u32',
         owner: 'MultiAddress',
         freeHolding: 'bool',
       },
-      try_increment_id: 'Null',
       destroy: {
         collection: 'u32',
         witness: 'PalletUniquesDestroyWitness',
@@ -3433,10 +3431,10 @@ export default {
   PalletBagsListCall: {
     _enum: {
       rebag: {
-        dislocated: 'AccountId32',
+        dislocated: 'MultiAddress',
       },
       put_in_front_of: {
-        lighter: 'AccountId32'
+        lighter: 'MultiAddress'
       }
     }
   },
@@ -3687,7 +3685,7 @@ export default {
       },
       delegate: {
         class: 'u16',
-        to: 'AccountId32',
+        to: 'MultiAddress',
         conviction: 'PalletConvictionVotingConviction',
         balance: 'u128',
       },
@@ -3696,14 +3694,14 @@ export default {
       },
       unlock: {
         class: 'u16',
-        target: 'AccountId32',
+        target: 'MultiAddress',
       },
       remove_vote: {
         class: 'Option<u16>',
         index: 'u32',
       },
       remove_other_vote: {
-        target: 'AccountId32',
+        target: 'MultiAddress',
         class: 'u16',
         index: 'u32'
       }
@@ -3821,7 +3819,7 @@ export default {
       },
       claim_payout: 'Null',
       unbond: {
-        memberAccount: 'AccountId32',
+        memberAccount: 'MultiAddress',
         unbondingPoints: 'Compact<u128>',
       },
       pool_withdraw_unbonded: {
@@ -3829,14 +3827,14 @@ export default {
         numSlashingSpans: 'u32',
       },
       withdraw_unbonded: {
-        memberAccount: 'AccountId32',
+        memberAccount: 'MultiAddress',
         numSlashingSpans: 'u32',
       },
       create: {
         amount: 'Compact<u128>',
-        root: 'AccountId32',
-        nominator: 'AccountId32',
-        stateToggler: 'AccountId32',
+        root: 'MultiAddress',
+        nominator: 'MultiAddress',
+        stateToggler: 'MultiAddress',
       },
       nominate: {
         poolId: 'u32',
@@ -3913,16 +3911,16 @@ export default {
   PalletRankedCollectiveCall: {
     _enum: {
       add_member: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
       },
       promote_member: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
       },
       demote_member: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
       },
       remove_member: {
-        who: 'AccountId32',
+        who: 'MultiAddress',
         minRank: 'u16',
       },
       vote: {
@@ -4942,7 +4940,7 @@ export default {
    * Lookup592: pallet_uniques::pallet::Error<T, I>
    **/
   PalletUniquesError: {
-    _enum: ['NoPermission', 'UnknownCollection', 'AlreadyExists', 'WrongOwner', 'BadWitness', 'InUse', 'Frozen', 'WrongDelegate', 'NoDelegate', 'Unapproved', 'Unaccepted', 'Locked', 'MaxSupplyReached', 'MaxSupplyAlreadySet', 'MaxSupplyTooSmall', 'NextIdNotUsed', 'UnknownItem', 'NotForSale', 'BidTooLow']
+    _enum: ['NoPermission', 'UnknownCollection', 'AlreadyExists', 'WrongOwner', 'BadWitness', 'InUse', 'Frozen', 'WrongDelegate', 'NoDelegate', 'Unapproved', 'Unaccepted', 'Locked', 'MaxSupplyReached', 'MaxSupplyAlreadySet', 'MaxSupplyTooSmall', 'UnknownItem', 'NotForSale', 'BidTooLow']
   },
   /**
    * Lookup594: pallet_transaction_storage::TransactionInfo
@@ -5229,7 +5227,7 @@ export default {
     _enum: ['NotEnoughSpaceInUnbondPool', 'PoolNotFound', 'RewardPoolNotFound', 'SubPoolsNotFound', 'BondedStashKilledPrematurely']
   },
   /**
-   * Lookup655: pallet_referenda::types::ReferendumInfo<TrackId, kitchensink_runtime::OriginCaller, Moment, primitive_types::H256, Balance, pallet_ranked_collective::Tally<M>, sp_core::crypto::AccountId32, ScheduleAddress>
+   * Lookup655: pallet_referenda::types::ReferendumInfo<TrackId, kitchensink_runtime::OriginCaller, Moment, primitive_types::H256, Balance, pallet_ranked_collective::Tally<T, I, M>, sp_core::crypto::AccountId32, ScheduleAddress>
    **/
   PalletReferendaReferendumInfoRankedCollectiveTally: {
     _enum: {
@@ -5242,7 +5240,7 @@ export default {
     }
   },
   /**
-   * Lookup656: pallet_referenda::types::ReferendumStatus<TrackId, kitchensink_runtime::OriginCaller, Moment, primitive_types::H256, Balance, pallet_ranked_collective::Tally<M>, sp_core::crypto::AccountId32, ScheduleAddress>
+   * Lookup656: pallet_referenda::types::ReferendumStatus<TrackId, kitchensink_runtime::OriginCaller, Moment, primitive_types::H256, Balance, pallet_ranked_collective::Tally<T, I, M>, sp_core::crypto::AccountId32, ScheduleAddress>
    **/
   PalletReferendaReferendumStatusRankedCollectiveTally: {
     track: 'u16',

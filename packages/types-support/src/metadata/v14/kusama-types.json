@@ -14059,8 +14059,8 @@
               "fields": [
                 {
                   "name": "new",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -14131,8 +14131,8 @@
               "fields": [
                 {
                   "name": "new",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -14217,6 +14217,111 @@
     "id": 205,
     "type": {
       "path": [
+        "sp_runtime",
+        "multiaddress",
+        "MultiAddress"
+      ],
+      "params": [
+        {
+          "name": "AccountId",
+          "type": 0
+        },
+        {
+          "name": "AccountIndex",
+          "type": 57
+        }
+      ],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "Id",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 0,
+                  "typeName": "AccountId",
+                  "docs": []
+                }
+              ],
+              "index": 0,
+              "docs": []
+            },
+            {
+              "name": "Index",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 206,
+                  "typeName": "AccountIndex",
+                  "docs": []
+                }
+              ],
+              "index": 1,
+              "docs": []
+            },
+            {
+              "name": "Raw",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 10,
+                  "typeName": "Vec<u8>",
+                  "docs": []
+                }
+              ],
+              "index": 2,
+              "docs": []
+            },
+            {
+              "name": "Address32",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 1,
+                  "typeName": "[u8; 32]",
+                  "docs": []
+                }
+              ],
+              "index": 3,
+              "docs": []
+            },
+            {
+              "name": "Address20",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 69,
+                  "typeName": "[u8; 20]",
+                  "docs": []
+                }
+              ],
+              "index": 4,
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 206,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "compact": {
+          "type": 57
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 207,
+    "type": {
+      "path": [
         "pallet_indices",
         "pallet",
         "Error"
@@ -14279,7 +14384,7 @@
     }
   },
   {
-    "id": 206,
+    "id": 208,
     "type": {
       "path": [
         "sp_runtime",
@@ -14290,7 +14395,7 @@
       "params": [
         {
           "name": "T",
-          "type": 207
+          "type": 209
         },
         {
           "name": "S",
@@ -14302,7 +14407,7 @@
           "fields": [
             {
               "name": null,
-              "type": 209,
+              "type": 211,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -14313,7 +14418,7 @@
     }
   },
   {
-    "id": 207,
+    "id": 209,
     "type": {
       "path": [
         "pallet_balances",
@@ -14342,7 +14447,7 @@
             },
             {
               "name": "reasons",
-              "type": 208,
+              "type": 210,
               "typeName": "Reasons",
               "docs": []
             }
@@ -14353,7 +14458,7 @@
     }
   },
   {
-    "id": 208,
+    "id": 210,
     "type": {
       "path": [
         "pallet_balances",
@@ -14388,20 +14493,20 @@
     }
   },
   {
-    "id": 209,
+    "id": 211,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 207
+          "type": 209
         }
       },
       "docs": []
     }
   },
   {
-    "id": 210,
+    "id": 212,
     "type": {
       "path": [
         "sp_runtime",
@@ -14412,7 +14517,7 @@
       "params": [
         {
           "name": "T",
-          "type": 211
+          "type": 213
         },
         {
           "name": "S",
@@ -14424,7 +14529,7 @@
           "fields": [
             {
               "name": null,
-              "type": 212,
+              "type": 214,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -14435,7 +14540,7 @@
     }
   },
   {
-    "id": 211,
+    "id": 213,
     "type": {
       "path": [
         "pallet_balances",
@@ -14473,20 +14578,20 @@
     }
   },
   {
-    "id": 212,
+    "id": 214,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 211
+          "type": 213
         }
       },
       "docs": []
     }
   },
   {
-    "id": 213,
+    "id": 215,
     "type": {
       "path": [
         "pallet_balances",
@@ -14515,7 +14620,7 @@
     }
   },
   {
-    "id": 214,
+    "id": 216,
     "type": {
       "path": [
         "pallet_balances",
@@ -14540,8 +14645,8 @@
               "fields": [
                 {
                   "name": "dest",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -14585,8 +14690,8 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -14619,14 +14724,14 @@
               "fields": [
                 {
                   "name": "source",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
                   "name": "dest",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -14651,8 +14756,8 @@
               "fields": [
                 {
                   "name": "dest",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -14677,8 +14782,8 @@
               "fields": [
                 {
                   "name": "dest",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -14714,8 +14819,8 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -14738,111 +14843,6 @@
       "docs": [
         "Contains one variant per dispatchable that can be called by an extrinsic."
       ]
-    }
-  },
-  {
-    "id": 215,
-    "type": {
-      "path": [
-        "sp_runtime",
-        "multiaddress",
-        "MultiAddress"
-      ],
-      "params": [
-        {
-          "name": "AccountId",
-          "type": 0
-        },
-        {
-          "name": "AccountIndex",
-          "type": 57
-        }
-      ],
-      "def": {
-        "variant": {
-          "variants": [
-            {
-              "name": "Id",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 0,
-                  "typeName": "AccountId",
-                  "docs": []
-                }
-              ],
-              "index": 0,
-              "docs": []
-            },
-            {
-              "name": "Index",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 216,
-                  "typeName": "AccountIndex",
-                  "docs": []
-                }
-              ],
-              "index": 1,
-              "docs": []
-            },
-            {
-              "name": "Raw",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 10,
-                  "typeName": "Vec<u8>",
-                  "docs": []
-                }
-              ],
-              "index": 2,
-              "docs": []
-            },
-            {
-              "name": "Address32",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 1,
-                  "typeName": "[u8; 32]",
-                  "docs": []
-                }
-              ],
-              "index": 3,
-              "docs": []
-            },
-            {
-              "name": "Address20",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 69,
-                  "typeName": "[u8; 20]",
-                  "docs": []
-                }
-              ],
-              "index": 4,
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 216,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "compact": {
-          "type": 57
-        }
-      },
-      "docs": []
     }
   },
   {
@@ -16000,8 +16000,8 @@
               "fields": [
                 {
                   "name": "controller",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -16154,7 +16154,7 @@
                 {
                   "name": "targets",
                   "type": 251,
-                  "typeName": "Vec<<T::Lookup as StaticLookup>::Source>",
+                  "typeName": "Vec<AccountIdLookupOf<T>>",
                   "docs": []
                 }
               ],
@@ -16226,8 +16226,8 @@
               "fields": [
                 {
                   "name": "controller",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -16585,7 +16585,7 @@
                 {
                   "name": "who",
                   "type": 251,
-                  "typeName": "Vec<<T::Lookup as StaticLookup>::Source>",
+                  "typeName": "Vec<AccountIdLookupOf<T>>",
                   "docs": []
                 }
               ],
@@ -16737,7 +16737,7 @@
       "params": [],
       "def": {
         "sequence": {
-          "type": 215
+          "type": 205
         }
       },
       "docs": []
@@ -19666,8 +19666,8 @@
               "fields": [
                 {
                   "name": "to",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -19858,8 +19858,8 @@
               "fields": [
                 {
                   "name": "target",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -19920,8 +19920,8 @@
               "fields": [
                 {
                   "name": "target",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -20395,7 +20395,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 214,
+                  "type": 216,
                   "typeName": "self::sp_api_hidden_includes_construct_runtime::hidden_include::dispatch\n::CallableCallFor<Balances, Runtime>",
                   "docs": []
                 }
@@ -21714,8 +21714,8 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -21859,8 +21859,8 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -21876,8 +21876,8 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -21893,14 +21893,14 @@
               "fields": [
                 {
                   "name": "remove",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
                   "name": "add",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -21936,8 +21936,8 @@
               "fields": [
                 {
                   "name": "new",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -21955,8 +21955,8 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -22017,8 +22017,8 @@
                 },
                 {
                   "name": "beneficiary",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -22093,8 +22093,8 @@
                 },
                 {
                   "name": "beneficiary",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -23110,8 +23110,8 @@
               "fields": [
                 {
                   "name": "account",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -23343,8 +23343,8 @@
                 },
                 {
                   "name": "new",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -23409,8 +23409,8 @@
                 },
                 {
                   "name": "target",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -23448,8 +23448,8 @@
               "fields": [
                 {
                   "name": "target",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -23481,8 +23481,8 @@
               "fields": [
                 {
                   "name": "sub",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -23508,8 +23508,8 @@
               "fields": [
                 {
                   "name": "sub",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -23532,8 +23532,8 @@
               "fields": [
                 {
                   "name": "sub",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -24949,8 +24949,8 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -25051,8 +25051,8 @@
               "fields": [
                 {
                   "name": "candidate",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -25148,8 +25148,8 @@
               "fields": [
                 {
                   "name": "founder",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -25213,8 +25213,8 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -25261,8 +25261,8 @@
               "fields": [
                 {
                   "name": "who",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -25409,8 +25409,8 @@
               "fields": [
                 {
                   "name": "account",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -25437,14 +25437,14 @@
               "fields": [
                 {
                   "name": "lost",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
                   "name": "rescuer",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -25507,8 +25507,8 @@
               "fields": [
                 {
                   "name": "account",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -25532,14 +25532,14 @@
               "fields": [
                 {
                   "name": "lost",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
                   "name": "rescuer",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -25564,8 +25564,8 @@
               "fields": [
                 {
                   "name": "account",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -25587,8 +25587,8 @@
               "fields": [
                 {
                   "name": "rescuer",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -25630,8 +25630,8 @@
               "fields": [
                 {
                   "name": "account",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -25696,8 +25696,8 @@
               "fields": [
                 {
                   "name": "target",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -25725,8 +25725,8 @@
               "fields": [
                 {
                   "name": "target",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -25762,14 +25762,14 @@
               "fields": [
                 {
                   "name": "source",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
                   "name": "target",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -26224,8 +26224,8 @@
               "fields": [
                 {
                   "name": "real",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -26265,8 +26265,8 @@
               "fields": [
                 {
                   "name": "delegate",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -26304,8 +26304,8 @@
               "fields": [
                 {
                   "name": "delegate",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -26407,8 +26407,8 @@
               "fields": [
                 {
                   "name": "spawner",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -26465,8 +26465,8 @@
               "fields": [
                 {
                   "name": "real",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -26506,8 +26506,8 @@
               "fields": [
                 {
                   "name": "real",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -26542,8 +26542,8 @@
               "fields": [
                 {
                   "name": "delegate",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -26578,14 +26578,14 @@
               "fields": [
                 {
                   "name": "delegate",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
                   "name": "real",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -27206,8 +27206,8 @@
                 },
                 {
                   "name": "curator",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -27293,8 +27293,8 @@
                 },
                 {
                   "name": "beneficiary",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -27477,8 +27477,8 @@
                 },
                 {
                   "name": "curator",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -27617,8 +27617,8 @@
                 },
                 {
                   "name": "beneficiary",
-                  "type": 215,
-                  "typeName": "<T::Lookup as StaticLookup>::Source",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -27761,8 +27761,8 @@
                 },
                 {
                   "name": "who",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -27833,8 +27833,8 @@
                 },
                 {
                   "name": "who",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -29723,8 +29723,8 @@
               "fields": [
                 {
                   "name": "dislocated",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -29747,8 +29747,8 @@
               "fields": [
                 {
                   "name": "lighter",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -29857,8 +29857,8 @@
               "fields": [
                 {
                   "name": "member_account",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -29931,8 +29931,8 @@
               "fields": [
                 {
                   "name": "member_account",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
@@ -29976,20 +29976,20 @@
                 },
                 {
                   "name": "root",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
                   "name": "nominator",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 },
                 {
                   "name": "state_toggler",
-                  "type": 0,
-                  "typeName": "T::AccountId",
+                  "type": 205,
+                  "typeName": "AccountIdLookupOf<T>",
                   "docs": []
                 }
               ],
@@ -46005,7 +46005,7 @@
       "params": [
         {
           "name": "Address",
-          "type": 215
+          "type": 205
         },
         {
           "name": "Call",
