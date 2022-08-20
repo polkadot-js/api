@@ -2086,12 +2086,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       MaxSupplyTooSmall: AugmentedError<ApiType>;
       /**
-       * The `CollectionId` in `NextCollectionId` is not being used.
-       * 
-       * This means that you can directly proceed to call `create`.
-       **/
-      NextIdNotUsed: AugmentedError<ApiType>;
-      /**
        * There is no delegate approved.
        **/
       NoDelegate: AugmentedError<ApiType>;

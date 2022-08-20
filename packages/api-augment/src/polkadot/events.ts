@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletStakingExposure, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpRuntimeDispatchError, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -514,6 +514,74 @@ declare module '@polkadot/api-base/types/events' {
        * A new multisig operation has begun.
        **/
       NewMultisig: AugmentedEvent<ApiType, [approving: AccountId32, multisig: AccountId32, callHash: U8aFixed], { approving: AccountId32, multisig: AccountId32, callHash: U8aFixed }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    nominationPools: {
+      /**
+       * A member has became bonded in a pool.
+       **/
+      Bonded: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, bonded: u128, joined: bool], { member: AccountId32, poolId: u32, bonded: u128, joined: bool }>;
+      /**
+       * A pool has been created.
+       **/
+      Created: AugmentedEvent<ApiType, [depositor: AccountId32, poolId: u32], { depositor: AccountId32, poolId: u32 }>;
+      /**
+       * A pool has been destroyed.
+       **/
+      Destroyed: AugmentedEvent<ApiType, [poolId: u32], { poolId: u32 }>;
+      /**
+       * A member has been removed from a pool.
+       * 
+       * The removal can be voluntary (withdrawn all unbonded funds) or involuntary (kicked).
+       **/
+      MemberRemoved: AugmentedEvent<ApiType, [poolId: u32, member: AccountId32], { poolId: u32, member: AccountId32 }>;
+      /**
+       * A payout has been made to a member.
+       **/
+      PaidOut: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, payout: u128], { member: AccountId32, poolId: u32, payout: u128 }>;
+      /**
+       * The active balance of pool `pool_id` has been slashed to `balance`.
+       **/
+      PoolSlashed: AugmentedEvent<ApiType, [poolId: u32, balance: u128], { poolId: u32, balance: u128 }>;
+      /**
+       * The roles of a pool have been updated to the given new roles. Note that the depositor
+       * can never change.
+       **/
+      RolesUpdated: AugmentedEvent<ApiType, [root: Option<AccountId32>, stateToggler: Option<AccountId32>, nominator: Option<AccountId32>], { root: Option<AccountId32>, stateToggler: Option<AccountId32>, nominator: Option<AccountId32> }>;
+      /**
+       * The state of a pool has changed
+       **/
+      StateChanged: AugmentedEvent<ApiType, [poolId: u32, newState: PalletNominationPoolsPoolState], { poolId: u32, newState: PalletNominationPoolsPoolState }>;
+      /**
+       * A member has unbonded from their pool.
+       * 
+       * - `balance` is the corresponding balance of the number of points that has been
+       * requested to be unbonded (the argument of the `unbond` transaction) from the bonded
+       * pool.
+       * - `points` is the number of points that are issued as a result of `balance` being
+       * dissolved into the corresponding unbonding pool.
+       * - `era` is the era in which the balance will be unbonded.
+       * In the absence of slashing, these values will match. In the presence of slashing, the
+       * number of points that are issued in the unbonding pool will be less than the amount
+       * requested to be unbonded.
+       **/
+      Unbonded: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, balance: u128, points: u128, era: u32], { member: AccountId32, poolId: u32, balance: u128, points: u128, era: u32 }>;
+      /**
+       * The unbond pool at `era` of pool `pool_id` has been slashed to `balance`.
+       **/
+      UnbondingPoolSlashed: AugmentedEvent<ApiType, [poolId: u32, era: u32, balance: u128], { poolId: u32, era: u32, balance: u128 }>;
+      /**
+       * A member has withdrawn from their pool.
+       * 
+       * The given number of `points` have been dissolved in return of `balance`.
+       * 
+       * Similar to `Unbonded` event, in the absence of slashing, the ratio of point to balance
+       * will be 1.
+       **/
+      Withdrawn: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, balance: u128, points: u128], { member: AccountId32, poolId: u32, balance: u128, points: u128 }>;
       /**
        * Generic event
        **/

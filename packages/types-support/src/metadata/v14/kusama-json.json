@@ -268,7 +268,7 @@
             {
               "name": "Version",
               "type": 174,
-              "value": "0x186b7573616d61347061726974792d6b7573616d610200000036240000000000003cdf6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a80100000017a6bc0d0062aeb3010000000c00000000",
+              "value": "0x186b7573616d61347061726974792d6b7573616d6102000000362400000000000040df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a801000000f3ff14d5ab5270590100000017a6bc0d0062aeb3010000000c00000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -643,7 +643,7 @@
             }
           ],
           "errors": {
-            "type": 205
+            "type": 207
           },
           "index": 3
         },
@@ -712,7 +712,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 206
+                    "value": 208
                   }
                 },
                 "fallback": "0x00",
@@ -730,7 +730,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 210
+                    "value": 212
                   }
                 },
                 "fallback": "0x00",
@@ -742,7 +742,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 213
+                  "plain": 215
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -754,7 +754,7 @@
             ]
           },
           "calls": {
-            "type": 214
+            "type": 216
           },
           "events": {
             "type": 28
@@ -2662,6 +2662,29 @@
                 " How long each seat is kept. This defines the next block number at which an election",
                 " round will happen. If set to zero, no elections are ever triggered and the module will",
                 " be in passive mode."
+              ]
+            },
+            {
+              "name": "MaxCandidates",
+              "type": 4,
+              "value": "0xe8030000",
+              "docs": [
+                " The maximum number of candidates in a phragmen election.",
+                "",
+                " Warning: The election happens onchain, and this value will determine",
+                " the size of the election. When this limit is reached no more",
+                " candidates are accepted in the election."
+              ]
+            },
+            {
+              "name": "MaxVoters",
+              "type": 4,
+              "value": "0x10270000",
+              "docs": [
+                " The maximum number of voters to allow in a phragmen election.",
+                "",
+                " Warning: This impacts the size of the election which is run onchain.",
+                " When the limit is reached the new voters are ignored."
               ]
             }
           ],

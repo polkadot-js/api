@@ -495,6 +495,21 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       desiredRunnersUp: u32 & AugmentedConst<ApiType>;
       /**
+       * The maximum number of candidates in a phragmen election.
+       * 
+       * Warning: The election happens onchain, and this value will determine
+       * the size of the election. When this limit is reached no more
+       * candidates are accepted in the election.
+       **/
+      maxCandidates: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of voters to allow in a phragmen election.
+       * 
+       * Warning: This impacts the size of the election which is run onchain.
+       * When the limit is reached the new voters are ignored.
+       **/
+      maxVoters: u32 & AugmentedConst<ApiType>;
+      /**
        * Identifier for the elections-phragmen pallet's lock
        **/
       palletId: U8aFixed & AugmentedConst<ApiType>;

@@ -1505,10 +1505,6 @@ declare module '@polkadot/api-base/types/events' {
        **/
       MetadataSet: AugmentedEvent<ApiType, [collection: u32, item: u32, data: Bytes, isFrozen: bool], { collection: u32, item: u32, data: Bytes, isFrozen: bool }>;
       /**
-       * Event gets emmited when the `NextCollectionId` gets incremented.
-       **/
-      NextCollectionIdIncremented: AugmentedEvent<ApiType, [nextId: u32], { nextId: u32 }>;
-      /**
        * The owner changed.
        **/
       OwnerChanged: AugmentedEvent<ApiType, [collection: u32, newOwner: AccountId32], { collection: u32, newOwner: AccountId32 }>;
