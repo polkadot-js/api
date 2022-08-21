@@ -2,6 +2,10 @@
 
 ## 9.2.3 Aug 21, 2022
 
+Contributed:
+
+- Update `@substrate/connect` to latest (Thanks to https://github.com/wirednkod)
+
 Changes:
 
 - Adjust `StakingLedger` with fallback for Kusama 1050 (2 different structures on-chain)
