@@ -24,11 +24,11 @@
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.18.9",
-    "@polkadot/networks": "^10.1.4",
+    "@polkadot/networks": "^10.1.5",
     "@polkadot/types": "9.2.3-4-x",
     "@polkadot/types-codec": "9.2.3-4-x",
     "@polkadot/types-create": "9.2.3-4-x",
-    "@polkadot/util": "^10.1.4"
+    "@polkadot/util": "^10.1.5"
   },
   "devDependencies": {
     "@polkadot/api": "9.2.3-4-x"
