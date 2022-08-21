@@ -80,27 +80,5 @@ export const runtime: DefinitionsCall = {
       }, CORE_V1_TO_V2, CORE_V1_TO_V4),
       version: 1
     }
-  ],
-  TryRuntime: [
-    {
-      methods: {
-        execute_block_no_check: {
-          description: "Execute the given block, but don't check that its state root matches that of yours.",
-          params: [
-            {
-              name: 'block',
-              type: 'Block'
-            }
-          ],
-          type: 'Weight'
-        },
-        on_runtime_upgrade: {
-          description: 'dry-run runtime upgrades, returning the total weight consumed.',
-          params: [],
-          type: '(Weight, Weight)'
-        }
-      },
-      version: 1
-    }
   ]
 };

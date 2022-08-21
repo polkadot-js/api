@@ -5,6 +5,7 @@
 Changes:
 
 - Adjust `StakingLedger` with fallback for Kusama 1050 (2 different structures on-chain)
+- Remove `TryRuntime` state call definitions (only off-chain usage)
 - Update to latest Substrate, Polkadot & Kusama metadata
 
 
