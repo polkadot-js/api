@@ -42,6 +42,8 @@ export function decodeVec<T extends Codec> (registry: Registry, result: T[], val
     const count = result.length;
 
     for (let i = 0; i < count; i++) {
+      // 26/08/2022 this is actually a false positive - after recent eslint upgdates
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const entry = value[i];
 
       try {
