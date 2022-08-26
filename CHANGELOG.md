@@ -5,6 +5,7 @@
 Changes:
 
 - Remove extra error logging in internal rpc-core Observable
+- Allow for embebbed `Enum` in `Struct` typegen (no `lookupName`)
 
 
 ## 9.2.3 Aug 21, 2022
