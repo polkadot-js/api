@@ -12,8 +12,8 @@ jobs:
     env:
       YARN_ENABLE_SCRIPTS: false
     steps:
-      - uses: actions/checkout@v2
-      - uses: returntocorp/semgrep-action@v1
+      - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
+      - uses: returntocorp/semgrep-action@aeafd770072c4f48798b991e3449592bddc2c435
         with:
           auditOn: push
           publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
