@@ -99,14 +99,14 @@ export const query = firstMemo(
 
 export function queryMulti (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags) => Observable<DeriveStakingQuery[]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags): Observable<DeriveStakingQuery[]> =>
-    accountIds.length
-      ? api.derive.session.indexes().pipe(
-        switchMap(({ activeEra }): Observable<DeriveStakingQuery[]> => {
-          const stashIds = accountIds.map((accountId) => api.registry.createType('AccountId', accountId));
+    api.derive.session.indexes().pipe(
+      switchMap(({ activeEra }): Observable<DeriveStakingQuery[]> => {
+        const stashIds = accountIds.map((a) => api.registry.createType('AccountId', a));
 
-          return getBatch(api, activeEra, stashIds, flags);
-        })
-      )
-      : of([])
+        return stashIds.length
+          ? getBatch(api, activeEra, stashIds, flags)
+          : of([]);
+      })
+    )
   );
 }
