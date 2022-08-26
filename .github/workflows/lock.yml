@@ -10,7 +10,7 @@ jobs:
     env:
       YARN_ENABLE_SCRIPTS: false
     steps:
-      - uses: dessant/lock-threads@v2
+      - uses: dessant/lock-threads@f1a42f0f44eb83361d617a014663e1a76cf282d2
         with:
           github-token: ${{ secrets.GH_PAT_BOT }}
           issue-lock-inactive-days: '7'
