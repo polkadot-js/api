@@ -1,4 +1,4 @@
-    3203	Jaco                          	Align nextTick in decorate with other usages (#5184)
+    3204	Jaco                          	Typegen with embebbed Enum in Struct (#5185)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
