@@ -844,21 +844,29 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     let valueIdx = 0;
     let valueObs: Observable<Codec[]>;
 
+    // if we don't have queue entries yet,
+    // or the current queue has fired (see from below),
+    // or the current queue has the max entries,
+    // then we create a new queue
     if (queueIdx === -1 || !queue[queueIdx] || queue[queueIdx][1].length === PAGE_SIZE_Q) {
       queueIdx++;
 
       valueObs = from(
-        // Defer to the next tick - this aligns with nextTick in @polkadot/util,
-        // however since we return a value here, we don't re-use what is there
-        Promise
-          .resolve()
-          .then((): [StorageEntry, unknown[]][] => {
+        // we delay the execution until the next tick, this allows
+        // any queries made in this timeframe to be added to the same
+        // queue for a single query
+        new Promise<[StorageEntry, unknown[]][]>((resolve): void => {
+          nextTick((): void => {
+            // get all the calls in this instance, resolve with it
+            // and then clear the queue so we don't add more
+            // (anyhting after this will be added to a new queue)
             const calls = queue[queueIdx][1];
 
             delete queue[queueIdx];
 
-            return calls;
-          })
+            resolve(calls);
+          });
+        })
       ).pipe(
         switchMap((calls) => query(calls))
       );
@@ -872,6 +880,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     }
 
     return valueObs.pipe(
+      // return the single value at this index
       map((values) => values[valueIdx])
     );
   }
