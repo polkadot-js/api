@@ -8,11 +8,13 @@ import { isNumber, isUndefined, objectSpread, stringify } from '@polkadot/util';
 
 import { TypeDefInfo } from '../types';
 
-const stringIdentity = <T extends { toString: () => string }> (value: T): string => value.toString();
+type ToString = { toString: () => string };
+
+const stringIdentity = <T extends ToString> (value: T): string => value.toString();
 
 const INFO_WRAP = ['BTreeMap', 'BTreeSet', 'Compact', 'HashMap', 'Option', 'Result', 'Vec'];
 
-export function paramsNotation <T> (outer: string, inner?: T | T[], transform: (_: T) => string = stringIdentity): string {
+export function paramsNotation <T extends ToString> (outer: string, inner?: T | T[], transform: (_: T) => string = stringIdentity): string {
   return `${outer}${
     inner
       ? `<${(Array.isArray(inner) ? inner : [inner]).map(transform).join(', ')}>`
