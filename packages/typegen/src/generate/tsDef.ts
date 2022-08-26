@@ -43,9 +43,10 @@ function tsExport (registry: Registry, definitions: Record<string, ModuleTypes>,
 }
 
 /** @internal */
-function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: enumName, sub }: TypeDef, imports: TypeImports): string {
+function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex, name: enumName, sub }: TypeDef, imports: TypeImports, withShortcut = false): string {
   setImports(definitions, imports, ['Enum']);
 
+  const indent = withShortcut ? '  ' : '';
   const named = (sub as TypeDef[]).filter(({ name }) => !!name && !name.startsWith('__Unused'));
   const keys = named.map((def): string => {
     const { info, lookupName, name = '', type } = def;
@@ -53,7 +54,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
     const isComplex = [TypeDefInfo.Option, TypeDefInfo.Range, TypeDefInfo.RangeInclusive, TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
     const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
       ? ''
-      : createGetter(definitions, `as${getter}`, lookupName || (isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports, false) : type), imports);
+      : createGetter(definitions, `as${getter}`, lookupName || (isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports, withShortcut) : type), imports);
     const isGetter = info === TypeDefInfo.DoNotConstruct
       ? ''
       : createGetter(definitions, `is${getter}`, 'boolean', imports);
@@ -74,18 +75,18 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
       case TypeDefInfo.VecFixed:
       case TypeDefInfo.WrapperKeepOpaque:
       case TypeDefInfo.WrapperOpaque:
-        return `${isGetter}${asGetter}`;
+        return `${indent}${isGetter}${indent}${asGetter}`;
 
       case TypeDefInfo.DoNotConstruct:
       case TypeDefInfo.Null:
-        return `${isGetter}`;
+        return `${indent}${isGetter}`;
 
       default:
         throw new Error(`Enum: ${enumName || 'undefined'}: Unhandled type ${TypeDefInfo[info]}, ${stringify(def)}`);
     }
   });
 
-  return exportInterface(lookupIndex, enumName, 'Enum', `${keys.join('')}  readonly type: ${named.map(({ name = '' }) => `'${stringPascalCase(name.replace(' ', '_'))}'`).join(' | ')};\n`);
+  return exportInterface(lookupIndex, enumName, 'Enum', `${keys.join('')}  ${indent}readonly type: ${named.map(({ name = '' }) => `'${stringPascalCase(name.replace(' ', '_'))}'`).join(' | ')};\n`, withShortcut);
 }
 
 function tsInt (_: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports, type: 'Int' | 'UInt' = 'Int'): string {
@@ -176,7 +177,9 @@ function tsStruct (registry: Registry, definitions: Record<string, ModuleTypes>,
   const keys = (sub as TypeDef[]).map((def): string => {
     const fmtType = def.lookupName && def.name !== def.lookupName
       ? def.lookupName
-      : formatType(registry, definitions, def, imports, false);
+      : def.info === TypeDefInfo.Enum
+        ? `${tsEnum(registry, definitions, def, imports, true)} & Enum`
+        : formatType(registry, definitions, def, imports, false);
 
     return createGetter(definitions, def.name, fmtType, imports);
   });

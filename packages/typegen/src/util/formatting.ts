@@ -105,11 +105,13 @@ Handlebars.registerHelper({
 
 // helper to generate a `export interface <Name> extends <Base> {<Body>}
 /** @internal */
-export function exportInterface (lookupIndex = -1, name = '', base: string, body = ''): string {
+export function exportInterface (lookupIndex = -1, name = '', base: string, body = '', withShortcut = false): string {
   // * @description extends [[${base}]]
-  const doc = `/** @name ${name}${lookupIndex !== -1 ? ` (${lookupIndex})` : ''} */\n`;
+  const doc = withShortcut
+    ? ''
+    : `/** @name ${name}${lookupIndex !== -1 ? ` (${lookupIndex})` : ''} */\n`;
 
-  return `${doc}export interface ${name} extends ${base} {${body.length ? '\n' : ''}${body}}`;
+  return `${doc}${withShortcut ? '' : `export interface ${name} extends ${base} `}{${body.length ? '\n' : ''}${body}${withShortcut ? '  ' : ''}}`;
 }
 
 function singleParamNotation (registry: Registry, wrapper: string, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean): string {
