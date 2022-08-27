@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "9.2.4-6-x",
+  "version": "9.2.4",
   "versions": {
     "git": "9.2.4-6-x",
     "npm": "9.2.3"
@@ -38,7 +38,7 @@
     "@babel/core": "^7.18.13",
     "@babel/register": "^7.18.9",
     "@babel/runtime": "^7.18.9",
-    "@polkadot/dev": "^0.67.116",
+    "@polkadot/dev": "^0.67.118",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^28.1.8",
     "copyfiles": "^2.4.1"
