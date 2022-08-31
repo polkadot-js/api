@@ -15,7 +15,7 @@ export const runtime: DefinitionsCall = {
               type: 'AccountId'
             }
           ],
-          type: 'Result<Balance, NpApiError>'
+          type: 'Balance'
         }
       },
       version: 1
