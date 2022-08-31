@@ -37,6 +37,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       MemberRetired: AugmentedEvent<ApiType, [member: AccountId32, unreserved: Option<u128>], { member: AccountId32, unreserved: Option<u128> }>;
       /**
+       * A member gave retirement notice and their retirement period started.
+       **/
+      MemberRetirementPeriodStarted: AugmentedEvent<ApiType, [member: AccountId32], { member: AccountId32 }>;
+      /**
        * Some accounts have been initialized as members (founders/fellows/allies).
        **/
       MembersInitialized: AugmentedEvent<ApiType, [founders: Vec<AccountId32>, fellows: Vec<AccountId32>, allies: Vec<AccountId32>], { founders: Vec<AccountId32>, fellows: Vec<AccountId32>, allies: Vec<AccountId32> }>;

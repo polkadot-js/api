@@ -38,6 +38,11 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       elevateAlly: AugmentedSubmittable<(ally: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
       /**
+       * As a member, give a retirement notice and start a retirement period required to pass in
+       * order to retire.
+       **/
+      giveRetirementNotice: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
        * Initialize the founders, fellows, and allies.
        * 
        * This should only be called once, and must be called by the Root origin.
@@ -72,6 +77,7 @@ declare module '@polkadot/api-base/types/submittable' {
       removeUnscrupulousItems: AugmentedSubmittable<(items: Vec<PalletAllianceUnscrupulousItem> | (PalletAllianceUnscrupulousItem | { AccountId: any } | { Website: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<PalletAllianceUnscrupulousItem>]>;
       /**
        * As a member, retire from the alliance and unreserve the deposit.
+       * This can only be done once you have `give_retirement_notice` and it has expired.
        **/
       retire: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**

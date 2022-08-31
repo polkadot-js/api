@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Update to latest Substrate, Polkadot & Kusama metadata
+
+
 ## 9.2.4 Aug 27, 2022
 
 Changes:

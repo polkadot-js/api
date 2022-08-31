@@ -30,7 +30,12 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Maps member type to members of each type.
        **/
-      members: AugmentedQuery<ApiType, (arg: PalletAllianceMemberRole | 'Founder' | 'Fellow' | 'Ally' | number | Uint8Array) => Observable<Vec<AccountId32>>, [PalletAllianceMemberRole]> & QueryableStorageEntry<ApiType, [PalletAllianceMemberRole]>;
+      members: AugmentedQuery<ApiType, (arg: PalletAllianceMemberRole | 'Founder' | 'Fellow' | 'Ally' | 'Retiring' | number | Uint8Array) => Observable<Vec<AccountId32>>, [PalletAllianceMemberRole]> & QueryableStorageEntry<ApiType, [PalletAllianceMemberRole]>;
+      /**
+       * A set of members who gave a retirement notice. They can retire after the end of retirement
+       * period stored as a future block number.
+       **/
+      retiringMembers: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<u32>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * The IPFS CID of the alliance rule.
        * Founders and fellows can propose a new rule with a super-majority.
@@ -47,11 +52,6 @@ declare module '@polkadot/api-base/types/storage' {
        * The current list of websites deemed unscrupulous.
        **/
       unscrupulousWebsites: AugmentedQuery<ApiType, () => Observable<Vec<Bytes>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * A set of members that are (potentially) being kicked out. They cannot retire until the
-       * motion is settled.
-       **/
-      upForKicking: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<bool>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/

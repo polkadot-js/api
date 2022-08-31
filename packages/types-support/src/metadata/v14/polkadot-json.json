@@ -236,7 +236,7 @@
             {
               "name": "BlockWeights",
               "type": 164,
-              "value": "0x5872d25c0100000000204aa9d1010000603b14050000000001a094cb9158010000010098f73e5d010000010000000000000000603b14050000000001a01c1efccc0100000100204aa9d1010000010088526a74000000603b140500000000000000",
+              "value": "0x387fae5c0100000000204aa9d1010000603b14050000000001a094cb9158010000010098f73e5d010000010000000000000000603b14050000000001a01c1efccc0100000100204aa9d1010000010088526a74000000603b140500000000000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
               ]
@@ -268,7 +268,7 @@
             {
               "name": "Version",
               "type": 171,
-              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f740000000036240000000000003cdf6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a801000000f3ff14d5ab527059010000000d00000000",
+              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000402400000000000040df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a0600000017a6bc0d0062aeb301000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a801000000f3ff14d5ab527059010000000d00000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -278,7 +278,7 @@
               "type": 80,
               "value": "0x0000",
               "docs": [
-                " The designated SS85 prefix of this chain.",
+                " The designated SS58 prefix of this chain.",
                 "",
                 " This replaces the \"ss58Format\" property declared in the chain spec. Reason is",
                 " that the runtime should know about the prefix in order to make use of it as",
@@ -4115,7 +4115,7 @@
             {
               "name": "SignedMaxWeight",
               "type": 8,
-              "value": "0x4822f93457010000",
+              "value": "0x68151d3557010000",
               "docs": [
                 " Maximum weight of a signed solution.",
                 "",

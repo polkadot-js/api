@@ -1518,6 +1518,9 @@ export default {
       AllyElevated: {
         ally: 'AccountId32',
       },
+      MemberRetirementPeriodStarted: {
+        member: 'AccountId32',
+      },
       MemberRetired: {
         member: 'AccountId32',
         unreserved: 'Option<u128>',
@@ -3793,6 +3796,7 @@ export default {
       elevate_ally: {
         ally: 'MultiAddress',
       },
+      give_retirement_notice: 'Null',
       retire: 'Null',
       kick_member: {
         who: 'MultiAddress',
@@ -5135,13 +5139,13 @@ export default {
    * Lookup634: pallet_alliance::MemberRole
    **/
   PalletAllianceMemberRole: {
-    _enum: ['Founder', 'Fellow', 'Ally']
+    _enum: ['Founder', 'Fellow', 'Ally', 'Retiring']
   },
   /**
    * Lookup639: pallet_alliance::pallet::Error<T, I>
    **/
   PalletAllianceError: {
-    _enum: ['AllianceAlreadyInitialized', 'AllianceNotYetInitialized', 'AlreadyMember', 'NotMember', 'NotAlly', 'NotFounder', 'UpForKicking', 'NoVotingRights', 'AlreadyElevated', 'AlreadyUnscrupulous', 'AccountNonGrata', 'NotListedAsUnscrupulous', 'TooManyUnscrupulousItems', 'TooLongWebsiteUrl', 'InsufficientFunds', 'WithoutIdentityDisplayAndWebsite', 'WithoutGoodIdentityJudgement', 'MissingProposalHash', 'NotVetoableProposal', 'MissingAnnouncement', 'TooManyMembers', 'TooManyAnnouncements']
+    _enum: ['AllianceAlreadyInitialized', 'AllianceNotYetInitialized', 'AlreadyMember', 'NotMember', 'NotAlly', 'NotFounder', 'NoVotingRights', 'AlreadyElevated', 'AlreadyUnscrupulous', 'AccountNonGrata', 'NotListedAsUnscrupulous', 'TooManyUnscrupulousItems', 'TooLongWebsiteUrl', 'InsufficientFunds', 'WithoutIdentityDisplayAndWebsite', 'WithoutGoodIdentityJudgement', 'MissingProposalHash', 'NotVetoableProposal', 'MissingAnnouncement', 'TooManyMembers', 'TooManyAnnouncements', 'AlreadyRetiring', 'RetirementNoticeNotGiven', 'RetirementPeriodNotPassed']
   },
   /**
    * Lookup640: pallet_nomination_pools::PoolMember<T>
