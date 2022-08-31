@@ -4,6 +4,7 @@
 
 Changes:
 
+- Adjust `pendingRewards` for pools runtime calls
 - Update to latest Substrate, Polkadot & Kusama metadata
 
 
