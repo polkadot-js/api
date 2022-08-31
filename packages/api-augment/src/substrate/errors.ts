@@ -34,6 +34,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyMember: AugmentedError<ApiType>;
       /**
+       * Account already gave retirement notice
+       **/
+      AlreadyRetiring: AugmentedError<ApiType>;
+      /**
        * Item is already listed as unscrupulous.
        **/
       AlreadyUnscrupulous: AugmentedError<ApiType>;
@@ -74,6 +78,14 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoVotingRights: AugmentedError<ApiType>;
       /**
+       * Account did not give a retirement notice required to retire.
+       **/
+      RetirementNoticeNotGiven: AugmentedError<ApiType>;
+      /**
+       * Retirement period has not passed.
+       **/
+      RetirementPeriodNotPassed: AugmentedError<ApiType>;
+      /**
        * Length of website URL exceeds `MaxWebsiteUrlLength`.
        **/
       TooLongWebsiteUrl: AugmentedError<ApiType>;
@@ -89,10 +101,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The number of unscrupulous items exceeds `MaxUnscrupulousItems`.
        **/
       TooManyUnscrupulousItems: AugmentedError<ApiType>;
-      /**
-       * This member is up for being kicked from the Alliance and cannot perform this operation.
-       **/
-      UpForKicking: AugmentedError<ApiType>;
       /**
        * The account's identity has no good judgement.
        **/

@@ -9806,6 +9806,21 @@
               ]
             },
             {
+              "name": "MemberRetirementPeriodStarted",
+              "fields": [
+                {
+                  "name": "member",
+                  "type": 0,
+                  "typeName": "T::AccountId",
+                  "docs": []
+                }
+              ],
+              "index": 6,
+              "docs": [
+                "A member gave retirement notice and their retirement period started."
+              ]
+            },
+            {
               "name": "MemberRetired",
               "fields": [
                 {
@@ -9821,7 +9836,7 @@
                   "docs": []
                 }
               ],
-              "index": 6,
+              "index": 7,
               "docs": [
                 "A member has retired with its deposit unreserved."
               ]
@@ -9842,7 +9857,7 @@
                   "docs": []
                 }
               ],
-              "index": 7,
+              "index": 8,
               "docs": [
                 "A member has been kicked out with its deposit slashed."
               ]
@@ -9857,7 +9872,7 @@
                   "docs": []
                 }
               ],
-              "index": 8,
+              "index": 9,
               "docs": [
                 "Accounts or websites have been added into the list of unscrupulous items."
               ]
@@ -9872,7 +9887,7 @@
                   "docs": []
                 }
               ],
-              "index": 9,
+              "index": 10,
               "docs": [
                 "Accounts or websites have been removed from the list of unscrupulous items."
               ]
@@ -28777,11 +28792,21 @@
               ]
             },
             {
-              "name": "retire",
+              "name": "give_retirement_notice",
               "fields": [],
               "index": 11,
               "docs": [
-                "As a member, retire from the alliance and unreserve the deposit."
+                "As a member, give a retirement notice and start a retirement period required to pass in",
+                "order to retire."
+              ]
+            },
+            {
+              "name": "retire",
+              "fields": [],
+              "index": 12,
+              "docs": [
+                "As a member, retire from the alliance and unreserve the deposit.",
+                "This can only be done once you have `give_retirement_notice` and it has expired."
               ]
             },
             {
@@ -28794,7 +28819,7 @@
                   "docs": []
                 }
               ],
-              "index": 12,
+              "index": 13,
               "docs": [
                 "Kick a member from the alliance and slash its deposit."
               ]
@@ -28809,7 +28834,7 @@
                   "docs": []
                 }
               ],
-              "index": 13,
+              "index": 14,
               "docs": [
                 "Add accounts or websites to the list of unscrupulous items."
               ]
@@ -28824,7 +28849,7 @@
                   "docs": []
                 }
               ],
-              "index": 14,
+              "index": 15,
               "docs": [
                 "Deem an item no longer unscrupulous."
               ]
@@ -42303,6 +42328,12 @@
               "fields": [],
               "index": 2,
               "docs": []
+            },
+            {
+              "name": "Retiring",
+              "fields": [],
+              "index": 3,
+              "docs": []
             }
           ]
         }
@@ -42495,17 +42526,9 @@
               ]
             },
             {
-              "name": "UpForKicking",
-              "fields": [],
-              "index": 6,
-              "docs": [
-                "This member is up for being kicked from the Alliance and cannot perform this operation."
-              ]
-            },
-            {
               "name": "NoVotingRights",
               "fields": [],
-              "index": 7,
+              "index": 6,
               "docs": [
                 "Account does not have voting rights."
               ]
@@ -42513,7 +42536,7 @@
             {
               "name": "AlreadyElevated",
               "fields": [],
-              "index": 8,
+              "index": 7,
               "docs": [
                 "Account is already an elevated (fellow) member."
               ]
@@ -42521,7 +42544,7 @@
             {
               "name": "AlreadyUnscrupulous",
               "fields": [],
-              "index": 9,
+              "index": 8,
               "docs": [
                 "Item is already listed as unscrupulous."
               ]
@@ -42529,7 +42552,7 @@
             {
               "name": "AccountNonGrata",
               "fields": [],
-              "index": 10,
+              "index": 9,
               "docs": [
                 "Account has been deemed unscrupulous by the Alliance and is not welcome to join or be",
                 "nominated."
@@ -42538,7 +42561,7 @@
             {
               "name": "NotListedAsUnscrupulous",
               "fields": [],
-              "index": 11,
+              "index": 10,
               "docs": [
                 "Item has not been deemed unscrupulous."
               ]
@@ -42546,7 +42569,7 @@
             {
               "name": "TooManyUnscrupulousItems",
               "fields": [],
-              "index": 12,
+              "index": 11,
               "docs": [
                 "The number of unscrupulous items exceeds `MaxUnscrupulousItems`."
               ]
@@ -42554,7 +42577,7 @@
             {
               "name": "TooLongWebsiteUrl",
               "fields": [],
-              "index": 13,
+              "index": 12,
               "docs": [
                 "Length of website URL exceeds `MaxWebsiteUrlLength`."
               ]
@@ -42562,7 +42585,7 @@
             {
               "name": "InsufficientFunds",
               "fields": [],
-              "index": 14,
+              "index": 13,
               "docs": [
                 "Balance is insufficient for the required deposit."
               ]
@@ -42570,7 +42593,7 @@
             {
               "name": "WithoutIdentityDisplayAndWebsite",
               "fields": [],
-              "index": 15,
+              "index": 14,
               "docs": [
                 "The account's identity does not have display field and website field."
               ]
@@ -42578,7 +42601,7 @@
             {
               "name": "WithoutGoodIdentityJudgement",
               "fields": [],
-              "index": 16,
+              "index": 15,
               "docs": [
                 "The account's identity has no good judgement."
               ]
@@ -42586,7 +42609,7 @@
             {
               "name": "MissingProposalHash",
               "fields": [],
-              "index": 17,
+              "index": 16,
               "docs": [
                 "The proposal hash is not found."
               ]
@@ -42594,7 +42617,7 @@
             {
               "name": "NotVetoableProposal",
               "fields": [],
-              "index": 18,
+              "index": 17,
               "docs": [
                 "The proposal is not vetoable."
               ]
@@ -42602,7 +42625,7 @@
             {
               "name": "MissingAnnouncement",
               "fields": [],
-              "index": 19,
+              "index": 18,
               "docs": [
                 "The announcement is not found."
               ]
@@ -42610,7 +42633,7 @@
             {
               "name": "TooManyMembers",
               "fields": [],
-              "index": 20,
+              "index": 19,
               "docs": [
                 "Number of members exceeds `MaxMembersCount`."
               ]
@@ -42618,9 +42641,33 @@
             {
               "name": "TooManyAnnouncements",
               "fields": [],
-              "index": 21,
+              "index": 20,
               "docs": [
                 "Number of announcements exceeds `MaxAnnouncementsCount`."
+              ]
+            },
+            {
+              "name": "AlreadyRetiring",
+              "fields": [],
+              "index": 21,
+              "docs": [
+                "Account already gave retirement notice"
+              ]
+            },
+            {
+              "name": "RetirementNoticeNotGiven",
+              "fields": [],
+              "index": 22,
+              "docs": [
+                "Account did not give a retirement notice required to retire."
+              ]
+            },
+            {
+              "name": "RetirementPeriodNotPassed",
+              "fields": [],
+              "index": 23,
+              "docs": [
+                "Retirement period has not passed."
               ]
             }
           ]

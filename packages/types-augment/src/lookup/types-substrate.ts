@@ -1691,6 +1691,10 @@ declare module '@polkadot/types/lookup' {
     readonly asAllyElevated: {
       readonly ally: AccountId32;
     } & Struct;
+    readonly isMemberRetirementPeriodStarted: boolean;
+    readonly asMemberRetirementPeriodStarted: {
+      readonly member: AccountId32;
+    } & Struct;
     readonly isMemberRetired: boolean;
     readonly asMemberRetired: {
       readonly member: AccountId32;
@@ -1709,7 +1713,7 @@ declare module '@polkadot/types/lookup' {
     readonly asUnscrupulousItemRemoved: {
       readonly items: Vec<PalletAllianceUnscrupulousItem>;
     } & Struct;
-    readonly type: 'NewRuleSet' | 'Announced' | 'AnnouncementRemoved' | 'MembersInitialized' | 'NewAllyJoined' | 'AllyElevated' | 'MemberRetired' | 'MemberKicked' | 'UnscrupulousItemAdded' | 'UnscrupulousItemRemoved';
+    readonly type: 'NewRuleSet' | 'Announced' | 'AnnouncementRemoved' | 'MembersInitialized' | 'NewAllyJoined' | 'AllyElevated' | 'MemberRetirementPeriodStarted' | 'MemberRetired' | 'MemberKicked' | 'UnscrupulousItemAdded' | 'UnscrupulousItemRemoved';
   }
 
   /** @name PalletAllianceCid (118) */
@@ -4066,6 +4070,7 @@ declare module '@polkadot/types/lookup' {
     readonly asElevateAlly: {
       readonly ally: MultiAddress;
     } & Struct;
+    readonly isGiveRetirementNotice: boolean;
     readonly isRetire: boolean;
     readonly isKickMember: boolean;
     readonly asKickMember: {
@@ -4079,7 +4084,7 @@ declare module '@polkadot/types/lookup' {
     readonly asRemoveUnscrupulousItems: {
       readonly items: Vec<PalletAllianceUnscrupulousItem>;
     } & Struct;
-    readonly type: 'Propose' | 'Vote' | 'Veto' | 'Close' | 'InitMembers' | 'SetRule' | 'Announce' | 'RemoveAnnouncement' | 'JoinAlliance' | 'NominateAlly' | 'ElevateAlly' | 'Retire' | 'KickMember' | 'AddUnscrupulousItems' | 'RemoveUnscrupulousItems';
+    readonly type: 'Propose' | 'Vote' | 'Veto' | 'Close' | 'InitMembers' | 'SetRule' | 'Announce' | 'RemoveAnnouncement' | 'JoinAlliance' | 'NominateAlly' | 'ElevateAlly' | 'GiveRetirementNotice' | 'Retire' | 'KickMember' | 'AddUnscrupulousItems' | 'RemoveUnscrupulousItems';
   }
 
   /** @name PalletNominationPoolsCall (368) */
@@ -5698,7 +5703,8 @@ declare module '@polkadot/types/lookup' {
     readonly isFounder: boolean;
     readonly isFellow: boolean;
     readonly isAlly: boolean;
-    readonly type: 'Founder' | 'Fellow' | 'Ally';
+    readonly isRetiring: boolean;
+    readonly type: 'Founder' | 'Fellow' | 'Ally' | 'Retiring';
   }
 
   /** @name PalletAllianceError (639) */
@@ -5709,7 +5715,6 @@ declare module '@polkadot/types/lookup' {
     readonly isNotMember: boolean;
     readonly isNotAlly: boolean;
     readonly isNotFounder: boolean;
-    readonly isUpForKicking: boolean;
     readonly isNoVotingRights: boolean;
     readonly isAlreadyElevated: boolean;
     readonly isAlreadyUnscrupulous: boolean;
@@ -5725,7 +5730,10 @@ declare module '@polkadot/types/lookup' {
     readonly isMissingAnnouncement: boolean;
     readonly isTooManyMembers: boolean;
     readonly isTooManyAnnouncements: boolean;
-    readonly type: 'AllianceAlreadyInitialized' | 'AllianceNotYetInitialized' | 'AlreadyMember' | 'NotMember' | 'NotAlly' | 'NotFounder' | 'UpForKicking' | 'NoVotingRights' | 'AlreadyElevated' | 'AlreadyUnscrupulous' | 'AccountNonGrata' | 'NotListedAsUnscrupulous' | 'TooManyUnscrupulousItems' | 'TooLongWebsiteUrl' | 'InsufficientFunds' | 'WithoutIdentityDisplayAndWebsite' | 'WithoutGoodIdentityJudgement' | 'MissingProposalHash' | 'NotVetoableProposal' | 'MissingAnnouncement' | 'TooManyMembers' | 'TooManyAnnouncements';
+    readonly isAlreadyRetiring: boolean;
+    readonly isRetirementNoticeNotGiven: boolean;
+    readonly isRetirementPeriodNotPassed: boolean;
+    readonly type: 'AllianceAlreadyInitialized' | 'AllianceNotYetInitialized' | 'AlreadyMember' | 'NotMember' | 'NotAlly' | 'NotFounder' | 'NoVotingRights' | 'AlreadyElevated' | 'AlreadyUnscrupulous' | 'AccountNonGrata' | 'NotListedAsUnscrupulous' | 'TooManyUnscrupulousItems' | 'TooLongWebsiteUrl' | 'InsufficientFunds' | 'WithoutIdentityDisplayAndWebsite' | 'WithoutGoodIdentityJudgement' | 'MissingProposalHash' | 'NotVetoableProposal' | 'MissingAnnouncement' | 'TooManyMembers' | 'TooManyAnnouncements' | 'AlreadyRetiring' | 'RetirementNoticeNotGiven' | 'RetirementPeriodNotPassed';
   }
 
   /** @name PalletNominationPoolsPoolMember (640) */

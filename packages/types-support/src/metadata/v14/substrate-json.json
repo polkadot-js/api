@@ -278,7 +278,7 @@
               "type": 87,
               "value": "0x2a00",
               "docs": [
-                " The designated SS85 prefix of this chain.",
+                " The designated SS58 prefix of this chain.",
                 "",
                 " This replaces the \"ss58Format\" property declared in the chain spec. Reason is",
                 " that the runtime should know about the prefix in order to make use of it as",
@@ -6311,21 +6311,21 @@
                 ]
               },
               {
-                "name": "UpForKicking",
-                "modifier": "Default",
+                "name": "RetiringMembers",
+                "modifier": "Optional",
                 "type": {
                   "map": {
                     "hashers": [
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 38
+                    "value": 4
                   }
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " A set of members that are (potentially) being kicked out. They cannot retire until the",
-                  " motion is settled."
+                  " A set of members who gave a retirement notice. They can retire after the end of retirement",
+                  " period stored as a future block number."
                 ]
               },
               {
