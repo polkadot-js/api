@@ -7,7 +7,6 @@ import { Raw } from '@polkadot/types-codec';
 import jsonVec from '@polkadot/types-support/json/AccountIdVec.001.json' assert { type: 'json' };
 
 import { TypeRegistry } from '../create';
-import { GenericAccountId as AccountId } from '.';
 
 describe('AccountId', (): void => {
   const registry = new TypeRegistry();
@@ -37,7 +36,7 @@ describe('AccountId', (): void => {
   });
 
   describe('decoding', (): void => {
-    const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string): void =>
+    const testDecode = (type: string, input: Uint8Array | string, expected: string): void =>
       it(`can decode from ${type}`, (): void => {
         expect(
           registry
@@ -56,6 +55,11 @@ describe('AccountId', (): void => {
       'AccountId',
       registry.createType('AccountId', '0x0102030405060708010203040506070801020304050607080102030405060708'),
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
+    );
+    testDecode(
+      'AccountId33',
+      registry.createType('AccountId33', '0x098765430987654309876543098765430987654309876543098765430987654309'),
+      '5CHCWUYMmDGeJjiuaQ1LnrsAWacDhiTAV6vCfytSxoqBdCCb'
     );
     testDecode('hex', '0x0102030405060708010203040506070801020304050607080102030405060708', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
     testDecode('string', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');

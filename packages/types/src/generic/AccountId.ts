@@ -22,20 +22,14 @@ function decodeAccountId (value?: AnyU8a | AnyString): Uint8Array {
   throw new Error(`Unknown type passed to AccountId constructor, found typeof ${typeof value}`);
 }
 
-/**
- * @name GenericAccountId
- * @description
- * A wrapper around an AccountId/PublicKey representation. Since we are dealing with
- * underlying PublicKeys (32 bytes in length), we extend from U8aFixed which is
- * just a Uint8Array wrapper with a fixed length.
- */
-export class GenericAccountId extends U8aFixed {
-  constructor (registry: Registry, value?: AnyU8a) {
+class BaseAccountId extends U8aFixed {
+  constructor (registry: Registry, allowedBits = 256 | 264, value?: AnyU8a) {
     const decoded = decodeAccountId(value);
+    const decodedBits = decoded.length * 8;
 
     // Part of stream containing >= 32 bytes or a all empty (defaults)
-    if (decoded.length < 32 && decoded.some((b) => b)) {
-      throw new Error(`Invalid AccountId provided, expected 32 bytes, found ${decoded.length}`);
+    if (decodedBits < allowedBits && decoded.some((b) => b)) {
+      throw new Error(`Invalid AccountId provided, expected ${allowedBits >> 3} bytes, found ${decoded.length}`);
     }
 
     super(registry, decoded, 256);
@@ -81,5 +75,24 @@ export class GenericAccountId extends U8aFixed {
    */
   public override toRawType (): string {
     return 'AccountId';
+  }
+}
+
+/**
+ * @name GenericAccountId
+ * @description
+ * A wrapper around an AccountId/PublicKey representation. Since we are dealing with
+ * underlying PublicKeys (32 bytes in length), we extend from U8aFixed which is
+ * just a Uint8Array wrapper with a fixed length.
+ */
+export class GenericAccountId extends BaseAccountId {
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, 256, value);
+  }
+}
+
+export class GenericAccountId33 extends BaseAccountId {
+  constructor (registry: Registry, value?: AnyU8a) {
+    super(registry, 264, value);
   }
 }
