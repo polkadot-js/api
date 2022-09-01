@@ -6,6 +6,7 @@ Changes:
 
 - Support for ink! v4 metadata
 - Adjust `pendingRewards` for pools runtime calls
+- Support for `AccountId33` (raw/compressed 33-byte ecdsa)
 - Update to latest Substrate, Polkadot & Kusama metadata
 
 

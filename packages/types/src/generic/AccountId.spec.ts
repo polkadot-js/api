@@ -7,7 +7,7 @@ import { Raw } from '@polkadot/types-codec';
 import jsonVec from '@polkadot/types-support/json/AccountIdVec.001.json' assert { type: 'json' };
 
 import { TypeRegistry } from '../create';
-import { GenericAccountId as AccountId } from '.';
+import { GenericAccountId32 as AccountId } from '.';
 
 describe('AccountId', (): void => {
   const registry = new TypeRegistry();
@@ -54,6 +54,11 @@ describe('AccountId', (): void => {
 
     testDecode(
       'AccountId',
+      registry.createType('AccountId', '0x0102030405060708010203040506070801020304050607080102030405060708'),
+      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
+    );
+    testDecode(
+      'AccountId33',
       registry.createType('AccountId', '0x0102030405060708010203040506070801020304050607080102030405060708'),
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );

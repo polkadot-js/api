@@ -3,7 +3,7 @@
 
 export * from '../ethereum';
 
-export { GenericAccountId } from './AccountId';
+export { GenericAccountId32 as GenericAccountId, GenericAccountId32, GenericAccountId33 } from './AccountId';
 export { GenericAccountIndex } from './AccountIndex';
 export { GenericBlock } from './Block';
 export { GenericCall } from './Call';
