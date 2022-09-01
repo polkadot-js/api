@@ -248,6 +248,7 @@ export interface ContractMetadataLatest extends ContractMetadataV3 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
+  readonly metadataVersion: Text;
   readonly types: Vec<Si0Type>;
   readonly spec: ContractContractSpecV0;
 }

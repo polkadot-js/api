@@ -1,0 +1,103 @@
+{
+  "source": {
+    "hash": "0xf051c631190ac47f82e280ba763df932210f6e2447978e24cbe0dcc6d6903c7a",
+    "language": "ink! 4.0.0-alpha.1",
+    "compiler": "rustc 1.63.0"
+  },
+  "contract": {
+    "name": "flipper",
+    "version": "4.0.0-alpha.1",
+    "authors": [
+      "Parity Technologies <admin@parity.io>"
+    ]
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [
+          {
+            "label": "init_value",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [
+          "Creates a new flipper smart contract initialized with the given value."
+        ],
+        "label": "new",
+        "payable": false,
+        "selector": "0x9bae9d5e"
+      },
+      {
+        "args": [],
+        "docs": [
+          "Creates a new flipper smart contract initialized to `false`."
+        ],
+        "label": "default",
+        "payable": false,
+        "selector": "0xed4b9d1b"
+      }
+    ],
+    "docs": [],
+    "events": [],
+    "messages": [
+      {
+        "args": [],
+        "docs": [
+          " Flips the current value of the Flipper's boolean."
+        ],
+        "label": "flip",
+        "mutates": true,
+        "payable": false,
+        "returnType": null,
+        "selector": "0x633aa551"
+      },
+      {
+        "args": [],
+        "docs": [
+          " Returns the current value of the Flipper's boolean."
+        ],
+        "label": "get",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "bool"
+          ],
+          "type": 0
+        },
+        "selector": "0x2f865bd9"
+      }
+    ]
+  },
+  "storage": {
+    "struct": {
+      "fields": [
+        {
+          "layout": {
+            "cell": {
+              "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "ty": 0
+            }
+          },
+          "name": "value"
+        }
+      ]
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    }
+  ],
+  "version": "4"
+}

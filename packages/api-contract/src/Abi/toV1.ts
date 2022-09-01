@@ -21,6 +21,10 @@ function v0ToV1Names (all: Named[]): unknown[] {
 }
 
 export function v0ToV1 (registry: Registry, v0: ContractMetadataV0): ContractMetadataV1 {
+  if (!v0.metadataVersion.length) {
+    throw new Error('Invalid format for V0 (detected) contract metadata');
+  }
+
   return registry.createType('ContractMetadataV1', objectSpread({}, v0, {
     spec: objectSpread({}, v0.spec, {
       constructors: v0ToV1Names(v0.spec.constructors),
