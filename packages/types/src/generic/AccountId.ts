@@ -85,7 +85,7 @@ class BaseAccountId extends U8aFixed {
  * underlying PublicKeys (32 bytes in length), we extend from U8aFixed which is
  * just a Uint8Array wrapper with a fixed length.
  */
-export class GenericAccountId32 extends BaseAccountId {
+export class GenericAccountId extends BaseAccountId {
   constructor (registry: Registry, value?: AnyU8a) {
     super(registry, 256, value);
   }
