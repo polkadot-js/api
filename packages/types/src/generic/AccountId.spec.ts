@@ -7,7 +7,6 @@ import { Raw } from '@polkadot/types-codec';
 import jsonVec from '@polkadot/types-support/json/AccountIdVec.001.json' assert { type: 'json' };
 
 import { TypeRegistry } from '../create';
-import { GenericAccountId32 as AccountId } from '.';
 
 describe('AccountId', (): void => {
   const registry = new TypeRegistry();
@@ -37,7 +36,7 @@ describe('AccountId', (): void => {
   });
 
   describe('decoding', (): void => {
-    const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string): void =>
+    const testDecode = (type: string, input: Uint8Array | string, expected: string): void =>
       it(`can decode from ${type}`, (): void => {
         expect(
           registry
