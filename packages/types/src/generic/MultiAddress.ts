@@ -7,7 +7,7 @@ import { Enum } from '@polkadot/types-codec';
 import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { GenericAccountId } from './AccountId';
+import { GenericAccountId32 } from './AccountId';
 import { GenericAccountIndex } from './AccountIndex';
 
 function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
@@ -23,7 +23,7 @@ function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
 }
 
 function decodeMultiAny (registry: Registry, value?: unknown): unknown {
-  if (value instanceof GenericAccountId) {
+  if (value instanceof GenericAccountId32) {
     return { Id: value };
   } else if (isU8a(value)) {
     // NOTE This is after the AccountId check (which is U8a)

@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericEthereumAccountId, GenericLookupSource, GenericMultiAddress, StorageKey } from '@polkadot/types';
+import type { GenericAccountId32, GenericAccountId33, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericEthereumAccountId, GenericLookupSource, GenericMultiAddress, StorageKey } from '@polkadot/types';
 import type { Bytes, Compact, DoNotConstruct, Enum, Int, Null, Option, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -15,7 +15,10 @@ export interface AccountId extends AccountId32 {}
 export interface AccountId20 extends GenericEthereumAccountId {}
 
 /** @name AccountId32 */
-export interface AccountId32 extends GenericAccountId {}
+export interface AccountId32 extends GenericAccountId32 {}
+
+/** @name AccountId33 */
+export interface AccountId33 extends GenericAccountId33 {}
 
 /** @name AccountIdOf */
 export interface AccountIdOf extends AccountId {}
