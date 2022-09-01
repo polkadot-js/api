@@ -177,6 +177,7 @@ const spec = {
 };
 
 const ContractMetadataV0 = {
+  metadataVersion: 'Text',
   types: 'Vec<Si0Type>',
   spec: 'ContractContractSpecV0'
 };
