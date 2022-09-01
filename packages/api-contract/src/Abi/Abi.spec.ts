@@ -35,9 +35,6 @@ interface JSONAbi {
   },
   V3: {
     spec: SpecDef;
-  },
-  V4: {
-    spec: SpecDef;
   }
 }
 
@@ -62,7 +59,7 @@ describe('Abi', (): void => {
 
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         try {
-          const messageIds = (abi.V4 || abi.V3 || abi.V2 || abi.V1 || abi).spec.messages.map(({ label, name }) =>
+          const messageIds = (abi.V3 || abi.V2 || abi.V1 || abi).spec.messages.map(({ label, name }) =>
             label || (
               Array.isArray(name)
                 ? name.join('::')
