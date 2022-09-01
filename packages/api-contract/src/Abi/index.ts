@@ -27,12 +27,23 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
 }
 
 function getLatestMeta (registry: Registry, json: Record<string, unknown>): ContractMetadataLatest {
+  // this is for V1, V2, V3
   const vx = enumVersions.find((v) => isObject(json[v]));
-  const metadata = registry.createType('ContractMetadata',
+
+  // this was added in V4
+  const jsonVersion = json.version as string;
+
+  if (!vx && jsonVersion && !enumVersions.find((v) => v === `V${jsonVersion}`)) {
+    throw new Error(`Unable to handle version ${jsonVersion}`);
+  }
+
+  const metadata = registry.createType<ContractMetadata>('ContractMetadata',
     vx
       ? { [vx]: json[vx] }
-      : { V0: json }
-  ) as unknown as ContractMetadata;
+      : jsonVersion
+        ? { [`V${jsonVersion}`]: json }
+        : { V0: json }
+  );
   const converter = convertVersions.find(([v]) => metadata[`is${v}`]);
 
   if (!converter) {
