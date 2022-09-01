@@ -59,7 +59,7 @@ describe('AccountId', (): void => {
     testDecode(
       'AccountId33',
       registry.createType('AccountId33', '0x098765430987654309876543098765430987654309876543098765430987654309'),
-      '4o8ZUWNkE3mjgW73xGVFHFoTve33Uyw5jLhgDFKF7PTEVo2k'
+      '5CHCWUYMmDGeJjiuaQ1LnrsAWacDhiTAV6vCfytSxoqBdCCb'
     );
     testDecode('hex', '0x0102030405060708010203040506070801020304050607080102030405060708', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
     testDecode('string', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');

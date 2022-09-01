@@ -28,7 +28,7 @@ class BaseAccountId extends U8aFixed {
     const decodedBits = decoded.length * 8;
 
     // Part of stream containing >= 32 bytes or a all empty (defaults)
-    if (decodedBits !== allowedBits && decoded.some((b) => b)) {
+    if (decodedBits < allowedBits && decoded.some((b) => b)) {
       throw new Error(`Invalid AccountId provided, expected ${allowedBits >> 3} bytes, found ${decoded.length}`);
     }
 
