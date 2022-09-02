@@ -106,6 +106,7 @@ const spec = {
     events: 'Vec<ContractEventSpecV2>',
     docs: 'Vec<Text>'
   },
+  ContractContractSpecV4: 'ContractContractSpecV3',
   ContractDisplayName: 'SiPath',
   ContractEventParamSpecV0: {
     name: 'Text',
@@ -197,6 +198,8 @@ const ContractMetadataV3 = {
   spec: 'ContractContractSpecV3'
 };
 
+const ContractMetadataV4 = ContractMetadataV3;
+
 const ContractProjectInfo = {
   source: 'ContractProjectSource',
   contract: 'ContractProjectContract'
@@ -208,7 +211,7 @@ const latest = {
   ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
   ContractMessageSpecLatest: 'ContractMessageSpecV2',
-  ContractMetadataLatest: 'ContractMetadataV3'
+  ContractMetadataLatest: 'ContractMetadataV4'
 };
 
 export default {
@@ -219,12 +222,14 @@ export default {
     ContractMetadataV1,
     ContractMetadataV2,
     ContractMetadataV3,
+    ContractMetadataV4,
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
         V1: 'ContractMetadataV1',
         V2: 'ContractMetadataV2',
-        V3: 'ContractMetadataV3'
+        V3: 'ContractMetadataV3',
+        V4: 'ContractMetadataV4'
       }
     },
     ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),
