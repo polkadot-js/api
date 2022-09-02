@@ -123,7 +123,7 @@ describe('v3ToLatest', (): void => {
 
 describe('v4ToLatest', (): void => {
   const registry = new TypeRegistry();
-  const contract = registry.createType('ContractMetadata', { V4: abis.ink_v4_flipperContract.V4 });
+  const contract = registry.createType('ContractMetadata', { V4: abis.ink_v4_flipperContract });
   const latest = v4ToLatest(registry, contract.asV4);
 
   it('has the correct constructor flags', (): void => {
@@ -132,6 +132,6 @@ describe('v4ToLatest', (): void => {
     ).toEqual(false);
     expect(
       latest.spec.constructors[1].payable.isTrue
-    ).toEqual(true);
+    ).toEqual(false);
   });
 });
