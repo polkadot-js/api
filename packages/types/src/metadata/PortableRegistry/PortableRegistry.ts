@@ -47,6 +47,8 @@ const PATHS_ALIAS = splitNamespace([
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
+  // weights v2 is a structure, treated as a u64 vis refTime
+  'frame_support::weights::weight_v2::Weight',
   // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
   'account::AccountId20',
   'polkadot_runtime_common::claims::EthereumAddress',

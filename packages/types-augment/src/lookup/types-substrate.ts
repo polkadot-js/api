@@ -10,7 +10,7 @@ import type { BTreeMap, Bytes, Compact, Enum, Null, Option, Result, Set, Struct,
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { Vote } from '@polkadot/types/interfaces/elections';
 import type { OpaqueMultiaddr, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
-import type { AccountId32, Call, H256, MultiAddress, PerU16, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, Call, H256, MultiAddress, PerU16, Perbill, Percent, Perquintill, Weight } from '@polkadot/types/interfaces/runtime';
 import type { Event } from '@polkadot/types/interfaces/system';
 
 declare module '@polkadot/types/lookup' {
@@ -33,14 +33,9 @@ declare module '@polkadot/types/lookup' {
 
   /** @name FrameSupportWeightsPerDispatchClassWeight (7) */
   interface FrameSupportWeightsPerDispatchClassWeight extends Struct {
-    readonly normal: FrameSupportWeightsWeightV2Weight;
-    readonly operational: FrameSupportWeightsWeightV2Weight;
-    readonly mandatory: FrameSupportWeightsWeightV2Weight;
-  }
-
-  /** @name FrameSupportWeightsWeightV2Weight (8) */
-  interface FrameSupportWeightsWeightV2Weight extends Struct {
-    readonly refTime: u64;
+    readonly normal: Weight;
+    readonly operational: Weight;
+    readonly mandatory: Weight;
   }
 
   /** @name SpRuntimeDigest (12) */
@@ -99,7 +94,7 @@ declare module '@polkadot/types/lookup' {
 
   /** @name FrameSupportWeightsDispatchInfo (20) */
   interface FrameSupportWeightsDispatchInfo extends Struct {
-    readonly weight: FrameSupportWeightsWeightV2Weight;
+    readonly weight: Weight;
     readonly class: FrameSupportWeightsDispatchClass;
     readonly paysFee: FrameSupportWeightsPays;
   }
@@ -1665,7 +1660,7 @@ declare module '@polkadot/types/lookup' {
 
   /** @name FrameSupportWeightsPostDispatchInfo (114) */
   interface FrameSupportWeightsPostDispatchInfo extends Struct {
-    readonly actualWeight: Option<FrameSupportWeightsWeightV2Weight>;
+    readonly actualWeight: Option<Weight>;
     readonly paysFee: FrameSupportWeightsPays;
   }
 
@@ -1942,8 +1937,8 @@ declare module '@polkadot/types/lookup' {
 
   /** @name FrameSystemLimitsBlockWeights (143) */
   interface FrameSystemLimitsBlockWeights extends Struct {
-    readonly baseBlock: FrameSupportWeightsWeightV2Weight;
-    readonly maxBlock: FrameSupportWeightsWeightV2Weight;
+    readonly baseBlock: Weight;
+    readonly maxBlock: Weight;
     readonly perClass: FrameSupportWeightsPerDispatchClassWeightsPerClass;
   }
 
@@ -1956,10 +1951,10 @@ declare module '@polkadot/types/lookup' {
 
   /** @name FrameSystemLimitsWeightsPerClass (145) */
   interface FrameSystemLimitsWeightsPerClass extends Struct {
-    readonly baseExtrinsic: FrameSupportWeightsWeightV2Weight;
-    readonly maxExtrinsic: Option<FrameSupportWeightsWeightV2Weight>;
-    readonly maxTotal: Option<FrameSupportWeightsWeightV2Weight>;
-    readonly reserved: Option<FrameSupportWeightsWeightV2Weight>;
+    readonly baseExtrinsic: Weight;
+    readonly maxExtrinsic: Option<Weight>;
+    readonly maxTotal: Option<Weight>;
+    readonly reserved: Option<Weight>;
   }
 
   /** @name FrameSystemLimitsBlockLength (146) */
@@ -2575,7 +2570,7 @@ declare module '@polkadot/types/lookup' {
     readonly asClose: {
       readonly proposalHash: H256;
       readonly index: Compact<u32>;
-      readonly proposalWeightBound: Compact<FrameSupportWeightsWeightV2Weight>;
+      readonly proposalWeightBound: Compact<Weight>;
       readonly lengthBound: Compact<u32>;
     } & Struct;
     readonly isDisapproveProposal: boolean;
@@ -2757,14 +2752,14 @@ declare module '@polkadot/types/lookup' {
     readonly asCall: {
       readonly dest: MultiAddress;
       readonly value: Compact<u128>;
-      readonly gasLimit: Compact<FrameSupportWeightsWeightV2Weight>;
+      readonly gasLimit: Compact<Weight>;
       readonly storageDepositLimit: Option<Compact<u128>>;
       readonly data: Bytes;
     } & Struct;
     readonly isInstantiateWithCode: boolean;
     readonly asInstantiateWithCode: {
       readonly value: Compact<u128>;
-      readonly gasLimit: Compact<FrameSupportWeightsWeightV2Weight>;
+      readonly gasLimit: Compact<Weight>;
       readonly storageDepositLimit: Option<Compact<u128>>;
       readonly code: Bytes;
       readonly data: Bytes;
@@ -2773,7 +2768,7 @@ declare module '@polkadot/types/lookup' {
     readonly isInstantiate: boolean;
     readonly asInstantiate: {
       readonly value: Compact<u128>;
-      readonly gasLimit: Compact<FrameSupportWeightsWeightV2Weight>;
+      readonly gasLimit: Compact<Weight>;
       readonly storageDepositLimit: Option<Compact<u128>>;
       readonly codeHash: H256;
       readonly data: Bytes;
@@ -2805,7 +2800,7 @@ declare module '@polkadot/types/lookup' {
     readonly isSudoUncheckedWeight: boolean;
     readonly asSudoUncheckedWeight: {
       readonly call: Call;
-      readonly weight: FrameSupportWeightsWeightV2Weight;
+      readonly weight: Weight;
     } & Struct;
     readonly isSetKey: boolean;
     readonly asSetKey: {
@@ -3254,7 +3249,7 @@ declare module '@polkadot/types/lookup' {
       readonly maybeTimepoint: Option<PalletMultisigTimepoint>;
       readonly call: WrapperKeepOpaque<Call>;
       readonly storeCall: bool;
-      readonly maxWeight: FrameSupportWeightsWeightV2Weight;
+      readonly maxWeight: Weight;
     } & Struct;
     readonly isApproveAsMulti: boolean;
     readonly asApproveAsMulti: {
@@ -3262,7 +3257,7 @@ declare module '@polkadot/types/lookup' {
       readonly otherSignatories: Vec<AccountId32>;
       readonly maybeTimepoint: Option<PalletMultisigTimepoint>;
       readonly callHash: U8aFixed;
-      readonly maxWeight: FrameSupportWeightsWeightV2Weight;
+      readonly maxWeight: Weight;
     } & Struct;
     readonly isCancelAsMulti: boolean;
     readonly asCancelAsMulti: {
@@ -4021,7 +4016,7 @@ declare module '@polkadot/types/lookup' {
     readonly isDispatchWhitelistedCall: boolean;
     readonly asDispatchWhitelistedCall: {
       readonly callHash: H256;
-      readonly callWeightWitness: FrameSupportWeightsWeightV2Weight;
+      readonly callWeightWitness: Weight;
     } & Struct;
     readonly isDispatchWhitelistedCallWithPreimage: boolean;
     readonly asDispatchWhitelistedCallWithPreimage: {
@@ -4052,7 +4047,7 @@ declare module '@polkadot/types/lookup' {
     readonly asClose: {
       readonly proposalHash: H256;
       readonly index: Compact<u32>;
-      readonly proposalWeightBound: Compact<FrameSupportWeightsWeightV2Weight>;
+      readonly proposalWeightBound: Compact<Weight>;
       readonly lengthBound: Compact<u32>;
     } & Struct;
     readonly isForceSetMembers: boolean;
