@@ -263,7 +263,7 @@ declare module '@polkadot/api-base/types/consts' {
        * 
        * This is only relevant for parachains. Set to zero in case of a standalone chain.
        **/
-      contractAccessWeight: u64 & AugmentedConst<ApiType>;
+      contractAccessWeight: FrameSupportWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * The maximum number of contracts that can be pending for deletion.
        * 
@@ -290,7 +290,7 @@ declare module '@polkadot/api-base/types/consts' {
        * weight that is left for transactions. See [`Self::DeletionQueueDepth`] for more
        * information about the deletion queue.
        **/
-      deletionWeightLimit: u64 & AugmentedConst<ApiType>;
+      deletionWeightLimit: FrameSupportWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * The amount of balance a caller has to pay for each byte of storage.
        * 
@@ -463,7 +463,7 @@ declare module '@polkadot/api-base/types/consts' {
        * this pallet), then [`MinerConfig::solution_weight`] is used to compare against
        * this value.
        **/
-      signedMaxWeight: u64 & AugmentedConst<ApiType>;
+      signedMaxWeight: FrameSupportWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * Duration of the signed phase.
        **/
@@ -859,7 +859,7 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum weight that may be scheduled per block for any dispatchables of less
        * priority than `schedule::HARD_DEADLINE`.
        **/
-      maximumWeight: u64 & AugmentedConst<ApiType>;
+      maximumWeight: FrameSupportWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * The maximum number of scheduled calls in the queue for a single block.
        * Not strictly enforced, but used for weight estimation.

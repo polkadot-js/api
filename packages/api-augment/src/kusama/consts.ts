@@ -302,7 +302,7 @@ declare module '@polkadot/api-base/types/consts' {
        * this pallet), then [`MinerConfig::solution_weight`] is used to compare against
        * this value.
        **/
-      signedMaxWeight: u64 & AugmentedConst<ApiType>;
+      signedMaxWeight: FrameSupportWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * Duration of the signed phase.
        **/
@@ -650,7 +650,7 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum weight that may be scheduled per block for any dispatchables of less
        * priority than `schedule::HARD_DEADLINE`.
        **/
-      maximumWeight: u64 & AugmentedConst<ApiType>;
+      maximumWeight: FrameSupportWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * The maximum number of scheduled calls in the queue for a single block.
        * Not strictly enforced, but used for weight estimation.
