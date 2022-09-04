@@ -20,7 +20,7 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.3.2-0-x",
+  "version": "9.3.2",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.18.9",
@@ -28,9 +28,9 @@
     "@polkadot/x-bigint": "^10.1.7"
   },
   "devDependencies": {
-    "@polkadot/types": "9.3.2-0-x",
-    "@polkadot/types-augment": "9.3.2-0-x",
-    "@polkadot/types-support": "9.3.2-0-x",
+    "@polkadot/types": "9.3.2",
+    "@polkadot/types-augment": "9.3.2",
+    "@polkadot/types-support": "9.3.2",
     "@polkadot/util-crypto": "^10.1.7"
   }
 }
