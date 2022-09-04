@@ -5,6 +5,7 @@
 Changes:
 
 - Cater for v2 Weight types (structure to inner value)
+- Westend 9280 & Kusama 9271 upgrade blocks
 - Update to latest Substrate, Polkadot & Kusama metadata
 
 
