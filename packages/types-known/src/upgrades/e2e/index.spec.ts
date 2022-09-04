@@ -36,7 +36,7 @@ describe.each(keys)('generate %s', (chain): void => {
 
 import type { ChainUpgradesGenerated } from '../types';
 
-const upgrades: ChainUpgradesGenerated = ${JSON.stringify(final)};
+const upgrades: ChainUpgradesGenerated = ${JSON.stringify(final, null, 2)};
 
 export default upgrades;
 `);

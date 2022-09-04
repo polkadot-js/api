@@ -25,3 +25,4 @@ exclude_patterns:
 - "packages/typegen/src"
 - "packages/types/src/interfaces/"
 - "packages/types/src/augment/"
+- "packages/types-known/src/upgrades/e2e/"

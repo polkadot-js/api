@@ -1,10 +1,12 @@
 # CHANGELOG
 
-## master
+## 9.3.2 Sep 4, 2022
 
 Changes:
 
-- Update to latest Substrate, Polkadot & Kusama metadata (incl. Weight v2)
+- Cater for v2 Weight types (structure to inner value)
+- Westend 9280 & Kusama 9271 upgrade blocks
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 9.3.1 Sep 3, 2022

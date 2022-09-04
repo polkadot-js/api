@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "9.3.2-0-x",
+  "version": "9.3.2",
   "versions": {
     "git": "9.3.2-0-x",
     "npm": "9.3.1"
@@ -26,6 +26,7 @@
     "build:metadata": "yarn build:interfaces && yarn test:one packages/types/src/metadata/v14",
     "build:release": "polkadot-ci-ghact-build",
     "build:rollup": "polkadot-exec-rollup --config",
+    "build:upgrades": "yarn test:one packages/types-known/src/upgrades/e2e",
     "chain:info": "polkadot-types-chain-info",
     "clean": "polkadot-dev-clean-build",
     "deno": "yarn polkadot-dev-deno-map && yarn build && deno check --import-map=import_map.json mod.ts",
