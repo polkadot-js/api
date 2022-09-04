@@ -18,7 +18,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountNonGrata: AugmentedError<ApiType>;
       /**
-       * The founders/fellows/allies have already been initialized.
+       * The Alliance has been initialized, therefore cannot be initialized again.
        **/
       AllianceAlreadyInitialized: AugmentedError<ApiType>;
       /**
@@ -41,6 +41,14 @@ declare module '@polkadot/api-base/types/errors' {
        * Item is already listed as unscrupulous.
        **/
       AlreadyUnscrupulous: AugmentedError<ApiType>;
+      /**
+       * Invalid witness data given.
+       **/
+      BadWitness: AugmentedError<ApiType>;
+      /**
+       * Founders must be provided to initialize the Alliance.
+       **/
+      FoundersMissing: AugmentedError<ApiType>;
       /**
        * Balance is insufficient for the required deposit.
        **/
