@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Ensure JS reserved words are aliassed in types (Thanks to https://github.com/dqbd)
+
+
 ## 9.3.2 Sep 4, 2022
 
 Changes:
