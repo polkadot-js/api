@@ -17,7 +17,48 @@ import { compareName, createImports, formatType, initMeta, readTemplate, setImpo
 const generateForMetaTemplate = Handlebars.compile(readTemplate('events'));
 
 // For babel itself we need some extra aliasing
-const ALIAS = ['symbol'];
+// Also avoid reserved words to prevent generating invalid TS
+// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#reserved_words
+const ALIAS = [
+  'symbol',
+  'break',
+  'case',
+  'catch',
+  'class',
+  'const',
+  'continue',
+  'debugger',
+  'default',
+  'delete',
+  'do',
+  'else',
+  'export',
+  'extends',
+  'false',
+  'finally',
+  'for',
+  'function',
+  'if',
+  'import',
+  'in',
+  'instanceof',
+  'new',
+  'null',
+  'return',
+  'static',
+  'super',
+  'switch',
+  'this',
+  'throw',
+  'true',
+  'try',
+  'typeof',
+  'var',
+  'void',
+  'while',
+  'with',
+  'yield'
+];
 
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
