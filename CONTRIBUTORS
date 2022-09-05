@@ -55,6 +55,7 @@
        1	Daniel Maricic                	Fixed typo in README (#2402)
        1	Daniel Savu                   	fix: Generate custom type definitions (#4224)
        1	David                         	Don't log full error (#2952)
+       1	David Duong                   	Avoid reserved words during named enum fields augmentation (#5203)
        1	Denis Tsai                    	realign AccountKey20Junction to polkadot xcm's Junction enum (#3770)
        1	djuanito.eth                  	Update fees to current constants (#2320)
        1	Drew Stone                    	Update evm definitions to include vicinity (#2279)
