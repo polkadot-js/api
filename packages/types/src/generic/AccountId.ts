@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyString, AnyU8a, Registry } from '@polkadot/types-codec/types';
+import type { AnyString, AnyU8a, Registry, U8aBitLength } from '@polkadot/types-codec/types';
 
 import { U8aFixed } from '@polkadot/types-codec';
 import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
@@ -32,7 +32,7 @@ class BaseAccountId extends U8aFixed {
       throw new Error(`Invalid AccountId provided, expected ${allowedBits >> 3} bytes, found ${decoded.length}`);
     }
 
-    super(registry, decoded, 256);
+    super(registry, decoded, allowedBits as U8aBitLength);
   }
 
   /**

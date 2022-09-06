@@ -36,11 +36,11 @@ describe('AccountId', (): void => {
   });
 
   describe('decoding', (): void => {
-    const testDecode = (type: string, input: Uint8Array | string, expected: string): void =>
+    const testDecode = (type: string, input: Uint8Array | string, expected: string, createType = 'AccountId'): void =>
       it(`can decode from ${type}`, (): void => {
         expect(
           registry
-            .createType('AccountId', input)
+            .createType(createType, input)
             .toString()
         ).toBe(expected);
       });
@@ -51,6 +51,28 @@ describe('AccountId', (): void => {
       ).toThrow(/Invalid AccountId provided, expected 32 bytes/);
     });
 
+    it('correctly encodes for AccountId32', (): void => {
+      const s = '5CHCWUYMmDGeJjiuaQ1LnrsAWacDhiTAV6vCfytSxoqBdCCb';
+      const h = '0x0987654309876543098765430987654309876543098765430987654309876543';
+      const a = registry.createType('AccountId32', s);
+
+      expect(a).toHaveLength(32);
+      expect(a.toHex()).toEqual(h);
+      expect(a.toString()).toEqual(s);
+      expect(registry.createType('AccountId32', h).toString()).toEqual(s);
+    });
+
+    it('correctly encodes for AccountId33', (): void => {
+      const s = 'KWnVo6ZQe9A3fHZy4QYWMR6QyZLT4hxUs37pX465bKhfsMobh';
+      const h = '0x098765430987654309876543098765430987654309876543098765430987654309';
+      const a = registry.createType('AccountId33', s);
+
+      expect(a).toHaveLength(33);
+      expect(a.toHex()).toEqual(h);
+      expect(a.toString()).toEqual(s);
+      expect(registry.createType('AccountId33', h).toString()).toEqual(s);
+    });
+
     testDecode(
       'AccountId',
       registry.createType('AccountId', '0x0102030405060708010203040506070801020304050607080102030405060708'),
@@ -59,7 +81,8 @@ describe('AccountId', (): void => {
     testDecode(
       'AccountId33',
       registry.createType('AccountId33', '0x098765430987654309876543098765430987654309876543098765430987654309'),
-      '5CHCWUYMmDGeJjiuaQ1LnrsAWacDhiTAV6vCfytSxoqBdCCb'
+      'KWnVo6ZQe9A3fHZy4QYWMR6QyZLT4hxUs37pX465bKhfsMobh',
+      'AccountId33'
     );
     testDecode('hex', '0x0102030405060708010203040506070801020304050607080102030405060708', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
     testDecode('string', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
