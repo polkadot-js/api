@@ -23,7 +23,7 @@
   "version": "9.3.3",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.18.9",
+    "@babel/runtime": "^7.19.0",
     "@polkadot/api-augment": "9.3.3",
     "@polkadot/api-base": "9.3.3",
     "@polkadot/api-derive": "9.3.3",
