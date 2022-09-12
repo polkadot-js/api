@@ -39,9 +39,9 @@
     "@babel/core": "^7.19.0",
     "@babel/register": "^7.18.9",
     "@babel/runtime": "^7.19.0",
-    "@polkadot/dev": "^0.67.125",
+    "@polkadot/dev": "^0.67.126",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^29.0.0",
+    "@types/jest": "^29.0.1",
     "copyfiles": "^2.4.1"
   },
   "resolutions": {
