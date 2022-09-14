@@ -41,7 +41,7 @@
     "@babel/runtime": "^7.19.0",
     "@polkadot/dev": "^0.67.126",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^29.0.1",
+    "@types/jest": "^29.0.2",
     "copyfiles": "^2.4.1"
   },
   "resolutions": {
