@@ -10,7 +10,7 @@ import EventEmitter from 'eventemitter3';
 import { isError, objectSpread } from '@polkadot/util';
 
 import { RpcCoder } from '../coder';
-import { HealthChecker, healthChecker } from './Health';
+import { healthChecker } from './Health';
 
 type ResponseCallback = (response: string | Error) => void
 
@@ -34,7 +34,6 @@ const subscriptionUnsubscriptionMethods = new Map<string, string>([
 
 const wellKnownChains = new Set(Object.values(WellKnownChain));
 const scClients = new WeakMap<ScProvider, ScClient>();
-const RETRY_DELAY = 2_500;
 
 export { WellKnownChain };
 
@@ -48,39 +47,14 @@ export class ScProvider implements ProviderInterface {
   #chain: Promise<Chain> | null = null;
   #isChainReady = false;
 
-  #autoConnectMs: number;
-  #config: ScConfig | undefined;
-  #healthChecker: HealthChecker = {} as HealthChecker;
+  #autoConnect: boolean;
 
   static WellKnownChain = WellKnownChain;
 
-  public constructor (spec: string | WellKnownChain, sharedSandbox?: ScProvider, autoConnectMs: number = RETRY_DELAY) {
+  public constructor (spec: string | WellKnownChain, sharedSandbox?: ScProvider, autoConnect = true) {
     this.#spec = spec;
     this.#sharedSandbox = sharedSandbox;
-    this.#autoConnectMs = autoConnectMs;
-
-    if (autoConnectMs > 0) {
-      this.connectWithRetry().catch((): void => {
-        // does not throw
-      });
-    }
-  }
-
-  /**
-   * @description Connect, never throwing an error, but rather forcing a retry
-   */
-  public async connectWithRetry (): Promise<void> {
-    if (this.#autoConnectMs > 0) {
-      try {
-        await this.connect(this.#config, () => this.#healthChecker);
-      } catch (error) {
-        setTimeout((): void => {
-          this.connectWithRetry().catch((): void => {
-            // does not throw
-          });
-        }, this.#autoConnectMs);
-      }
-    }
+    this.#autoConnect = autoConnect;
   }
 
   public get hasSubscriptions (): boolean {
@@ -99,8 +73,6 @@ export class ScProvider implements ProviderInterface {
   // Config details can be found in @substrate/connect repo following the link:
   // https://github.com/paritytech/substrate-connect/blob/main/packages/connect/src/connector/index.ts
   async connect (config?: ScConfig, checkerFactory = healthChecker): Promise<void> {
-    this.#config = config;
-
     if (this.isConnected) {
       throw new Error('Already connected!');
     }
@@ -130,8 +102,6 @@ export class ScProvider implements ProviderInterface {
     scClients.set(this, client);
 
     const hc = checkerFactory();
-
-    this.#healthChecker = hc;
 
     const onResponse = (res: string): void => {
       const hcRes = hc.responsePassThrough(res);
@@ -239,9 +209,14 @@ export class ScProvider implements ProviderInterface {
           [...this.#subscriptions.values()].forEach((s) => {
             staleSubscriptions.push(s[1]);
           });
-          cleanup();
+
+          if (!this.#autoConnect) {
+            cleanup();
+          }
         } else {
-          killStaleSubscriptions();
+          if (!this.#autoConnect) {
+            killStaleSubscriptions();
+          }
         }
 
         this.#eventemitter.emit(isReady ? 'connected' : 'disconnected');
@@ -275,7 +250,7 @@ export class ScProvider implements ProviderInterface {
 
     this.#chain = null;
     this.#isChainReady = false;
-    this.#autoConnectMs = 0;
+    this.#autoConnect = false;
 
     try {
       chain.remove();
