@@ -25,6 +25,17 @@ describe('Int', (): void => {
     ).toEqual(-1234);
   });
 
+  it('can construct via a single-entry struct', (): void => {
+    expect(
+      // @ts-expect-error We could receive these via JSON
+      new Int(registry, { ref_time: 1234 }).toNumber()
+    ).toEqual(1234);
+    expect(
+      // @ts-expect-error We could receive these via JSON
+      () => new Int(registry, { ref_time: 1234, zoo: 4567 }).toNumber()
+    ).toThrow(/Unable to construct number from/);
+  });
+
   it('converts to Little Endian from the provided value', (): void => {
     expect(
       new Int(registry, -1234).toU8a()

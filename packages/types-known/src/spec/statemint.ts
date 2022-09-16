@@ -21,7 +21,8 @@ const sharedTypes = {
       'AssetManager',
       'Staking'
     ]
-  }
+  },
+  Weight: 'u64'
 };
 
 // these are override types for Statemine, Statemint, Westmint
