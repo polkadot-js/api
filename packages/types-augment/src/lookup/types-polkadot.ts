@@ -11,35 +11,6 @@ import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, PerU16, Weight } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
-  /** @name FrameSupportWeightsPerDispatchClassWeight (7) */
-  interface FrameSupportWeightsPerDispatchClassWeight extends Struct {
-    readonly normal: Weight;
-    readonly operational: Weight;
-    readonly mandatory: Weight;
-  }
-
-  /** @name FrameSupportWeightsDispatchInfo (20) */
-  interface FrameSupportWeightsDispatchInfo extends Struct {
-    readonly weight: Weight;
-    readonly class: FrameSupportWeightsDispatchClass;
-    readonly paysFee: FrameSupportWeightsPays;
-  }
-
-  /** @name FrameSupportWeightsDispatchClass (21) */
-  interface FrameSupportWeightsDispatchClass extends Enum {
-    readonly isNormal: boolean;
-    readonly isOperational: boolean;
-    readonly isMandatory: boolean;
-    readonly type: 'Normal' | 'Operational' | 'Mandatory';
-  }
-
-  /** @name FrameSupportWeightsPays (22) */
-  interface FrameSupportWeightsPays extends Enum {
-    readonly isYes: boolean;
-    readonly isNo: boolean;
-    readonly type: 'Yes' | 'No';
-  }
-
   /** @name PolkadotRuntimeCommonClaimsPalletEvent (73) */
   interface PolkadotRuntimeCommonClaimsPalletEvent extends Enum {
     readonly isClaimed: boolean;
@@ -858,26 +829,6 @@ declare module '@polkadot/types/lookup' {
     readonly isV1: boolean;
     readonly asV1: XcmV1MultiLocation;
     readonly type: 'V0' | 'V1';
-  }
-
-  /** @name FrameSupportWeightsPerDispatchClassWeightsPerClass (166) */
-  interface FrameSupportWeightsPerDispatchClassWeightsPerClass extends Struct {
-    readonly normal: FrameSystemLimitsWeightsPerClass;
-    readonly operational: FrameSystemLimitsWeightsPerClass;
-    readonly mandatory: FrameSystemLimitsWeightsPerClass;
-  }
-
-  /** @name FrameSupportWeightsPerDispatchClassU32 (170) */
-  interface FrameSupportWeightsPerDispatchClassU32 extends Struct {
-    readonly normal: u32;
-    readonly operational: u32;
-    readonly mandatory: u32;
-  }
-
-  /** @name FrameSupportWeightsRuntimeDbWeight (171) */
-  interface FrameSupportWeightsRuntimeDbWeight extends Struct {
-    readonly read: u64;
-    readonly write: u64;
   }
 
   /** @name PolkadotRuntimeSessionKeys (212) */

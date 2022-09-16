@@ -5,34 +5,6 @@
 
 export default {
   /**
-   * Lookup7: frame_support::weights::PerDispatchClass<frame_support::weights::weight_v2::Weight>
-   **/
-  FrameSupportWeightsPerDispatchClassWeight: {
-    normal: 'Weight',
-    operational: 'Weight',
-    mandatory: 'Weight'
-  },
-  /**
-   * Lookup20: frame_support::weights::DispatchInfo
-   **/
-  FrameSupportWeightsDispatchInfo: {
-    weight: 'Weight',
-    class: 'FrameSupportWeightsDispatchClass',
-    paysFee: 'FrameSupportWeightsPays'
-  },
-  /**
-   * Lookup21: frame_support::weights::DispatchClass
-   **/
-  FrameSupportWeightsDispatchClass: {
-    _enum: ['Normal', 'Operational', 'Mandatory']
-  },
-  /**
-   * Lookup22: frame_support::weights::Pays
-   **/
-  FrameSupportWeightsPays: {
-    _enum: ['Yes', 'No']
-  },
-  /**
    * Lookup73: polkadot_runtime_common::claims::pallet::Event<T>
    **/
   PolkadotRuntimeCommonClaimsPalletEvent: {
@@ -445,11 +417,11 @@ export default {
     }
   },
   /**
-   * Lookup130: xcm::v2::Xcm<Call>
+   * Lookup130: xcm::v2::Xcm<RuntimeCall>
    **/
   XcmV2Xcm: 'Vec<XcmV2Instruction>',
   /**
-   * Lookup132: xcm::v2::Instruction<Call>
+   * Lookup132: xcm::v2::Instruction<RuntimeCall>
    **/
   XcmV2Instruction: {
     _enum: {
@@ -749,29 +721,6 @@ export default {
       V0: 'XcmV0MultiLocation',
       V1: 'XcmV1MultiLocation'
     }
-  },
-  /**
-   * Lookup166: frame_support::weights::PerDispatchClass<frame_system::limits::WeightsPerClass>
-   **/
-  FrameSupportWeightsPerDispatchClassWeightsPerClass: {
-    normal: 'FrameSystemLimitsWeightsPerClass',
-    operational: 'FrameSystemLimitsWeightsPerClass',
-    mandatory: 'FrameSystemLimitsWeightsPerClass'
-  },
-  /**
-   * Lookup170: frame_support::weights::PerDispatchClass<T>
-   **/
-  FrameSupportWeightsPerDispatchClassU32: {
-    normal: 'u32',
-    operational: 'u32',
-    mandatory: 'u32'
-  },
-  /**
-   * Lookup171: frame_support::weights::RuntimeDbWeight
-   **/
-  FrameSupportWeightsRuntimeDbWeight: {
-    read: 'u64',
-    write: 'u64'
   },
   /**
    * Lookup212: polkadot_runtime::SessionKeys
@@ -1674,7 +1623,7 @@ export default {
     }
   },
   /**
-   * Lookup423: xcm::VersionedXcm<Call>
+   * Lookup423: xcm::VersionedXcm<RuntimeCall>
    **/
   XcmVersionedXcm: {
     _enum: {
@@ -1684,7 +1633,7 @@ export default {
     }
   },
   /**
-   * Lookup424: xcm::v0::Xcm<Call>
+   * Lookup424: xcm::v0::Xcm<RuntimeCall>
    **/
   XcmV0Xcm: {
     _enum: {
@@ -1738,7 +1687,7 @@ export default {
     }
   },
   /**
-   * Lookup426: xcm::v0::order::Order<Call>
+   * Lookup426: xcm::v0::order::Order<RuntimeCall>
    **/
   XcmV0Order: {
     _enum: {
@@ -1789,7 +1738,7 @@ export default {
     }
   },
   /**
-   * Lookup429: xcm::v1::Xcm<Call>
+   * Lookup429: xcm::v1::Xcm<RuntimeCall>
    **/
   XcmV1Xcm: {
     _enum: {
@@ -1848,7 +1797,7 @@ export default {
     }
   },
   /**
-   * Lookup431: xcm::v1::order::Order<Call>
+   * Lookup431: xcm::v1::order::Order<RuntimeCall>
    **/
   XcmV1Order: {
     _enum: {
