@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types';
 
-import { BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isObject, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
+import { BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -44,7 +44,7 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<strin
     return value;
   } else if (isBn(value)) {
     return value.toString();
-  } else if (isObject(value)) {
+  } else if (isObject(value) && !isFunction(value.toBn)) {
     // Allow the construction from an object with a single top-level key. This means that
     // single key objects can be treated equivalently to numbers, assuming they meet the
     // specific requirements. (This is useful in Weights 1.5 where Objects are compact)
@@ -63,7 +63,7 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<strin
     return decodeAbstractInt(inner, isNegative);
   }
 
-  return bnToBn(value).toString();
+  return bnToBn(value as bigint).toString();
 }
 
 /**
