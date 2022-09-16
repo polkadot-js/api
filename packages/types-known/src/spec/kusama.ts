@@ -15,7 +15,8 @@ const sharedTypes = {
   Keys: 'SessionKeys6',
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction']
-  }
+  },
+  Weight: 'u64'
 };
 
 const addrIndicesTypes = {

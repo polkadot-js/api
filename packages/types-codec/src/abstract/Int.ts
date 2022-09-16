@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types';
 
-import { BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
+import { BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -25,7 +25,7 @@ function toPercentage (value: BN, divisor: BN): string {
 }
 
 /** @internal */
-function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array>, isNegative: boolean): string | number {
+function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<string, string>, isNegative: boolean): string | number {
   if (isNumber(value)) {
     if (!Number.isInteger(value) || value > Number.MAX_SAFE_INTEGER || value < Number.MIN_SAFE_INTEGER) {
       throw new Error('Number needs to be an integer <= Number.MAX_SAFE_INTEGER, i.e. 2 ^ 53 - 1');
@@ -44,9 +44,26 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array>, isNegative: b
     return value;
   } else if (isBn(value)) {
     return value.toString();
+  } else if (isObject(value) && !isFunction(value.toBn)) {
+    // Allow the construction from an object with a single top-level key. This means that
+    // single key objects can be treated equivalently to numbers, assuming they meet the
+    // specific requirements. (This is useful in Weights 1.5 where Objects are compact)
+    const keys = Object.keys(value);
+
+    if (keys.length !== 1) {
+      throw new Error('Unable to construct number from multi-key object');
+    }
+
+    const inner = value[keys[0]];
+
+    if (!isString(inner) && !isNumber(inner)) {
+      throw new Error('Unable to construct from object with non-string/non-number value');
+    }
+
+    return decodeAbstractInt(inner, isNegative);
   }
 
-  return bnToBn(value).toString();
+  return bnToBn(value as bigint).toString();
 }
 
 /**

@@ -17,7 +17,8 @@ const sharedTypes = {
   Keys: 'SessionKeys6',
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Staking', 'SudoBalances', 'IdentityJudgement', 'CancelProxy']
-  }
+  },
+  Weight: 'u64'
 };
 
 const addrAccountIdTypes = {
