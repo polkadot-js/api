@@ -5,6 +5,34 @@
 
 export default {
   /**
+   * Lookup7: frame_support::weights::PerDispatchClass<frame_support::weights::weight_v2::Weight>
+   **/
+  FrameSupportWeightsPerDispatchClassWeight: {
+    normal: 'Weight',
+    operational: 'Weight',
+    mandatory: 'Weight'
+  },
+  /**
+   * Lookup20: frame_support::weights::DispatchInfo
+   **/
+  FrameSupportWeightsDispatchInfo: {
+    weight: 'Weight',
+    class: 'FrameSupportWeightsDispatchClass',
+    paysFee: 'FrameSupportWeightsPays'
+  },
+  /**
+   * Lookup21: frame_support::weights::DispatchClass
+   **/
+  FrameSupportWeightsDispatchClass: {
+    _enum: ['Normal', 'Operational', 'Mandatory']
+  },
+  /**
+   * Lookup22: frame_support::weights::Pays
+   **/
+  FrameSupportWeightsPays: {
+    _enum: ['Yes', 'No']
+  },
+  /**
    * Lookup73: polkadot_runtime_common::claims::pallet::Event<T>
    **/
   PolkadotRuntimeCommonClaimsPalletEvent: {
@@ -721,6 +749,29 @@ export default {
       V0: 'XcmV0MultiLocation',
       V1: 'XcmV1MultiLocation'
     }
+  },
+  /**
+   * Lookup166: frame_support::weights::PerDispatchClass<frame_system::limits::WeightsPerClass>
+   **/
+  FrameSupportWeightsPerDispatchClassWeightsPerClass: {
+    normal: 'FrameSystemLimitsWeightsPerClass',
+    operational: 'FrameSystemLimitsWeightsPerClass',
+    mandatory: 'FrameSystemLimitsWeightsPerClass'
+  },
+  /**
+   * Lookup170: frame_support::weights::PerDispatchClass<T>
+   **/
+  FrameSupportWeightsPerDispatchClassU32: {
+    normal: 'u32',
+    operational: 'u32',
+    mandatory: 'u32'
+  },
+  /**
+   * Lookup171: frame_support::weights::RuntimeDbWeight
+   **/
+  FrameSupportWeightsRuntimeDbWeight: {
+    read: 'u64',
+    write: 'u64'
   },
   /**
    * Lookup212: polkadot_runtime::SessionKeys
