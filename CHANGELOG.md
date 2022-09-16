@@ -6,6 +6,7 @@ Changes:
 
 - Add Polkadot 9270 upgrade block
 - Add Kusama 9280 upgrade block
+- Add Westend 9290 upgrade block (Weights v2)
 
 
 ## 9.3.3 Sep 6, 2022
