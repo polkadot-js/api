@@ -4,9 +4,8 @@
 
 Changes:
 
-- Add Polkadot 9270 upgrade block
-- Add Kusama 9280 upgrade block
-- Add Westend 9290 upgrade block (Weights v2)
+- Cater for v1.5 Weight JSON representation (via RPC)
+- Polkadot 9270, Kusama 9280 & Westend 9290 upgrade blocks
 
 
 ## 9.3.3 Sep 6, 2022

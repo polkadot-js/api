@@ -36,12 +36,12 @@
     "test:one": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --detectOpenHandles --forceExit"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.0",
+    "@babel/core": "^7.19.1",
     "@babel/register": "^7.18.9",
     "@babel/runtime": "^7.19.0",
-    "@polkadot/dev": "^0.67.126",
+    "@polkadot/dev": "^0.67.129",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^29.0.2",
+    "@types/jest": "^29.0.3",
     "copyfiles": "^2.4.1"
   },
   "resolutions": {
