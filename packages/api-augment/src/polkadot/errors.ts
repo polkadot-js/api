@@ -714,6 +714,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidTarget: AugmentedError<ApiType>;
       /**
+       * The provided judgement was for a different identity.
+       **/
+      JudgementForDifferentIdentity: AugmentedError<ApiType>;
+      /**
        * Judgement given.
        **/
       JudgementGiven: AugmentedError<ApiType>;
