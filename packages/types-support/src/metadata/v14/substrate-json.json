@@ -217,7 +217,7 @@
                 "name": "ExecutionPhase",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 134
+                  "plain": 133
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1248,6 +1248,24 @@
               "docs": [
                 " The maximum number of electable targets to put in the snapshot."
               ]
+            },
+            {
+              "name": "MinerMaxLength",
+              "type": 4,
+              "value": "0x00003600",
+              "docs": []
+            },
+            {
+              "name": "MinerMaxWeight",
+              "type": 8,
+              "value": "0x90283b6a2d010000",
+              "docs": []
+            },
+            {
+              "name": "MinerMaxVotesPerVoter",
+              "type": 4,
+              "value": "0x10000000",
+              "docs": []
             }
           ],
           "errors": {
@@ -3135,7 +3153,7 @@
             {
               "name": "Schedule",
               "type": 493,
-              "value": "0x0400000000000100008000000010000000001000000001000020000000200000000040000002000000f40b0000d01b0000d61f00007215000064280000da0c00005a140000c21a00002800000028ff0000404101005e0600006c0c0000ec0e00009a0b00009c22000036290000de0d00006c27b200a00a0000fa0a0000e60a00004a0b0000ec090000000a0000640a0000e0100000441100001211000044110000d6100000fe100000e010000094110000cc100000fe1000000410000022100000dc0f0000302a00001e2d0000522b0000c42c0000fa0f000018100000be0f0000c21000003a11000030110000301100004411000051d10700000000002026b80100000000fed4c301000000002a7a0800000000002845030000000000a6c70700000000006cbe070000000000a34816000000000067c307000000000083b8070000000000aba707000000000061ad0700000000001dd2120000000000ccaf03000000000024b107000000000075000000000000000000000000000000b200000000000000684b4d270000000087731900000000005bc42d00000000006bd5a507000000003903000000000000823d0600000000003a38c40700000000de210000000000005b210000000000004235ef07000000005e95c007000000006d21000000000000d9cdb8010000000048090000000000008ef8bd01000000005b0d00000000000022e5c50700000000aa25000000000000329091080000000092d785120000000026087f0c00000000a44fa1080000000083da010000000000e843992d000000005428000000000000ed05000000000000b3b10b00000000004a0f00000000000000100e0000000000b70b000000000000aed9090000000000880400000000000020c70900000000008704000000000000258c490200000000d7a0880100000000",
+              "value": "0x040000000000010000800000001000000000100000000100002000000020000000004000000300000039120000d84f00007a440000d813000007300000941b0000011d0000d12400001e00000000fa0000e73001001b030000df160000c3140000dc1400002d2800002b2a0000431200008aa3ad009a100000ea10000086100000721000007c1000009a100000861000008b1000003b100000f9100000591000009f100000b3100000db100000c7100000a9100000ef100000a9100000d11000009f1000002d2d0000c9220000f12c0000bd2400005d1100005d1100000d1100003f1100009911000067110000bb1200000712000026c1060000000000e5f8a401000000002fc6b001000000006266070000000000c1040300000000009dc006000000000004b40600000000009e0615000000000088b7060000000000eab10600000000000a9a0600000000003ea20600000000005d0a1300000000006dfb0200000000009e62060000000000750000000000000010e41f0000000000b30000000000000018205d2e0000000047351a0000000000dc382e0000000000defa9407000000003603000000000000b40f050000000000fbd7c20700000000322e000000000000002d00000000000045ac880f000000006ff0c00700000000182d00000000000068b8b701000000004c0b0000000000007275bc0100000000a40f000000000000ff3fc50700000000733100000000000049247808000000008c90f11b000000007d0ec51500000000ad3768080000000025db010000000000c851433600000000f5050000000000000306000000000000d1800a0000000000460f0000000000000de60c0000000000d00b000000000000849d080000000000a504000000000000cb8d080000000000a504000000000000fa383602000000003a4c890100000000",
               "docs": [
                 " Cost schedule and limits."
               ]
@@ -3428,7 +3446,7 @@
                       "Twox64Concat"
                     ],
                     "key": 510,
-                    "value": 127
+                    "value": 134
                   }
                 },
                 "fallback": "0x00",
@@ -6013,10 +6031,18 @@
                 " fewer storage reads/writes needed for smaller voters, but also result in delays to the",
                 " automatic referendum status changes. Explicit servicing instructions are unaffected."
               ]
+            },
+            {
+              "name": "Tracks",
+              "type": 617,
+              "value": "0x04000010726f6f74010000000a000000000000000000000000000000040000000400000002000000040000000000ca9a3b0065cd1d00ca9a3b0000ca9a3b0000000000ca9a3b",
+              "docs": [
+                " Information concerning the different referendum tracks."
+              ]
             }
           ],
           "errors": {
-            "type": 617
+            "type": 623
           },
           "index": 45
         },
@@ -6031,7 +6057,7 @@
           },
           "constants": [],
           "errors": {
-            "type": 618
+            "type": 624
           },
           "index": 46
         },
@@ -6049,8 +6075,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 619,
-                    "value": 620
+                    "key": 625,
+                    "value": 626
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -6068,7 +6094,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 628
+                    "value": 634
                   }
                 },
                 "fallback": "0x00",
@@ -6111,7 +6137,7 @@
             }
           ],
           "errors": {
-            "type": 631
+            "type": 637
           },
           "index": 47
         },
@@ -6145,7 +6171,7 @@
           },
           "constants": [],
           "errors": {
-            "type": 632
+            "type": 638
           },
           "index": 48
         },
@@ -6158,7 +6184,7 @@
                 "name": "Proposals",
                 "modifier": "Default",
                 "type": {
-                  "plain": 633
+                  "plain": 639
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -6242,7 +6268,7 @@
           },
           "constants": [],
           "errors": {
-            "type": 634
+            "type": 640
           },
           "index": 49
         },
@@ -6269,7 +6295,7 @@
                 "name": "Announcements",
                 "modifier": "Default",
                 "type": {
-                  "plain": 635
+                  "plain": 641
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -6301,8 +6327,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 637,
-                    "value": 638
+                    "key": 643,
+                    "value": 644
                   }
                 },
                 "fallback": "0x00",
@@ -6332,7 +6358,7 @@
                 "name": "UnscrupulousAccounts",
                 "modifier": "Default",
                 "type": {
-                  "plain": 639
+                  "plain": 645
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -6344,7 +6370,7 @@
                 "name": "UnscrupulousWebsites",
                 "modifier": "Default",
                 "type": {
-                  "plain": 640
+                  "plain": 646
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -6403,7 +6429,7 @@
             }
           ],
           "errors": {
-            "type": 642
+            "type": 648
           },
           "index": 50
         },
@@ -6485,7 +6511,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 643
+                    "value": 649
                   }
                 },
                 "fallback": "0x00",
@@ -6513,7 +6539,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 646
+                    "value": 652
                   }
                 },
                 "fallback": "0x00",
@@ -6541,7 +6567,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 648
+                    "value": 654
                   }
                 },
                 "fallback": "0x00",
@@ -6570,7 +6596,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 649
+                    "value": 655
                   }
                 },
                 "fallback": "0x00",
@@ -6599,7 +6625,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 655
+                    "value": 661
                   }
                 },
                 "fallback": "0x00",
@@ -6666,7 +6692,7 @@
             "type": 370
           },
           "events": {
-            "type": 128
+            "type": 127
           },
           "constants": [
             {
@@ -6698,7 +6724,7 @@
             }
           ],
           "errors": {
-            "type": 656
+            "type": 662
           },
           "index": 51
         },
@@ -6727,7 +6753,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 658
+                    "value": 664
                   }
                 },
                 "fallback": "0x00",
@@ -6744,7 +6770,7 @@
                       "Twox64Concat"
                     ],
                     "key": 88,
-                    "value": 660
+                    "value": 666
                   }
                 },
                 "fallback": "0x00",
@@ -6778,7 +6804,7 @@
             "type": 375
           },
           "events": {
-            "type": 130
+            "type": 129
           },
           "constants": [
             {
@@ -6815,10 +6841,18 @@
                 " fewer storage reads/writes needed for smaller voters, but also result in delays to the",
                 " automatic referendum status changes. Explicit servicing instructions are unaffected."
               ]
+            },
+            {
+              "name": "Tracks",
+              "type": 617,
+              "value": "0x04000010726f6f74010000000a000000000000000000000000000000040000000400000002000000040000000000ca9a3b0065cd1d00ca9a3b0000ca9a3b0000000000ca9a3b",
+              "docs": [
+                " Information concerning the different referendum tracks."
+              ]
             }
           ],
           "errors": {
-            "type": 661
+            "type": 667
           },
           "index": 52
         },
@@ -6854,7 +6888,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 662
+                    "value": 668
                   }
                 },
                 "fallback": "0x00",
@@ -6871,7 +6905,7 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 663,
+                    "key": 669,
                     "value": 4
                   }
                 },
@@ -6889,7 +6923,7 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 664,
+                    "key": 670,
                     "value": 0
                   }
                 },
@@ -6909,7 +6943,7 @@
                       "Twox64Concat"
                     ],
                     "key": 428,
-                    "value": 133
+                    "value": 132
                   }
                 },
                 "fallback": "0x00",
@@ -6926,7 +6960,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 665
+                    "value": 671
                   }
                 },
                 "fallback": "0x00",
@@ -6938,62 +6972,62 @@
             "type": 376
           },
           "events": {
-            "type": 132
+            "type": 131
           },
           "constants": [],
           "errors": {
-            "type": 666
+            "type": 672
           },
           "index": 53
         }
       ],
       "extrinsic": {
-        "type": 667,
+        "type": 673,
         "version": 4,
         "signedExtensions": [
           {
             "identifier": "CheckNonZeroSender",
-            "type": 672,
-            "additionalSigned": 30
-          },
-          {
-            "identifier": "CheckSpecVersion",
-            "type": 673,
-            "additionalSigned": 4
-          },
-          {
-            "identifier": "CheckTxVersion",
-            "type": 674,
-            "additionalSigned": 4
-          },
-          {
-            "identifier": "CheckGenesis",
-            "type": 675,
-            "additionalSigned": 10
-          },
-          {
-            "identifier": "CheckMortality",
-            "type": 676,
-            "additionalSigned": 10
-          },
-          {
-            "identifier": "CheckNonce",
             "type": 678,
             "additionalSigned": 30
           },
           {
-            "identifier": "CheckWeight",
+            "identifier": "CheckSpecVersion",
             "type": 679,
+            "additionalSigned": 4
+          },
+          {
+            "identifier": "CheckTxVersion",
+            "type": 680,
+            "additionalSigned": 4
+          },
+          {
+            "identifier": "CheckGenesis",
+            "type": 681,
+            "additionalSigned": 10
+          },
+          {
+            "identifier": "CheckMortality",
+            "type": 682,
+            "additionalSigned": 10
+          },
+          {
+            "identifier": "CheckNonce",
+            "type": 684,
+            "additionalSigned": 30
+          },
+          {
+            "identifier": "CheckWeight",
+            "type": 685,
             "additionalSigned": 30
           },
           {
             "identifier": "ChargeAssetTxPayment",
-            "type": 680,
+            "type": 686,
             "additionalSigned": 30
           }
         ]
       },
-      "type": 681
+      "type": 687
     }
   }
 }

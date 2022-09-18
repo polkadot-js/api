@@ -14,7 +14,8 @@ import { objectSpread } from '@polkadot/util';
 const sharedTypes = {
   DispatchErrorModule: 'DispatchErrorModuleU8',
   FullIdentification: '()', // No staking, only session (as per config)
-  Keys: 'SessionKeys7B'
+  Keys: 'SessionKeys7B',
+  Weight: 'u64'
 };
 
 const versioned: OverrideVersionedType[] = [

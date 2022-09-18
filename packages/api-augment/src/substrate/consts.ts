@@ -7,9 +7,9 @@ import '@polkadot/api-base/types/consts';
 
 import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
-import type { Codec } from '@polkadot/types-codec/types';
+import type { Codec, ITuple } from '@polkadot/types-codec/types';
 import type { Perbill, Percent, Permill, Weight } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
+import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, PalletReferendaTrackInfo, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
@@ -419,6 +419,9 @@ declare module '@polkadot/api-base/types/consts' {
        * take place over multiple blocks.
        **/
       maxElectingVoters: u32 & AugmentedConst<ApiType>;
+      minerMaxLength: u32 & AugmentedConst<ApiType>;
+      minerMaxVotesPerVoter: u32 & AugmentedConst<ApiType>;
+      minerMaxWeight: Weight & AugmentedConst<ApiType>;
       /**
        * The priority of the unsigned transaction submitted in the unsigned-phase
        **/
@@ -780,6 +783,10 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       submissionDeposit: u128 & AugmentedConst<ApiType>;
       /**
+       * Information concerning the different referendum tracks.
+       **/
+      tracks: Vec<ITuple<[u16, PalletReferendaTrackInfo]>> & AugmentedConst<ApiType>;
+      /**
        * The number of blocks after submission that a referendum must begin being decided by.
        * Once this passes, then anyone may cancel the referendum.
        **/
@@ -844,6 +851,10 @@ declare module '@polkadot/api-base/types/consts' {
        * The minimum amount to be used as a deposit for a public referendum proposal.
        **/
       submissionDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * Information concerning the different referendum tracks.
+       **/
+      tracks: Vec<ITuple<[u16, PalletReferendaTrackInfo]>> & AugmentedConst<ApiType>;
       /**
        * The number of blocks after submission that a referendum must begin being decided by.
        * Once this passes, then anyone may cancel the referendum.
@@ -997,7 +1008,7 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The weight of runtime database operations the runtime can invoke.
        **/
-      dbWeight: FrameSupportWeightsRuntimeDbWeight & AugmentedConst<ApiType>;
+      dbWeight: SpWeightsRuntimeDbWeight & AugmentedConst<ApiType>;
       /**
        * The designated SS58 prefix of this chain.
        * 

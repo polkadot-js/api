@@ -23,7 +23,8 @@ const sharedTypes = {
       CancelProxy: 6,
       Auction: 7
     }
-  }
+  },
+  Weight: 'u64'
 };
 
 const addrAccountIdTypes = {

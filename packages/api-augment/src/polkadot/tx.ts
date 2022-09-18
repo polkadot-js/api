@@ -1619,6 +1619,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `target`: the account whose identity the judgement is upon. This must be an account
        * with a registered identity.
        * - `judgement`: the judgement of the registrar of index `reg_index` about `target`.
+       * - `identity`: The hash of the [`IdentityInfo`] for that the judgement is provided.
        * 
        * Emits `JudgementGiven` if successful.
        * 
@@ -1630,7 +1631,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - One event.
        * # </weight>
        **/
-      provideJudgement: AugmentedSubmittable<(regIndex: Compact<u32> | AnyNumber | Uint8Array, target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, judgement: PalletIdentityJudgement | { Unknown: any } | { FeePaid: any } | { Reasonable: any } | { KnownGood: any } | { OutOfDate: any } | { LowQuality: any } | { Erroneous: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, PalletIdentityJudgement]>;
+      provideJudgement: AugmentedSubmittable<(regIndex: Compact<u32> | AnyNumber | Uint8Array, target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, judgement: PalletIdentityJudgement | { Unknown: any } | { FeePaid: any } | { Reasonable: any } | { KnownGood: any } | { OutOfDate: any } | { LowQuality: any } | { Erroneous: any } | string | Uint8Array, identity: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, PalletIdentityJudgement, H256]>;
       /**
        * Remove the sender as a sub-account.
        * 

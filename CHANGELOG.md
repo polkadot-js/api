@@ -1,11 +1,16 @@
 # CHANGELOG
 
-## master
+## 9.4.1 Sep 17, 2022
+
+Contributed:
+
+- Update `@substrate/connect` to latest (Thanks to https://github.com/wirednkod)
 
 Changes:
 
-- Add Polkadot 9270 upgrade block
-- Add Kusama 9280 upgrade block
+- Cater for v1.5 Weight JSON representation (via RPC)
+- Polkadot 9270, Kusama 9280 & Westend 9290 upgrade blocks
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 9.3.3 Sep 6, 2022
@@ -23,7 +28,7 @@ Changes:
 
 Changes:
 
-- Cater for v2 Weight types (structure to inner value)
+- Cater for v1.5 Weight types (structure to inner value)
 - Westend 9280 & Kusama 9271 upgrade blocks
 - Update to latest Substrate, Polkadot & Kusama metadata
 

@@ -417,11 +417,11 @@ export default {
     }
   },
   /**
-   * Lookup130: xcm::v2::Xcm<Call>
+   * Lookup130: xcm::v2::Xcm<RuntimeCall>
    **/
   XcmV2Xcm: 'Vec<XcmV2Instruction>',
   /**
-   * Lookup132: xcm::v2::Instruction<Call>
+   * Lookup132: xcm::v2::Instruction<RuntimeCall>
    **/
   XcmV2Instruction: {
     _enum: {
@@ -1623,7 +1623,7 @@ export default {
     }
   },
   /**
-   * Lookup423: xcm::VersionedXcm<Call>
+   * Lookup423: xcm::VersionedXcm<RuntimeCall>
    **/
   XcmVersionedXcm: {
     _enum: {
@@ -1633,7 +1633,7 @@ export default {
     }
   },
   /**
-   * Lookup424: xcm::v0::Xcm<Call>
+   * Lookup424: xcm::v0::Xcm<RuntimeCall>
    **/
   XcmV0Xcm: {
     _enum: {
@@ -1687,7 +1687,7 @@ export default {
     }
   },
   /**
-   * Lookup426: xcm::v0::order::Order<Call>
+   * Lookup426: xcm::v0::order::Order<RuntimeCall>
    **/
   XcmV0Order: {
     _enum: {
@@ -1738,7 +1738,7 @@ export default {
     }
   },
   /**
-   * Lookup429: xcm::v1::Xcm<Call>
+   * Lookup429: xcm::v1::Xcm<RuntimeCall>
    **/
   XcmV1Xcm: {
     _enum: {
@@ -1797,7 +1797,7 @@ export default {
     }
   },
   /**
-   * Lookup431: xcm::v1::order::Order<Call>
+   * Lookup431: xcm::v1::order::Order<RuntimeCall>
    **/
   XcmV1Order: {
     _enum: {
