@@ -7,12 +7,14 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 import { Chain, createScClient, ScClient, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
 
-import { isError, objectSpread } from '@polkadot/util';
+import { isError, logger, objectSpread } from '@polkadot/util';
 
 import { RpcCoder } from '../coder';
 import { healthChecker } from './Health';
 
 type ResponseCallback = (response: string | Error) => void
+
+const l = logger('api-substrate-connect');
 
 // These methods have been taken from:
 // https://github.com/paritytech/smoldot/blob/17425040ddda47d539556eeaf62b88c4240d1d42/src/json_rpc/methods.rs#L338-L462
@@ -37,24 +39,29 @@ const scClients = new WeakMap<ScProvider, ScClient>();
 
 export { WellKnownChain };
 
+interface ActiveSubs {
+  type: string,
+  method: string,
+  params: any[],
+  callback: ProviderInterfaceCallback
+}
+
 export class ScProvider implements ProviderInterface {
   readonly #coder: RpcCoder = new RpcCoder();
   readonly #spec: string | WellKnownChain;
   readonly #sharedSandbox?: ScProvider;
   readonly #subscriptions: Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]> = new Map();
+  readonly #resubscribeMethods: Map<string, ActiveSubs> = new Map();
   readonly #requests: Map<number, ResponseCallback> = new Map();
   readonly #eventemitter: EventEmitter = new EventEmitter();
   #chain: Promise<Chain> | null = null;
   #isChainReady = false;
 
-  #autoConnect: boolean;
-
   static WellKnownChain = WellKnownChain;
 
-  public constructor (spec: string | WellKnownChain, sharedSandbox?: ScProvider, autoConnect = true) {
+  public constructor (spec: string | WellKnownChain, sharedSandbox?: ScProvider) {
     this.#spec = spec;
     this.#sharedSandbox = sharedSandbox;
-    this.#autoConnect = autoConnect;
   }
 
   public get hasSubscriptions (): boolean {
@@ -209,17 +216,18 @@ export class ScProvider implements ProviderInterface {
           [...this.#subscriptions.values()].forEach((s) => {
             staleSubscriptions.push(s[1]);
           });
+          cleanup();
 
-          if (!this.#autoConnect) {
-            cleanup();
-          }
+          this.#eventemitter.emit('disconnected');
         } else {
-          if (!this.#autoConnect) {
-            killStaleSubscriptions();
+          killStaleSubscriptions();
+
+          this.#eventemitter.emit('connected');
+
+          if (this.#resubscribeMethods.size) {
+            this.#resubscribe();
           }
         }
-
-        this.#eventemitter.emit(isReady ? 'connected' : 'disconnected');
       });
 
       return objectSpread({}, chain, {
@@ -241,6 +249,32 @@ export class ScProvider implements ProviderInterface {
     }
   }
 
+  #resubscribe = (): void => {
+    const promises: any[] = [];
+
+    this.#resubscribeMethods.forEach((subDetails: ActiveSubs): void => {
+      // only re-create subscriptions which are not in author (only area where
+      // transactions are created, i.e. submissions such as 'author_submitAndWatchExtrinsic'
+      // are not included (and will not be re-broadcast)
+      if (subDetails.type.startsWith('author_')) {
+        return;
+      }
+
+      try {
+        const promise: Promise<void> = new Promise((resolve) => {
+          this.subscribe(subDetails.type, subDetails.method, subDetails.params, subDetails.callback).catch((error) => console.log(error));
+          resolve();
+        });
+
+        promises.push(promise);
+      } catch (error) {
+        l.error(error);
+      }
+    });
+
+    Promise.all(promises).catch((err) => console.log(err));
+  };
+
   async disconnect (): Promise<void> {
     if (!this.#chain) {
       return;
@@ -250,7 +284,6 @@ export class ScProvider implements ProviderInterface {
 
     this.#chain = null;
     this.#isChainReady = false;
-    this.#autoConnect = false;
 
     try {
       chain.remove();
@@ -330,6 +363,8 @@ export class ScProvider implements ProviderInterface {
     if (!unsubscribeMethod) {
       throw new Error('Invalid unsubscribe method found');
     }
+
+    this.#resubscribeMethods.set(subscriptionId, { method, params, type, callback });
 
     this.#subscriptions.set(subscriptionId, [cb, { id, unsubscribeMethod }]);
 
