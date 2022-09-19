@@ -364,7 +364,7 @@ export class ScProvider implements ProviderInterface {
       throw new Error('Invalid unsubscribe method found');
     }
 
-    this.#resubscribeMethods.set(subscriptionId, { method, params, type, callback });
+    this.#resubscribeMethods.set(subscriptionId, { callback, method, params, type });
 
     this.#subscriptions.set(subscriptionId, [cb, { id, unsubscribeMethod }]);
 
