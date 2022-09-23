@@ -272,7 +272,7 @@ export class ScProvider implements ProviderInterface {
       }
     });
 
-    Promise.all(promises).catch((err) => console.log(err));
+    Promise.all(promises).catch((err) => l.log(err));
   };
 
   async disconnect (): Promise<void> {
