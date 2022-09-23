@@ -384,6 +384,7 @@ export class ScProvider implements ProviderInterface {
       );
     }
 
+    this.#resubscribeMethods.delete(subscriptionId);
     this.#subscriptions.delete(subscriptionId);
 
     return this.send(method, [id]);
