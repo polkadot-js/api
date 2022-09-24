@@ -27,7 +27,7 @@ const checks: Record<string, Avail> = {
     methods: []
   },
   bagsList: {
-    instances: ['voterList', 'bagsList'],
+    instances: ['voterBagsList', 'voterList', 'bagsList'],
     methods: [],
     withDetect: true
   },
