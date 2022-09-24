@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Align derives to cater for latest (& previous) Substrate interfaces
 - Update to latest Substrate, Polkadot & Kusama metadata
 
 
