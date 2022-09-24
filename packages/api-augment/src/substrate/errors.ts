@@ -292,16 +292,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    bagsList: {
-      /**
-       * A error in the list interface implementation.
-       **/
-      List: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     balances: {
       /**
        * Beneficiary account must pre-exist
@@ -895,6 +885,34 @@ declare module '@polkadot/api-base/types/errors' {
        * Cannot vote when no candidates or members exist.
        **/
       UnableToVote: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    fastUnstake: {
+      /**
+       * The provided un-staker is already in Head, and cannot deregister.
+       **/
+      AlreadyHead: AugmentedError<ApiType>;
+      /**
+       * The bonded account has already been queued.
+       **/
+      AlreadyQueued: AugmentedError<ApiType>;
+      /**
+       * The provided Controller account was not found.
+       * 
+       * This means that the given account is not bonded.
+       **/
+      NotController: AugmentedError<ApiType>;
+      /**
+       * The bonded account has active unlocking chunks.
+       **/
+      NotFullyBonded: AugmentedError<ApiType>;
+      /**
+       * The provided un-staker is not in the `Queue`.
+       **/
+      NotQueued: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1725,6 +1743,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BadTarget: AugmentedError<ApiType>;
       /**
+       * Some bound is not met.
+       **/
+      BoundNotMet: AugmentedError<ApiType>;
+      /**
        * The user has enough bond and thus cannot be chilled forcefully by an external person.
        **/
       CannotChillOther: AugmentedError<ApiType>;
@@ -2178,6 +2200,16 @@ declare module '@polkadot/api-base/types/errors' {
        * An index was out of bounds of the vesting schedules.
        **/
       ScheduleIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    voterBagsList: {
+      /**
+       * A error in the list interface implementation.
+       **/
+      List: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

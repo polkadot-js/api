@@ -12,13 +12,15 @@ import { BehaviorSubject, map, of, switchMap, tap, toArray } from 'rxjs';
 import { nextTick } from '@polkadot/util';
 
 import { memo } from '../util';
+import { getQueryInterface } from './util';
 
 function traverseLinks (api: DeriveApi, head: AccountId32 | string): Observable<PalletBagsListListNode[]> {
   const subject = new BehaviorSubject<AccountId32 | string>(head);
+  const query = getQueryInterface(api);
 
   return subject.pipe(
     switchMap((account) =>
-      (api.query.voterList || api.query.bagsList).listNodes<Option<PalletBagsListListNode>>(account)
+      query.listNodes<Option<PalletBagsListListNode>>(account)
     ),
     tap((node: Option<PalletBagsListListNode>): void => {
       nextTick((): void => {

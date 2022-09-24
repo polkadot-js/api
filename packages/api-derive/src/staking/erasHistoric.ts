@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, u32 } from '@polkadot/types';
-import type { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
+import type { u32 } from '@polkadot/types';
+import type { EraIndex } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi } from '../types';
 
-import { map } from 'rxjs';
+import { combineLatest, map, of } from 'rxjs';
 
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
@@ -15,9 +15,11 @@ import { memo } from '../util';
 
 export function erasHistoric (instanceId: string, api: DeriveApi): (withActive?: boolean) => Observable<EraIndex[]> {
   return memo(instanceId, (withActive?: boolean): Observable<EraIndex[]> =>
-    api.queryMulti<[Option<ActiveEraInfo>, u32]>([
-      api.query.staking.activeEra,
-      api.query.staking.historyDepth
+    combineLatest([
+      api.query.staking.activeEra(),
+      api.consts.staking.historyDepth
+        ? of(api.consts.staking.historyDepth)
+        : api.query.staking.historyDepth<u32>()
     ]).pipe(
       map(([activeEraOpt, historyDepth]): EraIndex[] => {
         const result: EraIndex[] = [];

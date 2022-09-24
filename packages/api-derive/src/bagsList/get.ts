@@ -13,6 +13,7 @@ import { map, of, switchMap } from 'rxjs';
 import { BN_ZERO, bnToBn, objectSpread } from '@polkadot/util';
 
 import { memo } from '../util';
+import { getQueryInterface } from './util';
 
 function orderBags (ids: BN[], bags: Option<PalletBagsListListBag>[]): Bag[] {
   const sorted = ids
@@ -36,11 +37,13 @@ function orderBags (ids: BN[], bags: Option<PalletBagsListListBag>[]): Bag[] {
 }
 
 export function _getIds (instanceId: string, api: DeriveApi): (ids: (BN | number)[]) => Observable<Bag[]> {
+  const query = getQueryInterface(api);
+
   return memo(instanceId, (_ids: (BN | number)[]): Observable<Bag[]> => {
     const ids = _ids.map((id) => bnToBn(id));
 
     return ids.length
-      ? (api.query.voterList || api.query.bagsList).listBags.multi<Option<PalletBagsListListBag>>(ids).pipe(
+      ? query.listBags.multi<Option<PalletBagsListListBag>>(ids).pipe(
         map((bags) => orderBags(ids, bags))
       )
       : of([]);
@@ -48,8 +51,10 @@ export function _getIds (instanceId: string, api: DeriveApi): (ids: (BN | number
 }
 
 export function all (instanceId: string, api: DeriveApi): () => Observable<Bag[]> {
+  const query = getQueryInterface(api);
+
   return memo(instanceId, (): Observable<Bag[]> =>
-    (api.query.voterList || api.query.bagsList).listBags.keys<[u64]>().pipe(
+    query.listBags.keys<[u64]>().pipe(
       switchMap((keys) =>
         api.derive.bagsList._getIds(keys.map(({ args: [id] }) => id))
       ),
