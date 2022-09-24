@@ -728,6 +728,28 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
       /**
+       * Number of eras to keep in history.
+       * 
+       * Following information is kept for eras in `[current_era -
+       * HistoryDepth, current_era]`: `ErasStakers`, `ErasStakersClipped`,
+       * `ErasValidatorPrefs`, `ErasValidatorReward`, `ErasRewardPoints`,
+       * `ErasTotalStake`, `ErasStartSessionIndex`,
+       * `StakingLedger.claimed_rewards`.
+       * 
+       * Must be more than the number of eras delayed by session.
+       * I.e. active era must always be in history. I.e. `active_era >
+       * current_era - history_depth` must be guaranteed.
+       * 
+       * If migrating an existing pallet from storage value to config value,
+       * this should be set to same value or greater as in storage.
+       * 
+       * Note: `HistoryDepth` is used as the upper bound for the `BoundedVec`
+       * item `StakingLedger.claimed_rewards`. Setting this value lower than
+       * the existing value can lead to inconsistencies and will need to be
+       * handled properly in a migration.
+       **/
+      historyDepth: u32 & AugmentedConst<ApiType>;
+      /**
        * Maximum number of nominations per nominator.
        **/
       maxNominations: u32 & AugmentedConst<ApiType>;

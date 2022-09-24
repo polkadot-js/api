@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 9.4.2 Sep 24, 2022
+
+Contributed:
+
+- Allow for re-subscriptions on `ScProvider` (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Update to latest Substrate, Polkadot & Kusama metadata
+
+
 ## 9.4.1 Sep 17, 2022
 
 Contributed:

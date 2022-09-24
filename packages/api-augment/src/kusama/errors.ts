@@ -1683,6 +1683,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BadTarget: AugmentedError<ApiType>;
       /**
+       * Some bound is not met.
+       **/
+      BoundNotMet: AugmentedError<ApiType>;
+      /**
        * The user has enough bond and thus cannot be chilled forcefully by an external person.
        **/
       CannotChillOther: AugmentedError<ApiType>;

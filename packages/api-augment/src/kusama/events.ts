@@ -779,11 +779,6 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Announced: AugmentedEvent<ApiType, [real: AccountId32, proxy: AccountId32, callHash: H256], { real: AccountId32, proxy: AccountId32, callHash: H256 }>;
       /**
-       * Anonymous account has been created by new proxy with given
-       * disambiguation index and proxy type.
-       **/
-      AnonymousCreated: AugmentedEvent<ApiType, [anonymous: AccountId32, who: AccountId32, proxyType: KusamaRuntimeProxyType, disambiguationIndex: u16], { anonymous: AccountId32, who: AccountId32, proxyType: KusamaRuntimeProxyType, disambiguationIndex: u16 }>;
-      /**
        * A proxy was added.
        **/
       ProxyAdded: AugmentedEvent<ApiType, [delegator: AccountId32, delegatee: AccountId32, proxyType: KusamaRuntimeProxyType, delay: u32], { delegator: AccountId32, delegatee: AccountId32, proxyType: KusamaRuntimeProxyType, delay: u32 }>;
@@ -795,6 +790,11 @@ declare module '@polkadot/api-base/types/events' {
        * A proxy was removed.
        **/
       ProxyRemoved: AugmentedEvent<ApiType, [delegator: AccountId32, delegatee: AccountId32, proxyType: KusamaRuntimeProxyType, delay: u32], { delegator: AccountId32, delegatee: AccountId32, proxyType: KusamaRuntimeProxyType, delay: u32 }>;
+      /**
+       * A pure account has been created by new proxy with given
+       * disambiguation index and proxy type.
+       **/
+      PureCreated: AugmentedEvent<ApiType, [pure: AccountId32, who: AccountId32, proxyType: KusamaRuntimeProxyType, disambiguationIndex: u16], { pure: AccountId32, who: AccountId32, proxyType: KusamaRuntimeProxyType, disambiguationIndex: u16 }>;
       /**
        * Generic event
        **/
@@ -998,8 +998,8 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Rewarded: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
-       * One validator (and its nominators) has been slashed by the given amount.
-       * \[validator, amount\]
+       * One staker (and potentially its nominators) has been slashed by the given amount.
+       * \[staker, amount\]
        **/
       Slashed: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**

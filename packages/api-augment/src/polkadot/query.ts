@@ -1471,16 +1471,6 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       forceEra: AugmentedQuery<ApiType, () => Observable<PalletStakingForcing>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * Number of eras to keep in history.
-       * 
-       * Information is kept for eras in `[current_era - history_depth; current_era]`.
-       * 
-       * Must be more than the number of eras delayed by session otherwise. I.e. active era must
-       * always be in history. I.e. `active_era > current_era - history_depth` must be
-       * guaranteed.
-       **/
-      historyDepth: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
        * Any validators that may never be slashed or forcibly kicked. It's a Vec since they're
        * easy to initialize and the performance hit is minimal (we expect no more than four
        * invulnerables) and restricted to testnets.
