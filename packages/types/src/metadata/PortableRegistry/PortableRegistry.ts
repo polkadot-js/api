@@ -66,7 +66,8 @@ const PATHS_ALIAS = splitNamespace([
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
   // ink!
-  'ink_env::types::*'
+  'ink_env::types::*',
+  'ink_primitives::types::*'
 ]);
 
 // Mappings for types that should be converted to set via BitVec
