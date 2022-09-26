@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Allow for new `ink_primitives` types (Thanks to https://github.com/statictype)
+- Fix contracts runtime `instantiate` call params (Thanks to https://github.com/statictype)
+
+
 ## 9.4.2 Sep 24, 2022
 
 Contributed:
