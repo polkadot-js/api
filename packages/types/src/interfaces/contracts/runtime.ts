@@ -72,7 +72,7 @@ export const runtime: DefinitionsCall = {
             },
             {
               name: 'code',
-              type: 'Bytes'
+              type: 'CodeSource'
             },
             {
               name: 'data',
