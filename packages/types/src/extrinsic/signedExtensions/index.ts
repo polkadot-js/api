@@ -9,13 +9,14 @@ import { polkadot } from './polkadot';
 import { shell } from './shell';
 import { statemint } from './statemint';
 import { substrate } from './substrate';
+import { encointer } from './encointer';
 
 // A mapping of the known signed extensions to the extra fields that they
 // contain. Unlike in the actual extensions, we define the extra fields not
 // as a Tuple, but rather as a struct so they can be named. These will be
 // expanded into the various fields when added to the payload (we only
 // support V4 onwards with these, V3 and earlier are deemed fixed))
-export const allExtensions: ExtDef = objectSpread({}, substrate, polkadot, shell, statemint);
+export const allExtensions: ExtDef = objectSpread({}, substrate, polkadot, shell, statemint, encointer);
 
 // the v4 signed extensions prior to the point of exposing these to the
 // metadata. This may not match 100% with the current defaults and are used
