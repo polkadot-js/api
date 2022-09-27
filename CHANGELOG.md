@@ -7,6 +7,10 @@ Contributed:
 - Allow for new `ink_primitives` types (Thanks to https://github.com/statictype)
 - Fix contracts runtime `instantiate` call params (Thanks to https://github.com/statictype)
 
+Changes:
+
+- Align staking derive redeemableSum with Rust source (`currentEra` vs `activeEra` usage)
+
 
 ## 9.4.2 Sep 24, 2022
 
