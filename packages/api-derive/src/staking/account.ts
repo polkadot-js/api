@@ -48,8 +48,8 @@ function calculateUnlocking (api: DeriveApi, stakingLedger: PalletStakingStaking
 function redeemableSum (api: DeriveApi, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
   return api.registry.createType('Balance', (stakingLedger?.unlocking || [] as PalletStakingUnlockChunk[]).reduce((total, { era, value }): BN => {
     // aligns with https://github.com/paritytech/substrate/blob/fdfdc73f9e64dc47934b72eb9af3e1989e4ba699/frame/staking/src/pallet/mod.rs#L973-L975
-    // (ensure era >= currentEra passed, as per https://github.com/paritytech/substrate/blob/fdfdc73f9e64dc47934b72eb9af3e1989e4ba699/frame/staking/src/lib.rs#L477-L494)
-    // NOTE: Previously we used era >= active_era, which is incorrect for the last session
+    // (ensure currentEra >= era passed, as per https://github.com/paritytech/substrate/blob/fdfdc73f9e64dc47934b72eb9af3e1989e4ba699/frame/staking/src/lib.rs#L477-L494)
+    // NOTE: Previously we used activeEra >= era, which is incorrect for the last session
     return era.unwrap().gt(sessionInfo.currentEra)
       ? total
       : total.iadd(value.unwrap());
