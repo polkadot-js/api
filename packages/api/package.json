@@ -39,7 +39,7 @@
     "@polkadot/util": "^10.1.9",
     "@polkadot/util-crypto": "^10.1.9",
     "eventemitter3": "^4.0.7",
-    "rxjs": "^7.5.6"
+    "rxjs": "^7.5.7"
   },
   "devDependencies": {
     "@polkadot/api-augment": "9.4.3-4-x",
