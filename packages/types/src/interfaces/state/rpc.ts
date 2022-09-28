@@ -158,6 +158,7 @@ export const rpc: DefinitionsRpc = {
     type: 'u64'
   },
   getKeys: {
+    deprecated: 'Use `api.rpc.state.getKeysPaged` to retrieve keys',
     description: 'Retrieves the keys with a certain prefix',
     params: [
       {
@@ -212,6 +213,7 @@ export const rpc: DefinitionsRpc = {
     type: 'Metadata'
   },
   getPairs: {
+    deprecated: 'Use `api.rpc.state.getKeysPaged` to retrieve keys',
     description: 'Returns the keys with prefix, leave empty to get all the keys (deprecated: Use getKeysPaged)',
     params: [
       {

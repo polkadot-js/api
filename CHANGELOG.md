@@ -10,6 +10,7 @@ Contributed:
 Changes:
 
 - Align staking derive redeemableSum with Rust source (`currentEra` vs `activeEra` usage)
+- Add `@deprecated` flag to RPC interface generation (`contracts_*` & `state_get{Pairs/Keys}`)
 
 
 ## 9.4.2 Sep 24, 2022

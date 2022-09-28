@@ -215,6 +215,9 @@ async function rpc (api: ApiPromise): Promise<void> {
   await api.rpc.chain.subscribeNewHeads.raw((result: Uint8Array): void => {
     console.log(result);
   });
+
+  // deprecated methods
+  await api.rpc.state.getPairs('123');
 }
 
 function types (api: ApiPromise): void {

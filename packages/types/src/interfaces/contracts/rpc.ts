@@ -5,6 +5,7 @@ import type { DefinitionsRpc } from '../../types';
 
 export const rpc: DefinitionsRpc = {
   call: {
+    deprecated: 'Use the runtime interface `api.call.contractsApi.call` instead',
     description: 'Executes a call to a contract',
     params: [
       {
@@ -21,6 +22,7 @@ export const rpc: DefinitionsRpc = {
     type: 'ContractExecResult'
   },
   getStorage: {
+    deprecated: 'Use the runtime interface `api.call.contractsApi.getStorage` instead',
     description: 'Returns the value under a specified storage key in a contract',
     params: [
       {
@@ -41,6 +43,7 @@ export const rpc: DefinitionsRpc = {
     type: 'Option<Bytes>'
   },
   instantiate: {
+    deprecated: 'Use the runtime interface `api.call.contractsApi.instantiate` instead',
     description: 'Instantiate a new contract',
     params: [
       {
@@ -57,6 +60,7 @@ export const rpc: DefinitionsRpc = {
     type: 'ContractInstantiateResult'
   },
   rentProjection: {
+    deprecated: 'Not available in newer versions of the contracts interfaces',
     description: 'Returns the projected time a given contract will be able to sustain paying its rent',
     params: [
       {
@@ -73,6 +77,7 @@ export const rpc: DefinitionsRpc = {
     type: 'Option<BlockNumber>'
   },
   uploadCode: {
+    deprecated: 'Use the runtime interface `api.call.contractsApi.uploadCode` instead',
     description: 'Upload new code without instantiating a contract from it',
     // The RPC here is terribly misnamed - somebody forgot how the RPCs
     // are actually done, ie. <module>_<camelCasedMethod>

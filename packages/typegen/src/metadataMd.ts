@@ -98,14 +98,17 @@ function renderPage (page: Page): string {
         ? `<h3 id="#${item.link}">${item.name}</h3>`
         : `### ${item.name}`;
 
-      Object.keys(item).filter((key) => !['link', 'name'].includes(key)).forEach((bullet) => {
-        md += `\n- **${bullet}**: ${
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          item[bullet] instanceof Vec
-            ? docsVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
-            : item[bullet]
-        }`;
-      });
+      Object
+        .keys(item)
+        .filter((key) => !['link', 'name'].includes(key))
+        .forEach((bullet) => {
+          md += `\n- **${bullet}**: ${
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            item[bullet] instanceof Vec
+              ? docsVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
+              : item[bullet]
+          }`;
+        });
 
       md += '\n';
     });
@@ -160,14 +163,19 @@ function addRpc (): string {
             }).join(', ');
             const type = '`' + method.type + '`';
             const jsonrpc = (method.endpoint || `${sectionName}_${methodName}`);
-
-            container.items.push({
+            const item: SectionItem = {
               interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
               jsonrpc: '`' + jsonrpc + '`',
               // link: jsonrpc,
               name: `${methodName}(${args}): ${type}`,
               ...(method.description && { summary: method.description })
-            });
+            };
+
+            if (method.deprecated) {
+              item.deprecated = method.deprecated;
+            }
+
+            container.items.push(item);
           });
 
         return all;

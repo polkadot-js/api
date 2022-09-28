@@ -96,7 +96,9 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
 
         const item = {
           args: args.join(', '),
-          docs: [def.description],
+          docs: def.deprecated
+            ? [`@deprecated ${def.deprecated}`, def.description]
+            : [def.description],
           generic,
           name: methodName,
           type
