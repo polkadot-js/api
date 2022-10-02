@@ -47,8 +47,9 @@ const PATHS_ALIAS = splitNamespace([
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
-  // weights 1.5 is a structure, treated as a u64 via refTime (these are used compact)
+  // weights 2 (1.5+) is a structure, potentially can be flatenned
   'frame_support::weights::weight_v2::Weight',
+  'sp_weights::weight_v2::Weight',
   // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
   'account::AccountId20',
   'polkadot_runtime_common::claims::EthereumAddress',
@@ -147,7 +148,12 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 
 // check if the path matches the PATHS_ALIAS (with wildcards)
 /** @internal */
-function getAliasPath (path: SiPath): string | null {
+function getAliasPath ({ def, path }: SiType): string | null {
+  // specific logic for weights - we only override when non-complex struct
+  if (path.join('::') === 'sp_weights::weight_v2::Weight' && def.isComposite && def.asComposite.fields.length !== 1) {
+    return null;
+  }
+
   // TODO We need to handle ink! Balance in some way
   return path.length && PATHS_ALIAS.some((a) => matchParts(a, path))
     ? path[path.length - 1].toString()
@@ -424,13 +430,12 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
 
     const weightDef = lookup.getTypeDef(`Lookup${weight[0]}`);
 
-    lookup.registry.register(
-      Array.isArray(weightDef.sub) && weightDef.sub.length === 1
-        // we have a singular structure, alias Weight 1.5
-        ? { SpWeightsWeightV2Weight: 'Weight' }
-        // we have a complex structure, this is v2
-        : { Weight: 'SpWeightsWeightV2Weight' }
-    );
+    // we have a complex structure
+    if (Array.isArray(weightDef.sub) && weightDef.sub.length !== 1) {
+      lookup.registry.register({
+        Weight: 'SpWeightsWeightV2Weight'
+      });
+    }
   }
 }
 
@@ -656,7 +661,7 @@ export class PortableRegistry extends Struct implements ILookup {
   #extract (type: SiType, lookupIndex: number): TypeDef {
     const namespace = type.path.join('::');
     let typeDef: TypeDef;
-    const aliasType = this.#alias[lookupIndex] || getAliasPath(type.path);
+    const aliasType = this.#alias[lookupIndex] || getAliasPath(type);
 
     try {
       if (aliasType) {
