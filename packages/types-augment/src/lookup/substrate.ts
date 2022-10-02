@@ -27,9 +27,16 @@ export default {
    * Lookup7: frame_support::dispatch::PerDispatchClass<sp_weights::weight_v2::Weight>
    **/
   FrameSupportDispatchPerDispatchClassWeight: {
-    normal: 'Weight',
-    operational: 'Weight',
-    mandatory: 'Weight'
+    normal: 'SpWeightsWeightV2Weight',
+    operational: 'SpWeightsWeightV2Weight',
+    mandatory: 'SpWeightsWeightV2Weight'
+  },
+  /**
+   * Lookup8: sp_weights::weight_v2::Weight
+   **/
+  SpWeightsWeightV2Weight: {
+    refTime: 'Compact<u64>',
+    proofSize: 'Compact<u64>'
   },
   /**
    * Lookup13: sp_runtime::generic::digest::Digest
@@ -93,7 +100,7 @@ export default {
    * Lookup21: frame_support::dispatch::DispatchInfo
    **/
   FrameSupportDispatchDispatchInfo: {
-    weight: 'Weight',
+    weight: 'SpWeightsWeightV2Weight',
     class: 'FrameSupportDispatchDispatchClass',
     paysFee: 'FrameSupportDispatchPays'
   },
@@ -1531,7 +1538,7 @@ export default {
    * Lookup115: frame_support::dispatch::PostDispatchInfo
    **/
   FrameSupportDispatchPostDispatchInfo: {
-    actualWeight: 'Option<Weight>',
+    actualWeight: 'Option<SpWeightsWeightV2Weight>',
     paysFee: 'FrameSupportDispatchPays'
   },
   /**
@@ -1814,8 +1821,8 @@ export default {
    * Lookup145: frame_system::limits::BlockWeights
    **/
   FrameSystemLimitsBlockWeights: {
-    baseBlock: 'Weight',
-    maxBlock: 'Weight',
+    baseBlock: 'SpWeightsWeightV2Weight',
+    maxBlock: 'SpWeightsWeightV2Weight',
     perClass: 'FrameSupportDispatchPerDispatchClassWeightsPerClass'
   },
   /**
@@ -1830,10 +1837,10 @@ export default {
    * Lookup147: frame_system::limits::WeightsPerClass
    **/
   FrameSystemLimitsWeightsPerClass: {
-    baseExtrinsic: 'Weight',
-    maxExtrinsic: 'Option<Weight>',
-    maxTotal: 'Option<Weight>',
-    reserved: 'Option<Weight>'
+    baseExtrinsic: 'SpWeightsWeightV2Weight',
+    maxExtrinsic: 'Option<SpWeightsWeightV2Weight>',
+    maxTotal: 'Option<SpWeightsWeightV2Weight>',
+    reserved: 'Option<SpWeightsWeightV2Weight>'
   },
   /**
    * Lookup148: frame_system::limits::BlockLength
@@ -2420,7 +2427,7 @@ export default {
       close: {
         proposalHash: 'H256',
         index: 'Compact<u32>',
-        proposalWeightBound: 'Weight',
+        proposalWeightBound: 'SpWeightsWeightV2Weight',
         lengthBound: 'Compact<u32>'
       }
     }
@@ -2633,13 +2640,13 @@ export default {
       call: {
         dest: 'MultiAddress',
         value: 'Compact<u128>',
-        gasLimit: 'Weight',
+        gasLimit: 'SpWeightsWeightV2Weight',
         storageDepositLimit: 'Option<Compact<u128>>',
         data: 'Bytes',
       },
       instantiate_with_code: {
         value: 'Compact<u128>',
-        gasLimit: 'Weight',
+        gasLimit: 'SpWeightsWeightV2Weight',
         storageDepositLimit: 'Option<Compact<u128>>',
         code: 'Bytes',
         data: 'Bytes',
@@ -2647,7 +2654,7 @@ export default {
       },
       instantiate: {
         value: 'Compact<u128>',
-        gasLimit: 'Weight',
+        gasLimit: 'SpWeightsWeightV2Weight',
         storageDepositLimit: 'Option<Compact<u128>>',
         codeHash: 'H256',
         data: 'Bytes',
@@ -2665,7 +2672,7 @@ export default {
       },
       sudo_unchecked_weight: {
         call: 'Call',
-        weight: 'Weight',
+        weight: 'SpWeightsWeightV2Weight',
       },
       set_key: {
         _alias: {
@@ -3089,14 +3096,14 @@ export default {
         maybeTimepoint: 'Option<PalletMultisigTimepoint>',
         call: 'WrapperKeepOpaque<Call>',
         storeCall: 'bool',
-        maxWeight: 'Weight',
+        maxWeight: 'SpWeightsWeightV2Weight',
       },
       approve_as_multi: {
         threshold: 'u16',
         otherSignatories: 'Vec<AccountId32>',
         maybeTimepoint: 'Option<PalletMultisigTimepoint>',
         callHash: '[u8;32]',
-        maxWeight: 'Weight',
+        maxWeight: 'SpWeightsWeightV2Weight',
       },
       cancel_as_multi: {
         threshold: 'u16',
@@ -3840,7 +3847,7 @@ export default {
       },
       dispatch_whitelisted_call: {
         callHash: 'H256',
-        callWeightWitness: 'Weight',
+        callWeightWitness: 'SpWeightsWeightV2Weight',
       },
       dispatch_whitelisted_call_with_preimage: {
         call: 'Call'
@@ -3909,7 +3916,7 @@ export default {
       close: {
         proposalHash: 'H256',
         index: 'Compact<u32>',
-        proposalWeightBound: 'Weight',
+        proposalWeightBound: 'SpWeightsWeightV2Weight',
         lengthBound: 'Compact<u32>'
       }
     }

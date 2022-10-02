@@ -8,7 +8,7 @@ import '@polkadot/types/lookup';
 import type { BitVec, Bytes, Compact, Enum, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
-import type { AccountId32, H256, PerU16, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, H256, PerU16 } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
   /** @name PolkadotRuntimeCommonClaimsPalletEvent (73) */
@@ -100,13 +100,13 @@ declare module '@polkadot/types/lookup' {
     readonly isExecutedUpward: boolean;
     readonly asExecutedUpward: ITuple<[U8aFixed, XcmV2TraitsOutcome]>;
     readonly isWeightExhausted: boolean;
-    readonly asWeightExhausted: ITuple<[U8aFixed, Weight, Weight]>;
+    readonly asWeightExhausted: ITuple<[U8aFixed, SpWeightsWeightV2Weight, SpWeightsWeightV2Weight]>;
     readonly isUpwardMessagesReceived: boolean;
     readonly asUpwardMessagesReceived: ITuple<[u32, u32, u32]>;
     readonly isOverweightEnqueued: boolean;
-    readonly asOverweightEnqueued: ITuple<[u32, U8aFixed, u64, Weight]>;
+    readonly asOverweightEnqueued: ITuple<[u32, U8aFixed, u64, SpWeightsWeightV2Weight]>;
     readonly isOverweightServiced: boolean;
-    readonly asOverweightServiced: ITuple<[u64, Weight]>;
+    readonly asOverweightServiced: ITuple<[u64, SpWeightsWeightV2Weight]>;
     readonly type: 'InvalidFormat' | 'UnsupportedVersion' | 'ExecutedUpward' | 'WeightExhausted' | 'UpwardMessagesReceived' | 'OverweightEnqueued' | 'OverweightServiced';
   }
 
@@ -347,7 +347,7 @@ declare module '@polkadot/types/lookup' {
     readonly isNotified: boolean;
     readonly asNotified: ITuple<[u64, u8, u8]>;
     readonly isNotifyOverweight: boolean;
-    readonly asNotifyOverweight: ITuple<[u64, u8, u8, Weight, Weight]>;
+    readonly asNotifyOverweight: ITuple<[u64, u8, u8, SpWeightsWeightV2Weight, SpWeightsWeightV2Weight]>;
     readonly isNotifyDispatchError: boolean;
     readonly asNotifyDispatchError: ITuple<[u64, u8, u8]>;
     readonly isNotifyDecodeFailed: boolean;
@@ -1050,7 +1050,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isSetUmpServiceTotalWeight: boolean;
     readonly asSetUmpServiceTotalWeight: {
-      readonly new_: Weight;
+      readonly new_: SpWeightsWeightV2Weight;
     } & Struct;
     readonly isSetMaxUpwardMessageSize: boolean;
     readonly asSetMaxUpwardMessageSize: {
@@ -1106,7 +1106,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isSetUmpMaxIndividualWeight: boolean;
     readonly asSetUmpMaxIndividualWeight: {
-      readonly new_: Weight;
+      readonly new_: SpWeightsWeightV2Weight;
     } & Struct;
     readonly isSetPvfCheckingEnabled: boolean;
     readonly asSetPvfCheckingEnabled: {
@@ -1302,7 +1302,7 @@ declare module '@polkadot/types/lookup' {
     readonly isServiceOverweight: boolean;
     readonly asServiceOverweight: {
       readonly index: u64;
-      readonly weightLimit: Weight;
+      readonly weightLimit: SpWeightsWeightV2Weight;
     } & Struct;
     readonly type: 'ServiceOverweight';
   }
@@ -1518,7 +1518,7 @@ declare module '@polkadot/types/lookup' {
     readonly isExecute: boolean;
     readonly asExecute: {
       readonly message: XcmVersionedXcm;
-      readonly maxWeight: Weight;
+      readonly maxWeight: SpWeightsWeightV2Weight;
     } & Struct;
     readonly isForceXcmVersion: boolean;
     readonly asForceXcmVersion: {
@@ -1837,7 +1837,7 @@ declare module '@polkadot/types/lookup' {
     readonly validationUpgradeDelay: u32;
     readonly maxPovSize: u32;
     readonly maxDownwardMessageSize: u32;
-    readonly umpServiceTotalWeight: Weight;
+    readonly umpServiceTotalWeight: SpWeightsWeightV2Weight;
     readonly hrmpMaxParachainOutboundChannels: u32;
     readonly hrmpMaxParathreadOutboundChannels: u32;
     readonly hrmpSenderDeposit: u128;
@@ -1865,7 +1865,7 @@ declare module '@polkadot/types/lookup' {
     readonly zerothDelayTrancheWidth: u32;
     readonly neededApprovals: u32;
     readonly relayVrfModuloSamples: u32;
-    readonly umpMaxIndividualWeight: Weight;
+    readonly umpMaxIndividualWeight: SpWeightsWeightV2Weight;
     readonly pvfCheckingEnabled: bool;
     readonly pvfVotingTtl: u32;
     readonly minimumValidationUpgradeDelay: u32;

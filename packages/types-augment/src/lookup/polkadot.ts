@@ -84,10 +84,10 @@ export default {
       InvalidFormat: '[u8;32]',
       UnsupportedVersion: '[u8;32]',
       ExecutedUpward: '([u8;32],XcmV2TraitsOutcome)',
-      WeightExhausted: '([u8;32],Weight,Weight)',
+      WeightExhausted: '([u8;32],SpWeightsWeightV2Weight,SpWeightsWeightV2Weight)',
       UpwardMessagesReceived: '(u32,u32,u32)',
-      OverweightEnqueued: '(u32,[u8;32],u64,Weight)',
-      OverweightServiced: '(u64,Weight)'
+      OverweightEnqueued: '(u32,[u8;32],u64,SpWeightsWeightV2Weight)',
+      OverweightServiced: '(u64,SpWeightsWeightV2Weight)'
     }
   },
   /**
@@ -304,7 +304,7 @@ export default {
       UnexpectedResponse: '(XcmV1MultiLocation,u64)',
       ResponseReady: '(u64,XcmV2Response)',
       Notified: '(u64,u8,u8)',
-      NotifyOverweight: '(u64,u8,u8,Weight,Weight)',
+      NotifyOverweight: '(u64,u8,u8,SpWeightsWeightV2Weight,SpWeightsWeightV2Weight)',
       NotifyDispatchError: '(u64,u8,u8)',
       NotifyDecodeFailed: '(u64,u8,u8)',
       InvalidResponder: '(XcmV1MultiLocation,u64,Option<XcmV1MultiLocation>)',
@@ -1094,7 +1094,7 @@ export default {
         _alias: {
           new_: 'new',
         },
-        new_: 'Weight',
+        new_: 'SpWeightsWeightV2Weight',
       },
       set_max_upward_message_size: {
         _alias: {
@@ -1178,7 +1178,7 @@ export default {
         _alias: {
           new_: 'new',
         },
-        new_: 'Weight',
+        new_: 'SpWeightsWeightV2Weight',
       },
       set_pvf_checking_enabled: {
         _alias: {
@@ -1393,7 +1393,7 @@ export default {
     _enum: {
       service_overweight: {
         index: 'u64',
-        weightLimit: 'Weight'
+        weightLimit: 'SpWeightsWeightV2Weight'
       }
     }
   },
@@ -1591,7 +1591,7 @@ export default {
       },
       execute: {
         message: 'XcmVersionedXcm',
-        maxWeight: 'Weight',
+        maxWeight: 'SpWeightsWeightV2Weight',
       },
       force_xcm_version: {
         location: 'XcmV1MultiLocation',
@@ -1871,7 +1871,7 @@ export default {
     validationUpgradeDelay: 'u32',
     maxPovSize: 'u32',
     maxDownwardMessageSize: 'u32',
-    umpServiceTotalWeight: 'Weight',
+    umpServiceTotalWeight: 'SpWeightsWeightV2Weight',
     hrmpMaxParachainOutboundChannels: 'u32',
     hrmpMaxParathreadOutboundChannels: 'u32',
     hrmpSenderDeposit: 'u128',
@@ -1899,7 +1899,7 @@ export default {
     zerothDelayTrancheWidth: 'u32',
     neededApprovals: 'u32',
     relayVrfModuloSamples: 'u32',
-    umpMaxIndividualWeight: 'Weight',
+    umpMaxIndividualWeight: 'SpWeightsWeightV2Weight',
     pvfCheckingEnabled: 'bool',
     pvfVotingTtl: 'u32',
     minimumValidationUpgradeDelay: 'u32'
