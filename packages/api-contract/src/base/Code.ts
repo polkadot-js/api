@@ -68,8 +68,10 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     const encParams = this.abi.findConstructor(constructorOrId).toU8a(params);
     const encSalt = encodeSalt(salt);
 
-    return this.api.tx.contracts
-      .instantiateWithCode(value, gasLimit, storageDepositLimit, encCode, encParams, encSalt)
+    return (
+      this.api.tx.contracts.instantiateWithCodeOldWeight ||
+      this.api.tx.contracts.instantiateWithCode
+    )(value, gasLimit, storageDepositLimit, encCode, encParams, encSalt)
       .withResultTransform((result: ISubmittableResult) =>
         new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
           records.reduce<[Blueprint<ApiType>?, Contract<ApiType>?]>(([blueprint, contract], { event }) =>

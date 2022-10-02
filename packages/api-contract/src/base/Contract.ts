@@ -85,16 +85,25 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
+  #getMaxGas = (): BN => {
+    if (this.api.consts.system.blockWeights) {
+      const maxBlock = this.api.consts.system.blockWeights.maxBlock;
+
+      return maxBlock.refTime
+        ? maxBlock.refTime.unwrap()
+        : maxBlock as unknown as Weight;
+    }
+
+    return this.api.consts.system.maximumBlockWeight as Weight;
+  };
+
   #getGas = (_gasLimit: bigint | BN | string | number, isCall = false): BN => {
     const gasLimit = bnToBn(_gasLimit);
 
     return gasLimit.lte(BN_ZERO)
       ? isCall
         ? MAX_CALL_GAS
-        : (this.api.consts.system.blockWeights
-          ? (this.api.consts.system.blockWeights as unknown as { maxBlock: Weight }).maxBlock
-          : this.api.consts.system.maximumBlockWeight as Weight
-        ).muln(64).div(BN_HUNDRED)
+        : this.#getMaxGas().muln(64).div(BN_HUNDRED)
       : gasLimit;
   };
 
@@ -102,8 +111,10 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     const gas = this.#getGas(gasLimit);
     const encParams = this.abi.findMessage(messageOrId).toU8a(params);
 
-    return this.api.tx.contracts
-      .call(this.address, value, gas, storageDepositLimit, encParams)
+    return (
+      this.api.tx.contracts.callOldWeight ||
+      this.api.tx.contracts.call
+    )(this.address, value, gas, storageDepositLimit, encParams)
       .withResultTransform((result: ISubmittableResult) =>
         // ContractEmitted is the current generation, ContractExecution is the previous generation
         new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
