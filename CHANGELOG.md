@@ -12,6 +12,7 @@ Changes:
 - Align staking derive redeemableSum with Rust source (`currentEra` vs `activeEra` usage)
 - Add `@deprecated` flag to RPC interface generation (`contracts_*` & `state_get{Pairs/Keys}`)
 - Polkadot 9280/9281, Kusama 9291 upgrade blocks
+- Update to latest Substrate, Polkadot & Kusama metadata
 
 
 ## 9.4.2 Sep 24, 2022

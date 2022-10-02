@@ -1408,6 +1408,49 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    fastUnstake: {
+      /**
+       * Control the operation of this pallet.
+       * 
+       * Dispatch origin must be signed by the [`Config::ControlOrigin`].
+       **/
+      control: AugmentedSubmittable<(uncheckedErasToCheck: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Deregister oneself from the fast-unstake.
+       * 
+       * This is useful if one is registered, they are still waiting, and they change their mind.
+       * 
+       * Note that the associated stash is still fully unbonded and chilled as a consequence of
+       * calling `register_fast_unstake`. This should probably be followed by a call to
+       * `Staking::rebond`.
+       **/
+      deregister: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Register oneself for fast-unstake.
+       * 
+       * The dispatch origin of this call must be signed by the controller account, similar to
+       * `staking::unbond`.
+       * 
+       * The stash associated with the origin must have no ongoing unlocking chunks. If
+       * successful, this will fully unbond and chill the stash. Then, it will enqueue the stash
+       * to be checked in further blocks.
+       * 
+       * If by the time this is called, the stash is actually eligible for fast-unstake, then
+       * they are guaranteed to remain eligible, because the call will chill them as well.
+       * 
+       * If the check works, the entire staking data is removed, i.e. the stash is fully
+       * unstaked.
+       * 
+       * If the check fails, the stash remains chilled and waiting for being unbonded as in with
+       * the normal staking system, but they lose part of their unbonding chunks due to consuming
+       * the chain's resources.
+       **/
+      registerFastUnstake: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     gilt: {
       /**
        * Place a bid for a gilt to be issued.

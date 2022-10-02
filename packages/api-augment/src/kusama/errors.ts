@@ -570,6 +570,38 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    fastUnstake: {
+      /**
+       * The provided un-staker is already in Head, and cannot deregister.
+       **/
+      AlreadyHead: AugmentedError<ApiType>;
+      /**
+       * The bonded account has already been queued.
+       **/
+      AlreadyQueued: AugmentedError<ApiType>;
+      /**
+       * The call is not allowed at this point because the pallet is not active.
+       **/
+      CallNotAllowed: AugmentedError<ApiType>;
+      /**
+       * The provided Controller account was not found.
+       * 
+       * This means that the given account is not bonded.
+       **/
+      NotController: AugmentedError<ApiType>;
+      /**
+       * The bonded account has active unlocking chunks.
+       **/
+      NotFullyBonded: AugmentedError<ApiType>;
+      /**
+       * The provided un-staker is not in the `Queue`.
+       **/
+      NotQueued: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     gilt: {
       /**
        * The amount of the bid is less than the minimum allowed.

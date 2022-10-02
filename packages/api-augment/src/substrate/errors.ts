@@ -900,6 +900,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyQueued: AugmentedError<ApiType>;
       /**
+       * The call is not allowed at this point because the pallet is not active.
+       **/
+      CallNotAllowed: AugmentedError<ApiType>;
+      /**
        * The provided Controller account was not found.
        * 
        * This means that the given account is not bonded.
