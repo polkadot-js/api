@@ -38,7 +38,7 @@ function consts (api: ApiPromise): void {
     api.consts.foo.bar,
     api.consts.balances.existentialDeposit.toNumber(),
     api.consts.balances.existentialDeposit.meta.docs.map((s) => s.toString()).join(''),
-    api.consts.system.blockWeights.maxBlock.divn(123).toNumber()
+    api.consts.system.blockWeights.maxBlock.refTime.toNumber()
   );
 }
 
