@@ -114,23 +114,22 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return (
       this.api.tx.contracts.callOldWeight ||
       this.api.tx.contracts.call
-    )(this.address, value, gas, storageDepositLimit, encParams)
-      .withResultTransform((result: ISubmittableResult) =>
-        // ContractEmitted is the current generation, ContractExecution is the previous generation
-        new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
-          records
-            .map(({ event: { data: [, data] } }): DecodedEvent | null => {
-              try {
-                return this.abi.decodeEvent(data as Bytes);
-              } catch (error) {
-                l.error(`Unable to decode contract event: ${(error as Error).message}`);
+    )(this.address, value, gas, storageDepositLimit, encParams).withResultTransform((result: ISubmittableResult) =>
+      // ContractEmitted is the current generation, ContractExecution is the previous generation
+      new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
+        records
+          .map(({ event: { data: [, data] } }): DecodedEvent | null => {
+            try {
+              return this.abi.decodeEvent(data as Bytes);
+            } catch (error) {
+              l.error(`Unable to decode contract event: ${(error as Error).message}`);
 
-                return null;
-              }
-            })
-            .filter((decoded): decoded is DecodedEvent => !!decoded)
-        ))
-      );
+              return null;
+            }
+          })
+          .filter((decoded): decoded is DecodedEvent => !!decoded)
+      ))
+    );
   };
 
   #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {

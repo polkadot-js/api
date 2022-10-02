@@ -63,12 +63,11 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     return (
       this.api.tx.contracts.instantiateOldWeight ||
       this.api.tx.contracts.instantiate
-    )(value, gasLimit, storageDepositLimit, this.codeHash, encParams, encSalt)
-      .withResultTransform((result: ISubmittableResult) =>
-        new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
-          new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
-        ))
-      );
+    )(value, gasLimit, storageDepositLimit, this.codeHash, encParams, encSalt).withResultTransform((result: ISubmittableResult) =>
+      new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
+        new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
+      ))
+    );
   };
 }
 
