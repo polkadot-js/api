@@ -40,9 +40,9 @@ export function encodeSalt (salt: Uint8Array | string | null = randomAsU8a()): U
 }
 
 export function convertWeight (orig: WeightV2 | bigint | string | number | BN): WeightAll {
-  const v1Weight = (orig as WeightV2).proofSize
+  const refTime = (orig as WeightV2).proofSize
     ? (orig as WeightV2).refTime.toBn()
     : bnToBn(orig as BN);
 
-  return { v1Weight, v2Weight: { refTime: v1Weight } };
+  return { v1Weight: refTime, v2Weight: { refTime } };
 }
