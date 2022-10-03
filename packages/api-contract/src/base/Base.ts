@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { Registry } from '@polkadot/types/types';
+import type { INumber, Registry } from '@polkadot/types/types';
 
 import { ApiBase } from '@polkadot/api/base';
 import { isFunction } from '@polkadot/util';
@@ -32,7 +32,7 @@ export abstract class Base<ApiType extends ApiTypes> {
       : new Abi(abi, api.registry.getChainProperties());
     this.api = api;
     this._decorateMethod = decorateMethod;
-    this._isOldWeight = isFunction(api.registry.createType('Weight').toBn);
+    this._isOldWeight = isFunction(api.registry.createType<INumber>('Weight').toBn);
   }
 
   public get registry (): Registry {
