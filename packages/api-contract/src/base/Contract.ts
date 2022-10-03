@@ -107,9 +107,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.api.tx.contracts.call(
       this.address,
       value,
-      // @ts-expect-error old V1 weights
       this._isOldWeight
-        ? convertWeight(gasLimit).v1Weight
+        // jiggle v1 weights, metadata points to latest
+        ? convertWeight(gasLimit).v1Weight as unknown as WeightAll['v2Weight']
         : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       this.abi.findMessage(messageOrId).toU8a(params)

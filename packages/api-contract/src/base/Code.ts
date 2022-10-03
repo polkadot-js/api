@@ -6,7 +6,7 @@ import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { AccountId, EventRecord } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { Codec } from '@polkadot/types-codec/types';
-import type { AbiConstructor, BlueprintOptions } from '../types';
+import type { AbiConstructor, BlueprintOptions, WeightAll } from '../types';
 import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
@@ -66,9 +66,9 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     return this.api.tx.contracts.instantiateWithCode(
       value,
-      // @ts-expect-error old V1 weights
       this._isOldWeight
-        ? convertWeight(gasLimit).v1Weight
+        // jiggle v1 weights, metadata points to latest
+        ? convertWeight(gasLimit).v1Weight as unknown as WeightAll['v2Weight']
         : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       compactAddLength(this.code),
