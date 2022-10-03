@@ -44,5 +44,8 @@ export function convertWeight (orig: WeightV2 | bigint | string | number | BN): 
     ? (orig as WeightV2).refTime.toBn()
     : bnToBn(orig as BN);
 
-  return { v1Weight: refTime, v2Weight: { refTime } };
+  return {
+    v1Weight: refTime,
+    v2Weight: { refTime }
+  };
 }
