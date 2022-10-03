@@ -3,7 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { Bytes } from '@polkadot/types';
+import type { Bytes, Compact } from '@polkadot/types';
 import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
@@ -87,9 +87,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
   #getMaxGas = (): BN => {
     if (this.api.consts.system.blockWeights) {
-      const maxBlock = this.api.consts.system.blockWeights.maxBlock;
+      const maxBlock = (this.api.consts.system.blockWeights as { maxBlock: { proofSize: Compact<Weight>, refTime: Compact<Weight> } }).maxBlock;
 
-      return maxBlock.refTime
+      return maxBlock.proofSize
         ? maxBlock.refTime.unwrap()
         : maxBlock as unknown as Weight;
     }
