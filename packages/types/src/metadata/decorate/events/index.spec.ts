@@ -26,11 +26,11 @@ describe('decorateEvents', (): void => {
     ).toEqual({
       args: ['AccountId32', 'u128'],
       docs: [
-        'The nominator has been rewarded by this amount. \\[stash, amount\\]'
+        'The nominator has been rewarded by this amount.'
       ],
       fields: [
-        { docs: [], name: null, type: 0, typeName: 'T::AccountId' },
-        { docs: [], name: null, type: 6, typeName: 'BalanceOf<T>' }
+        { docs: [], name: 'stash', type: 0, typeName: 'T::AccountId' },
+        { docs: [], name: 'amount', type: 6, typeName: 'BalanceOf<T>' }
       ],
       index: 1,
       name: 'Rewarded'

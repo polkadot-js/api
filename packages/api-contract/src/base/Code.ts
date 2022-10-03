@@ -64,23 +64,28 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
-    const encCode = compactAddLength(this.code);
-    const encParams = this.abi.findConstructor(constructorOrId).toU8a(params);
-    const encSalt = encodeSalt(salt);
-
-    return this.api.tx.contracts
-      .instantiateWithCode(value, gasLimit, storageDepositLimit, encCode, encParams, encSalt)
-      .withResultTransform((result: ISubmittableResult) =>
-        new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
-          records.reduce<[Blueprint<ApiType>?, Contract<ApiType>?]>(([blueprint, contract], { event }) =>
-            this.api.events.contracts.Instantiated.is(event)
-              ? [blueprint, new Contract<ApiType>(this.api, this.abi, (event as unknown as { data: [Codec, AccountId] }).data[1], this._decorateMethod)]
-              : this.api.events.contracts.CodeStored.is(event)
-                ? [new Blueprint<ApiType>(this.api, this.abi, (event as unknown as { data: [AccountId] }).data[0], this._decorateMethod), contract]
-                : [blueprint, contract],
-          [])
-        ) || []))
-      );
+    // TODO Cater for new call structure (with old fallback)
+    return (
+      this.api.tx.contracts.instantiateWithCodeOldWeight ||
+      this.api.tx.contracts.instantiateWithCode
+    )(
+      value,
+      gasLimit,
+      storageDepositLimit,
+      compactAddLength(this.code),
+      this.abi.findConstructor(constructorOrId).toU8a(params),
+      encodeSalt(salt)
+    ).withResultTransform((result: ISubmittableResult) =>
+      new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
+        records.reduce<[Blueprint<ApiType>?, Contract<ApiType>?]>(([blueprint, contract], { event }) =>
+          this.api.events.contracts.Instantiated.is(event)
+            ? [blueprint, new Contract<ApiType>(this.api, this.abi, (event as unknown as { data: [Codec, AccountId] }).data[1], this._decorateMethod)]
+            : this.api.events.contracts.CodeStored.is(event)
+              ? [new Blueprint<ApiType>(this.api, this.abi, (event as unknown as { data: [AccountId] }).data[0], this._decorateMethod), contract]
+              : [blueprint, contract],
+        [])
+      ) || []))
+    );
   };
 }
 

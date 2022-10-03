@@ -661,10 +661,9 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * The map of all accounts wishing to be unstaked.
        * 
-       * Points the `AccountId` wishing to unstake to the optional `PoolId` they wish to join
-       * thereafter.
+       * Keeps track of `AccountId` wishing to unstake and it's corresponding deposit.
        **/
-      queue: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<Option<u32>>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      queue: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<u128>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/

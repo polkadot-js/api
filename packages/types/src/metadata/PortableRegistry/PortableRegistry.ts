@@ -5,7 +5,7 @@ import type { Option, Text, Type, Vec } from '@polkadot/types-codec';
 import type { AnyString, Registry } from '@polkadot/types-codec/types';
 import type { ILookup, TypeDef } from '@polkadot/types-create/types';
 import type { PortableType } from '../../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiPath, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
 
 import { sanitize, Struct, u32 } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo, withTypeString } from '@polkadot/types-create';
@@ -47,7 +47,7 @@ const PATHS_ALIAS = splitNamespace([
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
-  // weights v2 (1.5+) is a structure, treated as a u64 via refTime (these are used compact)
+  // weights 2 (1.5+) is a structure, potentially can be flatenned
   'frame_support::weights::weight_v2::Weight',
   'sp_weights::weight_v2::Weight',
   // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
@@ -148,7 +148,12 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 
 // check if the path matches the PATHS_ALIAS (with wildcards)
 /** @internal */
-function getAliasPath (path: SiPath): string | null {
+function getAliasPath ({ def, path }: SiType): string | null {
+  // specific logic for weights - we only override when non-complex struct
+  if (path.join('::') === 'sp_weights::weight_v2::Weight' && def.isComposite && def.asComposite.fields.length !== 1) {
+    return null;
+  }
+
   // TODO We need to handle ink! Balance in some way
   return path.length && PATHS_ALIAS.some((a) => matchParts(a, path))
     ? path[path.length - 1].toString()
@@ -412,6 +417,26 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
         : names[sigParam.type.unwrap().toNumber()] || 'MultiSignature'
     });
   }
+
+  // handle weight overrides
+  if (params.SpWeightsWeightV2Weight) {
+    const weight = Object
+      .entries(names)
+      .find(([, n]) => n === 'SpWeightsWeightV2Weight');
+
+    if (!weight) {
+      throw new Error('Unable to extract weight type from SpWeightsWeightV2Weight');
+    }
+
+    const weightDef = lookup.getTypeDef(`Lookup${weight[0]}`);
+
+    // we have a complex structure
+    if (Array.isArray(weightDef.sub) && weightDef.sub.length !== 1) {
+      lookup.registry.register({
+        Weight: 'SpWeightsWeightV2Weight'
+      });
+    }
+  }
 }
 
 // this extracts aliases based on what we know the runtime config looks like in a
@@ -636,7 +661,7 @@ export class PortableRegistry extends Struct implements ILookup {
   #extract (type: SiType, lookupIndex: number): TypeDef {
     const namespace = type.path.join('::');
     let typeDef: TypeDef;
-    const aliasType = this.#alias[lookupIndex] || getAliasPath(type.path);
+    const aliasType = this.#alias[lookupIndex] || getAliasPath(type);
 
     try {
       if (aliasType) {

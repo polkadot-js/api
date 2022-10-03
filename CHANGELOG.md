@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust handling of `Weight` type for V2 structures
+- Cater for weight v2 (with old pass-through) extrinsics in `api-contract`
+- Update to latest Substrate, Polkadot & Kusama metadata
+
+
 ## 9.4.3 Oct 2, 2022
 
 Contributed:
