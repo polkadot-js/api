@@ -64,14 +64,18 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
-    const encCode = compactAddLength(this.code);
-    const encParams = this.abi.findConstructor(constructorOrId).toU8a(params);
-    const encSalt = encodeSalt(salt);
-
+    // TODO Cater for new call structure (with old fallback)
     return (
       this.api.tx.contracts.instantiateWithCodeOldWeight ||
       this.api.tx.contracts.instantiateWithCode
-    )(value, gasLimit, storageDepositLimit, encCode, encParams, encSalt).withResultTransform((result: ISubmittableResult) =>
+    )(
+      value,
+      gasLimit,
+      storageDepositLimit,
+      compactAddLength(this.code),
+      this.abi.findConstructor(constructorOrId).toU8a(params),
+      encodeSalt(salt)
+    ).withResultTransform((result: ISubmittableResult) =>
       new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
         records.reduce<[Blueprint<ApiType>?, Contract<ApiType>?]>(([blueprint, contract], { event }) =>
           this.api.events.contracts.Instantiated.is(event)

@@ -57,13 +57,18 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
-    const encParams = this.abi.findConstructor(constructorOrId).toU8a(params);
-    const encSalt = encodeSalt(salt);
-
+    // TODO Cater for new call structure (with old fallback)
     return (
       this.api.tx.contracts.instantiateOldWeight ||
       this.api.tx.contracts.instantiate
-    )(value, gasLimit, storageDepositLimit, this.codeHash, encParams, encSalt).withResultTransform((result: ISubmittableResult) =>
+    )(
+      value,
+      gasLimit,
+      storageDepositLimit,
+      this.codeHash,
+      this.abi.findConstructor(constructorOrId).toU8a(params),
+      encodeSalt(salt)
+    ).withResultTransform((result: ISubmittableResult) =>
       new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
         new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
       ))

@@ -108,13 +108,17 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
-    const gas = this.#getGas(gasLimit);
-    const encParams = this.abi.findMessage(messageOrId).toU8a(params);
-
+    // TODO Cater for new call structure (with old fallback)
     return (
       this.api.tx.contracts.callOldWeight ||
       this.api.tx.contracts.call
-    )(this.address, value, gas, storageDepositLimit, encParams).withResultTransform((result: ISubmittableResult) =>
+    )(
+      this.address,
+      value,
+      this.#getGas(gasLimit),
+      storageDepositLimit,
+      this.abi.findMessage(messageOrId).toU8a(params)
+    ).withResultTransform((result: ISubmittableResult) =>
       // ContractEmitted is the current generation, ContractExecution is the previous generation
       new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
         records
