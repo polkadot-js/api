@@ -4,6 +4,7 @@
 
 Changes:
 
+- Cater for weight v2 (with old pass-through) extrinsics in `api-contract`
 - Update to latest Substrate, Polkadot & Kusama metadata
 
 
