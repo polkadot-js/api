@@ -87,7 +87,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
   #getMaxGas = (): BN => {
     if (this.api.consts.system.blockWeights) {
-      const maxBlock = (this.api.consts.system.blockWeights as { maxBlock: { proofSize: Compact<Weight>, refTime: Compact<Weight> } }).maxBlock;
+      const maxBlock = (this.api.consts.system.blockWeights as unknown as { maxBlock: { proofSize: Compact<Weight>, refTime: Compact<Weight> } }).maxBlock;
 
       return maxBlock.proofSize
         ? maxBlock.refTime.unwrap()
