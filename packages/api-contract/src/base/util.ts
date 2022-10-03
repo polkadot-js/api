@@ -4,11 +4,12 @@
 import type { SubmittableResult } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes } from '@polkadot/api/types';
-import type { AbiConstructor, AbiMessage, BlueprintOptions } from '../types';
+import type { BN } from '@polkadot/util';
+import type { AbiConstructor, AbiMessage, BlueprintOptions, WeightAll, WeightV2 } from '../types';
 import type { BlueprintDeploy, ContractGeneric } from './types';
 
 import { Bytes } from '@polkadot/types';
-import { compactAddLength, u8aToU8a } from '@polkadot/util';
+import { bnToBn, compactAddLength, u8aToU8a } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 
 export const EMPTY_SALT = new Uint8Array();
@@ -36,4 +37,12 @@ export function encodeSalt (salt: Uint8Array | string | null = randomAsU8a()): U
     : salt && salt.length
       ? compactAddLength(u8aToU8a(salt))
       : EMPTY_SALT;
+}
+
+export function convertWeight (orig: WeightV2 | bigint | string | number | BN): WeightAll {
+  const v1Weight = (orig as WeightV2).proofSize
+    ? (orig as WeightV2).refTime.toBn()
+    : bnToBn(orig as BN);
+
+  return { v1Weight, v2Weight: { refTime: v1Weight } };
 }

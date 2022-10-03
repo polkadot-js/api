@@ -3,22 +3,22 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { Bytes, Compact } from '@polkadot/types';
+import type { Bytes } from '@polkadot/types';
 import type { AccountId, ContractExecResult, EventRecord, Weight } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
-import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent } from '../types';
+import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent, WeightAll, WeightV2 } from '../types';
 import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
 
 import { map } from 'rxjs';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, bnToBn, isUndefined, logger } from '@polkadot/util';
+import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, isUndefined, logger } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
 import { Base } from './Base';
-import { withMeta } from './util';
+import { convertWeight, withMeta } from './util';
 
 export interface ContractConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId): Contract<ApiType>;
@@ -85,37 +85,32 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  #getMaxGas = (): BN => {
-    if (this.api.consts.system.blockWeights) {
-      const maxBlock = (this.api.consts.system.blockWeights as unknown as { maxBlock: { proofSize: Compact<Weight>, refTime: Compact<Weight> } }).maxBlock;
+  #getGas = (_gasLimit: bigint | BN | string | number | WeightV2, isCall = false): WeightAll => {
+    const weight = convertWeight(_gasLimit);
 
-      return maxBlock.proofSize
-        ? maxBlock.refTime.unwrap()
-        : maxBlock as unknown as Weight;
+    if (weight.v1Weight.gt(BN_ZERO)) {
+      return weight;
     }
 
-    return this.api.consts.system.maximumBlockWeight as Weight;
-  };
-
-  #getGas = (_gasLimit: bigint | BN | string | number, isCall = false): BN => {
-    const gasLimit = bnToBn(_gasLimit);
-
-    return gasLimit.lte(BN_ZERO)
-      ? isCall
+    return convertWeight(
+      isCall
         ? MAX_CALL_GAS
-        : this.#getMaxGas().muln(64).div(BN_HUNDRED)
-      : gasLimit;
+        : convertWeight(
+          this.api.consts.system.blockWeights
+            ? (this.api.consts.system.blockWeights as unknown as { maxBlock: WeightV2 }).maxBlock
+            : this.api.consts.system.maximumBlockWeight as Weight
+        ).v1Weight.muln(64).div(BN_HUNDRED)
+    );
   };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
-    // TODO Cater for new call structure (with old fallback)
-    return (
-      this.api.tx.contracts.callOldWeight ||
-      this.api.tx.contracts.call
-    )(
+    return this.api.tx.contracts.call(
       this.address,
       value,
-      this.#getGas(gasLimit),
+      // @ts-expect-error old V1 weights
+      this._isOldWeight
+        ? convertWeight(gasLimit).v1Weight
+        : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       this.abi.findMessage(messageOrId).toU8a(params)
     ).withResultTransform((result: ISubmittableResult) =>
@@ -142,22 +137,28 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) =>
-        this.api.rx.call.contractsApi
-          .call<ContractExecResult>(origin, this.address, value, this.#getGas(gasLimit, true), storageDepositLimit, message.toU8a(params))
-          .pipe(
-            map(({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }): ContractCallOutcome => ({
-              debugMessage,
-              gasConsumed,
-              gasRequired: gasRequired && !gasRequired.isZero()
-                ? gasRequired
-                : gasConsumed,
-              output: result.isOk && message.returnType
-                ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
-                : null,
-              result,
-              storageDeposit
-            }))
-          )
+        this.api.rx.call.contractsApi.call<ContractExecResult>(
+          origin,
+          this.address,
+          value,
+          // the runtime interface still used u64 inputs
+          this.#getGas(gasLimit, true).v1Weight,
+          storageDepositLimit,
+          message.toU8a(params)
+        ).pipe(
+          map(({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }): ContractCallOutcome => ({
+            debugMessage,
+            gasConsumed,
+            gasRequired: gasRequired && !gasRequired.isZero()
+              ? gasRequired
+              : gasConsumed,
+            output: result.isOk && message.returnType
+              ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
+              : null,
+            result,
+            storageDeposit
+          }))
+        )
       )
     };
   };

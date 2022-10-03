@@ -16,14 +16,9 @@ export abstract class Base<ApiType extends ApiTypes> {
 
   protected readonly _decorateMethod: DecorateMethod<ApiType>;
 
+  protected readonly _isOldWeight: boolean;
+
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, decorateMethod: DecorateMethod<ApiType>) {
-    this.abi = abi instanceof Abi
-      ? abi
-      : new Abi(abi, api.registry.getChainProperties());
-    this.api = api;
-
-    this._decorateMethod = decorateMethod;
-
     if (!api || !api.isConnected || !api.tx) {
       throw new Error('Your API has not been initialized correctly and is not connected to a chain');
     } else if (!api.tx.contracts || !isFunction(api.tx.contracts.instantiateWithCode) || api.tx.contracts.instantiateWithCode.meta.args.length !== 6) {
@@ -31,6 +26,13 @@ export abstract class Base<ApiType extends ApiTypes> {
     } else if (!api.call.contractsApi || !isFunction(api.call.contractsApi.call)) {
       throw new Error('Your runtime does not expose the api.call.contractsApi.call runtime interfaces');
     }
+
+    this.abi = abi instanceof Abi
+      ? abi
+      : new Abi(abi, api.registry.getChainProperties());
+    this.api = api;
+    this._decorateMethod = decorateMethod;
+    this._isOldWeight = isFunction(api.registry.createType('Weight').toBn);
   }
 
   public get registry (): Registry {

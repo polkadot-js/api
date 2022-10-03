@@ -16,7 +16,7 @@ import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Contract } from './Contract';
-import { createBluePrintTx, encodeSalt } from './util';
+import { convertWeight, createBluePrintTx, encodeSalt } from './util';
 
 export interface BlueprintConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash | Uint8Array): Blueprint<ApiType>;
@@ -57,13 +57,12 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
-    // TODO Cater for new call structure (with old fallback)
-    return (
-      this.api.tx.contracts.instantiateOldWeight ||
-      this.api.tx.contracts.instantiate
-    )(
+    return this.api.tx.contracts.instantiate(
       value,
-      gasLimit,
+      // @ts-expect-error old V1 weights
+      this._isOldWeight
+        ? convertWeight(gasLimit).v1Weight
+        : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       this.codeHash,
       this.abi.findConstructor(constructorOrId).toU8a(params),

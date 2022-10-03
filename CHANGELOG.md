@@ -5,7 +5,7 @@
 Changes:
 
 - Adjust handling of `Weight` type for V2 structures
-- Cater for weight v2 (with old pass-through) extrinsics in `api-contract`
+- Cater for weight v2 (along with v1 pass-through) extrinsics in `api-contract`
 - Update to latest Substrate, Polkadot & Kusama metadata
 
 
