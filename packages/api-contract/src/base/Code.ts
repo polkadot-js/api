@@ -6,7 +6,7 @@ import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { AccountId, EventRecord } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { Codec } from '@polkadot/types-codec/types';
-import type { AbiConstructor, BlueprintOptions } from '../types';
+import type { AbiConstructor, BlueprintOptions, WeightAll } from '../types';
 import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
@@ -18,7 +18,7 @@ import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Blueprint } from './Blueprint';
 import { Contract } from './Contract';
-import { createBluePrintTx, encodeSalt } from './util';
+import { convertWeight, createBluePrintTx, encodeSalt } from './util';
 
 export interface CodeConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined): Code<ApiType>;
@@ -64,13 +64,12 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
-    // TODO Cater for new call structure (with old fallback)
-    return (
-      this.api.tx.contracts.instantiateWithCodeOldWeight ||
-      this.api.tx.contracts.instantiateWithCode
-    )(
+    return this.api.tx.contracts.instantiateWithCode(
       value,
-      gasLimit,
+      this._isOldWeight
+        // jiggle v1 weights, metadata points to latest
+        ? convertWeight(gasLimit).v1Weight as unknown as WeightAll['v2Weight']
+        : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       compactAddLength(this.code),
       this.abi.findConstructor(constructorOrId).toU8a(params),
