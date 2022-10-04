@@ -389,9 +389,18 @@ export interface ValidatorId extends AccountId {}
 export interface ValidatorIdOf extends ValidatorId {}
 
 /** @name Weight */
-export interface Weight extends u64 {}
+export interface Weight extends WeightV1 {}
 
 /** @name WeightMultiplier */
 export interface WeightMultiplier extends Fixed64 {}
+
+/** @name WeightV1 */
+export interface WeightV1 extends u64 {}
+
+/** @name WeightV2 */
+export interface WeightV2 extends Struct {
+  readonly refTime: Compact<u64>;
+  readonly proofSize: Compact<u64>;
+}
 
 export type PHANTOM_RUNTIME = 'runtime';

@@ -212,7 +212,12 @@ export default {
     },
     ValidatorId: 'AccountId',
     ValidatorIdOf: 'ValidatorId',
-    Weight: 'u64',
+    WeightV1: 'u64',
+    WeightV2: {
+      refTime: 'Compact<u64>',
+      proofSize: 'Compact<u64>'
+    },
+    Weight: 'WeightV1',
     WeightMultiplier: 'Fixed64',
 
     // digest

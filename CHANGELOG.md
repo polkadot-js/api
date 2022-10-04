@@ -5,6 +5,7 @@
 Changes:
 
 - Adjust handling of `Weight` type for V2 structures
+- Add alis definitions for `Weight{V1, V2}` (used for type overrides)
 - Cater for weight v2 (along with v1 pass-through) extrinsics in `api-contract`
 - Update to latest Substrate, Polkadot & Kusama metadata
 

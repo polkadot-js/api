@@ -15,7 +15,7 @@ const sharedTypes = {
   DispatchErrorModule: 'DispatchErrorModuleU8',
   FullIdentification: '()', // No staking, only session (as per config)
   Keys: 'SessionKeys7B',
-  Weight: 'u64'
+  Weight: 'WeightV1'
 };
 
 const versioned: OverrideVersionedType[] = [
@@ -49,8 +49,17 @@ const versioned: OverrideVersionedType[] = [
   },
   {
     // metadata v14
-    minmax: [9106, undefined],
-    types: {}
+    minmax: [9106, 9299],
+    types: {
+      Weight: 'WeightV1'
+    }
+  },
+  {
+    // metadata v14
+    minmax: [9300, undefined],
+    types: {
+      Weight: 'WeightV2'
+    }
   }
 ];
 
