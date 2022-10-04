@@ -22,7 +22,7 @@ const sharedTypes = {
       'Staking'
     ]
   },
-  Weight: 'u64'
+  Weight: 'WeightV1'
 };
 
 // these are override types for Statemine, Statemint, Westmint
@@ -42,7 +42,9 @@ const versioned: OverrideVersionedType[] = [
   {
     // metadata V14
     minmax: [500, undefined],
-    types: {}
+    types: {
+      Weight: 'WeightV1'
+    }
   }
 ];
 

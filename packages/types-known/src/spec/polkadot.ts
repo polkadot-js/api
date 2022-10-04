@@ -24,7 +24,7 @@ const sharedTypes = {
       Auction: 7
     }
   },
-  Weight: 'u64'
+  Weight: 'WeightV1'
 };
 
 const addrAccountIdTypes = {
@@ -75,8 +75,17 @@ const versioned: OverrideVersionedType[] = [
   },
   {
     // metadata v14
-    minmax: [9110, undefined],
-    types: {}
+    minmax: [9110, 9299],
+    types: {
+      Weight: 'WeightV1'
+    }
+  },
+  {
+    // metadata v14
+    minmax: [9300, undefined],
+    types: {
+      Weight: 'WeightV2'
+    }
   }
 ];
 

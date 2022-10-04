@@ -16,7 +16,7 @@ const sharedTypes = {
   ProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction']
   },
-  Weight: 'u64'
+  Weight: 'WeightV1'
 };
 
 const addrIndicesTypes = {
@@ -201,8 +201,17 @@ const versioned: OverrideVersionedType[] = [
   },
   {
     // metadata v14
-    minmax: [9106, undefined],
-    types: {}
+    minmax: [9106, 9299],
+    types: {
+      Weight: 'WeightV1'
+    }
+  },
+  {
+    // metadata v14
+    minmax: [9300, undefined],
+    types: {
+      Weight: 'WeightV2'
+    }
   }
 ];
 
