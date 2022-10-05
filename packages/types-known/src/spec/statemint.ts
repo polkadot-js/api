@@ -41,9 +41,16 @@ const versioned: OverrideVersionedType[] = [
   },
   {
     // metadata V14
-    minmax: [500, undefined],
+    minmax: [500, 9299],
     types: {
       Weight: 'WeightV1'
+    }
+  },
+  {
+    // weight v2 introduction
+    minmax: [9300, undefined],
+    types: {
+      Weight: 'WeightV2'
     }
   }
 ];
