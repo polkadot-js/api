@@ -201,18 +201,19 @@ const versioned: OverrideVersionedType[] = [
   },
   {
     // metadata v14
-    minmax: [9106, 9299],
+    minmax: [9106, undefined],
     types: {
       Weight: 'WeightV1'
     }
-  },
-  {
-    // weight v2 introduction
-    minmax: [9300, undefined],
-    types: {
-      Weight: 'WeightV2'
-    }
   }
+  // ,
+  // {
+  //   // weight v2 introduction
+  //   minmax: [9300, undefined],
+  //   types: {
+  //     Weight: 'WeightV2'
+  //   }
+  // }
 ];
 
 export default versioned;
