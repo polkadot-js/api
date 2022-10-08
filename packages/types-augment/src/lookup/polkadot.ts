@@ -5,6 +5,12 @@
 
 export default {
   /**
+   * Lookup33: frame_support::traits::schedule::LookupError
+   **/
+  FrameSupportScheduleLookupError: {
+    _enum: ['Unknown', 'BadFormat']
+  },
+  /**
    * Lookup73: polkadot_runtime_common::claims::pallet::Event<T>
    **/
   PolkadotRuntimeCommonClaimsPalletEvent: {
@@ -720,6 +726,25 @@ export default {
     _enum: {
       V0: 'XcmV0MultiLocation',
       V1: 'XcmV1MultiLocation'
+    }
+  },
+  /**
+   * Lookup181: pallet_scheduler::ScheduledV3<frame_support::traits::schedule::MaybeHashed<polkadot_runtime::RuntimeCall, primitive_types::H256>, BlockNumber, polkadot_runtime::OriginCaller, sp_core::crypto::AccountId32>
+   **/
+  PalletSchedulerScheduledV3: {
+    maybeId: 'Option<Bytes>',
+    priority: 'u8',
+    call: 'FrameSupportScheduleMaybeHashed',
+    maybePeriodic: 'Option<(u32,u32)>',
+    origin: 'PolkadotRuntimeOriginCaller'
+  },
+  /**
+   * Lookup182: frame_support::traits::schedule::MaybeHashed<polkadot_runtime::RuntimeCall, primitive_types::H256>
+   **/
+  FrameSupportScheduleMaybeHashed: {
+    _enum: {
+      Value: 'Call',
+      Hash: 'H256'
     }
   },
   /**
@@ -1849,6 +1874,27 @@ export default {
       Assets: 'XcmV1MultiassetMultiAssets',
       Version: 'u32'
     }
+  },
+  /**
+   * Lookup530: pallet_democracy::PreimageStatus<sp_core::crypto::AccountId32, Balance, BlockNumber>
+   **/
+  PalletDemocracyPreimageStatus: {
+    _enum: {
+      Missing: 'u32',
+      Available: {
+        data: 'Bytes',
+        provider: 'AccountId32',
+        deposit: 'u128',
+        since: 'u32',
+        expiry: 'Option<u32>'
+      }
+    }
+  },
+  /**
+   * Lookup541: pallet_democracy::Releases
+   **/
+  PalletDemocracyReleases: {
+    _enum: ['V1']
   },
   /**
    * Lookup560: polkadot_runtime_common::claims::pallet::Error<T>
