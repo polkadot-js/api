@@ -7,10 +7,10 @@ import type { DeriveApi } from '../types';
 export function getQueryInterface (api: DeriveApi): QueryableStorage<'rxjs'>['voterBagsList'] {
   return (
     // latest substrate (latest always first)
+    api.query.voterList ||
+    // previous substrate
     api.query.voterBagsList ||
     // previous substrate
-    api.query.bagsList ||
-    // latest polkadot
-    api.query.voterList
+    api.query.bagsList
   );
 }
