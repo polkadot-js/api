@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add `ParachainHost` version 3 runtime calls
+
+
 ## 9.5.1 Oct 8, 2022
 
 - **Important** While the API witll detect and decorate the weight type based on V1 or V2, the default `Weight` type (used in runtime calls and RPCs) has not been swapped from the old `u64` variant. This means that on new chains using `WeightV2`, the TS decorated type will still reflect the old version.
