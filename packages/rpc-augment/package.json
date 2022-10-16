@@ -23,10 +23,10 @@
   "version": "9.5.2-0-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.19.0",
+    "@babel/runtime": "^7.19.4",
     "@polkadot/rpc-core": "9.5.2-0-x",
     "@polkadot/types": "9.5.2-0-x",
     "@polkadot/types-codec": "9.5.2-0-x",
-    "@polkadot/util": "^10.1.10"
+    "@polkadot/util": "^10.1.11"
   }
 }
