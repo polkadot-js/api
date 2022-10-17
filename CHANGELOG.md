@@ -4,6 +4,7 @@
 
 Changes:
 
+- Cater for latest Substrate `DispatchError` (additional preimage statuses)
 - Update to latest Substrate metadata
 
 
