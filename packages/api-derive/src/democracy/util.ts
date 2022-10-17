@@ -1,8 +1,8 @@
 // Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
-import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
+import type { Hash, ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
+import type { FrameSupportPreimagesBounded, PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { Option } from '@polkadot/types-codec';
 import type { HexString } from '@polkadot/util/types';
 import type { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
@@ -141,18 +141,19 @@ export function getStatus (info: Option<PalletDemocracyReferendumInfo | Referend
       : null;
 }
 
+export function getImageHashBounded (hash: Hash | FrameSupportPreimagesBounded): HexString {
+  return (hash as FrameSupportPreimagesBounded).isLegacy
+    ? (hash as FrameSupportPreimagesBounded).asLegacy.hash_.toHex()
+    : (hash as FrameSupportPreimagesBounded).isInline
+      ? (hash as FrameSupportPreimagesBounded).asInline.hash.toHex()
+      : (hash as FrameSupportPreimagesBounded).isLookup
+        ? (hash as FrameSupportPreimagesBounded).asLookup.hash_.toHex()
+        : hash.toHex();
+}
+
 export function getImageHash (status: PalletDemocracyReferendumStatus | ReferendumInfoTo239): HexString {
-  const proposal = (status as PalletDemocracyReferendumStatus).proposal;
-
-  if (proposal) {
-    if (proposal.isLegacy) {
-      return proposal.asLegacy.hash_.toHex();
-    } else if (proposal.isInline) {
-      return proposal.asInline.hash.toHex();
-    }
-
-    return proposal.asLookup.hash_.toHex();
-  }
-
-  return (status as ReferendumInfoTo239).proposalHash.toHex();
+  return getImageHashBounded(
+    (status as PalletDemocracyReferendumStatus).proposal ||
+    (status as ReferendumInfoTo239).proposalHash
+  );
 }
