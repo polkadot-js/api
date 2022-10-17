@@ -4,6 +4,7 @@
 import type { ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { Option } from '@polkadot/types-codec';
+import type { HexString } from '@polkadot/util/types';
 import type { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
 import { BN, bnSqrt, objectSpread } from '@polkadot/util';
@@ -138,4 +139,20 @@ export function getStatus (info: Option<PalletDemocracyReferendumInfo | Referend
       ? unwrapped.asOngoing
       // done, we don't include it here... only currently active
       : null;
+}
+
+export function getImageHash (status: PalletDemocracyReferendumStatus | ReferendumInfoTo239): HexString {
+  const proposal = (status as PalletDemocracyReferendumStatus).proposal;
+
+  if (proposal) {
+    if (proposal.isLegacy) {
+      return proposal.asLegacy.hash_.toHex();
+    } else if (proposal.isInline) {
+      return proposal.asInline.hash.toHex();
+    }
+
+    return proposal.asLookup.hash_.toHex();
+  }
+
+  return (status as ReferendumInfoTo239).proposalHash.toHex();
 }
