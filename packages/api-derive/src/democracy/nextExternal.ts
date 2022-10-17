@@ -4,25 +4,26 @@
 import type { Observable } from 'rxjs';
 import type { Option } from '@polkadot/types';
 import type { H256 } from '@polkadot/types/interfaces';
-import type { PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveApi, DeriveProposalExternal } from '../types';
 
 import { map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util';
+import { getImageHashBounded } from './util';
 
-function withImage (api: DeriveApi, nextOpt: Option<ITuple<[H256, PalletDemocracyVoteThreshold]>>): Observable<DeriveProposalExternal | null> {
+function withImage (api: DeriveApi, nextOpt: Option<ITuple<[H256 | FrameSupportPreimagesBounded, PalletDemocracyVoteThreshold]>>): Observable<DeriveProposalExternal | null> {
   if (nextOpt.isNone) {
     return of(null);
   }
 
-  const [imageHash, threshold] = nextOpt.unwrap();
+  const [hash, threshold] = nextOpt.unwrap();
 
-  return api.derive.democracy.preimage(imageHash).pipe(
+  return api.derive.democracy.preimage(hash).pipe(
     map((image): DeriveProposalExternal => ({
       image,
-      imageHash,
+      imageHash: getImageHashBounded(hash),
       threshold
     }))
   );

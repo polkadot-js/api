@@ -46,7 +46,7 @@ export interface DeriveProposal {
 
 export interface DeriveProposalExternal {
   image?: DeriveProposalImage;
-  imageHash: Hash;
+  imageHash: HexString;
   threshold: PalletDemocracyVoteThreshold;
 }
 
