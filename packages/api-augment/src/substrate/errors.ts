@@ -653,17 +653,9 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyVetoed: AugmentedError<ApiType>;
       /**
-       * Preimage already noted
-       **/
-      DuplicatePreimage: AugmentedError<ApiType>;
-      /**
        * Proposal already made
        **/
       DuplicateProposal: AugmentedError<ApiType>;
-      /**
-       * Imminent
-       **/
-      Imminent: AugmentedError<ApiType>;
       /**
        * The instant referendum origin is currently disallowed.
        **/
@@ -701,10 +693,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotDelegating: AugmentedError<ApiType>;
       /**
-       * Not imminent
-       **/
-      NotImminent: AugmentedError<ApiType>;
-      /**
        * Next external proposal not simple majority
        **/
       NotSimpleMajority: AugmentedError<ApiType>;
@@ -712,14 +700,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The given account did not vote on the referendum.
        **/
       NotVoter: AugmentedError<ApiType>;
-      /**
-       * Invalid preimage
-       **/
-      PreimageInvalid: AugmentedError<ApiType>;
-      /**
-       * Preimage not found
-       **/
-      PreimageMissing: AugmentedError<ApiType>;
       /**
        * Proposal still blacklisted
        **/
@@ -733,13 +713,9 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ReferendumInvalid: AugmentedError<ApiType>;
       /**
-       * Too early
+       * Maximum number of items reached.
        **/
-      TooEarly: AugmentedError<ApiType>;
-      /**
-       * Maximum number of proposals reached.
-       **/
-      TooManyProposals: AugmentedError<ApiType>;
+      TooMany: AugmentedError<ApiType>;
       /**
        * Value too low
        **/
@@ -1329,7 +1305,7 @@ declare module '@polkadot/api-base/types/errors' {
       /**
        * Preimage is too large to store on-chain.
        **/
-      TooLarge: AugmentedError<ApiType>;
+      TooBig: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1604,6 +1580,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Failed to schedule a call
        **/
       FailedToSchedule: AugmentedError<ApiType>;
+      /**
+       * Attempt to use a non-named function on a named task.
+       **/
+      Named: AugmentedError<ApiType>;
       /**
        * Cannot find the scheduled call.
        **/
@@ -2209,7 +2189,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    voterBagsList: {
+    voterList: {
       /**
        * A error in the list interface implementation.
        **/

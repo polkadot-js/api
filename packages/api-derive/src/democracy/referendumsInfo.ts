@@ -3,8 +3,8 @@
 
 import type { Observable } from 'rxjs';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
-import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
+import type { AccountId, Hash, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
+import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
 
@@ -13,7 +13,7 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 import { isFunction, objectSpread } from '@polkadot/util';
 
 import { memo } from '../util';
-import { calcVotes, getStatus } from './util';
+import { calcVotes, getImageHash, getStatus } from './util';
 
 type VotingDelegating = PalletDemocracyVoteVoting['asDelegating'];
 type VotingDirect = PalletDemocracyVoteVoting['asDirect'];
@@ -133,10 +133,13 @@ export function _referendumInfo (instanceId: string, api: DeriveApi): (index: BN
     const status = getStatus(info);
 
     return status
-      ? api.derive.democracy.preimage(status.proposalHash).pipe(
+      ? api.derive.democracy.preimage(
+        (status as PalletDemocracyReferendumStatus).proposal ||
+        (status as unknown as { proposalHash: Hash }).proposalHash
+      ).pipe(
         map((image): DeriveReferendum => ({
           image,
-          imageHash: status.proposalHash,
+          imageHash: getImageHash(status),
           index: api.registry.createType('ReferendumIndex', index),
           status
         }))
@@ -157,7 +160,7 @@ export function referendumsInfo (instanceId: string, api: DeriveApi): (ids: BN[]
           )
         ),
         map((infos) =>
-          infos.filter((referendum): referendum is DeriveReferendum => !!referendum)
+          infos.filter((r): r is DeriveReferendum => !!r)
         )
       )
       : of([])

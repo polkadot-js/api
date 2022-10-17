@@ -269,7 +269,7 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
     });
 
   // it allows for query & then using the submittable
-  const second = api.tx.democracy.second(123, 5);
+  const second = api.tx.democracy.second(123);
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   await second.signAndSend('123', (result) => console.log(result));

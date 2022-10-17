@@ -192,27 +192,6 @@ declare module '@polkadot/api-base/types/consts' {
     };
     contracts: {
       /**
-       * The weight per byte of code that is charged when loading a contract from storage.
-       * 
-       * Currently, FRAME only charges fees for computation incurred but not for PoV
-       * consumption caused for storage access. This is usually not exploitable because
-       * accessing storage carries some substantial weight costs, too. However in case
-       * of contract code very much PoV consumption can be caused while consuming very little
-       * computation. This could be used to keep the chain busy without paying the
-       * proper fee for it. Until this is resolved we charge from the weight meter for
-       * contract access.
-       * 
-       * For more information check out: <https://github.com/paritytech/substrate/issues/10301>
-       * 
-       * [`DefaultContractAccessWeight`] is a safe default to be used for Polkadot or Kusama
-       * parachains.
-       * 
-       * # Note
-       * 
-       * This is only relevant for parachains. Set to zero in case of a standalone chain.
-       **/
-      contractAccessWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
-      /**
        * The maximum number of contracts that can be pending for deletion.
        * 
        * When a contract is deleted by calling `seal_terminate` it becomes inaccessible
@@ -312,6 +291,14 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       launchPeriod: u32 & AugmentedConst<ApiType>;
       /**
+       * The maximum number of items which can be blacklisted.
+       **/
+      maxBlacklisted: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of deposits a public proposal may have at any time.
+       **/
+      maxDeposits: u32 & AugmentedConst<ApiType>;
+      /**
        * The maximum number of public proposals that can exist at any time.
        **/
       maxProposals: u32 & AugmentedConst<ApiType>;
@@ -326,10 +313,6 @@ declare module '@polkadot/api-base/types/consts' {
        * The minimum amount to be used as a deposit for a public referendum proposal.
        **/
       minimumDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * The amount of balance that must be deposited per byte of preimage stored.
-       **/
-      preimageByteDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * The minimum period of vote locking.
        * 
@@ -815,13 +798,11 @@ declare module '@polkadot/api-base/types/consts' {
     };
     scheduler: {
       /**
-       * The maximum weight that may be scheduled per block for any dispatchables of less
-       * priority than `schedule::HARD_DEADLINE`.
+       * The maximum weight that may be scheduled per block for any dispatchables.
        **/
       maximumWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * The maximum number of scheduled calls in the queue for a single block.
-       * Not strictly enforced, but used for weight estimation.
        **/
       maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
       /**
@@ -1173,7 +1154,7 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    voterBagsList: {
+    voterList: {
       /**
        * The list of thresholds separating the various bags.
        * 

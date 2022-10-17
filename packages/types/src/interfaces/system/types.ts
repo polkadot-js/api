@@ -123,7 +123,10 @@ export interface DispatchError extends Enum {
   readonly asArithmetic: ArithmeticError;
   readonly isTransactional: boolean;
   readonly asTransactional: TransactionalError;
-  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'TooManyConsumers' | 'Token' | 'Arithmetic' | 'Transactional';
+  readonly isExhausted: boolean;
+  readonly isCorruption: boolean;
+  readonly isUnavailable: boolean;
+  readonly type: 'Other' | 'CannotLookup' | 'BadOrigin' | 'Module' | 'ConsumerRemaining' | 'NoProviders' | 'TooManyConsumers' | 'Token' | 'Arithmetic' | 'Transactional' | 'Exhausted' | 'Corruption' | 'Unavailable';
 }
 
 /** @name DispatchErrorModule */

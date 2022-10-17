@@ -4,6 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, Balance, Hash, PropIndex } from '@polkadot/types/interfaces';
+import type { FrameSupportPreimagesBounded } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveApi, DeriveProposal, DeriveProposalImage } from '../types';
 
@@ -12,11 +13,12 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 import { isFunction, objectSpread } from '@polkadot/util';
 
 import { memo } from '../util';
+import { getImageHashBounded } from './util';
 
 type DepositorsNew = Option<ITuple<[Vec<AccountId>, Balance]>>;
 type DepositorsOld = Option<ITuple<[Balance, Vec<AccountId>]>>;
 type Depositors = DepositorsNew | DepositorsOld;
-type Proposals = ITuple<[PropIndex, Hash, AccountId]>[];
+type Proposals = ITuple<[PropIndex, Hash | FrameSupportPreimagesBounded, AccountId]>[];
 type Result = [Proposals, (DeriveProposalImage | undefined)[], Depositors[]];
 
 function isNewDepositors (depositors: ITuple<[Vec<AccountId>, Balance]> | ITuple<[Balance, Vec<AccountId>]>): depositors is ITuple<[Vec<AccountId>, Balance]> {
@@ -30,13 +32,13 @@ function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
     .filter(([, , proposer], index): boolean =>
       !!(optDepositors[index]?.isSome) && !proposer.isEmpty
     )
-    .map(([index, imageHash, proposer], proposalIndex): DeriveProposal => {
+    .map(([index, hash, proposer], proposalIndex): DeriveProposal => {
       const depositors = optDepositors[proposalIndex].unwrap();
 
       return objectSpread(
         {
           image: images[proposalIndex],
-          imageHash,
+          imageHash: getImageHashBounded(hash),
           index,
           proposer
         },
@@ -56,7 +58,7 @@ export function proposals (instanceId: string, api: DeriveApi): () => Observable
             ? combineLatest([
               of(proposals),
               api.derive.democracy.preimages(
-                proposals.map(([, hash]) => hash)
+                proposals.map(([, hash]) => hash as unknown as Uint8Array)
               ),
               api.query.democracy.depositOf.multi(
                 proposals.map(([index]) => index)

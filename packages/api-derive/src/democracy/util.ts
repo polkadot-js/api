@@ -1,9 +1,10 @@
 // Copyright 2017-2022 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
-import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
+import type { Hash, ReferendumInfoTo239, Tally } from '@polkadot/types/interfaces';
+import type { FrameSupportPreimagesBounded, PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { Option } from '@polkadot/types-codec';
+import type { HexString } from '@polkadot/util/types';
 import type { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
 import { BN, bnSqrt, objectSpread } from '@polkadot/util';
@@ -138,4 +139,22 @@ export function getStatus (info: Option<PalletDemocracyReferendumInfo | Referend
       ? unwrapped.asOngoing
       // done, we don't include it here... only currently active
       : null;
+}
+
+export function getImageHashBounded (hash: Hash | FrameSupportPreimagesBounded): HexString {
+  return (hash as FrameSupportPreimagesBounded).isLegacy
+    ? (hash as FrameSupportPreimagesBounded).asLegacy.hash_.toHex()
+    : (hash as FrameSupportPreimagesBounded).isLookup
+      ? (hash as FrameSupportPreimagesBounded).asLookup.hash_.toHex()
+      // for inline, use the actual Bytes hash
+      : (hash as FrameSupportPreimagesBounded).isInline
+        ? (hash as FrameSupportPreimagesBounded).asInline.hash.toHex()
+        : hash.toHex();
+}
+
+export function getImageHash (status: PalletDemocracyReferendumStatus | ReferendumInfoTo239): HexString {
+  return getImageHashBounded(
+    (status as PalletDemocracyReferendumStatus).proposal ||
+    (status as ReferendumInfoTo239).proposalHash
+  );
 }
