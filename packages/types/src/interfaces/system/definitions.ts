@@ -84,7 +84,10 @@ export default {
         TooManyConsumers: 'Null',
         Token: 'TokenError',
         Arithmetic: 'ArithmeticError',
-        Transactional: 'TransactionalError'
+        Transactional: 'TransactionalError',
+        Exhausted: 'Null',
+        Corruption: 'Null',
+        Unavailable: 'Null'
       }
     },
     DispatchErrorPre6: {

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Update to latest Substrate metadata
+
+
 ## 9.5.2 Oct 16, 2022
 
 Changes:
