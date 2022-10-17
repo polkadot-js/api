@@ -144,10 +144,11 @@ export function getStatus (info: Option<PalletDemocracyReferendumInfo | Referend
 export function getImageHashBounded (hash: Hash | FrameSupportPreimagesBounded): HexString {
   return (hash as FrameSupportPreimagesBounded).isLegacy
     ? (hash as FrameSupportPreimagesBounded).asLegacy.hash_.toHex()
-    : (hash as FrameSupportPreimagesBounded).isInline
-      ? (hash as FrameSupportPreimagesBounded).asInline.hash.toHex()
-      : (hash as FrameSupportPreimagesBounded).isLookup
-        ? (hash as FrameSupportPreimagesBounded).asLookup.hash_.toHex()
+    : (hash as FrameSupportPreimagesBounded).isLookup
+      ? (hash as FrameSupportPreimagesBounded).asLookup.hash_.toHex()
+      // for inline, use the actual Bytes hash
+      : (hash as FrameSupportPreimagesBounded).isInline
+        ? (hash as FrameSupportPreimagesBounded).asInline.hash.toHex()
         : hash.toHex();
 }
 
