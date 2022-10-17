@@ -31,7 +31,7 @@ export interface DeriveProposalImage extends AtBlock {
 
 export interface DeriveDispatch extends AtBlock {
   index: ReferendumIndex;
-  imageHash: Hash;
+  imageHash: HexString;
   image?: DeriveProposalImage;
 }
 
