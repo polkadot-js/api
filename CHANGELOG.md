@@ -7,6 +7,7 @@ Changes:
 - Cater for latest Substrate `DispatchError` (additional preimage statuses)
 - Adjust `api.derive.democracy.*` to return `imageHash` as `HexString` (as applicable, supports current-gen preimages)
 - Update to latest Substrate metadata
+- Polkadot 9291 & Westend 9300 upgrade blocks
 
 
 ## 9.5.2 Oct 16, 2022
