@@ -102,7 +102,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
     // dry run an extrinsic
     public dryRun (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittableDryRunResult<ApiType> {
-      if (!api.rpc.system || !api.rpc.system.dryRun) {
+      if (!api.rpc.system?.dryRun) {
         throw new Error('The system.dryRun RPC call is not available in your environment');
       }
 
@@ -124,7 +124,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
     // calculate the payment info for this transaction (if signed and submitted)
     public paymentInfo (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittablePaymentResult<ApiType> {
-      if (!api.call.transactionPaymentApi || !api.call.transactionPaymentApi.queryInfo) {
+      if (!api.call.transactionPaymentApi?.queryInfo) {
         throw new Error('The transactionPaymentApi.queryInfo runtime call is not available in your environment');
       }
 
