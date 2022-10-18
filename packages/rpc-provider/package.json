@@ -32,7 +32,7 @@
     "@polkadot/x-fetch": "^10.1.11",
     "@polkadot/x-global": "^10.1.11",
     "@polkadot/x-ws": "^10.1.11",
-    "@substrate/connect": "0.7.14",
+    "@substrate/connect": "0.7.15",
     "eventemitter3": "^4.0.7",
     "mock-socket": "^9.1.5",
     "nock": "^13.2.9"
