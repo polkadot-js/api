@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types';
-import type { AccountId, Balance, BlockNumber, Call, Hash, PropIndex, ReferendumIndex, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, Call, Hash, PropIndex, ReferendumIndex, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 
 export interface AtBlock {
-  at: BlockNumber;
+  at: BN;
 }
 
 export interface DeriveDemocracyLock {
