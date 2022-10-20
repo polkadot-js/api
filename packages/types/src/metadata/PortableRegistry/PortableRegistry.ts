@@ -430,12 +430,13 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
 
     const weightDef = lookup.getTypeDef(`Lookup${weight[0]}`);
 
-    // we have a complex structure
-    if (Array.isArray(weightDef.sub) && weightDef.sub.length !== 1) {
-      lookup.registry.register({
-        Weight: 'SpWeightsWeightV2Weight'
-      });
-    }
+    lookup.registry.register({
+      Weight: Array.isArray(weightDef.sub) && weightDef.sub.length !== 1
+        // we have a complex structure
+        ? 'SpWeightsWeightV2Weight'
+        // single entry, fallback to weight V1
+        : 'WeightV1'
+    });
   }
 }
 
