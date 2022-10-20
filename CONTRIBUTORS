@@ -1,4 +1,4 @@
-    3256	Jaco                          	Prepare for swap to global V2 weight defs (#5280)
+    3257	Jaco                          	Retrieve preimages from new pallet (#5281)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
