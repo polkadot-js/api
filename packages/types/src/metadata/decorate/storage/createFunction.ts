@@ -47,6 +47,11 @@ export const NO_RAW_ARGS: RawArgs = {
 };
 
 /** @internal */
+function filterDefined (a: unknown): boolean {
+  return !isUndefined(a);
+}
+
+/** @internal */
 function assertArgs ({ method, section }: CreateItemFn, { args, keys }: RawArgs): void {
   if (!Array.isArray(args)) {
     throw new Error(`Call to ${stringCamelCase(section || 'unknown')}.${stringCamelCase(method || 'unknown')} needs ${keys.length} arguments`);
@@ -110,11 +115,6 @@ export function createKeyRaw (registry: Registry, itemFn: CreateItemBase, args: 
     ...prefix,
     ...extra
   );
-}
-
-/** @internal */
-function filterDefined (a: unknown): boolean {
-  return !isUndefined(a);
 }
 
 /** @internal */

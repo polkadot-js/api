@@ -791,11 +791,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       key.method === creator.method;
 
     decorated.key = (...args: unknown[]): string =>
-      u8aToHex(compactStripLength(creator(
-        creator.meta.type.isPlain
-          ? undefined
-          : args
-      ))[1]);
+      u8aToHex(compactStripLength(creator(...args))[1]);
 
     decorated.keyPrefix = (...keys: unknown[]): string =>
       u8aToHex(creator.keyPrefix(...keys));
