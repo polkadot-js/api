@@ -2,10 +2,16 @@
 
 ## master
 
+Contributed:
+
+- Update `@substrate/connect` to latest (Thanks to https://github.com/wirednkod)
+- Use `.?` operators in submittable class (Thanks to https://github.com/shunjizhan)
+
 Changes:
 
 - Cater for latest Substrate `DispatchError` (additional preimage statuses)
 - Adjust `api.derive.democracy.*` to return `imageHash` as `HexString` (as applicable, supports current-gen preimages)
+- Adjust `api.derive.preimages.*` to retrieve via `democracy` or `preimage` pallets
 - Ensure `apiAt.<section>.<method>.key(...)` passes through the correct arguments
 - Apply fallback for Weight downgrades (V2 >> V1 detection)
 - Update to latest Substrate metadata
