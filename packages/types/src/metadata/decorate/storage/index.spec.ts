@@ -36,6 +36,10 @@ describe('decorateStorage', (): void => {
     expect(() => query.timestamp.now()).not.toThrow();
   });
 
+  it('should return a value if the storage function has the correct arguments', (): void => {
+    expect(() => query.staking.erasStakers(1, keyring.alice.address)).not.toThrow();
+  });
+
   it('should return the correct length-prefixed storage key', (): void => {
     expect(
       u8aToHex(query.system.account(keyring.alice.address))

@@ -6,6 +6,8 @@ Changes:
 
 - Cater for latest Substrate `DispatchError` (additional preimage statuses)
 - Adjust `api.derive.democracy.*` to return `imageHash` as `HexString` (as applicable, supports current-gen preimages)
+- Ensure `apiAt.<section>.<method>.key(...)` passes through the correct arguments
+- Apply fallback for Weight downgrades (V2 >> V1 detection)
 - Update to latest Substrate metadata
 - Polkadot 9291 & Westend 9300 upgrade blocks
 
