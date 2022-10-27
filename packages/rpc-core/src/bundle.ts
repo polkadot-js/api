@@ -29,6 +29,10 @@ type MemoizedRpcInterfaceMethod = Memoized<RpcInterfaceMethod> & {
   meta: DefinitionRpc;
 }
 
+type DefinitionRpcWithUnknown = DefinitionRpc & {
+  isUnknown?: true;
+};
+
 const l = logger('rpc-core');
 
 const EMPTY_META = {
@@ -121,6 +125,11 @@ export class RpcCore {
 
     // decorate all interfaces, defined and user on this instance
     this.addUserInterfaces(userRpc);
+
+    // decorate unknown interfaces (i.e. not in the definitions)
+    this.addUnknownRpc().catch((error): void => {
+      l.error('Unable to add unknown RPC methods:', error);
+    });
   }
 
   /**
@@ -162,13 +171,13 @@ export class RpcCore {
     });
   }
 
-  public addUserInterfaces (userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>): void {
+  public addUserInterfaces (userRpc: Record<string, Record<string, DefinitionRpcWithUnknown | DefinitionRpcSub>>): void {
     // add any extra user-defined sections
     this.sections.push(...Object.keys(userRpc).filter((k) => !this.sections.includes(k)));
 
     for (let s = 0; s < this.sections.length; s++) {
       const section = this.sections[s];
-      const defs = objectSpread<Record<string, DefinitionRpc | DefinitionRpcSub>>({}, rpcDefinitions[section as 'babe'], userRpc[section]);
+      const defs = objectSpread<Record<string, DefinitionRpcWithUnknown | DefinitionRpcSub>>({}, rpcDefinitions[section as 'babe'], userRpc[section]);
       const methods = Object.keys(defs);
 
       for (let m = 0; m < methods.length; m++) {
@@ -195,6 +204,30 @@ export class RpcCore {
     }
   }
 
+  public async addUnknownRpc (): Promise<void> {
+    const methods = await this.provider.send<string[]>('rpc_methods', []);
+
+    const def: Record<string, Record<string, DefinitionRpcWithUnknown>> = {};
+
+    for (const method of methods) {
+      const [, section, methodname] = method.match(/(.*?)_(.*)/) ?? [];
+
+      if (!section || !methodname) {
+        continue;
+      }
+
+      def[section] = def[section] || {};
+      def[section][methodname] = {
+        description: `RPC ${method}`,
+        isUnknown: true,
+        params: [],
+        type: ''
+      };
+    }
+
+    this.addUserInterfaces(def);
+  }
+
   private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): MemoizedRpcInterfaceMethod {
     const memoOpts = { getInstanceId: () => this.#instanceId };
     const memoized = memoize(creator(true) as RpcInterfaceMethod, memoOpts);
@@ -211,7 +244,7 @@ export class RpcCore {
       : result as T;
   }
 
-  private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
+  private _createMethodSend (section: string, method: string, def: DefinitionRpcWithUnknown): RpcInterfaceMethod {
     const rpcName = def.endpoint || `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
     let memoized: null | MemoizedRpcInterfaceMethod = null;
@@ -356,7 +389,13 @@ export class RpcCore {
     return memoized;
   }
 
-  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
+  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpcWithUnknown, inputs: unknown[]): Codec[] {
+    if (def.isUnknown) {
+      return inputs.map((input): Codec =>
+        registry.createTypeUnsafe('Text', [input], { blockHash })
+      );
+    }
+
     const reqArgCount = def.params.filter(({ isOptional }) => !isOptional).length;
     const optText = reqArgCount === def.params.length
       ? ''
@@ -371,7 +410,11 @@ export class RpcCore {
     );
   }
 
-  private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null | undefined, method: string, rpc: DefinitionRpc, params: Codec[], result?: unknown): Codec | Codec[] {
+  private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null | undefined, method: string, rpc: DefinitionRpcWithUnknown, params: Codec[], result?: unknown): Codec | Codec[] {
+    if (rpc.isUnknown) {
+      return registry.createTypeUnsafe('Text', [result], { blockHash });
+    }
+
     if (rpc.type === 'StorageData') {
       const key = params[0] as StorageKey;
 
