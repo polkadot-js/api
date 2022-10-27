@@ -11,7 +11,7 @@ import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, DefinitionsCallEntry, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcCustom, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
 import type { VersionedRegistry } from './types';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
@@ -98,7 +98,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _queryMulti?: QueryableStorageMulti<ApiType>;
 
-  protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
+  protected _rpc?: DecoratedRpcCustom<ApiType> & DecoratedRpc<ApiType, RpcInterface>;
 
   protected _rpcCore: RpcCore & RpcInterface;
 
@@ -401,8 +401,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       const [k, { method, section }] = allKnown[i];
 
       if (hasResults && !exposed.includes(k) && k !== 'rpc_methods') {
-        if ((this._rpc as Record<string, Record<string, unknown>>)[section]) {
-          delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
+        if ((this._rpc as unknown as Record<string, Record<string, unknown>>)[section]) {
+          delete (this._rpc as unknown as Record<string, Record<string, unknown>>)[section][method];
           delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
         }
       }

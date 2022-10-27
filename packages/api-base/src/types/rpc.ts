@@ -3,6 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { AnyFunction, Callback, DefinitionRpc } from '@polkadot/types/types';
+import type { Json } from '@polkadot/types-codec';
 
 import { ApiTypes, PromiseResult, Push, RxResult, UnsubscribePromise } from './base';
 
@@ -23,6 +24,10 @@ export type RpcMethodResult<ApiType extends ApiTypes, F extends AnyFunction> = A
   ? RxRpcResult<F>
   : PromiseRpcResult<F>;
 
+export type RpcCustomResult<ApiType extends ApiTypes, F extends AnyFunction> = ApiType extends 'rxjs'
+  ? RxRpcResult<F>
+  : PromiseRpcResult<F>;
+
 export type DecoratedRpcSection<ApiType extends ApiTypes, Section> = {
   [M in keyof Section]: Section[M] extends AnyFunction
     ? RpcMethodResult<ApiType, Section[M]>
@@ -32,3 +37,8 @@ export type DecoratedRpcSection<ApiType extends ApiTypes, Section> = {
 export type DecoratedRpc<ApiType extends ApiTypes, AllSections> = {
   [S in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[S]>
 }
+
+export type DecoratedRpcCustom<ApiType extends ApiTypes> =
+  (endpoint: string, ...params: unknown[]) => ApiType extends 'rxjs'
+    ? Observable<Json>
+    : Promise<Json>;

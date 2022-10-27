@@ -6,6 +6,7 @@ import type { ProviderInterface, ProviderInterfaceCallback } from '@polkadot/rpc
 import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, AnyNumber, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
+import type { Json } from '@polkadot/types-codec';
 import type { Memoized } from '@polkadot/util/types';
 import type { RpcInterfaceMethod } from './types';
 
@@ -27,6 +28,10 @@ interface StorageChangeSetJSON {
 type MemoizedRpcInterfaceMethod = Memoized<RpcInterfaceMethod> & {
   raw: Memoized<RpcInterfaceMethod>;
   meta: DefinitionRpc;
+}
+
+interface DefinitionRpcCustom extends DefinitionRpc {
+  isUnformatted?: boolean;
 }
 
 const l = logger('rpc-core');
@@ -195,6 +200,16 @@ export class RpcCore {
     }
   }
 
+  public sendRaw (endpoint: string, params: unknown[]): Observable<Json> {
+    return this._createMethodSend('', '', {
+      description: 'Custom',
+      endpoint,
+      isUnformatted: true,
+      params: [],
+      type: 'Json'
+    })(...params);
+  }
+
   private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): MemoizedRpcInterfaceMethod {
     const memoOpts = { getInstanceId: () => this.#instanceId };
     const memoized = memoize(creator(true) as RpcInterfaceMethod, memoOpts);
@@ -211,7 +226,7 @@ export class RpcCore {
       : result as T;
   }
 
-  private _createMethodSend (section: string, method: string, def: DefinitionRpc): RpcInterfaceMethod {
+  private _createMethodSend (section: string, method: string, def: DefinitionRpcCustom): RpcInterfaceMethod {
     const rpcName = def.endpoint || `${section}_${method}`;
     const hashIndex = def.params.findIndex(({ isHistoric }) => isHistoric);
     let memoized: null | MemoizedRpcInterfaceMethod = null;
@@ -356,7 +371,13 @@ export class RpcCore {
     return memoized;
   }
 
-  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
+  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpcCustom, inputs: unknown[]): Codec[] {
+    if (def.isUnformatted) {
+      return inputs.map((input) =>
+        registry.createTypeUnsafe('Text', [input], { blockHash })
+      );
+    }
+
     const reqArgCount = def.params.filter(({ isOptional }) => !isOptional).length;
     const optText = reqArgCount === def.params.length
       ? ''

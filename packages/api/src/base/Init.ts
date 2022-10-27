@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable, Subscription } from 'rxjs';
+import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Text } from '@polkadot/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecorateMethod } from '../types';
+import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecoratedRpc, DecoratedRpcCustom, DecorateMethod } from '../types';
 import type { VersionedRegistry } from './types';
 
 import { firstValueFrom, map, of, switchMap } from 'rxjs';
@@ -55,7 +56,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       this.#registries = options.source.#registries as VersionedRegistry<ApiType>[];
     }
 
-    this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
+    // we allow for developer-controlled calls
+    const rpcBase = this._decorateMethod((endpoint: string, ...params: unknown[]) =>
+      this._rpcCore.sendRaw(endpoint, params)
+    ) as DecoratedRpcCustom<ApiType> & DecoratedRpc<ApiType, RpcInterface>;
+
+    this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod, rpcBase) as DecoratedRpcCustom<ApiType> & DecoratedRpc<ApiType, RpcInterface>;
     this._rx.rpc = this._decorateRpc(this._rpcCore, this._rxDecorateMethod);
 
     if (this.supportMulti) {
@@ -65,9 +71,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     this._rx.signer = options.signer;
 
-    this._rpcCore.setRegistrySwap((blockHash: Uint8Array) => this.getBlockRegistry(blockHash));
-
-    this._rpcCore.setResolveBlockHash((blockNumber) => firstValueFrom(this._rpcCore.chain.getBlockHash(blockNumber)));
+    this._rpcCore.setRegistrySwap((h) => this.getBlockRegistry(h));
+    this._rpcCore.setResolveBlockHash((n) => firstValueFrom(this._rpcCore.chain.getBlockHash(n)));
 
     if (this.hasSubscriptions) {
       this._rpcCore.provider.on('disconnected', () => this.#onProviderDisconnect());
@@ -271,7 +276,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     for (let s = 0; s < sections.length; s++) {
       const section = sections[s];
-      const methods = Object.keys((source.rpc as Record<string, Record<string, unknown>>)[section]);
+      const methods = Object.keys((source.rpc as unknown as Record<string, Record<string, unknown>>)[section]);
 
       for (let m = 0; m < methods.length; m++) {
         rpcs.push(`${section}_${methods[m]}`);

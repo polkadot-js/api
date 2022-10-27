@@ -7,7 +7,7 @@ import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
 import type { CallFunction, RegistryError } from '@polkadot/types/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecoratedRpcCustom, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
 
 import { packageInfo } from '../packageInfo';
 import { findCall, findError } from './find';
@@ -166,7 +166,7 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
    * });
    * ```
    */
-  public get rpc (): DecoratedRpc<ApiType, RpcInterface> {
+  public get rpc (): DecoratedRpcCustom<ApiType> & DecoratedRpc<ApiType, RpcInterface> {
     return assertResult(this._rpc);
   }
 
