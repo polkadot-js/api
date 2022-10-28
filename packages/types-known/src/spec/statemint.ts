@@ -37,7 +37,10 @@ const versioned: OverrideVersionedType[] = [
   },
   {
     minmax: [4, 5],
-    types: objectSpread({}, sharedTypes, mapXcmTypes('V1'))
+    types: objectSpread({
+      // As above, see https://github.com/polkadot-js/api/issues/5301
+      DispatchError: 'DispatchErrorPre6First'
+    }, sharedTypes, mapXcmTypes('V1'))
   },
   {
     // metadata V14

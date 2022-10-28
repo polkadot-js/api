@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust historic `DispatchError` type for `statemint/statemine`
+
+
 ## 9.6.1 Oct 23, 2022
 
 Contributed:
