@@ -15,9 +15,11 @@ function formatFailure (registry: Registry, result: unknown[], { message }: Erro
     // ignore
   }
 
+  // This is extra debugging info (we most-probably want this in in some way, shape or form,
+  // but at this point not quite sure how to include and format it (it can be quite massive)
   // console.error(JSON.stringify(result, null, 2));
 
-  return `decodeU8a: failed at ${u8aToHex(u8a.subarray(0, 16))}…${key ? ` on ${key}` : ''} (index ${i}/${count})${type}:: ${message}`;
+  return `decodeU8a: failed at ${u8aToHex(u8a.subarray(0, 16))}…${key ? ` on ${key}` : ''} (index ${i + 1}/${count})${type}:: ${message}`;
 }
 
 /**
