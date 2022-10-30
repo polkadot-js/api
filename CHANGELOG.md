@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 9.6.2 Oct 30, 2022
 
 Changes:
 
