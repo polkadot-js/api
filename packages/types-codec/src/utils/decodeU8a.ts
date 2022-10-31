@@ -6,7 +6,7 @@ import type { Codec, CodecClass, Registry } from '../types';
 import { u8aToHex } from '@polkadot/util';
 
 /** @internal */
-function formatFailure (registry: Registry, result: unknown[], { message }: Error, u8a: Uint8Array, i: number, count: number, Type: CodecClass, key?: string): string {
+function formatFailure (registry: Registry, fn: 'decodeU8a' | 'decodeU8aStruct' | 'decodeU8aVec', result: unknown[], { message }: Error, u8a: Uint8Array, i: number, count: number, Type: CodecClass, key?: string): string {
   let type = '';
 
   try {
@@ -19,7 +19,7 @@ function formatFailure (registry: Registry, result: unknown[], { message }: Erro
   // but at this point not quite sure how to include and format it (it can be quite massive)
   // console.error(JSON.stringify(result, null, 2));
 
-  return `decodeU8a: failed at ${u8aToHex(u8a.subarray(0, 16))}…${key ? ` on ${key}` : ''} (index ${i + 1}/${count})${type}:: ${message}`;
+  return `${fn}: failed at ${u8aToHex(u8a.subarray(0, 16))}…${key ? ` on ${key}` : ''} (index ${i + 1}/${count})${type}:: ${message}`;
 }
 
 /**
@@ -46,7 +46,7 @@ export function decodeU8a <T extends Codec = Codec> (registry: Registry, result:
       i++;
     }
   } catch (error) {
-    throw new Error(formatFailure(registry, result, error as Error, u8a.subarray(offset), i, count, Types[i], keys[i]));
+    throw new Error(formatFailure(registry, 'decodeU8a', result, error as Error, u8a.subarray(offset), i, count, Types[i], keys[i]));
   }
 
   return [result, offset];
@@ -72,7 +72,7 @@ export function decodeU8aStruct (registry: Registry, result: [string, Codec][], 
       i++;
     }
   } catch (error) {
-    throw new Error(formatFailure(registry, result, error as Error, u8a.subarray(offset), i, count, Types[i], keys[i]));
+    throw new Error(formatFailure(registry, 'decodeU8aStruct', result, error as Error, u8a.subarray(offset), i, count, Types[i], keys[i]));
   }
 
   return [result, offset];
@@ -98,7 +98,7 @@ export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, resu
       i++;
     }
   } catch (error) {
-    throw new Error(formatFailure(registry, result, error as Error, u8a.subarray(offset), i, count, Type));
+    throw new Error(formatFailure(registry, 'decodeU8aVec', result, error as Error, u8a.subarray(offset), i, count, Type));
   }
 
   return [offset, offset - startAt];
