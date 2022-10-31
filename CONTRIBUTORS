@@ -5,7 +5,7 @@
       20	Luke Schoen                   	fix: Fixes TypeError: Cannot read property 'vesting' of undefined (#1970)
       16	Xiliang Chen                  	implement entriesPaged and keysPages for query at (#4701)
       15	Jeremías Díaz                 	feat(types): add correct tuple type to storage key (#3054)
-      13	Nikos Kontakis                	Bump Substrate connect to 0.7.15 (#5275)
+      14	Nikos Kontakis                	Bump substrate connect to 0.7.16 (#5307)
       11	Ian He                        	HttpProvider support clone() (#3949)
       10	Axel Chalon                   	Make Enum/Tuple constructor use value directly if instance (#1954)
        5	Chevdor                       	Fix metadata package link (#3458)
