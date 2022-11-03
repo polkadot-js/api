@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AnyFunction, Callback, DefinitionRpc } from '@polkadot/types/types';
+import type { AnyFunction, AnyJson, Callback, DefinitionRpc } from '@polkadot/types/types';
 
 import { ApiTypes, PromiseResult, Push, RxResult, UnsubscribePromise } from './base';
 
@@ -29,6 +29,8 @@ export type DecoratedRpcSection<ApiType extends ApiTypes, Section> = {
     : never
 }
 
+export type RawRpcType<ApiType extends ApiTypes> = (method: string, ...params: unknown[]) => ApiType extends 'rxjs' ? Observable<AnyJson> : Promise<AnyJson>;
+
 export type DecoratedRpc<ApiType extends ApiTypes, AllSections> = {
   [S in keyof AllSections]: DecoratedRpcSection<ApiType, AllSections[S]>
-}
+} & RawRpcType<ApiType>

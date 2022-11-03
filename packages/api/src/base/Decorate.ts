@@ -8,7 +8,7 @@ import type { StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyTuple, CallFunction, Codec, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, DefinitionsCallEntry, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, AnyJson, AnyTuple, CallFunction, Codec, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, DefinitionsCallEntry, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../submittable/types';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
@@ -21,7 +21,7 @@ import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, GenericExtrinsic, Metadata, typeDefinitions, TypeRegistry } from '@polkadot/types';
 import { getSpecRuntime } from '@polkadot/types-known';
-import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringify, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { createSubmittable } from '../submittable';
@@ -401,15 +401,23 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       const [k, { method, section }] = allKnown[i];
 
       if (hasResults && !exposed.includes(k) && k !== 'rpc_methods') {
-        if ((this._rpc as Record<string, Record<string, unknown>>)[section]) {
-          delete (this._rpc as Record<string, Record<string, unknown>>)[section][method];
-          delete (this._rx.rpc as Record<string, Record<string, unknown>>)[section][method];
+        if ((this._rpc as unknown as Record<string, Record<string, unknown>>)[section]) {
+          delete (this._rpc as unknown as Record<string, Record<string, unknown>>)[section][method];
+          delete (this._rx.rpc as unknown as Record<string, Record<string, unknown>>)[section][method];
         }
       }
     }
   }
 
-  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore & RpcInterface, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = {}): DecoratedRpc<ApiType, RpcInterface> {
+  private _rpcSubmitter<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface> {
+    const method = (method: string, ...params: any[]) => {
+      return from(this._rpcCore.provider.send<AnyJson>(method, params.map((p) => stringify(p))));
+    };
+
+    return decorateMethod(method) as DecoratedRpc<ApiType, RpcInterface>;
+  }
+
+  protected _decorateRpc<ApiType extends ApiTypes> (rpc: RpcCore & RpcInterface, decorateMethod: DecorateMethod<ApiType>, input: Partial<DecoratedRpc<ApiType, RpcInterface>> = this._rpcSubmitter(decorateMethod)): DecoratedRpc<ApiType, RpcInterface> {
     const out: Record<string, Record<string, unknown>> = input;
 
     const decorateFn = (section: string, method: string): unknown => {
@@ -446,7 +454,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       }
     }
 
-    return out as DecoratedRpc<ApiType, RpcInterface>;
+    return out as unknown as DecoratedRpc<ApiType, RpcInterface>;
   }
 
   // add all definition entries
