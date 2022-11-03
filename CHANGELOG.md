@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Update `@substrate/connect` to latest (Thanks to https://github.com/wirednkod)
+- Add `api.rpc(method, ...params)` support (Thanks to https://github.com/xlc)
+
+Changes:
+
+- Update to latest Substrate metadata
+
+
 ## 9.6.2 Oct 30, 2022
 
 Changes:

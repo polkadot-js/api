@@ -459,6 +459,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DuplicateTopics: AugmentedError<ApiType>;
       /**
+       * An indetermistic code was used in a context where this is not permitted.
+       **/
+      Indeterministic: AugmentedError<ApiType>;
+      /**
        * `seal_call` forwarded this contracts input. It therefore is no longer available.
        **/
       InputForwarded: AugmentedError<ApiType>;
@@ -1007,6 +1011,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       JudgementGiven: AugmentedError<ApiType>;
       /**
+       * Error that occurs when there is an issue paying for judgement.
+       **/
+      JudgementPaymentFailed: AugmentedError<ApiType>;
+      /**
        * No identity found.
        **/
       NoIdentity: AugmentedError<ApiType>;
@@ -1212,6 +1220,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       FullyUnbonding: AugmentedError<ApiType>;
       /**
+       * Pool id provided is not correct/usable.
+       **/
+      InvalidPoolId: AugmentedError<ApiType>;
+      /**
        * Too many members in the pool or system.
        **/
       MaxPoolMembers: AugmentedError<ApiType>;
@@ -1260,6 +1272,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Partial unbonding now allowed permissionlessly.
        **/
       PartialUnbondNotAllowedPermissionlessly: AugmentedError<ApiType>;
+      /**
+       * Pool id currently in use.
+       **/
+      PoolIdInUse: AugmentedError<ApiType>;
       /**
        * An account is not a member.
        **/
@@ -1401,7 +1417,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BadTrack: AugmentedError<ApiType>;
       /**
-       * There are already a full complement of referendums in progress for this track.
+       * There are already a full complement of referenda in progress for this track.
        **/
       Full: AugmentedError<ApiType>;
       /**
@@ -1521,7 +1537,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BadTrack: AugmentedError<ApiType>;
       /**
-       * There are already a full complement of referendums in progress for this track.
+       * There are already a full complement of referenda in progress for this track.
        **/
       Full: AugmentedError<ApiType>;
       /**

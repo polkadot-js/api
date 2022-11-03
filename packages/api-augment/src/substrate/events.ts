@@ -879,7 +879,7 @@ declare module '@polkadot/api-base/types/events' {
        **/
       MemberRemoved: AugmentedEvent<ApiType, [who: AccountId32, rank: u16], { who: AccountId32, rank: u16 }>;
       /**
-       * The member `who`'s rank has been changed to the given `rank`.
+       * The member `who`se rank has been changed to the given `rank`.
        **/
       RankChanged: AugmentedEvent<ApiType, [who: AccountId32, rank: u16], { who: AccountId32, rank: u16 }>;
       /**
@@ -932,7 +932,7 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Rejected: AugmentedEvent<ApiType, [index: u32, tally: PalletRankedCollectiveTally], { index: u32, tally: PalletRankedCollectiveTally }>;
       /**
-       * A referendum has being submitted.
+       * A referendum has been submitted.
        **/
       Submitted: AugmentedEvent<ApiType, [index: u32, track: u16, proposal: FrameSupportPreimagesBounded], { index: u32, track: u16, proposal: FrameSupportPreimagesBounded }>;
       /**
@@ -1014,7 +1014,7 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Rejected: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
       /**
-       * A referendum has being submitted.
+       * A referendum has been submitted.
        **/
       Submitted: AugmentedEvent<ApiType, [index: u32, track: u16, proposal: FrameSupportPreimagesBounded], { index: u32, track: u16, proposal: FrameSupportPreimagesBounded }>;
       /**
