@@ -1,3 +1,3 @@
-# @polkadot/api-augment
+# @polkadot/rpc-augment
 
 Generated augmentation.

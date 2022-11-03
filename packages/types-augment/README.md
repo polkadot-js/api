@@ -1,3 +1,3 @@
-# @polkadot/api-augment
+# @polkadot/types-augment
 
 Generated augmentation.

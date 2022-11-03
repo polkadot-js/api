@@ -1,3 +1,3 @@
-# @polkadot/types-known
+# @polkadot/types-support
 
-Specific known base type overrides (e.g. `Address`, etc) for chains & specs. This does not contain user-specfic types.
+Supporting files for type operations, generally used in test environments.
