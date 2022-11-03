@@ -1265,6 +1265,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * the in storage version to the current
        * [`InstructionWeights::version`](InstructionWeights).
        * 
+       * - `determinism`: If this is set to any other value but [`Determinism::Deterministic`]
+       * then the only way to use this code is to delegate call into it from an offchain
+       * execution. Set to [`Determinism::Deterministic`] if in doubt.
+       * 
        * # Note
        * 
        * Anyone can instantiate a contract from any uploaded code and thus prevent its removal.
@@ -1272,7 +1276,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * only be instantiated by permissioned entities. The same is true when uploading
        * through [`Self::instantiate_with_code`].
        **/
-      uploadCode: AugmentedSubmittable<(code: Bytes | string | Uint8Array, storageDepositLimit: Option<Compact<u128>> | null | Uint8Array | Compact<u128> | AnyNumber) => SubmittableExtrinsic<ApiType>, [Bytes, Option<Compact<u128>>]>;
+      uploadCode: AugmentedSubmittable<(code: Bytes | string | Uint8Array, storageDepositLimit: Option<Compact<u128>> | null | Uint8Array | Compact<u128> | AnyNumber, determinism: PalletContractsWasmDeterminism | 'Deterministic' | 'AllowIndeterminism' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, Option<Compact<u128>>, PalletContractsWasmDeterminism]>;
       /**
        * Generic tx
        **/
@@ -1360,7 +1364,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Undelegate the voting power of the sending account for a particular class of polls.
        * 
        * Tokens may be unlocked following once an amount of time consistent with the lock period
-       * of the conviction with which the delegation was issued.
+       * of the conviction with which the delegation was issued has passed.
        * 
        * The dispatch origin of this call must be _Signed_ and the signing account must be
        * currently delegating.
@@ -1374,7 +1378,7 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       undelegate: AugmentedSubmittable<(clazz: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16]>;
       /**
-       * Remove the lock caused prior voting/delegating which has expired within a particluar
+       * Remove the lock caused by prior voting/delegating which has expired within a particular
        * class.
        * 
        * The dispatch origin of this call must be _Signed_.
@@ -2798,6 +2802,15 @@ declare module '@polkadot/api-base/types/submittable' {
        * needs at have at least `amount + existential_deposit` transferrable.
        **/
       create: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, stateToggler: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress]>;
+      /**
+       * Create a new delegation pool with a previously used pool id
+       * 
+       * # Arguments
+       * 
+       * same as `create` with the inclusion of
+       * * `pool_id` - `A valid PoolId.
+       **/
+      createWithPoolId: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, stateToggler: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress, u32]>;
       /**
        * Stake funds with a pool. The amount to bond is transferred from the member to the
        * pools account and immediately increases the pools bond.
@@ -5414,13 +5427,13 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Send a batch of dispatch calls.
        * 
-       * May be called from any origin.
+       * May be called from any origin except `None`.
        * 
        * - `calls`: The calls to be dispatched from the same origin. The number of call must not
        * exceed the constant: `batched_calls_limit` (available in constant metadata).
        * 
-       * If origin is root then call are dispatch without checking origin filter. (This includes
-       * bypassing `frame_system::Config::BaseCallFilter`).
+       * If origin is root then the calls are dispatched without checking origin filter. (This
+       * includes bypassing `frame_system::Config::BaseCallFilter`).
        * 
        * # <weight>
        * - Complexity: O(C) where C is the number of calls to be batched.
@@ -5437,13 +5450,13 @@ declare module '@polkadot/api-base/types/submittable' {
        * Send a batch of dispatch calls and atomically execute them.
        * The whole transaction will rollback and fail if any of the calls failed.
        * 
-       * May be called from any origin.
+       * May be called from any origin except `None`.
        * 
        * - `calls`: The calls to be dispatched from the same origin. The number of call must not
        * exceed the constant: `batched_calls_limit` (available in constant metadata).
        * 
-       * If origin is root then call are dispatch without checking origin filter. (This includes
-       * bypassing `frame_system::Config::BaseCallFilter`).
+       * If origin is root then the calls are dispatched without checking origin filter. (This
+       * includes bypassing `frame_system::Config::BaseCallFilter`).
        * 
        * # <weight>
        * - Complexity: O(C) where C is the number of calls to be batched.
@@ -5467,13 +5480,13 @@ declare module '@polkadot/api-base/types/submittable' {
        * Send a batch of dispatch calls.
        * Unlike `batch`, it allows errors and won't interrupt.
        * 
-       * May be called from any origin.
+       * May be called from any origin except `None`.
        * 
        * - `calls`: The calls to be dispatched from the same origin. The number of call must not
        * exceed the constant: `batched_calls_limit` (available in constant metadata).
        * 
-       * If origin is root then call are dispatch without checking origin filter. (This includes
-       * bypassing `frame_system::Config::BaseCallFilter`).
+       * If origin is root then the calls are dispatch without checking origin filter. (This
+       * includes bypassing `frame_system::Config::BaseCallFilter`).
        * 
        * # <weight>
        * - Complexity: O(C) where C is the number of calls to be batched.

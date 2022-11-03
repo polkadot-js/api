@@ -247,8 +247,8 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The maximum number of concurrent votes an account may have.
        * 
-       * Also used to compute weight, an overly large value can
-       * lead to extrinsic with large weight estimation: see `delegate` for instance.
+       * Also used to compute weight, an overly large value can lead to extrinsics with large
+       * weight estimation: see `delegate` for instance.
        **/
       maxVotes: u32 & AugmentedConst<ApiType>;
       /**
@@ -624,7 +624,7 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The maximum amount of signatories allowed in the multisig.
        **/
-      maxSignatories: u16 & AugmentedConst<ApiType>;
+      maxSignatories: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
