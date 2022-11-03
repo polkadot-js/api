@@ -9,6 +9,7 @@ Contributed:
 
 Changes:
 
+- Align `ScProvider` code structure with other providers
 - Update to latest Substrate metadata
 
 
