@@ -1,6 +1,8 @@
 // Copyright 2017-2022 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { stringify } from '@polkadot/util';
+
 export interface SmoldotHealth {
   isSyncing: boolean
   peers: number
@@ -105,10 +107,7 @@ class InnerChecker {
   #isSyncing = false;
   #nextRequestId = 0;
 
-  constructor (
-    healthCallback: (health: SmoldotHealth) => void,
-    requestToSmoldot: (request: string) => void
-  ) {
+  constructor (healthCallback: (health: SmoldotHealth) => void, requestToSmoldot: (request: string) => void) {
     this.#healthCallback = healthCallback;
     this.#requestToSmoldot = requestToSmoldot;
   }
@@ -124,12 +123,12 @@ class InnerChecker {
     }
 
     if (parsedRequest.id) {
-      const newId = 'extern:' + JSON.stringify(parsedRequest.id);
+      const newId = 'extern:' + stringify(parsedRequest.id);
 
       parsedRequest.id = newId;
     }
 
-    this.#requestToSmoldot(JSON.stringify(parsedRequest));
+    this.#requestToSmoldot(stringify(parsedRequest));
   };
 
   responsePassThrough = (jsonRpcResponse: string): string | null => {
@@ -220,7 +219,7 @@ class InnerChecker {
       parsedResponse.id = newId;
     }
 
-    return JSON.stringify(parsedResponse);
+    return stringify(parsedResponse);
   };
 
   update = (startNow: boolean): void => {
@@ -241,12 +240,11 @@ class InnerChecker {
         }
 
         // Actual request starting.
-        this.#currentHealthCheckId = 'health-checker:'.concat(
-          this.#nextRequestId.toString()
-        );
+        this.#currentHealthCheckId = `health-checker:${this.#nextRequestId}`;
         this.#nextRequestId += 1;
+
         this.#requestToSmoldot(
-          JSON.stringify({
+          stringify({
             id: this.#currentHealthCheckId,
             jsonrpc: '2.0',
             method: 'system_health',
@@ -284,12 +282,11 @@ class InnerChecker {
       throw new Error('Internal error in health checker');
     }
 
-    this.#currentSubunsubRequestId = 'health-checker:'.concat(
-      this.#nextRequestId.toString()
-    );
+    this.#currentSubunsubRequestId = `health-checker:${this.#nextRequestId}`;
     this.#nextRequestId += 1;
+
     this.#requestToSmoldot(
-      JSON.stringify({
+      stringify({
         id: this.#currentSubunsubRequestId,
         jsonrpc: '2.0',
         method: 'chain_subscribeNewHeads',
@@ -303,12 +300,11 @@ class InnerChecker {
       throw new Error('Internal error in health checker');
     }
 
-    this.#currentSubunsubRequestId = 'health-checker:'.concat(
-      this.#nextRequestId.toString()
-    );
+    this.#currentSubunsubRequestId = `health-checker:${this.#nextRequestId}`;
     this.#nextRequestId += 1;
+
     this.#requestToSmoldot(
-      JSON.stringify({
+      stringify({
         id: this.#currentSubunsubRequestId,
         jsonrpc: '2.0',
         method: 'chain_unsubscribeNewHeads',
@@ -332,11 +328,9 @@ export class HealthCheckError extends Error {
     return this.#cause;
   }
 
-  constructor (
-    response: unknown,
-    message = 'Got error response asking for system health'
-  ) {
+  constructor (response: unknown, message = 'Got error response asking for system health') {
     super(message);
+
     this.#cause = response;
   }
 }
