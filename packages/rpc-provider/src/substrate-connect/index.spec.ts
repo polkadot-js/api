@@ -19,8 +19,8 @@
 // Jest has "some" issues with `await import` - we don't transform these
 
 import type { Chain, JsonRpcCallback } from '@substrate/connect';
+import type { ScProviderClass } from '.';
 import type { HealthChecker, SmoldotHealth } from './Health';
-import type { ScProviderClass } from './ScProvider';
 
 import { jest } from '@jest/globals';
 
@@ -198,7 +198,7 @@ const setChainSyncyingStatus = (isSyncing: boolean) => {
 };
 
 beforeAll(async () => {
-  ({ ScProvider } = await import('./ScProvider'));
+  ({ ScProvider } = await import('.'));
   mockedConnector = (await import(
     '@substrate/connect'
   )) as unknown as ReturnType<typeof connectorFactory>;
