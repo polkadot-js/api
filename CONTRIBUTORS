@@ -3,7 +3,7 @@
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
       20	Luke Schoen                   	fix: Fixes TypeError: Cannot read property 'vesting' of undefined (#1970)
-      16	Xiliang Chen                  	implement entriesPaged and keysPages for query at (#4701)
+      17	Xiliang Chen                  	able to send raw rpc methods (#5305)
       15	Jeremías Díaz                 	feat(types): add correct tuple type to storage key (#3054)
       14	Nikos Kontakis                	Bump substrate connect to 0.7.16 (#5307)
       11	Ian He                        	HttpProvider support clone() (#3949)
