@@ -167,7 +167,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._rx.registry = this.#registry;
 
     const thisProvider = options.source
-      ? options.source._rpcCore.provider.clone()
+      ? options.source._rpcCore.provider.isClonable
+        ? options.source._rpcCore.provider.clone()
+        : options.source._rpcCore.provider
       : (options.provider || new WsProvider());
 
     this._decorateMethod = decorateMethod;
