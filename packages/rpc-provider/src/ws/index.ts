@@ -166,6 +166,13 @@ export class WsProvider implements ProviderInterface {
   }
 
   /**
+   * @summary `true` when this provider supports clone()
+   */
+  public get isClonable (): boolean {
+    return true;
+  }
+
+  /**
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */

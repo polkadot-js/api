@@ -49,8 +49,13 @@ export type ProviderInterfaceEmitted = 'connected' | 'disconnected' | 'error';
 export type ProviderInterfaceEmitCb = (value?: any) => any;
 
 export interface ProviderInterface {
+  /** true if the provider supports subscriptions (not available for HTTP) */
   readonly hasSubscriptions: boolean;
+  /** true if the clone() functionality is available on the provider */
+  readonly isClonable: boolean;
+  /** true if the provider is currently connected (ws/sc has connection logic) */
   readonly isConnected: boolean;
+  /** (optional) stats for the provider with connections/bytes */
   readonly stats?: ProviderStats;
 
   clone (): ProviderInterface;
