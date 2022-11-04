@@ -114,6 +114,10 @@ export class MockProvider implements ProviderInterface {
     }
   }
 
+  public get isClonable (): boolean {
+    return false;
+  }
+
   public get isConnected (): boolean {
     return true;
   }
