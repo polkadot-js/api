@@ -10,6 +10,7 @@ Contributed:
 Changes:
 
 - Align `ScProvider` code structure with other providers
+- Add `isClonable` getter on providers (some, e.g. sc doesn't support this)
 - Update to latest Substrate metadata
 
 

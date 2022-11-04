@@ -69,6 +69,10 @@ export class ScProvider implements ProviderInterface {
     return true;
   }
 
+  public get isClonable (): boolean {
+    return false;
+  }
+
   public get isConnected (): boolean {
     return !!this.#chain && this.#isChainReady;
   }
