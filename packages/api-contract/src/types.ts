@@ -4,7 +4,7 @@
 import type { ApiBase } from '@polkadot/api/base';
 import type { ApiTypes } from '@polkadot/api/types';
 import type { Text } from '@polkadot/types';
-import type { ContractExecResultResult, ContractSelector, StorageDeposit, Weight, WeightV2 } from '@polkadot/types/interfaces';
+import type { ContractExecResultResult, ContractSelector, StorageDeposit, WeightV2 } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { Abi } from '.';
@@ -55,8 +55,8 @@ export interface InterfaceContractCalls {
 
 export interface ContractCallOutcome {
   debugMessage: Text;
-  gasConsumed: Weight;
-  gasRequired: Weight;
+  gasConsumed: bigint | string | number | BN | WeightV2;
+  gasRequired: bigint | string | number | BN | WeightV2;
   output: Codec | null;
   result: ContractExecResultResult;
   storageDeposit: StorageDeposit;
