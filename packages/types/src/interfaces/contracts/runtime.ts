@@ -24,7 +24,7 @@ export const runtime: DefinitionsCall = {
             },
             {
               name: 'gasLimit',
-              type: 'u64'
+              type: 'Weight'
             },
             {
               name: 'storageDepositLimit',
@@ -64,7 +64,7 @@ export const runtime: DefinitionsCall = {
             },
             {
               name: 'gasLimit',
-              type: 'u64'
+              type: 'Weight'
             },
             {
               name: 'storageDepositLimit',

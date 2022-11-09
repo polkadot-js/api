@@ -64,15 +64,15 @@ export interface ContractCallRequest extends Struct {
   readonly origin: AccountId;
   readonly dest: AccountId;
   readonly value: Balance;
-  readonly gasLimit: Gas;
+  readonly gasLimit: Weight;
   readonly storageDepositLimit: Option<Balance>;
   readonly inputData: Bytes;
 }
 
 /** @name ContractExecResult */
 export interface ContractExecResult extends Struct {
-  readonly gasConsumed: Gas;
-  readonly gasRequired: Gas;
+  readonly gasConsumed: Weight;
+  readonly gasRequired: Weight;
   readonly storageDeposit: StorageDeposit;
   readonly debugMessage: Text;
   readonly result: ContractExecResultResult;
@@ -139,8 +139,8 @@ export interface ContractInfo extends Enum {
 
 /** @name ContractInstantiateResult */
 export interface ContractInstantiateResult extends Struct {
-  readonly gasConsumed: Gas;
-  readonly gasRequired: Gas;
+  readonly gasConsumed: Weight;
+  readonly gasRequired: Weight;
   readonly storageDeposit: StorageDeposit;
   readonly debugMessage: Text;
   readonly result: InstantiateReturnValue;
