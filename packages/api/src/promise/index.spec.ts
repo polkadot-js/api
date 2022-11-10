@@ -155,4 +155,14 @@ describe('ApiPromise', (): void => {
       await api.disconnect();
     });
   });
+
+  describe('api.rpc(...)', (): void => {
+    it('allows sending rpc call', async (): Promise<void> => {
+      const { api } = await createTransfer();
+
+      expect(await api.rpc('dev_echo', 'hello', 'world')).toEqual(['hello', 'world']);
+
+      await api.disconnect();
+    });
+  });
 });

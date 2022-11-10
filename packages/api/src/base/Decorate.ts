@@ -413,7 +413,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   private _rpcSubmitter<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): DecoratedRpc<ApiType, RpcInterface> {
     const method = (method: string, ...params: any[]) => {
-      return from(this._rpcCore.provider.send<AnyJson>(method, params.map((p) => stringify(p))));
+      return from(this._rpcCore.provider.send<AnyJson>(method, params));
     };
 
     return decorateMethod(method) as DecoratedRpc<ApiType, RpcInterface>;
