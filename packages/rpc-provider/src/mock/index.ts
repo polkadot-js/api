@@ -72,7 +72,9 @@ export class MockProvider implements ProviderInterface {
     system_name: () => 'mockClient',
     system_properties: () => ({ ss58Format: 42 }),
     system_upgradedToTripleRefCount: () => this.registry.createType('bool', true),
-    system_version: () => '9.8.7'
+    system_version: () => '9.8.7',
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, sort-keys
+    dev_echo: (_, params: any) => params
   };
 
   public subscriptions: MockStateSubscriptions = SUBSCRIPTIONS.reduce((subs, name): MockStateSubscriptions => {
