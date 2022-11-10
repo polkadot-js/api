@@ -21,7 +21,7 @@ import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { expandMetadata, GenericExtrinsic, Metadata, typeDefinitions, TypeRegistry } from '@polkadot/types';
 import { getSpecRuntime } from '@polkadot/types-known';
-import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringify, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
+import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { createSubmittable } from '../submittable';
