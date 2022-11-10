@@ -45,7 +45,7 @@ export default {
       origin: 'AccountId',
       dest: 'AccountId',
       value: 'Balance',
-      gasLimit: 'Weight',
+      gasLimit: 'Option<Weight>',
       storageDepositLimit: 'Option<Balance>',
       inputData: 'Bytes'
     },

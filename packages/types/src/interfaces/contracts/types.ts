@@ -64,7 +64,7 @@ export interface ContractCallRequest extends Struct {
   readonly origin: AccountId;
   readonly dest: AccountId;
   readonly value: Balance;
-  readonly gasLimit: Weight;
+  readonly gasLimit: Option<Weight>;
   readonly storageDepositLimit: Option<Balance>;
   readonly inputData: Bytes;
 }
