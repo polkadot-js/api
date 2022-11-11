@@ -141,8 +141,11 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           origin,
           this.address,
           value,
-          // the runtime interface still used u64 inputs
-          this.#getGas(gasLimit, true).v1Weight,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore For v1 runtime calls we pass the v1 (u64) weight
+          this.api.rx.call.contractsApi.call.meta.version === 1
+            ? this.#getGas(gasLimit, true).v1Weight
+            : this.#getGas(gasLimit, true).v2Weight,
           storageDepositLimit,
           message.toU8a(params)
         ).pipe(
