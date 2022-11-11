@@ -10,7 +10,7 @@ export const rpc: DefinitionsRpc = {
     params: [
       {
         name: 'callRequest',
-        type: 'ContractCallRequest'
+        type: 'ContractCallRequestV1'
       },
       {
         isHistoric: true,
@@ -48,7 +48,7 @@ export const rpc: DefinitionsRpc = {
     params: [
       {
         name: 'request',
-        type: 'InstantiateRequest'
+        type: 'InstantiateRequestV1'
       },
       {
         isHistoric: true,

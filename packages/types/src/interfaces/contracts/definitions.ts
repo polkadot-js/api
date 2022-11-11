@@ -41,6 +41,14 @@ export default {
       codeHash: 'CodeHash',
       deposit: 'Balance'
     },
+    ContractCallRequestV1: {
+      origin: 'AccountId',
+      dest: 'AccountId',
+      value: 'Balance',
+      gasLimit: 'u64',
+      storageDepositLimit: 'Option<Balance>',
+      inputData: 'Bytes'
+    },
     ContractCallRequest: {
       origin: 'AccountId',
       dest: 'AccountId',
