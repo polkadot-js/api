@@ -141,8 +141,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           origin,
           this.address,
           value,
-          this.api.tx.contracts.call.meta.version === 1
-            ? this.#getGas(gasLimit, true).v1Weight
+          this._isOldWeight
+            // jiggle v1 weights, metadata points to latest
+            ? this.#getGas(gasLimit, true).v1Weight as unknown as WeightAll['v2Weight']
             : this.#getGas(gasLimit, true).v2Weight,
           storageDepositLimit,
           message.toU8a(params)
