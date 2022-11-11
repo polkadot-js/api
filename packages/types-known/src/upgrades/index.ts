@@ -2,39 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainUpgrades } from '@polkadot/types/types';
-import type { ChainUpgradesGenerated } from './types';
+import type { HexString } from '@polkadot/util/types';
+import type { ChainUpgradesExpanded } from './types';
 
 import { selectableNetworks } from '@polkadot/networks';
-import { BN, hexToU8a, stringify } from '@polkadot/util';
+import { BN, hexToU8a } from '@polkadot/util';
 
 import * as allKnown from './e2e';
 
 // testnets are not available in the networks map
-const NET_EXTRA: Record<string, { genesisHash: string[] }> = {
+const NET_EXTRA: Record<string, { genesisHash: HexString[] }> = {
   westend: {
     genesisHash: ['0xe143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e']
   }
 };
 
 /** @internal */
-function checkOrder (network: string, versions: ChainUpgradesGenerated): ChainUpgradesGenerated {
-  const ooo = versions.filter((curr, index): boolean => {
-    const prev = versions[index - 1];
-
-    return index === 0
-      ? false
-      : curr[0] <= prev[0] || curr[1] <= prev[1];
-  });
-
-  if (ooo.length) {
-    throw new Error(`${network}: Mismatched upgrade ordering: ${stringify(ooo)}`);
-  }
-
-  return versions;
-}
-
-/** @internal */
-function mapRaw ([network, versions]: [string, ChainUpgradesGenerated]): ChainUpgrades {
+function mapRaw ([network, versions]: [string, ChainUpgradesExpanded]): ChainUpgrades {
   const chain = selectableNetworks.find((n) => n.network === network) || NET_EXTRA[network];
 
   if (!chain) {
@@ -44,7 +28,7 @@ function mapRaw ([network, versions]: [string, ChainUpgradesGenerated]): ChainUp
   return {
     genesisHash: hexToU8a(chain.genesisHash[0]),
     network,
-    versions: checkOrder(network, versions).map(([blockNumber, specVersion, apis]) => ({
+    versions: versions.map(([blockNumber, specVersion, apis]) => ({
       apis,
       blockNumber: new BN(blockNumber),
       specVersion: new BN(specVersion)
@@ -53,6 +37,6 @@ function mapRaw ([network, versions]: [string, ChainUpgradesGenerated]): ChainUp
 }
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
-const upgrades = Object.entries<ChainUpgradesGenerated>(allKnown).map(mapRaw);
+const upgrades = Object.entries<ChainUpgradesExpanded>(allKnown).map(mapRaw);
 
 export default upgrades;

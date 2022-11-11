@@ -13,20 +13,26 @@ import typesChain from './chain';
 import typesSpec from './spec';
 import upgrades from './upgrades';
 
+/**
+ * @description Perform the callback function using the stringified spec/chain
+ * @internal
+ * */
 function withNames <T> (chainName: Text | string, specName: Text | string, fn: (c: string, s: string) => T): T {
   return fn(chainName.toString(), specName.toString());
 }
 
-// flatten a VersionedType[] into a Record<string, string>
-/** @internal */
+/**
+ * @descriptionFflatten a VersionedType[] into a Record<string, string>
+ * @internal
+ * */
 function filterVersions (versions: OverrideVersionedType[] = [], specVersion: number): RegistryTypes {
   return versions
     .filter(({ minmax: [min, max] }) =>
       (min === undefined || min === null || specVersion >= min) &&
       (max === undefined || max === null || specVersion <= max)
     )
-    .reduce((result: RegistryTypes, { types }): RegistryTypes =>
-      objectSpread(result, types), {}
+    .reduce((result: RegistryTypes, { types }) =>
+      objectSpread<RegistryTypes>(result, types), {}
     );
 }
 
@@ -65,6 +71,9 @@ export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string
   );
 }
 
+/**
+ * @description Based on the chain or spec, return the hasher used
+ */
 export function getSpecHasher ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): CodecHasher | null {
   return withNames(chainName, specName, (c, s) =>
     knownTypes.hasher ||
