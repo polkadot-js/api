@@ -552,9 +552,16 @@ declare module '@polkadot/api-base/types/events' {
     };
     fastUnstake: {
       /**
-       * A staker was partially checked for the given eras, but the process did not finish.
+       * A batch was partially checked for the given eras, but the process did not finish.
        **/
-      Checking: AugmentedEvent<ApiType, [stash: AccountId32, eras: Vec<u32>], { stash: AccountId32, eras: Vec<u32> }>;
+      BatchChecked: AugmentedEvent<ApiType, [eras: Vec<u32>], { eras: Vec<u32> }>;
+      /**
+       * A batch was terminated.
+       * 
+       * This is always follows by a number of `Unstaked` or `Slashed` events, marking the end
+       * of the batch. A new batch will be created upon next block.
+       **/
+      BatchFinished: AugmentedEvent<ApiType, []>;
       /**
        * Some internal error happened while migrating stash. They are removed as head as a
        * consequence.

@@ -1870,6 +1870,9 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'InvalidEthereumSignature' | 'SignerHasNoClaim' | 'SenderHasNoClaim' | 'PotUnderflow' | 'InvalidStatement' | 'VestedBalanceExists';
   }
 
+  /** @name PalletFastUnstakeMaxChecking (634) */
+  type PalletFastUnstakeMaxChecking = Null;
+
   /** @name PolkadotRuntimeParachainsConfigurationHostConfiguration (637) */
   interface PolkadotRuntimeParachainsConfigurationHostConfiguration extends Struct {
     readonly maxCodeSize: u32;

@@ -1903,6 +1903,10 @@ export default {
     _enum: ['InvalidEthereumSignature', 'SignerHasNoClaim', 'SenderHasNoClaim', 'PotUnderflow', 'InvalidStatement', 'VestedBalanceExists']
   },
   /**
+   * Lookup634: pallet_fast_unstake::pallet::MaxChecking<T>
+   **/
+  PalletFastUnstakeMaxChecking: 'Null',
+  /**
    * Lookup637: polkadot_runtime_parachains::configuration::HostConfiguration<BlockNumber>
    **/
   PolkadotRuntimeParachainsConfigurationHostConfiguration: {

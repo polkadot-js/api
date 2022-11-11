@@ -306,7 +306,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ExistingVestingSchedule: AugmentedError<ApiType>;
       /**
-       * Balance too low to send value
+       * Balance too low to send value.
        **/
       InsufficientBalance: AugmentedError<ApiType>;
       /**
@@ -744,6 +744,10 @@ declare module '@polkadot/api-base/types/errors' {
     };
     electionProviderMultiPhase: {
       /**
+       * Some bound not met
+       **/
+      BoundNotMet: AugmentedError<ApiType>;
+      /**
        * The call is not allowed at this point.
        **/
       CallNotAllowed: AugmentedError<ApiType>;
@@ -791,6 +795,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The signed submission consumes too much weight
        **/
       SignedTooMuchWeight: AugmentedError<ApiType>;
+      /**
+       * Submitted solution has too many winners
+       **/
+      TooManyWinners: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1822,8 +1830,8 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       TooManyTargets: AugmentedError<ApiType>;
       /**
-       * There are too many validators in the system. Governance needs to adjust the staking
-       * settings to keep things safe for the runtime.
+       * There are too many validator candidates in the system. Governance needs to adjust the
+       * staking settings to keep things safe for the runtime.
        **/
       TooManyValidators: AugmentedError<ApiType>;
       /**
