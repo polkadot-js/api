@@ -41,19 +41,11 @@ export default {
       codeHash: 'CodeHash',
       deposit: 'Balance'
     },
-    ContractCallRequestV1: {
-      origin: 'AccountId',
-      dest: 'AccountId',
-      value: 'Balance',
-      gasLimit: 'u64',
-      storageDepositLimit: 'Option<Balance>',
-      inputData: 'Bytes'
-    },
     ContractCallRequest: {
       origin: 'AccountId',
       dest: 'AccountId',
       value: 'Balance',
-      gasLimit: 'Option<Weight>',
+      gasLimit: 'u64',
       storageDepositLimit: 'Option<Balance>',
       inputData: 'Bytes'
     },
@@ -95,6 +87,13 @@ export default {
       debugMessage: 'Text',
       result: 'ContractExecResultResult'
     },
+    ContractExecResultU64: {
+      gasConsumed: 'u64',
+      gasRequired: 'u64',
+      storageDeposit: 'StorageDeposit',
+      debugMessage: 'Text',
+      result: 'ContractExecResultResult'
+    },
     ContractInfo: {
       _enum: {
         Alive: 'AliveContractInfo',
@@ -125,7 +124,7 @@ export default {
       flags: 'ContractReturnFlags',
       data: 'Bytes'
     },
-    Gas: 'Weight',
+    Gas: 'u64',
     HostFnWeightsTo264: {
       caller: 'Weight',
       address: 'Weight',
@@ -230,7 +229,7 @@ export default {
     InstantiateRequestV1: {
       origin: 'AccountId',
       value: 'Balance',
-      gasLimit: 'u64',
+      gasLimit: 'Gas',
       code: 'Bytes',
       data: 'Bytes',
       salt: 'Bytes'
@@ -258,9 +257,18 @@ export default {
     ContractInstantiateResultTo267: 'Result<InstantiateReturnValueTo267, Null>',
     ContractInstantiateResultTo299: 'Result<InstantiateReturnValueOk, Null>',
     ContractInstantiateResult: {
+      gasConsumed: 'WeightV2',
+      gasRequired: 'WeightV2',
+      storageDeposit: 'StorageDeposit',
+      debugMessage: 'Text',
+      result: 'InstantiateReturnValue'
+    },
+    ContractInstantiateResultU64: {
+      // only this one can fail, the current version (above) _should_ be correctly
+      // versioned now, aka no more deprecated RPCs involved, only runtime calls
       _fallback: 'ContractInstantiateResultTo299',
-      gasConsumed: 'Weight',
-      gasRequired: 'Weight',
+      gasConsumed: 'u64',
+      gasRequired: 'u64',
       storageDeposit: 'StorageDeposit',
       debugMessage: 'Text',
       result: 'InstantiateReturnValue'
@@ -366,15 +374,15 @@ export default {
     },
     ScheduleTo212: {
       version: 'u32',
-      putCodePerByteCost: 'u64',
-      growMemCost: 'u64',
-      regularOpCost: 'u64',
-      returnDataPerByteCost: 'u64',
-      eventDataPerByteCost: 'u64',
-      eventPerTopicCost: 'u64',
-      eventBaseCost: 'u64',
-      sandboxDataReadCost: 'u64',
-      sandboxDataWriteCost: 'u64',
+      putCodePerByteCost: 'Gas',
+      growMemCost: 'Gas',
+      regularOpCost: 'Gas',
+      returnDataPerByteCost: 'Gas',
+      eventDataPerByteCost: 'Gas',
+      eventPerTopicCost: 'Gas',
+      eventBaseCost: 'Gas',
+      sandboxDataReadCost: 'Gas',
+      sandboxDataWriteCost: 'Gas',
       maxEventTopics: 'u32',
       maxStackHeight: 'u32',
       maxMemoryPages: 'u32',
@@ -383,16 +391,16 @@ export default {
     },
     ScheduleTo258: {
       version: 'u32',
-      putCodePerByteCost: 'u64',
-      growMemCost: 'u64',
-      regularOpCost: 'u64',
-      returnDataPerByteCost: 'u64',
-      eventDataPerByteCost: 'u64',
-      eventPerTopicCost: 'u64',
-      eventBaseCost: 'u64',
-      sandboxDataReadCost: 'u64',
-      sandboxDataWriteCost: 'u64',
-      transferCost: 'u64',
+      putCodePerByteCost: 'Gas',
+      growMemCost: 'Gas',
+      regularOpCost: 'Gas',
+      returnDataPerByteCost: 'Gas',
+      eventDataPerByteCost: 'Gas',
+      eventPerTopicCost: 'Gas',
+      eventBaseCost: 'Gas',
+      sandboxDataReadCost: 'Gas',
+      sandboxDataWriteCost: 'Gas',
+      transferCost: 'Gas',
       maxEventTopics: 'u32',
       maxStackHeight: 'u32',
       maxMemoryPages: 'u32',

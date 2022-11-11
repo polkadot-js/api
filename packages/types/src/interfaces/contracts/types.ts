@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Compact, Enum, Null, Option, Raw, Result, Set, Struct, Text, U8aFixed, bool, u32, u64, u8 } from '@polkadot/types-codec';
-import type { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, BlockNumber, Hash, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
 import type { DispatchError } from '@polkadot/types/interfaces/system';
 
 /** @name AliveContractInfo */
@@ -61,16 +61,6 @@ export interface ContractCallFlags extends Set {
 
 /** @name ContractCallRequest */
 export interface ContractCallRequest extends Struct {
-  readonly origin: AccountId;
-  readonly dest: AccountId;
-  readonly value: Balance;
-  readonly gasLimit: Option<Weight>;
-  readonly storageDepositLimit: Option<Balance>;
-  readonly inputData: Bytes;
-}
-
-/** @name ContractCallRequestV1 */
-export interface ContractCallRequestV1 extends Struct {
   readonly origin: AccountId;
   readonly dest: AccountId;
   readonly value: Balance;
@@ -138,6 +128,15 @@ export interface ContractExecResultTo267 extends Struct {
   readonly result: ContractExecResultResult;
 }
 
+/** @name ContractExecResultU64 */
+export interface ContractExecResultU64 extends Struct {
+  readonly gasConsumed: u64;
+  readonly gasRequired: u64;
+  readonly storageDeposit: StorageDeposit;
+  readonly debugMessage: Text;
+  readonly result: ContractExecResultResult;
+}
+
 /** @name ContractInfo */
 export interface ContractInfo extends Enum {
   readonly isAlive: boolean;
@@ -149,8 +148,8 @@ export interface ContractInfo extends Enum {
 
 /** @name ContractInstantiateResult */
 export interface ContractInstantiateResult extends Struct {
-  readonly gasConsumed: Weight;
-  readonly gasRequired: Weight;
+  readonly gasConsumed: WeightV2;
+  readonly gasRequired: WeightV2;
   readonly storageDeposit: StorageDeposit;
   readonly debugMessage: Text;
   readonly result: InstantiateReturnValue;
@@ -168,6 +167,15 @@ export interface ContractInstantiateResultTo299 extends Result<InstantiateReturn
   readonly isErr: boolean;
   readonly isOk: boolean;
   readonly asOk: InstantiateReturnValueOk;
+}
+
+/** @name ContractInstantiateResultU64 */
+export interface ContractInstantiateResultU64 extends Struct {
+  readonly gasConsumed: u64;
+  readonly gasRequired: u64;
+  readonly storageDeposit: StorageDeposit;
+  readonly debugMessage: Text;
+  readonly result: InstantiateReturnValue;
 }
 
 /** @name ContractReturnFlags */
@@ -191,7 +199,7 @@ export interface ExecReturnValue extends Struct {
 }
 
 /** @name Gas */
-export interface Gas extends Weight {}
+export interface Gas extends u64 {}
 
 /** @name HostFnWeights */
 export interface HostFnWeights extends Struct {
@@ -313,7 +321,7 @@ export interface InstantiateRequest extends Struct {
 export interface InstantiateRequestV1 extends Struct {
   readonly origin: AccountId;
   readonly value: Balance;
-  readonly gasLimit: u64;
+  readonly gasLimit: Gas;
   readonly code: Bytes;
   readonly data: Bytes;
   readonly salt: Bytes;
@@ -462,15 +470,15 @@ export interface Schedule extends Struct {
 /** @name ScheduleTo212 */
 export interface ScheduleTo212 extends Struct {
   readonly version: u32;
-  readonly putCodePerByteCost: u64;
-  readonly growMemCost: u64;
-  readonly regularOpCost: u64;
-  readonly returnDataPerByteCost: u64;
-  readonly eventDataPerByteCost: u64;
-  readonly eventPerTopicCost: u64;
-  readonly eventBaseCost: u64;
-  readonly sandboxDataReadCost: u64;
-  readonly sandboxDataWriteCost: u64;
+  readonly putCodePerByteCost: Gas;
+  readonly growMemCost: Gas;
+  readonly regularOpCost: Gas;
+  readonly returnDataPerByteCost: Gas;
+  readonly eventDataPerByteCost: Gas;
+  readonly eventPerTopicCost: Gas;
+  readonly eventBaseCost: Gas;
+  readonly sandboxDataReadCost: Gas;
+  readonly sandboxDataWriteCost: Gas;
   readonly maxEventTopics: u32;
   readonly maxStackHeight: u32;
   readonly maxMemoryPages: u32;
@@ -481,16 +489,16 @@ export interface ScheduleTo212 extends Struct {
 /** @name ScheduleTo258 */
 export interface ScheduleTo258 extends Struct {
   readonly version: u32;
-  readonly putCodePerByteCost: u64;
-  readonly growMemCost: u64;
-  readonly regularOpCost: u64;
-  readonly returnDataPerByteCost: u64;
-  readonly eventDataPerByteCost: u64;
-  readonly eventPerTopicCost: u64;
-  readonly eventBaseCost: u64;
-  readonly sandboxDataReadCost: u64;
-  readonly sandboxDataWriteCost: u64;
-  readonly transferCost: u64;
+  readonly putCodePerByteCost: Gas;
+  readonly growMemCost: Gas;
+  readonly regularOpCost: Gas;
+  readonly returnDataPerByteCost: Gas;
+  readonly eventDataPerByteCost: Gas;
+  readonly eventPerTopicCost: Gas;
+  readonly eventBaseCost: Gas;
+  readonly sandboxDataReadCost: Gas;
+  readonly sandboxDataWriteCost: Gas;
+  readonly transferCost: Gas;
   readonly maxEventTopics: u32;
   readonly maxStackHeight: u32;
   readonly maxMemoryPages: u32;
