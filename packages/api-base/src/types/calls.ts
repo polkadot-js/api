@@ -11,8 +11,10 @@ export type DecoratedCallBase<ApiType extends ApiTypes, F extends AnyFunction = 
     : <T extends Codec | any = ReturnCodec<F>> (...args: Parameters<F>) => Promise<T>;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type AugmentedCall<ApiType extends ApiTypes, F extends AnyFunction = (...args: any[]) => Observable<Codec>> =
-DecoratedCallBase<ApiType, F> & { meta: DefinitionCallNamed };
+export type AugmentedCall<ApiType extends ApiTypes, F extends AnyFunction = (...args: any[]) => Observable<Codec>> = DecoratedCallBase<ApiType, F> & {
+  /** The metadata/description/definition for this method */
+  meta: DefinitionCallNamed
+};
 
 // augmented interfaces
 
