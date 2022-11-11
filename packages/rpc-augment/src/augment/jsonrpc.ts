@@ -15,7 +15,7 @@ import type { BeefySignedCommitment } from '@polkadot/types/interfaces/beefy';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
-import type { CodeUploadRequest, CodeUploadResult, ContractExecResult, ContractInstantiateResult, InstantiateRequestV1 } from '@polkadot/types/interfaces/contracts';
+import type { CodeUploadRequest, CodeUploadResult, ContractCallRequest, ContractExecResult, ContractInstantiateResult, InstantiateRequestV1 } from '@polkadot/types/interfaces/contracts';
 import type { BlockStats } from '@polkadot/types/interfaces/dev';
 import type { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import type { EthAccount, EthCallRequest, EthFeeHistory, EthFilter, EthFilterChanges, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthTransactionRequest, EthWork } from '@polkadot/types/interfaces/eth';
@@ -145,7 +145,7 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        * @deprecated Use the runtime interface `api.call.contractsApi.call` instead
        * Executes a call to a contract
        **/
-      call: AugmentedRpc<(callRequest: ContractCallRequestV1, at?: BlockHash | string | Uint8Array) => Observable<ContractExecResult>>;
+      call: AugmentedRpc<(callRequest: ContractCallRequest | { origin?: any; dest?: any; value?: any; gasLimit?: any; storageDepositLimit?: any; inputData?: any } | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ContractExecResult>>;
       /**
        * @deprecated Use the runtime interface `api.call.contractsApi.getStorage` instead
        * Returns the value under a specified storage key in a contract
