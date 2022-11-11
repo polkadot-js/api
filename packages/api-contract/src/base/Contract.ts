@@ -107,9 +107,10 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.api.tx.contracts.call(
       this.address,
       value,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore jiggle v1 weights, metadata points to latest
       this._isOldWeight
-        // jiggle v1 weights, metadata points to latest
-        ? convertWeight(gasLimit).v1Weight as unknown as WeightAll['v2Weight']
+        ? convertWeight(gasLimit).v1Weight
         : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       this.abi.findMessage(messageOrId).toU8a(params)
