@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { Bytes } from '@polkadot/types';
-import type { AccountId, ContractExecResult, EventRecord } from '@polkadot/types/interfaces';
+import type { AccountId, ContractExecResult, EventRecord, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent, WeightAll } from '../types';
 import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
@@ -13,7 +13,7 @@ import { map } from 'rxjs';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
-import { BN_ZERO, isUndefined, logger } from '@polkadot/util';
+import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, isUndefined, logger } from '@polkadot/util';
 
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
@@ -23,6 +23,9 @@ import { convertWeight, withMeta } from './util';
 export interface ContractConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId): Contract<ApiType>;
 }
+
+// As per Rust, 5 * GAS_PER_SEC
+const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
 
 const l = logger('Contract');
 
@@ -82,6 +85,24 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
+  #getGas = (_gasLimit: bigint | BN | string | number | WeightV2, isCall = false): WeightAll => {
+    const weight = convertWeight(_gasLimit);
+
+    if (weight.v1Weight.gt(BN_ZERO)) {
+      return weight;
+    }
+
+    return convertWeight(
+      isCall
+        ? MAX_CALL_GAS
+        : convertWeight(
+          this.api.consts.system.blockWeights
+            ? (this.api.consts.system.blockWeights as unknown as { maxBlock: WeightV2 }).maxBlock
+            : this.api.consts.system.maximumBlockWeight as Weight
+        ).v1Weight.muln(64).div(BN_HUNDRED)
+    );
+  };
+
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts.call(
       this.address,
@@ -120,10 +141,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           origin,
           this.address,
           value,
-          this._isOldWeight
-            // jiggle v1 weights, metadata points to latest
-            ? convertWeight(gasLimit).v1Weight as unknown as WeightAll['v2Weight']
-            : convertWeight(gasLimit).v2Weight,
+          this.api.tx.contracts.call.meta.version === 1
+            ? this.#getGas(gasLimit, true).v1Weight
+            : this.#getGas(gasLimit, true).v2Weight,
           storageDepositLimit,
           message.toU8a(params)
         ).pipe(
