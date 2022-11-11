@@ -1,4 +1,4 @@
-    3271	Jaco                          	Cater for TransactionPaymentApi/2 runtime calls (#5326)
+    3272	Jaco                          	Usage comments around rpc and call interfaces (#5327)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
