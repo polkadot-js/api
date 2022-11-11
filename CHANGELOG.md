@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Params encoding fix for `api.rpc(...)` (Thanks to https://github.com/xlc)
+
+Changes:
+
+- Cater for `TransactionPaymentApi/2` runtime calls
+
+
 ## 9.7.1 Nov 6, 2022
 
 Contributed:
