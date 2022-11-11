@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { ChainUpgradesGenerated } from '../types';
+import type { ChainUpgradesExpanded } from '../types';
 
 import fs from 'fs';
 
@@ -20,7 +20,7 @@ const urls = {
 
 describe.each(keys)('generate %s', (chain): void => {
   const avail = allGen[chain];
-  const final: ChainUpgradesGenerated = [];
+  const final: ChainUpgradesExpanded = [];
   let api: ApiPromise;
 
   beforeAll(async (): Promise<void> => {
@@ -34,9 +34,9 @@ describe.each(keys)('generate %s', (chain): void => {
 // Auto-generated from on-chain data & manual definitions, do not edit
 /* eslint-disable quotes, comma-spacing */
 
-import type { ChainUpgradesGenerated } from '../types';
+import type { ChainUpgradesExpanded } from '../types';
 
-const upgrades: ChainUpgradesGenerated = ${JSON.stringify(final, null, 2)};
+const upgrades: ChainUpgradesExpanded = ${JSON.stringify(final, null, 2)};
 
 export default upgrades;
 `);

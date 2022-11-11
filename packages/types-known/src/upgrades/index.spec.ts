@@ -1,7 +1,9 @@
 // Copyright 2017-2022 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { u8aEq } from '@polkadot/util';
+import type { ChainUpgradesExpanded, ChainUpgradesRaw } from './types';
+
+import { stringify, u8aEq } from '@polkadot/util';
 
 import * as allGen from './e2e';
 import * as allMan from './manual';
@@ -40,6 +42,20 @@ const TESTS: TestDef[] = [
   }
 ];
 
+function checkOrder (network: string, versions: [number, number, ...unknown[]][]): void {
+  const ooo = versions.filter((curr, index): boolean => {
+    const prev = versions[index - 1];
+
+    return index === 0
+      ? false
+      : curr[0] <= prev[0] || curr[1] <= prev[1];
+  });
+
+  if (ooo.length) {
+    throw new Error(`${network}: Mismatched upgrade ordering: ${stringify(ooo)}`);
+  }
+}
+
 describe('generated', (): void => {
   it('should have all the chains', (): void => {
     expect(Object.keys(allMan).sort()).toEqual(Object.keys(allGen).sort());
@@ -57,6 +73,14 @@ describe('generated', (): void => {
       if (missing.length !== 0) {
         throw new Error(`${chain}:: missing generated apis found, run yarn test:one packages/types-known/src/upgrades/e2e`);
       }
+    });
+
+    it('manual should be correctly ordered', (): void => {
+      checkOrder(chain, (allGen as Record<string, ChainUpgradesExpanded>)[chain]);
+    });
+
+    it('generated should be correctly ordered', (): void => {
+      checkOrder(chain, (allMan as Record<string, ChainUpgradesRaw>)[chain]);
     });
   });
 });

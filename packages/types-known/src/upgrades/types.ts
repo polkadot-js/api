@@ -3,8 +3,6 @@
 
 import type { HexString } from '@polkadot/util/types';
 
-export type ChainUpgradesRaw = [number, number][];
+export type ChainUpgradesRaw = [blockNumber: number, specVersion: number][];
 
-export type ChainUpgradesGenerated = [number, number, [HexString, number][]][];
-
-export type ChainUpgradesManual = [number, number][];
+export type ChainUpgradesExpanded = [blockNumber: number, specVersion: number, runtimeApis: [apiHash: HexString, apiVersion: number][]][];
