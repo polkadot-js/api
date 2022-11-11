@@ -58,7 +58,7 @@ export interface DefinitionRpcExt extends DefinitionRpc {
   /** The method name for this RPC */
   method: string;
   /** Optional subscription information in the form [subscription name, subscribe method, unsubscribe method] */
-  pubsub?: [method: string, subscribe: string, unsubscribe: string];
+  pubsub?: [subname: string, subscribe: string, unsubscribe: string];
   /** The section name for this RPC */
   section: string;
 }
@@ -81,7 +81,7 @@ export interface DefinitionCall {
 
 export interface DefinitionRpcSub extends DefinitionRpc {
   /** Subscription information in the form [subscription name, subscribe method, unsubscribe method] */
-  pubsub: [method: string, subscribe: string, unsubscribe: string];
+  pubsub: [subname: string, subscribe: string, unsubscribe: string];
 }
 
 export type DefinitionsRpc = Record<string, DefinitionRpc | DefinitionRpcSub>;
