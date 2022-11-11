@@ -350,6 +350,13 @@ declare module '@polkadot/api-base/types/consts' {
        * take place over multiple blocks.
        **/
       maxElectingVoters: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of winners that can be elected by this `ElectionProvider`
+       * implementation.
+       * 
+       * Note: This must always be greater or equal to `T::DataProvider::desired_targets()`.
+       **/
+      maxWinners: u32 & AugmentedConst<ApiType>;
       minerMaxLength: u32 & AugmentedConst<ApiType>;
       minerMaxVotesPerVoter: u32 & AugmentedConst<ApiType>;
       minerMaxWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
