@@ -50,13 +50,15 @@ export interface DefinitionRpc {
   type: DefinitionTypeType;
 }
 
-export interface DefinitionRpcExt extends DefinitionRpcSub {
+export interface DefinitionRpcExt extends DefinitionRpc {
   /** true if this is a method yielding a subscription */
   isSubscription: boolean;
   /** The jsonrpc name for this method, typically section_method */
   jsonrpc: string;
   /** The method name for this RPC */
   method: string;
+  /** Optional subscription information in the form [subscription name, subscribe method, unsubscribe method] */
+  pubsub?: [method: string, subscribe: string, unsubscribe: string];
   /** The section name for this RPC */
   section: string;
 }
