@@ -18,7 +18,7 @@ import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Blueprint } from './Blueprint';
 import { Contract } from './Contract';
-import { convertWeight, createBluePrintTx, encodeSalt } from './util';
+import { convertWeight, createBluePrintTx, encodeSalt, isWeightV2 } from './util';
 
 export interface CodeConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined): Code<ApiType>;
@@ -70,7 +70,9 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       // @ts-ignore jiggle v1 weights, metadata points to latest
       this._isWeightV1
         ? convertWeight(gasLimit).v1Weight
-        : convertWeight(gasLimit).v2Weight,
+        : isWeightV2(gasLimit)
+          ? gasLimit
+          : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       compactAddLength(this.code),
       this.abi.findConstructor(constructorOrId).toU8a(params),

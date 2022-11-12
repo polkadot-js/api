@@ -40,13 +40,17 @@ export function encodeSalt (salt: Uint8Array | string | null = randomAsU8a()): U
       : EMPTY_SALT;
 }
 
-export function convertWeight (orig: WeightV1 | WeightV2 | bigint | string | number | BN): WeightAll {
-  const refTime = (orig as WeightV2).proofSize
-    ? (orig as WeightV2).refTime.toBn()
-    : bnToBn(orig as BN);
+export function convertWeight (weight: WeightV1 | WeightV2 | bigint | string | number | BN): WeightAll {
+  const refTime = isWeightV2(weight)
+    ? weight.refTime.toBn()
+    : bnToBn(weight);
 
   return {
     v1Weight: refTime,
     v2Weight: { refTime }
   };
+}
+
+export function isWeightV2 (weight: WeightV1 | WeightV2 | bigint | string | number | BN): weight is WeightV2 {
+  return !!(weight as WeightV2).proofSize;
 }
