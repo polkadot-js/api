@@ -10,6 +10,7 @@ Changes:
 
 - Cater for `TransactionPaymentApi/2` runtime calls
 - Add getters for `has{DryRun, PaymentInfo}` on submittables (feature detection)
+- Polkadot 9300, Kusama 9300 & Westend 9310/9320 upgrade blocks
 
 
 ## 9.7.1 Nov 6, 2022

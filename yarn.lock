@@ -2078,9 +2078,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.67.155":
-  version: 0.67.155
-  resolution: "@polkadot/dev@npm:0.67.155"
+"@polkadot/dev@npm:^0.67.156":
+  version: 0.67.156
+  resolution: "@polkadot/dev@npm:0.67.156"
   dependencies:
     "@babel/cli": ^7.19.3
     "@babel/core": ^7.20.2
@@ -2146,7 +2146,7 @@ __metadata:
     rollup: ^3.2.5
     rollup-plugin-cleanup: ^3.2.1
     typescript: ^4.8.4
-    webpack: ^5.74.0
+    webpack: ^5.75.0
     webpack-cli: ^4.10.0
     webpack-dev-server: ^4.11.1
     webpack-merge: ^5.8.0
@@ -2177,7 +2177,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 5c8411d8f68d1afafb1a69a221c38e2a955ee805e86a837dbc9091d73092c5d62860dcad67f242ee08da41c21e3f4ee34e03020f99660f6fbbd86e6464b064f1
+  checksum: 14214f5e666c1579d3d5726771dd604e14bdbff49f2983ed6af4b1fbdca5551ca4537f22d63eb6a93f62ffd6306c72d1e0f4b37f3ae1c77d559975fee817df63
   languageName: node
   linkType: hard
 
@@ -10531,7 +10531,7 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.20.2
     "@babel/register": ^7.18.9
     "@babel/runtime": ^7.20.1
-    "@polkadot/dev": ^0.67.155
+    "@polkadot/dev": ^0.67.156
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^29.2.2
     copyfiles: ^2.4.1
@@ -12105,9 +12105,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.74.0":
-  version: 5.74.0
-  resolution: "webpack@npm:5.74.0"
+"webpack@npm:^5.75.0":
+  version: 5.75.0
+  resolution: "webpack@npm:5.75.0"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^0.0.51
@@ -12138,7 +12138,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 320c41369a75051b19e18c63f408b3dcc481852e992f83d311771c5ec0f05f2946385e8ebef62030cf3587f0a3d2f12779ffdb191569a966847289ba7313f946
+  checksum: 2bcc5f3c195f375944e8af2f00bf2feea39cb9fda5f763b0d1b00077f1c51783db25c94d3fae96a07dead9fa085e6ae7474417e5ab31719c9776ea5969ceb83a
   languageName: node
   linkType: hard
 
