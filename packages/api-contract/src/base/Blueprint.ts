@@ -5,7 +5,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
-import type { AbiConstructor, BlueprintOptions, WeightAll } from '../types';
+import type { AbiConstructor, BlueprintOptions } from '../types';
 import type { MapConstructorExec } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
@@ -59,9 +59,10 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
     return this.api.tx.contracts.instantiate(
       value,
-      this._isOldWeight
-        // jiggle v1 weights, metadata points to latest
-        ? convertWeight(gasLimit).v1Weight as unknown as WeightAll['v2Weight']
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore jiggle v1 weights, metadata points to latest
+      this._isWeightV1
+        ? convertWeight(gasLimit).v1Weight
         : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       this.codeHash,

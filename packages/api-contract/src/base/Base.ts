@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { INumber, Registry } from '@polkadot/types/types';
+import type { WeightV2 } from '@polkadot/types/interfaces';
+import type { Registry } from '@polkadot/types/types';
 
 import { ApiBase } from '@polkadot/api/base';
 import { isFunction } from '@polkadot/util';
@@ -16,7 +17,7 @@ export abstract class Base<ApiType extends ApiTypes> {
 
   protected readonly _decorateMethod: DecorateMethod<ApiType>;
 
-  protected readonly _isOldWeight: boolean;
+  protected readonly _isWeightV1: boolean;
 
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, decorateMethod: DecorateMethod<ApiType>) {
     if (!api || !api.isConnected || !api.tx) {
@@ -32,7 +33,7 @@ export abstract class Base<ApiType extends ApiTypes> {
       : new Abi(abi, api.registry.getChainProperties());
     this.api = api;
     this._decorateMethod = decorateMethod;
-    this._isOldWeight = isFunction(api.registry.createType<INumber>('Weight').toBn);
+    this._isWeightV1 = !api.registry.createType<WeightV2>('Weight').proofSize;
   }
 
   public get registry (): Registry {
