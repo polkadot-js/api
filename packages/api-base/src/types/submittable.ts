@@ -50,6 +50,11 @@ export interface SubmittableResultValue {
 }
 
 export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmittableResult = ISubmittableResult> extends Extrinsic {
+  /** true if api.rpc.system.dryRun is available, enabling dryRun(...) */
+  hasDryRun: boolean;
+  /** true if api.call.transactionPaymentApi.queryInfo is available, enabling paymentInfo(...)  */
+  hasPaymentInfo: boolean;
+
   dryRun (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittableDryRunResult<ApiType>;
 
   paymentInfo (account: AddressOrPair, options?: Partial<SignerOptions>): SubmittablePaymentResult<ApiType>;

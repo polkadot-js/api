@@ -109,7 +109,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore jiggle v1 weights, metadata points to latest
-      this._isOldWeight
+      this._isWeightV1
         ? convertWeight(gasLimit).v1Weight
         : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,

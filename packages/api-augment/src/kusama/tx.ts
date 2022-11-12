@@ -7,11 +7,11 @@ import '@polkadot/api-base/types/submittable';
 
 import type { ApiTypes, AugmentedSubmittable, SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api-base/types';
 import type { Data } from '@polkadot/types';
-import type { Bytes, Compact, Option, U8aFixed, Vec, WrapperKeepOpaque, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
+import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
-import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill, Weight } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleMaybeHashed, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeSessionKeys, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletVestingVestingInfo, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2InherentData, PolkadotPrimitivesV2PvfCheckStatement, PolkadotPrimitivesV2ValidatorAppSignature, PolkadotRuntimeCommonClaimsEcdsaSignature, PolkadotRuntimeCommonClaimsStatementKind, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpRuntimeMultiSignature, SpRuntimeMultiSigner, SpSessionMembershipProof, XcmV1MultiLocation, XcmV2WeightLimit, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeSessionKeys, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletVestingVestingInfo, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2InherentData, PolkadotPrimitivesV2PvfCheckStatement, PolkadotPrimitivesV2ValidatorAppSignature, PolkadotRuntimeCommonClaimsEcdsaSignature, PolkadotRuntimeCommonClaimsStatementKind, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpRuntimeMultiSignature, SpRuntimeMultiSigner, SpSessionMembershipProof, SpWeightsWeightV2Weight, XcmV1MultiLocation, XcmV2WeightLimit, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -754,11 +754,11 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Sets the maximum amount of weight any individual upward message may consume.
        **/
-      setUmpMaxIndividualWeight: AugmentedSubmittable<(updated: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Weight]>;
+      setUmpMaxIndividualWeight: AugmentedSubmittable<(updated: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpWeightsWeightV2Weight]>;
       /**
        * Sets the soft limit for the phase of dispatching dispatchable upward messages.
        **/
-      setUmpServiceTotalWeight: AugmentedSubmittable<(updated: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Weight]>;
+      setUmpServiceTotalWeight: AugmentedSubmittable<(updated: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpWeightsWeightV2Weight]>;
       /**
        * Set the validation upgrade cooldown.
        **/
@@ -771,6 +771,130 @@ declare module '@polkadot/api-base/types/submittable' {
        * Set the zeroth delay tranche width.
        **/
       setZerothDelayTrancheWidth: AugmentedSubmittable<(updated: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    convictionVoting: {
+      /**
+       * Delegate the voting power (with some given conviction) of the sending account for a
+       * particular class of polls.
+       * 
+       * The balance delegated is locked for as long as it's delegated, and thereafter for the
+       * time appropriate for the conviction's lock period.
+       * 
+       * The dispatch origin of this call must be _Signed_, and the signing account must either:
+       * - be delegating already; or
+       * - have no voting activity (if there is, then it will need to be removed/consolidated
+       * through `reap_vote` or `unvote`).
+       * 
+       * - `to`: The account whose voting the `target` account's voting power will follow.
+       * - `class`: The class of polls to delegate. To delegate multiple classes, multiple calls
+       * to this function are required.
+       * - `conviction`: The conviction that will be attached to the delegated votes. When the
+       * account is undelegated, the funds will be locked for the corresponding period.
+       * - `balance`: The amount of the account's balance to be used in delegating. This must not
+       * be more than the account's current balance.
+       * 
+       * Emits `Delegated`.
+       * 
+       * Weight: `O(R)` where R is the number of polls the voter delegating to has
+       * voted on. Weight is initially charged as if maximum votes, but is refunded later.
+       **/
+      delegate: AugmentedSubmittable<(clazz: u16 | AnyNumber | Uint8Array, to: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, conviction: PalletConvictionVotingConviction | 'None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x' | number | Uint8Array, balance: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, MultiAddress, PalletConvictionVotingConviction, u128]>;
+      /**
+       * Remove a vote for a poll.
+       * 
+       * If the `target` is equal to the signer, then this function is exactly equivalent to
+       * `remove_vote`. If not equal to the signer, then the vote must have expired,
+       * either because the poll was cancelled, because the voter lost the poll or
+       * because the conviction period is over.
+       * 
+       * The dispatch origin of this call must be _Signed_.
+       * 
+       * - `target`: The account of the vote to be removed; this account must have voted for poll
+       * `index`.
+       * - `index`: The index of poll of the vote to be removed.
+       * - `class`: The class of the poll.
+       * 
+       * Weight: `O(R + log R)` where R is the number of polls that `target` has voted on.
+       * Weight is calculated for the maximum number of vote.
+       **/
+      removeOtherVote: AugmentedSubmittable<(target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, clazz: u16 | AnyNumber | Uint8Array, index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, u16, u32]>;
+      /**
+       * Remove a vote for a poll.
+       * 
+       * If:
+       * - the poll was cancelled, or
+       * - the poll is ongoing, or
+       * - the poll has ended such that
+       * - the vote of the account was in opposition to the result; or
+       * - there was no conviction to the account's vote; or
+       * - the account made a split vote
+       * ...then the vote is removed cleanly and a following call to `unlock` may result in more
+       * funds being available.
+       * 
+       * If, however, the poll has ended and:
+       * - it finished corresponding to the vote of the account, and
+       * - the account made a standard vote with conviction, and
+       * - the lock period of the conviction is not over
+       * ...then the lock will be aggregated into the overall account's lock, which may involve
+       * *overlocking* (where the two locks are combined into a single lock that is the maximum
+       * of both the amount locked and the time is it locked for).
+       * 
+       * The dispatch origin of this call must be _Signed_, and the signer must have a vote
+       * registered for poll `index`.
+       * 
+       * - `index`: The index of poll of the vote to be removed.
+       * - `class`: Optional parameter, if given it indicates the class of the poll. For polls
+       * which have finished or are cancelled, this must be `Some`.
+       * 
+       * Weight: `O(R + log R)` where R is the number of polls that `target` has voted on.
+       * Weight is calculated for the maximum number of vote.
+       **/
+      removeVote: AugmentedSubmittable<(clazz: Option<u16> | null | Uint8Array | u16 | AnyNumber, index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Option<u16>, u32]>;
+      /**
+       * Undelegate the voting power of the sending account for a particular class of polls.
+       * 
+       * Tokens may be unlocked following once an amount of time consistent with the lock period
+       * of the conviction with which the delegation was issued has passed.
+       * 
+       * The dispatch origin of this call must be _Signed_ and the signing account must be
+       * currently delegating.
+       * 
+       * - `class`: The class of polls to remove the delegation from.
+       * 
+       * Emits `Undelegated`.
+       * 
+       * Weight: `O(R)` where R is the number of polls the voter delegating to has
+       * voted on. Weight is initially charged as if maximum votes, but is refunded later.
+       **/
+      undelegate: AugmentedSubmittable<(clazz: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16]>;
+      /**
+       * Remove the lock caused by prior voting/delegating which has expired within a particular
+       * class.
+       * 
+       * The dispatch origin of this call must be _Signed_.
+       * 
+       * - `class`: The class of polls to unlock.
+       * - `target`: The account to remove the lock on.
+       * 
+       * Weight: `O(R)` with R number of vote of target.
+       **/
+      unlock: AugmentedSubmittable<(clazz: u16 | AnyNumber | Uint8Array, target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, MultiAddress]>;
+      /**
+       * Vote in a poll. If `vote.is_aye()`, the vote is to enact the proposal;
+       * otherwise it is a vote to keep the status quo.
+       * 
+       * The dispatch origin of this call must be _Signed_.
+       * 
+       * - `poll_index`: The index of the poll to vote for.
+       * - `vote`: The vote configuration.
+       * 
+       * Weight: `O(R)` where R is the number of polls the voter has voted on.
+       **/
+      vote: AugmentedSubmittable<(pollIndex: Compact<u32> | AnyNumber | Uint8Array, vote: PalletConvictionVotingVoteAccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, PalletConvictionVotingVoteAccountVote]>;
       /**
        * Generic tx
        **/
@@ -811,7 +935,42 @@ declare module '@polkadot/api-base/types/submittable' {
        * - up to 3 events
        * # </weight>
        **/
-      close: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, index: Compact<u32> | AnyNumber | Uint8Array, proposalWeightBound: Compact<Weight> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>, Compact<Weight>, Compact<u32>]>;
+      close: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, index: Compact<u32> | AnyNumber | Uint8Array, proposalWeightBound: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>, SpWeightsWeightV2Weight, Compact<u32>]>;
+      /**
+       * Close a vote that is either approved, disapproved or whose voting period has ended.
+       * 
+       * May be called by any signed account in order to finish voting and close the proposal.
+       * 
+       * If called before the end of the voting period it will only close the vote if it is
+       * has enough votes to be approved or disapproved.
+       * 
+       * If called after the end of the voting period abstentions are counted as rejections
+       * unless there is a prime member set and the prime member cast an approval.
+       * 
+       * If the close operation completes successfully with disapproval, the transaction fee will
+       * be waived. Otherwise execution of the approved operation will be charged to the caller.
+       * 
+       * + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed
+       * proposal.
+       * + `length_bound`: The upper bound for the length of the proposal in storage. Checked via
+       * `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.
+       * 
+       * # <weight>
+       * ## Weight
+       * - `O(B + M + P1 + P2)` where:
+       * - `B` is `proposal` size in bytes (length-fee-bounded)
+       * - `M` is members-count (code- and governance-bounded)
+       * - `P1` is the complexity of `proposal` preimage.
+       * - `P2` is proposal-count (code-bounded)
+       * - DB:
+       * - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)
+       * - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec
+       * `O(P2)`)
+       * - any mutations done while executing `proposal` (`P1`)
+       * - up to 3 events
+       * # </weight>
+       **/
+      closeOldWeight: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, index: Compact<u32> | AnyNumber | Uint8Array, proposalWeightBound: Compact<u64> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>, Compact<u64>, Compact<u32>]>;
       /**
        * Disapprove a proposal, close, and remove it from the system, regardless of its current
        * state.
@@ -1034,16 +1193,6 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       cancelProposal: AugmentedSubmittable<(propIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
-       * Cancel a proposal queued for enactment.
-       * 
-       * The dispatch origin of this call must be _Root_.
-       * 
-       * - `which`: The index of the referendum to cancel.
-       * 
-       * Weight: `O(D)` where `D` is the items in the dispatch queue. Weighted as `D = 10`.
-       **/
-      cancelQueued: AugmentedSubmittable<(which: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
-      /**
        * Remove a referendum.
        * 
        * The dispatch origin of this call must be _Root_.
@@ -1096,21 +1245,14 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       emergencyCancel: AugmentedSubmittable<(refIndex: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
-       * Enact a proposal from a referendum. For now we just make the weight be the maximum.
-       **/
-      enactProposal: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, u32]>;
-      /**
        * Schedule a referendum to be tabled once it is legal to schedule an external
        * referendum.
        * 
        * The dispatch origin of this call must be `ExternalOrigin`.
        * 
        * - `proposal_hash`: The preimage hash of the proposal.
-       * 
-       * Weight: `O(V)` with V number of vetoers in the blacklist of proposal.
-       * Decoding vec of length V. Charged as maximum
        **/
-      externalPropose: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      externalPropose: AugmentedSubmittable<(proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportPreimagesBounded]>;
       /**
        * Schedule a negative-turnout-bias referendum to be tabled next once it is legal to
        * schedule an external referendum.
@@ -1124,7 +1266,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Weight: `O(1)`
        **/
-      externalProposeDefault: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      externalProposeDefault: AugmentedSubmittable<(proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportPreimagesBounded]>;
       /**
        * Schedule a majority-carries referendum to be tabled next once it is legal to schedule
        * an external referendum.
@@ -1138,7 +1280,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Weight: `O(1)`
        **/
-      externalProposeMajority: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      externalProposeMajority: AugmentedSubmittable<(proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportPreimagesBounded]>;
       /**
        * Schedule the currently externally-proposed majority-carries referendum to be tabled
        * immediately. If there is no externally-proposed referendum currently, or if there is one
@@ -1147,7 +1289,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * The dispatch of this call must be `FastTrackOrigin`.
        * 
        * - `proposal_hash`: The hash of the current external proposal.
-       * - `voting_period`: The period that is allowed for voting on this proposal.
+       * - `voting_period`: The period that is allowed for voting on this proposal. Increased to
        * Must be always greater than zero.
        * For `FastTrackOrigin` must be equal or greater than `FastTrackVotingPeriod`.
        * - `delay`: The number of block after voting has ended in approval and this should be
@@ -1159,42 +1301,6 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       fastTrack: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, votingPeriod: u32 | AnyNumber | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, u32, u32]>;
       /**
-       * Register the preimage for an upcoming proposal. This requires the proposal to be
-       * in the dispatch queue. No deposit is needed. When this call is successful, i.e.
-       * the preimage has not been uploaded before and matches some imminent proposal,
-       * no fee is paid.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `encoded_proposal`: The preimage of a proposal.
-       * 
-       * Emits `PreimageNoted`.
-       * 
-       * Weight: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).
-       **/
-      noteImminentPreimage: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
-      /**
-       * Same as `note_imminent_preimage` but origin is `OperationalPreimageOrigin`.
-       **/
-      noteImminentPreimageOperational: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
-      /**
-       * Register the preimage for an upcoming proposal. This doesn't require the proposal to be
-       * in the dispatch queue but does require a deposit, returned once enacted.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `encoded_proposal`: The preimage of a proposal.
-       * 
-       * Emits `PreimageNoted`.
-       * 
-       * Weight: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).
-       **/
-      notePreimage: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
-      /**
-       * Same as `note_preimage` but origin is `OperationalPreimageOrigin`.
-       **/
-      notePreimageOperational: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
-      /**
        * Propose a sensitive action to be taken.
        * 
        * The dispatch origin of this call must be _Signed_ and the sender must
@@ -1204,28 +1310,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `value`: The amount of deposit (must be at least `MinimumDeposit`).
        * 
        * Emits `Proposed`.
-       * 
-       * Weight: `O(p)`
        **/
-      propose: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u128>]>;
-      /**
-       * Remove an expired proposal preimage and collect the deposit.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `proposal_hash`: The preimage hash of a proposal.
-       * - `proposal_length_upper_bound`: an upper bound on length of the proposal. Extrinsic is
-       * weighted according to this value with no refund.
-       * 
-       * This will only work after `VotingPeriod` blocks from the time that the preimage was
-       * noted, if it's the same account doing it. If it's a different account, then it'll only
-       * work an additional `EnactmentPeriod` later.
-       * 
-       * Emits `PreimageReaped`.
-       * 
-       * Weight: `O(D)` where D is length of proposal.
-       **/
-      reapPreimage: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, proposalLenUpperBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>]>;
+      propose: AugmentedSubmittable<(proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportPreimagesBounded, Compact<u128>]>;
       /**
        * Remove a vote for a referendum.
        * 
@@ -1281,12 +1367,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * must have funds to cover the deposit, equal to the original deposit.
        * 
        * - `proposal`: The index of the proposal to second.
-       * - `seconds_upper_bound`: an upper bound on the current number of seconds on this
-       * proposal. Extrinsic is weighted according to this value with no refund.
-       * 
-       * Weight: `O(S)` where S is the number of seconds a proposal already has.
        **/
-      second: AugmentedSubmittable<(proposal: Compact<u32> | AnyNumber | Uint8Array, secondsUpperBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Compact<u32>]>;
+      second: AugmentedSubmittable<(proposal: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
        * Undelegate the voting power of the sending account.
        * 
@@ -1332,8 +1414,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `ref_index`: The index of the referendum to vote for.
        * - `vote`: The vote configuration.
-       * 
-       * Weight: `O(R)` where R is the number of referendums the voter has voted on.
        **/
       vote: AugmentedSubmittable<(refIndex: Compact<u32> | AnyNumber | Uint8Array, vote: PalletDemocracyVoteAccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, PalletDemocracyVoteAccountVote]>;
       /**
@@ -1451,6 +1531,154 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    fellowshipCollective: {
+      /**
+       * Introduce a new member.
+       * 
+       * - `origin`: Must be the `AdminOrigin`.
+       * - `who`: Account of non-member which will become a member.
+       * - `rank`: The rank to give the new member.
+       * 
+       * Weight: `O(1)`
+       **/
+      addMember: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
+      /**
+       * Remove votes from the given poll. It must have ended.
+       * 
+       * - `origin`: Must be `Signed` by any account.
+       * - `poll_index`: Index of a poll which is completed and for which votes continue to
+       * exist.
+       * - `max`: Maximum number of vote items from remove in this call.
+       * 
+       * Transaction fees are waived if the operation is successful.
+       * 
+       * Weight `O(max)` (less if there are fewer items to remove than `max`).
+       **/
+      cleanupPoll: AugmentedSubmittable<(pollIndex: u32 | AnyNumber | Uint8Array, max: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      /**
+       * Decrement the rank of an existing member by one. If the member is already at rank zero,
+       * then they are removed entirely.
+       * 
+       * - `origin`: Must be the `AdminOrigin`.
+       * - `who`: Account of existing member of rank greater than zero.
+       * 
+       * Weight: `O(1)`, less if the member's index is highest in its rank.
+       **/
+      demoteMember: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
+      /**
+       * Increment the rank of an existing member by one.
+       * 
+       * - `origin`: Must be the `AdminOrigin`.
+       * - `who`: Account of existing member.
+       * 
+       * Weight: `O(1)`
+       **/
+      promoteMember: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
+      /**
+       * Remove the member entirely.
+       * 
+       * - `origin`: Must be the `AdminOrigin`.
+       * - `who`: Account of existing member of rank greater than zero.
+       * - `min_rank`: The rank of the member or greater.
+       * 
+       * Weight: `O(min_rank)`.
+       **/
+      removeMember: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, minRank: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, u16]>;
+      /**
+       * Add an aye or nay vote for the sender to the given proposal.
+       * 
+       * - `origin`: Must be `Signed` by a member account.
+       * - `poll`: Index of a poll which is ongoing.
+       * - `aye`: `true` if the vote is to approve the proposal, `false` otherwise.
+       * 
+       * Transaction fees are be waived if the member is voting on any particular proposal
+       * for the first time and the call is successful. Subsequent vote changes will charge a
+       * fee.
+       * 
+       * Weight: `O(1)`, less if there was no previous vote on the poll by the member.
+       **/
+      vote: AugmentedSubmittable<(poll: u32 | AnyNumber | Uint8Array, aye: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, bool]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    fellowshipReferenda: {
+      /**
+       * Cancel an ongoing referendum.
+       * 
+       * - `origin`: must be the `CancelOrigin`.
+       * - `index`: The index of the referendum to be cancelled.
+       * 
+       * Emits `Cancelled`.
+       **/
+      cancel: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Cancel an ongoing referendum and slash the deposits.
+       * 
+       * - `origin`: must be the `KillOrigin`.
+       * - `index`: The index of the referendum to be cancelled.
+       * 
+       * Emits `Killed` and `DepositSlashed`.
+       **/
+      kill: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Advance a referendum onto its next logical state. Only used internally.
+       * 
+       * - `origin`: must be `Root`.
+       * - `index`: the referendum to be advanced.
+       **/
+      nudgeReferendum: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Advance a track onto its next logical state. Only used internally.
+       * 
+       * - `origin`: must be `Root`.
+       * - `track`: the track to be advanced.
+       * 
+       * Action item for when there is now one fewer referendum in the deciding phase and the
+       * `DecidingCount` is not yet updated. This means that we should either:
+       * - begin deciding another referendum (and leave `DecidingCount` alone); or
+       * - decrement `DecidingCount`.
+       **/
+      oneFewerDeciding: AugmentedSubmittable<(track: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16]>;
+      /**
+       * Post the Decision Deposit for a referendum.
+       * 
+       * - `origin`: must be `Signed` and the account must have funds available for the
+       * referendum's track's Decision Deposit.
+       * - `index`: The index of the submitted referendum whose Decision Deposit is yet to be
+       * posted.
+       * 
+       * Emits `DecisionDepositPlaced`.
+       **/
+      placeDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Refund the Decision Deposit for a closed referendum back to the depositor.
+       * 
+       * - `origin`: must be `Signed` or `Root`.
+       * - `index`: The index of a closed referendum whose Decision Deposit has not yet been
+       * refunded.
+       * 
+       * Emits `DecisionDepositRefunded`.
+       **/
+      refundDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Propose a referendum on a privileged action.
+       * 
+       * - `origin`: must be `SubmitOrigin` and the account must have `SubmissionDeposit` funds
+       * available.
+       * - `proposal_origin`: The origin from which the proposal should be executed.
+       * - `proposal`: The proposal.
+       * - `enactment_moment`: The moment that the proposal should be enacted.
+       * 
+       * Emits `Submitted`.
+       **/
+      submit: AugmentedSubmittable<(proposalOrigin: KusamaRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | { Origins: any } | { ParachainsOrigin: any } | { XcmPallet: any } | string | Uint8Array, proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array, enactmentMoment: FrameSupportScheduleDispatchTime | { At: any } | { After: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KusamaRuntimeOriginCaller, FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     gilt: {
       /**
        * Place a bid for a gilt to be issued.
@@ -1553,6 +1781,15 @@ declare module '@polkadot/api-base/types/submittable' {
        * Number of inbound and outbound channels for `para` must be provided as witness data of weighing.
        **/
       forceCleanHrmp: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array, inbound: u32 | AnyNumber | Uint8Array, outbound: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
+      /**
+       * Open a channel from a `sender` to a `recipient` `ParaId` using the Root origin. Although
+       * opened by Root, the `max_capacity` and `max_message_size` are still subject to the Relay
+       * Chain's configured limits.
+       * 
+       * Expected use is when one of the `ParaId`s involved in the channel is governed by the
+       * Relay Chain, e.g. a common good parachain.
+       **/
+      forceOpenHrmpChannel: AugmentedSubmittable<(sender: u32 | AnyNumber | Uint8Array, recipient: u32 | AnyNumber | Uint8Array, maxCapacity: u32 | AnyNumber | Uint8Array, maxMessageSize: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, u32]>;
       /**
        * Force process HRMP close channel requests.
        * 
@@ -2065,7 +2302,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Write: Multisig Storage, [Caller Account]
        * # </weight>
        **/
-      approveAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], maybeTimepoint: Option<PalletMultisigTimepoint> | null | Uint8Array | PalletMultisigTimepoint | { height?: any; index?: any } | string, callHash: U8aFixed | string | Uint8Array, maxWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, Option<PalletMultisigTimepoint>, U8aFixed, Weight]>;
+      approveAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], maybeTimepoint: Option<PalletMultisigTimepoint> | null | Uint8Array | PalletMultisigTimepoint | { height?: any; index?: any } | string, callHash: U8aFixed | string | Uint8Array, maxWeight: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, Option<PalletMultisigTimepoint>, U8aFixed, SpWeightsWeightV2Weight]>;
       /**
        * Register approval for a dispatch to be made from a deterministic composite account if
        * approved by a total of `threshold - 1` of `other_signatories`.
@@ -2108,12 +2345,12 @@ declare module '@polkadot/api-base/types/submittable' {
        * taken for its lifetime of `DepositBase + threshold * DepositFactor`.
        * -------------------------------
        * - DB Weight:
-       * - Reads: Multisig Storage, [Caller Account], Calls (if `store_call`)
-       * - Writes: Multisig Storage, [Caller Account], Calls (if `store_call`)
+       * - Reads: Multisig Storage, [Caller Account]
+       * - Writes: Multisig Storage, [Caller Account]
        * - Plus Call Weight
        * # </weight>
        **/
-      asMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], maybeTimepoint: Option<PalletMultisigTimepoint> | null | Uint8Array | PalletMultisigTimepoint | { height?: any; index?: any } | string, call: WrapperKeepOpaque<Call> | object | string | Uint8Array, storeCall: bool | boolean | Uint8Array, maxWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, Option<PalletMultisigTimepoint>, WrapperKeepOpaque<Call>, bool, Weight]>;
+      asMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], maybeTimepoint: Option<PalletMultisigTimepoint> | null | Uint8Array | PalletMultisigTimepoint | { height?: any; index?: any } | string, call: Call | IMethod | string | Uint8Array, maxWeight: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, Option<PalletMultisigTimepoint>, Call, SpWeightsWeightV2Weight]>;
       /**
        * Immediately dispatch a multi-signature call using a single approval from the caller.
        * 
@@ -2157,8 +2394,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Storage: removes one item.
        * ----------------------------------
        * - DB Weight:
-       * - Read: Multisig Storage, [Caller Account], Refund Account, Calls
-       * - Write: Multisig Storage, [Caller Account], Refund Account, Calls
+       * - Read: Multisig Storage, [Caller Account], Refund Account
+       * - Write: Multisig Storage, [Caller Account], Refund Account
        * # </weight>
        **/
       cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], timepoint: PalletMultisigTimepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, PalletMultisigTimepoint, U8aFixed]>;
@@ -2216,6 +2453,15 @@ declare module '@polkadot/api-base/types/submittable' {
        * needs at have at least `amount + existential_deposit` transferrable.
        **/
       create: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, stateToggler: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress]>;
+      /**
+       * Create a new delegation pool with a previously used pool id
+       * 
+       * # Arguments
+       * 
+       * same as `create` with the inclusion of
+       * * `pool_id` - `A valid PoolId.
+       **/
+      createWithPoolId: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, stateToggler: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress, u32]>;
       /**
        * Stake funds with a pool. The amount to bond is transferred from the member to the
        * pools account and immediately increases the pools bond.
@@ -2565,6 +2811,11 @@ declare module '@polkadot/api-base/types/submittable' {
       requestPreimage: AugmentedSubmittable<(hash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
       /**
        * Clear an unrequested preimage from the runtime storage.
+       * 
+       * If `len` is provided, then it will be a much cheaper operation.
+       * 
+       * - `hash`: The hash of the preimage to be removed from the store.
+       * - `len`: The length of the preimage of `hash`.
        **/
       unnotePreimage: AugmentedSubmittable<(hash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
       /**
@@ -2853,7 +3104,90 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    referenda: {
+      /**
+       * Cancel an ongoing referendum.
+       * 
+       * - `origin`: must be the `CancelOrigin`.
+       * - `index`: The index of the referendum to be cancelled.
+       * 
+       * Emits `Cancelled`.
+       **/
+      cancel: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Cancel an ongoing referendum and slash the deposits.
+       * 
+       * - `origin`: must be the `KillOrigin`.
+       * - `index`: The index of the referendum to be cancelled.
+       * 
+       * Emits `Killed` and `DepositSlashed`.
+       **/
+      kill: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Advance a referendum onto its next logical state. Only used internally.
+       * 
+       * - `origin`: must be `Root`.
+       * - `index`: the referendum to be advanced.
+       **/
+      nudgeReferendum: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Advance a track onto its next logical state. Only used internally.
+       * 
+       * - `origin`: must be `Root`.
+       * - `track`: the track to be advanced.
+       * 
+       * Action item for when there is now one fewer referendum in the deciding phase and the
+       * `DecidingCount` is not yet updated. This means that we should either:
+       * - begin deciding another referendum (and leave `DecidingCount` alone); or
+       * - decrement `DecidingCount`.
+       **/
+      oneFewerDeciding: AugmentedSubmittable<(track: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16]>;
+      /**
+       * Post the Decision Deposit for a referendum.
+       * 
+       * - `origin`: must be `Signed` and the account must have funds available for the
+       * referendum's track's Decision Deposit.
+       * - `index`: The index of the submitted referendum whose Decision Deposit is yet to be
+       * posted.
+       * 
+       * Emits `DecisionDepositPlaced`.
+       **/
+      placeDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Refund the Decision Deposit for a closed referendum back to the depositor.
+       * 
+       * - `origin`: must be `Signed` or `Root`.
+       * - `index`: The index of a closed referendum whose Decision Deposit has not yet been
+       * refunded.
+       * 
+       * Emits `DecisionDepositRefunded`.
+       **/
+      refundDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Propose a referendum on a privileged action.
+       * 
+       * - `origin`: must be `SubmitOrigin` and the account must have `SubmissionDeposit` funds
+       * available.
+       * - `proposal_origin`: The origin from which the proposal should be executed.
+       * - `proposal`: The proposal.
+       * - `enactment_moment`: The moment that the proposal should be enacted.
+       * 
+       * Emits `Submitted`.
+       **/
+      submit: AugmentedSubmittable<(proposalOrigin: KusamaRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | { Origins: any } | { ParachainsOrigin: any } | { XcmPallet: any } | string | Uint8Array, proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array, enactmentMoment: FrameSupportScheduleDispatchTime | { At: any } | { After: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KusamaRuntimeOriginCaller, FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     registrar: {
+      /**
+       * Add a manager lock from a para. This will prevent the manager of a
+       * para to deregister or swap a para.
+       * 
+       * Can be called by Root, the parachain, or the parachain manager if the parachain is unlocked.
+       **/
+      addLock: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Deregister a Para Id, freeing all data and returning any deposit.
        * 
@@ -2869,13 +3203,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * can be registered, including sub-1000 IDs which are System Parachains.
        **/
       forceRegister: AugmentedSubmittable<(who: AccountId32 | string | Uint8Array, deposit: u128 | AnyNumber | Uint8Array, id: u32 | AnyNumber | Uint8Array, genesisHead: Bytes | string | Uint8Array, validationCode: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u128, u32, Bytes, Bytes]>;
-      /**
-       * Remove a manager lock from a para. This will allow the manager of a
-       * previously locked para to deregister or swap a para without using governance.
-       * 
-       * Can only be called by the Root origin.
-       **/
-      forceRemoveLock: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Register head data and validation code for a reserved Para Id.
        * 
@@ -2894,6 +3221,13 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       register: AugmentedSubmittable<(id: u32 | AnyNumber | Uint8Array, genesisHead: Bytes | string | Uint8Array, validationCode: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Bytes, Bytes]>;
       /**
+       * Remove a manager lock from a para. This will allow the manager of a
+       * previously locked para to deregister or swap a para without using governance.
+       * 
+       * Can only be called by the Root origin or the parachain.
+       **/
+      removeLock: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
        * Reserve a Para Id on the relay chain.
        * 
        * This function will reserve a new Para Id to be owned/managed by the origin account.
@@ -2910,6 +3244,18 @@ declare module '@polkadot/api-base/types/submittable' {
        * The `Reserved` event is emitted in case of success, which provides the ID reserved for use.
        **/
       reserve: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Schedule a parachain upgrade.
+       * 
+       * Can be called by Root, the parachain, or the parachain manager if the parachain is unlocked.
+       **/
+      scheduleCodeUpgrade: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array, newCode: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Bytes]>;
+      /**
+       * Set the parachain's current head.
+       * 
+       * Can be called by Root, the parachain, or the parachain manager if the parachain is unlocked.
+       **/
+      setCurrentHead: AugmentedSubmittable<(para: u32 | AnyNumber | Uint8Array, newHead: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Bytes]>;
       /**
        * Swap a parachain with another parachain or parathread.
        * 
@@ -2937,11 +3283,11 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Cancel a named scheduled task.
        **/
-      cancelNamed: AugmentedSubmittable<(id: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
+      cancelNamed: AugmentedSubmittable<(id: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [U8aFixed]>;
       /**
        * Anonymously schedule a task.
        **/
-      schedule: AugmentedSubmittable<(when: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | Uint8Array | ITuple<[u32, u32]> | [u32 | AnyNumber | Uint8Array, u32 | AnyNumber | Uint8Array], priority: u8 | AnyNumber | Uint8Array, call: FrameSupportScheduleMaybeHashed | { Value: any } | { Hash: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<ITuple<[u32, u32]>>, u8, FrameSupportScheduleMaybeHashed]>;
+      schedule: AugmentedSubmittable<(when: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | Uint8Array | ITuple<[u32, u32]> | [u32 | AnyNumber | Uint8Array, u32 | AnyNumber | Uint8Array], priority: u8 | AnyNumber | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<ITuple<[u32, u32]>>, u8, Call]>;
       /**
        * Anonymously schedule a task after a delay.
        * 
@@ -2949,11 +3295,11 @@ declare module '@polkadot/api-base/types/submittable' {
        * Same as [`schedule`].
        * # </weight>
        **/
-      scheduleAfter: AugmentedSubmittable<(after: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | Uint8Array | ITuple<[u32, u32]> | [u32 | AnyNumber | Uint8Array, u32 | AnyNumber | Uint8Array], priority: u8 | AnyNumber | Uint8Array, call: FrameSupportScheduleMaybeHashed | { Value: any } | { Hash: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<ITuple<[u32, u32]>>, u8, FrameSupportScheduleMaybeHashed]>;
+      scheduleAfter: AugmentedSubmittable<(after: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | Uint8Array | ITuple<[u32, u32]> | [u32 | AnyNumber | Uint8Array, u32 | AnyNumber | Uint8Array], priority: u8 | AnyNumber | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<ITuple<[u32, u32]>>, u8, Call]>;
       /**
        * Schedule a named task.
        **/
-      scheduleNamed: AugmentedSubmittable<(id: Bytes | string | Uint8Array, when: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | Uint8Array | ITuple<[u32, u32]> | [u32 | AnyNumber | Uint8Array, u32 | AnyNumber | Uint8Array], priority: u8 | AnyNumber | Uint8Array, call: FrameSupportScheduleMaybeHashed | { Value: any } | { Hash: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, u32, Option<ITuple<[u32, u32]>>, u8, FrameSupportScheduleMaybeHashed]>;
+      scheduleNamed: AugmentedSubmittable<(id: U8aFixed | string | Uint8Array, when: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | Uint8Array | ITuple<[u32, u32]> | [u32 | AnyNumber | Uint8Array, u32 | AnyNumber | Uint8Array], priority: u8 | AnyNumber | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [U8aFixed, u32, Option<ITuple<[u32, u32]>>, u8, Call]>;
       /**
        * Schedule a named task after a delay.
        * 
@@ -2961,7 +3307,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Same as [`schedule_named`](Self::schedule_named).
        * # </weight>
        **/
-      scheduleNamedAfter: AugmentedSubmittable<(id: Bytes | string | Uint8Array, after: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | Uint8Array | ITuple<[u32, u32]> | [u32 | AnyNumber | Uint8Array, u32 | AnyNumber | Uint8Array], priority: u8 | AnyNumber | Uint8Array, call: FrameSupportScheduleMaybeHashed | { Value: any } | { Hash: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, u32, Option<ITuple<[u32, u32]>>, u8, FrameSupportScheduleMaybeHashed]>;
+      scheduleNamedAfter: AugmentedSubmittable<(id: U8aFixed | string | Uint8Array, after: u32 | AnyNumber | Uint8Array, maybePeriodic: Option<ITuple<[u32, u32]>> | null | Uint8Array | ITuple<[u32, u32]> | [u32 | AnyNumber | Uint8Array, u32 | AnyNumber | Uint8Array], priority: u8 | AnyNumber | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [U8aFixed, u32, Option<ITuple<[u32, u32]>>, u8, Call]>;
       /**
        * Generic tx
        **/
@@ -3517,7 +3863,8 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       forceUnstake: AugmentedSubmittable<(stash: AccountId32 | string | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32]>;
       /**
-       * Increments the ideal number of validators.
+       * Increments the ideal number of validators upto maximum of
+       * `ElectionProviderBase::MaxWinners`.
        * 
        * The dispatch origin must be Root.
        * 
@@ -3606,7 +3953,8 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       rebond: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>]>;
       /**
-       * Scale up the ideal number of validators by a factor.
+       * Scale up the ideal number of validators by a factor upto maximum of
+       * `ElectionProviderBase::MaxWinners`.
        * 
        * The dispatch origin must be Root.
        * 
@@ -3846,7 +4194,42 @@ declare module '@polkadot/api-base/types/submittable' {
        * - up to 3 events
        * # </weight>
        **/
-      close: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, index: Compact<u32> | AnyNumber | Uint8Array, proposalWeightBound: Compact<Weight> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>, Compact<Weight>, Compact<u32>]>;
+      close: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, index: Compact<u32> | AnyNumber | Uint8Array, proposalWeightBound: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>, SpWeightsWeightV2Weight, Compact<u32>]>;
+      /**
+       * Close a vote that is either approved, disapproved or whose voting period has ended.
+       * 
+       * May be called by any signed account in order to finish voting and close the proposal.
+       * 
+       * If called before the end of the voting period it will only close the vote if it is
+       * has enough votes to be approved or disapproved.
+       * 
+       * If called after the end of the voting period abstentions are counted as rejections
+       * unless there is a prime member set and the prime member cast an approval.
+       * 
+       * If the close operation completes successfully with disapproval, the transaction fee will
+       * be waived. Otherwise execution of the approved operation will be charged to the caller.
+       * 
+       * + `proposal_weight_bound`: The maximum amount of weight consumed by executing the closed
+       * proposal.
+       * + `length_bound`: The upper bound for the length of the proposal in storage. Checked via
+       * `storage::read` so it is `size_of::<u32>() == 4` larger than the pure length.
+       * 
+       * # <weight>
+       * ## Weight
+       * - `O(B + M + P1 + P2)` where:
+       * - `B` is `proposal` size in bytes (length-fee-bounded)
+       * - `M` is members-count (code- and governance-bounded)
+       * - `P1` is the complexity of `proposal` preimage.
+       * - `P2` is proposal-count (code-bounded)
+       * - DB:
+       * - 2 storage reads (`Members`: codec `O(M)`, `Prime`: codec `O(1)`)
+       * - 3 mutations (`Voting`: codec `O(M)`, `ProposalOf`: codec `O(B)`, `Proposals`: codec
+       * `O(P2)`)
+       * - any mutations done while executing `proposal` (`P1`)
+       * - up to 3 events
+       * # </weight>
+       **/
+      closeOldWeight: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, index: Compact<u32> | AnyNumber | Uint8Array, proposalWeightBound: Compact<u64> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>, Compact<u64>, Compact<u32>]>;
       /**
        * Disapprove a proposal, close, and remove it from the system, regardless of its current
        * state.
@@ -4267,7 +4650,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Events:
        * - `OverweightServiced`: On success.
        **/
-      serviceOverweight: AugmentedSubmittable<(index: u64 | AnyNumber | Uint8Array, weightLimit: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u64, Weight]>;
+      serviceOverweight: AugmentedSubmittable<(index: u64 | AnyNumber | Uint8Array, weightLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u64, SpWeightsWeightV2Weight]>;
       /**
        * Generic tx
        **/
@@ -4293,13 +4676,13 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Send a batch of dispatch calls.
        * 
-       * May be called from any origin.
+       * May be called from any origin except `None`.
        * 
        * - `calls`: The calls to be dispatched from the same origin. The number of call must not
        * exceed the constant: `batched_calls_limit` (available in constant metadata).
        * 
-       * If origin is root then call are dispatch without checking origin filter. (This includes
-       * bypassing `frame_system::Config::BaseCallFilter`).
+       * If origin is root then the calls are dispatched without checking origin filter. (This
+       * includes bypassing `frame_system::Config::BaseCallFilter`).
        * 
        * # <weight>
        * - Complexity: O(C) where C is the number of calls to be batched.
@@ -4316,13 +4699,13 @@ declare module '@polkadot/api-base/types/submittable' {
        * Send a batch of dispatch calls and atomically execute them.
        * The whole transaction will rollback and fail if any of the calls failed.
        * 
-       * May be called from any origin.
+       * May be called from any origin except `None`.
        * 
        * - `calls`: The calls to be dispatched from the same origin. The number of call must not
        * exceed the constant: `batched_calls_limit` (available in constant metadata).
        * 
-       * If origin is root then call are dispatch without checking origin filter. (This includes
-       * bypassing `frame_system::Config::BaseCallFilter`).
+       * If origin is root then the calls are dispatched without checking origin filter. (This
+       * includes bypassing `frame_system::Config::BaseCallFilter`).
        * 
        * # <weight>
        * - Complexity: O(C) where C is the number of calls to be batched.
@@ -4341,18 +4724,18 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Weight of derivative `call` execution + T::WeightInfo::dispatch_as().
        * # </weight>
        **/
-      dispatchAs: AugmentedSubmittable<(asOrigin: KusamaRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | { ParachainsOrigin: any } | { XcmPallet: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KusamaRuntimeOriginCaller, Call]>;
+      dispatchAs: AugmentedSubmittable<(asOrigin: KusamaRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | { Origins: any } | { ParachainsOrigin: any } | { XcmPallet: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KusamaRuntimeOriginCaller, Call]>;
       /**
        * Send a batch of dispatch calls.
        * Unlike `batch`, it allows errors and won't interrupt.
        * 
-       * May be called from any origin.
+       * May be called from any origin except `None`.
        * 
        * - `calls`: The calls to be dispatched from the same origin. The number of call must not
        * exceed the constant: `batched_calls_limit` (available in constant metadata).
        * 
-       * If origin is root then call are dispatch without checking origin filter. (This includes
-       * bypassing `frame_system::Config::BaseCallFilter`).
+       * If origin is root then the calls are dispatch without checking origin filter. (This
+       * includes bypassing `frame_system::Config::BaseCallFilter`).
        * 
        * # <weight>
        * - Complexity: O(C) where C is the number of calls to be batched.
@@ -4499,6 +4882,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    whitelist: {
+      dispatchWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array, callWeightWitness: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, SpWeightsWeightV2Weight]>;
+      dispatchWhitelistedCallWithPreimage: AugmentedSubmittable<(call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call]>;
+      removeWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      whitelistCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     xcmPallet: {
       /**
        * Execute an XCM message from a local, signed, origin.
@@ -4513,7 +4906,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * NOTE: A successful return to this does *not* imply that the `msg` was executed successfully
        * to completion; only that *some* of it was executed.
        **/
-      execute: AugmentedSubmittable<(message: XcmVersionedXcm | { V0: any } | { V1: any } | { V2: any } | string | Uint8Array, maxWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [XcmVersionedXcm, Weight]>;
+      execute: AugmentedSubmittable<(message: XcmVersionedXcm | { V0: any } | { V1: any } | { V2: any } | string | Uint8Array, maxWeight: u64 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [XcmVersionedXcm, u64]>;
       /**
        * Set a safe XCM version (the version that XCM should be encoded with if the most recent
        * version a destination can accept is unknown).

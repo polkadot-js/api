@@ -8,8 +8,8 @@ import '@polkadot/api-base/types/consts';
 import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Bytes, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec } from '@polkadot/types-codec/types';
-import type { Perbill, Percent, Permill, Weight } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight } from '@polkadot/types/lookup';
+import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
@@ -203,6 +203,14 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       launchPeriod: u32 & AugmentedConst<ApiType>;
       /**
+       * The maximum number of items which can be blacklisted.
+       **/
+      maxBlacklisted: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of deposits a public proposal may have at any time.
+       **/
+      maxDeposits: u32 & AugmentedConst<ApiType>;
+      /**
        * The maximum number of public proposals that can exist at any time.
        **/
       maxProposals: u32 & AugmentedConst<ApiType>;
@@ -217,10 +225,6 @@ declare module '@polkadot/api-base/types/consts' {
        * The minimum amount to be used as a deposit for a public referendum proposal.
        **/
       minimumDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * The amount of balance that must be deposited per byte of preimage stored.
-       **/
-      preimageByteDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * The minimum period of vote locking.
        * 
@@ -258,9 +262,16 @@ declare module '@polkadot/api-base/types/consts' {
        * take place over multiple blocks.
        **/
       maxElectingVoters: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of winners that can be elected by this `ElectionProvider`
+       * implementation.
+       * 
+       * Note: This must always be greater or equal to `T::DataProvider::desired_targets()`.
+       **/
+      maxWinners: u32 & AugmentedConst<ApiType>;
       minerMaxLength: u32 & AugmentedConst<ApiType>;
       minerMaxVotesPerVoter: u32 & AugmentedConst<ApiType>;
-      minerMaxWeight: Weight & AugmentedConst<ApiType>;
+      minerMaxWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * The priority of the unsigned transaction submitted in the unsigned-phase
        **/
@@ -305,7 +316,7 @@ declare module '@polkadot/api-base/types/consts' {
        * this pallet), then [`MinerConfig::solution_weight`] is used to compare against
        * this value.
        **/
-      signedMaxWeight: Weight & AugmentedConst<ApiType>;
+      signedMaxWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * Duration of the signed phase.
        **/
@@ -409,7 +420,7 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The maximum amount of signatories allowed in the multisig.
        **/
-      maxSignatories: u16 & AugmentedConst<ApiType>;
+      maxSignatories: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -561,13 +572,11 @@ declare module '@polkadot/api-base/types/consts' {
     };
     scheduler: {
       /**
-       * The maximum weight that may be scheduled per block for any dispatchables of less
-       * priority than `schedule::HARD_DEADLINE`.
+       * The maximum weight that may be scheduled per block for any dispatchables.
        **/
-      maximumWeight: Weight & AugmentedConst<ApiType>;
+      maximumWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * The maximum number of scheduled calls in the queue for a single block.
-       * Not strictly enforced, but used for weight estimation.
        **/
       maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
       /**

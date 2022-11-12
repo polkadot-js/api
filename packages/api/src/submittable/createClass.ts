@@ -100,9 +100,17 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       this.#ignoreStatusCb = apiType === 'rxjs';
     }
 
+    public get hasDryRun (): boolean {
+      return isFunction(api.rpc.system?.dryRun);
+    }
+
+    public get hasPaymentInfo (): boolean {
+      return isFunction(api.call.transactionPaymentApi?.queryInfo);
+    }
+
     // dry run an extrinsic
     public dryRun (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittableDryRunResult<ApiType> {
-      if (!api.rpc.system?.dryRun) {
+      if (!this.hasDryRun) {
         throw new Error('The system.dryRun RPC call is not available in your environment');
       }
 
@@ -124,7 +132,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
     // calculate the payment info for this transaction (if signed and submitted)
     public paymentInfo (account: AddressOrPair, optionsOrHash?: Partial<SignerOptions> | Uint8Array | string): SubmittablePaymentResult<ApiType> {
-      if (!api.call.transactionPaymentApi?.queryInfo) {
+      if (!this.hasPaymentInfo) {
         throw new Error('The transactionPaymentApi.queryInfo runtime call is not available in your environment');
       }
 

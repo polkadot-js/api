@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, Vec } from '@polkadot/types';
+import type { Bytes, Option, u8, u32, Vec } from '@polkadot/types';
 import type { BlockNumber, Call, Hash, ReferendumIndex, Scheduled } from '@polkadot/types/interfaces';
-import type { FrameSupportPreimagesBounded, FrameSupportScheduleMaybeHashed, PalletSchedulerScheduled, PalletSchedulerScheduledV3 } from '@polkadot/types/lookup';
-import type { ITuple } from '@polkadot/types/types';
+import type { FrameSupportPreimagesBounded, PalletSchedulerScheduled } from '@polkadot/types/lookup';
+import type { Codec, ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { DeriveApi, DeriveDispatch, DeriveProposalImage } from '../types';
 
@@ -18,6 +18,23 @@ import { memo } from '../util';
 import { getImageHashBounded } from './util';
 
 const DEMOCRACY_ID = stringToHex('democrac');
+
+// included here for backwards compat
+interface PalletSchedulerScheduledV3 extends Codec {
+  maybeId: Option<Bytes>;
+  priority: u8;
+  call: FrameSupportScheduleMaybeHashed;
+  maybePeriodic: Option<ITuple<[u32, u32]>>;
+  origin: Codec;
+}
+
+// included here for backwards compat
+interface FrameSupportScheduleMaybeHashed extends Codec {
+  isHash: boolean;
+  isValue: boolean;
+  asValue: Call;
+  asHash: Hash;
+}
 
 interface SchedulerInfo {
   at: BlockNumber;
