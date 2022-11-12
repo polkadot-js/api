@@ -1,4 +1,4 @@
-    3275	Jaco                          	Add has{DryRun, PaymentInfo} to submittables (#5331)
+    3276	Jaco                          	Polkadot 9300, Kusama 9300 & Westend 9310/9320 upgrade blocks (#5332)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
