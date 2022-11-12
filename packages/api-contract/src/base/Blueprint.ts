@@ -16,7 +16,7 @@ import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
 import { Base } from './Base';
 import { Contract } from './Contract';
-import { convertWeight, createBluePrintTx, encodeSalt, isWeightV2 } from './util';
+import { convertWeight, createBluePrintTx, encodeSalt } from './util';
 
 export interface BlueprintConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash | Uint8Array): Blueprint<ApiType>;
@@ -63,9 +63,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
       // @ts-ignore jiggle v1 weights, metadata points to latest
       this._isWeightV1
         ? convertWeight(gasLimit).v1Weight
-        : isWeightV2(gasLimit)
-          ? gasLimit
-          : convertWeight(gasLimit).v2Weight,
+        : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       this.codeHash,
       this.abi.findConstructor(constructorOrId).toU8a(params),

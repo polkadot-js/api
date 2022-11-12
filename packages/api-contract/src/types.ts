@@ -86,5 +86,6 @@ export interface WeightAll {
   v1Weight: BN;
   v2Weight: {
     refTime: BN;
+    proofSize?: BN;
   };
 }

@@ -18,7 +18,7 @@ import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, isUndefined, logger } from '@polkadot/
 import { Abi } from '../Abi';
 import { applyOnEvent } from '../util';
 import { Base } from './Base';
-import { convertWeight, isWeightV2, withMeta } from './util';
+import { convertWeight, withMeta } from './util';
 
 export interface ContractConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId): Contract<ApiType>;
@@ -111,9 +111,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       // @ts-ignore jiggle v1 weights, metadata points to latest
       this._isWeightV1
         ? convertWeight(gasLimit).v1Weight
-        : isWeightV2(gasLimit)
-          ? gasLimit
-          : convertWeight(gasLimit).v2Weight,
+        : convertWeight(gasLimit).v2Weight,
       storageDepositLimit,
       this.abi.findMessage(messageOrId).toU8a(params)
     ).withResultTransform((result: ISubmittableResult) =>
