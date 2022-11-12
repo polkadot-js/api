@@ -5,13 +5,7 @@
 
 export default {
   /**
-   * Lookup81: kusama_runtime::ProxyType
-   **/
-  KusamaRuntimeProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
-  },
-  /**
-   * Lookup265: kusama_runtime::SessionKeys
+   * Lookup107: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
     grandpa: 'SpFinalityGrandpaAppPublic',
@@ -22,7 +16,7 @@ export default {
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
   },
   /**
-   * Lookup340: kusama_runtime::OriginCaller
+   * Lookup149: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -31,8 +25,8 @@ export default {
       __Unused2: 'Null',
       __Unused3: 'Null',
       __Unused4: 'Null',
+      __Unused5: 'Null',
       Void: 'SpCoreVoid',
-      __Unused6: 'Null',
       __Unused7: 'Null',
       __Unused8: 'Null',
       __Unused9: 'Null',
@@ -69,7 +63,7 @@ export default {
       __Unused40: 'Null',
       __Unused41: 'Null',
       __Unused42: 'Null',
-      __Unused43: 'Null',
+      Origins: 'KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin',
       __Unused44: 'Null',
       __Unused45: 'Null',
       __Unused46: 'Null',
@@ -129,7 +123,19 @@ export default {
     }
   },
   /**
-   * Lookup406: kusama_runtime::NposCompactSolution24
+   * Lookup153: kusama_runtime::governance::origins::pallet_custom_origins::Origin
+   **/
+  KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin: {
+    _enum: ['StakingAdmin', 'Treasurer', 'FellowshipAdmin', 'GeneralAdmin', 'AuctionAdmin', 'LeaseAdmin', 'ReferendumCanceller', 'ReferendumKiller', 'SmallTipper', 'BigTipper', 'SmallSpender', 'MediumSpender', 'BigSpender', 'WhitelistedCaller', 'FellowshipInitiates', 'Fellows', 'FellowshipExperts', 'FellowshipMasters', 'Fellowship1Dan', 'Fellowship2Dan', 'Fellowship3Dan', 'Fellowship4Dan', 'Fellowship5Dan', 'Fellowship6Dan', 'Fellowship7Dan', 'Fellowship8Dan', 'Fellowship9Dan']
+  },
+  /**
+   * Lookup230: kusama_runtime::ProxyType
+   **/
+  KusamaRuntimeProxyType: {
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
+  },
+  /**
+   * Lookup240: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -158,7 +164,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup786: kusama_runtime::Runtime
+   * Lookup852: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };
