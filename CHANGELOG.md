@@ -9,6 +9,7 @@ Contributed:
 Changes:
 
 - Cater for `TransactionPaymentApi/2` runtime calls
+- Add getters for `has{DryRun, PaymentInfo}` on submittables (feature detection)
 
 
 ## 9.7.1 Nov 6, 2022
