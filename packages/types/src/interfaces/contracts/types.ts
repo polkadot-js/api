@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Bytes, Compact, Enum, Null, Option, Raw, Result, Set, Struct, Text, U8aFixed, bool, u32, u64, u8 } from '@polkadot/types-codec';
-import type { AccountId, Balance, BlockNumber, Hash, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, BlockNumber, Hash, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
 import type { DispatchError } from '@polkadot/types/interfaces/system';
 
 /** @name AliveContractInfo */
@@ -71,8 +71,8 @@ export interface ContractCallRequest extends Struct {
 
 /** @name ContractExecResult */
 export interface ContractExecResult extends Struct {
-  readonly gasConsumed: u64;
-  readonly gasRequired: u64;
+  readonly gasConsumed: Weight;
+  readonly gasRequired: Weight;
   readonly storageDeposit: StorageDeposit;
   readonly debugMessage: Text;
   readonly result: ContractExecResultResult;
@@ -128,6 +128,15 @@ export interface ContractExecResultTo267 extends Struct {
   readonly result: ContractExecResultResult;
 }
 
+/** @name ContractExecResultU64 */
+export interface ContractExecResultU64 extends Struct {
+  readonly gasConsumed: u64;
+  readonly gasRequired: u64;
+  readonly storageDeposit: StorageDeposit;
+  readonly debugMessage: Text;
+  readonly result: ContractExecResultResult;
+}
+
 /** @name ContractInfo */
 export interface ContractInfo extends Enum {
   readonly isAlive: boolean;
@@ -139,8 +148,8 @@ export interface ContractInfo extends Enum {
 
 /** @name ContractInstantiateResult */
 export interface ContractInstantiateResult extends Struct {
-  readonly gasConsumed: u64;
-  readonly gasRequired: u64;
+  readonly gasConsumed: WeightV2;
+  readonly gasRequired: WeightV2;
   readonly storageDeposit: StorageDeposit;
   readonly debugMessage: Text;
   readonly result: InstantiateReturnValue;
@@ -158,6 +167,15 @@ export interface ContractInstantiateResultTo299 extends Result<InstantiateReturn
   readonly isErr: boolean;
   readonly isOk: boolean;
   readonly asOk: InstantiateReturnValueOk;
+}
+
+/** @name ContractInstantiateResultU64 */
+export interface ContractInstantiateResultU64 extends Struct {
+  readonly gasConsumed: u64;
+  readonly gasRequired: u64;
+  readonly storageDeposit: StorageDeposit;
+  readonly debugMessage: Text;
+  readonly result: InstantiateReturnValue;
 }
 
 /** @name ContractReturnFlags */
