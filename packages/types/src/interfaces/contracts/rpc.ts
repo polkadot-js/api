@@ -48,7 +48,7 @@ export const rpc: DefinitionsRpc = {
     params: [
       {
         name: 'request',
-        type: 'InstantiateRequest'
+        type: 'InstantiateRequestV1'
       },
       {
         isHistoric: true,
