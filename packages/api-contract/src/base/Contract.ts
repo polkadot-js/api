@@ -142,9 +142,10 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           origin,
           this.address,
           value,
-          this._isOldWeight
-            // jiggle v1 weights, metadata points to latest
-            ? this.#getGas(gasLimit, true).v1Weight as unknown as WeightAll['v2Weight']
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore jiggle v1 weights, metadata points to latest
+          this._isWeightV1
+            ? this.#getGas(gasLimit, true).v1Weight
             : this.#getGas(gasLimit, true).v2Weight,
           storageDepositLimit,
           message.toU8a(params)
@@ -152,7 +153,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           map(({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }): ContractCallOutcome => ({
             debugMessage,
             gasConsumed,
-            gasRequired: gasRequired && !gasRequired.isZero()
+            gasRequired: gasRequired && !convertWeight(gasRequired).v1Weight.isZero()
               ? gasRequired
               : gasConsumed,
             output: result.isOk && message.returnType

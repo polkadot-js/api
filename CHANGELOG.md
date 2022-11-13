@@ -5,6 +5,7 @@
 Contributed:
 
 - Params encoding fix for `api.rpc(...)` (Thanks to https://github.com/xlc)
+- Support for `WeightV2` contract interfaces (Thanks to https://github.com/jasl)
 
 Changes:
 
