@@ -20,10 +20,10 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.7.2-9-x",
+  "version": "9.8.0",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.20.1",
-    "@polkadot/util": "^10.1.11"
+    "@polkadot/util": "^10.1.12"
   }
 }
