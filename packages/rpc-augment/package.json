@@ -20,13 +20,13 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.8.0",
+  "version": "9.8.1",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.20.1",
-    "@polkadot/rpc-core": "9.8.0",
-    "@polkadot/types": "9.8.0",
-    "@polkadot/types-codec": "9.8.0",
+    "@polkadot/rpc-core": "9.8.1",
+    "@polkadot/types": "9.8.1",
+    "@polkadot/types-codec": "9.8.1",
     "@polkadot/util": "^10.1.12"
   }
 }
