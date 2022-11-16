@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Mark `api.rpc.payment.queryInfo` as depercated (front-running Substrate)
+- Adjust `api.rpc.payment.queryInfo` to always return V1 responses
+
+
 ## 9.8.1 Nov 13, 2022
 
 Contributed:
