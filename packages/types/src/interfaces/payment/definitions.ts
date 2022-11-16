@@ -32,6 +32,11 @@ export default {
       weight: 'WeightV1',
       class: 'DispatchClass',
       partialFee: 'Balance'
+    },
+    RuntimeDispatchInfoV2: {
+      weight: 'WeightV2',
+      class: 'DispatchClass',
+      partialFee: 'Balance'
     }
   }
 } as Definitions;
