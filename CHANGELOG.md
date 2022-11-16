@@ -1,11 +1,11 @@
 # CHANGELOG
 
-## master
+## 9.8.2 Nov 16, 2022
 
 Changes:
 
-- Mark `api.rpc.payment.queryInfo` as depercated (front-running Substrate)
-- Adjust `api.rpc.payment.queryInfo` to always return V1 responses
+- Adjust `api.rpc.payment.queryInfo` to always return `WeightV1` responses
+- Mark `api.rpc.payment.queryInfo` as deprecated (will be in a future Substrate version)
 
 
 ## 9.8.1 Nov 13, 2022
