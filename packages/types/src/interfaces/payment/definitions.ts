@@ -24,7 +24,7 @@ export default {
       adjustedWeightFee: 'Balance'
     },
     RuntimeDispatchInfo: {
-      weight: 'WeightV2',
+      weight: 'Weight',
       class: 'DispatchClass',
       partialFee: 'Balance'
     },
