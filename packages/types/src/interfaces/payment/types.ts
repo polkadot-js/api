@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Option, Struct } from '@polkadot/types-codec';
-import type { Balance, Weight, WeightV1 } from '@polkadot/types/interfaces/runtime';
+import type { Balance, Weight, WeightV1, WeightV2 } from '@polkadot/types/interfaces/runtime';
 import type { DispatchClass } from '@polkadot/types/interfaces/system';
 
 /** @name FeeDetails */
@@ -27,6 +27,13 @@ export interface RuntimeDispatchInfo extends Struct {
 /** @name RuntimeDispatchInfoV1 */
 export interface RuntimeDispatchInfoV1 extends Struct {
   readonly weight: WeightV1;
+  readonly class: DispatchClass;
+  readonly partialFee: Balance;
+}
+
+/** @name RuntimeDispatchInfoV2 */
+export interface RuntimeDispatchInfoV2 extends Struct {
+  readonly weight: WeightV2;
   readonly class: DispatchClass;
   readonly partialFee: Balance;
 }
