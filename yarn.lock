@@ -2078,9 +2078,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.67.159":
-  version: 0.67.159
-  resolution: "@polkadot/dev@npm:0.67.159"
+"@polkadot/dev@npm:^0.67.160":
+  version: 0.67.160
+  resolution: "@polkadot/dev@npm:0.67.160"
   dependencies:
     "@babel/cli": ^7.19.3
     "@babel/core": ^7.20.2
@@ -2145,7 +2145,7 @@ __metadata:
     rimraf: ^3.0.2
     rollup: ^3.3.0
     rollup-plugin-cleanup: ^3.2.1
-    typescript: ^4.8.4
+    typescript: ^4.9.3
     webpack: ^5.75.0
     webpack-cli: ^4.10.0
     webpack-dev-server: ^4.11.1
@@ -2177,7 +2177,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: d8fe3c5f80af1a513abb5a7c051728100e3e840f7e29b9d8627866fff35f097af08ea3a3d9d65168142752ff473236cb559469895b1b73bab8bdc9b2a44bb654
+  checksum: 32298e400849e277f34599f3db74674d838722b6c9f463aa3cb32a8ceef178fa825aeea7d627835db956a6c5eacd0d83c8c58964a8669b4a77bac1df455b226b
   languageName: node
   linkType: hard
 
@@ -2245,7 +2245,7 @@ __metadata:
     "@polkadot/x-fetch": ^10.1.12
     "@polkadot/x-global": ^10.1.12
     "@polkadot/x-ws": ^10.1.12
-    "@substrate/connect": 0.7.16
+    "@substrate/connect": 0.7.17
     eventemitter3: ^4.0.7
     mock-socket: ^9.1.5
     nock: ^13.2.9
@@ -2715,24 +2715,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:0.7.16":
-  version: 0.7.16
-  resolution: "@substrate/connect@npm:0.7.16"
+"@substrate/connect@npm:0.7.17":
+  version: 0.7.17
+  resolution: "@substrate/connect@npm:0.7.17"
   dependencies:
     "@substrate/connect-extension-protocol": ^1.0.1
-    "@substrate/smoldot-light": 0.7.5
+    "@substrate/smoldot-light": 0.7.7
     eventemitter3: ^4.0.7
-  checksum: ad0c95b6f823f6586a5109c0edf513a4a88d2e75d9d85799d841b570aebf557f7713ca8c45e24aa29a59068f018e9c1e619beae6d7c066c02ffd813da1bf187d
+  checksum: 902e89d28da9034e11abc33b47f850f01e5bd247ff291fac415366b27c363306738f1f60d8758fb949db4360018292474e2a835145b94dfa0d9fc12651bf94fe
   languageName: node
   linkType: hard
 
-"@substrate/smoldot-light@npm:0.7.5":
-  version: 0.7.5
-  resolution: "@substrate/smoldot-light@npm:0.7.5"
+"@substrate/smoldot-light@npm:0.7.7":
+  version: 0.7.7
+  resolution: "@substrate/smoldot-light@npm:0.7.7"
   dependencies:
     pako: ^2.0.4
     ws: ^8.8.1
-  checksum: db059391c5e72bf4100e8d471ef20b9b0e2e4fc9eb285ba6ff64a3d2670bc998ab0e2c1fcc7fd1f5fab81035968db0a813c05b800eee01fd318cf92943f06963
+  checksum: 56870615f295619a7ad6d323eae8fccd6935f845592089bdcc4c43feef4fb1897b84bc907368d02fcf3bbe6dda19707c5fe88034337fd6d99bbf9e2b79d1e357
   languageName: node
   linkType: hard
 
@@ -2947,13 +2947,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.2.2":
-  version: 29.2.2
-  resolution: "@types/jest@npm:29.2.2"
+"@types/jest@npm:^29.2.3":
+  version: 29.2.3
+  resolution: "@types/jest@npm:29.2.3"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
-  checksum: 13b1a48858c8c451109c2838205fdcee6f41d672674d2f0e3cada35e94f133370aba4f4b5c3f5b174f3e16244d76d7d718afa7cc67d4d6f90d1b87951f4c87c3
+  checksum: 55370906711b600a05b9e497c22aa74d80d8adcdbe4ac2f1bc9311f6f6ca0dd192862b6f38df6ac0d45e92396bcd796e377b1d8058c10bdfd584aeee580c3ce1
   languageName: node
   linkType: hard
 
@@ -10531,9 +10531,9 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.20.2
     "@babel/register": ^7.18.9
     "@babel/runtime": ^7.20.1
-    "@polkadot/dev": ^0.67.159
+    "@polkadot/dev": ^0.67.160
     "@polkadot/typegen": "workspace:packages/typegen"
-    "@types/jest": ^29.2.2
+    "@types/jest": ^29.2.3
     copyfiles: ^2.4.1
   languageName: unknown
   linkType: soft
