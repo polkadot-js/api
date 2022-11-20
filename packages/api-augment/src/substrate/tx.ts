@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletAssetsDestroyWitness, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -401,26 +401,47 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       create: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, minBalance: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, u128]>;
       /**
-       * Destroy a class of fungible assets.
+       * Destroy all accounts associated with a given asset.
+       * `destroy_accounts` should only be called after `start_destroy` has been called, and the
+       * asset is in a `Destroying` state
        * 
-       * The origin must conform to `ForceOrigin` or must be Signed and the sender must be the
-       * owner of the asset `id`.
+       * Due to weight restrictions, this function may need to be called multiple
+       * times to fully destroy all accounts. It will destroy `RemoveItemsLimit` accounts at a
+       * time.
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
        * 
-       * Emits `Destroyed` event when successful.
-       * 
-       * NOTE: It can be helpful to first freeze an asset before destroying it so that you
-       * can provide accurate witness information and prevent users from manipulating state
-       * in a way that can make it harder to destroy.
-       * 
-       * Weight: `O(c + p + a)` where:
-       * - `c = (witness.accounts - witness.sufficients)`
-       * - `s = witness.sufficients`
-       * - `a = witness.approvals`
+       * Each call Emits the `Event::DestroyedAccounts` event.
        **/
-      destroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, witness: PalletAssetsDestroyWitness | { accounts?: any; sufficients?: any; approvals?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, PalletAssetsDestroyWitness]>;
+      destroyAccounts: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
+      /**
+       * Destroy all approvals associated with a given asset up to the max (T::RemoveItemsLimit),
+       * `destroy_approvals` should only be called after `start_destroy` has been called, and the
+       * asset is in a `Destroying` state
+       * 
+       * Due to weight restrictions, this function may need to be called multiple
+       * times to fully destroy all approvals. It will destroy `RemoveItemsLimit` approvals at a
+       * time.
+       * 
+       * - `id`: The identifier of the asset to be destroyed. This must identify an existing
+       * asset.
+       * 
+       * Each call Emits the `Event::DestroyedApprovals` event.
+       **/
+      destroyApprovals: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
+      /**
+       * Complete destroying asset and unreserve currency.
+       * `finish_destroy` should only be called after `start_destroy` has been called, and the
+       * asset is in a `Destroying` state. All accounts or approvals should be destroyed before
+       * hand.
+       * 
+       * - `id`: The identifier of the asset to be destroyed. This must identify an existing
+       * asset.
+       * 
+       * Each successful call Emits the `Event::Destroyed` event.
+       **/
+      finishDestroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
        * Alter the attributes of a given asset.
        * 
@@ -622,6 +643,20 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight: `O(1)`
        **/
       setTeam: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, issuer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freezer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, MultiAddress, MultiAddress]>;
+      /**
+       * Start the process of destroying a class of fungible asset
+       * start_destroy is the first in a series of extrinsics that should be called, to allow
+       * destroying an asset.
+       * 
+       * The origin must conform to `ForceOrigin` or must be Signed and the sender must be the
+       * owner of the asset `id`.
+       * 
+       * - `id`: The identifier of the asset to be destroyed. This must identify an existing
+       * asset.
+       * 
+       * Assets must be freezed before calling start_destroy.
+       **/
+      startDestroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
        * Allow unprivileged transfers from an account again.
        * 
@@ -3488,6 +3523,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    rootTesting: {
+      /**
+       * A dispatch that will fill the block weight up to the given ratio.
+       **/
+      fillBlock: AugmentedSubmittable<(ratio: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Perbill]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     scheduler: {
       /**
        * Cancel an anonymously scheduled task.
@@ -4403,10 +4448,6 @@ declare module '@polkadot/api-base/types/submittable' {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     system: {
-      /**
-       * A dispatch that will fill the block weight up to the given ratio.
-       **/
-      fillBlock: AugmentedSubmittable<(ratio: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Perbill]>;
       /**
        * Kill all storage items with a key that starts with the given prefix.
        * 

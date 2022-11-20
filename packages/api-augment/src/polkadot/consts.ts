@@ -334,6 +334,17 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    fastUnstake: {
+      /**
+       * Deposit to take for unstaking, to make sure we're able to slash the it in order to cover
+       * the costs of resources on unsuccessful unstake.
+       **/
+      deposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     grandpa: {
       /**
        * Max Authorities in use

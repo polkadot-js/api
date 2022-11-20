@@ -107,9 +107,17 @@ declare module '@polkadot/api-base/types/events' {
     };
     assets: {
       /**
+       * Accounts were destroyed for given asset.
+       **/
+      AccountsDestroyed: AugmentedEvent<ApiType, [assetId: u32, accountsDestroyed: u32, accountsRemaining: u32], { assetId: u32, accountsDestroyed: u32, accountsRemaining: u32 }>;
+      /**
        * An approval for account `delegate` was cancelled by `owner`.
        **/
       ApprovalCancelled: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, delegate: AccountId32], { assetId: u32, owner: AccountId32, delegate: AccountId32 }>;
+      /**
+       * Approvals were destroyed for given asset.
+       **/
+      ApprovalsDestroyed: AugmentedEvent<ApiType, [assetId: u32, approvalsDestroyed: u32, approvalsRemaining: u32], { assetId: u32, approvalsDestroyed: u32, approvalsRemaining: u32 }>;
       /**
        * (Additional) funds have been approved for transfer to a destination account.
        **/
@@ -138,6 +146,10 @@ declare module '@polkadot/api-base/types/events' {
        * An asset class was destroyed.
        **/
       Destroyed: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      /**
+       * An asset class is in the process of being destroyed.
+       **/
+      DestructionStarted: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
       /**
        * Some asset class was force-created.
        **/
@@ -562,11 +574,6 @@ declare module '@polkadot/api-base/types/events' {
        * of the batch. A new batch will be created upon next block.
        **/
       BatchFinished: AugmentedEvent<ApiType, []>;
-      /**
-       * Some internal error happened while migrating stash. They are removed as head as a
-       * consequence.
-       **/
-      Errored: AugmentedEvent<ApiType, [stash: AccountId32], { stash: AccountId32 }>;
       /**
        * An internal error happened. Operations will be paused now.
        **/

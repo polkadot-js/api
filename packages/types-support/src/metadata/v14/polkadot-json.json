@@ -4689,7 +4689,17 @@
           "events": {
             "type": 93
           },
-          "constants": [],
+          "constants": [
+            {
+              "name": "Deposit",
+              "type": 6,
+              "value": "0x00e40b54020000000000000000000000",
+              "docs": [
+                " Deposit to take for unstaking, to make sure we're able to slash the it in order to cover",
+                " the costs of resources on unsuccessful unstake."
+              ]
+            }
+          ],
           "errors": {
             "type": 638
           },

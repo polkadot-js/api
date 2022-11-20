@@ -66,6 +66,12 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       metadataDepositPerByte: u128 & AugmentedConst<ApiType>;
       /**
+       * Max number of items to destroy per `destroy_accounts` and `destroy_approvals` call.
+       * 
+       * Must be configured to result in a weight that makes each call fit in a block.
+       **/
+      removeItemsLimit: u32 & AugmentedConst<ApiType>;
+      /**
        * The maximum length of a name or symbol stored on-chain.
        **/
       stringLimit: u32 & AugmentedConst<ApiType>;
@@ -471,6 +477,17 @@ declare module '@polkadot/api-base/types/consts' {
        * The amount of bond that need to be locked for each vote (32 bytes).
        **/
       votingBondFactor: u128 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    fastUnstake: {
+      /**
+       * Deposit to take for unstaking, to make sure we're able to slash the it in order to cover
+       * the costs of resources on unsuccessful unstake.
+       **/
+      deposit: u128 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

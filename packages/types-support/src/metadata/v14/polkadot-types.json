@@ -6467,25 +6467,9 @@
               ]
             },
             {
-              "name": "Errored",
-              "fields": [
-                {
-                  "name": "stash",
-                  "type": 0,
-                  "typeName": "T::AccountId",
-                  "docs": []
-                }
-              ],
-              "index": 2,
-              "docs": [
-                "Some internal error happened while migrating stash. They are removed as head as a",
-                "consequence."
-              ]
-            },
-            {
               "name": "InternalError",
               "fields": [],
-              "index": 3,
+              "index": 2,
               "docs": [
                 "An internal error happened. Operations will be paused now."
               ]
@@ -6500,7 +6484,7 @@
                   "docs": []
                 }
               ],
-              "index": 4,
+              "index": 3,
               "docs": [
                 "A batch was partially checked for the given eras, but the process did not finish."
               ]
@@ -6508,7 +6492,7 @@
             {
               "name": "BatchFinished",
               "fields": [],
-              "index": 5,
+              "index": 4,
               "docs": [
                 "A batch was terminated.",
                 "",
@@ -11880,21 +11864,6 @@
         "variant": {
           "variants": [
             {
-              "name": "fill_block",
-              "fields": [
-                {
-                  "name": "ratio",
-                  "type": 42,
-                  "typeName": "Perbill",
-                  "docs": []
-                }
-              ],
-              "index": 0,
-              "docs": [
-                "A dispatch that will fill the block weight up to the given ratio."
-              ]
-            },
-            {
               "name": "remark",
               "fields": [
                 {
@@ -11904,7 +11873,7 @@
                   "docs": []
                 }
               ],
-              "index": 1,
+              "index": 0,
               "docs": [
                 "Make some on-chain remark.",
                 "",
@@ -11923,7 +11892,7 @@
                   "docs": []
                 }
               ],
-              "index": 2,
+              "index": 1,
               "docs": [
                 "Set the number of pages in the WebAssembly environment's heap."
               ]
@@ -11938,7 +11907,7 @@
                   "docs": []
                 }
               ],
-              "index": 3,
+              "index": 2,
               "docs": [
                 "Set the new runtime code.",
                 "",
@@ -11964,7 +11933,7 @@
                   "docs": []
                 }
               ],
-              "index": 4,
+              "index": 3,
               "docs": [
                 "Set the new runtime code without doing any checks of the given `code`.",
                 "",
@@ -11987,7 +11956,7 @@
                   "docs": []
                 }
               ],
-              "index": 5,
+              "index": 4,
               "docs": [
                 "Set some items of storage."
               ]
@@ -12002,7 +11971,7 @@
                   "docs": []
                 }
               ],
-              "index": 6,
+              "index": 5,
               "docs": [
                 "Kill some items from storage."
               ]
@@ -12023,7 +11992,7 @@
                   "docs": []
                 }
               ],
-              "index": 7,
+              "index": 6,
               "docs": [
                 "Kill all storage items with a key that starts with the given prefix.",
                 "",
@@ -12041,7 +12010,7 @@
                   "docs": []
                 }
               ],
-              "index": 8,
+              "index": 7,
               "docs": [
                 "Make some on-chain remark and emit event."
               ]
@@ -32570,7 +32539,7 @@
               "fields": [],
               "index": 2,
               "docs": [
-                "Balance too low to send value"
+                "Balance too low to send value."
               ]
             },
             {
@@ -39047,7 +39016,7 @@
             {
               "name": "with_era",
               "type": 628,
-              "typeName": "UnbondingPoolsWithEra<T>",
+              "typeName": "BoundedBTreeMap<EraIndex, UnbondPool<T>, TotalUnbondingPools<T>>",
               "docs": []
             }
           ]

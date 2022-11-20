@@ -19,11 +19,15 @@ const tx = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
 describe('ExtrinsicV4', (): void => {
   it('constructs a sane Uint8Array (default)', (): void => {
-    expect(
-      new Extrinsic(registry).toU8a()
-    ).toEqual(new Uint8Array([
+    const xt = new Extrinsic(registry);
+
+    // expect(`${xt.method.section}${xt.method.method}`).toEqual('system.fillBlock');
+    expect(`${xt.method.section}.${xt.method.method}`).toEqual('system.remark');
+
+    expect(xt.toU8a()).toEqual(new Uint8Array([
       0, 0, // index
-      0, 0, 0, 0 // fillBlock Perbill
+      // 0, 0, 0, 0 // fillBlock, Perbill
+      0 // remark, Vec<u8>
     ]));
   });
 
