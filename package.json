@@ -39,12 +39,12 @@
     "@babel/core": "^7.20.2",
     "@babel/register": "^7.18.9",
     "@babel/runtime": "^7.20.1",
-    "@polkadot/dev": "^0.67.160",
+    "@polkadot/dev": "^0.67.161",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^29.2.3",
     "copyfiles": "^2.4.1"
   },
   "resolutions": {
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.3"
   }
 }
