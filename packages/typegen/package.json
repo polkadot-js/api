@@ -42,9 +42,9 @@
     "@polkadot/types-codec": "9.8.3-0-x",
     "@polkadot/types-create": "9.8.3-0-x",
     "@polkadot/types-support": "9.8.3-0-x",
-    "@polkadot/util": "^10.1.12",
-    "@polkadot/util-crypto": "^10.1.12",
-    "@polkadot/x-ws": "^10.1.12",
+    "@polkadot/util": "^10.1.13",
+    "@polkadot/util-crypto": "^10.1.13",
+    "@polkadot/x-ws": "^10.1.13",
     "handlebars": "^4.7.7",
     "websocket": "^1.0.34",
     "yargs": "^17.6.2"

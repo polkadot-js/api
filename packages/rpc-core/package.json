@@ -27,11 +27,11 @@
     "@polkadot/rpc-augment": "9.8.3-0-x",
     "@polkadot/rpc-provider": "9.8.3-0-x",
     "@polkadot/types": "9.8.3-0-x",
-    "@polkadot/util": "^10.1.12",
+    "@polkadot/util": "^10.1.13",
     "rxjs": "^7.5.7"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^10.1.12",
+    "@polkadot/keyring": "^10.1.13",
     "@polkadot/rpc-augment": "9.8.3-0-x"
   }
 }
