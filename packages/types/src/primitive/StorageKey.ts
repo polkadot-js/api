@@ -84,7 +84,7 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
     }
 
     return {
-      // This is unknown[] above, the linter thinks it is any[] here
+      // This is unknown[] above (also where assigned), the linter thinks it is any[] here
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       key: fn(...args),
       method: fn.method,
