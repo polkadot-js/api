@@ -366,11 +366,6 @@ declare module '@polkadot/api-base/types/events' {
        **/
       BatchFinished: AugmentedEvent<ApiType, []>;
       /**
-       * Some internal error happened while migrating stash. They are removed as head as a
-       * consequence.
-       **/
-      Errored: AugmentedEvent<ApiType, [stash: AccountId32], { stash: AccountId32 }>;
-      /**
        * An internal error happened. Operations will be paused now.
        **/
       InternalError: AugmentedEvent<ApiType, []>;

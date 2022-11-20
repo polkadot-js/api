@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Adjust code for latest Eslint & TS released versions
+
+
 ## 9.8.2 Nov 16, 2022
 
 Changes:
