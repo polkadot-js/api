@@ -20,6 +20,12 @@ declare module '@polkadot/api-base/types/submittable' {
   interface AugmentedSubmittables<ApiType extends ApiTypes> {
     alliance: {
       /**
+       * Abdicate one's position as a voting member and just be an Ally. May be used by Fellows
+       * who do not want to leave the Alliance but do not have the capacity to participate
+       * operationally for some time.
+       **/
+      abdicateFellowStatus: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
        * Add accounts or websites to the list of unscrupulous items.
        **/
       addUnscrupulousItems: AugmentedSubmittable<(items: Vec<PalletAllianceUnscrupulousItem> | (PalletAllianceUnscrupulousItem | { AccountId: any } | { Website: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<PalletAllianceUnscrupulousItem>]>;
@@ -30,13 +36,13 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Close a vote that is either approved, disapproved, or whose voting period has ended.
        * 
-       * Requires the sender to be a founder or fellow.
+       * Must be called by a Fellow.
        **/
       close: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, index: Compact<u32> | AnyNumber | Uint8Array, proposalWeightBound: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>, SpWeightsWeightV2Weight, Compact<u32>]>;
       /**
        * Close a vote that is either approved, disapproved, or whose voting period has ended.
        * 
-       * Requires the sender to be a founder or fellow.
+       * Must be called by a Fellow.
        **/
       closeOldWeight: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array, index: Compact<u32> | AnyNumber | Uint8Array, proposalWeightBound: Compact<u64> | AnyNumber | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>, Compact<u64>, Compact<u32>]>;
       /**
@@ -44,9 +50,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Witness data must be set.
        **/
-      disband: AugmentedSubmittable<(witness: PalletAllianceDisbandWitness | { votingMembers?: any; allyMembers?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletAllianceDisbandWitness]>;
+      disband: AugmentedSubmittable<(witness: PalletAllianceDisbandWitness | { fellowMembers?: any; allyMembers?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletAllianceDisbandWitness]>;
       /**
-       * Elevate an ally to fellow.
+       * Elevate an Ally to Fellow.
        **/
       elevateAlly: AugmentedSubmittable<(ally: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
       /**
@@ -55,30 +61,30 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       giveRetirementNotice: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
-       * Initialize the Alliance, onboard founders, fellows, and allies.
+       * Initialize the Alliance, onboard fellows and allies.
        * 
-       * Founders must be not empty.
-       * The Alliance must be empty.
+       * The Alliance must be empty, and the call must provide some founding members.
+       * 
        * Must be called by the Root origin.
        **/
-      initMembers: AugmentedSubmittable<(founders: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], fellows: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], allies: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<AccountId32>, Vec<AccountId32>, Vec<AccountId32>]>;
+      initMembers: AugmentedSubmittable<(fellows: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], allies: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<AccountId32>, Vec<AccountId32>]>;
       /**
        * Submit oneself for candidacy. A fixed deposit is reserved.
        **/
       joinAlliance: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
-       * Kick a member from the alliance and slash its deposit.
+       * Kick a member from the Alliance and slash its deposit.
        **/
       kickMember: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
       /**
-       * A founder or fellow can nominate someone to join the alliance as an Ally.
-       * There is no deposit required to the nominator or nominee.
+       * A Fellow can nominate someone to join the alliance as an Ally. There is no deposit
+       * required from the nominator or nominee.
        **/
       nominateAlly: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
       /**
        * Add a new proposal to be voted on.
        * 
-       * Requires the sender to be a founder or fellow.
+       * Must be called by a Fellow.
        **/
       propose: AugmentedSubmittable<(threshold: Compact<u32> | AnyNumber | Uint8Array, proposal: Call | IMethod | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Call, Compact<u32>]>;
       /**
@@ -86,12 +92,14 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       removeAnnouncement: AugmentedSubmittable<(announcement: PalletAllianceCid | { version?: any; codec?: any; hash_?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletAllianceCid]>;
       /**
-       * Deem an item no longer unscrupulous.
+       * Deem some items no longer unscrupulous.
        **/
       removeUnscrupulousItems: AugmentedSubmittable<(items: Vec<PalletAllianceUnscrupulousItem> | (PalletAllianceUnscrupulousItem | { AccountId: any } | { Website: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<PalletAllianceUnscrupulousItem>]>;
       /**
-       * As a member, retire from the alliance and unreserve the deposit.
-       * This can only be done once you have `give_retirement_notice` and it has expired.
+       * As a member, retire from the Alliance and unreserve the deposit.
+       * 
+       * This can only be done once you have called `give_retirement_notice` and the
+       * `RetirementPeriod` has passed.
        **/
       retire: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
@@ -99,16 +107,9 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       setRule: AugmentedSubmittable<(rule: PalletAllianceCid | { version?: any; codec?: any; hash_?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletAllianceCid]>;
       /**
-       * Veto a proposal about `set_rule` and `elevate_ally`, close, and remove it from the
-       * system, regardless of its current state.
-       * 
-       * Must be called by a founder.
-       **/
-      veto: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
-      /**
        * Add an aye or nay vote for the sender to the given proposal.
        * 
-       * Requires the sender to be a founder or fellow.
+       * Must be called by a Fellow.
        **/
       vote: AugmentedSubmittable<(proposal: H256 | string | Uint8Array, index: Compact<u32> | AnyNumber | Uint8Array, approve: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, Compact<u32>, bool]>;
       /**

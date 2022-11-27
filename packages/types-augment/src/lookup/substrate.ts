@@ -3504,9 +3504,6 @@ export default {
         index: 'Compact<u32>',
         approve: 'bool',
       },
-      veto: {
-        proposalHash: 'H256',
-      },
       close_old_weight: {
         proposalHash: 'H256',
         index: 'Compact<u32>',
@@ -3514,7 +3511,6 @@ export default {
         lengthBound: 'Compact<u32>',
       },
       init_members: {
-        founders: 'Vec<AccountId32>',
         fellows: 'Vec<AccountId32>',
         allies: 'Vec<AccountId32>',
       },
@@ -3552,15 +3548,16 @@ export default {
         proposalHash: 'H256',
         index: 'Compact<u32>',
         proposalWeightBound: 'SpWeightsWeightV2Weight',
-        lengthBound: 'Compact<u32>'
-      }
+        lengthBound: 'Compact<u32>',
+      },
+      abdicate_fellow_status: 'Null'
     }
   },
   /**
    * Lookup330: pallet_alliance::types::DisbandWitness
    **/
   PalletAllianceDisbandWitness: {
-    votingMembers: 'Compact<u32>',
+    fellowMembers: 'Compact<u32>',
     allyMembers: 'Compact<u32>'
   },
   /**
@@ -3823,7 +3820,6 @@ export default {
         announcement: 'PalletAllianceCid',
       },
       MembersInitialized: {
-        founders: 'Vec<AccountId32>',
         fellows: 'Vec<AccountId32>',
         allies: 'Vec<AccountId32>',
       },
@@ -3853,9 +3849,12 @@ export default {
         items: 'Vec<PalletAllianceUnscrupulousItem>',
       },
       AllianceDisbanded: {
-        votingMembers: 'u32',
+        fellowMembers: 'u32',
         allyMembers: 'u32',
-        unreserved: 'u32'
+        unreserved: 'u32',
+      },
+      FellowAbdicated: {
+        fellow: 'AccountId32'
       }
     }
   },
@@ -4653,7 +4652,7 @@ export default {
     hashBlake2128PerByte: 'u64',
     ecdsaRecover: 'u64',
     ecdsaToEthAddress: 'u64',
-    reentrantCount: 'u64',
+    reentranceCount: 'u64',
     accountReentranceCount: 'u64'
   },
   /**
@@ -5301,13 +5300,13 @@ export default {
    * Lookup648: pallet_alliance::MemberRole
    **/
   PalletAllianceMemberRole: {
-    _enum: ['Founder', 'Fellow', 'Ally', 'Retiring']
+    _enum: ['Fellow', 'Ally', 'Retiring']
   },
   /**
    * Lookup652: pallet_alliance::pallet::Error<T, I>
    **/
   PalletAllianceError: {
-    _enum: ['AllianceNotYetInitialized', 'AllianceAlreadyInitialized', 'AlreadyMember', 'NotMember', 'NotAlly', 'NotFounder', 'NoVotingRights', 'AlreadyElevated', 'AlreadyUnscrupulous', 'AccountNonGrata', 'NotListedAsUnscrupulous', 'TooManyUnscrupulousItems', 'TooLongWebsiteUrl', 'InsufficientFunds', 'WithoutIdentityDisplayAndWebsite', 'WithoutGoodIdentityJudgement', 'MissingProposalHash', 'NotVetoableProposal', 'MissingAnnouncement', 'TooManyMembers', 'TooManyAnnouncements', 'BadWitness', 'AlreadyRetiring', 'RetirementNoticeNotGiven', 'RetirementPeriodNotPassed', 'FoundersMissing']
+    _enum: ['AllianceNotYetInitialized', 'AllianceAlreadyInitialized', 'AlreadyMember', 'NotMember', 'NotAlly', 'NoVotingRights', 'AlreadyElevated', 'AlreadyUnscrupulous', 'AccountNonGrata', 'NotListedAsUnscrupulous', 'TooManyUnscrupulousItems', 'TooLongWebsiteUrl', 'InsufficientFunds', 'WithoutIdentityDisplayAndWebsite', 'WithoutGoodIdentityJudgement', 'MissingProposalHash', 'MissingAnnouncement', 'TooManyMembers', 'TooManyAnnouncements', 'BadWitness', 'AlreadyRetiring', 'RetirementNoticeNotGiven', 'RetirementPeriodNotPassed', 'FellowsMissing']
   },
   /**
    * Lookup653: pallet_nomination_pools::PoolMember<T>

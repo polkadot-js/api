@@ -3752,10 +3752,6 @@ declare module '@polkadot/types/lookup' {
       readonly index: Compact<u32>;
       readonly approve: bool;
     } & Struct;
-    readonly isVeto: boolean;
-    readonly asVeto: {
-      readonly proposalHash: H256;
-    } & Struct;
     readonly isCloseOldWeight: boolean;
     readonly asCloseOldWeight: {
       readonly proposalHash: H256;
@@ -3765,7 +3761,6 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isInitMembers: boolean;
     readonly asInitMembers: {
-      readonly founders: Vec<AccountId32>;
       readonly fellows: Vec<AccountId32>;
       readonly allies: Vec<AccountId32>;
     } & Struct;
@@ -3815,12 +3810,13 @@ declare module '@polkadot/types/lookup' {
       readonly proposalWeightBound: SpWeightsWeightV2Weight;
       readonly lengthBound: Compact<u32>;
     } & Struct;
-    readonly type: 'Propose' | 'Vote' | 'Veto' | 'CloseOldWeight' | 'InitMembers' | 'Disband' | 'SetRule' | 'Announce' | 'RemoveAnnouncement' | 'JoinAlliance' | 'NominateAlly' | 'ElevateAlly' | 'GiveRetirementNotice' | 'Retire' | 'KickMember' | 'AddUnscrupulousItems' | 'RemoveUnscrupulousItems' | 'Close';
+    readonly isAbdicateFellowStatus: boolean;
+    readonly type: 'Propose' | 'Vote' | 'CloseOldWeight' | 'InitMembers' | 'Disband' | 'SetRule' | 'Announce' | 'RemoveAnnouncement' | 'JoinAlliance' | 'NominateAlly' | 'ElevateAlly' | 'GiveRetirementNotice' | 'Retire' | 'KickMember' | 'AddUnscrupulousItems' | 'RemoveUnscrupulousItems' | 'Close' | 'AbdicateFellowStatus';
   }
 
   /** @name PalletAllianceDisbandWitness (330) */
   interface PalletAllianceDisbandWitness extends Struct {
-    readonly votingMembers: Compact<u32>;
+    readonly fellowMembers: Compact<u32>;
     readonly allyMembers: Compact<u32>;
   }
 
@@ -4090,7 +4086,6 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isMembersInitialized: boolean;
     readonly asMembersInitialized: {
-      readonly founders: Vec<AccountId32>;
       readonly fellows: Vec<AccountId32>;
       readonly allies: Vec<AccountId32>;
     } & Struct;
@@ -4128,11 +4123,15 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isAllianceDisbanded: boolean;
     readonly asAllianceDisbanded: {
-      readonly votingMembers: u32;
+      readonly fellowMembers: u32;
       readonly allyMembers: u32;
       readonly unreserved: u32;
     } & Struct;
-    readonly type: 'NewRuleSet' | 'Announced' | 'AnnouncementRemoved' | 'MembersInitialized' | 'NewAllyJoined' | 'AllyElevated' | 'MemberRetirementPeriodStarted' | 'MemberRetired' | 'MemberKicked' | 'UnscrupulousItemAdded' | 'UnscrupulousItemRemoved' | 'AllianceDisbanded';
+    readonly isFellowAbdicated: boolean;
+    readonly asFellowAbdicated: {
+      readonly fellow: AccountId32;
+    } & Struct;
+    readonly type: 'NewRuleSet' | 'Announced' | 'AnnouncementRemoved' | 'MembersInitialized' | 'NewAllyJoined' | 'AllyElevated' | 'MemberRetirementPeriodStarted' | 'MemberRetired' | 'MemberKicked' | 'UnscrupulousItemAdded' | 'UnscrupulousItemRemoved' | 'AllianceDisbanded' | 'FellowAbdicated';
   }
 
   /** @name PalletNominationPoolsEvent (358) */
@@ -5030,7 +5029,7 @@ declare module '@polkadot/types/lookup' {
     readonly hashBlake2128PerByte: u64;
     readonly ecdsaRecover: u64;
     readonly ecdsaToEthAddress: u64;
-    readonly reentrantCount: u64;
+    readonly reentranceCount: u64;
     readonly accountReentranceCount: u64;
   }
 
@@ -5866,11 +5865,10 @@ declare module '@polkadot/types/lookup' {
 
   /** @name PalletAllianceMemberRole (648) */
   interface PalletAllianceMemberRole extends Enum {
-    readonly isFounder: boolean;
     readonly isFellow: boolean;
     readonly isAlly: boolean;
     readonly isRetiring: boolean;
-    readonly type: 'Founder' | 'Fellow' | 'Ally' | 'Retiring';
+    readonly type: 'Fellow' | 'Ally' | 'Retiring';
   }
 
   /** @name PalletAllianceError (652) */
@@ -5880,7 +5878,6 @@ declare module '@polkadot/types/lookup' {
     readonly isAlreadyMember: boolean;
     readonly isNotMember: boolean;
     readonly isNotAlly: boolean;
-    readonly isNotFounder: boolean;
     readonly isNoVotingRights: boolean;
     readonly isAlreadyElevated: boolean;
     readonly isAlreadyUnscrupulous: boolean;
@@ -5892,7 +5889,6 @@ declare module '@polkadot/types/lookup' {
     readonly isWithoutIdentityDisplayAndWebsite: boolean;
     readonly isWithoutGoodIdentityJudgement: boolean;
     readonly isMissingProposalHash: boolean;
-    readonly isNotVetoableProposal: boolean;
     readonly isMissingAnnouncement: boolean;
     readonly isTooManyMembers: boolean;
     readonly isTooManyAnnouncements: boolean;
@@ -5900,8 +5896,8 @@ declare module '@polkadot/types/lookup' {
     readonly isAlreadyRetiring: boolean;
     readonly isRetirementNoticeNotGiven: boolean;
     readonly isRetirementPeriodNotPassed: boolean;
-    readonly isFoundersMissing: boolean;
-    readonly type: 'AllianceNotYetInitialized' | 'AllianceAlreadyInitialized' | 'AlreadyMember' | 'NotMember' | 'NotAlly' | 'NotFounder' | 'NoVotingRights' | 'AlreadyElevated' | 'AlreadyUnscrupulous' | 'AccountNonGrata' | 'NotListedAsUnscrupulous' | 'TooManyUnscrupulousItems' | 'TooLongWebsiteUrl' | 'InsufficientFunds' | 'WithoutIdentityDisplayAndWebsite' | 'WithoutGoodIdentityJudgement' | 'MissingProposalHash' | 'NotVetoableProposal' | 'MissingAnnouncement' | 'TooManyMembers' | 'TooManyAnnouncements' | 'BadWitness' | 'AlreadyRetiring' | 'RetirementNoticeNotGiven' | 'RetirementPeriodNotPassed' | 'FoundersMissing';
+    readonly isFellowsMissing: boolean;
+    readonly type: 'AllianceNotYetInitialized' | 'AllianceAlreadyInitialized' | 'AlreadyMember' | 'NotMember' | 'NotAlly' | 'NoVotingRights' | 'AlreadyElevated' | 'AlreadyUnscrupulous' | 'AccountNonGrata' | 'NotListedAsUnscrupulous' | 'TooManyUnscrupulousItems' | 'TooLongWebsiteUrl' | 'InsufficientFunds' | 'WithoutIdentityDisplayAndWebsite' | 'WithoutGoodIdentityJudgement' | 'MissingProposalHash' | 'MissingAnnouncement' | 'TooManyMembers' | 'TooManyAnnouncements' | 'BadWitness' | 'AlreadyRetiring' | 'RetirementNoticeNotGiven' | 'RetirementPeriodNotPassed' | 'FellowsMissing';
   }
 
   /** @name PalletNominationPoolsPoolMember (653) */

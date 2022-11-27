@@ -46,9 +46,9 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BadWitness: AugmentedError<ApiType>;
       /**
-       * Founders must be provided to initialize the Alliance.
+       * Fellows must be provided to initialize the Alliance.
        **/
-      FoundersMissing: AugmentedError<ApiType>;
+      FellowsMissing: AugmentedError<ApiType>;
       /**
        * Balance is insufficient for the required deposit.
        **/
@@ -66,10 +66,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotAlly: AugmentedError<ApiType>;
       /**
-       * Account is not a founder.
-       **/
-      NotFounder: AugmentedError<ApiType>;
-      /**
        * Item has not been deemed unscrupulous.
        **/
       NotListedAsUnscrupulous: AugmentedError<ApiType>;
@@ -77,10 +73,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Account is not a member.
        **/
       NotMember: AugmentedError<ApiType>;
-      /**
-       * The proposal is not vetoable.
-       **/
-      NotVetoableProposal: AugmentedError<ApiType>;
       /**
        * Account does not have voting rights.
        **/
@@ -427,8 +419,13 @@ declare module '@polkadot/api-base/types/errors' {
       CodeNotFound: AugmentedError<ApiType>;
       /**
        * The contract's code was found to be invalid during validation or instrumentation.
+       * 
+       * The most likely cause of this is that an API was used which is not supported by the
+       * node. This hapens if an older node is used with a new version of ink!. Try updating
+       * your node to the newest available version.
+       * 
        * A more detailed error can be found on the node console if debug messages are enabled
-       * or in the debug buffer which is returned to RPC clients.
+       * by supplying `-lruntime::contracts=debug`.
        **/
       CodeRejected: AugmentedError<ApiType>;
       /**
