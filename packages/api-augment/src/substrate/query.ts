@@ -30,7 +30,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Maps member type to members of each type.
        **/
-      members: AugmentedQuery<ApiType, (arg: PalletAllianceMemberRole | 'Founder' | 'Fellow' | 'Ally' | 'Retiring' | number | Uint8Array) => Observable<Vec<AccountId32>>, [PalletAllianceMemberRole]> & QueryableStorageEntry<ApiType, [PalletAllianceMemberRole]>;
+      members: AugmentedQuery<ApiType, (arg: PalletAllianceMemberRole | 'Fellow' | 'Ally' | 'Retiring' | number | Uint8Array) => Observable<Vec<AccountId32>>, [PalletAllianceMemberRole]> & QueryableStorageEntry<ApiType, [PalletAllianceMemberRole]>;
       /**
        * A set of members who gave a retirement notice. They can retire after the end of retirement
        * period stored as a future block number.
@@ -38,9 +38,7 @@ declare module '@polkadot/api-base/types/storage' {
       retiringMembers: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<u32>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * The IPFS CID of the alliance rule.
-       * Founders and fellows can propose a new rule with a super-majority.
-       * 
-       * Any founder has a special one-vote veto right to the rule setting.
+       * Fellows can propose a new rule with a super-majority.
        **/
       rule: AugmentedQuery<ApiType, () => Observable<Option<PalletAllianceCid>>, []> & QueryableStorageEntry<ApiType, []>;
       /**

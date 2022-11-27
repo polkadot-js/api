@@ -25,8 +25,7 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       maxAnnouncementsCount: u32 & AugmentedConst<ApiType>;
       /**
-       * The maximum number of members per member role. Should not exceed the sum of
-       * `MaxFounders` and `MaxFellows`.
+       * The maximum number of members per member role.
        **/
       maxMembersCount: u32 & AugmentedConst<ApiType>;
       /**

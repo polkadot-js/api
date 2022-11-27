@@ -19,7 +19,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Alliance disbanded. Includes number deleted members and unreserved deposits.
        **/
-      AllianceDisbanded: AugmentedEvent<ApiType, [votingMembers: u32, allyMembers: u32, unreserved: u32], { votingMembers: u32, allyMembers: u32, unreserved: u32 }>;
+      AllianceDisbanded: AugmentedEvent<ApiType, [fellowMembers: u32, allyMembers: u32, unreserved: u32], { fellowMembers: u32, allyMembers: u32, unreserved: u32 }>;
       /**
        * An ally has been elevated to Fellow.
        **/
@@ -33,6 +33,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       AnnouncementRemoved: AugmentedEvent<ApiType, [announcement: PalletAllianceCid], { announcement: PalletAllianceCid }>;
       /**
+       * A Fellow abdicated their voting rights. They are now an Ally.
+       **/
+      FellowAbdicated: AugmentedEvent<ApiType, [fellow: AccountId32], { fellow: AccountId32 }>;
+      /**
        * A member has been kicked out with its deposit slashed.
        **/
       MemberKicked: AugmentedEvent<ApiType, [member: AccountId32, slashed: Option<u128>], { member: AccountId32, slashed: Option<u128> }>;
@@ -45,9 +49,9 @@ declare module '@polkadot/api-base/types/events' {
        **/
       MemberRetirementPeriodStarted: AugmentedEvent<ApiType, [member: AccountId32], { member: AccountId32 }>;
       /**
-       * Some accounts have been initialized as members (founders/fellows/allies).
+       * Some accounts have been initialized as members (fellows/allies).
        **/
-      MembersInitialized: AugmentedEvent<ApiType, [founders: Vec<AccountId32>, fellows: Vec<AccountId32>, allies: Vec<AccountId32>], { founders: Vec<AccountId32>, fellows: Vec<AccountId32>, allies: Vec<AccountId32> }>;
+      MembersInitialized: AugmentedEvent<ApiType, [fellows: Vec<AccountId32>, allies: Vec<AccountId32>], { fellows: Vec<AccountId32>, allies: Vec<AccountId32> }>;
       /**
        * An account has been added as an Ally and reserved its deposit.
        **/
