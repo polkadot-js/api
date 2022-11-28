@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## 9.9.3 Nov 28, 2022
+## 9.9.4 Nov 28, 2022
 
 Changes:
 
 - Fix dispatchQueue preimage retrieval in derives
+- No change from incorrectly published 9.9.3
 
 
 ## 9.9.2 Nov 27, 2022
