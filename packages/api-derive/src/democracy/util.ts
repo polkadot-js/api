@@ -7,7 +7,7 @@ import type { Option } from '@polkadot/types-codec';
 import type { HexString } from '@polkadot/util/types';
 import type { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
 
-import { BN, bnSqrt, objectSpread } from '@polkadot/util';
+import { BN, bnSqrt, isHex, isString, isU8a, objectSpread, stringToHex, u8aToHex } from '@polkadot/util';
 
 interface ApproxState {
   votedAye: BN;
@@ -141,7 +141,7 @@ export function getStatus (info: Option<PalletDemocracyReferendumInfo | Referend
       : null;
 }
 
-export function getImageHashBounded (hash: Hash | FrameSupportPreimagesBounded): HexString {
+export function getImageHashBounded (hash: Uint8Array | string | Hash | FrameSupportPreimagesBounded): HexString {
   return (hash as FrameSupportPreimagesBounded).isLegacy
     ? (hash as FrameSupportPreimagesBounded).asLegacy.hash_.toHex()
     : (hash as FrameSupportPreimagesBounded).isLookup
@@ -149,7 +149,13 @@ export function getImageHashBounded (hash: Hash | FrameSupportPreimagesBounded):
       // for inline, use the actual Bytes hash
       : (hash as FrameSupportPreimagesBounded).isInline
         ? (hash as FrameSupportPreimagesBounded).asInline.hash.toHex()
-        : hash.toHex();
+        : isString(hash)
+          ? isHex(hash)
+            ? hash
+            : stringToHex(hash)
+          : isU8a(hash)
+            ? u8aToHex(hash)
+            : hash.toHex();
 }
 
 export function getImageHash (status: PalletDemocracyReferendumStatus | ReferendumInfoTo239): HexString {

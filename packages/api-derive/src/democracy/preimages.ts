@@ -84,7 +84,7 @@ function getDemocracyImages (api: DeriveApi, hashes: (Hash | Uint8Array | string
   );
 }
 
-function getImages (api: DeriveApi, bounded: FrameSupportPreimagesBounded[]): Observable<(DeriveProposalImage | undefined)[]> {
+function getImages (api: DeriveApi, bounded: (FrameSupportPreimagesBounded | Uint8Array | string)[]): Observable<(DeriveProposalImage | undefined)[]> {
   const hashes = bounded.map((b) => getImageHashBounded(b));
 
   return api.query.preimage.statusFor.multi(hashes).pipe(
@@ -123,7 +123,7 @@ export function preimages (instanceId: string, api: DeriveApi): (hashes: (Hash |
       ? isFunction(api.query.democracy.preimages)
         ? getDemocracyImages(api, hashes as string[])
         : isFunction(api.query.preimage.preimageFor)
-          ? getImages(api, hashes as FrameSupportPreimagesBounded[])
+          ? getImages(api, hashes)
           : of([])
       : of([])
   );
