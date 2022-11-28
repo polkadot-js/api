@@ -1,4 +1,4 @@
-    3291	Jaco                          	Fix dispatchQueue preimage retrieval in derives (#5356)
+    3292	Jaco                          	9.9.4 (#5357)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
