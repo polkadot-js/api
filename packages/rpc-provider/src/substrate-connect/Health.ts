@@ -17,6 +17,13 @@ export interface HealthChecker {
   responsePassThrough(response: string): string | null
 }
 
+interface JSONRequest {
+  id: string;
+  jsonrpc: '2.0',
+  method: string;
+  params: unknown[];
+}
+
 /*
  * Creates a new health checker.
  *
@@ -103,21 +110,21 @@ class InnerChecker {
   #currentHealthTimeout: ReturnType<typeof setTimeout> | null = null;
   #currentSubunsubRequestId: string | null = null;
   #currentSubscriptionId: string | null = null;
-  #requestToSmoldot: (request: string) => void;
+  #requestToSmoldot: (request: JSONRequest) => void;
   #isSyncing = false;
   #nextRequestId = 0;
 
   constructor (healthCallback: (health: SmoldotHealth) => void, requestToSmoldot: (request: string) => void) {
     this.#healthCallback = healthCallback;
-    this.#requestToSmoldot = requestToSmoldot;
+    this.#requestToSmoldot = (request: JSONRequest) => requestToSmoldot(stringify(request));
   }
 
   sendJsonRpc = (request: string): void => {
     // Replace the `id` in the request to prefix the request ID with `extern:`.
-    let parsedRequest: {id: string | number};
+    let parsedRequest: JSONRequest;
 
     try {
-      parsedRequest = JSON.parse(request) as {id: string | number};
+      parsedRequest = JSON.parse(request) as JSONRequest;
     } catch (err) {
       return;
     }
@@ -128,14 +135,14 @@ class InnerChecker {
       parsedRequest.id = newId;
     }
 
-    this.#requestToSmoldot(stringify(parsedRequest));
+    this.#requestToSmoldot(parsedRequest);
   };
 
   responsePassThrough = (jsonRpcResponse: string): string | null => {
     let parsedResponse: {id: string, result?: SmoldotHealth, params?: { subscription: string }};
 
     try {
-      parsedResponse = JSON.parse(jsonRpcResponse) as {id: string, result: undefined | SmoldotHealth};
+      parsedResponse = JSON.parse(jsonRpcResponse) as { id: string, result: undefined | SmoldotHealth };
     } catch (err) {
       return jsonRpcResponse;
     }
@@ -243,14 +250,12 @@ class InnerChecker {
         this.#currentHealthCheckId = `health-checker:${this.#nextRequestId}`;
         this.#nextRequestId += 1;
 
-        this.#requestToSmoldot(
-          stringify({
-            id: this.#currentHealthCheckId,
-            jsonrpc: '2.0',
-            method: 'system_health',
-            params: []
-          })
-        );
+        this.#requestToSmoldot({
+          id: this.#currentHealthCheckId,
+          jsonrpc: '2.0',
+          method: 'system_health',
+          params: []
+        });
       };
 
       if (startNow) {
@@ -285,14 +290,12 @@ class InnerChecker {
     this.#currentSubunsubRequestId = `health-checker:${this.#nextRequestId}`;
     this.#nextRequestId += 1;
 
-    this.#requestToSmoldot(
-      stringify({
-        id: this.#currentSubunsubRequestId,
-        jsonrpc: '2.0',
-        method: 'chain_subscribeNewHeads',
-        params: []
-      })
-    );
+    this.#requestToSmoldot({
+      id: this.#currentSubunsubRequestId,
+      jsonrpc: '2.0',
+      method: 'chain_subscribeNewHeads',
+      params: []
+    });
   };
 
   endSubscription = (): void => {
@@ -303,14 +306,12 @@ class InnerChecker {
     this.#currentSubunsubRequestId = `health-checker:${this.#nextRequestId}`;
     this.#nextRequestId += 1;
 
-    this.#requestToSmoldot(
-      stringify({
-        id: this.#currentSubunsubRequestId,
-        jsonrpc: '2.0',
-        method: 'chain_unsubscribeNewHeads',
-        params: [this.#currentSubscriptionId]
-      })
-    );
+    this.#requestToSmoldot({
+      id: this.#currentSubunsubRequestId,
+      jsonrpc: '2.0',
+      method: 'chain_unsubscribeNewHeads',
+      params: [this.#currentSubscriptionId]
+    });
   };
 
   destroy = (): void => {
