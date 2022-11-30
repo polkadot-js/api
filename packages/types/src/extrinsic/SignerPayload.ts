@@ -3,7 +3,7 @@
 
 import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { Address, Call, ExtrinsicEra, Hash } from '../interfaces';
+import type { Address, BlockHash, Call, ExtrinsicEra, Hash } from '../interfaces';
 import type { Codec, ICompact, INumber, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
 
 import { Option, Struct, Text, Vec } from '@polkadot/types-codec';
@@ -67,7 +67,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('address');
   }
 
-  get blockHash (): Hash {
+  get blockHash (): BlockHash {
     return this.getT('blockHash');
   }
 
@@ -79,7 +79,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('era');
   }
 
-  get genesisHash (): Hash {
+  get genesisHash (): BlockHash {
     return this.getT('genesisHash');
   }
 

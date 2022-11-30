@@ -3,11 +3,11 @@
 
 import type { AnyJson, BareOpts, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
+import type { BlockHash } from '../interfaces/chain';
 import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
-import type { Hash } from '../interfaces/runtime';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber } from '../types';
 
-import { AbstractBase, Raw } from '@polkadot/types-codec';
+import { AbstractBase, Bytes } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
 import { DEFAULT_VERSION } from './constants';
@@ -49,9 +49,9 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
   }
 
   /**
-   * @description The block [[Hash]] the signature applies to (mortal/immortal)
+   * @description The block [[BlockHash]] the signature applies to (mortal/immortal)
    */
-  public get blockHash (): Hash {
+  public get blockHash (): BlockHash {
     return this.inner.blockHash;
   }
 
@@ -63,17 +63,17 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
   }
 
   /**
-   * @description The genesis block [[Hash]] the signature applies to
+   * @description The genesis block [[BlockHash]] the signature applies to
    */
-  public get genesisHash (): Hash {
+  public get genesisHash (): BlockHash {
     // NOTE only v3+
     return this.inner.genesisHash || this.registry.createTypeUnsafe('Hash', []);
   }
 
   /**
-   * @description The [[Raw]] contained in the payload
+   * @description The [[Bytes]] contained in the payload
    */
-  public get method (): Raw {
+  public get method (): Bytes {
     return this.inner.method;
   }
 

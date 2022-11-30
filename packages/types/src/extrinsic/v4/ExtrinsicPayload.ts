@@ -4,8 +4,8 @@
 import type { SignOptions } from '@polkadot/keyring/types';
 import type { Inspect, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
+import type { BlockHash } from '../../interfaces/chain';
 import type { ExtrinsicEra } from '../../interfaces/extrinsics';
-import type { Hash } from '../../interfaces/runtime';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../../types';
 
 import { Bytes, Enum, Struct } from '@polkadot/types-codec';
@@ -45,9 +45,9 @@ export class GenericExtrinsicPayloadV4 extends Struct {
   }
 
   /**
-   * @description The block [[Hash]] the signature applies to (mortal/immortal)
+   * @description The block [[BlockHash]] the signature applies to (mortal/immortal)
    */
-  public get blockHash (): Hash {
+  public get blockHash (): BlockHash {
     return this.getT('blockHash');
   }
 
@@ -59,9 +59,9 @@ export class GenericExtrinsicPayloadV4 extends Struct {
   }
 
   /**
-   * @description The genesis [[Hash]] the signature applies to (mortal/immortal)
+   * @description The genesis [[BlockHash]] the signature applies to (mortal/immortal)
    */
-  public get genesisHash (): Hash {
+  public get genesisHash (): BlockHash {
     return this.getT('genesisHash');
   }
 
@@ -101,8 +101,7 @@ export class GenericExtrinsicPayloadV4 extends Struct {
   }
 
   /**
-   * @description
-   * The (optional) asset id for this signature for chains that support transaction fees in assets
+   * @description The (optional) asset id for this signature for chains that support transaction fees in assets
    */
   public get assetId (): IOption<INumber> {
     return this.getT('assetId');
@@ -116,7 +115,7 @@ export class GenericExtrinsicPayloadV4 extends Struct {
     // don't want the method (Bytes) to have the length prefix included. This
     // means that the data-as-signed is un-decodable, but is also doesn't need
     // the extra information, only the pure data (and is not decoded) ...
-    // The same applies to V1..V3, if we have a V5, carrythis comment
+    // The same applies to V1..V3, if we have a V5, carry this comment
     return sign(this.registry, signerPair, this.toU8a({ method: true }), this.#signOptions);
   }
 }
