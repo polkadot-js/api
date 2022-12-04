@@ -4,6 +4,8 @@
 
 Changes:
 
+- Adjust payloads to use `BlockHash` types (as applicable)
+- Adjust type-only imports in `ScProvider`
 - Update to latest Polkadot, Kusama & Substrate metadata
 - Update to `@polkadot/util` 10.2.1
 
