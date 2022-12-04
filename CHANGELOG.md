@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 9.10.1 Dec 4, 2022
+
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Update to `@polkadot/util` 10.2.1
+
+
 ## 9.9.4 Nov 28, 2022
 
 Changes:

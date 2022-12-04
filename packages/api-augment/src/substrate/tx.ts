@@ -403,36 +403,37 @@ declare module '@polkadot/api-base/types/submittable' {
       create: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, minBalance: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, u128]>;
       /**
        * Destroy all accounts associated with a given asset.
-       * `destroy_accounts` should only be called after `start_destroy` has been called, and the
-       * asset is in a `Destroying` state
        * 
-       * Due to weight restrictions, this function may need to be called multiple
-       * times to fully destroy all accounts. It will destroy `RemoveItemsLimit` accounts at a
-       * time.
+       * `destroy_accounts` should only be called after `start_destroy` has been called, and the
+       * asset is in a `Destroying` state.
+       * 
+       * Due to weight restrictions, this function may need to be called multiple times to fully
+       * destroy all accounts. It will destroy `RemoveItemsLimit` accounts at a time.
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
        * 
-       * Each call Emits the `Event::DestroyedAccounts` event.
+       * Each call emits the `Event::DestroyedAccounts` event.
        **/
       destroyAccounts: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
-       * Destroy all approvals associated with a given asset up to the max (T::RemoveItemsLimit),
-       * `destroy_approvals` should only be called after `start_destroy` has been called, and the
-       * asset is in a `Destroying` state
+       * Destroy all approvals associated with a given asset up to the max (T::RemoveItemsLimit).
        * 
-       * Due to weight restrictions, this function may need to be called multiple
-       * times to fully destroy all approvals. It will destroy `RemoveItemsLimit` approvals at a
-       * time.
+       * `destroy_approvals` should only be called after `start_destroy` has been called, and the
+       * asset is in a `Destroying` state.
+       * 
+       * Due to weight restrictions, this function may need to be called multiple times to fully
+       * destroy all approvals. It will destroy `RemoveItemsLimit` approvals at a time.
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
        * 
-       * Each call Emits the `Event::DestroyedApprovals` event.
+       * Each call emits the `Event::DestroyedApprovals` event.
        **/
       destroyApprovals: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
        * Complete destroying asset and unreserve currency.
+       * 
        * `finish_destroy` should only be called after `start_destroy` has been called, and the
        * asset is in a `Destroying` state. All accounts or approvals should be destroyed before
        * hand.
@@ -440,7 +441,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
        * 
-       * Each successful call Emits the `Event::Destroyed` event.
+       * Each successful call emits the `Event::Destroyed` event.
        **/
       finishDestroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
@@ -645,17 +646,17 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       setTeam: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, issuer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, admin: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, freezer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, MultiAddress, MultiAddress]>;
       /**
-       * Start the process of destroying a class of fungible asset
-       * start_destroy is the first in a series of extrinsics that should be called, to allow
-       * destroying an asset.
+       * Start the process of destroying a fungible asset class.
        * 
-       * The origin must conform to `ForceOrigin` or must be Signed and the sender must be the
-       * owner of the asset `id`.
+       * `start_destroy` is the first in a series of extrinsics that should be called, to allow
+       * destruction of an asset class.
+       * 
+       * The origin must conform to `ForceOrigin` or must be `Signed` by the asset's `owner`.
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
        * 
-       * Assets must be freezed before calling start_destroy.
+       * The asset class must be frozen before calling `start_destroy`.
        **/
       startDestroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**

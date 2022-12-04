@@ -240,9 +240,31 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       depositPerItem: u128 & AugmentedConst<ApiType>;
       /**
+       * The maximum length of a contract code in bytes. This limit applies to the instrumented
+       * version of the code. Therefore `instantiate_with_code` can fail even when supplying
+       * a wasm binary below this maximum size.
+       **/
+      maxCodeLen: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum allowable length in bytes for storage keys.
+       **/
+      maxStorageKeyLen: u32 & AugmentedConst<ApiType>;
+      /**
        * Cost schedule and limits.
        **/
       schedule: PalletContractsSchedule & AugmentedConst<ApiType>;
+      /**
+       * Make contract callable functions marked as `#[unstable]` available.
+       * 
+       * Contracts that use `#[unstable]` functions won't be able to be uploaded unless
+       * this is set to `true`. This is only meant for testnets and dev nodes in order to
+       * experiment with new features.
+       * 
+       * # Warning
+       * 
+       * Do **not** set to `true` on productions chains.
+       **/
+      unsafeUnstableInterface: bool & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
