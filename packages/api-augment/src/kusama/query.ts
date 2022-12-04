@@ -1097,7 +1097,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Past code of parachains. The parachains themselves may not be registered anymore,
        * but we also keep their code on-chain for the same amount of time as outdated code
-       * to keep it available for secondary checkers.
+       * to keep it available for approval checkers.
        **/
       pastCodeMeta: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<PolkadotRuntimeParachainsParasParaPastCodeMeta>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**

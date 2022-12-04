@@ -268,7 +268,7 @@
             {
               "name": "Version",
               "type": 496,
-              "value": "0x186b7573616d61347061726974792d6b7573616d61020000005e2400000000000040df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a802000000f3ff14d5ab5270590200000017a6bc0d0062aeb3010000000f00000000",
+              "value": "0x186b7573616d61347061726974792d6b7573616d6102000000722400000000000040df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a802000000f3ff14d5ab5270590200000017a6bc0d0062aeb3010000001000000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -6266,7 +6266,7 @@
                 "docs": [
                   " Past code of parachains. The parachains themselves may not be registered anymore,",
                   " but we also keep their code on-chain for the same amount of time as outdated code",
-                  " to keep it available for secondary checkers."
+                  " to keep it available for approval checkers."
                 ]
               },
               {
