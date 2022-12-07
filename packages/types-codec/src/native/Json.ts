@@ -114,7 +114,7 @@ export class Json extends Map<string, any> implements Codec {
    */
   public toPrimitive (): Record<string, AnyJson> {
     return [...this.entries()].reduce<Record<string, AnyJson>>((json, [key, value]): Record<string, AnyJson> => {
-      json[key] = isFunction((value as Codec).toHuman)
+      json[key] = isFunction((value as Codec).toPrimitive)
         ? (value as Codec).toPrimitive()
         : value as AnyJson;
 
