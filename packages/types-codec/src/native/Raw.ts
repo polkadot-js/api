@@ -125,12 +125,14 @@ export class Raw extends Uint8Array implements IU8a {
    * @description Converts the value in a best-fit primitive form
    */
   public toPrimitive (): AnyJson {
-    if (this.isAscii) {
-      const text = this.toUtf8();
+    if ((this.initialU8aLength || 0) < 1024) {
+      if (this.isAscii) {
+        const text = this.toUtf8();
 
-      // ensure we didn't end up with multibyte codepoints
-      if (isAscii(text)) {
-        return text;
+        // ensure we didn't end up with multibyte codepoints
+        if (isAscii(text)) {
+          return text;
+        }
       }
     }
 
