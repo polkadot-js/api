@@ -37,6 +37,8 @@ const subscriptionUnsubscriptionMethods = new Map<string, string>([
 const wellKnownChains = new Set(Object.values(WellKnownChain));
 const scClients = new WeakMap<ScProvider, ScClient>();
 
+export { WellKnownChain };
+
 interface ActiveSubs {
   type: string,
   method: string,
