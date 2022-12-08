@@ -23,7 +23,7 @@
   "version": "9.10.2-0-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.1",
+    "@babel/runtime": "^7.20.6",
     "@polkadot/api": "9.10.2-0-x",
     "@polkadot/api-augment": "9.10.2-0-x",
     "@polkadot/api-base": "9.10.2-0-x",
@@ -32,7 +32,7 @@
     "@polkadot/types-codec": "9.10.2-0-x",
     "@polkadot/util": "^10.2.1",
     "@polkadot/util-crypto": "^10.2.1",
-    "rxjs": "^7.5.7"
+    "rxjs": "^7.6.0"
   },
   "devDependencies": {
     "@polkadot/api": "9.10.2-0-x",

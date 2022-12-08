@@ -23,7 +23,7 @@
   "version": "9.10.2-0-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.1",
+    "@babel/runtime": "^7.20.6",
     "@polkadot/networks": "^10.2.1",
     "@polkadot/types": "9.10.2-0-x",
     "@polkadot/types-codec": "9.10.2-0-x",
