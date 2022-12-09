@@ -2,6 +2,8 @@
 
 ## 9.10.1 Dec 4, 2022
 
+- **Important** Since [9.2.1](https://github.com/polkadot-js/api/releases/tag/v9.2.1) the recommended way of accessing `WellknownChains` is via `ScProvider.WellknownChains`. This release removes the explicit export from the `ScProvider` root, as indicated previously.
+
 Changes:
 
 - Adjust payloads to use `BlockHash` types (as applicable)
