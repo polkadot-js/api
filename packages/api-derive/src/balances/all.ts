@@ -58,7 +58,7 @@ function calcShared (api: DeriveApi, bestNumber: BlockNumber, data: DeriveBalanc
   const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
 
   return objectSpread({}, data, {
-    availableBalance: api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), data.freeBalance.sub(lockedBalance))),
+    availableBalance: api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), data?.freeBalance ? data.freeBalance.sub(lockedBalance) : new BN(0))),
     lockedBalance,
     lockedBreakdown,
     vestingLocked
@@ -98,7 +98,8 @@ function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountD
   };
 }
 
-function calcBalances (api: DeriveApi, [data, [vesting, allLocks, namedReserves], bestNumber]: Result): DeriveBalancesAll {
+function calcBalances (api: DeriveApi, result: Result): DeriveBalancesAll {
+  const [data, [vesting, allLocks, namedReserves], bestNumber] = result;
   const shared = calcShared(api, bestNumber, data, allLocks[0]);
 
   return objectSpread(shared, calcVesting(bestNumber, shared, vesting), {
