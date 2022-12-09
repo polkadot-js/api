@@ -150,7 +150,7 @@ function querySystemAccount (api: DeriveApi, accountId: AccountId): Observable<R
  */
 export function account (instanceId: string, api: DeriveApi): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
   const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName, 'balances');
-  const nonDefaultBalances = balanceInstances && (balanceInstances.length !== 1 || balanceInstances[0] !== 'balances');
+  const nonDefaultBalances = balanceInstances && balanceInstances[0] !== 'balances';
 
   return memo(instanceId, (address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAccount> =>
     api.derive.accounts.accountId(address).pipe(
