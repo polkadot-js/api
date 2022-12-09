@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 9.10.2 Dec 9, 2022
+
+Changes:
+
+- Fix `derive.balances.account` detection for system vs balances
+
+
 ## 9.10.1 Dec 4, 2022
 
 - **Important** Since [9.2.1](https://github.com/polkadot-js/api/releases/tag/v9.2.1) the recommended way of accessing `WellKnownChain` for light clients is via `ScProvider.WellKnownChain`. This release removes the explicit export from the `ScProvider` root.
