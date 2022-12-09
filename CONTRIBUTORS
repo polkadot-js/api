@@ -1,4 +1,4 @@
-    3300	Jaco                          	Explicit mention of recommended WellKnownChains usage in CHANGELOG (#5372)
+    3301	Jaco                          	Fix derive.balances.account detection for system vs balances (#5373)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
