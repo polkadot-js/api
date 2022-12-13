@@ -41,6 +41,11 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
     )[1];
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   public static with<O extends Codec> (Type: CodecClass<O> | string, length: number): CodecClass<VecFixed<O>> {
     let definition: CodecClass<O> | undefined;
 
@@ -60,11 +65,6 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    */
   public get Type (): string {
     return new this.#Type(this.registry).toRawType();
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   /**

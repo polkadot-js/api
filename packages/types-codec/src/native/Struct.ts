@@ -129,6 +129,11 @@ export class Struct<
     this.#Types = typeMap;
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
     let definition: Definition | undefined;
 
@@ -156,11 +161,6 @@ export class Struct<
    */
   public get defKeys (): string[] {
     return this.#Types[1];
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   /**

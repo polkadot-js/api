@@ -67,6 +67,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
     this.#raw = raw;
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {
     let definition: CodecClass<O> | undefined;
 
@@ -93,11 +98,6 @@ export class Compact<T extends INumber> implements ICompact<T> {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   /**

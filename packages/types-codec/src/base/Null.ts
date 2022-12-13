@@ -27,16 +27,16 @@ export class Null implements Codec {
     this.registry = registry;
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
     throw new Error('.hash is not implemented on Null');
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   /**

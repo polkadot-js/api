@@ -78,6 +78,11 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
     this.#Types = Classes;
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   public static with (Types: TupleTypes | TupleType): CodecClass<Tuple> {
     let definition: Definition | undefined;
 
@@ -103,11 +108,6 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
     }
 
     return total;
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   /**

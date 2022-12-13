@@ -222,6 +222,11 @@ export class Enum implements IEnum {
     }
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   public static with (Types: Record<string, string | CodecClass> | Record<string, number> | string[]): EnumCodecClass<Enum> {
     let definition: Definition | undefined;
 
@@ -275,11 +280,6 @@ export class Enum implements IEnum {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   /**

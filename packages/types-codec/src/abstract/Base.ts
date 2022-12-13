@@ -23,6 +23,11 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
     this.registry = registry;
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -35,11 +40,6 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   public get inner (): T {

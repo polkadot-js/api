@@ -88,6 +88,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     this.#ValClass = ValClass;
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   public static with<V extends Codec> (valType: CodecClass<V> | string): CodecClass<BTreeSet<V>> {
     return class extends BTreeSet<V> {
       constructor (registry: Registry, value?: Uint8Array | string | Set<any>) {
@@ -114,11 +119,6 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   /**

@@ -89,6 +89,11 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
     )[0];
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Vec<O>> {
     let definition: CodecClass<O> | undefined;
 
@@ -108,11 +113,6 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
    */
   public get Type (): string {
     return this.#Type.name;
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   /**

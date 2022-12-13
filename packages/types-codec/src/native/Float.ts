@@ -44,6 +44,11 @@ export class Float extends Number implements IFloat {
     this.registry = registry;
   }
 
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   public static with (bitLength: 32 | 64): CodecClass<Float> {
     return class extends Float {
       constructor (registry: Registry, value?: AnyFloat) {
@@ -57,11 +62,6 @@ export class Float extends Number implements IFloat {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
-  }
-
-  /** @deprecated Use $initialU8aLength */
-  public get initialU8aLength (): number | undefined {
-    return this.$initialU8aLength;
   }
 
   /**
