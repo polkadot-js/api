@@ -200,7 +200,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         : await firstValueFrom(this._rpcCore.chain.getHeader.raw(blockHash))
     );
 
-    if (header.parentHash.isEmpty) {
+    if (header.parentHash.$isEmpty) {
       throw new Error('Unable to retrieve header and parent from supplied hash');
     }
 

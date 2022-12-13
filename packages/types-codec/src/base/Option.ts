@@ -108,6 +108,11 @@ export class Option<T extends Codec> implements IOption<T> {
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Option<O>> {
     let definition: CodecClass<O> | undefined;
 
@@ -142,7 +147,7 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description Checks if the Option has no value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.isNone;
   }
 

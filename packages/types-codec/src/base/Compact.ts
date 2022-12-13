@@ -114,7 +114,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    return this.#raw.isEmpty;
+    return this.#raw.$isEmpty;
   }
 
   /**

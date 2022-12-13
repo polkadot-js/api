@@ -54,6 +54,11 @@ export class CodecDate extends Date implements INumber {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -71,7 +76,7 @@ export class CodecDate extends Date implements INumber {
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.getTime() === 0;
   }
 

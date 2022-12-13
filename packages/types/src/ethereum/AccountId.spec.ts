@@ -19,7 +19,7 @@ describe('EthereumAccountId', (): void => {
     });
 
     it('is empty by default', (): void => {
-      expect(id.isEmpty).toBe(true);
+      expect(id.$isEmpty).toBe(true);
     });
 
     it('equals the empty address', (): void => {
@@ -77,7 +77,7 @@ describe('EthereumAccountId', (): void => {
     ]));
 
     it('decodes to a non-empty value', (): void => {
-      expect(registry.createType('EthereumAccountId', '0x4119b2e6c3Cb618F4f0B93ac77f9BeeC7FF02887').isEmpty).toBe(false);
+      expect(registry.createType('EthereumAccountId', '0x4119b2e6c3Cb618F4f0B93ac77f9BeeC7FF02887').$isEmpty).toBe(false);
     });
   });
 });

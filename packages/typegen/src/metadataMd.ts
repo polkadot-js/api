@@ -232,7 +232,7 @@ function addConstants ({ lookup, pallets }: MetadataLatest): string {
     description: DESC_CONSTANTS,
     sections: pallets
       .sort(sortByName)
-      .filter(({ constants }) => !constants.isEmpty)
+      .filter(({ constants }) => !constants.$isEmpty)
       .map(({ constants, name }) => {
         const sectionName = stringLowerFirst(name);
 

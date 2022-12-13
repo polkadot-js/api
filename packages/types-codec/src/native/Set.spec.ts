@@ -33,7 +33,7 @@ describe('Set', (): void => {
   it('constructs via an string[]', (): void => {
     const set = new CodecSet(registry, SET_ROLES, ['full', 'authority']);
 
-    expect(set.isEmpty).toEqual(false);
+    expect(set.$isEmpty).toEqual(false);
     expect(set.toString()).toEqual(
       '[full, authority]'
     );

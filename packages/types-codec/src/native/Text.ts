@@ -81,6 +81,11 @@ export class Text extends String implements IText {
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -98,7 +103,7 @@ export class Text extends String implements IText {
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.length === 0;
   }
 

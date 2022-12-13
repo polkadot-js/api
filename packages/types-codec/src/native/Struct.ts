@@ -144,6 +144,11 @@ export class Struct<
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
     let definition: Definition | undefined;
 
@@ -176,9 +181,9 @@ export class Struct<
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     for (const v of this.values()) {
-      if (!v.isEmpty) {
+      if (!v.$isEmpty) {
         return false;
       }
     }

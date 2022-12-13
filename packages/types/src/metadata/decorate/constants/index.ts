@@ -17,7 +17,7 @@ export function decorateConstants (registry: Registry, { pallets }: MetadataLate
   for (let i = 0; i < pallets.length; i++) {
     const { constants, name } = pallets[i];
 
-    if (!constants.isEmpty) {
+    if (!constants.$isEmpty) {
       lazyMethod(result, stringCamelCase(name), () =>
         lazyMethods(
           {},

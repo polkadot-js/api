@@ -38,6 +38,11 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -59,8 +64,8 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
-    return this.#raw.isEmpty;
+  public get $isEmpty (): boolean {
+    return this.#raw.$isEmpty;
   }
 
   /**

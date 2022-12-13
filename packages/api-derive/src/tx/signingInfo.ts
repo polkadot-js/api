@@ -37,7 +37,7 @@ function signingHeader (api: DeriveApi): Observable<Header> {
       switchMap((header) =>
         // check for chains at genesis (until block 1 is produced, e.g. 6s), since
         // we do need to allow transactions at chain start (also dev/seal chains)
-        header.parentHash.isEmpty
+        header.parentHash.$isEmpty
           ? of(header)
           // in the case of the current block, we use the parent to minimize the
           // impact of forks on the system, but not completely remove it

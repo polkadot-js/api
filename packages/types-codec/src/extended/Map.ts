@@ -133,6 +133,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -156,7 +161,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.size === 0;
   }
 

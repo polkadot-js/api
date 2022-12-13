@@ -237,6 +237,11 @@ export class Enum implements IEnum {
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   public static with (Types: Record<string, string | CodecClass> | Record<string, number> | string[]): EnumCodecClass<Enum> {
     let definition: Definition | undefined;
 
@@ -316,8 +321,8 @@ export class Enum implements IEnum {
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
-    return this.#raw.isEmpty;
+  public get $isEmpty (): boolean {
+    return this.#raw.$isEmpty;
   }
 
   /**

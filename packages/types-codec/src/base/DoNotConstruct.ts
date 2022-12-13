@@ -33,6 +33,11 @@ export class DoNotConstruct implements Codec {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   public static with (typeName?: string): CodecClass {
     return class extends DoNotConstruct {
       constructor (registry: Registry) {
@@ -58,7 +63,7 @@ export class DoNotConstruct implements Codec {
   /**
    * @description Checks if the value is an empty value (always true)
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     throw this.#neverError;
   }
 

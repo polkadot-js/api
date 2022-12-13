@@ -120,6 +120,11 @@ export abstract class AbstractInt extends BN implements INumber {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   /**
    * @description returns a hash of the contents
    */
@@ -130,7 +135,7 @@ export abstract class AbstractInt extends BN implements INumber {
   /**
    * @description Checks if the value is a zero value (align elsewhere)
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.isZero();
   }
 

@@ -22,12 +22,12 @@ export interface Inspect {
  * The Codec Base is however required for operating as an encoding/decoding layer
  */
 export interface Codec {
-  // these are all the deprecated getters
+  // these are all the deprecated getters (all readonly)
 
   /**
    * @deprecated Use $createdAtHash
    */
-  createdAtHash?: IU8a;
+  readonly createdAtHash?: IU8a;
 
   /**
    * @deprecated Use $encodedLength
@@ -38,6 +38,11 @@ export interface Codec {
    * @deprecated Use $initialU8aLength
    */
   readonly initialU8aLength?: number;
+
+  /**
+   * @deprecated Use $isEmpty
+   */
+  readonly isEmpty: boolean;
 
   // normal programming resumes ...
 
@@ -57,14 +62,14 @@ export interface Codec {
   readonly $initialU8aLength?: number;
 
   /**
+   * @description Checks if the value is an empty value
+   */
+  readonly $isEmpty: boolean;
+
+  /**
    * @description Returns a hash of the value
    */
   readonly hash: IU8a;
-
-  /**
-   * @description Checks if the value is an empty value
-   */
-  readonly isEmpty: boolean;
 
   /**
    * @description The registry associated with this object

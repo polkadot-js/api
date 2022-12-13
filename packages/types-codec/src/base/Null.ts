@@ -16,7 +16,7 @@ export class Null implements Codec {
 
   public readonly $initialU8aLength = 0;
 
-  public readonly isEmpty = true;
+  public readonly $isEmpty = true;
 
   public readonly registry: Registry;
 
@@ -39,6 +39,11 @@ export class Null implements Codec {
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
+  }
+
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
   }
 
   /**

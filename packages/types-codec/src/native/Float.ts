@@ -59,6 +59,11 @@ export class Float extends Number implements IFloat {
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   public static with (bitLength: 32 | 64): CodecClass<Float> {
     return class extends Float {
       constructor (registry: Registry, value?: AnyFloat) {
@@ -77,7 +82,7 @@ export class Float extends Number implements IFloat {
   /**
    * @description Returns true if the type wraps an empty/default all-0 value
    */
-  get isEmpty (): boolean {
+  get $isEmpty (): boolean {
     return this.valueOf() === 0;
   }
 

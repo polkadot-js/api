@@ -46,6 +46,11 @@ export class bool extends Boolean implements Codec {
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -63,7 +68,7 @@ export class bool extends Boolean implements Codec {
   /**
    * @description Checks if the value is an empty value (true when it wraps false/default)
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.isFalse;
   }
 

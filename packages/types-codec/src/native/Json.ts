@@ -46,6 +46,11 @@ export class Json extends Map<string, any> implements Codec {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   /**
    * @description Always 0, never encodes as a Uint8Array
    */
@@ -63,7 +68,7 @@ export class Json extends Map<string, any> implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return [...this.keys()].length === 0;
   }
 

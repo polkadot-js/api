@@ -24,7 +24,7 @@ function checkInstance (created: Codec, matcher: Uint8Array): void {
     ) ||
     (
       // when the created is empty and matcher is also empty, let it slide...
-      created.isEmpty &&
+      created.$isEmpty &&
       matcher.every((v) => !v)
     )
   );

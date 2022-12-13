@@ -44,6 +44,11 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -69,7 +74,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.length === 0;
   }
 

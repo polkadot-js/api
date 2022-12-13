@@ -118,6 +118,11 @@ export class CodecSet extends Set<string> implements ISet<string> {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   public static with (values: SetValues, bitLength?: number): CodecClass<CodecSet> {
     return class extends CodecSet {
       static {
@@ -156,7 +161,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
   /**
    * @description true is the Set contains no values
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.size === 0;
   }
 

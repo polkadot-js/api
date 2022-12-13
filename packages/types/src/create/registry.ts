@@ -202,7 +202,7 @@ export class TypeRegistry implements Registry {
 
   #userExtensions?: ExtDef;
 
-  public createdAtHash?: Hash;
+  public $createdAtHash?: Hash;
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
@@ -215,8 +215,13 @@ export class TypeRegistry implements Registry {
     }
 
     if (createdAtHash) {
-      this.createdAtHash = this.createType('Hash', createdAtHash);
+      this.$createdAtHash = this.createType('Hash', createdAtHash);
     }
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): Hash | undefined {
+    return this.$createdAtHash;
   }
 
   public get chainDecimals (): number[] {

@@ -22,7 +22,7 @@ describe('Float', (): void => {
 
     it('triggers isEmpty on 0', (): void => {
       expect(
-        new F32(registry, 0).isEmpty
+        new F32(registry, 0).$isEmpty
       ).toEqual(true);
     });
 

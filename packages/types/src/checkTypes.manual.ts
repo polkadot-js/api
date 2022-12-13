@@ -98,4 +98,4 @@ const tt9 = registry.createType('(u32, (u32, u64), Vec<u8>, Vec<(u32, u64)>, [u8
 // tuple with nested fixed
 const tta = registry.createType('([u8;32], [u16;5])');
 
-assert(tt1[2].bitLength() && tt2.bitLength() && tt4[3].bitLength() && tt5.isEmpty && tt6[1].toHuman() && tt7.toHuman() && tt8.toHuman() && tt9.toHuman() && tta[1][1].bitLength(), 'All ok');
+assert(tt1[2].bitLength() && tt2.bitLength() && tt4[3].bitLength() && tt5.$isEmpty && tt6[1].toHuman() && tt7.toHuman() && tt8.toHuman() && tt9.toHuman() && tta[1][1].bitLength(), 'All ok');

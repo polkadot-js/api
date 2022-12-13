@@ -57,7 +57,9 @@ export interface Registry {
   // readonly unknownTypes: string[];
   // readonly signedExtensions: string[];
 
-  createdAtHash?: IU8a;
+  readonly createdAtHash?: IU8a;
+
+  $createdAtHash?: IU8a;
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
   findMetaError (errorIndex: Uint8Array | { error: BN, index: BN } | { error: BN | Uint8Array, index: BN }): RegistryError;
