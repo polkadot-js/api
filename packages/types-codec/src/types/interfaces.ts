@@ -14,10 +14,12 @@ export interface ICompact<T extends INumber = INumber> extends Codec {
 }
 
 export interface IEnum extends Codec {
+  readonly $isBasic: boolean;
+  readonly $isNone: boolean;
+
   readonly defIndexes: number[];
   readonly defKeys: string[];
   readonly index: number;
-  readonly isBasic: boolean;
   readonly type: string;
   readonly value: Codec;
 

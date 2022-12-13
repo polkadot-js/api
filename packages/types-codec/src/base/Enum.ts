@@ -242,9 +242,19 @@ export class Enum implements IEnum {
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isBasic */
+  public get isBasic (): boolean {
+    return this.$isBasic;
+  }
+
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
+  }
+
+  /** @deprecated Use $isNone */
+  public get isNone (): boolean {
+    return this.$isNone;
   }
 
   /** @deprecated Use $registry */
@@ -324,7 +334,7 @@ export class Enum implements IEnum {
   /**
    * @description true if this is a basic enum (no values)
    */
-  public get isBasic (): boolean {
+  public get $isBasic (): boolean {
     return this.#isBasic;
   }
 
@@ -338,7 +348,7 @@ export class Enum implements IEnum {
   /**
    * @description Checks if the Enum points to a [[Null]] type
    */
-  public get isNone (): boolean {
+  public get $isNone (): boolean {
     return this.#raw instanceof Null;
   }
 

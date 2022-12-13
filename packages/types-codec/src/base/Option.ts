@@ -103,6 +103,11 @@ export class Option<T extends Codec> implements IOption<T> {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -140,11 +145,6 @@ export class Option<T extends Codec> implements IOption<T> {
   public get $encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
     return 1 + this.#raw.$encodedLength;
-  }
-
-  /** @deprecated Use $hash */
-  public get hash (): IU8a {
-    return this.$hash;
   }
 
   /**

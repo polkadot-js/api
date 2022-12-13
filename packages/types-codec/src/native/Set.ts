@@ -118,6 +118,11 @@ export class CodecSet extends Set<string> implements ISet<string> {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
@@ -154,11 +159,6 @@ export class CodecSet extends Set<string> implements ISet<string> {
    */
   public get $encodedLength (): number {
     return this.#byteLength;
-  }
-
-  /** @deprecated Use $hash */
-  public get hash (): IU8a {
-    return this.$hash;
   }
 
   /**

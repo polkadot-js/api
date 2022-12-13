@@ -54,6 +54,11 @@ export class CodecDate extends Date implements INumber {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
@@ -69,11 +74,6 @@ export class CodecDate extends Date implements INumber {
    */
   public get $encodedLength (): number {
     return BITLENGTH / 8;
-  }
-
-  /** @deprecated Use $hash */
-  public get hash (): IU8a {
-    return this.$hash;
   }
 
   /**

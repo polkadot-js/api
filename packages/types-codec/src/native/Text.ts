@@ -76,6 +76,11 @@ export class Text extends String implements IText {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -96,11 +101,6 @@ export class Text extends String implements IText {
    */
   public get $encodedLength (): number {
     return this.toU8a().length;
-  }
-
-  /** @deprecated Use $hash */
-  public get hash (): IU8a {
-    return this.$hash;
   }
 
   /**

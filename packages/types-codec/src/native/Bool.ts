@@ -41,6 +41,11 @@ export class bool extends Boolean implements Codec {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -61,11 +66,6 @@ export class bool extends Boolean implements Codec {
    */
   public get $encodedLength (): number {
     return 1;
-  }
-
-  /** @deprecated Use $hash */
-  public get hash (): IU8a {
-    return this.$hash;
   }
 
   /**

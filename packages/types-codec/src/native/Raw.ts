@@ -47,6 +47,11 @@ export class Raw extends Uint8Array implements IU8a {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -67,11 +72,6 @@ export class Raw extends Uint8Array implements IU8a {
    */
   public get $encodedLength (): number {
     return this.length;
-  }
-
-  /** @deprecated Use $hash */
-  public get hash (): IU8a {
-    return this.$hash;
   }
 
   /**
