@@ -12,7 +12,7 @@ import { firstMemo, memo } from '../util';
 
 export function _stakerExposures (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerExposure[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive = false): Observable<DeriveStakerExposure[][]> => {
-    const stakerIds = accountIds.map((a) => api.$registry.createType('AccountId', a).toString());
+    const stakerIds = accountIds.map((a) => api.registry.createType('AccountId', a).toString());
 
     return api.derive.staking._erasExposure(eras, withActive).pipe(
       map((exposures): DeriveStakerExposure[][] =>

@@ -27,7 +27,7 @@ function constructProposal (api: DeriveApi, [bytes, proposer, balance, at]: Prei
   let proposal: Call | undefined;
 
   try {
-    proposal = api.$registry.createType('Call', bytes.toU8a(true));
+    proposal = api.registry.createType('Call', bytes.toU8a(true));
   } catch (error) {
     console.error(error);
   }
@@ -67,7 +67,7 @@ function parseImage (api: DeriveApi, [proposalHash, status, bytes]: [HexString, 
 
   if (bytes) {
     try {
-      proposal = api.$registry.createType('Call', bytes.toU8a(true));
+      proposal = api.registry.createType('Call', bytes.toU8a(true));
     } catch (error) {
       console.error(error);
     }

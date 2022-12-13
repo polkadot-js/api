@@ -29,7 +29,7 @@ export function erasHistoric (instanceId: string, api: DeriveApi): (withActive?:
 
         while (lastEra.gte(BN_ZERO) && (result.length < max)) {
           if ((lastEra !== activeEra) || (withActive === true)) {
-            result.push(api.$registry.createType('EraIndex', lastEra));
+            result.push(api.registry.createType('EraIndex', lastEra));
           }
 
           lastEra = lastEra.sub(BN_ONE);

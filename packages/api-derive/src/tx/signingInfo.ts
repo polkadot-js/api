@@ -68,7 +68,7 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
         ? latestNonce(api, address)
         : nonce === -1
           ? nextNonce(api, address)
-          : of(api.$registry.createType('Index', nonce)),
+          : of(api.registry.createType('Index', nonce)),
       // if no era (create) or era > 0 (mortal), do block retrieval
       (isUndefined(era) || (isNumber(era) && era > 0))
         ? signingHeader(api)

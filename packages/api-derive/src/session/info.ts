@@ -17,11 +17,11 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
   return memo(instanceId, (): Observable<DeriveSessionInfo> =>
     api.derive.session.indexes().pipe(
       map((indexes) => {
-        const sessionLength = api.consts?.babe?.epochDuration || api.$registry.createType('u64', 1);
-        const sessionsPerEra = api.consts?.staking?.sessionsPerEra || api.$registry.createType('SessionIndex', 1);
+        const sessionLength = api.consts?.babe?.epochDuration || api.registry.createType('u64', 1);
+        const sessionsPerEra = api.consts?.staking?.sessionsPerEra || api.registry.createType('SessionIndex', 1);
 
         return objectSpread({
-          eraLength: api.$registry.createType('BlockNumber', sessionsPerEra.mul(sessionLength)),
+          eraLength: api.registry.createType('BlockNumber', sessionsPerEra.mul(sessionLength)),
           isEpoch: !!api.query.babe,
           sessionLength,
           sessionsPerEra

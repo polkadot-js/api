@@ -32,22 +32,22 @@ type DeriveCustomLocks = DeriveApi['derive'] & {
 const VESTING_ID = '0x76657374696e6720';
 
 function calcLocked (api: DeriveApi, bestNumber: BlockNumber, locks: (PalletBalancesBalanceLock | BalanceLockTo212)[]): AllLocked {
-  let lockedBalance = api.$registry.createType('Balance');
+  let lockedBalance = api.registry.createType('Balance');
   let lockedBreakdown: (PalletBalancesBalanceLock | BalanceLockTo212)[] = [];
-  let vestingLocked = api.$registry.createType('Balance');
+  let vestingLocked = api.registry.createType('Balance');
   let allLocked = false;
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
     lockedBreakdown = (locks as BalanceLockTo212[]).filter(({ until }): boolean => !until || (bestNumber && until.gt(bestNumber)));
     allLocked = lockedBreakdown.some(({ amount }) => amount && amount.isMax());
-    vestingLocked = api.$registry.createType('Balance', lockedBreakdown.filter(({ id }) => id.eq(VESTING_ID)).reduce((result: BN, { amount }) => result.iadd(amount), new BN(0)));
+    vestingLocked = api.registry.createType('Balance', lockedBreakdown.filter(({ id }) => id.eq(VESTING_ID)).reduce((result: BN, { amount }) => result.iadd(amount), new BN(0)));
 
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     const notAll = lockedBreakdown.filter(({ amount }) => amount && !amount.isMax());
 
     if (notAll.length) {
-      lockedBalance = api.$registry.createType('Balance', bnMax(...notAll.map(({ amount }): Balance => amount)));
+      lockedBalance = api.registry.createType('Balance', bnMax(...notAll.map(({ amount }): Balance => amount)));
     }
   }
 
@@ -58,7 +58,7 @@ function calcShared (api: DeriveApi, bestNumber: BlockNumber, data: DeriveBalanc
   const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
 
   return objectSpread({}, data, {
-    availableBalance: api.$registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), data?.freeBalance ? data.freeBalance.sub(lockedBalance) : new BN(0))),
+    availableBalance: api.registry.createType('Balance', allLocked ? 0 : bnMax(new BN(0), data?.freeBalance ? data.freeBalance.sub(lockedBalance) : new BN(0))),
     lockedBalance,
     lockedBreakdown,
     vestingLocked
@@ -124,7 +124,7 @@ function queryOld (api: DeriveApi, accountId: AccountId | string): Observable<Re
       if (optVesting.isSome) {
         const { offset: locked, perBlock, startingBlock } = optVesting.unwrap();
 
-        vestingNew = api.$registry.createType<PalletVestingVestingInfo>('VestingInfo', { locked, perBlock, startingBlock });
+        vestingNew = api.registry.createType<PalletVestingVestingInfo>('VestingInfo', { locked, perBlock, startingBlock });
       }
 
       return [
@@ -163,7 +163,7 @@ function queryCurrent (api: DeriveApi, accountId: AccountId | string, balanceIns
   return combineLatest([
     api.query.vesting?.vesting
       ? api.query.vesting.vesting(accountId)
-      : of(api.$registry.createType('Option<VestingInfo>')),
+      : of(api.registry.createType('Option<VestingInfo>')),
     lockQueries.length
       ? combineLatest(lockQueries.map((c) => c(accountId)))
       : of([] as Vec<PalletBalancesBalanceLock>[]),
@@ -183,10 +183,10 @@ function queryCurrent (api: DeriveApi, accountId: AccountId | string, balanceIns
             : [vesting as PalletVestingVestingInfo]
           : null,
         lockEmpty.map((e) =>
-          e ? api.$registry.createType<Vec<PalletBalancesBalanceLock>>('Vec<BalanceLock>') : locks[++offsetLock]
+          e ? api.registry.createType<Vec<PalletBalancesBalanceLock>>('Vec<BalanceLock>') : locks[++offsetLock]
         ),
         reserveEmpty.map((e) =>
-          e ? api.$registry.createType<Vec<PalletBalancesReserveData>>('Vec<PalletBalancesReserveData>') : reserves[++offsetReserve]
+          e ? api.registry.createType<Vec<PalletBalancesReserveData>>('Vec<PalletBalancesReserveData>') : reserves[++offsetReserve]
         )
       ];
     })
@@ -209,7 +209,7 @@ function queryCurrent (api: DeriveApi, accountId: AccountId | string, balanceIns
  * ```
  */
 export function all (instanceId: string, api: DeriveApi): (address: AccountId | string) => Observable<DeriveBalancesAll> {
-  const balanceInstances = api.$registry.getModuleInstances(api.runtimeVersion.specName, 'balances');
+  const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName, 'balances');
 
   return memo(instanceId, (address: AccountId | string): Observable<DeriveBalancesAll> =>
     combineLatest([

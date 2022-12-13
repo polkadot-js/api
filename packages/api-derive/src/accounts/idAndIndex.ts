@@ -34,14 +34,14 @@ export function idAndIndex (instanceId: string, api: DeriveApi): (address?: Addr
         : decodeAddress((address || '').toString());
 
       if (decoded.length > 8) {
-        const accountId = api.$registry.createType('AccountId', decoded);
+        const accountId = api.registry.createType('AccountId', decoded);
 
         return api.derive.accounts.idToIndex(accountId).pipe(
           map((accountIndex): AccountIdAndIndex => [accountId, accountIndex])
         );
       }
 
-      const accountIndex = api.$registry.createType('AccountIndex', decoded);
+      const accountIndex = api.registry.createType('AccountIndex', decoded);
 
       return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
         map((accountId): AccountIdAndIndex => [accountId, accountIndex])

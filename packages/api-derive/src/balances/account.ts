@@ -24,11 +24,11 @@ type DeriveCustomAccount = DeriveApi['derive'] & {
 }
 
 function zeroBalance (api: DeriveApi) {
-  return api.$registry.createType('Balance');
+  return api.registry.createType('Balance');
 }
 
 function getBalance (api: DeriveApi, [freeBalance, reservedBalance, frozenFee, frozenMisc]: BalanceResult): DeriveBalancesAccountData {
-  const votingBalance = api.$registry.createType('Balance', freeBalance.toBn());
+  const votingBalance = api.registry.createType('Balance', freeBalance.toBn());
 
   return {
     freeBalance,
@@ -75,7 +75,7 @@ function queryNonceOnly (api: DeriveApi, accountId: AccountId): Observable<Resul
       ? api.query.system.accountNonce<Index>(accountId).pipe(
         map((nonce) => fill(nonce))
       )
-      : of(fill(api.$registry.createType('Index')));
+      : of(fill(api.registry.createType('Index')));
 }
 
 function queryBalancesAccount (api: DeriveApi, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
@@ -149,7 +149,7 @@ function querySystemAccount (api: DeriveApi, accountId: AccountId): Observable<R
  * ```
  */
 export function account (instanceId: string, api: DeriveApi): (address: AccountIndex | AccountId | Address | string) => Observable<DeriveBalancesAccount> {
-  const balanceInstances = api.$registry.getModuleInstances(api.runtimeVersion.specName, 'balances');
+  const balanceInstances = api.registry.getModuleInstances(api.runtimeVersion.specName, 'balances');
   const nonDefaultBalances = balanceInstances && balanceInstances[0] !== 'balances';
 
   return memo(instanceId, (address: AccountIndex | AccountId | Address | string): Observable<DeriveBalancesAccount> =>
@@ -168,8 +168,8 @@ export function account (instanceId: string, api: DeriveApi): (address: AccountI
                     ? queryBalancesFree(api, accountId)
                     : queryNonceOnly(api, accountId)
           ])
-          : of([api.$registry.createType('AccountId'), [
-            api.$registry.createType('Index'),
+          : of([api.registry.createType('AccountId'), [
+            api.registry.createType('Index'),
             [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
           ]])
         )

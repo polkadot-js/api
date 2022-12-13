@@ -17,11 +17,11 @@ function _getValues (api: DeriveApi, childKey: string, keys: string[]): Observab
   return combineLatest(keys.map((k) => api.rpc.childstate.getStorage(childKey, k))).pipe(
     map((values) =>
       values
-        .map((v) => api.$registry.createType('Option<StorageData>', v))
+        .map((v) => api.registry.createType('Option<StorageData>', v))
         .map((o) =>
           o.isSome
-            ? api.$registry.createType('Balance', o.unwrap())
-            : api.$registry.createType('Balance')
+            ? api.registry.createType('Balance', o.unwrap())
+            : api.registry.createType('Balance')
         )
         .reduce((all: DeriveOwnContributions, b, index): DeriveOwnContributions =>
           objectSpread(all, { [keys[index]]: b }), {})

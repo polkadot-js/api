@@ -35,7 +35,7 @@ describe('bounties derive', () => {
     api = createApiWithAugmentations();
 
     ({ bountyIndex, defaultBounty, emptyOption, optionOf, storageKey } = new BountyFactory(api));
-    ({ bytes } = new BytesFactory(api.$registry));
+    ({ bytes } = new BytesFactory(api.registry));
     ({ createProposal, proposalIndex } = new ProposalFactory(api));
   });
 

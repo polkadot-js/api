@@ -88,7 +88,7 @@ export function info (instanceId: string, api: DeriveApi): (id: ParaId | number)
       ])
         .pipe(
           map((result: Result): DeriveParachainFull | null =>
-            parse(api.$registry.createType('ParaId', id), result)
+            parse(api.registry.createType('ParaId', id), result)
           )
         )
       : of(null)

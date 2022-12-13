@@ -119,7 +119,7 @@ function queryScheduler (api: DeriveApi): Observable<DeriveDispatch[]> {
                     : scheduled.call.asValue.args[0].toHex()
                 : scheduled.call.args[0].toHex();
 
-              result.push({ at, imageHash, index: api.$registry.createType('(u64, ReferendumIndex)', id)[1] });
+              result.push({ at, imageHash, index: api.registry.createType('(u64, ReferendumIndex)', id)[1] });
             }
           }
         });

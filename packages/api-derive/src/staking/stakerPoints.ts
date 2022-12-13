@@ -12,14 +12,14 @@ import { erasHistoricApplyAccount } from './util';
 
 export function _stakerPoints (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerPoints[]> {
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerPoints[]> => {
-    const stakerId = api.$registry.createType('AccountId', accountId).toString();
+    const stakerId = api.registry.createType('AccountId', accountId).toString();
 
     return api.derive.staking._erasPoints(eras, withActive).pipe(
       map((points): DeriveStakerPoints[] =>
         points.map(({ era, eraPoints, validators }): DeriveStakerPoints => ({
           era,
           eraPoints,
-          points: validators[stakerId] || api.$registry.createType('RewardPoint')
+          points: validators[stakerId] || api.registry.createType('RewardPoint')
         }))
       )
     );

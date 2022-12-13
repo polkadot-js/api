@@ -45,7 +45,7 @@ function retrievePrev (api: DeriveApi, elections: QueryableModuleStorage<'rxjs'>
       const result: DeriveCouncilVotes = [];
 
       votes.forEach(([voter, votes]): void => {
-        result.push([voter, { stake: api.$registry.createType('Balance'), votes }]);
+        result.push([voter, { stake: api.registry.createType('Balance'), votes }]);
       });
 
       stakes.forEach(([staker, stake]): void => {

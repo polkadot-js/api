@@ -31,8 +31,8 @@ function createDerive (api: DeriveApi, info: DeriveSessionInfo, [currentSlot, ep
   const eraProgress = info.currentIndex.sub(activeEraStartSessionIndex).imul(info.sessionLength).iadd(sessionProgress);
 
   return objectSpread({
-    eraProgress: api.$registry.createType('BlockNumber', eraProgress),
-    sessionProgress: api.$registry.createType('BlockNumber', sessionProgress)
+    eraProgress: api.registry.createType('BlockNumber', eraProgress),
+    sessionProgress: api.registry.createType('BlockNumber', sessionProgress)
   }, info);
 }
 
@@ -40,8 +40,8 @@ function queryAura (api: DeriveApi): Observable<DeriveSessionProgress> {
   return api.derive.session.info().pipe(
     map((info): DeriveSessionProgress =>
       objectSpread({
-        eraProgress: api.$registry.createType('BlockNumber'),
-        sessionProgress: api.$registry.createType('BlockNumber')
+        eraProgress: api.registry.createType('BlockNumber'),
+        sessionProgress: api.registry.createType('BlockNumber')
       }, info)
     )
   );
@@ -68,7 +68,7 @@ function queryBabe (api: DeriveApi): Observable<[DeriveSessionInfo, ResultSlotsF
       ])
     ),
     map(([info, [currentSlot, epochIndex, genesisSlot, optStartIndex]]): [DeriveSessionInfo, ResultSlotsFlat] => [
-      info, [currentSlot, epochIndex, genesisSlot, optStartIndex && optStartIndex.isSome ? optStartIndex.unwrap() : api.$registry.createType('SessionIndex', 1)]
+      info, [currentSlot, epochIndex, genesisSlot, optStartIndex && optStartIndex.isSome ? optStartIndex.unwrap() : api.registry.createType('SessionIndex', 1)]
     ])
   );
 }

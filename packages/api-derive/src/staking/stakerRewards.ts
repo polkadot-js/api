@@ -19,7 +19,7 @@ type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
     const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: BN_ZERO, validators: {} as DeriveEraValPoints };
-    const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: api.$registry.createType('Balance') };
+    const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: api.registry.createType('Balance') };
     const { validators: allValPrefs } = erasPrefs.find((p) => p.era.eq(era)) || { validators: {} as DeriveEraValPrefs };
     const validators: Record<string, DeriveStakerRewardValidator> = {};
     const stakerId = stashId.toString();
@@ -51,8 +51,8 @@ function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPref
       }
 
       validators[validatorId] = {
-        total: api.$registry.createType('Balance', avail),
-        value: api.$registry.createType('Balance', value)
+        total: api.registry.createType('Balance', avail),
+        value: api.registry.createType('Balance', value)
       };
     });
 

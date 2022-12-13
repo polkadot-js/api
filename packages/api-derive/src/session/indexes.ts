@@ -48,10 +48,10 @@ function querySession (api: DeriveApi): Observable<DeriveSessionIndexes> {
   return api.query.session.currentIndex().pipe(
     map((currentIndex): DeriveSessionIndexes => parse([
       currentIndex,
-      api.$registry.createType('EraIndex'),
-      api.$registry.createType('Option<Moment>'),
-      api.$registry.createType('EraIndex'),
-      api.$registry.createType('u32')
+      api.registry.createType('EraIndex'),
+      api.registry.createType('Option<Moment>'),
+      api.registry.createType('EraIndex'),
+      api.registry.createType('u32')
     ]))
   );
 }
@@ -59,11 +59,11 @@ function querySession (api: DeriveApi): Observable<DeriveSessionIndexes> {
 // empty set when none is available
 function empty (api: DeriveApi): Observable<DeriveSessionIndexes> {
   return of(parse([
-    api.$registry.createType('SessionIndex', 1),
-    api.$registry.createType('EraIndex'),
-    api.$registry.createType('Option<Moment>'),
-    api.$registry.createType('EraIndex'),
-    api.$registry.createType('u32')
+    api.registry.createType('SessionIndex', 1),
+    api.registry.createType('EraIndex'),
+    api.registry.createType('Option<Moment>'),
+    api.registry.createType('EraIndex'),
+    api.registry.createType('u32')
   ]));
 }
 

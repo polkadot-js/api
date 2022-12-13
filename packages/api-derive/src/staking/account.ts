@@ -37,7 +37,7 @@ function calculateUnlocking (api: DeriveApi, stakingLedger: PalletStakingStaking
     ))
     .map(([eraString, value]): DeriveUnlocking => ({
       remainingEras: new BN(eraString).isub(sessionInfo.activeEra),
-      value: api.$registry.createType('Balance', value)
+      value: api.registry.createType('Balance', value)
     }));
 
   return results.length
@@ -46,7 +46,7 @@ function calculateUnlocking (api: DeriveApi, stakingLedger: PalletStakingStaking
 }
 
 function redeemableSum (api: DeriveApi, stakingLedger: PalletStakingStakingLedger | undefined, sessionInfo: DeriveSessionInfo): Balance {
-  return api.$registry.createType('Balance', (stakingLedger?.unlocking || [] as PalletStakingUnlockChunk[]).reduce((total, { era, value }): BN => {
+  return api.registry.createType('Balance', (stakingLedger?.unlocking || [] as PalletStakingUnlockChunk[]).reduce((total, { era, value }): BN => {
     // aligns with https://github.com/paritytech/substrate/blob/fdfdc73f9e64dc47934b72eb9af3e1989e4ba699/frame/staking/src/pallet/mod.rs#L973-L975
     // (ensure currentEra >= era passed, as per https://github.com/paritytech/substrate/blob/fdfdc73f9e64dc47934b72eb9af3e1989e4ba699/frame/staking/src/lib.rs#L477-L494)
     // NOTE: Previously we used activeEra >= era, which is incorrect for the last session
