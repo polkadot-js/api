@@ -23,7 +23,7 @@ export class Float extends Number implements IFloat {
 
   public createdAtHash?: IU8a;
 
-  readonly encodedLength: number;
+  readonly $encodedLength: number;
 
   readonly $initialU8aLength?: number;
 
@@ -39,9 +39,14 @@ export class Float extends Number implements IFloat {
     );
 
     this.#bitLength = bitLength;
-    this.encodedLength = bitLength / 8;
-    this.$initialU8aLength = this.encodedLength;
+    this.$encodedLength = bitLength / 8;
+    this.$initialU8aLength = this.$encodedLength;
     this.registry = registry;
+  }
+
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
   }
 
   /** @deprecated Use $initialU8aLength */

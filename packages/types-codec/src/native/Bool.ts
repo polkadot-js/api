@@ -13,6 +13,8 @@ import { isU8a, u8aToHex } from '@polkadot/util';
  * @noInheritDoc
  */
 export class bool extends Boolean implements Codec {
+  public readonly $initialU8aLength = 1;
+
   public readonly registry: Registry;
 
   public createdAtHash?: IU8a;
@@ -29,10 +31,20 @@ export class bool extends Boolean implements Codec {
     this.registry = registry;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     return 1;
   }
 

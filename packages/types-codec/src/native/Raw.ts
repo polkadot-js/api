@@ -37,6 +37,11 @@ export class Raw extends Uint8Array implements IU8a {
     this.$initialU8aLength = initialU8aLength;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -45,7 +50,7 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     return this.length;
   }
 

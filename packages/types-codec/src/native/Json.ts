@@ -36,10 +36,15 @@ export class Json extends Map<string, any> implements Codec {
     objectProperties(this, decoded.map(([k]) => k), (k) => this.get(k));
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   /**
    * @description Always 0, never encodes as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     return 0;
   }
 

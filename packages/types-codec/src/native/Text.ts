@@ -66,6 +66,11 @@ export class Text extends String implements IText {
     this.$initialU8aLength = decodedLength;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -74,7 +79,7 @@ export class Text extends String implements IText {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     return this.toU8a().length;
   }
 

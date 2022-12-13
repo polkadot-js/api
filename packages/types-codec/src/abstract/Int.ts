@@ -76,7 +76,7 @@ export abstract class AbstractInt extends BN implements INumber {
 
   public createdAtHash?: IU8a;
 
-  public readonly encodedLength: number;
+  public readonly $encodedLength: number;
 
   public readonly isUnsigned: boolean;
 
@@ -97,7 +97,7 @@ export abstract class AbstractInt extends BN implements INumber {
 
     this.registry = registry;
     this.#bitLength = bitLength;
-    this.encodedLength = this.#bitLength / 8;
+    this.$encodedLength = this.#bitLength / 8;
     this.isUnsigned = !isSigned;
 
     const isNegative = this.isNeg();
@@ -108,6 +108,11 @@ export abstract class AbstractInt extends BN implements INumber {
     } else if (super.bitLength() > maxBits) {
       throw new Error(`${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
     }
+  }
+
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
   }
 
   /**

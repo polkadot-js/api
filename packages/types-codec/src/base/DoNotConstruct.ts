@@ -23,6 +23,11 @@ export class DoNotConstruct implements Codec {
     throw this.#neverError;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   public static with (typeName?: string): CodecClass {
     return class extends DoNotConstruct {
       constructor (registry: Registry) {
@@ -34,7 +39,7 @@ export class DoNotConstruct implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     throw this.#neverError;
   }
 

@@ -12,7 +12,9 @@ import { isNull } from '@polkadot/util';
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Null implements Codec {
-  public readonly encodedLength = 0;
+  public readonly $encodedLength = 0;
+
+  public readonly $initialU8aLength = 0;
 
   public readonly isEmpty = true;
 
@@ -20,11 +22,13 @@ export class Null implements Codec {
 
   public createdAtHash?: IU8a;
 
-  // Added for compatibility reasons, e.g. see Option
-  public readonly $initialU8aLength = 0;
-
   constructor (registry: Registry) {
     this.registry = registry;
+  }
+
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
   }
 
   /** @deprecated Use $initialU8aLength */

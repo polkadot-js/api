@@ -67,6 +67,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
     this.#raw = raw;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -89,7 +94,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     return this.toU8a().length;
   }
 

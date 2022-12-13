@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add override for Structs where `registry` appear as a field
+- Move (internal-only) ``
+
+
 ## 9.10.2 Dec 9, 2022
 
 Changes:

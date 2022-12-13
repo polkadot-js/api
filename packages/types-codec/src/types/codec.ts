@@ -25,6 +25,16 @@ export interface Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
+  readonly $encodedLength: number;
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  readonly $initialU8aLength?: number;
+
+  /**
+   * @deprecated Use $encodedLength
+   */
   readonly encodedLength: number;
 
   /**
@@ -36,11 +46,6 @@ export interface Codec {
    * @deprecated Use $initialU8aLength
    */
   readonly initialU8aLength?: number;
-
-  /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  readonly $initialU8aLength?: number;
 
   /**
    * @description Checks if the value is an empty value

@@ -34,16 +34,21 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     this.registry = registry;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     // We need to loop through all entries since they may have a variable length themselves,
     // e.g. when a Vec or Compact is contained withing, it has a variable length based on data
     let total = compactToU8a(this.length).length;
 
     for (let i = 0; i < this.length; i++) {
-      total += this[i].encodedLength;
+      total += this[i].$encodedLength;
     }
 
     return total;

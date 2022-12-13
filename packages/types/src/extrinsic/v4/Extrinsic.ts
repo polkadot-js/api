@@ -40,7 +40,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = registry.createTypeUnsafe<ExtrinsicSignatureV4>('ExtrinsicSignatureV4', [value, { isSigned }]);
-      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
+      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.$encodedLength)]);
 
       return {
         method,
@@ -54,7 +54,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get encodedLength (): number {
+  public override get $encodedLength (): number {
     return this.toU8a().length;
   }
 

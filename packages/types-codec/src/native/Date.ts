@@ -44,10 +44,15 @@ export class CodecDate extends Date implements INumber {
     this.registry = registry;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     return BITLENGTH / 8;
   }
 

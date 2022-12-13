@@ -88,6 +88,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     this.#ValClass = ValClass;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -104,11 +109,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     let len = compactToU8a(this.size).length;
 
     for (const v of this.values()) {
-      len += v.encodedLength;
+      len += v.$encodedLength;
     }
 
     return len;

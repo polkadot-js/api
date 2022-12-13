@@ -108,6 +108,11 @@ export class CodecSet extends Set<string> implements ISet<string> {
     this.#byteLength = bitLength / 8;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   public static with (values: SetValues, bitLength?: number): CodecClass<CodecSet> {
     return class extends CodecSet {
       static {
@@ -132,7 +137,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     return this.#byteLength;
   }
 

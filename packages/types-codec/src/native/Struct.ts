@@ -129,6 +129,11 @@ export class Struct<
     this.#Types = typeMap;
   }
 
+  /** @deprecated Use $encodedLength */
+  public get encodedLength (): number {
+    return this.$encodedLength;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -179,11 +184,11 @@ export class Struct<
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     let total = 0;
 
     for (const v of this.values()) {
-      total += v.encodedLength;
+      total += v.$encodedLength;
     }
 
     return total;
