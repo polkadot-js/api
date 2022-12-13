@@ -8,7 +8,7 @@ describe('ChainProperties', (): void => {
 
   it('decodes from a null value (setting defaults)', (): void => {
     expect(
-      [...$registry.createType('ChainProperties', null).keys()]
+      [...registry.createType('ChainProperties', null).keys()]
     ).toEqual(['ss58Format', 'tokenDecimals', 'tokenSymbol']);
   });
 
