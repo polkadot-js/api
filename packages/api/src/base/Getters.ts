@@ -234,13 +234,13 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
    * @description Finds the definition for a specific [[CallFunction]] based on the index supplied
    */
   public findCall (callIndex: Uint8Array | string): CallFunction {
-    return findCall(this.$registry, callIndex);
+    return findCall(this.registry, callIndex);
   }
 
   /**
    * @description Finds the definition for a specific [[RegistryError]] based on the index supplied
    */
   public findError (errorIndex: Uint8Array | string): RegistryError {
-    return findError(this.$registry, errorIndex);
+    return findError(this.registry, errorIndex);
   }
 }

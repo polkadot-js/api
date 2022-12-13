@@ -85,7 +85,7 @@ describe('Abi', (): void => {
     Object.keys(abis).forEach((abiName) => {
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         const abi = new Abi(abis[abiName]);
-        const json = stringifyJson(abi.$registry);
+        const json = stringifyJson(abi.registry);
         const cmpPath = path.join(__dirname, `../test/compare/${abiName}.test.json`);
 
         try {
@@ -109,12 +109,12 @@ describe('Abi', (): void => {
     const bundle = abis.ink_v0_flipperBundle as unknown as JSONAbi;
 
     // manual
-    expect(bundle.source.$hash).toEqual(blake2AsHex(bundle.source.wasm));
+    expect(bundle.source.hash).toEqual(blake2AsHex(bundle.source.wasm));
 
     // the Codec hash
-    expect(bundle.source.$hash).toEqual(abi.info.source.wasm.$hash.toHex());
+    expect(bundle.source.hash).toEqual(abi.info.source.wasm.$hash.toHex());
 
     // the hash as per the actual Abi
-    expect(bundle.source.$hash).toEqual(abi.info.source.wasmHash.toHex());
+    expect(bundle.source.hash).toEqual(abi.info.source.wasmHash.toHex());
   });
 });

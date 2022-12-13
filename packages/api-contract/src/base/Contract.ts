@@ -64,7 +64,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.address = this.$registry.createType('AccountId', address);
+    this.address = this.registry.createType('AccountId', address);
 
     this.abi.messages.forEach((m): void => {
       if (isUndefined(this.#tx[m.method])) {
@@ -157,7 +157,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
               ? gasRequired
               : gasConsumed,
             output: result.isOk && message.returnType
-              ? this.abi.$registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
+              ? this.abi.registry.createTypeUnsafe(message.returnType.lookupName || message.returnType.type, [result.asOk.data.toU8a(true)], { isPedantic: true })
               : null,
             result,
             storageDeposit

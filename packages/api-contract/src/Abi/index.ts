@@ -90,7 +90,7 @@ export class Abi {
   public readonly registry: Registry;
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
-    [this.json, this.$registry, this.metadata, this.info] = parseJson(
+    [this.json, this.registry, this.metadata, this.info] = parseJson(
       isString(abiJson)
         ? JSON.parse(abiJson) as Record<string, unknown>
         : abiJson,
@@ -112,7 +112,7 @@ export class Abi {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
-          ? this.$registry.lookup.getTypeDef(typeSpec.type)
+          ? this.registry.lookup.getTypeDef(typeSpec.type)
           : null
       });
     });
@@ -176,7 +176,7 @@ export class Abi {
           };
         }
 
-        const typeDef = this.$registry.lookup.getTypeDef(type.type);
+        const typeDef = this.registry.lookup.getTypeDef(type.type);
 
         return {
           name: camelName,
@@ -237,7 +237,7 @@ export class Abi {
     let offset = 0;
 
     return args.map(({ type: { lookupName, type } }): Codec => {
-      const value = this.$registry.createType(lookupName || type, data.subarray(offset));
+      const value = this.registry.createType(lookupName || type, data.subarray(offset));
 
       offset += value.$encodedLength;
 
@@ -264,9 +264,9 @@ export class Abi {
 
     return compactAddLength(
       u8aConcat(
-        this.$registry.createType('ContractSelector', selector).toU8a(),
+        this.registry.createType('ContractSelector', selector).toU8a(),
         ...args.map(({ type: { lookupName, type } }, index) =>
-          this.$registry.createType(lookupName || type, data[index]).toU8a()
+          this.registry.createType(lookupName || type, data[index]).toU8a()
         )
       )
     );

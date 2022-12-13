@@ -5,7 +5,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
-import type { Callback, Codec, Constructor, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import type { Callback, Codec, Constructor, ISubmittableResult, IU8a, SignatureOptions } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types';
 import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types';
@@ -70,12 +70,12 @@ function makeSignAndSendOptions (partialOptions?: Partial<SignerOptions> | Callb
   return [options, statusCb];
 }
 
-function makeSignOptions (api: ApiInterfaceRx, partialOptions: Partial<SignerOptions>, extras: { blockHash?: Hash; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions {
+function makeSignOptions (api: ApiInterfaceRx, partialOptions: Partial<SignerOptions>, extras: { blockHash?: IU8a; era?: ExtrinsicEra; nonce?: Index }): SignatureOptions {
   return objectSpread(
     { blockHash: api.genesisHash, genesisHash: api.genesisHash },
     partialOptions,
     extras,
-    { runtimeVersion: api.runtimeVersion, signedExtensions: api.$registry.signedExtensions, version: api.extrinsicType }
+    { runtimeVersion: api.runtimeVersion, signedExtensions: api.registry.signedExtensions, version: api.extrinsicType }
   );
 }
 
@@ -87,7 +87,7 @@ function optionsOrNonce (partialOptions: Partial<SignerOptions> = {}): Partial<S
 
 export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHash, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
-  const ExtrinsicBase = api.$registry.createClass('Extrinsic');
+  const ExtrinsicBase = api.registry.createClass('Extrinsic');
 
   class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;

@@ -15,5 +15,5 @@ export function createSubmittable<ApiType extends ApiTypes> (apiType: ApiTypes, 
   const Submittable = createClass<ApiType>({ api, apiType, blockHash, decorateMethod });
 
   return (extrinsic: Call | Extrinsic | Uint8Array | string): SubmittableExtrinsic<ApiType> =>
-    new Submittable(registry || api.$registry, extrinsic);
+    new Submittable(registry || api.registry, extrinsic);
 }
