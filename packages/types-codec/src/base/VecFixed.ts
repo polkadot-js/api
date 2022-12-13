@@ -25,7 +25,7 @@ function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
  * This manages codec arrays of a fixed length
  */
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
-  readonly initialU8aLength?: number;
+  readonly $initialU8aLength?: number;
 
   #Type: CodecClass<T>;
 
@@ -34,7 +34,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    this.initialU8aLength = (
+    this.#initialU8aLength = (
       isU8a(value)
         ? decodeU8aVec(registry, this, value, 0, this.#Type)
         : decodeVec(registry, this, value, 0, this.#Type)
@@ -60,6 +60,11 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    */
   public get Type (): string {
     return new this.#Type(this.registry).toRawType();
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**

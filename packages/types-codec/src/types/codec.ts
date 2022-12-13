@@ -33,9 +33,14 @@ export interface Codec {
   readonly hash: IU8a;
 
   /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   * @deprecated Use $initialU8aLength
    */
   readonly initialU8aLength?: number;
+
+  /**
+   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
+   */
+  readonly $initialU8aLength?: number;
 
   /**
    * @description Checks if the value is an empty value

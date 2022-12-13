@@ -105,7 +105,7 @@ export class Struct<
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
   public createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  public readonly $initialU8aLength?: number;
 
   public readonly registry: Registry;
 
@@ -123,7 +123,7 @@ export class Struct<
 
     super(decoded);
 
-    this.initialU8aLength = decodedLength;
+    this.$initialU8aLength = decodedLength;
     this.registry = registry;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;
@@ -156,6 +156,11 @@ export class Struct<
    */
   public get defKeys (): string[] {
     return this.#Types[1];
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**

@@ -21,7 +21,7 @@ export class Null implements Codec {
   public createdAtHash?: IU8a;
 
   // Added for compatibility reasons, e.g. see Option
-  public readonly initialU8aLength = 0;
+  public readonly $initialU8aLength = 0;
 
   constructor (registry: Registry) {
     this.registry = registry;
@@ -32,6 +32,11 @@ export class Null implements Codec {
    */
   public get hash (): IU8a {
     throw new Error('.hash is not implemented on Null');
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**

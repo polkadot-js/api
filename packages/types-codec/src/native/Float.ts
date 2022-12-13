@@ -25,7 +25,7 @@ export class Float extends Number implements IFloat {
 
   readonly encodedLength: number;
 
-  readonly initialU8aLength?: number;
+  readonly $initialU8aLength?: number;
 
   readonly registry: Registry;
 
@@ -40,7 +40,7 @@ export class Float extends Number implements IFloat {
 
     this.#bitLength = bitLength;
     this.encodedLength = bitLength / 8;
-    this.initialU8aLength = this.encodedLength;
+    this.$initialU8aLength = this.encodedLength;
     this.registry = registry;
   }
 
@@ -57,6 +57,11 @@ export class Float extends Number implements IFloat {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**

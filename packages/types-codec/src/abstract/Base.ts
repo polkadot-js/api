@@ -11,7 +11,7 @@ import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types
 export abstract class AbstractBase<T extends Codec> implements Codec {
   public createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  public readonly $initialU8aLength?: number;
 
   public readonly registry: Registry;
 
@@ -19,7 +19,7 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
     this.#raw = value;
-    this.initialU8aLength = initialU8aLength;
+    this.$initialU8aLength = initialU8aLength;
     this.registry = registry;
   }
 
@@ -35,6 +35,11 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   public get inner (): T {

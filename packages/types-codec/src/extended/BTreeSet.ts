@@ -74,7 +74,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
   public createdAtHash?: IU8a;
 
-  readonly initialU8aLength?: number;
+  readonly $initialU8aLength?: number;
 
   readonly #ValClass: CodecClass<V>;
 
@@ -84,7 +84,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     super(sortSet(values));
 
     this.registry = registry;
-    this.initialU8aLength = decodedLength;
+    this.$initialU8aLength = decodedLength;
     this.#ValClass = ValClass;
   }
 
@@ -114,6 +114,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**

@@ -141,7 +141,7 @@ describe('BTreeSet', (): void => {
       expect(none.toHex()).toEqual('0x00');
       expect(none.encodedLength).toEqual(1);
       expect(
-        (new (BTreeSet.with(U32))(registry, none.toHex())).initialU8aLength
+        (new (BTreeSet.with(U32))(registry, none.toHex())).$initialU8aLength
       ).toEqual(none.encodedLength);
     });
 
@@ -152,7 +152,7 @@ describe('BTreeSet', (): void => {
       expect(some.toHex()).toEqual('0x080100000002000000');
       expect(some.encodedLength).toEqual(1 + (4 * 2));
       expect(
-        (new (BTreeSet.with(U32))(registry, some.toHex())).initialU8aLength
+        (new (BTreeSet.with(U32))(registry, some.toHex())).$initialU8aLength
       ).toEqual(some.encodedLength);
     });
   });

@@ -51,7 +51,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   public createdAtHash?: IU8a;
 
-  readonly initialU8aLength?: number;
+  readonly $initialU8aLength?: number;
 
   readonly #Type: CodecClass<T>;
 
@@ -63,7 +63,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
     const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
 
-    this.initialU8aLength = decodedLength;
+    this.$initialU8aLength = decodedLength;
     this.#raw = raw;
   }
 
@@ -93,6 +93,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**

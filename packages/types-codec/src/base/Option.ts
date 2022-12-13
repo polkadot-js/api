@@ -70,7 +70,7 @@ export class Option<T extends Codec> implements IOption<T> {
 
   public createdAtHash?: IU8a;
 
-  public initialU8aLength?: number;
+  public $initialU8aLength?: number;
 
   readonly #Type: CodecClass<T>;
 
@@ -88,8 +88,8 @@ export class Option<T extends Codec> implements IOption<T> {
     this.#Type = Type;
     this.#raw = decoded as T;
 
-    if (decoded && decoded.initialU8aLength) {
-      this.initialU8aLength = 1 + decoded.initialU8aLength;
+    if (decoded && decoded.$initialU8aLength) {
+      this.$initialU8aLength = 1 + decoded.$initialU8aLength;
     }
   }
 
@@ -122,6 +122,11 @@ export class Option<T extends Codec> implements IOption<T> {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**

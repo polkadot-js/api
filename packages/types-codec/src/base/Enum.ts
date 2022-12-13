@@ -191,7 +191,7 @@ export class Enum implements IEnum {
 
   readonly #entryIndex: number;
 
-  readonly initialU8aLength?: number;
+  readonly $initialU8aLength?: number;
 
   readonly #indexes: number[];
 
@@ -217,8 +217,8 @@ export class Enum implements IEnum {
     this.#entryIndex = this.#indexes.indexOf(decoded.index);
     this.#raw = decoded.value;
 
-    if (this.#raw.initialU8aLength) {
-      this.initialU8aLength = 1 + this.#raw.initialU8aLength;
+    if (this.#raw.$initialU8aLength) {
+      this.$initialU8aLength = 1 + this.#raw.$initialU8aLength;
     }
   }
 
@@ -275,6 +275,11 @@ export class Enum implements IEnum {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**

@@ -102,7 +102,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
   readonly #ValClass: CodecClass<V>;
 
-  readonly initialU8aLength?: number;
+  readonly $initialU8aLength?: number;
 
   readonly #type: string;
 
@@ -112,7 +112,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
     this.registry = registry;
-    this.initialU8aLength = decodedLength;
+    this.$initialU8aLength = decodedLength;
     this.#KeyClass = KeyClass;
     this.#ValClass = ValClass;
     this.#type = type;
@@ -136,6 +136,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**

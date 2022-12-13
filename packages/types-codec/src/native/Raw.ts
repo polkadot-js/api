@@ -18,7 +18,7 @@ import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@
 export class Raw extends Uint8Array implements IU8a {
   public createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  public readonly $initialU8aLength?: number;
 
   public readonly registry: Registry;
 
@@ -34,7 +34,7 @@ export class Raw extends Uint8Array implements IU8a {
     super(u8aToU8a(value));
 
     this.registry = registry;
-    this.initialU8aLength = initialU8aLength;
+    this.$initialU8aLength = initialU8aLength;
   }
 
   /**
@@ -49,6 +49,11 @@ export class Raw extends Uint8Array implements IU8a {
    */
   public get hash (): IU8a {
     return this.registry.hash(this.toU8a());
+  }
+
+  /** @deprecated Use $initialU8aLength */
+  public get initialU8aLength (): number | undefined {
+    return this.$initialU8aLength;
   }
 
   /**
