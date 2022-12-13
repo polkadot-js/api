@@ -82,6 +82,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
     return this.$initialU8aLength;
   }
 
+  /** @deprecated Use $isEmpty */
+  public get isEmpty (): boolean {
+    return this.$isEmpty;
+  }
+
   public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {
     let definition: CodecClass<O> | undefined;
 
@@ -113,7 +118,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.#raw.$isEmpty;
   }
 
