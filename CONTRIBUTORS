@@ -1,4 +1,4 @@
-    3301	Jaco                          	Fix derive.balances.account detection for system vs balances (#5373)
+    3302	Jaco                          	Add registry to reserved (rename w/ underscore) list (#5375)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
