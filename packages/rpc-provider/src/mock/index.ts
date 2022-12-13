@@ -54,24 +54,24 @@ export class MockProvider implements ProviderInterface {
 
   private requests: Record<string, (...params: any[]) => unknown> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-unsafe-member-access
-    chain_getBlock: () => this.$registry.createType('SignedBlock', rpcSignedBlock.result).toJSON(),
+    chain_getBlock: () => this.registry.createType('SignedBlock', rpcSignedBlock.result).toJSON(),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: () => '0x1234000000000000000000000000000000000000000000000000000000000000',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    chain_getFinalizedHead: () => this.$registry.createType('Header', rpcHeader.result).$hash,
+    chain_getFinalizedHead: () => this.registry.createType('Header', rpcHeader.result).$hash,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    chain_getHeader: () => this.$registry.createType('Header', rpcHeader.result).toJSON(),
-    rpc_methods: () => this.$registry.createType('RpcMethods').toJSON(),
+    chain_getHeader: () => this.registry.createType('Header', rpcHeader.result).toJSON(),
+    rpc_methods: () => this.registry.createType('RpcMethods').toJSON(),
     state_getKeys: () => [],
     state_getKeysPaged: () => [],
     state_getMetadata: () => rpcMetadata,
-    state_getRuntimeVersion: () => this.$registry.createType('RuntimeVersion').toHex(),
+    state_getRuntimeVersion: () => this.registry.createType('RuntimeVersion').toHex(),
     state_getStorage: (storage: MockStateDb, [key]: string[]) => u8aToHex(storage[key]),
     system_chain: () => 'mockChain',
     system_health: () => ({}),
     system_name: () => 'mockClient',
     system_properties: () => ({ ss58Format: 42 }),
-    system_upgradedToTripleRefCount: () => this.$registry.createType('bool', true),
+    system_upgradedToTripleRefCount: () => this.registry.createType('bool', true),
     system_version: () => '9.8.7',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, sort-keys
     dev_echo: (_, params: any) => params
@@ -91,7 +91,7 @@ export class MockProvider implements ProviderInterface {
   private subscriptionMap: Record<number, string> = {};
 
   constructor (registry: Registry) {
-    this.$registry = registry;
+    this.registry = registry;
 
     this.init();
   }
@@ -186,11 +186,11 @@ export class MockProvider implements ProviderInterface {
     let newHead = this.makeBlockHeader();
     let counter = -1;
 
-    const metadata = new Metadata(this.$registry, rpcMetadata);
+    const metadata = new Metadata(this.registry, rpcMetadata);
 
-    this.$registry.setMetadata(metadata);
+    this.registry.setMetadata(metadata);
 
-    const query = decorateStorage(this.$registry, metadata.asLatest, metadata.version);
+    const query = decorateStorage(this.registry, metadata.asLatest, metadata.version);
 
     // Do something every 1 seconds
     this.intervalId = setInterval((): void => {
@@ -223,7 +223,7 @@ export class MockProvider implements ProviderInterface {
 
   private makeBlockHeader (): Header {
     const blockNumber = this.prevNumber.addn(1);
-    const header = this.$registry.createType('Header', {
+    const header = this.registry.createType('Header', {
       digest: {
         logs: []
       },
