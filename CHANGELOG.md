@@ -2,10 +2,12 @@
 
 ## master
 
+- **Important** The `{initialU8a, encoded}Length` getters on `Codec` has been marked as deprecated to ensure that custom or from-metadata definitions don't conflict with `Codec` fields. If these are used in your code, adjust your naming with a `$`, e.g. `codec.$encodedLength`. The older naming convention will be removed in a future version.
+
 Changes:
 
 - Add override for Structs where `registry` appear as a field
-- Move (internal-only) ``
+- Deprecate (internal-only) `{initialU8a, encoded}Length` getters, replacing them with `${initialU8a, encoded}Length`
 
 
 ## 9.10.2 Dec 9, 2022
