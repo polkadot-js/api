@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Hash, Header } from '@polkadot/types/interfaces';
+import type { Header } from '@polkadot/types/interfaces';
+import type { IU8a } from '@polkadot/types/types';
 import type { DeriveApi } from '../types';
 
 import { from, of, switchMap } from 'rxjs';
@@ -12,8 +13,8 @@ import { memo } from '../util';
 /**
  * Returns a header range from startHash to to (not including) endHash, i.e. lastBlock.parentHash === endHash
  */
-export function _getHeaderRange (instanceId: string, api: DeriveApi): (startHash: Hash, endHash: Hash, prev?: Header[]) => Observable<Header[]> {
-  return memo(instanceId, (startHash: Hash, endHash: Hash, prev: Header[] = []): Observable<Header[]> =>
+export function _getHeaderRange (instanceId: string, api: DeriveApi): (startHash: IU8a, endHash: IU8a, prev?: Header[]) => Observable<Header[]> {
+  return memo(instanceId, (startHash: IU8a, endHash: IU8a, prev: Header[] = []): Observable<Header[]> =>
     api.rpc.chain.getHeader(startHash).pipe(
       switchMap((header) =>
         header.parentHash.eq(endHash)
@@ -34,7 +35,7 @@ export function _getHeaderRange (instanceId: string, api: DeriveApi): (startHash
  */
 export function subscribeFinalizedHeads (instanceId: string, api: DeriveApi): () => Observable<Header> {
   return memo(instanceId, (): Observable<Header> => {
-    let prevHash: Hash | null = null;
+    let prevHash: IU8a | null = null;
 
     return api.rpc.chain.subscribeFinalizedHeads().pipe(
       switchMap((header) => {
