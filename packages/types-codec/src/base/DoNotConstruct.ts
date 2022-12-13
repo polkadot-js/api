@@ -12,7 +12,7 @@ import type { AnyJson, Codec, CodecClass, Inspect, IU8a, Registry } from '../typ
 export class DoNotConstruct implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   #neverError: Error;
 
@@ -21,6 +21,11 @@ export class DoNotConstruct implements Codec {
     this.#neverError = new Error(`DoNotConstruct: Cannot construct unknown type ${typeName}`);
 
     throw this.#neverError;
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

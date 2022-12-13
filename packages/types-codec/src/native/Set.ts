@@ -94,7 +94,7 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
 export class CodecSet extends Set<string> implements ISet<string> {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   readonly #allowed: SetValues;
 
@@ -106,6 +106,11 @@ export class CodecSet extends Set<string> implements ISet<string> {
     this.registry = registry;
     this.#allowed = setValues;
     this.#byteLength = bitLength / 8;
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

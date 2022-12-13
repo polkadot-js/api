@@ -50,7 +50,7 @@ function initType<T extends Codec> (registry: Registry, Type: CodecClass, params
   isPedantic && checkPedantic(created, params);
 
   if (blockHash) {
-    created.createdAtHash = createTypeUnsafe<IU8a>(registry, 'Hash', [blockHash]);
+    created.$createdAtHash = createTypeUnsafe<IU8a>(registry, 'Hash', [blockHash]);
   }
 
   return created as T;

@@ -49,7 +49,7 @@ function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<
 export class Compact<T extends INumber> implements ICompact<T> {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   readonly $initialU8aLength?: number;
 
@@ -65,6 +65,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
     this.$initialU8aLength = decodedLength;
     this.#raw = raw;
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

@@ -21,7 +21,7 @@ interface Options {
 export class Float extends Number implements IFloat {
   readonly #bitLength: 32 | 64;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   readonly $encodedLength: number;
 
@@ -42,6 +42,11 @@ export class Float extends Number implements IFloat {
     this.$encodedLength = bitLength / 8;
     this.$initialU8aLength = this.$encodedLength;
     this.registry = registry;
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

@@ -16,7 +16,7 @@ import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   public readonly $initialU8aLength?: number;
 
@@ -35,6 +35,11 @@ export class Raw extends Uint8Array implements IU8a {
 
     this.registry = registry;
     this.$initialU8aLength = initialU8aLength;
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

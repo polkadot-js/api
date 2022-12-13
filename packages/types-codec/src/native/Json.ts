@@ -24,7 +24,7 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
 export class Json extends Map<string, any> implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   constructor (registry: Registry, value?: Record<string, unknown> | null) {
     const decoded = decodeJson(value);
@@ -34,6 +34,11 @@ export class Json extends Map<string, any> implements Codec {
     this.registry = registry;
 
     objectProperties(this, decoded.map(([k]) => k), (k) => this.get(k));
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

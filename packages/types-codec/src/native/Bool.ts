@@ -17,7 +17,7 @@ export class bool extends Boolean implements Codec {
 
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   constructor (registry: Registry, value: bool | AnyBool | Uint8Array | number = false) {
     super(
@@ -29,6 +29,11 @@ export class bool extends Boolean implements Codec {
     );
 
     this.registry = registry;
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

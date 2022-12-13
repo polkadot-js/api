@@ -49,7 +49,7 @@ function decodeText (value?: null | AnyString | AnyU8a | { toString: () => strin
  * @noInheritDoc
  */
 export class Text extends String implements IText {
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   public readonly $initialU8aLength?: number;
 
@@ -64,6 +64,11 @@ export class Text extends String implements IText {
 
     this.registry = registry;
     this.$initialU8aLength = decodedLength;
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

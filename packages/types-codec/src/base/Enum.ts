@@ -185,7 +185,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
 export class Enum implements IEnum {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   readonly #def: TypesDef;
 
@@ -220,6 +220,11 @@ export class Enum implements IEnum {
     if (this.#raw.$initialU8aLength) {
       this.$initialU8aLength = 1 + this.#raw.$initialU8aLength;
     }
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

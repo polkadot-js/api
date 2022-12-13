@@ -96,7 +96,7 @@ function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyTyp
 export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements IMap<K, V> {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   readonly #KeyClass: CodecClass<K>;
 
@@ -116,6 +116,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     this.#KeyClass = KeyClass;
     this.#ValClass = ValClass;
     this.#type = type;
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

@@ -74,7 +74,7 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<strin
 export abstract class AbstractInt extends BN implements INumber {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
   public readonly $encodedLength: number;
 
@@ -108,6 +108,11 @@ export abstract class AbstractInt extends BN implements INumber {
     } else if (super.bitLength() > maxBits) {
       throw new Error(`${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
     }
+  }
+
+  /** @deprecated Use $createdAtHash */
+  public get createdAtHash (): IU8a | undefined {
+    return this.$createdAtHash;
   }
 
   /** @deprecated Use $encodedLength */

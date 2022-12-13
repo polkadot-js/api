@@ -22,6 +22,30 @@ export interface Inspect {
  * The Codec Base is however required for operating as an encoding/decoding layer
  */
 export interface Codec {
+  // these are all the deprecated getters
+
+  /**
+   * @deprecated Use $createdAtHash
+   */
+  createdAtHash?: IU8a;
+
+  /**
+   * @deprecated Use $encodedLength
+   */
+  readonly encodedLength: number;
+
+  /**
+   * @deprecated Use $initialU8aLength
+   */
+  readonly initialU8aLength?: number;
+
+  // normal programming resumes ...
+
+  /**
+   * @description The block at which this value was retrieved/created (set to non-empty when retrieved from storage)
+   */
+  $createdAtHash?: IU8a;
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -33,19 +57,9 @@ export interface Codec {
   readonly $initialU8aLength?: number;
 
   /**
-   * @deprecated Use $encodedLength
-   */
-  readonly encodedLength: number;
-
-  /**
    * @description Returns a hash of the value
    */
   readonly hash: IU8a;
-
-  /**
-   * @deprecated Use $initialU8aLength
-   */
-  readonly initialU8aLength?: number;
 
   /**
    * @description Checks if the value is an empty value
@@ -56,11 +70,6 @@ export interface Codec {
    * @description The registry associated with this object
    */
   readonly registry: Registry;
-
-  /**
-   * @description The block at which this value was retrieved/created (set to non-empty when retrieved from storage)
-   */
-  createdAtHash?: IU8a;
 
   /**
    * @description Compares the value of the input to see if there is a match
