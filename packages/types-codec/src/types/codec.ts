@@ -45,7 +45,7 @@ export interface Codec {
   /**
    * @deprecated Use $initialU8aLength
    */
-  readonly initialU8aLength: number | undefined;
+  readonly initialU8aLength?: number;
 
   /**
    * @description Checks if the value is an empty value
