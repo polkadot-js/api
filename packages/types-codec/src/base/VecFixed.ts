@@ -64,7 +64,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The type for the items
    */
   public get Type (): string {
-    return new this.#Type(this.registry).toRawType();
+    return new this.#Type(this.$registry).toRawType();
   }
 
   /**

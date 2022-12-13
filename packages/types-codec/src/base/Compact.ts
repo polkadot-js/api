@@ -47,7 +47,7 @@ function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<
  * a number and making the compact representation thereof
  */
 export class Compact<T extends INumber> implements ICompact<T> {
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
 
@@ -58,7 +58,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   readonly #raw: T;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
-    this.registry = registry;
+    this.$registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
     const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
@@ -77,6 +77,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -85,6 +90,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
+  }
+
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
   }
 
   public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {
@@ -111,8 +121,8 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -202,7 +212,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Compact<${this.registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
+    return `Compact<${this.$registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
   }
 
   /**

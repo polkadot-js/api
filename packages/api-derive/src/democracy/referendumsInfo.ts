@@ -37,9 +37,9 @@ function votesPrev (api: DeriveApi, referendumId: BN): Observable<DeriveReferend
     map(([votersFor, votes, balances]): DeriveReferendumVote[] =>
       votersFor.map((accountId, index): DeriveReferendumVote => ({
         accountId,
-        balance: balances[index].votingBalance || api.registry.createType('Balance'),
+        balance: balances[index].votingBalance || api.$registry.createType('Balance'),
         isDelegating: false,
-        vote: votes[index] || api.registry.createType('Vote')
+        vote: votes[index] || api.$registry.createType('Vote')
       }))
     )
   );
@@ -91,7 +91,7 @@ function votesCurr (api: DeriveApi, referendumId: BN): Observable<DeriveReferend
             accountId,
             balance,
             isDelegating: true,
-            vote: api.registry.createType('Vote', { aye: to.vote.isAye, conviction })
+            vote: api.$registry.createType('Vote', { aye: to.vote.isAye, conviction })
           });
         }
       });
@@ -140,7 +140,7 @@ export function _referendumInfo (instanceId: string, api: DeriveApi): (index: BN
         map((image): DeriveReferendum => ({
           image,
           imageHash: getImageHash(status),
-          index: api.registry.createType('ReferendumIndex', index),
+          index: api.$registry.createType('ReferendumIndex', index),
           status
         }))
       )

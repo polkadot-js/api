@@ -21,7 +21,7 @@ describe('Null', (): void => {
 
   it('has no hash', (): void => {
     expect(
-      () => new Null(registry).hash
+      () => new Null(registry).$hash
     ).toThrow();
   });
 

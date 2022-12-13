@@ -30,7 +30,7 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
   const ids = optIds
     .filter((o): o is Option<AccountId> => withLedger && !!o && o.isSome)
     .map((o) => o.unwrap());
-  const emptyLed = api.registry.createType<Option<PalletStakingStakingLedger>>('Option<StakingLedger>');
+  const emptyLed = api.$registry.createType<Option<PalletStakingStakingLedger>>('Option<StakingLedger>');
 
   return (
     ids.length
@@ -50,10 +50,10 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
 }
 
 function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], PalletStakingRewardDestination[], PalletStakingValidatorPrefs[], PalletStakingExposure[]]> {
-  const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
-  const emptyRewa = api.registry.createType<PalletStakingRewardDestination>('RewardDestination');
-  const emptyExpo = api.registry.createType<PalletStakingExposure>('Exposure');
-  const emptyPrefs = api.registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs');
+  const emptyNoms = api.$registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
+  const emptyRewa = api.$registry.createType<PalletStakingRewardDestination>('RewardDestination');
+  const emptyExpo = api.$registry.createType<PalletStakingExposure>('Exposure');
+  const emptyPrefs = api.$registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs');
 
   return combineLatest([
     withController || withLedger
@@ -101,7 +101,7 @@ export function queryMulti (instanceId: string, api: DeriveApi): (accountIds: (U
   return memo(instanceId, (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags): Observable<DeriveStakingQuery[]> =>
     api.derive.session.indexes().pipe(
       switchMap(({ activeEra }): Observable<DeriveStakingQuery[]> => {
-        const stashIds = accountIds.map((a) => api.registry.createType('AccountId', a));
+        const stashIds = accountIds.map((a) => api.$registry.createType('AccountId', a));
 
         return stashIds.length
           ? getBatch(api, activeEra, stashIds, flags)

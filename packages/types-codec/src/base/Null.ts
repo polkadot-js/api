@@ -18,12 +18,12 @@ export class Null implements Codec {
 
   public readonly $isEmpty = true;
 
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
 
   constructor (registry: Registry) {
-    this.registry = registry;
+    this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash */
@@ -36,6 +36,11 @@ export class Null implements Codec {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -46,11 +51,16 @@ export class Null implements Codec {
     return this.$isEmpty;
   }
 
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
+  }
+
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    throw new Error('.hash is not implemented on Null');
+  public get $hash (): IU8a {
+    throw new Error('.$hash is not implemented on Null');
   }
 
   /**

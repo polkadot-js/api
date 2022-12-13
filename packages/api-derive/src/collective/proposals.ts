@@ -22,7 +22,7 @@ type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Opti
 
 function parse (api: DeriveApi, [hashes, proposals, votes]: Result): DeriveCollectiveProposal[] {
   return proposals.map((o, index): DeriveCollectiveProposal => ({
-    hash: api.registry.createType('Hash', hashes[index]),
+    hash: api.$registry.createType('Hash', hashes[index]),
     proposal: o && o.isSome
       ? o.unwrap()
       : null,

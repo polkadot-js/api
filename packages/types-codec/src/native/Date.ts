@@ -34,14 +34,14 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
  * @noInheritDoc
  */
 export class CodecDate extends Date implements INumber {
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
 
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
     super(decodeDate(value));
 
-    this.registry = registry;
+    this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash */
@@ -59,6 +59,11 @@ export class CodecDate extends Date implements INumber {
     return this.$isEmpty;
   }
 
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -66,11 +71,16 @@ export class CodecDate extends Date implements INumber {
     return BITLENGTH / 8;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   /**

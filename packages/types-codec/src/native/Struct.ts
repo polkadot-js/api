@@ -107,7 +107,7 @@ export class Struct<
 
   public readonly $initialU8aLength?: number;
 
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   readonly #jsonMap: Map<keyof S, string>;
 
@@ -124,7 +124,7 @@ export class Struct<
     super(decoded);
 
     this.$initialU8aLength = decodedLength;
-    this.registry = registry;
+    this.$registry = registry;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;
   }
@@ -147,6 +147,11 @@ export class Struct<
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
+  }
+
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
   }
 
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
@@ -204,11 +209,16 @@ export class Struct<
     return total;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -219,7 +229,7 @@ export class Struct<
     const [Types, keys] = this.#Types;
 
     for (let i = 0; i < keys.length; i++) {
-      result[keys[i]] = new Types[i](this.registry).toRawType();
+      result[keys[i]] = new Types[i](this.$registry).toRawType();
     }
 
     return result as E;
@@ -341,7 +351,7 @@ export class Struct<
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return stringify(typesToMap(this.registry, this.#Types));
+    return stringify(typesToMap(this.$registry, this.#Types));
   }
 
   /**

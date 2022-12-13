@@ -13,14 +13,14 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
 
   public readonly $initialU8aLength?: number;
 
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   readonly #raw: T;
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
     this.#raw = value;
     this.$initialU8aLength = initialU8aLength;
-    this.registry = registry;
+    this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash */
@@ -33,6 +33,11 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -41,6 +46,11 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
+  }
+
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
   }
 
   /**
@@ -53,8 +63,8 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   public get inner (): T {

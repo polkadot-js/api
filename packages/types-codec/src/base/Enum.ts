@@ -183,7 +183,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
  * an extension to enum where the value type is determined by the actual index.
  */
 export class Enum implements IEnum {
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
 
@@ -209,7 +209,7 @@ export class Enum implements IEnum {
       ? createFromU8a(registry, def, value[0], value.subarray(1))
       : decodeEnum(registry, def, value, index);
 
-    this.registry = registry;
+    this.$registry = registry;
     this.#def = def;
     this.#isBasic = isBasic;
     this.#isIndexed = isIndexed;
@@ -232,6 +232,11 @@ export class Enum implements IEnum {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -240,6 +245,11 @@ export class Enum implements IEnum {
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
+  }
+
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
   }
 
   public static with (Types: Record<string, string | CodecClass> | Record<string, number> | string[]): EnumCodecClass<Enum> {
@@ -293,8 +303,8 @@ export class Enum implements IEnum {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -456,7 +466,7 @@ export class Enum implements IEnum {
 
     const entries = Object.entries(this.#def);
 
-    return typesToMap(this.registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
+    return typesToMap(this.$registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
       out[0][i] = Type;
       out[1][i] = key;
 

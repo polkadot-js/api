@@ -35,7 +35,7 @@ export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint
         getAuthorDetails(header, queryAt)
       ),
       map(([header, validators, author]) =>
-        createHeaderExtended((validators || header).registry, header, validators, author)
+        createHeaderExtended((validators || header).$registry, header, validators, author)
       )
     )
   );

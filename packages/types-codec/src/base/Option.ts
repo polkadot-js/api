@@ -66,7 +66,7 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
  * with a value if/as required/found.
  */
 export class Option<T extends Codec> implements IOption<T> {
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
 
@@ -84,7 +84,7 @@ export class Option<T extends Codec> implements IOption<T> {
         : new Type(registry, value.subarray(1))
       : decodeOption(registry, Type, value);
 
-    this.registry = registry;
+    this.$registry = registry;
     this.#Type = Type;
     this.#raw = decoded as T;
 
@@ -113,6 +113,11 @@ export class Option<T extends Codec> implements IOption<T> {
     return this.$isEmpty;
   }
 
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
+  }
+
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Option<O>> {
     let definition: CodecClass<O> | undefined;
 
@@ -137,11 +142,16 @@ export class Option<T extends Codec> implements IOption<T> {
     return 1 + this.#raw.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -239,7 +249,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (isBare?: boolean): string {
-    const wrapped = this.registry.getClassName(this.#Type) || new this.#Type(this.registry).toRawType();
+    const wrapped = this.$registry.getClassName(this.#Type) || new this.#Type(this.$registry).toRawType();
 
     return isBare
       ? wrapped
@@ -300,6 +310,6 @@ export class Option<T extends Codec> implements IOption<T> {
   public unwrapOrDefault (): T {
     return this.isSome
       ? this.unwrap()
-      : new this.#Type(this.registry);
+      : new this.#Type(this.$registry);
   }
 }

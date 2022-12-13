@@ -81,7 +81,7 @@ export class GenericVote extends U8aFixed {
     super(registry, decoded, 8);
 
     this.#aye = (decoded[0] & AYE_BITS) === AYE_BITS;
-    this.#conviction = this.registry.createTypeUnsafe('Conviction', [decoded[0] & CON_MASK]);
+    this.#conviction = this.$registry.createTypeUnsafe('Conviction', [decoded[0] & CON_MASK]);
   }
 
   /**

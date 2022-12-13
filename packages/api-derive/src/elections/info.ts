@@ -57,7 +57,7 @@ function getConstants (api: DeriveApi, elections: string | null): Partial<Derive
 }
 
 function getModules (api: DeriveApi): [string, string | null] {
-  const [council] = api.registry.getModuleInstances(api.runtimeVersion.specName, 'council') || ['council'];
+  const [council] = api.$registry.getModuleInstances(api.runtimeVersion.specName, 'council') || ['council'];
   const elections = api.query.phragmenElection
     ? 'phragmenElection'
     : api.query.electionsPhragmen
@@ -111,11 +111,11 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
     ).pipe(
       map(([councilMembers, candidates, members, runnersUp]): DeriveElectionsInfo =>
         objectSpread({}, getConstants(api, elections), {
-          candidateCount: api.registry.createType('u32', candidates.length),
+          candidateCount: api.$registry.createType('u32', candidates.length),
           candidates: candidates.map(getCandidate),
           members: members.length
             ? members.map(getAccountTuple).sort(sortAccounts)
-            : councilMembers.map((a): [AccountId32, Balance] => [a, api.registry.createType('Balance')]),
+            : councilMembers.map((a): [AccountId32, Balance] => [a, api.$registry.createType('Balance')]),
           runnersUp: runnersUp.map(getAccountTuple).sort(sortAccounts)
         })
       )

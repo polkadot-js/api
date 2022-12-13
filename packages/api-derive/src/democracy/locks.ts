@@ -60,7 +60,7 @@ function delegateLocks (api: DeriveApi, { balance, conviction, target }: VotingD
               api.consts.democracy.enactmentPeriod
             ).muln(LOCKUPS[conviction.index])
           ),
-        vote: api.registry.createType('Vote', { aye: vote.isAye, conviction })
+        vote: api.$registry.createType('Vote', { aye: vote.isAye, conviction })
       }))
     )
   );

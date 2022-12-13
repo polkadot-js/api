@@ -15,12 +15,12 @@ type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
 function queryConstants (api: DeriveApi): Observable<ResultV2> {
   return of([
     // deprecated
-    api.consts.contracts.callBaseFee || api.registry.createType('Balance'),
-    api.consts.contracts.contractFee || api.registry.createType('Balance'),
-    api.consts.contracts.creationFee || api.registry.createType('Balance'),
-    api.consts.contracts.transactionBaseFee || api.registry.createType('Balance'),
-    api.consts.contracts.transactionByteFee || api.registry.createType('Balance'),
-    api.consts.contracts.transferFee || api.registry.createType('Balance'),
+    api.consts.contracts.callBaseFee || api.$registry.createType('Balance'),
+    api.consts.contracts.contractFee || api.$registry.createType('Balance'),
+    api.consts.contracts.creationFee || api.$registry.createType('Balance'),
+    api.consts.contracts.transactionBaseFee || api.$registry.createType('Balance'),
+    api.consts.contracts.transactionByteFee || api.$registry.createType('Balance'),
+    api.consts.contracts.transferFee || api.$registry.createType('Balance'),
 
     // current
     api.consts.contracts.rentByteFee,

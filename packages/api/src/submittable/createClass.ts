@@ -49,7 +49,7 @@ function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions
   }
 
   return makeSignOptions(api, partialOptions, {
-    blockHash: header.hash,
+    blockHash: header.$hash,
     era: registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [{
       current: header.number,
       period: partialOptions.era || mortalLength
@@ -75,7 +75,7 @@ function makeSignOptions (api: ApiInterfaceRx, partialOptions: Partial<SignerOpt
     { blockHash: api.genesisHash, genesisHash: api.genesisHash },
     partialOptions,
     extras,
-    { runtimeVersion: api.runtimeVersion, signedExtensions: api.registry.signedExtensions, version: api.extrinsicType }
+    { runtimeVersion: api.runtimeVersion, signedExtensions: api.$registry.signedExtensions, version: api.extrinsicType }
   );
 }
 
@@ -87,7 +87,7 @@ function optionsOrNonce (partialOptions: Partial<SignerOptions> = {}): Partial<S
 
 export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHash, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
-  const ExtrinsicBase = api.registry.createClass('Extrinsic');
+  const ExtrinsicBase = api.$registry.createClass('Extrinsic');
 
   class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
@@ -160,7 +160,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
             first(),
             switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
               // setup our options (same way as in signAndSend)
-              const eraOptions = makeEraOptions(api, this.registry, allOptions, signingInfo);
+              const eraOptions = makeEraOptions(api, this.$registry, allOptions, signingInfo);
               const signOptions = makeSignOptions(api, eraOptions, {});
               const u8a = this.isSigned
                 ? api.tx(this).signFake(address, signOptions).toU8a()
@@ -244,7 +244,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       return api.derive.tx.signingInfo(address, options.nonce, options.era).pipe(
         first(),
         mergeMap(async (signingInfo): Promise<UpdateInfo> => {
-          const eraOptions = makeEraOptions(api, this.registry, options, signingInfo);
+          const eraOptions = makeEraOptions(api, this.$registry, options, signingInfo);
           let updateId = -1;
 
           if (isKeyringPair(account)) {
@@ -297,7 +297,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     };
 
     #observeSubscribe = (info: UpdateInfo): Observable<ISubmittableResult> => {
-      const txHash = this.hash;
+      const txHash = this.$hash;
 
       return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
         switchMap((status): Observable<ISubmittableResult> =>
@@ -316,7 +316,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         throw new Error('No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
       }
 
-      const payload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
+      const payload = this.$registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
         address,
         blockNumber: header ? header.number : 0,
         method: this.method

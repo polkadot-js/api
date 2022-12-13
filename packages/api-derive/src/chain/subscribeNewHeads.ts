@@ -30,16 +30,16 @@ export function subscribeNewHeads (instanceId: string, api: DeriveApi): () => Ob
       switchMap((header) =>
         combineLatest([
           of(header),
-          api.queryAt(header.hash)
+          api.queryAt(header.$hash)
         ])
       ),
       switchMap(([header, queryAt]) =>
         getAuthorDetails(header, queryAt)
       ),
       map(([header, validators, author]): HeaderExtended => {
-        header.$createdAtHash = header.hash;
+        header.$createdAtHash = header.$hash;
 
-        return createHeaderExtended(header.registry, header, validators, author);
+        return createHeaderExtended(header.$registry, header, validators, author);
       })
     )
   );

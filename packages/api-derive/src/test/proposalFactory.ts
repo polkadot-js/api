@@ -13,7 +13,7 @@ export class ProposalFactory {
 
   constructor (api: ApiPromise) {
     this.#api = api;
-    this.#registry = this.#api.registry;
+    this.#registry = this.#api.$registry;
   }
 
   public createProposal = (method: SubmittableExtrinsic<'promise'>): Proposal => {

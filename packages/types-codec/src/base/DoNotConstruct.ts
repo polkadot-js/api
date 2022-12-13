@@ -10,14 +10,14 @@ import type { AnyJson, Codec, CodecClass, Inspect, IU8a, Registry } from '../typ
  * An unknown type that fails on construction with the type info
  */
 export class DoNotConstruct implements Codec {
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
 
   #neverError: Error;
 
   constructor (registry: Registry, typeName = 'DoNotConstruct') {
-    this.registry = registry;
+    this.$registry = registry;
     this.#neverError = new Error(`DoNotConstruct: Cannot construct unknown type ${typeName}`);
 
     throw this.#neverError;
@@ -33,9 +33,19 @@ export class DoNotConstruct implements Codec {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
+  }
+
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
   }
 
   public static with (typeName?: string): CodecClass {
@@ -56,7 +66,7 @@ export class DoNotConstruct implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
+  public get $hash (): IU8a {
     throw this.#neverError;
   }
 

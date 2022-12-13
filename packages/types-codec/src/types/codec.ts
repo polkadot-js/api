@@ -24,25 +24,23 @@ export interface Inspect {
 export interface Codec {
   // these are all the deprecated getters (all readonly)
 
-  /**
-   * @deprecated Use $createdAtHash
-   */
+  /** @deprecated Use $createdAtHash */
   readonly createdAtHash?: IU8a;
 
-  /**
-   * @deprecated Use $encodedLength
-   */
+  /** @deprecated Use $encodedLength */
   readonly encodedLength: number;
 
-  /**
-   * @deprecated Use $initialU8aLength
-   */
+  /** @deprecated Use $hash */
+  readonly hash: IU8a;
+
+  /** @deprecated Use $initialU8aLength */
   readonly initialU8aLength?: number;
 
-  /**
-   * @deprecated Use $isEmpty
-   */
+  /** @deprecated Use $isEmpty */
   readonly isEmpty: boolean;
+
+  /** @deprecated Use $registry */
+  readonly registry: Registry;
 
   // normal programming resumes ...
 
@@ -69,12 +67,12 @@ export interface Codec {
   /**
    * @description Returns a hash of the value
    */
-  readonly hash: IU8a;
+  readonly $hash: IU8a;
 
   /**
    * @description The registry associated with this object
    */
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   /**
    * @description Compares the value of the input to see if there is a match

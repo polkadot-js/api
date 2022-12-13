@@ -12,7 +12,7 @@ import { isFunction } from '@polkadot/util';
 import { memo } from '../util';
 
 export function getInstance (api: DeriveApi, section: string): DeriveApi['query']['council'] {
-  const instances = api.registry.getModuleInstances(api.runtimeVersion.specName, section);
+  const instances = api.$registry.getModuleInstances(api.runtimeVersion.specName, section);
   const name = instances && instances.length
     ? instances[0]
     : section;

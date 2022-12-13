@@ -12,7 +12,7 @@ export class BountyFactory {
 
   constructor (api: ApiPromise) {
     this.#api = api;
-    this.#registry = this.#api.registry;
+    this.#registry = this.#api.$registry;
   }
 
   public storageKey = (index: number): StorageKey => {

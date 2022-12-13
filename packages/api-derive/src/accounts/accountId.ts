@@ -24,10 +24,10 @@ export function accountId (instanceId: string, api: DeriveApi): (address?: Addre
       : decodeAddress((address || '').toString());
 
     if (decoded.length > 8) {
-      return of(api.registry.createType('AccountId', decoded));
+      return of(api.$registry.createType('AccountId', decoded));
     }
 
-    const accountIndex = api.registry.createType('AccountIndex', decoded);
+    const accountIndex = api.$registry.createType('AccountIndex', decoded);
 
     return api.derive.accounts.indexToId(accountIndex.toString()).pipe(
       map((a) => assertReturn(a, 'Unable to retrieve accountId'))

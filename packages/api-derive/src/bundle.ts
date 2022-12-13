@@ -89,7 +89,7 @@ const checks: Record<string, Avail> = {
 };
 
 function getModuleInstances (api: DeriveApi, specName: AnyString, moduleName: string): string[] {
-  return api.registry.getModuleInstances(specName, moduleName) || [];
+  return api.$registry.getModuleInstances(specName, moduleName) || [];
 }
 
 /**

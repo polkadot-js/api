@@ -22,7 +22,7 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
  * @noInheritDoc
  */
 export class Json extends Map<string, any> implements Codec {
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
 
@@ -31,7 +31,7 @@ export class Json extends Map<string, any> implements Codec {
 
     super(decoded);
 
-    this.registry = registry;
+    this.$registry = registry;
 
     objectProperties(this, decoded.map(([k]) => k), (k) => this.get(k));
   }
@@ -46,9 +46,19 @@ export class Json extends Map<string, any> implements Codec {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
+  }
+
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
   }
 
   /**
@@ -61,8 +71,8 @@ export class Json extends Map<string, any> implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   /**

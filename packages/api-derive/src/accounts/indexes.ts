@@ -15,7 +15,7 @@ function queryAccounts (api: DeriveApi): Observable<AccountIndexes> {
     map((entries): AccountIndexes =>
       entries.reduce((indexes: AccountIndexes, [key, idOpt]): AccountIndexes => {
         if (idOpt.isSome) {
-          indexes[idOpt.unwrap()[0].toString()] = api.registry.createType('AccountIndex', key.args[0]);
+          indexes[idOpt.unwrap()[0].toString()] = api.$registry.createType('AccountIndex', key.args[0]);
         }
 
         return indexes;

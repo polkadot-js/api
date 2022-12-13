@@ -27,7 +27,7 @@ export class Float extends Number implements IFloat {
 
   readonly $initialU8aLength?: number;
 
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   constructor (registry: Registry, value?: AnyFloat, { bitLength = 32 }: Options = {}) {
     super(
@@ -41,7 +41,7 @@ export class Float extends Number implements IFloat {
     this.#bitLength = bitLength;
     this.$encodedLength = bitLength / 8;
     this.$initialU8aLength = this.$encodedLength;
-    this.registry = registry;
+    this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash */
@@ -54,6 +54,11 @@ export class Float extends Number implements IFloat {
     return this.$encodedLength;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /** @deprecated Use $initialU8aLength */
   public get initialU8aLength (): number | undefined {
     return this.$initialU8aLength;
@@ -62,6 +67,11 @@ export class Float extends Number implements IFloat {
   /** @deprecated Use $isEmpty */
   public get isEmpty (): boolean {
     return this.$isEmpty;
+  }
+
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
   }
 
   public static with (bitLength: 32 | 64): CodecClass<Float> {
@@ -75,8 +85,8 @@ export class Float extends Number implements IFloat {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   /**

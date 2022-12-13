@@ -30,13 +30,13 @@ export abstract class Base<ApiType extends ApiTypes> {
 
     this.abi = abi instanceof Abi
       ? abi
-      : new Abi(abi, api.registry.getChainProperties());
+      : new Abi(abi, api.$registry.getChainProperties());
     this.api = api;
     this._decorateMethod = decorateMethod;
-    this._isWeightV1 = !api.registry.createType<WeightV2>('Weight').proofSize;
+    this._isWeightV1 = !api.$registry.createType<WeightV2>('Weight').proofSize;
   }
 
   public get registry (): Registry {
-    return this.api.registry;
+    return this.api.$registry;
   }
 }

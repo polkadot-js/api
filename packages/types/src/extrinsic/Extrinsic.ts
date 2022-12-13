@@ -245,11 +245,11 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   /**
    * @description returns a hash of the contents
    */
-  public override get hash (): CodecHash {
+  public override get $hash (): CodecHash {
     if (!this.#hashCache) {
       // The as here is due to the $initialU8aLength adjustments - since the getter
       // is there now, it is viewed as being "required" (it does still return undefined)
-      this.#hashCache = super.hash as CodecHash;
+      this.#hashCache = super.$hash as CodecHash;
     }
 
     return this.#hashCache;

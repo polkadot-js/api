@@ -43,7 +43,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash | Uint8Array, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.codeHash = this.registry.createType('Hash', codeHash);
+    this.codeHash = this.$registry.createType('Hash', codeHash);
 
     this.abi.constructors.forEach((c): void => {
       if (isUndefined(this.#tx[c.method])) {

@@ -53,7 +53,7 @@ export class Text extends String implements IText {
 
   public readonly $initialU8aLength?: number;
 
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   #override: string | null = null;
 
@@ -62,7 +62,7 @@ export class Text extends String implements IText {
 
     super(str);
 
-    this.registry = registry;
+    this.$registry = registry;
     this.$initialU8aLength = decodedLength;
   }
 
@@ -86,6 +86,11 @@ export class Text extends String implements IText {
     return this.$isEmpty;
   }
 
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -93,11 +98,16 @@ export class Text extends String implements IText {
     return this.toU8a().length;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   /**

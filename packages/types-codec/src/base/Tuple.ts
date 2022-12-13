@@ -116,7 +116,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   public get Types (): string[] {
     return this.#Types[1].length
       ? this.#Types[1]
-      : this.#Types[0].map((T) => new T(this.registry).toRawType());
+      : this.#Types[0].map((T) => new T(this.$registry).toRawType());
   }
 
   /**
@@ -133,7 +133,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    */
   public toRawType (): string {
     const types = this.#Types[0].map((T) =>
-      this.registry.getClassName(T) || new T(this.registry).toRawType()
+      this.$registry.getClassName(T) || new T(this.$registry).toRawType()
     );
 
     return `(${types.join(',')})`;

@@ -44,7 +44,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     super(options, type, decorateMethod);
 
     // all injected types added to the registry for overrides
-    this.registry.setKnownTypes(options);
+    this.$registry.setKnownTypes(options);
 
     // We only register the types (global) if this is not a cloned instance.
     // Do right up-front, so we get in the user types before we are actually
@@ -91,7 +91,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
    */
   private _initRegistry (registry: Registry, chain: Text, version: { specName: Text, specVersion: BN }, metadata: Metadata, chainProps?: ChainProperties): void {
     registry.clearCache();
-    registry.setChainProperties(chainProps || this.registry.getChainProperties());
+    registry.setChainProperties(chainProps || this.$registry.getChainProperties());
     registry.setKnownTypes(this._options);
     registry.register(getSpecTypes(registry, chain, version.specName, version.specVersion));
     registry.setHasher(getSpecHasher(registry, chain, version.specName));
@@ -194,7 +194,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // We have to assume that on the RPC layer the calls used here does not call back into
     // the registry swap, so getHeader & getRuntimeVersion should not be historic
-    const header = this.registry.createType('HeaderPartial',
+    const header = this.$registry.createType('HeaderPartial',
       this._genesisHash.eq(blockHash)
         ? { number: BN_ZERO, parentHash: this._genesisHash }
         : await firstValueFrom(this._rpcCore.chain.getHeader.raw(blockHash))
@@ -206,7 +206,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // get the runtime version, either on-chain or via an known upgrade history
     const [firstVersion, lastVersion] = getUpgradeVersion(this._genesisHash, header.number);
-    const version = this.registry.createType('RuntimeVersionPartial',
+    const version = this.$registry.createType('RuntimeVersionPartial',
       WITH_VERSION_SHORTCUT && (
         firstVersion && (
           lastVersion ||
@@ -278,7 +278,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       }
     }
 
-    this._filterRpc(rpcs, getSpecRpc(this.registry, source.runtimeChain, source.runtimeVersion.specName));
+    this._filterRpc(rpcs, getSpecRpc(this.$registry, source.runtimeChain, source.runtimeVersion.specName));
 
     return [source.genesisHash, source.runtimeMetadata];
   }
@@ -309,7 +309,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
               thisRegistry.metadata = metadata;
               thisRegistry.runtimeVersion = version;
 
-              this._initRegistry(this.registry, this._runtimeChain as Text, version, metadata);
+              this._initRegistry(this.$registry, this._runtimeChain as Text, version, metadata);
               this._injectMetadata(thisRegistry, true);
 
               return true;
@@ -340,18 +340,18 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const metadataKey = `${genesisHash.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
     const metadata = chainMetadata || (
       optMetadata && optMetadata[metadataKey]
-        ? new Metadata(this.registry, optMetadata[metadataKey])
+        ? new Metadata(this.$registry, optMetadata[metadataKey])
         : await firstValueFrom(this._rpcCore.state.getMetadata())
     );
 
     // initializes the registry & RPC
-    this._initRegistry(this.registry, chain, runtimeVersion, metadata, chainProps);
-    this._filterRpc(rpcMethods.methods.map(textToString), getSpecRpc(this.registry, chain, runtimeVersion.specName));
+    this._initRegistry(this.$registry, chain, runtimeVersion, metadata, chainProps);
+    this._filterRpc(rpcMethods.methods.map(textToString), getSpecRpc(this.$registry, chain, runtimeVersion.specName));
     this._subscribeUpdates();
 
     // setup the initial registry, when we have none
     if (!this.#registries.length) {
-      this.#registries.push({ counter: 0, isDefault: true, metadata, registry: this.registry, runtimeVersion });
+      this.#registries.push({ counter: 0, isDefault: true, metadata, registry: this.$registry, runtimeVersion });
     }
 
     // get unique types & validate

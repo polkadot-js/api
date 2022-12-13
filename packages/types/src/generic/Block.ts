@@ -39,7 +39,7 @@ export class GenericBlock extends Struct {
    * @description Encodes a content [[Hash]] for the block
    */
   public get contentHash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -52,8 +52,8 @@ export class GenericBlock extends Struct {
   /**
    * @description Block/header [[Hash]]
    */
-  public override get hash (): IU8a {
-    return this.header.hash;
+  public override get $hash (): IU8a {
+    return this.header.$hash;
   }
 
   /**

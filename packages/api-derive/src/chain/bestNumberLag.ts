@@ -29,7 +29,7 @@ export function bestNumberLag (instanceId: string, api: DeriveApi): () => Observ
       api.derive.chain.bestNumberFinalized()
     ]).pipe(
       map(([bestNumber, bestNumberFinalized]): BlockNumber =>
-        api.registry.createType('BlockNumber', bestNumber.sub(bestNumberFinalized))
+        api.$registry.createType('BlockNumber', bestNumber.sub(bestNumberFinalized))
       )
     ));
 }

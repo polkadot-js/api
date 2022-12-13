@@ -20,7 +20,7 @@ export class Raw extends Uint8Array implements IU8a {
 
   public readonly $initialU8aLength?: number;
 
-  public readonly registry: Registry;
+  public readonly $registry: Registry;
 
   /**
    * @description This ensures that operators such as clice, filter, map, etc. return
@@ -33,7 +33,7 @@ export class Raw extends Uint8Array implements IU8a {
   constructor (registry: Registry, value?: AnyU8a, initialU8aLength?: number) {
     super(u8aToU8a(value));
 
-    this.registry = registry;
+    this.$registry = registry;
     this.$initialU8aLength = initialU8aLength;
   }
 
@@ -57,6 +57,11 @@ export class Raw extends Uint8Array implements IU8a {
     return this.$isEmpty;
   }
 
+  /** @deprecated Use $registry */
+  public get registry (): Registry {
+    return this.$registry;
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -64,11 +69,16 @@ export class Raw extends Uint8Array implements IU8a {
     return this.length;
   }
 
+  /** @deprecated Use $hash */
+  public get hash (): IU8a {
+    return this.$hash;
+  }
+
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public get $hash (): IU8a {
+    return this.$registry.hash(this.toU8a());
   }
 
   /**

@@ -159,12 +159,12 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     super();
 
     this.#instanceId = `${++instanceCounter}`;
-    this.#registry = options.source?.registry || options.registry || new TypeRegistry();
+    this.#registry = options.source?.$registry || options.$registry || new TypeRegistry();
     this._rx.callAt = (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) =>
       from(this.at(blockHash, knownVersion)).pipe(map((a) => a.rx.call));
     this._rx.queryAt = (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) =>
       from(this.at(blockHash, knownVersion)).pipe(map((a) => a.rx.query));
-    this._rx.registry = this.#registry;
+    this._rx.$registry = this.#registry;
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.isClonable
@@ -237,11 +237,11 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   protected _createDecorated (registry: VersionedRegistry<ApiType>, fromEmpty: boolean, decoratedApi: ApiDecoration<ApiType> | null, blockHash?: Uint8Array): FullDecoration<ApiType> {
     if (!decoratedApi) {
-      decoratedApi = this._emptyDecorated(registry.registry, blockHash);
+      decoratedApi = this._emptyDecorated(registry.$registry, blockHash);
     }
 
     if (fromEmpty || !registry.decoratedMeta) {
-      registry.decoratedMeta = expandMetadata(registry.registry, registry.metadata);
+      registry.decoratedMeta = expandMetadata(registry.$registry, registry.metadata);
     }
 
     const runtime = this._decorateCalls(registry, this._decorateMethod, blockHash);
@@ -258,9 +258,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     augmentObject('call', runtimeRx, decoratedApi.rx.call, fromEmpty);
 
     decoratedApi.findCall = (callIndex: Uint8Array | string): CallFunction =>
-      findCall(registry.registry, callIndex);
+      findCall(registry.$registry, callIndex);
     decoratedApi.findError = (errorIndex: Uint8Array | string): RegistryError =>
-      findError(registry.registry, errorIndex);
+      findError(registry.$registry, errorIndex);
     decoratedApi.queryMulti = blockHash
       ? this._decorateMultiAt(decoratedApi, this._decorateMethod, blockHash)
       : this._decorateMulti(this._decorateMethod);
@@ -276,7 +276,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _injectMetadata (registry: VersionedRegistry<ApiType>, fromEmpty = false): void {
     // clear the decoration, we are redoing it here
     if (fromEmpty || !registry.decoratedApi) {
-      registry.decoratedApi = this._emptyDecorated(registry.registry);
+      registry.decoratedApi = this._emptyDecorated(registry.$registry);
     }
 
     const { decoratedApi, decoratedMeta } = this._createDecorated(registry, fromEmpty, registry.decoratedApi);
@@ -718,7 +718,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       getQueryAt(blockHash).pipe(
         switchMap((q) => q(...args))));
 
-    decorated.hash = decorateMethod((...args: unknown[]): Observable<Hash> =>
+    decorated.$hash = decorateMethod((...args: unknown[]): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(args)));
 
     decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>
@@ -737,7 +737,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     decorated.sizeAt = decorateMethod((blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<u64> =>
       getQueryAt(blockHash).pipe(
         switchMap((q) =>
-          this._rpcCore.state.getStorageSize(getArgs(args, q.creator.meta.registry), blockHash))));
+          this._rpcCore.state.getStorageSize(getArgs(args, q.creator.meta.$registry), blockHash))));
 
     // .keys() & .entries() only available on map types
     if (creator.iterKey && creator.meta.type.isMap) {
@@ -793,7 +793,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     decorated.creator = creator;
 
-    decorated.hash = decorateMethod((...args: unknown[]): Observable<Hash> =>
+    decorated.$hash = decorateMethod((...args: unknown[]): Observable<Hash> =>
       this._rpcCore.state.getStorageHash(getArgs(args), blockHash));
 
     decorated.is = <A extends AnyTuple> (key: IStorageKey<AnyTuple>): key is IStorageKey<A> =>

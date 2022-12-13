@@ -60,7 +60,7 @@ function retrieveProposals (api: DeriveApi, proposalCount: ProposalIndex, approv
 
   for (let index = 0; index < count; index++) {
     if (!approvalIds.some((id) => id.eqn(index))) {
-      proposalIds.push(api.registry.createType('ProposalIndex', index));
+      proposalIds.push(api.$registry.createType('ProposalIndex', index));
     }
   }
 
@@ -94,7 +94,7 @@ export function proposals (instanceId: string, api: DeriveApi): () => Observable
       )
       : of({
         approvals: [],
-        proposalCount: api.registry.createType('ProposalIndex'),
+        proposalCount: api.$registry.createType('ProposalIndex'),
         proposals: []
       } as DeriveTreasuryProposals)
   );

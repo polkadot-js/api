@@ -47,7 +47,7 @@ describe('Header', (): void => {
     const header = registry.createType('Header', json3.result);
 
     expect(
-      header.hash.toHex()
+      header.$hash.toHex()
     ).toEqual('0x464692ad0e225a74274a7ef411e045f1fc7c2639b5f780c7c18f91f4100f5e54');
     expect(
       header.number.eq(new BN(1650758))
@@ -55,7 +55,7 @@ describe('Header', (): void => {
   });
 
   it('calculates correct hash, matching with parentHash', (): void => {
-    const blockHash = registry.createType('Header', block00300.result.block.header).hash.toHex();
+    const blockHash = registry.createType('Header', block00300.result.block.header).$hash.toHex();
 
     expect(blockHash).toEqual(block00301.result.block.header.parentHash);
   });
