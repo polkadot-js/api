@@ -10,7 +10,7 @@ import type { Registry } from '@polkadot/types-codec/types';
 import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types';
 import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types';
 
-import { catchError, first, map, mapTo, mergeMap, of, switchMap, tap } from 'rxjs';
+import { catchError, first, map, mergeMap, of, switchMap, tap } from 'rxjs';
 
 import { isBn, isFunction, isNumber, isString, isU8a, objectSpread } from '@polkadot/util';
 
@@ -198,7 +198,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       return decorateMethod(
         (): Observable<this> =>
           this.#observeSign(account, partialOptions).pipe(
-            mapTo(this)
+            map(() => this)
           )
       )();
     }
