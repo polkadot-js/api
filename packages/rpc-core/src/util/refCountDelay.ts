@@ -18,6 +18,7 @@ export function refCountDelay <T> (delay = 1750): MonoTypeOperatorFunction<T> {
         if (state === 1) {
           scheduler.unsubscribe();
         } else {
+          // eslint-disable-next-line deprecation/deprecation
           connection = (source as ConnectableObservable<T>).connect();
         }
 

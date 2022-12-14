@@ -42,8 +42,10 @@ export function drr ({ delay, skipChange = false, skipTimeout = false }: Options
       skipChange
         ? tap(NOOP)
         : distinctUntilChanged<T>(CMP),
+      // eslint-disable-next-line deprecation/deprecation
       publishReplay(1),
       skipTimeout
+        // eslint-disable-next-line deprecation/deprecation
         ? refCount()
         : refCountDelay(delay)
     );

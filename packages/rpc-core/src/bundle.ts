@@ -263,9 +263,11 @@ export class RpcCore {
           }
         };
       }).pipe(
+        // eslint-disable-next-line deprecation/deprecation
         publishReplay(1), // create a Replay(1)
         isDelayed
           ? refCountDelay() // Unsubscribe after delay
+          // eslint-disable-next-line deprecation/deprecation
           : refCount()
       );
     };
