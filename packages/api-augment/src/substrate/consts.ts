@@ -8,7 +8,7 @@ import '@polkadot/api-base/types/consts';
 import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec, ITuple } from '@polkadot/types-codec/types';
-import type { Perbill, Percent, Permill } from '@polkadot/types/interfaces/runtime';
+import type { Perbill, Percent, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletContractsSchedule, PalletReferendaTrackInfo, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
@@ -245,6 +245,10 @@ declare module '@polkadot/api-base/types/consts' {
        * a wasm binary below this maximum size.
        **/
       maxCodeLen: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of the debug buffer in bytes.
+       **/
+      maxDebugBufferLen: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum allowable length in bytes for storage keys.
        **/
@@ -514,55 +518,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    gilt: {
-      /**
-       * Portion of the queue which is free from ordering and just a FIFO.
-       * 
-       * Must be no greater than `MaxQueueLen`.
-       **/
-      fifoQueueLen: u32 & AugmentedConst<ApiType>;
-      /**
-       * The number of blocks between consecutive attempts to issue more gilts in an effort to
-       * get to the target amount to be frozen.
-       * 
-       * A larger value results in fewer storage hits each block, but a slower period to get to
-       * the target.
-       **/
-      intakePeriod: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum amount of bids that can be turned into issued gilts each block. A larger
-       * value here means less of the block available for transactions should there be a glut of
-       * bids to make into gilts to reach the target.
-       **/
-      maxIntakeBids: u32 & AugmentedConst<ApiType>;
-      /**
-       * Maximum number of items that may be in each duration queue.
-       **/
-      maxQueueLen: u32 & AugmentedConst<ApiType>;
-      /**
-       * The minimum amount of funds that may be offered to freeze for a gilt. Note that this
-       * does not actually limit the amount which may be frozen in a gilt since gilts may be
-       * split up in order to satisfy the desired amount of funds under gilts.
-       * 
-       * It should be at least big enough to ensure that there is no possible storage spam attack
-       * or queue-filling attack.
-       **/
-      minFreeze: u128 & AugmentedConst<ApiType>;
-      /**
-       * The base period for the duration queues. This is the common multiple across all
-       * supported freezing durations that can be bid upon.
-       **/
-      period: u32 & AugmentedConst<ApiType>;
-      /**
-       * Number of duration queues in total. This sets the maximum duration supported, which is
-       * this value multiplied by `Period`.
-       **/
-      queueCount: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     grandpa: {
       /**
        * Max Authorities in use
@@ -650,6 +605,34 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    messageQueue: {
+      /**
+       * The size of the page; this implies the maximum message size which can be sent.
+       * 
+       * A good value depends on the expected message sizes, their weights, the weight that is
+       * available for processing them and the maximal needed message size. The maximal message
+       * size is slightly lower than this as defined by [`MaxMessageLenOf`].
+       **/
+      heapSize: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of stale pages (i.e. of overweight messages) allowed before culling
+       * can happen. Once there are more stale pages than this, then historical pages may be
+       * dropped, even if they contain unprocessed overweight messages.
+       **/
+      maxStale: u32 & AugmentedConst<ApiType>;
+      /**
+       * The amount of weight (if any) which should be provided to the message queue for
+       * servicing enqueued items.
+       * 
+       * This may be legitimately `None` in the case that you will call
+       * `ServiceQueues::service_queues` manually.
+       **/
+      serviceWeight: Option<SpWeightsWeightV2Weight> & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     multisig: {
       /**
        * The base amount of currency needed to reserve for creating a multisig execution or to
@@ -670,6 +653,69 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum amount of signatories allowed in the multisig.
        **/
       maxSignatories: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    nis: {
+      /**
+       * The base period for the duration queues. This is the common multiple across all
+       * supported freezing durations that can be bid upon.
+       **/
+      basePeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * Portion of the queue which is free from ordering and just a FIFO.
+       * 
+       * Must be no greater than `MaxQueueLen`.
+       **/
+      fifoQueueLen: u32 & AugmentedConst<ApiType>;
+      /**
+       * The number of blocks between consecutive attempts to dequeue bids and create receipts.
+       * 
+       * A larger value results in fewer storage hits each block, but a slower period to get to
+       * the target.
+       **/
+      intakePeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum amount of bids that can consolidated into receipts in a single intake. A
+       * larger value here means less of the block available for transactions should there be a
+       * glut of bids.
+       **/
+      maxIntakeWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of items that may be in each duration queue.
+       * 
+       * Must be larger than zero.
+       **/
+      maxQueueLen: u32 & AugmentedConst<ApiType>;
+      /**
+       * The minimum amount of funds that may be placed in a bid. Note that this
+       * does not actually limit the amount which may be represented in a receipt since bids may
+       * be split up by the system.
+       * 
+       * It should be at least big enough to ensure that there is no possible storage spam attack
+       * or queue-filling attack.
+       **/
+      minBid: u128 & AugmentedConst<ApiType>;
+      /**
+       * The minimum amount of funds which may intentionally be left remaining under a single
+       * receipt.
+       **/
+      minReceipt: Perquintill & AugmentedConst<ApiType>;
+      /**
+       * The treasury's pallet id, used for deriving its sovereign account ID.
+       **/
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Number of duration queues in total. This sets the maximum duration supported, which is
+       * this value multiplied by `Period`.
+       **/
+      queueCount: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum proportion which may be thawed and the period over which it is reset.
+       **/
+      thawThrottle: ITuple<[Perquintill, u32]> & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
