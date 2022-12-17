@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedSubmittable, SubmittableExtrinsic, SubmittableE
 import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
@@ -923,7 +923,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Approve a bounty proposal. At a later time, the bounty will be funded and become active
        * and the original deposit will be returned.
        * 
-       * May only be called from `T::ApproveOrigin`.
+       * May only be called from `T::SpendOrigin`.
        * 
        * # <weight>
        * - O(1).
@@ -1000,7 +1000,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Assign a curator to a funded bounty.
        * 
-       * May only be called from `T::ApproveOrigin`.
+       * May only be called from `T::SpendOrigin`.
        * 
        * # <weight>
        * - O(1).
@@ -1437,7 +1437,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Weight: `O(R)` where R is the number of polls the voter has voted on.
        **/
-      vote: AugmentedSubmittable<(pollIndex: Compact<u32> | AnyNumber | Uint8Array, vote: PalletConvictionVotingVoteAccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, PalletConvictionVotingVoteAccountVote]>;
+      vote: AugmentedSubmittable<(pollIndex: Compact<u32> | AnyNumber | Uint8Array, vote: PalletConvictionVotingVoteAccountVote | { Standard: any } | { Split: any } | { SplitAbstain: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, PalletConvictionVotingVoteAccountVote]>;
       /**
        * Generic tx
        **/
@@ -2108,57 +2108,6 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
-    gilt: {
-      /**
-       * Place a bid for a gilt to be issued.
-       * 
-       * Origin must be Signed, and account must have at least `amount` in free balance.
-       * 
-       * - `amount`: The amount of the bid; these funds will be reserved. If the bid is
-       * successfully elevated into an issued gilt, then these funds will continue to be
-       * reserved until the gilt expires. Must be at least `MinFreeze`.
-       * - `duration`: The number of periods for which the funds will be locked if the gilt is
-       * issued. It will expire only after this period has elapsed after the point of issuance.
-       * Must be greater than 1 and no more than `QueueCount`.
-       * 
-       * Complexities:
-       * - `Queues[duration].len()` (just take max).
-       **/
-      placeBid: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
-      /**
-       * Retract a previously placed bid.
-       * 
-       * Origin must be Signed, and the account should have previously issued a still-active bid
-       * of `amount` for `duration`.
-       * 
-       * - `amount`: The amount of the previous bid.
-       * - `duration`: The duration of the previous bid.
-       **/
-      retractBid: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
-      /**
-       * Set target proportion of gilt-funds.
-       * 
-       * Origin must be `AdminOrigin`.
-       * 
-       * - `target`: The target proportion of effective issued funds that should be under gilts
-       * at any one time.
-       **/
-      setTarget: AugmentedSubmittable<(target: Compact<Perquintill> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<Perquintill>]>;
-      /**
-       * Remove an active but expired gilt. Reserved funds under gilt are freed and balance is
-       * adjusted to ensure that the funds grow or shrink to maintain the equivalent proportion
-       * of effective total issued funds.
-       * 
-       * Origin must be Signed and the account must be the owner of the gilt of the given index.
-       * 
-       * - `index`: The index of the gilt to be thawed.
-       **/
-      thaw: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
-      /**
-       * Generic tx
-       **/
-      [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    };
     grandpa: {
       /**
        * Note that the current authority set of the GRANDPA finality gadget has stalled.
@@ -2650,6 +2599,29 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    messageQueue: {
+      /**
+       * Execute an overweight message.
+       * 
+       * - `origin`: Must be `Signed`.
+       * - `message_origin`: The origin from which the message to be executed arrived.
+       * - `page`: The page in the queue in which the message to be executed is sitting.
+       * - `index`: The index into the queue of the message to be executed.
+       * - `weight_limit`: The maximum amount of weight allowed to be consumed in the execution
+       * of the message.
+       * 
+       * Benchmark complexity considerations: O(index + weight_limit).
+       **/
+      executeOverweight: AugmentedSubmittable<(messageOrigin: PalletMessageQueueMockHelpersMessageOrigin | { Here: any } | { There: any } | { Everywhere: any } | string | Uint8Array, page: u32 | AnyNumber | Uint8Array, index: u32 | AnyNumber | Uint8Array, weightLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletMessageQueueMockHelpersMessageOrigin, u32, u32, SpWeightsWeightV2Weight]>;
+      /**
+       * Remove a page which has no more messages remaining to be processed or is stale.
+       **/
+      reapPage: AugmentedSubmittable<(messageOrigin: PalletMessageQueueMockHelpersMessageOrigin | { Here: any } | { There: any } | { Everywhere: any } | string | Uint8Array, pageIndex: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletMessageQueueMockHelpersMessageOrigin, u32]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     multisig: {
       /**
        * Register approval for a dispatch to be made from a deterministic composite account if
@@ -2785,6 +2757,53 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        **/
       cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], timepoint: PalletMultisigTimepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, PalletMultisigTimepoint, U8aFixed]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    nis: {
+      /**
+       * Ensure we have sufficient funding for all potential payouts.
+       * 
+       * - `origin`: Must be accepted by `FundOrigin`.
+       **/
+      fundDeficit: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Place a bid.
+       * 
+       * Origin must be Signed, and account must have at least `amount` in free balance.
+       * 
+       * - `amount`: The amount of the bid; these funds will be reserved, and if/when
+       * consolidated, removed. Must be at least `MinBid`.
+       * - `duration`: The number of periods before which the newly consolidated bid may be
+       * thawed. Must be greater than 1 and no more than `QueueCount`.
+       * 
+       * Complexities:
+       * - `Queues[duration].len()` (just take max).
+       **/
+      placeBid: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
+      /**
+       * Retract a previously placed bid.
+       * 
+       * Origin must be Signed, and the account should have previously issued a still-active bid
+       * of `amount` for `duration`.
+       * 
+       * - `amount`: The amount of the previous bid.
+       * - `duration`: The duration of the previous bid.
+       **/
+      retractBid: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
+      /**
+       * Reduce or remove an outstanding receipt, placing the according proportion of funds into
+       * the account of the owner.
+       * 
+       * - `origin`: Must be Signed and the account must be the owner of the receipt `index` as
+       * well as any fungible counterpart.
+       * - `index`: The index of the receipt.
+       * - `portion`: If `Some`, then only the given portion of the receipt should be thawed. If
+       * `None`, then all of it should be.
+       **/
+      thaw: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array, portion: Option<u128> | null | Uint8Array | u128 | AnyNumber) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Option<u128>]>;
       /**
        * Generic tx
        **/
@@ -2939,9 +2958,12 @@ declare module '@polkadot/api-base/types/submittable' {
        * # Note
        * 
        * If there are too many unlocking chunks to unbond with the pool account,
-       * [`Call::pool_withdraw_unbonded`] can be called to try and minimize unlocking chunks. If
-       * there are too many unlocking chunks, the result of this call will likely be the
-       * `NoMoreChunks` error from the staking system.
+       * [`Call::pool_withdraw_unbonded`] can be called to try and minimize unlocking chunks.
+       * The [`StakingInterface::unbond`] will implicitly call [`Call::pool_withdraw_unbonded`]
+       * to try to free chunks if necessary (ie. if unbound was called and no unlocking chunks
+       * are available). However, it may not be possible to release the current unlocking chunks,
+       * in which case, the result of this call will likely be the `NoMoreChunks` error from the
+       * staking system.
        **/
       unbond: AugmentedSubmittable<(memberAccount: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, unbondingPoints: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>]>;
       /**
@@ -3297,6 +3319,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       refundDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
+       * Refund the Submission Deposit for a closed referendum back to the depositor.
+       * 
+       * - `origin`: must be `Signed` or `Root`.
+       * - `index`: The index of a closed referendum whose Submission Deposit has not yet been
+       * refunded.
+       * 
+       * Emits `SubmissionDepositRefunded`.
+       **/
+      refundSubmissionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
        * Propose a referendum on a privileged action.
        * 
        * - `origin`: must be `SubmitOrigin` and the account must have `SubmissionDeposit` funds
@@ -3498,6 +3530,16 @@ declare module '@polkadot/api-base/types/submittable' {
        * Emits `DecisionDepositRefunded`.
        **/
       refundDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Refund the Submission Deposit for a closed referendum back to the depositor.
+       * 
+       * - `origin`: must be `Signed` or `Root`.
+       * - `index`: The index of a closed referendum whose Submission Deposit has not yet been
+       * refunded.
+       * 
+       * Emits `SubmissionDepositRefunded`.
+       **/
+      refundSubmissionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Propose a referendum on a privileged action.
        * 
@@ -4280,8 +4322,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * the funds out of management ready for transfer.
        * 
        * No more than a limited number of unlocking chunks (see `MaxUnlockingChunks`)
-       * can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need
-       * to be called first to remove some of the chunks (if possible).
+       * can co-exists at the same time. If there are no unlocking chunks slots available
+       * [`Call::withdraw_unbonded`] is called to remove some of the chunks (if possible).
        * 
        * If a user encounters the `InsufficientBond` error when calling this extrinsic,
        * they should call `chill` first in order to free up their bonded funds.
@@ -5539,6 +5581,15 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       forceBatch: AugmentedSubmittable<(calls: Vec<Call> | (Call | IMethod | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Call>]>;
       /**
+       * Dispatch a function call with a specified weight.
+       * 
+       * This function does not check the weight of the call, and instead allows the
+       * Root origin to specify the weight of the call.
+       * 
+       * The dispatch origin for this call must be _Root_.
+       **/
+      withWeight: AugmentedSubmittable<(call: Call | IMethod | string | Uint8Array, weight: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call, SpWeightsWeightV2Weight]>;
+      /**
        * Generic tx
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -5679,7 +5730,7 @@ declare module '@polkadot/api-base/types/submittable' {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     whitelist: {
-      dispatchWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array, callWeightWitness: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, SpWeightsWeightV2Weight]>;
+      dispatchWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array, callEncodedLen: u32 | AnyNumber | Uint8Array, callWeightWitness: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, u32, SpWeightsWeightV2Weight]>;
       dispatchWhitelistedCallWithPreimage: AugmentedSubmittable<(call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call]>;
       removeWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
       whitelistCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;

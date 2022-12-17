@@ -689,6 +689,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BadReferendum: AugmentedError<ApiType>;
       /**
+       * The referendum status is invalid for this operation.
+       **/
+      BadStatus: AugmentedError<ApiType>;
+      /**
        * The track identifier given was invalid.
        **/
       BadTrack: AugmentedError<ApiType>;
@@ -728,45 +732,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Any deposit cannot be refunded until after the decision is over.
        **/
       Unfinished: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    gilt: {
-      /**
-       * The amount of the bid is less than the minimum allowed.
-       **/
-      AmountTooSmall: AugmentedError<ApiType>;
-      /**
-       * The queue for the bid's duration is full and the amount bid is too low to get in
-       * through replacing an existing bid.
-       **/
-      BidTooLow: AugmentedError<ApiType>;
-      /**
-       * The duration is the bid is greater than the number of queues.
-       **/
-      DurationTooBig: AugmentedError<ApiType>;
-      /**
-       * The duration of the bid is less than one.
-       **/
-      DurationTooSmall: AugmentedError<ApiType>;
-      /**
-       * Gilt not yet at expiry date.
-       **/
-      NotExpired: AugmentedError<ApiType>;
-      /**
-       * The given bid for retraction is not found.
-       **/
-      NotFound: AugmentedError<ApiType>;
-      /**
-       * Not the owner of the gilt.
-       **/
-      NotOwner: AugmentedError<ApiType>;
-      /**
-       * Gilt index is unknown.
-       **/
-      Unknown: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1065,6 +1030,103 @@ declare module '@polkadot/api-base/types/errors' {
        * A different timepoint was given to the multisig operation that is underway.
        **/
       WrongTimepoint: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    nis: {
+      /**
+       * The amount of the bid is less than the minimum allowed.
+       **/
+      AmountTooSmall: AugmentedError<ApiType>;
+      /**
+       * The queue for the bid's duration is full and the amount bid is too low to get in
+       * through replacing an existing bid.
+       **/
+      BidTooLow: AugmentedError<ApiType>;
+      /**
+       * The duration is the bid is greater than the number of queues.
+       **/
+      DurationTooBig: AugmentedError<ApiType>;
+      /**
+       * The duration of the bid is less than one.
+       **/
+      DurationTooSmall: AugmentedError<ApiType>;
+      /**
+       * There are enough funds for what is required.
+       **/
+      Funded: AugmentedError<ApiType>;
+      /**
+       * The operation would result in a receipt worth an insignficant value.
+       **/
+      MakesDust: AugmentedError<ApiType>;
+      /**
+       * Bond not yet at expiry date.
+       **/
+      NotExpired: AugmentedError<ApiType>;
+      /**
+       * The given bid for retraction is not found.
+       **/
+      NotFound: AugmentedError<ApiType>;
+      /**
+       * Not the owner of the receipt.
+       **/
+      NotOwner: AugmentedError<ApiType>;
+      /**
+       * The thaw throttle has been reached for this period.
+       **/
+      Throttled: AugmentedError<ApiType>;
+      /**
+       * The portion supplied is beyond the value of the receipt.
+       **/
+      TooMuch: AugmentedError<ApiType>;
+      /**
+       * Not enough funds are held to pay out.
+       **/
+      Unfunded: AugmentedError<ApiType>;
+      /**
+       * Bond index is unknown.
+       **/
+      Unknown: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    nisCounterpartBalances: {
+      /**
+       * Beneficiary account must pre-exist
+       **/
+      DeadAccount: AugmentedError<ApiType>;
+      /**
+       * Value too low to create account due to existential deposit
+       **/
+      ExistentialDeposit: AugmentedError<ApiType>;
+      /**
+       * A vesting schedule already exists for this account
+       **/
+      ExistingVestingSchedule: AugmentedError<ApiType>;
+      /**
+       * Balance too low to send value.
+       **/
+      InsufficientBalance: AugmentedError<ApiType>;
+      /**
+       * Transfer/payment would kill account
+       **/
+      KeepAlive: AugmentedError<ApiType>;
+      /**
+       * Account liquidity restrictions prevent withdrawal
+       **/
+      LiquidityRestrictions: AugmentedError<ApiType>;
+      /**
+       * Number of named reserves exceed MaxReserves
+       **/
+      TooManyReserves: AugmentedError<ApiType>;
+      /**
+       * Vesting balance too high to send value
+       **/
+      VestingBalance: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1642,6 +1704,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The referendum index provided is invalid in this context.
        **/
       BadReferendum: AugmentedError<ApiType>;
+      /**
+       * The referendum status is invalid for this operation.
+       **/
+      BadStatus: AugmentedError<ApiType>;
       /**
        * The track identifier given was invalid.
        **/

@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
-import type { AccountId32, Call, H256, MultiAddress, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, Call, H256, MultiAddress, Percent } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeSessionKeys, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletVestingVestingInfo, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2InherentData, PolkadotPrimitivesV2PvfCheckStatement, PolkadotPrimitivesV2ValidatorAppSignature, PolkadotRuntimeCommonClaimsEcdsaSignature, PolkadotRuntimeCommonClaimsStatementKind, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpRuntimeMultiSignature, SpRuntimeMultiSigner, SpSessionMembershipProof, SpWeightsWeightV2Weight, XcmV1MultiLocation, XcmV2WeightLimit, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
@@ -204,7 +204,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Approve a bounty proposal. At a later time, the bounty will be funded and become active
        * and the original deposit will be returned.
        * 
-       * May only be called from `T::ApproveOrigin`.
+       * May only be called from `T::SpendOrigin`.
        * 
        * # <weight>
        * - O(1).
@@ -281,7 +281,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Assign a curator to a funded bounty.
        * 
-       * May only be called from `T::ApproveOrigin`.
+       * May only be called from `T::SpendOrigin`.
        * 
        * # <weight>
        * - O(1).
@@ -894,7 +894,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Weight: `O(R)` where R is the number of polls the voter has voted on.
        **/
-      vote: AugmentedSubmittable<(pollIndex: Compact<u32> | AnyNumber | Uint8Array, vote: PalletConvictionVotingVoteAccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, PalletConvictionVotingVoteAccountVote]>;
+      vote: AugmentedSubmittable<(pollIndex: Compact<u32> | AnyNumber | Uint8Array, vote: PalletConvictionVotingVoteAccountVote | { Standard: any } | { Split: any } | { SplitAbstain: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, PalletConvictionVotingVoteAccountVote]>;
       /**
        * Generic tx
        **/
@@ -1663,6 +1663,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       refundDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
+       * Refund the Submission Deposit for a closed referendum back to the depositor.
+       * 
+       * - `origin`: must be `Signed` or `Root`.
+       * - `index`: The index of a closed referendum whose Submission Deposit has not yet been
+       * refunded.
+       * 
+       * Emits `SubmissionDepositRefunded`.
+       **/
+      refundSubmissionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
        * Propose a referendum on a privileged action.
        * 
        * - `origin`: must be `SubmitOrigin` and the account must have `SubmissionDeposit` funds
@@ -1674,57 +1684,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * Emits `Submitted`.
        **/
       submit: AugmentedSubmittable<(proposalOrigin: KusamaRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | { Origins: any } | { ParachainsOrigin: any } | { XcmPallet: any } | string | Uint8Array, proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array, enactmentMoment: FrameSupportScheduleDispatchTime | { At: any } | { After: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KusamaRuntimeOriginCaller, FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime]>;
-      /**
-       * Generic tx
-       **/
-      [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    };
-    gilt: {
-      /**
-       * Place a bid for a gilt to be issued.
-       * 
-       * Origin must be Signed, and account must have at least `amount` in free balance.
-       * 
-       * - `amount`: The amount of the bid; these funds will be reserved. If the bid is
-       * successfully elevated into an issued gilt, then these funds will continue to be
-       * reserved until the gilt expires. Must be at least `MinFreeze`.
-       * - `duration`: The number of periods for which the funds will be locked if the gilt is
-       * issued. It will expire only after this period has elapsed after the point of issuance.
-       * Must be greater than 1 and no more than `QueueCount`.
-       * 
-       * Complexities:
-       * - `Queues[duration].len()` (just take max).
-       **/
-      placeBid: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
-      /**
-       * Retract a previously placed bid.
-       * 
-       * Origin must be Signed, and the account should have previously issued a still-active bid
-       * of `amount` for `duration`.
-       * 
-       * - `amount`: The amount of the previous bid.
-       * - `duration`: The duration of the previous bid.
-       **/
-      retractBid: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
-      /**
-       * Set target proportion of gilt-funds.
-       * 
-       * Origin must be `AdminOrigin`.
-       * 
-       * - `target`: The target proportion of effective issued funds that should be under gilts
-       * at any one time.
-       **/
-      setTarget: AugmentedSubmittable<(target: Compact<Perquintill> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<Perquintill>]>;
-      /**
-       * Remove an active but expired gilt. Reserved funds under gilt are freed and balance is
-       * adjusted to ensure that the funds grow or shrink to maintain the equivalent proportion
-       * of effective total issued funds.
-       * 
-       * Origin must be Signed and the account must be the owner of the gilt of the given index.
-       * 
-       * - `index`: The index of the gilt to be thawed.
-       **/
-      thaw: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
        * Generic tx
        **/
@@ -2399,6 +2358,142 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        **/
       cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], timepoint: PalletMultisigTimepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, PalletMultisigTimepoint, U8aFixed]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    nis: {
+      /**
+       * Ensure we have sufficient funding for all potential payouts.
+       * 
+       * - `origin`: Must be accepted by `FundOrigin`.
+       **/
+      fundDeficit: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Place a bid.
+       * 
+       * Origin must be Signed, and account must have at least `amount` in free balance.
+       * 
+       * - `amount`: The amount of the bid; these funds will be reserved, and if/when
+       * consolidated, removed. Must be at least `MinBid`.
+       * - `duration`: The number of periods before which the newly consolidated bid may be
+       * thawed. Must be greater than 1 and no more than `QueueCount`.
+       * 
+       * Complexities:
+       * - `Queues[duration].len()` (just take max).
+       **/
+      placeBid: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
+      /**
+       * Retract a previously placed bid.
+       * 
+       * Origin must be Signed, and the account should have previously issued a still-active bid
+       * of `amount` for `duration`.
+       * 
+       * - `amount`: The amount of the previous bid.
+       * - `duration`: The duration of the previous bid.
+       **/
+      retractBid: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
+      /**
+       * Reduce or remove an outstanding receipt, placing the according proportion of funds into
+       * the account of the owner.
+       * 
+       * - `origin`: Must be Signed and the account must be the owner of the receipt `index` as
+       * well as any fungible counterpart.
+       * - `index`: The index of the receipt.
+       * - `portion`: If `Some`, then only the given portion of the receipt should be thawed. If
+       * `None`, then all of it should be.
+       **/
+      thaw: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array, portion: Option<u128> | null | Uint8Array | u128 | AnyNumber) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Option<u128>]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    nisCounterpartBalances: {
+      /**
+       * Exactly as `transfer`, except the origin must be root and the source account may be
+       * specified.
+       * # <weight>
+       * - Same as transfer, but additional read and write because the source account is not
+       * assumed to be in the overlay.
+       * # </weight>
+       **/
+      forceTransfer: AugmentedSubmittable<(source: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, MultiAddress, Compact<u128>]>;
+      /**
+       * Unreserve some balance from a user by force.
+       * 
+       * Can only be called by ROOT.
+       **/
+      forceUnreserve: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, u128]>;
+      /**
+       * Set the balances of a given account.
+       * 
+       * This will alter `FreeBalance` and `ReservedBalance` in storage. it will
+       * also alter the total issuance of the system (`TotalIssuance`) appropriately.
+       * If the new free or reserved balance is below the existential deposit,
+       * it will reset the account nonce (`frame_system::AccountNonce`).
+       * 
+       * The dispatch origin for this call is `root`.
+       **/
+      setBalance: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, newFree: Compact<u128> | AnyNumber | Uint8Array, newReserved: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>, Compact<u128>]>;
+      /**
+       * Transfer some liquid free balance to another account.
+       * 
+       * `transfer` will set the `FreeBalance` of the sender and receiver.
+       * If the sender's account is below the existential deposit as a result
+       * of the transfer, the account will be reaped.
+       * 
+       * The dispatch origin for this call must be `Signed` by the transactor.
+       * 
+       * # <weight>
+       * - Dependent on arguments but not critical, given proper implementations for input config
+       * types. See related functions below.
+       * - It contains a limited number of reads and writes internally and no complex
+       * computation.
+       * 
+       * Related functions:
+       * 
+       * - `ensure_can_withdraw` is always called internally but has a bounded complexity.
+       * - Transferring balances to accounts that did not exist before will cause
+       * `T::OnNewAccount::on_new_account` to be called.
+       * - Removing enough funds from an account will trigger `T::DustRemoval::on_unbalanced`.
+       * - `transfer_keep_alive` works the same way as `transfer`, but has an additional check
+       * that the transfer will not kill the origin account.
+       * ---------------------------------
+       * - Origin account is already in memory, so no DB operations for them.
+       * # </weight>
+       **/
+      transfer: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>]>;
+      /**
+       * Transfer the entire transferable balance from the caller account.
+       * 
+       * NOTE: This function only attempts to transfer _transferable_ balances. This means that
+       * any locked, reserved, or existential deposits (when `keep_alive` is `true`), will not be
+       * transferred by this function. To ensure that this function results in a killed account,
+       * you might need to prepare the account by removing any reference counters, storage
+       * deposits, etc...
+       * 
+       * The dispatch origin of this call must be Signed.
+       * 
+       * - `dest`: The recipient of the transfer.
+       * - `keep_alive`: A boolean to determine if the `transfer_all` operation should send all
+       * of the funds the account has, causing the sender account to be killed (false), or
+       * transfer everything except at least the existential deposit, which will guarantee to
+       * keep the sender account alive (true). # <weight>
+       * - O(1). Just like transfer, but reading the user's transferable balance first.
+       * #</weight>
+       **/
+      transferAll: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, keepAlive: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, bool]>;
+      /**
+       * Same as the [`transfer`] call, but with a check that the transfer will not kill the
+       * origin account.
+       * 
+       * 99% of the time you want [`transfer`] instead.
+       * 
+       * [`transfer`]: struct.Pallet.html#method.transfer
+       **/
+      transferKeepAlive: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>]>;
       /**
        * Generic tx
        **/
@@ -3163,6 +3258,16 @@ declare module '@polkadot/api-base/types/submittable' {
        * Emits `DecisionDepositRefunded`.
        **/
       refundDecisionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Refund the Submission Deposit for a closed referendum back to the depositor.
+       * 
+       * - `origin`: must be `Signed` or `Root`.
+       * - `index`: The index of a closed referendum whose Submission Deposit has not yet been
+       * refunded.
+       * 
+       * Emits `SubmissionDepositRefunded`.
+       **/
+      refundSubmissionDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Propose a referendum on a privileged action.
        * 
@@ -4739,6 +4844,15 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       forceBatch: AugmentedSubmittable<(calls: Vec<Call> | (Call | IMethod | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Call>]>;
       /**
+       * Dispatch a function call with a specified weight.
+       * 
+       * This function does not check the weight of the call, and instead allows the
+       * Root origin to specify the weight of the call.
+       * 
+       * The dispatch origin for this call must be _Root_.
+       **/
+      withWeight: AugmentedSubmittable<(call: Call | IMethod | string | Uint8Array, weight: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call, SpWeightsWeightV2Weight]>;
+      /**
        * Generic tx
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -4879,7 +4993,7 @@ declare module '@polkadot/api-base/types/submittable' {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     whitelist: {
-      dispatchWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array, callWeightWitness: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, SpWeightsWeightV2Weight]>;
+      dispatchWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array, callEncodedLen: u32 | AnyNumber | Uint8Array, callWeightWitness: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256, u32, SpWeightsWeightV2Weight]>;
       dispatchWhitelistedCallWithPreimage: AugmentedSubmittable<(call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call]>;
       removeWhitelistedCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
       whitelistCall: AugmentedSubmittable<(callHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
