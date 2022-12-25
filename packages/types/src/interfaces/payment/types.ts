@@ -26,6 +26,7 @@ export interface RuntimeDispatchInfo extends Struct {
 
 /** @name RuntimeDispatchInfoV1 */
 export interface RuntimeDispatchInfoV1 extends Struct {
+  readonly __fallback: RuntimeDispatchInfoV2;
   readonly weight: WeightV1;
   readonly class: DispatchClass;
   readonly partialFee: Balance;
