@@ -74,10 +74,10 @@ export const runtime: DefinitionsCall = {
               type: 'u32'
             }
           ],
-          // NOTE: For some versions of the runtime which have not been corrected, there _could_ be a
-          // wrong reponse returned, i.e. RuntimeDispatchInfoV2. (See the comment applying to both
-          // RPC and state_call in definitions -> RuntimeDispatchInfoV1 for the fallbacks)
-          // TL;DR This is correct based on Substrate, but _may_ yield fallbacks on certain runtimes
+          // NOTE: _Should_ be V1 (as per current Substrate), however the interface was
+          // changed mid-flight between versions. So we have some of each depending on
+          // runtime. (We do detect the weight type, so correct)
+          // type: 'RuntimeDispatchInfoV1'
           type: 'RuntimeDispatchInfoV1'
         }
       }, V1_V2_SHARED_PAY),
@@ -120,7 +120,7 @@ export const runtime: DefinitionsCall = {
           ],
           // NOTE: As per the above comment, the below is correct according to Substrate, but
           // _may_ yield fallback decoding on some versions of the runtime
-          type: 'RuntimeDispatchInfoV1'
+          type: 'RuntimeDispatchInfo'
         }
       }, V1_V2_SHARED_CALL),
       version: 1
