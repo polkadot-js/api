@@ -78,7 +78,7 @@ export const runtime: DefinitionsCall = {
           // changed mid-flight between versions. So we have some of each depending on
           // runtime. (We do detect the weight type, so correct)
           // type: 'RuntimeDispatchInfoV1'
-          type: 'RuntimeDispatchInfoV1'
+          type: 'RuntimeDispatchInfo'
         }
       }, V1_V2_SHARED_PAY),
       version: 1
