@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchError, DispatchInfo, EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types/interfaces';
+import type { BlockNumber, DispatchError, DispatchInfo, EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, ISubmittableResult } from '@polkadot/types/types';
 import type { SubmittableResultValue } from './types';
 
@@ -49,7 +49,9 @@ export class SubmittableResult implements ISubmittableResult {
 
   public readonly txIndex?: number;
 
-  constructor ({ dispatchError, dispatchInfo, events, internalError, status, txHash, txIndex }: SubmittableResultValue) {
+  public readonly blockNumber?: BlockNumber;
+
+  constructor ({ blockNumber, dispatchError, dispatchInfo, events, internalError, status, txHash, txIndex }: SubmittableResultValue) {
     this.dispatchError = dispatchError || extractError(events);
     this.dispatchInfo = dispatchInfo || extractInfo(events);
     this.events = events || [];
@@ -57,6 +59,7 @@ export class SubmittableResult implements ISubmittableResult {
     this.status = status;
     this.txHash = txHash;
     this.txIndex = txIndex;
+    this.blockNumber = blockNumber;
   }
 
   public get isCompleted (): boolean {
