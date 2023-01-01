@@ -57,7 +57,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.20.5, @babel/core@npm:^7.20.7":
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.20.7":
   version: 7.20.7
   resolution: "@babel/core@npm:7.20.7"
   dependencies:
@@ -1992,7 +1992,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-augment@workspace:packages/api-augment"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/api-base": 9.10.5
     "@polkadot/rpc-augment": 9.10.5
     "@polkadot/types": 9.10.5
@@ -2007,7 +2007,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-base@workspace:packages/api-base"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/rpc-core": 9.10.5
     "@polkadot/types": 9.10.5
     "@polkadot/util": ^10.2.1
@@ -2019,7 +2019,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-contract@workspace:packages/api-contract"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/api": 9.10.5
     "@polkadot/api-augment": 9.10.5
     "@polkadot/keyring": ^10.2.1
@@ -2036,7 +2036,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api-derive@workspace:packages/api-derive"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/api": 9.10.5
     "@polkadot/api-augment": 9.10.5
     "@polkadot/api-base": 9.10.5
@@ -2056,7 +2056,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/api@workspace:packages/api"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/api-augment": 9.10.5
     "@polkadot/api-base": 9.10.5
     "@polkadot/api-derive": 9.10.5
@@ -2210,7 +2210,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-augment@workspace:packages/rpc-augment"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/rpc-core": 9.10.5
     "@polkadot/types": 9.10.5
     "@polkadot/types-codec": 9.10.5
@@ -2222,7 +2222,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-core@workspace:packages/rpc-core"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/keyring": ^10.2.1
     "@polkadot/rpc-augment": 9.10.5
     "@polkadot/rpc-provider": 9.10.5
@@ -2236,7 +2236,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/rpc-provider@workspace:packages/rpc-provider"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/keyring": ^10.2.1
     "@polkadot/types": 9.10.5
     "@polkadot/types-support": 9.10.5
@@ -2256,9 +2256,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/typegen@workspace:packages/typegen"
   dependencies:
-    "@babel/core": ^7.20.5
+    "@babel/core": ^7.20.7
     "@babel/register": ^7.18.9
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/api": 9.10.5
     "@polkadot/api-augment": 9.10.5
     "@polkadot/rpc-augment": 9.10.5
@@ -2272,7 +2272,7 @@ __metadata:
     "@polkadot/util-crypto": ^10.2.1
     "@polkadot/x-ws": ^10.2.1
     "@types/websocket": ^1.0.5
-    "@types/yargs": ^17.0.17
+    "@types/yargs": ^17.0.18
     handlebars: ^4.7.7
     websocket: ^1.0.34
     yargs: ^17.6.2
@@ -2289,7 +2289,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-augment@workspace:packages/types-augment"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/types": 9.10.5
     "@polkadot/types-codec": 9.10.5
     "@polkadot/util": ^10.2.1
@@ -2300,7 +2300,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-codec@workspace:packages/types-codec"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/types": 9.10.5
     "@polkadot/types-augment": 9.10.5
     "@polkadot/types-support": 9.10.5
@@ -2314,7 +2314,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-create@workspace:packages/types-create"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/types": 9.10.5
     "@polkadot/types-codec": 9.10.5
     "@polkadot/util": ^10.2.1
@@ -2325,7 +2325,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-known@workspace:packages/types-known"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/api": 9.10.5
     "@polkadot/networks": ^10.2.1
     "@polkadot/types": 9.10.5
@@ -2339,7 +2339,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types-support@workspace:packages/types-support"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/util": ^10.2.1
   languageName: unknown
   linkType: soft
@@ -2348,7 +2348,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/types@workspace:packages/types"
   dependencies:
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/keyring": ^10.2.1
     "@polkadot/types-augment": 9.10.5
     "@polkadot/types-codec": 9.10.5
@@ -2947,13 +2947,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.2.4":
-  version: 29.2.4
-  resolution: "@types/jest@npm:29.2.4"
+"@types/jest@npm:^29.2.5":
+  version: 29.2.5
+  resolution: "@types/jest@npm:29.2.5"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
-  checksum: 9deb4756fe1b438d41ff1aae7d6c216c9e49e5fe60f539f8edb6698ffeb530ff7b25d37e223439b03602ca3a7397c9c2e53e1a39c7bd616353472fce0cc04107
+  checksum: d668470f00ec4cb8b8457f1fd90f7358fad8f22d74b85006dad6be522d6b9bf10f49f597e88d1d1a518d211c1b65be32a1f27f0e49ce0658d110a9206b8ea310
   languageName: node
   linkType: hard
 
@@ -3133,12 +3133,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^17.0.17, @types/yargs@npm:^17.0.8":
-  version: 17.0.17
-  resolution: "@types/yargs@npm:17.0.17"
+"@types/yargs@npm:^17.0.18, @types/yargs@npm:^17.0.8":
+  version: 17.0.18
+  resolution: "@types/yargs@npm:17.0.18"
   dependencies:
     "@types/yargs-parser": "*"
-  checksum: 4f1b5149e794c8960652b4339dc96655e53b48fdbe1b847fcb0db95e72e760724a4c5c616a7fccb3c0ae8beb0e57e06e37391d492e916e3ff179aafeb890e426
+  checksum: 9b6143730e1e12c0b871b5abfb0fcd5409fd498379b7a043b54a1d6168a754cb1058fe4b98251fa6e220a90e5a5e57ce252b8d2e2db026b6e3ea8257d354830b
   languageName: node
   linkType: hard
 
@@ -10647,12 +10647,12 @@ resolve@^2.0.0-next.3:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@babel/core": ^7.20.5
+    "@babel/core": ^7.20.7
     "@babel/register": ^7.18.9
-    "@babel/runtime": ^7.20.6
+    "@babel/runtime": ^7.20.7
     "@polkadot/dev": ^0.67.175
     "@polkadot/typegen": "workspace:packages/typegen"
-    "@types/jest": ^29.2.4
+    "@types/jest": ^29.2.5
     copyfiles: ^2.4.1
   languageName: unknown
   linkType: soft
