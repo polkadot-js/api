@@ -33,6 +33,44 @@ export interface TypeImports {
   typeToModule: Record<string, string>;
 }
 
+// returns the top-level types in the alternatives list, taking into account nested [], <> and () items 
+// E.g. for the string '[a<b,c>, d | e]' we return the array ['a<b,c>', 'd', 'e']
+function splitAlternatives(type: string): string[] {
+  let alternatives = [];
+  let beginOfAlternative = 1;
+  let level = 0;
+
+  // we assume that the string starts with '['
+  for (let i = 1; i < type.length; i++) {
+    if (level === 0) {
+      switch (type[i]) {
+        case ']':
+        case ',':
+        case '|':
+          const sub = type.substring(beginOfAlternative, i);
+          alternatives.push(sub.trim());
+          beginOfAlternative = i + 1;
+          break;
+      }
+    }
+
+    switch (type[i]) {
+      case '[':
+      case '(':
+      case '<':
+        level++;
+        break;
+      case ']':
+      case ')':
+      case '>':
+        level--;
+        break;
+    }
+  }
+
+  return alternatives;
+}
+
 // Maps the types as found to the source location. This is used to generate the
 // imports in the output file, dep-duped and sorted
 /** @internal */
@@ -54,10 +92,12 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
       genericTypes[type] = true;
     } else if ((primitiveClasses as Record<string, unknown>)[type]) {
       primitiveTypes[type] = true;
-    } else if (type.includes('<') || type.includes('(') || (type.includes('[') && !type.includes('|'))) {
+    } else if (type.startsWith('[') && type.includes('|')) {
+      const splitTypes = splitAlternatives(type);
+      setImports(allDefs, imports, splitTypes);
+    } else if (type.includes('<') || type.includes('(') || type.includes('[')) {
       // If the type is a bit special (tuple, fixed u8, nested type...), then we
-      // need to parse it with `getTypeDef`. We skip the case where type ~ [a | b | c ... , ... , ... w | y | z ]
-      // since that represents a tuple's similar types, which are covered in the next block
+      // need to parse it with `getTypeDef`.
       const typeDef = getTypeDef(type);
 
       setImports(allDefs, imports, [TypeDefInfo[typeDef.info]]);
@@ -69,11 +109,6 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
         // typeDef.sub is a TypeDef in this case
         setImports(allDefs, imports, [typeDef.sub.lookupName || typeDef.sub.type]);
       }
-    } else if (type.includes('[') && type.includes('|')) {
-      // We split the types (we already dod the check above, so safe-path should not be caught)
-      const splitTypes = (/\[\s?(.+?)\s?\]/.exec(type) || ['', ''])[1].split(/\s?\|\s?/);
-
-      setImports(allDefs, imports, splitTypes);
     } else {
       // find this module inside the exports from the rest
       const [moduleName] = Object.entries(allDefs).find(([, { types }]): boolean =>
