@@ -3,6 +3,8 @@
 
 import type { BlockNumber, EventRecord, ExtrinsicStatus, H256, SignedBlock } from '@polkadot/types/interfaces';
 
+import { isCompact } from '@polkadot/util';
+
 import { l } from './logging';
 
 export function filterEvents (txHash: H256, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[], status: ExtrinsicStatus): { events?: EventRecord[], txIndex?: number, blockNumber?: BlockNumber } {
@@ -10,12 +12,12 @@ export function filterEvents (txHash: H256, { block: { extrinsics, header } }: S
   for (const [txIndex, x] of extrinsics.entries()) {
     if (x.hash.eq(txHash)) {
       return {
+        blockNumber: isCompact<BlockNumber>(header.number) ? header.number.unwrap() : header.number,
         events: allEvents.filter(({ phase }) =>
           phase.isApplyExtrinsic &&
           phase.asApplyExtrinsic.eqn(txIndex)
         ),
-        txIndex,
-        blockNumber: header.number.unwrap()
+        txIndex
       };
     }
   }
