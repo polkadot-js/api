@@ -97,6 +97,7 @@
        1	r0t0r-r0t0r                   	Fix memory leak on raw rpc call (#4505)
        1	Raphael Flechtner             	fix: typegen disconnect ws on success (#4901)
        1	Rocco Musolino                	remove broken link (#2671)
+       1	sander2                       	fix: type generation for nested tuples (#5395)
        1	satellitex                    	Add BTreeSet<V> Codec (#1639)
        1	satellitex                    	Add traits replace rules. for invalid cases `::<type>` and `<type>::`. (#885)
        1	Satyam Agrawal                	update as per the 0.97.0-beta.38 release (#1617)
