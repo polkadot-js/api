@@ -33,10 +33,10 @@ export interface TypeImports {
   typeToModule: Record<string, string>;
 }
 
-// returns the top-level types in the alternatives list, taking into account nested [], <> and () items 
+// returns the top-level types in the alternatives list, taking into account nested [], <> and () items
 // E.g. for the string '[a<b,c>, d | e]' we return the array ['a<b,c>', 'd', 'e']
-function splitAlternatives(type: string): string[] {
-  let alternatives = [];
+function splitAlternatives (type: string): string[] {
+  const alternatives = [];
   let beginOfAlternative = 1;
   let level = 0;
 
@@ -47,8 +47,7 @@ function splitAlternatives(type: string): string[] {
         case ']':
         case ',':
         case '|':
-          const sub = type.substring(beginOfAlternative, i);
-          alternatives.push(sub.trim());
+          alternatives.push(type.substring(beginOfAlternative, i).trim());
           beginOfAlternative = i + 1;
           break;
       }
@@ -94,6 +93,7 @@ export function setImports (allDefs: Record<string, ModuleTypes>, imports: TypeI
       primitiveTypes[type] = true;
     } else if (type.startsWith('[') && type.includes('|')) {
       const splitTypes = splitAlternatives(type);
+
       setImports(allDefs, imports, splitTypes);
     } else if (type.includes('<') || type.includes('(') || type.includes('[')) {
       // If the type is a bit special (tuple, fixed u8, nested type...), then we
