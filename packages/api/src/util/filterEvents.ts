@@ -1,15 +1,18 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EventRecord, ExtrinsicStatus, H256, SignedBlock } from '@polkadot/types/interfaces';
+import type { BlockNumber, EventRecord, ExtrinsicStatus, H256, SignedBlock } from '@polkadot/types/interfaces';
+
+import { isCompact } from '@polkadot/util';
 
 import { l } from './logging';
 
-export function filterEvents (txHash: H256, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[], status: ExtrinsicStatus): { events?: EventRecord[], txIndex?: number } {
+export function filterEvents (txHash: H256, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[], status: ExtrinsicStatus): { events?: EventRecord[], txIndex?: number, blockNumber?: BlockNumber } {
   // extrinsics to hashes
   for (const [txIndex, x] of extrinsics.entries()) {
     if (x.hash.eq(txHash)) {
       return {
+        blockNumber: isCompact<BlockNumber>(header.number) ? header.number.unwrap() : header.number,
         events: allEvents.filter(({ phase }) =>
           phase.isApplyExtrinsic &&
           phase.asApplyExtrinsic.eqn(txIndex)
