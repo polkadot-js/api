@@ -74,6 +74,7 @@
        1	Jordan                        	Allow typegen for custom RPCs (#2876)
        1	JQQQ                          	Allow rpc expose definition/ metadata (#3488)
        1	Jun Jiang                     	Update contract' gas to Weight type (#5324)
+       1	Ken Vu                        	Expose `blockNumber` via filterEvents function (#5394)
        1	Kian Paimani                  	Update definitions.ts (#2514)
        1	Krzysztof Jelski              	Derive for bounties and descriptions (#2925)
        1	Lae                           	Make sure awaiting on an api object won't stuck forever on error (#1763)
