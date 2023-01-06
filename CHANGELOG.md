@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Fix for typegen with nested tuples (Thanks to https://github.com/sander2)
+- Expose blockNumber on submittable results (Thanks to https://github.com/ken-centrality)
+
+
 ## 9.10.5 Dec 27, 2022
 
 Changes:
