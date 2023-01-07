@@ -6,9 +6,9 @@
 
 ```js
 import { ScProvider } from '@polkadot/api';
-import * as ScConnect from '@substrate/connect';
+import * as Sc from '@substrate/connect';
 
-const provider = new ScProvider(ScConnect, ScConnect.WellKnownChain.polkadot);
+const provider = new ScProvider(Sc, Sc.WellKnownChain.polkadot);
 ```
 
 Contributed:
