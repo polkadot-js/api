@@ -1,18 +1,25 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Chain, Config as ScConfig, ScClient } from '@substrate/connect';
+import type ScType from '@substrate/connect';
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
-import { createScClient, WellKnownChain } from '@substrate/connect';
 import EventEmitter from 'eventemitter3';
 
-import { isError, logger, objectSpread } from '@polkadot/util';
+import { isError, isFunction, isObject, logger, objectSpread } from '@polkadot/util';
 
 import { RpcCoder } from '../coder';
 import { healthChecker } from './Health';
 
-type ResponseCallback = (response: string | Error) => void
+type ResponseCallback = (response: string | Error) => void;
+
+// We define the interface with items we use - this means that we don't really
+// need to be passed a full `import * as Sc from '@ubstrate/connect'`, but can
+// also make do with a { WellKnownChain, createScClient } interface
+interface SubstrateConnect {
+  WellKnownChain: typeof ScType['WellKnownChain'];
+  createScClient: typeof ScType['createScClient'];
+}
 
 const l = logger('api-substrate-connect');
 
@@ -34,8 +41,7 @@ const subscriptionUnsubscriptionMethods = new Map<string, string>([
   ['state_subscribeStorage', 'state_unsubscribeStorage']
 ]);
 
-const wellKnownChains = new Set(Object.values(WellKnownChain));
-const scClients = new WeakMap<ScProvider, ScClient>();
+const scClients = new WeakMap<ScProvider, ScType.ScClient>();
 
 interface ActiveSubs {
   type: string,
@@ -45,21 +51,27 @@ interface ActiveSubs {
 }
 
 export class ScProvider implements ProviderInterface {
+  readonly #Sc: SubstrateConnect;
   readonly #coder: RpcCoder = new RpcCoder();
-  readonly #spec: string | WellKnownChain;
+  readonly #spec: string | ScType.WellKnownChain;
   readonly #sharedSandbox?: ScProvider;
   readonly #subscriptions: Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]> = new Map();
   readonly #resubscribeMethods: Map<string, ActiveSubs> = new Map();
   readonly #requests: Map<number, ResponseCallback> = new Map();
+  readonly #wellKnownChains: Set<ScType.WellKnownChain>;
   readonly #eventemitter: EventEmitter = new EventEmitter();
-  #chain: Promise<Chain> | null = null;
+  #chain: Promise<ScType.Chain> | null = null;
   #isChainReady = false;
 
-  static WellKnownChain = WellKnownChain;
+  public constructor (Sc: SubstrateConnect, spec: string | ScType.WellKnownChain, sharedSandbox?: ScProvider) {
+    if (!isObject(Sc) || !isObject(Sc.WellKnownChain) || !isFunction(Sc.createScClient)) {
+      throw new Error('Expected an @substrate/connect interface as first parameter to ScProvider');
+    }
 
-  public constructor (spec: string | WellKnownChain, sharedSandbox?: ScProvider) {
+    this.#Sc = Sc;
     this.#spec = spec;
     this.#sharedSandbox = sharedSandbox;
+    this.#wellKnownChains = new Set(Object.values(Sc.WellKnownChain));
   }
 
   public get hasSubscriptions (): boolean {
@@ -81,7 +93,7 @@ export class ScProvider implements ProviderInterface {
 
   // Config details can be found in @substrate/connect repo following the link:
   // https://github.com/paritytech/substrate-connect/blob/main/packages/connect/src/connector/index.ts
-  async connect (config?: ScConfig, checkerFactory = healthChecker): Promise<void> {
+  async connect (config?: ScType.Config, checkerFactory = healthChecker): Promise<void> {
     if (this.isConnected) {
       throw new Error('Already connected!');
     }
@@ -102,7 +114,7 @@ export class ScProvider implements ProviderInterface {
 
     const client = this.#sharedSandbox
       ? scClients.get(this.#sharedSandbox)
-      : createScClient(config);
+      : this.#Sc.createScClient(config);
 
     if (!client) {
       throw new Error('Unkown ScProvider!');
@@ -141,11 +153,11 @@ export class ScProvider implements ProviderInterface {
       callback?.(decodedResponse);
     };
 
-    const addChain = wellKnownChains.has(this.#spec as WellKnownChain)
+    const addChain = this.#wellKnownChains.has(this.#spec as ScType.WellKnownChain)
       ? client.addWellKnownChain
       : client.addChain;
 
-    this.#chain = addChain(this.#spec as WellKnownChain, onResponse).then((chain) => {
+    this.#chain = addChain(this.#spec as ScType.WellKnownChain, onResponse).then((chain) => {
       hc.setSendJsonRpc(chain.sendJsonRpc);
 
       this.#isChainReady = false;
@@ -392,6 +404,3 @@ export class ScProvider implements ProviderInterface {
     return this.send(method, [id]);
   }
 }
-
-export type ScProviderClass = typeof ScProvider
-export type Config = ScConfig

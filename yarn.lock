@@ -2249,6 +2249,9 @@ __metadata:
     eventemitter3: ^4.0.7
     mock-socket: ^9.1.5
     nock: ^13.2.9
+  dependenciesMeta:
+    "@substrate/connect":
+      optional: true
   languageName: unknown
   linkType: soft
 
