@@ -392,6 +392,3 @@ export class ScProvider implements ProviderInterface {
     return this.send(method, [id]);
   }
 }
-
-export type ScProviderClass = typeof ScProvider;
-export type Config = SubstrateConnect.Config;

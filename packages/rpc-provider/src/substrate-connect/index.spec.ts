@@ -19,8 +19,7 @@
 // Jest has "some" issues with `await import` - we don't transform these
 
 import type { Chain, JsonRpcCallback } from '@substrate/connect';
-import type { ScProviderClass } from '.';
-import type { HealthChecker, SmoldotHealth } from './Health';
+import type { HealthChecker, ScProviderClass, SmoldotHealth } from './types';
 
 import { jest } from '@jest/globals';
 import * as ScConnect from '@substrate/connect';
