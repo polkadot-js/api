@@ -18,11 +18,10 @@
 // FIXME A number of tests here, that were passing, is not skipped since
 // Jest has "some" issues with `await import` - we don't transform these
 
-import type { Chain, JsonRpcCallback } from '@substrate/connect';
+import type Sc from '@substrate/connect';
 import type { HealthChecker, ScProviderClass, SmoldotHealth } from './types';
 
 import { jest } from '@jest/globals';
-import * as ScConnect from '@substrate/connect';
 
 const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -76,7 +75,7 @@ const healthCheckerFactory = () => {
 
 jest.mock('./Health', () => healthCheckerFactory());
 
-type MockChain = Chain & {
+type MockChain = Sc.Chain & {
   _spec: () => string
   _recevedRequests: () => string[]
   _isTerminated: () => boolean
@@ -86,7 +85,7 @@ type MockChain = Chain & {
   _getLatestRequest: () => string
 }
 
-const getFakeChain = (spec: string, callback: JsonRpcCallback): MockChain => {
+const getFakeChain = (spec: string, callback: Sc.JsonRpcCallback): MockChain => {
   const _receivedRequests: string[] = [];
   let _isTerminated = false;
 
@@ -133,7 +132,7 @@ const getFakeClient = () => {
     _setAddWellKnownChainInterceptor: (interceptor: Promise<void>) => {
       addWellKnownChainInterceptor = interceptor;
     },
-    addChain: (chainSpec: string, cb: JsonRpcCallback): Promise<MockChain> =>
+    addChain: (chainSpec: string, cb: Sc.JsonRpcCallback): Promise<MockChain> =>
       addChainInterceptor.then(() => {
         const result = getFakeChain(chainSpec, cb);
 
@@ -143,7 +142,7 @@ const getFakeClient = () => {
       }),
     addWellKnownChain: (
       wellKnownChain: string,
-      cb: JsonRpcCallback
+      cb: Sc.JsonRpcCallback
     ): Promise<MockChain> =>
       addWellKnownChainInterceptor.then(() => {
         const result = getFakeChain(wellKnownChain, cb);
@@ -185,7 +184,7 @@ const connectorFactory = () => {
 jest.mock('@substrate/connect', () => connectorFactory());
 
 let ScProvider: ScProviderClass;
-let mockedConnector: ReturnType<typeof connectorFactory>;
+let mockSc: typeof Sc & { latestChain: () => MockChain };
 let mockedHealthChecker: ReturnType<typeof healthCheckerFactory>;
 const getCurrentHealthChecker = () => mockedHealthChecker._latestHealthChecker();
 
@@ -199,16 +198,16 @@ const setChainSyncyingStatus = (isSyncing: boolean) => {
 
 beforeAll(async () => {
   ({ ScProvider } = await import('.'));
-  mockedConnector = (await import(
+  mockSc = (await import(
     '@substrate/connect'
-  )) as unknown as ReturnType<typeof connectorFactory>;
+  )) as unknown as typeof Sc & { latestChain: () => MockChain };
   mockedHealthChecker = healthCheckerFactory(); // await import('./Health')
 });
 
 describe('ScProvider', () => {
   describe('on', () => {
     it('emits `connected` as soon as the chain is not syncing', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -222,7 +221,7 @@ describe('ScProvider', () => {
     });
 
     it('stops receiving notifications after unsubscribing', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -236,7 +235,7 @@ describe('ScProvider', () => {
     });
 
     it('synchronously emits connected if the Provider is already `connected`', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -249,7 +248,7 @@ describe('ScProvider', () => {
     });
 
     it('emits `disconnected` once the chain goes back to syncing', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -275,7 +274,7 @@ describe('ScProvider', () => {
 
   describe('hasSubscriptions', () => {
     it('supports subscriptions', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -285,7 +284,7 @@ describe('ScProvider', () => {
 
   describe('clone', () => {
     it('can not be clonned', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -295,17 +294,17 @@ describe('ScProvider', () => {
 
   describe('connect', () => {
     it.skip('does not create a new chain when trying to re-connect while the current chain is syncing', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-      const chain = mockedConnector.latestChain();
+      const chain = mockSc.latestChain();
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-      expect(chain).toBe(mockedConnector.latestChain());
+      expect(chain).toBe(mockSc.latestChain());
     });
 
     it('throws when trying to connect on an already connected Provider', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -319,10 +318,10 @@ describe('ScProvider', () => {
 
   describe('disconnect', () => {
     it.skip('removes the chain and cleans up', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-      const chain = mockedConnector.latestChain();
+      const chain = mockSc.latestChain();
 
       await provider.disconnect();
 
@@ -330,7 +329,7 @@ describe('ScProvider', () => {
     });
 
     it('does not throw when disconnecting on an already disconnected Provider', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -341,7 +340,7 @@ describe('ScProvider', () => {
 
   describe('send', () => {
     it('throws when trying to send a request while the Provider is not connected', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -349,10 +348,10 @@ describe('ScProvider', () => {
     });
 
     it.skip('receives responses to its requests', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-      const chain = mockedConnector.latestChain();
+      const chain = mockSc.latestChain();
 
       setChainSyncyingStatus(false);
 
@@ -377,10 +376,10 @@ describe('ScProvider', () => {
     });
 
     it.skip("rejects when the response can't be deserialized", async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-      const chain = mockedConnector.latestChain();
+      const chain = mockSc.latestChain();
 
       setChainSyncyingStatus(false);
 
@@ -395,10 +394,10 @@ describe('ScProvider', () => {
     });
 
     it.skip('rejects when the smoldot chain has crashed', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-      const chain = mockedConnector.latestChain();
+      const chain = mockSc.latestChain();
 
       setChainSyncyingStatus(false);
       await wait(0);
@@ -416,10 +415,10 @@ describe('ScProvider', () => {
 
   describe('subscribe', () => {
     it.skip('subscribes and recives messages until it unsubscribes', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-      const chain = mockedConnector.latestChain();
+      const chain = mockSc.latestChain();
 
       setChainSyncyingStatus(false);
 
@@ -481,10 +480,10 @@ describe('ScProvider', () => {
     });
 
     it.skip('ignores subscription messages that were received before the subscription token', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-      const chain = mockedConnector.latestChain();
+      const chain = mockSc.latestChain();
 
       setChainSyncyingStatus(false);
 
@@ -519,10 +518,10 @@ describe('ScProvider', () => {
     });
 
     it.skip('emits the error when the message has an error', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-      const chain = mockedConnector.latestChain();
+      const chain = mockSc.latestChain();
 
       setChainSyncyingStatus(false);
       await wait(0);
@@ -561,7 +560,7 @@ describe('ScProvider', () => {
     });
 
     it('errors when subscribing to an unsupported method', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -576,7 +575,7 @@ describe('ScProvider', () => {
 
   describe('unsubscribe', () => {
     it('rejects when trying to unsubscribe from un unexisting subscription', async () => {
-      const provider = new ScProvider(ScConnect, '');
+      const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
@@ -589,10 +588,10 @@ describe('ScProvider', () => {
   });
 
   it.skip('cleans up the stale subscriptions once it reconnects', async () => {
-    const provider = new ScProvider(ScConnect, '');
+    const provider = new ScProvider(mockSc, '');
 
     await provider.connect(undefined, mockedHealthChecker.healthChecker);
-    const chain = mockedConnector.latestChain();
+    const chain = mockSc.latestChain();
 
     // setting the syncing status of the chain to fals so that the Provider
     // gets `connected`

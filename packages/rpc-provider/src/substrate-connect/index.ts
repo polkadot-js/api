@@ -11,7 +11,12 @@ import { isError, isFunction, isObject, logger, objectSpread } from '@polkadot/u
 import { RpcCoder } from '../coder';
 import { healthChecker } from './Health';
 
-type ResponseCallback = (response: string | Error) => void
+type ResponseCallback = (response: string | Error) => void;
+
+interface SubstrateConnect {
+  WellKnownChain: typeof ScType['WellKnownChain'];
+  createScClient: typeof ScType['createScClient'];
+}
 
 const l = logger('api-substrate-connect');
 
@@ -43,7 +48,7 @@ interface ActiveSubs {
 }
 
 export class ScProvider implements ProviderInterface {
-  readonly #Sc: typeof ScType;
+  readonly #Sc: SubstrateConnect;
   readonly #coder: RpcCoder = new RpcCoder();
   readonly #spec: string | ScType.WellKnownChain;
   readonly #sharedSandbox?: ScProvider;
@@ -55,7 +60,7 @@ export class ScProvider implements ProviderInterface {
   #chain: Promise<ScType.Chain> | null = null;
   #isChainReady = false;
 
-  public constructor (Sc: typeof ScType, spec: string | ScType.WellKnownChain, sharedSandbox?: ScProvider) {
+  public constructor (Sc: SubstrateConnect, spec: string | ScType.WellKnownChain, sharedSandbox?: ScProvider) {
     if (!isObject(Sc) || !isFunction(Sc.createScClient)) {
       throw new Error('Expected an @substrate/connect interface as first parameter to ScProvider');
     }
