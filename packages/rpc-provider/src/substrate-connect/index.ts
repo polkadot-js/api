@@ -13,6 +13,9 @@ import { healthChecker } from './Health';
 
 type ResponseCallback = (response: string | Error) => void;
 
+// We define the interface with items we use - this means that we don't really
+// need to be passed a full `import * as Sc from '@ubstrate/connect'`, but can
+// also make do with a { WellKnownChain, createScClient } interface
 interface SubstrateConnect {
   WellKnownChain: typeof ScType['WellKnownChain'];
   createScClient: typeof ScType['createScClient'];
@@ -61,7 +64,7 @@ export class ScProvider implements ProviderInterface {
   #isChainReady = false;
 
   public constructor (Sc: SubstrateConnect, spec: string | ScType.WellKnownChain, sharedSandbox?: ScProvider) {
-    if (!isObject(Sc) || !isFunction(Sc.createScClient)) {
+    if (!isObject(Sc) || !isObject(Sc.WellKnownChain) || !isFunction(Sc.createScClient)) {
       throw new Error('Expected an @substrate/connect interface as first parameter to ScProvider');
     }
 
