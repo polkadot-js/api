@@ -18,7 +18,7 @@ Contributed:
 
 Changes:
 
-- The `ScProvider` interface not needs to be passed an `@substrate/connect` instance
+- The `ScProvider` interface now needs receive an `@substrate/connect` instance
 - Aloign with the above `ScProvider.WellKnownChains` has been removed
 
 
