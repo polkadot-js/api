@@ -2,10 +2,24 @@
 
 ## master
 
+- **Breaking change** For users of `ScProvider` you now need to explicitly pass `@substrate/connect` as a parameter. This means the code needs to be adjusted as follows -
+
+```js
+import { ScProvider } from '@polkadot/api';
+import * as ScConnect from '@substrate/connect';
+
+const provider = new ScProvider(ScConnect, ScConnect.WellKnownChain.polkadot);
+```
+
 Contributed:
 
 - Fix for typegen with nested tuples (Thanks to https://github.com/sander2)
 - Expose blockNumber on submittable results (Thanks to https://github.com/ken-centrality)
+
+Changes:
+
+- The `ScProvider` interface not needs to be passed an `@substrate/connect` instance
+- Aloign with the above `ScProvider.WellKnownChains` has been removed
 
 
 ## 9.10.5 Dec 27, 2022
