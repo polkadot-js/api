@@ -20,6 +20,7 @@ Changes:
 
 - The `ScProvider` interface now needs receive an `@substrate/connect` instance
 - Along with the above `ScProvider.WellKnownChains` has been removed
+- Update to latest Polkadot, Kusama & Substrate metadata
 
 
 ## 9.10.5 Dec 27, 2022

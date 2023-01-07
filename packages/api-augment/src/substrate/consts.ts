@@ -658,6 +658,65 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    nfts: {
+      /**
+       * The maximum approvals an item could have.
+       **/
+      approvalsLimit: u32 & AugmentedConst<ApiType>;
+      /**
+       * The basic amount of funds that must be reserved when adding an attribute to an item.
+       **/
+      attributeDepositBase: u128 & AugmentedConst<ApiType>;
+      /**
+       * The basic amount of funds that must be reserved for collection.
+       **/
+      collectionDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * The additional funds that must be reserved for the number of bytes store in metadata,
+       * either "normal" metadata or attribute metadata.
+       **/
+      depositPerByte: u128 & AugmentedConst<ApiType>;
+      /**
+       * Disables some of pallet's features.
+       **/
+      features: u64 & AugmentedConst<ApiType>;
+      /**
+       * The maximum attributes approvals an item could have.
+       **/
+      itemAttributesApprovalsLimit: u32 & AugmentedConst<ApiType>;
+      /**
+       * The basic amount of funds that must be reserved for an item.
+       **/
+      itemDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of an attribute key.
+       **/
+      keyLimit: u32 & AugmentedConst<ApiType>;
+      /**
+       * The max duration in blocks for deadlines.
+       **/
+      maxDeadlineDuration: u32 & AugmentedConst<ApiType>;
+      /**
+       * The max number of tips a user could send.
+       **/
+      maxTips: u32 & AugmentedConst<ApiType>;
+      /**
+       * The basic amount of funds that must be reserved when adding metadata to your item.
+       **/
+      metadataDepositBase: u128 & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of data stored on-chain.
+       **/
+      stringLimit: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of an attribute value.
+       **/
+      valueLimit: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     nis: {
       /**
        * The base period for the duration queues. This is the common multiple across all
@@ -741,6 +800,20 @@ declare module '@polkadot/api-base/types/consts' {
        * The nomination pool's pallet id.
        **/
       palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    preimage: {
+      /**
+       * The base deposit for placing a preimage on chain.
+       **/
+      baseDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * The per-byte deposit for placing a preimage on chain.
+       **/
+      byteDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

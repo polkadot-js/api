@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
-import type { AccountId32, Call, H256, MultiAddress, Percent } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeSessionKeys, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletVestingVestingInfo, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2InherentData, PolkadotPrimitivesV2PvfCheckStatement, PolkadotPrimitivesV2ValidatorAppSignature, PolkadotRuntimeCommonClaimsEcdsaSignature, PolkadotRuntimeCommonClaimsStatementKind, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpRuntimeMultiSignature, SpRuntimeMultiSigner, SpSessionMembershipProof, SpWeightsWeightV2Weight, XcmV1MultiLocation, XcmV2WeightLimit, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
@@ -2648,9 +2648,12 @@ declare module '@polkadot/api-base/types/submittable' {
        * # Note
        * 
        * If there are too many unlocking chunks to unbond with the pool account,
-       * [`Call::pool_withdraw_unbonded`] can be called to try and minimize unlocking chunks. If
-       * there are too many unlocking chunks, the result of this call will likely be the
-       * `NoMoreChunks` error from the staking system.
+       * [`Call::pool_withdraw_unbonded`] can be called to try and minimize unlocking chunks.
+       * The [`StakingInterface::unbond`] will implicitly call [`Call::pool_withdraw_unbonded`]
+       * to try to free chunks if necessary (ie. if unbound was called and no unlocking chunks
+       * are available). However, it may not be possible to release the current unlocking chunks,
+       * in which case, the result of this call will likely be the `NoMoreChunks` error from the
+       * staking system.
        **/
       unbond: AugmentedSubmittable<(memberAccount: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, unbondingPoints: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>]>;
       /**
@@ -3858,7 +3861,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Cancel enactment of a deferred slash.
        * 
-       * Can be called by the `T::SlashCancelOrigin`.
+       * Can be called by the `T::AdminOrigin`.
        * 
        * Parameters: era and indices of the slashes for that era to kill.
        **/
@@ -4094,6 +4097,13 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       setInvulnerables: AugmentedSubmittable<(invulnerables: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<AccountId32>]>;
       /**
+       * Sets the minimum amount of commission that each validators must maintain.
+       * 
+       * This call has lower privilege requirements than `set_staking_config` and can be called
+       * by the `T::AdminOrigin`. Root can always call this.
+       **/
+      setMinCommission: AugmentedSubmittable<(updated: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Perbill]>;
+      /**
        * (Re-)set the payment target for a controller.
        * 
        * Effects will be felt instantly (as soon as this function is completed successfully).
@@ -4154,8 +4164,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * the funds out of management ready for transfer.
        * 
        * No more than a limited number of unlocking chunks (see `MaxUnlockingChunks`)
-       * can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need
-       * to be called first to remove some of the chunks (if possible).
+       * can co-exists at the same time. If there are no unlocking chunks slots available
+       * [`Call::withdraw_unbonded`] is called to remove some of the chunks (if possible).
        * 
        * If a user encounters the `InsufficientBond` error when calling this extrinsic,
        * they should call `chill` first in order to free up their bonded funds.
