@@ -6,7 +6,7 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 
 import EventEmitter from 'eventemitter3';
 
-import { isError, logger, objectSpread } from '@polkadot/util';
+import { isError, isFunction, isObject, logger, objectSpread } from '@polkadot/util';
 
 import { RpcCoder } from '../coder';
 import { healthChecker } from './Health';
@@ -56,6 +56,10 @@ export class ScProvider implements ProviderInterface {
   #isChainReady = false;
 
   public constructor (Sc: typeof ScType, spec: string | ScType.WellKnownChain, sharedSandbox?: ScProvider) {
+    if (!isObject(Sc) || !isFunction(Sc.createScClient)) {
+      throw new Error('Expected an @substrate/connect interface as first parameter to ScProvider');
+    }
+
     this.#Sc = Sc;
     this.#spec = spec;
     this.#sharedSandbox = sharedSandbox;
