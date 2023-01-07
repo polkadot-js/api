@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type SubstrateConnect from '@substrate/connect';
+import type Connect from '@substrate/connect';
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
 
 import EventEmitter from 'eventemitter3';
@@ -33,7 +33,7 @@ const subscriptionUnsubscriptionMethods = new Map<string, string>([
   ['state_subscribeStorage', 'state_unsubscribeStorage']
 ]);
 
-const scClients = new WeakMap<ScProvider, SubstrateConnect.ScClient>();
+const scClients = new WeakMap<ScProvider, Connect.ScClient>();
 
 interface ActiveSubs {
   type: string,
@@ -43,19 +43,19 @@ interface ActiveSubs {
 }
 
 export class ScProvider implements ProviderInterface {
-  readonly #ScConnect: typeof SubstrateConnect;
+  readonly #ScConnect: typeof Connect;
   readonly #coder: RpcCoder = new RpcCoder();
-  readonly #spec: string | SubstrateConnect.WellKnownChain;
+  readonly #spec: string | Connect.WellKnownChain;
   readonly #sharedSandbox?: ScProvider;
   readonly #subscriptions: Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]> = new Map();
   readonly #resubscribeMethods: Map<string, ActiveSubs> = new Map();
   readonly #requests: Map<number, ResponseCallback> = new Map();
-  readonly #wellKnownChains: Set<SubstrateConnect.WellKnownChain>;
+  readonly #wellKnownChains: Set<Connect.WellKnownChain>;
   readonly #eventemitter: EventEmitter = new EventEmitter();
-  #chain: Promise<SubstrateConnect.Chain> | null = null;
+  #chain: Promise<Connect.Chain> | null = null;
   #isChainReady = false;
 
-  public constructor (ScConnect: typeof SubstrateConnect, spec: string | SubstrateConnect.WellKnownChain, sharedSandbox?: ScProvider) {
+  public constructor (ScConnect: typeof Connect, spec: string | Connect.WellKnownChain, sharedSandbox?: ScProvider) {
     this.#ScConnect = ScConnect;
     this.#spec = spec;
     this.#sharedSandbox = sharedSandbox;
@@ -81,7 +81,7 @@ export class ScProvider implements ProviderInterface {
 
   // Config details can be found in @substrate/connect repo following the link:
   // https://github.com/paritytech/substrate-connect/blob/main/packages/connect/src/connector/index.ts
-  async connect (config?: SubstrateConnect.Config, checkerFactory = healthChecker): Promise<void> {
+  async connect (config?: Connect.Config, checkerFactory = healthChecker): Promise<void> {
     if (this.isConnected) {
       throw new Error('Already connected!');
     }
@@ -141,11 +141,11 @@ export class ScProvider implements ProviderInterface {
       callback?.(decodedResponse);
     };
 
-    const addChain = this.#wellKnownChains.has(this.#spec as SubstrateConnect.WellKnownChain)
+    const addChain = this.#wellKnownChains.has(this.#spec as Connect.WellKnownChain)
       ? client.addWellKnownChain
       : client.addChain;
 
-    this.#chain = addChain(this.#spec as SubstrateConnect.WellKnownChain, onResponse).then((chain) => {
+    this.#chain = addChain(this.#spec as Connect.WellKnownChain, onResponse).then((chain) => {
       hc.setSendJsonRpc(chain.sendJsonRpc);
 
       this.#isChainReady = false;
