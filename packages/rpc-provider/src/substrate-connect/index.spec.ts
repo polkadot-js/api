@@ -19,9 +19,11 @@
 // Jest has "some" issues with `await import` - we don't transform these
 
 import type Sc from '@substrate/connect';
-import type { HealthChecker, ScProviderClass, SmoldotHealth } from './types';
+import type { HealthChecker, SmoldotHealth } from './types';
 
 import { jest } from '@jest/globals';
+
+import { ScProvider } from '.';
 
 const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -181,9 +183,6 @@ const connectorFactory = () => {
   };
 };
 
-jest.mock('@substrate/connect', () => connectorFactory());
-
-let ScProvider: ScProviderClass;
 let mockSc: typeof Sc & { latestChain: () => MockChain };
 let mockedHealthChecker: ReturnType<typeof healthCheckerFactory>;
 const getCurrentHealthChecker = () => mockedHealthChecker._latestHealthChecker();
@@ -196,12 +195,9 @@ const setChainSyncyingStatus = (isSyncing: boolean) => {
   });
 };
 
-beforeAll(async () => {
-  ({ ScProvider } = await import('.'));
-  mockSc = (await import(
-    '@substrate/connect'
-  )) as unknown as typeof Sc & { latestChain: () => MockChain };
-  mockedHealthChecker = healthCheckerFactory(); // await import('./Health')
+beforeAll(() => {
+  mockSc = connectorFactory() as unknown as typeof Sc & { latestChain: () => MockChain };
+  mockedHealthChecker = healthCheckerFactory();
 });
 
 describe('ScProvider', () => {
@@ -293,7 +289,7 @@ describe('ScProvider', () => {
   });
 
   describe('connect', () => {
-    it.skip('does not create a new chain when trying to re-connect while the current chain is syncing', async () => {
+    it('does not create a new chain when trying to re-connect while the current chain is syncing', async () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
@@ -317,7 +313,7 @@ describe('ScProvider', () => {
   });
 
   describe('disconnect', () => {
-    it.skip('removes the chain and cleans up', async () => {
+    it('removes the chain and cleans up', async () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
@@ -347,7 +343,7 @@ describe('ScProvider', () => {
       await expect(provider.send('', [])).rejects.toThrow();
     });
 
-    it.skip('receives responses to its requests', async () => {
+    it('receives responses to its requests', async () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
@@ -375,7 +371,7 @@ describe('ScProvider', () => {
       expect(response).toEqual(result);
     });
 
-    it.skip("rejects when the response can't be deserialized", async () => {
+    it("rejects when the response can't be deserialized", async () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
@@ -393,7 +389,7 @@ describe('ScProvider', () => {
       await expect(provider.send('getData', ['foo'])).rejects.toThrow();
     });
 
-    it.skip('rejects when the smoldot chain has crashed', async () => {
+    it('rejects when the smoldot chain has crashed', async () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
@@ -414,7 +410,7 @@ describe('ScProvider', () => {
   });
 
   describe('subscribe', () => {
-    it.skip('subscribes and recives messages until it unsubscribes', async () => {
+    it('subscribes and recives messages until it unsubscribes', async () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
@@ -479,7 +475,7 @@ describe('ScProvider', () => {
       expect(cb).toHaveBeenLastCalledWith(null, 2);
     });
 
-    it.skip('ignores subscription messages that were received before the subscription token', async () => {
+    it('ignores subscription messages that were received before the subscription token', async () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
@@ -517,7 +513,7 @@ describe('ScProvider', () => {
       expect(cb).not.toHaveBeenCalled();
     });
 
-    it.skip('emits the error when the message has an error', async () => {
+    it('emits the error when the message has an error', async () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
@@ -587,7 +583,7 @@ describe('ScProvider', () => {
     });
   });
 
-  it.skip('cleans up the stale subscriptions once it reconnects', async () => {
+  it('cleans up the stale subscriptions once it reconnects', async () => {
     const provider = new ScProvider(mockSc, '');
 
     await provider.connect(undefined, mockedHealthChecker.healthChecker);
@@ -643,7 +639,8 @@ describe('ScProvider', () => {
     // stale subscription
     expect(chain._recevedRequests()).toEqual([
       '{"id":1,"jsonrpc":"2.0","method":"chain_subscribeNewHeads","params":["baz"]}',
-      `{"id":2,"jsonrpc":"2.0","method":"chain_unsubscribeNewHeads","params":["${token}"]}`
+      `{"id":2,"jsonrpc":"2.0","method":"chain_unsubscribeNewHeads","params":["${token}"]}`,
+      '{"id":3,"jsonrpc":"2.0","method":"chain_subscribeNewHeads","params":["baz"]}'
     ]);
   });
 });
