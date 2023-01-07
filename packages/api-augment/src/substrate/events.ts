@@ -767,6 +767,158 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    nfts: {
+      /**
+       * All approvals of an item got cancelled.
+       **/
+      AllApprovalsCancelled: AugmentedEvent<ApiType, [collection: u32, item: u32, owner: AccountId32], { collection: u32, item: u32, owner: AccountId32 }>;
+      /**
+       * An approval for a `delegate` account to transfer the `item` of an item
+       * `collection` was cancelled by its `owner`.
+       **/
+      ApprovalCancelled: AugmentedEvent<ApiType, [collection: u32, item: u32, owner: AccountId32, delegate: AccountId32], { collection: u32, item: u32, owner: AccountId32, delegate: AccountId32 }>;
+      /**
+       * Attribute metadata has been cleared for a `collection` or `item`.
+       **/
+      AttributeCleared: AugmentedEvent<ApiType, [collection: u32, maybeItem: Option<u32>, key: Bytes, namespace: FrameSupportTokensMiscAttributeNamespace], { collection: u32, maybeItem: Option<u32>, key: Bytes, namespace: FrameSupportTokensMiscAttributeNamespace }>;
+      /**
+       * New attribute metadata has been set for a `collection` or `item`.
+       **/
+      AttributeSet: AugmentedEvent<ApiType, [collection: u32, maybeItem: Option<u32>, key: Bytes, value: Bytes, namespace: FrameSupportTokensMiscAttributeNamespace], { collection: u32, maybeItem: Option<u32>, key: Bytes, value: Bytes, namespace: FrameSupportTokensMiscAttributeNamespace }>;
+      /**
+       * An `item` was destroyed.
+       **/
+      Burned: AugmentedEvent<ApiType, [collection: u32, item: u32, owner: AccountId32], { collection: u32, item: u32, owner: AccountId32 }>;
+      /**
+       * A `collection` has had its config changed by the `Force` origin.
+       **/
+      CollectionConfigChanged: AugmentedEvent<ApiType, [collection: u32], { collection: u32 }>;
+      /**
+       * Some `collection` was locked.
+       **/
+      CollectionLocked: AugmentedEvent<ApiType, [collection: u32], { collection: u32 }>;
+      /**
+       * Max supply has been set for a collection.
+       **/
+      CollectionMaxSupplySet: AugmentedEvent<ApiType, [collection: u32, maxSupply: u32], { collection: u32, maxSupply: u32 }>;
+      /**
+       * Metadata has been cleared for a `collection`.
+       **/
+      CollectionMetadataCleared: AugmentedEvent<ApiType, [collection: u32], { collection: u32 }>;
+      /**
+       * New metadata has been set for a `collection`.
+       **/
+      CollectionMetadataSet: AugmentedEvent<ApiType, [collection: u32, data: Bytes], { collection: u32, data: Bytes }>;
+      /**
+       * Mint settings for a collection had changed.
+       **/
+      CollectionMintSettingsUpdated: AugmentedEvent<ApiType, [collection: u32], { collection: u32 }>;
+      /**
+       * A `collection` was created.
+       **/
+      Created: AugmentedEvent<ApiType, [collection: u32, creator: AccountId32, owner: AccountId32], { collection: u32, creator: AccountId32, owner: AccountId32 }>;
+      /**
+       * A `collection` was destroyed.
+       **/
+      Destroyed: AugmentedEvent<ApiType, [collection: u32], { collection: u32 }>;
+      /**
+       * A `collection` was force-created.
+       **/
+      ForceCreated: AugmentedEvent<ApiType, [collection: u32, owner: AccountId32], { collection: u32, owner: AccountId32 }>;
+      /**
+       * An `item` was issued.
+       **/
+      Issued: AugmentedEvent<ApiType, [collection: u32, item: u32, owner: AccountId32], { collection: u32, item: u32, owner: AccountId32 }>;
+      /**
+       * A new approval to modify item attributes was added.
+       **/
+      ItemAttributesApprovalAdded: AugmentedEvent<ApiType, [collection: u32, item: u32, delegate: AccountId32], { collection: u32, item: u32, delegate: AccountId32 }>;
+      /**
+       * A new approval to modify item attributes was removed.
+       **/
+      ItemAttributesApprovalRemoved: AugmentedEvent<ApiType, [collection: u32, item: u32, delegate: AccountId32], { collection: u32, item: u32, delegate: AccountId32 }>;
+      /**
+       * An item was bought.
+       **/
+      ItemBought: AugmentedEvent<ApiType, [collection: u32, item: u32, price: u128, seller: AccountId32, buyer: AccountId32], { collection: u32, item: u32, price: u128, seller: AccountId32, buyer: AccountId32 }>;
+      /**
+       * Metadata has been cleared for an item.
+       **/
+      ItemMetadataCleared: AugmentedEvent<ApiType, [collection: u32, item: u32], { collection: u32, item: u32 }>;
+      /**
+       * New metadata has been set for an item.
+       **/
+      ItemMetadataSet: AugmentedEvent<ApiType, [collection: u32, item: u32, data: Bytes], { collection: u32, item: u32, data: Bytes }>;
+      /**
+       * The price for the item was removed.
+       **/
+      ItemPriceRemoved: AugmentedEvent<ApiType, [collection: u32, item: u32], { collection: u32, item: u32 }>;
+      /**
+       * The price was set for the item.
+       **/
+      ItemPriceSet: AugmentedEvent<ApiType, [collection: u32, item: u32, price: u128, whitelistedBuyer: Option<AccountId32>], { collection: u32, item: u32, price: u128, whitelistedBuyer: Option<AccountId32> }>;
+      /**
+       * `item` metadata or attributes were locked.
+       **/
+      ItemPropertiesLocked: AugmentedEvent<ApiType, [collection: u32, item: u32, lockMetadata: bool, lockAttributes: bool], { collection: u32, item: u32, lockMetadata: bool, lockAttributes: bool }>;
+      /**
+       * An `item` became non-transferable.
+       **/
+      ItemTransferLocked: AugmentedEvent<ApiType, [collection: u32, item: u32], { collection: u32, item: u32 }>;
+      /**
+       * An `item` became transferable.
+       **/
+      ItemTransferUnlocked: AugmentedEvent<ApiType, [collection: u32, item: u32], { collection: u32, item: u32 }>;
+      /**
+       * Event gets emitted when the `NextCollectionId` gets incremented.
+       **/
+      NextCollectionIdIncremented: AugmentedEvent<ApiType, [nextId: u32], { nextId: u32 }>;
+      /**
+       * The owner changed.
+       **/
+      OwnerChanged: AugmentedEvent<ApiType, [collection: u32, newOwner: AccountId32], { collection: u32, newOwner: AccountId32 }>;
+      /**
+       * Ownership acceptance has changed for an account.
+       **/
+      OwnershipAcceptanceChanged: AugmentedEvent<ApiType, [who: AccountId32, maybeCollection: Option<u32>], { who: AccountId32, maybeCollection: Option<u32> }>;
+      /**
+       * The deposit for a set of `item`s within a `collection` has been updated.
+       **/
+      Redeposited: AugmentedEvent<ApiType, [collection: u32, successfulItems: Vec<u32>], { collection: u32, successfulItems: Vec<u32> }>;
+      /**
+       * The swap was cancelled.
+       **/
+      SwapCancelled: AugmentedEvent<ApiType, [offeredCollection: u32, offeredItem: u32, desiredCollection: u32, desiredItem: Option<u32>, price: Option<PalletNftsPriceWithDirection>, deadline: u32], { offeredCollection: u32, offeredItem: u32, desiredCollection: u32, desiredItem: Option<u32>, price: Option<PalletNftsPriceWithDirection>, deadline: u32 }>;
+      /**
+       * The swap has been claimed.
+       **/
+      SwapClaimed: AugmentedEvent<ApiType, [sentCollection: u32, sentItem: u32, sentItemOwner: AccountId32, receivedCollection: u32, receivedItem: u32, receivedItemOwner: AccountId32, price: Option<PalletNftsPriceWithDirection>, deadline: u32], { sentCollection: u32, sentItem: u32, sentItemOwner: AccountId32, receivedCollection: u32, receivedItem: u32, receivedItemOwner: AccountId32, price: Option<PalletNftsPriceWithDirection>, deadline: u32 }>;
+      /**
+       * An `item` swap intent was created.
+       **/
+      SwapCreated: AugmentedEvent<ApiType, [offeredCollection: u32, offeredItem: u32, desiredCollection: u32, desiredItem: Option<u32>, price: Option<PalletNftsPriceWithDirection>, deadline: u32], { offeredCollection: u32, offeredItem: u32, desiredCollection: u32, desiredItem: Option<u32>, price: Option<PalletNftsPriceWithDirection>, deadline: u32 }>;
+      /**
+       * The management team changed.
+       **/
+      TeamChanged: AugmentedEvent<ApiType, [collection: u32, issuer: AccountId32, admin: AccountId32, freezer: AccountId32], { collection: u32, issuer: AccountId32, admin: AccountId32, freezer: AccountId32 }>;
+      /**
+       * A tip was sent.
+       **/
+      TipSent: AugmentedEvent<ApiType, [collection: u32, item: u32, sender: AccountId32, receiver: AccountId32, amount: u128], { collection: u32, item: u32, sender: AccountId32, receiver: AccountId32, amount: u128 }>;
+      /**
+       * An `item` of a `collection` has been approved by the `owner` for transfer by
+       * a `delegate`.
+       **/
+      TransferApproved: AugmentedEvent<ApiType, [collection: u32, item: u32, owner: AccountId32, delegate: AccountId32, deadline: Option<u32>], { collection: u32, item: u32, owner: AccountId32, delegate: AccountId32, deadline: Option<u32> }>;
+      /**
+       * An `item` was transferred.
+       **/
+      Transferred: AugmentedEvent<ApiType, [collection: u32, item: u32, from: AccountId32, to: AccountId32], { collection: u32, item: u32, from: AccountId32, to: AccountId32 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     nis: {
       /**
        * A bid was dropped from a queue because of another, more substantial, bid was present.
@@ -1509,6 +1661,10 @@ declare module '@polkadot/api-base/types/events' {
        * We have ended a spend period and will now allocate funds.
        **/
       Spending: AugmentedEvent<ApiType, [budgetRemaining: u128], { budgetRemaining: u128 }>;
+      /**
+       * The inactive funds of the pallet have been updated.
+       **/
+      UpdatedInactive: AugmentedEvent<ApiType, [reactivated: u128, deactivated: u128], { reactivated: u128, deactivated: u128 }>;
       /**
        * Generic event
        **/

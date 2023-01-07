@@ -1090,6 +1090,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Spending: AugmentedEvent<ApiType, [budgetRemaining: u128], { budgetRemaining: u128 }>;
       /**
+       * The inactive funds of the pallet have been updated.
+       **/
+      UpdatedInactive: AugmentedEvent<ApiType, [reactivated: u128, deactivated: u128], { reactivated: u128, deactivated: u128 }>;
+      /**
        * Generic event
        **/
       [key: string]: AugmentedEvent<ApiType>;

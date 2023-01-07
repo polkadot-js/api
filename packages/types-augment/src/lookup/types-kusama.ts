@@ -111,7 +111,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name KusamaRuntimeRuntime (856) */
+  /** @name KusamaRuntimeRuntime (855) */
   type KusamaRuntimeRuntime = Null;
 
 } // declare module
