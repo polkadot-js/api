@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 9.11.1 Jan 8, 2023
 
 - **Breaking change** For users of `ScProvider` you now need to explicitly pass `@substrate/connect` as a parameter. This means the code needs to be adjusted as follows -
 
