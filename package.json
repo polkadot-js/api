@@ -11,10 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "9.11.0",
+  "version": "9.11.1",
   "versions": {
-    "git": "9.10.6-6-x",
-    "npm": "9.10.5"
+    "git": "9.11.1",
+    "npm": "9.11.1"
   },
   "workspaces": [
     "packages/*"
