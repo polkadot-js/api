@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 9.11.2 Jan 13, 2023
+
+Changes:
+
+- Ensure `derive.democracy.preimages` retrieves correctly from (current-gen) `preimage`
+
+
 ## 9.11.1 Jan 8, 2023
 
 - **Breaking change** For users of `ScProvider` you now need to explicitly pass `@substrate/connect` as a parameter. This means the code needs to be adjusted as follows -
