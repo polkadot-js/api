@@ -96,8 +96,8 @@ function getImages (api: DeriveApi, bounded: (FrameSupportPreimagesBounded | Uin
       const keys = statuses
         .map((s, i) =>
           s
-            // first generation
             ? bytesType === 'H256'
+              // first generation
               ? hashes[i]
               // current generation (H256,u32)
               : s.isRequested
