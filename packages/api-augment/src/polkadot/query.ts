@@ -1151,14 +1151,6 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       lastPrunedSession: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * Maps session indices to a vector indicating the number of potentially-spam disputes
-       * each validator is participating in. Potentially-spam disputes are remote disputes which have
-       * fewer than `byzantine_threshold + 1` validators.
-       * 
-       * The i'th entry of the vector corresponds to the i'th validator in the session.
-       **/
-      spamSlots: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Vec<u32>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
-      /**
        * Generic query
        **/
       [key: string]: QueryableStorageEntry<ApiType>;

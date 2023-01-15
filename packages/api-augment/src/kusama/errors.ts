@@ -1471,13 +1471,13 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidSignature: AugmentedError<ApiType>;
       /**
-       * Too many spam slots used by some specific validator.
-       **/
-      PotentialSpam: AugmentedError<ApiType>;
-      /**
        * A dispute where there are only votes on one side.
        **/
       SingleSidedDispute: AugmentedError<ApiType>;
+      /**
+       * Unconfirmed dispute statement sets provided
+       **/
+      UnconfirmedDispute: AugmentedError<ApiType>;
       /**
        * Validator index on statement is out of bounds for session.
        **/

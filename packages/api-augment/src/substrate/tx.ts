@@ -2901,7 +2901,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Clear an attribute for a collection or item.
        * 
        * Origin must be either `ForceOrigin` or Signed and the sender should be the Owner of the
-       * `collection`.
+       * attribute.
        * 
        * Any deposit is freed for the collection's owner.
        * 

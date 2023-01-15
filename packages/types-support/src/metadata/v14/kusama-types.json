@@ -21883,21 +21883,6 @@
               ]
             },
             {
-              "name": "set_dispute_max_spam_slots",
-              "fields": [
-                {
-                  "name": "new",
-                  "type": 4,
-                  "typeName": "u32",
-                  "docs": []
-                }
-              ],
-              "index": 16,
-              "docs": [
-                "Set the maximum number of dispute spam slots."
-              ]
-            },
-            {
               "name": "set_dispute_conclusion_by_time_out_period",
               "fields": [
                 {
@@ -48642,12 +48627,6 @@
               "docs": []
             },
             {
-              "name": "dispute_max_spam_slots",
-              "type": 4,
-              "typeName": "u32",
-              "docs": []
-            },
-            {
               "name": "dispute_conclusion_by_time_out_period",
               "type": 4,
               "typeName": "BlockNumber",
@@ -51098,19 +51077,19 @@
               ]
             },
             {
-              "name": "PotentialSpam",
+              "name": "SingleSidedDispute",
               "fields": [],
               "index": 5,
               "docs": [
-                "Too many spam slots used by some specific validator."
+                "A dispute where there are only votes on one side."
               ]
             },
             {
-              "name": "SingleSidedDispute",
+              "name": "UnconfirmedDispute",
               "fields": [],
               "index": 6,
               "docs": [
-                "A dispute where there are only votes on one side."
+                "Unconfirmed dispute statement sets provided"
               ]
             }
           ]

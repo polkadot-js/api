@@ -805,20 +805,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    preimage: {
-      /**
-       * The base deposit for placing a preimage on chain.
-       **/
-      baseDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * The per-byte deposit for placing a preimage on chain.
-       **/
-      byteDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     proxy: {
       /**
        * The base amount of currency needed to reserve for creating an announcement.
