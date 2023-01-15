@@ -469,10 +469,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DuplicateContract: AugmentedError<ApiType>;
       /**
-       * The topics passed to `seal_deposit_events` contains at least one duplicate.
-       **/
-      DuplicateTopics: AugmentedError<ApiType>;
-      /**
        * An indetermistic code was used in a context where this is not permitted.
        **/
       Indeterministic: AugmentedError<ApiType>;
@@ -1219,6 +1215,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ApprovalExpired: AugmentedError<ApiType>;
       /**
+       * The provided attribute can't be found.
+       **/
+      AttributeNotFound: AugmentedError<ApiType>;
+      /**
        * The witness data given does not match the current state of the chain.
        **/
       BadWitness: AugmentedError<ApiType>;
@@ -1278,6 +1278,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The provided max supply is less than the number of items a collection already has.
        **/
       MaxSupplyTooSmall: AugmentedError<ApiType>;
+      /**
+       * The given item has no metadata set.
+       **/
+      MetadataNotFound: AugmentedError<ApiType>;
       /**
        * The method is disabled by system settings.
        **/

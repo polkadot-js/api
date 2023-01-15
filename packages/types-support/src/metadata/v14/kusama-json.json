@@ -5985,7 +5985,7 @@
                 "type": {
                   "plain": 755
                 },
-                "fallback": "0x00000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000100000001000000000000000000060000006400000002000000c800000001000000000000000000000000000000000000000700c817a80402004001000200000002000000",
+                "fallback": "0x000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000001000000010000000000000000000600000064000000c800000001000000000000000000000000000000000000000700c817a80402004001000200000002000000",
                 "docs": [
                   " The active configuration for the current session."
                 ]
@@ -7270,27 +7270,6 @@
                 "docs": [
                   " All included blocks on the chain, as well as the block number in this chain that",
                   " should be reverted back to if the candidate is disputed and determined to be invalid."
-                ]
-              },
-              {
-                "name": "SpamSlots",
-                "modifier": "Optional",
-                "type": {
-                  "map": {
-                    "hashers": [
-                      "Twox64Concat"
-                    ],
-                    "key": 4,
-                    "value": 101
-                  }
-                },
-                "fallback": "0x00",
-                "docs": [
-                  " Maps session indices to a vector indicating the number of potentially-spam disputes",
-                  " each validator is participating in. Potentially-spam disputes are remote disputes which have",
-                  " fewer than `byzantine_threshold + 1` validators.",
-                  "",
-                  " The i'th entry of the vector corresponds to the i'th validator in the session."
                 ]
               },
               {

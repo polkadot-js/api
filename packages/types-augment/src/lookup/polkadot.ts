@@ -1035,12 +1035,7 @@ export default {
         },
         new_: 'u32',
       },
-      set_dispute_max_spam_slots: {
-        _alias: {
-          new_: 'new',
-        },
-        new_: 'u32',
-      },
+      __Unused16: 'Null',
       set_dispute_conclusion_by_time_out_period: {
         _alias: {
           new_: 'new',
@@ -1914,7 +1909,6 @@ export default {
     maxValidators: 'Option<u32>',
     disputePeriod: 'u32',
     disputePostConclusionAcceptancePeriod: 'u32',
-    disputeMaxSpamSlots: 'u32',
     disputeConclusionByTimeOutPeriod: 'u32',
     noShowSlots: 'u32',
     nDelayTranches: 'u32',
@@ -2192,7 +2186,7 @@ export default {
    * Lookup701: polkadot_runtime_parachains::disputes::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsDisputesPalletError: {
-    _enum: ['DuplicateDisputeStatementSets', 'AncientDisputeStatement', 'ValidatorIndexOutOfBounds', 'InvalidSignature', 'DuplicateStatement', 'PotentialSpam', 'SingleSidedDispute']
+    _enum: ['DuplicateDisputeStatementSets', 'AncientDisputeStatement', 'ValidatorIndexOutOfBounds', 'InvalidSignature', 'DuplicateStatement', 'SingleSidedDispute', 'UnconfirmedDispute']
   },
   /**
    * Lookup702: polkadot_runtime_common::paras_registrar::ParaInfo<sp_core::crypto::AccountId32, Balance>

@@ -603,10 +603,6 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       setDisputeConclusionByTimeOutPeriod: AugmentedSubmittable<(updated: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
-       * Set the maximum number of dispute spam slots.
-       **/
-      setDisputeMaxSpamSlots: AugmentedSubmittable<(updated: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
-      /**
        * Set the dispute period, in number of sessions to keep for disputes.
        **/
       setDisputePeriod: AugmentedSubmittable<(updated: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
