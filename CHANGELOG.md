@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add `$isFallback` on the `Codec` interface. (true if entry was created from a metadata fallback value)
+- Rename `initialU8aLength/createdAtHash` to `$initialU8aLength/$createdAtHash` on the `Codec` interface. (these are marked for internal usage)
+
+
 ## 9.11.3 Jan 15, 2023
 
 Changes:

@@ -483,7 +483,7 @@ export class RpcCore {
           : meta.modifier.isOptional
             ? registry.createTypeUnsafe(type, [input], { blockHash, isPedantic: true })
             : input
-      ], { blockHash, isOptional: meta.modifier.isOptional, isPedantic: !meta.modifier.isOptional });
+      ], { blockHash, isFallback: isEmpty && !!meta.fallback, isOptional: meta.modifier.isOptional, isPedantic: !meta.modifier.isOptional });
     } catch (error) {
       throw new Error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}: ${(error as Error).message}`);
     }

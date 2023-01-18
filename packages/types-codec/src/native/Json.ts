@@ -24,7 +24,9 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
 export class Json extends Map<string, any> implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
+
+  public $isStorageFallback?: boolean;
 
   constructor (registry: Registry, value?: Record<string, unknown> | null) {
     const decoded = decodeJson(value);

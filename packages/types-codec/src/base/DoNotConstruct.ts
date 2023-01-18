@@ -12,7 +12,9 @@ import type { AnyJson, Codec, CodecClass, Inspect, IU8a, Registry } from '../typ
 export class DoNotConstruct implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
+
+  public $isStorageFallback?: boolean;
 
   #neverError: Error;
 

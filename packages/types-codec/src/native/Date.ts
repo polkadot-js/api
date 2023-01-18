@@ -36,7 +36,9 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
 export class CodecDate extends Date implements INumber {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
+
+  public $isStorageFallback?: boolean;
 
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
     super(decodeDate(value));

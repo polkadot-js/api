@@ -103,9 +103,11 @@ export class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  public $initialU8aLength?: number;
+
+  public $isStorageFallback?: boolean;
 
   public readonly registry: Registry;
 
@@ -123,7 +125,7 @@ export class Struct<
 
     super(decoded);
 
-    this.initialU8aLength = decodedLength;
+    this.$initialU8aLength = decodedLength;
     this.registry = registry;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;

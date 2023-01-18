@@ -68,9 +68,11 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
 export class Option<T extends Codec> implements IOption<T> {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
-  public initialU8aLength?: number;
+  public $initialU8aLength?: number;
+
+  public $isStorageFallback?: boolean;
 
   readonly #Type: CodecClass<T>;
 
@@ -88,8 +90,8 @@ export class Option<T extends Codec> implements IOption<T> {
     this.#Type = Type;
     this.#raw = decoded as T;
 
-    if (decoded && decoded.initialU8aLength) {
-      this.initialU8aLength = 1 + decoded.initialU8aLength;
+    if (decoded?.$initialU8aLength) {
+      this.$initialU8aLength = 1 + decoded.$initialU8aLength;
     }
   }
 

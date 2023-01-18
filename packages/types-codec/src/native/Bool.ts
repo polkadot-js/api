@@ -15,7 +15,9 @@ import { isU8a, u8aToHex } from '@polkadot/util';
 export class bool extends Boolean implements Codec {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
+
+  public $isStorageFallback?: boolean;
 
   constructor (registry: Registry, value: bool | AnyBool | Uint8Array | number = false) {
     super(

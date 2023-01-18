@@ -18,7 +18,11 @@ import { compareArray } from '../utils/compareArray';
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
+
+  public $initialU8aLength?: number;
+
+  public $isStorageFallback?: boolean;
 
   /**
    * @description This ensures that operators such as clice, filter, map, etc. return

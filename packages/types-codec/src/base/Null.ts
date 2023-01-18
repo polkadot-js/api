@@ -18,10 +18,11 @@ export class Null implements Codec {
 
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
-  // Added for compatibility reasons, e.g. see Option
-  public readonly initialU8aLength = 0;
+  public $initialU8aLength = 0;
+
+  public $isStorageFallback?: boolean;
 
   constructor (registry: Registry) {
     this.registry = registry;

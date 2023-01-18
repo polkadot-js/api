@@ -16,9 +16,11 @@ import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
 
-  public readonly initialU8aLength?: number;
+  public $initialU8aLength?: number;
+
+  public $isStorageFallback?: boolean;
 
   public readonly registry: Registry;
 
@@ -34,7 +36,7 @@ export class Raw extends Uint8Array implements IU8a {
     super(u8aToU8a(value));
 
     this.registry = registry;
-    this.initialU8aLength = initialU8aLength;
+    this.$initialU8aLength = initialU8aLength;
   }
 
   /**

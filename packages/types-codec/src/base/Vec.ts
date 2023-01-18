@@ -71,8 +71,6 @@ export function decodeVec<T extends Codec> (registry: Registry, result: T[], val
  * specific encoding/decoding on top of the base type.
  */
 export class Vec<T extends Codec> extends AbstractArray<T> {
-  readonly initialU8aLength?: number;
-
   #Type: CodecClass<T>;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = [], { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
@@ -82,7 +80,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    this.initialU8aLength = (
+    this.$initialU8aLength = (
       isU8a(decodeFrom)
         ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
         : decodeVec(registry, this, decodeFrom, startAt, this.#Type)

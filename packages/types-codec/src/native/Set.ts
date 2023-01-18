@@ -94,7 +94,9 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
 export class CodecSet extends Set<string> implements ISet<string> {
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
+
+  public $isStorageFallback?: boolean;
 
   readonly #allowed: SetValues;
 
