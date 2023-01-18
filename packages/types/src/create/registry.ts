@@ -166,6 +166,9 @@ function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainPr
 }
 
 export class TypeRegistry implements Registry {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+
   #chainProperties?: ChainProperties;
   #classes = new Map<string, CodecClass>();
   #definitions = new Map<string, string>();

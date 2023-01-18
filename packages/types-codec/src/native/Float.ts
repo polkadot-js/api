@@ -19,14 +19,19 @@ interface Options {
  * in some eth_* RPCs
  */
 export class Float extends Number implements IFloat {
-  readonly #bitLength: 32 | 64;
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
+  public readonly encodedLength: number;
+  public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
 
-  public readonly encodedLength: number;
-  public readonly registry: Registry;
+  readonly #bitLength: 32 | 64;
 
   constructor (registry: Registry, value?: AnyFloat, { bitLength = 32 }: Options = {}) {
     super(

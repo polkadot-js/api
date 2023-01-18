@@ -72,6 +72,11 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<strin
  * @noInheritDoc
  */
 export abstract class AbstractInt extends BN implements INumber {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
   public readonly encodedLength: number;
   public readonly isUnsigned: boolean;

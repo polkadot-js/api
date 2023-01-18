@@ -66,6 +66,11 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
  * with a value if/as required/found.
  */
 export class Option<T extends Codec> implements IOption<T> {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
