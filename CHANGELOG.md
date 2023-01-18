@@ -4,7 +4,7 @@
 
 Changes:
 
-- Add `$isFallback` on the `Codec` interface. (true if entry was created from a metadata fallback value)
+- Add `$isStorageFallback` on the `Codec` interface. (`true` if entry was created from a metadata fallback value from an empty storage item)
 - Rename `initialU8aLength/createdAtHash` to `$initialU8aLength/$createdAtHash` on the `Codec` interface. (these are marked for internal usage)
 
 
