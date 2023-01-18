@@ -212,7 +212,7 @@ export class Enum implements IEnum {
     this.#entryIndex = this.#indexes.indexOf(decoded.index);
     this.#raw = decoded.value;
 
-    if (this.#raw.$initialU8aLength !== undefined) {
+    if (this.#raw.$initialU8aLength) {
       this.$initialU8aLength = 1 + this.#raw.$initialU8aLength;
     }
   }
