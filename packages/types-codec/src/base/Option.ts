@@ -69,13 +69,10 @@ export class Option<T extends Codec> implements IOption<T> {
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
   public $initialU8aLength?: number;
-
   public $isStorageFallback?: boolean;
 
   readonly #Type: CodecClass<T>;
-
   readonly #raw: T;
 
   constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {

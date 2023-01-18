@@ -73,12 +73,10 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<strin
  */
 export abstract class AbstractInt extends BN implements INumber {
   public readonly registry: Registry;
-
-  public createdAtHash?: IU8a;
-
   public readonly encodedLength: number;
-
   public readonly isUnsigned: boolean;
+
+  public $createdAtHash?: IU8a;
 
   readonly #bitLength: UIntBitLength;
 

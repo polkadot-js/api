@@ -13,15 +13,11 @@ import { isNull } from '@polkadot/util';
  */
 export class Null implements Codec {
   public readonly encodedLength = 0;
-
   public readonly isEmpty = true;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
   public $initialU8aLength = 0;
-
   public $isStorageFallback?: boolean;
 
   constructor (registry: Registry) {

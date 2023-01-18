@@ -97,15 +97,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
   public $initialU8aLength?: number;
-
   public $isStorageFallback?: boolean;
 
   readonly #KeyClass: CodecClass<K>;
-
   readonly #ValClass: CodecClass<V>;
-
   readonly #type: string;
 
   constructor (registry: Registry, keyType: CodecClass<K> | string, valType: CodecClass<V> | string, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {

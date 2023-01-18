@@ -49,13 +49,11 @@ function decodeText (value?: null | AnyString | AnyU8a | { toString: () => strin
  * @noInheritDoc
  */
 export class Text extends String implements IText {
-  public $createdAtHash?: IU8a;
-
-  public $initialU8aLength?: number;
-
-  public $isStorageFallback?: boolean;
-
   public readonly registry: Registry;
+
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
   #override: string | null = null;
 

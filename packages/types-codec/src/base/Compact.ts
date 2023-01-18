@@ -50,13 +50,10 @@ export class Compact<T extends INumber> implements ICompact<T> {
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
   public $initialU8aLength?: number;
-
   public $isStorageFallback?: boolean;
 
   readonly #Type: CodecClass<T>;
-
   readonly #raw: T;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {

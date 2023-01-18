@@ -19,9 +19,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
   public $initialU8aLength?: number;
-
   public $isStorageFallback?: boolean;
 
   /**

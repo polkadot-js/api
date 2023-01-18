@@ -186,21 +186,14 @@ export class Enum implements IEnum {
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
   public $initialU8aLength?: number;
-
   public $isStorageFallback?: boolean;
 
   readonly #def: TypesDef;
-
   readonly #entryIndex: number;
-
   readonly #indexes: number[];
-
   readonly #isBasic: boolean;
-
   readonly #isIndexed: boolean;
-
   readonly #raw: Codec;
 
   constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number, { definition, setDefinition = noopSetDefinition }: Options = {}) {

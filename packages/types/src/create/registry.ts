@@ -166,41 +166,25 @@ function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainPr
 }
 
 export class TypeRegistry implements Registry {
-  #classes = new Map<string, CodecClass>();
-
-  #definitions = new Map<string, string>();
-
-  #firstCallIndex: Uint8Array | null = null;
-
-  #lookup?: PortableRegistry;
-
-  #metadata?: MetadataLatest;
-
-  #metadataVersion = 0;
-
-  readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
-
-  readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
-
-  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
-
-  readonly #moduleMap: Record<string, string[]> = {};
-
-  #unknownTypes = new Map<string, boolean>();
-
   #chainProperties?: ChainProperties;
-
+  #classes = new Map<string, CodecClass>();
+  #definitions = new Map<string, string>();
+  #firstCallIndex: Uint8Array | null = null;
   #hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
+  #knownTypes: RegisteredTypes = {};
+  #lookup?: PortableRegistry;
+  #metadata?: MetadataLatest;
+  #metadataVersion = 0;
+  #signedExtensions: string[] = fallbackExtensions;
+  #unknownTypes = new Map<string, boolean>();
+  #userExtensions?: ExtDef;
 
   readonly #knownDefaults: Record<string, CodecClass>;
-
   readonly #knownDefinitions: Record<string, Definitions>;
-
-  #knownTypes: RegisteredTypes = {};
-
-  #signedExtensions: string[] = fallbackExtensions;
-
-  #userExtensions?: ExtDef;
+  readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
+  readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
+  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
+  readonly #moduleMap: Record<string, string[]> = {};
 
   public $createdAtHash?: Hash;
 

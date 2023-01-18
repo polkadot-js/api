@@ -73,9 +73,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
   public $initialU8aLength?: number;
-
   public $isStorageFallback?: boolean;
 
   readonly #ValClass: CodecClass<V>;

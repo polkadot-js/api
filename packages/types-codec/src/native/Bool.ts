@@ -16,7 +16,7 @@ export class bool extends Boolean implements Codec {
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
+  public $initialU8aLength = 1;
   public $isStorageFallback?: boolean;
 
   constructor (registry: Registry, value: bool | AnyBool | Uint8Array | number = false) {

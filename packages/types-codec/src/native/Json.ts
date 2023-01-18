@@ -25,7 +25,7 @@ export class Json extends Map<string, any> implements Codec {
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
+  public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
 
   constructor (registry: Registry, value?: Record<string, unknown> | null) {

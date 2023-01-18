@@ -95,7 +95,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
+  public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
 
   readonly #allowed: SetValues;

@@ -22,14 +22,11 @@ export class Float extends Number implements IFloat {
   readonly #bitLength: 32 | 64;
 
   public $createdAtHash?: IU8a;
-
   public $initialU8aLength?: number;
-
   public $isStorageFallback?: boolean;
 
-  readonly encodedLength: number;
-
-  readonly registry: Registry;
+  public readonly encodedLength: number;
+  public readonly registry: Registry;
 
   constructor (registry: Registry, value?: AnyFloat, { bitLength = 32 }: Options = {}) {
     super(

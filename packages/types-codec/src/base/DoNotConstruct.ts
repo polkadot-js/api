@@ -13,7 +13,6 @@ export class DoNotConstruct implements Codec {
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
   public $isStorageFallback?: boolean;
 
   #neverError: Error;

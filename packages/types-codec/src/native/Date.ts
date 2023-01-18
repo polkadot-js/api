@@ -37,7 +37,7 @@ export class CodecDate extends Date implements INumber {
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-
+  public $initialU8aLength = BITLENGTH / 8;
   public $isStorageFallback?: boolean;
 
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
