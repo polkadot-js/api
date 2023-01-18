@@ -34,9 +34,16 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
  * @noInheritDoc
  */
 export class CodecDate extends Date implements INumber {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength = BITLENGTH / 8;
+  public $isStorageFallback?: boolean;
 
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
     super(decodeDate(value));

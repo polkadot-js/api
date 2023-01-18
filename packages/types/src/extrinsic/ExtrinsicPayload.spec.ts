@@ -23,6 +23,7 @@ describe('ExtrinsicPayload', (): void => {
     const a = new ExtrinsicPayload(registry, TEST, { version: 4 });
     const b = new ExtrinsicPayload(registry, a.toU8a(), { version: 4 });
 
+    expect(a.inspect()).toEqual(b.inspect());
     expect(a.toJSON()).toEqual(b.toJSON());
   });
 
@@ -30,6 +31,7 @@ describe('ExtrinsicPayload', (): void => {
     const a = new ExtrinsicPayload(registry, TEST, { version: 4 });
     const b = new ExtrinsicPayload(registry, a.toHex(), { version: 4 });
 
+    expect(a.inspect()).toEqual(b.inspect());
     expect(a.toJSON()).toEqual(b.toJSON());
   });
 

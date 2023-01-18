@@ -166,43 +166,30 @@ function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainPr
 }
 
 export class TypeRegistry implements Registry {
-  #classes = new Map<string, CodecClass>();
-
-  #definitions = new Map<string, string>();
-
-  #firstCallIndex: Uint8Array | null = null;
-
-  #lookup?: PortableRegistry;
-
-  #metadata?: MetadataLatest;
-
-  #metadataVersion = 0;
-
-  readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
-
-  readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
-
-  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
-
-  readonly #moduleMap: Record<string, string[]> = {};
-
-  #unknownTypes = new Map<string, boolean>();
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
 
   #chainProperties?: ChainProperties;
-
+  #classes = new Map<string, CodecClass>();
+  #definitions = new Map<string, string>();
+  #firstCallIndex: Uint8Array | null = null;
   #hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
-
-  readonly #knownDefaults: Record<string, CodecClass>;
-
-  readonly #knownDefinitions: Record<string, Definitions>;
-
   #knownTypes: RegisteredTypes = {};
-
+  #lookup?: PortableRegistry;
+  #metadata?: MetadataLatest;
+  #metadataVersion = 0;
   #signedExtensions: string[] = fallbackExtensions;
-
+  #unknownTypes = new Map<string, boolean>();
   #userExtensions?: ExtDef;
 
-  public createdAtHash?: Hash;
+  readonly #knownDefaults: Record<string, CodecClass>;
+  readonly #knownDefinitions: Record<string, Definitions>;
+  readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
+  readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
+  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
+  readonly #moduleMap: Record<string, string[]> = {};
+
+  public $createdAtHash?: Hash;
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
@@ -215,7 +202,7 @@ export class TypeRegistry implements Registry {
     }
 
     if (createdAtHash) {
-      this.createdAtHash = this.createType('Hash', createdAtHash);
+      this.$createdAtHash = this.createType('BlockHash', createdAtHash);
     }
   }
 

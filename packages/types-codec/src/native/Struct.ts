@@ -103,14 +103,18 @@ export class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
-  public createdAtHash?: IU8a;
-
-  public readonly initialU8aLength?: number;
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
 
   public readonly registry: Registry;
 
-  readonly #jsonMap: Map<keyof S, string>;
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
+  readonly #jsonMap: Map<keyof S, string>;
   readonly #Types: Definition;
 
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: Options = {}) {
@@ -123,7 +127,7 @@ export class Struct<
 
     super(decoded);
 
-    this.initialU8aLength = decodedLength;
+    this.$initialU8aLength = decodedLength;
     this.registry = registry;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;

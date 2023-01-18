@@ -70,11 +70,16 @@ function decodeSet<V extends Codec> (registry: Registry, valType: CodecClass<V> 
 }
 
 export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V> {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
-
-  readonly initialU8aLength?: number;
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
   readonly #ValClass: CodecClass<V>;
 
@@ -84,7 +89,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     super(sortSet(values));
 
     this.registry = registry;
-    this.initialU8aLength = decodedLength;
+    this.$initialU8aLength = decodedLength;
     this.#ValClass = ValClass;
   }
 

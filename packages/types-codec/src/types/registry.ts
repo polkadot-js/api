@@ -32,6 +32,7 @@ export type RegistryTypes =
 
 export interface CodecCreateOptions {
   blockHash?: Uint8Array | string | null;
+  isFallback?: boolean;
   isOptional?: boolean;
   isPedantic?: boolean;
 }
@@ -51,13 +52,8 @@ export interface Registry {
   readonly chainDecimals: number[];
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
-  // readonly knownTypes: RegisteredTypes;
-  // readonly lookup: PortableRegistry;
-  // readonly metadata: MetadataLatest;
-  // readonly unknownTypes: string[];
-  // readonly signedExtensions: string[];
 
-  createdAtHash?: IU8a;
+  $createdAtHash?: IU8a;
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
   findMetaError (errorIndex: Uint8Array | { error: BN, index: BN } | { error: BN | Uint8Array, index: BN }): RegistryError;

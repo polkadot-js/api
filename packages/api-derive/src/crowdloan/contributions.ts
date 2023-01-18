@@ -33,7 +33,7 @@ function _getUpdates (api: DeriveApi, paraId: string | number | BN): Observable<
         added = added.concat(...changes.added);
         removed = removed.concat(...changes.removed);
 
-        return of({ added, addedDelta: changes.added, blockHash: events.createdAtHash?.toHex() || '-', removed, removedDelta: changes.removed });
+        return of({ added, addedDelta: changes.added, blockHash: events.$createdAtHash?.toHex() || '-', removed, removedDelta: changes.removed });
       }
 
       return EMPTY;
@@ -52,7 +52,7 @@ function _eventTriggerAll (api: DeriveApi, paraId: string | number | BN): Observ
       );
 
       return items.length
-        ? of(events.createdAtHash?.toHex() || '-')
+        ? of(events.$createdAtHash?.toHex() || '-')
         : EMPTY;
     }),
     startWith('-')

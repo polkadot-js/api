@@ -17,11 +17,44 @@ export interface Inspect {
 /**
  * @name Codec
  * @description
- * The base Codec interface. All types implement the interface provided here. Additionally
- * implementors can add their own specific interfaces and helpers with getters and functions.
- * The Codec Base is however required for operating as an encoding/decoding layer
+ * The base Codec interface. All types implement the interface provided here.
+ * Additionally implementors can add their own specific interfaces and helpers
+ * with getters and functions. The Codec Base is however required for operating
+ * as an encoding/decoding layer
  */
 export interface Codec {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  createdAtHash?: never;
+
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  initialU8aLength?: never;
+
+  /**
+   * @description
+   * The block at which this value was retrieved/created (set to non-empty when
+   * retrieved from storage)
+   */
+  $createdAtHash?: IU8a;
+
+  /**
+   * @description
+   * The length of the initial encoded value (Only available when the value was
+   * constructed from a Uint8Array input)
+   */
+  $initialU8aLength?: number;
+
+  /**
+   * @description
+   * (internal usage) Indicates that the value was created via a fallback. This
+   * is used when with data specified in the metadata when the storage entry is
+   * empty.
+   *
+   * With metadata fallback values (available as defaults on most storage entries)
+   * any empty storage item should erturn the default. (This is the same as the
+   * implementation on the Substrate runtime)
+   */
+  $isStorageFallback?: boolean;
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -33,11 +66,6 @@ export interface Codec {
   readonly hash: IU8a;
 
   /**
-   * @description The length of the initial encoded value (Only available when constructed from a Uint8Array)
-   */
-  readonly initialU8aLength?: number;
-
-  /**
    * @description Checks if the value is an empty value
    */
   readonly isEmpty: boolean;
@@ -46,11 +74,6 @@ export interface Codec {
    * @description The registry associated with this object
    */
   readonly registry: Registry;
-
-  /**
-   * @description The block at which this value was retrieved/created (set to non-empty when retrieved from storage)
-   */
-  createdAtHash?: IU8a;
 
   /**
    * @description Compares the value of the input to see if there is a match

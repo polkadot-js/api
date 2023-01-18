@@ -16,9 +16,16 @@ import { compareArray } from '../utils/compareArray';
  * @noInheritDoc
  */
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
   /**
    * @description This ensures that operators such as clice, filter, map, etc. return

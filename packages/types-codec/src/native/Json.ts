@@ -22,9 +22,16 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
  * @noInheritDoc
  */
 export class Json extends Map<string, any> implements Codec {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
   constructor (registry: Registry, value?: Record<string, unknown> | null) {
     const decoded = decodeJson(value);

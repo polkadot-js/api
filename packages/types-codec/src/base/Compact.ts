@@ -47,14 +47,18 @@ function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<
  * a number and making the compact representation thereof
  */
 export class Compact<T extends INumber> implements ICompact<T> {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
-
-  readonly initialU8aLength?: number;
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
   readonly #Type: CodecClass<T>;
-
   readonly #raw: T;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
@@ -63,7 +67,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
     const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
 
-    this.initialU8aLength = decodedLength;
+    this.$initialU8aLength = decodedLength;
     this.#raw = raw;
   }
 

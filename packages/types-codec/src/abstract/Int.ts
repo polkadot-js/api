@@ -72,13 +72,18 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<strin
  * @noInheritDoc
  */
 export abstract class AbstractInt extends BN implements INumber {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
-
-  public createdAtHash?: IU8a;
-
   public readonly encodedLength: number;
-
   public readonly isUnsigned: boolean;
+
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
   readonly #bitLength: UIntBitLength;
 
@@ -98,6 +103,7 @@ export abstract class AbstractInt extends BN implements INumber {
     this.registry = registry;
     this.#bitLength = bitLength;
     this.encodedLength = this.#bitLength / 8;
+    this.$initialU8aLength = this.#bitLength / 8;
     this.isUnsigned = !isSigned;
 
     const isNegative = this.isNeg();

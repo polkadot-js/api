@@ -16,11 +16,16 @@ import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  public createdAtHash?: IU8a;
-
-  public readonly initialU8aLength?: number;
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
 
   public readonly registry: Registry;
+
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
   /**
    * @description This ensures that operators such as clice, filter, map, etc. return
@@ -34,7 +39,7 @@ export class Raw extends Uint8Array implements IU8a {
     super(u8aToU8a(value));
 
     this.registry = registry;
-    this.initialU8aLength = initialU8aLength;
+    this.$initialU8aLength = initialU8aLength;
   }
 
   /**

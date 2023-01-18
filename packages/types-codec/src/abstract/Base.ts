@@ -9,17 +9,22 @@ import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types
  * @description A type extends the Base class, when it holds a value
  */
 export abstract class AbstractBase<T extends Codec> implements Codec {
-  public createdAtHash?: IU8a;
-
-  public readonly initialU8aLength?: number;
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
 
   public readonly registry: Registry;
+
+  public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
   readonly #raw: T;
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
+    this.$initialU8aLength = initialU8aLength;
     this.#raw = value;
-    this.initialU8aLength = initialU8aLength;
     this.registry = registry;
   }
 
