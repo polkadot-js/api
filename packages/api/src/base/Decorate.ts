@@ -60,64 +60,37 @@ function getAtQueryFn<ApiType extends ApiTypes> (api: ApiDecoration<ApiType>, { 
 
 export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   readonly #instanceId: string;
-
-  #registry: Registry;
-
   readonly #runtimeLog: Record<string, boolean> = {};
 
+  #registry: Registry;
   #storageGetQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
-
   #storageSubQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
 
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
 
+  protected _type: ApiTypes;
   protected _call: QueryableCalls<ApiType> = {} as QueryableCalls<ApiType>;
-
   protected _consts: QueryableConsts<ApiType> = {} as QueryableConsts<ApiType>;
-
   protected _derive?: ReturnType<Decorate<ApiType>['_decorateDerive']>;
-
   protected _errors: DecoratedErrors<ApiType> = {} as DecoratedErrors<ApiType>;
-
   protected _events: DecoratedEvents<ApiType> = {} as DecoratedEvents<ApiType>;
-
   protected _extrinsics?: SubmittableExtrinsics<ApiType>;
-
   protected _extrinsicType = GenericExtrinsic.LATEST_EXTRINSIC_VERSION;
-
   protected _genesisHash?: Hash;
-
   protected _isConnected: BehaviorSubject<boolean>;
-
   protected _isReady = false;
+  protected _query: QueryableStorage<ApiType> = {} as QueryableStorage<ApiType>;
+  protected _queryMulti?: QueryableStorageMulti<ApiType>;
+  protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
+  protected _rpcCore: RpcCore & RpcInterface;
+  protected _runtimeMap: Record<HexString, string> = {};
+  protected _runtimeChain?: Text;
+  protected _runtimeMetadata?: Metadata;
+  protected _runtimeVersion?: RuntimeVersion;
+  protected _rx: ApiInterfaceRx = { call: {} as QueryableCalls<'rxjs'>, consts: {} as QueryableConsts<'rxjs'>, query: {} as QueryableStorage<'rxjs'>, tx: {} as SubmittableExtrinsics<'rxjs'> } as ApiInterfaceRx;
 
   protected readonly _options: ApiOptions;
-
-  protected _query: QueryableStorage<ApiType> = {} as QueryableStorage<ApiType>;
-
-  protected _queryMulti?: QueryableStorageMulti<ApiType>;
-
-  protected _rpc?: DecoratedRpc<ApiType, RpcInterface>;
-
-  protected _rpcCore: RpcCore & RpcInterface;
-
-  protected _runtimeMap: Record<HexString, string> = {};
-
-  protected _runtimeChain?: Text;
-
-  protected _runtimeMetadata?: Metadata;
-
-  protected _runtimeVersion?: RuntimeVersion;
-
-  protected _rx: ApiInterfaceRx = {
-    call: {} as QueryableCalls<'rxjs'>,
-    consts: {} as QueryableConsts<'rxjs'>,
-    query: {} as QueryableStorage<'rxjs'>,
-    tx: {} as SubmittableExtrinsics<'rxjs'>
-  } as ApiInterfaceRx;
-
-  protected _type: ApiTypes;
 
   /**
    * This is the one and only method concrete children classes need to implement.

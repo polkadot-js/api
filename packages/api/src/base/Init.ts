@@ -31,13 +31,9 @@ function textToString (t: Text): string {
 
 export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   #atLast: [string, ApiDecoration<ApiType>] | null = null;
-
   #healthTimer: ReturnType<typeof setInterval> | null = null;
-
   #registries: VersionedRegistry<ApiType>[] = [];
-
   #updateSub?: Subscription | null = null;
-
   #waitingRegistries: Record<HexString, Promise<VersionedRegistry<ApiType>>> = {};
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {

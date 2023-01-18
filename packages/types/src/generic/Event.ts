@@ -42,13 +42,9 @@ function decodeEvent (registry: Registry, value?: Uint8Array): Decoded {
  */
 export class GenericEventData extends Tuple implements IEventData {
   readonly #meta: EventMetadataLatest;
-
   readonly #method: string;
-
   readonly #names: string[] | null = null;
-
   readonly #section: string;
-
   readonly #typeDef: TypeDef[];
 
   constructor (registry: Registry, value: Uint8Array, meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {

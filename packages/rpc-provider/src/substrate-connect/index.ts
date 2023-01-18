@@ -60,6 +60,7 @@ export class ScProvider implements ProviderInterface {
   readonly #requests: Map<number, ResponseCallback> = new Map();
   readonly #wellKnownChains: Set<ScType.WellKnownChain>;
   readonly #eventemitter: EventEmitter = new EventEmitter();
+
   #chain: Promise<ScType.Chain> | null = null;
   #isChainReady = false;
 

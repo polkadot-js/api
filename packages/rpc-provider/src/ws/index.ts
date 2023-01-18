@@ -81,35 +81,21 @@ function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): voi
  */
 export class WsProvider implements ProviderInterface {
   readonly #callCache = new LRUCache();
-
   readonly #coder: RpcCoder;
-
   readonly #endpoints: string[];
-
   readonly #headers: Record<string, string>;
-
   readonly #eventemitter: EventEmitter;
-
   readonly #handlers: Record<string, WsStateAwaiting> = {};
-
   readonly #isReadyPromise: Promise<WsProvider>;
-
   readonly #stats: ProviderStats;
-
   readonly #waitingForId: Record<string, JsonRpcResponse> = {};
 
   #autoConnectMs: number;
-
   #endpointIndex: number;
-
   #isConnected = false;
-
   #subscriptions: Record<string, WsStateSubscription> = {};
-
   #timeoutId?: ReturnType<typeof setInterval> | null = null;
-
   #websocket: WebSocket | null;
-
   #timeout: number;
 
   /**
