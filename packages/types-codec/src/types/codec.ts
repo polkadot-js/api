@@ -24,6 +24,16 @@ export interface Inspect {
  */
 export interface Codec {
   /**
+   * @deprecated This is not populated anymore. Use $createdAtHash instead.
+   */
+  createdAtHash?: never;
+
+  /**
+   * @deprecated This is not populated anymore. Use $initialU8aLength instead.
+   */
+  initialU8aLength?: never;
+
+  /**
    * @description
    * The block at which this value was retrieved/created (set to non-empty when
    * retrieved from storage)
