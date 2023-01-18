@@ -77,6 +77,8 @@ export abstract class AbstractInt extends BN implements INumber {
   public readonly isUnsigned: boolean;
 
   public $createdAtHash?: IU8a;
+  public $initialU8aLength?: number;
+  public $isStorageFallback?: boolean;
 
   readonly #bitLength: UIntBitLength;
 
@@ -96,6 +98,7 @@ export abstract class AbstractInt extends BN implements INumber {
     this.registry = registry;
     this.#bitLength = bitLength;
     this.encodedLength = this.#bitLength / 8;
+    this.$initialU8aLength = this.#bitLength / 8;
     this.isUnsigned = !isSigned;
 
     const isNegative = this.isNeg();
