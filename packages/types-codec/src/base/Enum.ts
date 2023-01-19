@@ -183,7 +183,7 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
  * an extension to enum where the value type is determined by the actual index.
  */
 export class Enum implements IEnum {
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -206,7 +206,7 @@ export class Enum implements IEnum {
 
     this.$isBasic = isBasic;
 
-    this.registry = registry;
+    this.$registry = registry;
     this.#def = def;
     this.#isIndexed = isIndexed;
     this.#indexes = Object.values(def).map(({ index }) => index);
@@ -231,6 +231,11 @@ export class Enum implements IEnum {
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
+  }
+
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
   }
 
   /** @deprecated Use $isBasic instead. This getter will be removed in a future version */
@@ -300,7 +305,7 @@ export class Enum implements IEnum {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -455,7 +460,7 @@ export class Enum implements IEnum {
 
     const entries = Object.entries(this.#def);
 
-    return typesToMap(this.registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
+    return typesToMap(this.$registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
       out[0][i] = Type;
       out[1][i] = key;
 

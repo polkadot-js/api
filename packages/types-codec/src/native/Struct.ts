@@ -103,7 +103,7 @@ export class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -123,7 +123,7 @@ export class Struct<
     super(decoded);
 
     this.$initialU8aLength = decodedLength;
-    this.registry = registry;
+    this.$registry = registry;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;
   }
@@ -146,6 +146,11 @@ export class Struct<
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
+  }
+
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
   }
 
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
@@ -207,7 +212,7 @@ export class Struct<
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -218,7 +223,7 @@ export class Struct<
     const [Types, keys] = this.#Types;
 
     for (let i = 0; i < keys.length; i++) {
-      result[keys[i]] = new Types[i](this.registry).toRawType();
+      result[keys[i]] = new Types[i](this.$registry).toRawType();
     }
 
     return result as E;
@@ -340,7 +345,7 @@ export class Struct<
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return stringify(typesToMap(this.registry, this.#Types));
+    return stringify(typesToMap(this.$registry, this.#Types));
   }
 
   /**

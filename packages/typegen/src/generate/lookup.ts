@@ -240,7 +240,7 @@ function generateRegistry (registry: Registry, filtered: [PortableType, TypeDef]
 
 function generateLookup (destDir: string, entries: [string, HexString][]): void {
   entries.reduce<string[]>((exclude, [subPath, staticMeta]): string[] => {
-    const { lookup, registry } = initMeta(staticMeta).metadata.asLatest;
+    const { $registry: registry, lookup } = initMeta(staticMeta).metadata.asLatest;
     const filtered = getFilteredTypes(lookup, exclude);
 
     generateLookupDefs(registry, filtered, destDir, subPath);

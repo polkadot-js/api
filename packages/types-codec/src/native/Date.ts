@@ -36,7 +36,7 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
  * @noInheritDoc
  */
 export class CodecDate extends Date implements INumber {
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
   readonly $encodedLength = BITLENGTH / 8;
@@ -46,7 +46,7 @@ export class CodecDate extends Date implements INumber {
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
     super(decodeDate(value));
 
-    this.registry = registry;
+    this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
@@ -69,11 +69,16 @@ export class CodecDate extends Date implements INumber {
     return warnGet(this, 'isEmpty');
   }
 
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
+  }
+
   /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
