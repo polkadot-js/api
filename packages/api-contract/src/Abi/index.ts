@@ -75,19 +75,13 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
 }
 
 export class Abi {
-  public readonly events: AbiEvent[];
-
-  public readonly constructors: AbiConstructor[];
-
-  public readonly info: ContractProjectInfo;
-
-  public readonly json: Record<string, unknown>;
-
-  public readonly messages: AbiMessage[];
-
-  public readonly metadata: ContractMetadataLatest;
-
-  public readonly registry: Registry;
+  readonly events: AbiEvent[];
+  readonly constructors: AbiConstructor[];
+  readonly info: ContractProjectInfo;
+  readonly json: Record<string, unknown>;
+  readonly messages: AbiMessage[];
+  readonly metadata: ContractMetadataLatest;
+  readonly registry: Registry;
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
     [this.json, this.registry, this.metadata, this.info] = parseJson(
