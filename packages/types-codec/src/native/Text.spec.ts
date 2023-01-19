@@ -72,7 +72,7 @@ describe('Text', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        new Text(registry, 'abcde').inspect()
+        new Text(registry, 'abcde').inspectU8a()
       ).toEqual({
         outer: [new Uint8Array([5 << 2]), stringToU8a('abcde')]
       });

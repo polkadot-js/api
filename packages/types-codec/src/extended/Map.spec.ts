@@ -107,7 +107,7 @@ describe('CodecMap', (): void => {
       new CodecMap(registry, Text, Text, new Map([
         [new Text(registry, '1'), new Text(registry, 'foo')],
         [new Text(registry, '2'), new Text(registry, 'bar')]
-      ])).inspect()
+      ])).inspectU8a()
     ).toEqual({
       inner: [
         { outer: [new Uint8Array([1 << 2]), stringToU8a('1')] },

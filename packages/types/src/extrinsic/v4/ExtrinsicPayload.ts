@@ -40,8 +40,8 @@ export class GenericExtrinsicPayloadV4 extends Struct {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspect (): Inspect {
-    return super.inspect({ method: true });
+  public override inspectU8a (): Inspect {
+    return super.inspectU8a({ method: true });
   }
 
   /**

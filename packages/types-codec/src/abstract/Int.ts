@@ -175,7 +175,7 @@ export abstract class AbstractInt extends BN implements INumber {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspect (): Inspect {
+  public inspectU8a (): Inspect {
     return {
       outer: [this.toU8a()]
     };

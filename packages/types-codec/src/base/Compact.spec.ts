@@ -98,7 +98,7 @@ describe('Compact', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        new (Compact.with(U32))(registry, 0xffff).inspect()
+        new (Compact.with(U32))(registry, 0xffff).inspectU8a()
       ).toEqual({
         outer: [new Uint8Array([254, 255, 3, 0])]
       });

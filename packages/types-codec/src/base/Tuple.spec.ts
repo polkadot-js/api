@@ -123,7 +123,7 @@ describe('Tuple', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        tuple.inspect()
+        tuple.inspectU8a()
       ).toEqual({
         inner: [
           { outer: [new Uint8Array([7 << 2]), stringToU8a('bazzing')] },

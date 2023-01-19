@@ -93,7 +93,7 @@ describe('U8aFixed', (): void => {
     });
 
     it('has a sane inspect', (): void => {
-      expect(u8a.inspect()).toEqual({
+      expect(u8a.inspectU8a()).toEqual({
         outer: [new Uint8Array([1, 2, 3, 4])]
       });
     });

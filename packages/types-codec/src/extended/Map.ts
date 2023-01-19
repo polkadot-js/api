@@ -173,12 +173,12 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspect (): Inspect {
+  public inspectU8a (): Inspect {
     const inner = new Array<Inspect>();
 
     for (const [k, v] of this.entries()) {
-      inner.push(k.inspect());
-      inner.push(v.inspect());
+      inner.push(k.inspectU8a());
+      inner.push(v.inspectU8a());
     }
 
     return {

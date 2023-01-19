@@ -64,7 +64,7 @@ describe('Bool', (): void => {
     });
 
     it('has a sane inspect', (): void => {
-      expect(new Bool(registry, true).inspect()).toEqual({
+      expect(new Bool(registry, true).inspectU8a()).toEqual({
         outer: [new Uint8Array([1])]
       });
     });

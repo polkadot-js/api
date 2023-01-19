@@ -266,13 +266,13 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  override inspectU8a (): Inspect {
     const encoded = u8aConcat(...this.toU8aInner());
 
     return {
       inner: this.isSigned
-        ? this.inner.inspect().inner
-        : this.inner.method.inspect().inner,
+        ? this.inner.inspectU8a().inner
+        : this.inner.method.inspectU8a().inner,
       outer: [compactToU8a(encoded.length), new Uint8Array([this.version])]
     };
   }

@@ -380,7 +380,7 @@ describe('Struct', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        new Struct(registry, def, val).inspect()
+        new Struct(registry, def, val).inspectU8a()
       ).toEqual({
         inner: [
           {
