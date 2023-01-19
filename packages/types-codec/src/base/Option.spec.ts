@@ -37,7 +37,7 @@ describe('Option', (): void => {
     ].forEach((test): void => {
       expect(test.isSome).toBe(true);
       expect(test.isNone).toBe(false);
-      expect(test.isEmpty).toBe(false);
+      expect(test.$isEmpty).toBe(false);
       expect(test.toU8a()).toEqual(new Uint8Array([1]));
       expect(test.unwrap().toHex()).toEqual('0x');
     });

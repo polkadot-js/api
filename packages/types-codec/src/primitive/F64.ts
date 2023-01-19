@@ -10,5 +10,5 @@ import { Float } from '../native/Float';
  */
 export class f64 extends Float.with(64) {
   // NOTE without this, we cannot properly determine extensions
-  public readonly __FloatType = 'f64';
+  readonly __FloatType = 'f64';
 }

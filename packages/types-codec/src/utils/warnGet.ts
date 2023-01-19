@@ -4,7 +4,7 @@
 const hasWarned: Record<string, boolean> = {};
 
 /** @description Warns (once, per class) on the use of a deprecated interface */
-export function warnGet <T> (obj: Record<string, any>, name: 'createdAtHash' | 'initialU8aLength'): T {
+export function warnGet <T> (obj: Record<string, any>, name: 'createdAtHash' | 'initialU8aLength' | 'isBasic' | 'isEmpty' | 'isNone' | 'isUnsigned'): T {
   const clazz = `${obj.constructor?.name || 'Codec'}`;
   const check = `${clazz}.${name}`;
   const pass = `$${name}`;

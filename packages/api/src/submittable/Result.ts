@@ -35,21 +35,21 @@ function extractInfo (events: EventRecord[] = []): DispatchInfo | undefined {
 }
 
 export class SubmittableResult implements ISubmittableResult {
-  public readonly dispatchError?: DispatchError;
+  readonly dispatchError?: DispatchError;
 
-  public readonly dispatchInfo?: DispatchInfo;
+  readonly dispatchInfo?: DispatchInfo;
 
-  public readonly internalError?: Error;
+  readonly internalError?: Error;
 
-  public readonly events: EventRecord[];
+  readonly events: EventRecord[];
 
-  public readonly status: ExtrinsicStatus;
+  readonly status: ExtrinsicStatus;
 
-  public readonly txHash: Hash;
+  readonly txHash: Hash;
 
-  public readonly txIndex?: number;
+  readonly txIndex?: number;
 
-  public readonly blockNumber?: BlockNumber;
+  readonly blockNumber?: BlockNumber;
 
   constructor ({ blockNumber, dispatchError, dispatchInfo, events, internalError, status, txHash, txIndex }: SubmittableResultValue) {
     this.dispatchError = dispatchError || extractError(events);

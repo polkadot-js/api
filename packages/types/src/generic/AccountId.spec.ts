@@ -19,7 +19,7 @@ describe('AccountId', (): void => {
     });
 
     it('is empty by default', (): void => {
-      expect(id.isEmpty).toBe(true);
+      expect(id.$isEmpty).toBe(true);
     });
 
     it('equals the empty address', (): void => {
@@ -125,7 +125,7 @@ describe('AccountId', (): void => {
       expect(
         registry
           .createType('AccountId', 'FVU8T5yaAssHAUwo3PnKso7fqNthEqJZGCZgJZSR9cKjWAf')
-          .isEmpty
+          .$isEmpty
       ).toBe(false);
     });
 

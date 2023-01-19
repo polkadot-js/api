@@ -58,9 +58,9 @@ describe('Bool', (): void => {
     });
 
     it('has sane isEmpty aligning with the rest', (): void => {
-      expect(new Bool(registry).isEmpty).toBe(true);
-      expect(new Bool(registry, false).isEmpty).toBe(true);
-      expect(new Bool(registry, true).isEmpty).toBe(false);
+      expect(new Bool(registry).$isEmpty).toBe(true);
+      expect(new Bool(registry, false).$isEmpty).toBe(true);
+      expect(new Bool(registry, true).$isEmpty).toBe(false);
     });
 
     it('has a sane inspect', (): void => {
