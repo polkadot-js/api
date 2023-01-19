@@ -15,7 +15,7 @@ import { warnGet } from '../utils';
  * @noInheritDoc
  */
 export class bool extends Boolean implements Codec {
-  public readonly registry: Registry;
+  readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength = 1;
@@ -43,6 +43,11 @@ export class bool extends Boolean implements Codec {
     return warnGet(this, 'initialU8aLength');
   }
 
+  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
+  public get isEmpty (): boolean {
+    return warnGet(this, 'isEmpty');
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -60,7 +65,7 @@ export class bool extends Boolean implements Codec {
   /**
    * @description Checks if the value is an empty value (true when it wraps false/default)
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.isFalse;
   }
 

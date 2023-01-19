@@ -10,5 +10,5 @@ import { Int } from '../base/Int';
  */
 export class i16 extends Int.with(16) {
   // NOTE without this, we cannot properly determine extensions
-  public readonly __IntType = 'i16';
+  readonly __IntType = 'i16';
 }

@@ -74,13 +74,13 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<strin
  * @noInheritDoc
  */
 export abstract class AbstractInt extends BN implements INumber {
-  public readonly registry: Registry;
-  public readonly encodedLength: number;
-  public readonly isUnsigned: boolean;
+  readonly registry: Registry;
+  readonly encodedLength: number;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
+  readonly $isUnsigned: boolean;
 
   readonly #bitLength: UIntBitLength;
 
@@ -99,9 +99,8 @@ export abstract class AbstractInt extends BN implements INumber {
 
     this.registry = registry;
     this.#bitLength = bitLength;
-    this.encodedLength = this.#bitLength / 8;
-    this.$initialU8aLength = this.#bitLength / 8;
-    this.isUnsigned = !isSigned;
+    this.encodedLength = this.$initialU8aLength = this.#bitLength / 8;
+    this.$isUnsigned = !isSigned;
 
     const isNegative = this.isNeg();
     const maxBits = bitLength - (isSigned && !isNegative ? 1 : 0);
@@ -123,6 +122,16 @@ export abstract class AbstractInt extends BN implements INumber {
     return warnGet(this, 'initialU8aLength');
   }
 
+  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
+  public get isEmpty (): boolean {
+    return warnGet(this, 'isEmpty');
+  }
+
+  /** @deprecated Use $isUnsigned instead. This getter will be removed in a future version */
+  public get isUnsigned (): boolean {
+    return warnGet(this, 'isUnsigned');
+  }
+
   /**
    * @description returns a hash of the contents
    */
@@ -133,7 +142,7 @@ export abstract class AbstractInt extends BN implements INumber {
   /**
    * @description Checks if the value is a zero value (align elsewhere)
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.isZero();
   }
 
@@ -153,7 +162,7 @@ export abstract class AbstractInt extends BN implements INumber {
     // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
       isHex(other)
-        ? hexToBn(other.toString(), { isLe: false, isNegative: !this.isUnsigned })
+        ? hexToBn(other.toString(), { isLe: false, isNegative: !this.$isUnsigned })
         : bnToBn(other as string)
     );
   }
@@ -198,7 +207,7 @@ export abstract class AbstractInt extends BN implements INumber {
     return bnToHex(this, {
       bitLength: this.bitLength(),
       isLe,
-      isNegative: !this.isUnsigned
+      isNegative: !this.$isUnsigned
     });
   }
 
@@ -255,7 +264,7 @@ export abstract class AbstractInt extends BN implements INumber {
     // underlying it always matches (no matter which length it actually is)
     return this instanceof this.registry.createClassUnsafe('Balance')
       ? 'Balance'
-      : `${this.isUnsigned ? 'u' : 'i'}${this.bitLength()}`;
+      : `${this.$isUnsigned ? 'u' : 'i'}${this.bitLength()}`;
   }
 
   /**
@@ -276,7 +285,7 @@ export abstract class AbstractInt extends BN implements INumber {
     return bnToU8a(this, {
       bitLength: this.bitLength(),
       isLe: true,
-      isNegative: !this.isUnsigned
+      isNegative: !this.$isUnsigned
     });
   }
 }
