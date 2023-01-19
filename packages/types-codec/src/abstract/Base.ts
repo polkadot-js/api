@@ -11,11 +11,10 @@ import { warnGet } from '../utils';
  * @description A type extends the Base class, when it holds a value
  */
 export abstract class AbstractBase<T extends Codec> implements Codec {
-  readonly registry: Registry;
-
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
+  readonly $registry: Registry;
 
   readonly #raw: T;
 
@@ -43,6 +42,11 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
+  }
+
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
   }
 
   /**

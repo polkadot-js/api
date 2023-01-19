@@ -47,7 +47,7 @@ export class DoNotConstruct implements Codec {
   }
 
   /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): boolean {
+  public get registry (): Registry {
     return warnGet(this, 'registry');
   }
 

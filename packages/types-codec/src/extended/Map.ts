@@ -137,7 +137,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   }
 
   /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): boolean {
+  public get registry (): Registry {
     return warnGet(this, 'registry');
   }
 

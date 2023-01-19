@@ -27,7 +27,7 @@ interface CodecDeprecated {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version. */
   readonly isEmpty: boolean;
 
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
+  /** @deprecated Use $registry instead. This getter will be removed in a future version. */
   readonly registry: Registry;
 }
 

@@ -38,7 +38,7 @@ export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array
         ])
       ),
       map(([signedBlock, events, [, validators, author]]) =>
-        createSignedBlockExtended(events.registry, signedBlock, events, validators, author)
+        createSignedBlockExtended(events.$registry, signedBlock, events, validators, author)
       )
     )
   );

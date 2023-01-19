@@ -16,11 +16,10 @@ import { compareArray, warnGet } from '../utils';
  * @noInheritDoc
  */
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
-  readonly $registry: Registry;
-
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
+  readonly $registry: Registry;
 
   /**
    * @description This ensures that operators such as clice, filter, map, etc. return
@@ -57,7 +56,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   }
 
   /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): boolean {
+  public get registry (): Registry {
     return warnGet(this, 'registry');
   }
 

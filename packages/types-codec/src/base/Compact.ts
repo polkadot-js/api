@@ -47,11 +47,10 @@ function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<
  * a number and making the compact representation thereof
  */
 export class Compact<T extends INumber> implements ICompact<T> {
-  readonly registry: Registry;
-
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
+  readonly $registry: Registry;
 
   readonly #Type: CodecClass<T>;
   readonly #raw: T;
@@ -84,6 +83,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
+  }
+
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
   }
 
   public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {
