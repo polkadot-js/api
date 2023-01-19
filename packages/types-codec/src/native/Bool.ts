@@ -18,6 +18,7 @@ export class bool extends Boolean implements Codec {
   readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
+  readonly $encodedLength = 1;
   public $initialU8aLength = 1;
   public $isStorageFallback?: boolean;
 
@@ -38,6 +39,11 @@ export class bool extends Boolean implements Codec {
     return warnGet(this, 'createdAtHash');
   }
 
+  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
+  public get encodedLength (): number {
+    return warnGet(this, 'encodedLength');
+  }
+
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
@@ -46,13 +52,6 @@ export class bool extends Boolean implements Codec {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
-  }
-
-  /**
-   * @description The length of the value when encoded as a Uint8Array
-   */
-  public get encodedLength (): number {
-    return 1;
   }
 
   /**

@@ -14,10 +14,10 @@ import { warnGet } from '../utils';
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Null implements Codec {
-  readonly encodedLength = 0;
   readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
+  readonly $encodedLength = 0;
   public $initialU8aLength = 0;
   public $isStorageFallback?: boolean;
   readonly $isEmpty = true;
@@ -29,6 +29,11 @@ export class Null implements Codec {
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
   public get createdAtHash (): IU8a | undefined {
     return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
+  public get encodedLength (): number {
+    return warnGet(this, 'encodedLength');
   }
 
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */

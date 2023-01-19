@@ -223,6 +223,11 @@ export class Enum implements IEnum {
     return warnGet(this, 'createdAtHash');
   }
 
+  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
+  public get encodedLength (): number {
+    return warnGet(this, 'encodedLength');
+  }
+
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
@@ -287,8 +292,8 @@ export class Enum implements IEnum {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
-    return 1 + this.#raw.encodedLength;
+  public get $encodedLength (): number {
+    return 1 + this.#raw.$encodedLength;
   }
 
   /**
