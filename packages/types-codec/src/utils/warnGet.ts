@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-type Getters = 'createdAtHash' | 'encodedLength' | 'initialU8aLength' | 'isBasic' | 'isEmpty' | 'isNone' | 'isUnsigned';
+type Getters = 'createdAtHash' | 'encodedLength' | 'hash' | 'initialU8aLength' | 'isBasic' | 'isEmpty' | 'isNone' | 'isUnsigned';
 
 const hasWarned: Record<string, boolean> = {};
 

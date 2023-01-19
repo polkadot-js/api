@@ -245,7 +245,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   /**
    * @description returns a hash of the contents
    */
-  public override get hash (): CodecHash {
+  public override get $hash (): CodecHash {
     if (!this.#hashCache) {
       this.#hashCache = super.hash;
     }

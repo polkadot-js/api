@@ -52,7 +52,7 @@ export class GenericBlock extends Struct {
   /**
    * @description Block/header [[Hash]]
    */
-  public override get hash (): IU8a {
+  public override get $hash (): IU8a {
     return this.header.hash;
   }
 

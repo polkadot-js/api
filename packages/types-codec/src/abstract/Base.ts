@@ -35,6 +35,11 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
     return warnGet(this, 'encodedLength');
   }
 
+  /** @deprecated Use $hash instead. This getter will be removed in a future version */
+  public get hash (): IU8a {
+    return warnGet(this, 'hash');
+  }
+
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
@@ -55,7 +60,7 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /**
    * @description returns a hash of the contents
    */
-  public get hash (): IU8a {
+  public get $hash (): IU8a {
     return this.registry.hash(this.toU8a());
   }
 

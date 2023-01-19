@@ -21,6 +21,9 @@ interface CodecDeprecated {
   /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
   readonly encodedLength: number;
 
+  /** @deprecated Use $hash instead. This getter will be removed in a future version. */
+  readonly hash: IU8a;
+
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   readonly initialU8aLength: number | undefined;
 
@@ -52,6 +55,12 @@ export interface Codec extends CodecDeprecated {
 
   /**
    * @description
+   * Returns a hash of the value created using the default hasher for the chain
+   */
+  readonly $hash: IU8a;
+
+  /**
+   * @description
    * The length of the initial encoded value (Only available when the value was
    * constructed from a Uint8Array input)
    */
@@ -74,11 +83,6 @@ export interface Codec extends CodecDeprecated {
    * implementation on the Substrate runtime)
    */
   $isStorageFallback?: boolean;
-
-  /**
-   * @description Returns a hash of the value
-   */
-  readonly hash: IU8a;
 
   /**
    * @description The registry associated with this object
