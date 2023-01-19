@@ -94,7 +94,7 @@ function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyTyp
 }
 
 export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements IMap<K, V> {
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -109,7 +109,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
-    this.registry = registry;
+    this.$registry = registry;
     this.$initialU8aLength = decodedLength;
     this.#KeyClass = KeyClass;
     this.#ValClass = ValClass;
@@ -141,6 +141,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     return warnGet(this, 'isEmpty');
   }
 
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -158,7 +163,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @description Returns a hash of the value
    */
   public get $hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -250,7 +255,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `${this.#type}<${this.registry.getClassName(this.#KeyClass) || new this.#KeyClass(this.registry).toRawType()},${this.registry.getClassName(this.#ValClass) || new this.#ValClass(this.registry).toRawType()}>`;
+    return `${this.#type}<${this.$registry.getClassName(this.#KeyClass) || new this.#KeyClass(this.$registry).toRawType()},${this.$registry.getClassName(this.#ValClass) || new this.#ValClass(this.$registry).toRawType()}>`;
   }
 
   /**

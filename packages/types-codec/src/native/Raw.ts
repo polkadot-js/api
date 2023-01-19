@@ -18,7 +18,7 @@ import { warnGet } from '../utils';
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -35,7 +35,7 @@ export class Raw extends Uint8Array implements IU8a {
   constructor (registry: Registry, value?: AnyU8a, initialU8aLength?: number) {
     super(u8aToU8a(value));
 
-    this.registry = registry;
+    this.$registry = registry;
     this.$initialU8aLength = initialU8aLength;
   }
 
@@ -64,6 +64,11 @@ export class Raw extends Uint8Array implements IU8a {
     return warnGet(this, 'isEmpty');
   }
 
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -75,7 +80,7 @@ export class Raw extends Uint8Array implements IU8a {
    * @description returns a hash of the contents
    */
   public get $hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**

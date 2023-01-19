@@ -77,7 +77,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const { lookup, pallets, registry } = meta.asLatest;
+    const { $registry: registry, lookup, pallets } = meta.asLatest;
     const modules = pallets
       .filter(({ events }) => events.isSome)
       .map(({ events, name }) => ({

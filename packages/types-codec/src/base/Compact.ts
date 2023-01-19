@@ -47,17 +47,16 @@ function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<
  * a number and making the compact representation thereof
  */
 export class Compact<T extends INumber> implements ICompact<T> {
-  readonly registry: Registry;
-
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
+  readonly $registry: Registry;
 
   readonly #Type: CodecClass<T>;
   readonly #raw: T;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
-    this.registry = registry;
+    this.$registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
     const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
@@ -91,6 +90,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
     return warnGet(this, 'isEmpty');
   }
 
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
+  }
+
   public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {
     let definition: CodecClass<O> | undefined;
 
@@ -116,7 +120,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description returns a hash of the contents
    */
   public get $hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -206,7 +210,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Compact<${this.registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
+    return `Compact<${this.$registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
   }
 
   /**

@@ -12,7 +12,7 @@ import { warnGet } from '../utils';
  * An unknown type that fails on construction with the type info
  */
 export class DoNotConstruct implements Codec {
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $isStorageFallback?: boolean;
@@ -20,7 +20,7 @@ export class DoNotConstruct implements Codec {
   #neverError: Error;
 
   constructor (registry: Registry, typeName = 'DoNotConstruct') {
-    this.registry = registry;
+    this.$registry = registry;
     this.#neverError = new Error(`DoNotConstruct: Cannot construct unknown type ${typeName}`);
 
     throw this.#neverError;
@@ -49,6 +49,11 @@ export class DoNotConstruct implements Codec {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
+  }
+
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
   }
 
   public static with (typeName?: string): CodecClass {

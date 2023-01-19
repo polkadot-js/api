@@ -11,18 +11,17 @@ import { warnGet } from '../utils';
  * @description A type extends the Base class, when it holds a value
  */
 export abstract class AbstractBase<T extends Codec> implements Codec {
-  readonly registry: Registry;
-
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
+  readonly $registry: Registry;
 
   readonly #raw: T;
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
     this.$initialU8aLength = initialU8aLength;
     this.#raw = value;
-    this.registry = registry;
+    this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
@@ -50,6 +49,11 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
     return warnGet(this, 'isEmpty');
   }
 
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): Registry {
+    return warnGet(this, 'registry');
+  }
+
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -61,7 +65,7 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    * @description returns a hash of the contents
    */
   public get $hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   public get inner (): T {
