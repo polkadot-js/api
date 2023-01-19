@@ -67,7 +67,7 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
    */
   public get genesisHash (): BlockHash {
     // NOTE only v3+
-    return this.inner.genesisHash || this.$registry.createTypeUnsafe('Hash', []);
+    return this.inner.genesisHash || this.registry.createTypeUnsafe('Hash', []);
   }
 
   /**
@@ -89,7 +89,7 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
    */
   public get specVersion (): INumber {
     // NOTE only v3+
-    return this.inner.specVersion || this.$registry.createTypeUnsafe('u32', []);
+    return this.inner.specVersion || this.registry.createTypeUnsafe('u32', []);
   }
 
   /**
@@ -97,7 +97,7 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
    */
   public get tip (): ICompact<INumber> {
     // NOTE from v2+
-    return this.inner.tip || this.$registry.createTypeUnsafe('Compact<Balance>', []);
+    return this.inner.tip || this.registry.createTypeUnsafe('Compact<Balance>', []);
   }
 
   /**
@@ -105,7 +105,7 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
    */
   public get transactionVersion (): INumber {
     // NOTE only v4+
-    return this.inner.transactionVersion || this.$registry.createTypeUnsafe('u32', []);
+    return this.inner.transactionVersion || this.registry.createTypeUnsafe('u32', []);
   }
 
   /**

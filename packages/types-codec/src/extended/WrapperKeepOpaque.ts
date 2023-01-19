@@ -103,7 +103,7 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {
-    return `${this.#opaqueName}<${this.$registry.getClassName(this.#Type) || (this.#decoded ? this.#decoded.toRawType() : new this.#Type(this.$registry).toRawType())}>`;
+    return `${this.#opaqueName}<${this.registry.getClassName(this.#Type) || (this.#decoded ? this.#decoded.toRawType() : new this.#Type(this.registry).toRawType())}>`;
   }
 
   /**

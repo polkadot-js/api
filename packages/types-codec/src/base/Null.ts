@@ -14,15 +14,16 @@ import { warnGet } from '../utils';
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Null implements Codec {
+  readonly registry: Registry;
+
   public $createdAtHash?: IU8a;
   readonly $encodedLength = 0;
   public $initialU8aLength = 0;
   public $isStorageFallback?: boolean;
   readonly $isEmpty = true;
-  readonly $registry: Registry;
 
   constructor (registry: Registry) {
-    this.$registry = registry;
+    this.registry = registry;
   }
 
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
@@ -43,11 +44,6 @@ export class Null implements Codec {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
   }
 
   /**

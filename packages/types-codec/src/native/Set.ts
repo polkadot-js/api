@@ -92,7 +92,7 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * a bitwise representation of the values.
  */
 export class CodecSet extends Set<string> implements ISet<string> {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -104,7 +104,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
   constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string, bitLength = 8) {
     super(decodeSet(setValues, value, bitLength));
 
-    this.$registry = registry;
+    this.registry = registry;
     this.#allowed = setValues;
     this.#byteLength = bitLength / 8;
   }
@@ -127,11 +127,6 @@ export class CodecSet extends Set<string> implements ISet<string> {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
   }
 
   public static with (values: SetValues, bitLength?: number): CodecClass<CodecSet> {
@@ -166,7 +161,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**

@@ -83,7 +83,7 @@ export function generateCallTypes (meta: Metadata, dest: string, extraTypes: Ext
 
     // find the system.Version in metadata
     let apis: Apis | null = null;
-    const { $registry: registry, pallets } = meta.asLatest;
+    const { pallets, registry } = meta.asLatest;
     const sysp = pallets.find(({ name }) => name.eq('System'));
 
     if (sysp) {

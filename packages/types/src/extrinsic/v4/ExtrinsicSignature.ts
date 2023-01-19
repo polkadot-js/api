@@ -141,9 +141,9 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): IExtrinsicSignature {
     return this._injectSignature(
-      toAddress(this.$registry, signer),
-      this.$registry.createTypeUnsafe('ExtrinsicSignature', [signature]),
-      new GenericExtrinsicPayloadV4(this.$registry, payload)
+      toAddress(this.registry, signer),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [signature]),
+      new GenericExtrinsicPayloadV4(this.registry, payload)
     );
   }
 
@@ -153,7 +153,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   public createPayload (method: Call, options: SignatureOptions): GenericExtrinsicPayloadV4 {
     const { era, runtimeVersion: { specVersion, transactionVersion } } = options;
 
-    return new GenericExtrinsicPayloadV4(this.$registry, objectSpread<ExtrinsicPayloadValue>({}, options, {
+    return new GenericExtrinsicPayloadV4(this.registry, objectSpread<ExtrinsicPayloadValue>({}, options, {
       era: era || IMMORTAL_ERA,
       method: method.toHex(),
       specVersion,
@@ -172,8 +172,8 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
     const payload = this.createPayload(method, options);
 
     return this._injectSignature(
-      toAddress(this.$registry, account.addressRaw),
-      this.$registry.createTypeUnsafe('ExtrinsicSignature', [payload.sign(account)]),
+      toAddress(this.registry, account.addressRaw),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [payload.sign(account)]),
       payload
     );
   }
@@ -189,8 +189,8 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
     const payload = this.createPayload(method, options);
 
     return this._injectSignature(
-      toAddress(this.$registry, address),
-      this.$registry.createTypeUnsafe('ExtrinsicSignature', [FAKE_SIGNATURE]),
+      toAddress(this.registry, address),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [FAKE_SIGNATURE]),
       payload
     );
   }

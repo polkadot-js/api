@@ -160,7 +160,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
             first(),
             switchMap((signingInfo): Observable<RuntimeDispatchInfo> => {
               // setup our options (same way as in signAndSend)
-              const eraOptions = makeEraOptions(api, this.$registry, allOptions, signingInfo);
+              const eraOptions = makeEraOptions(api, this.registry, allOptions, signingInfo);
               const signOptions = makeSignOptions(api, eraOptions, {});
               const u8a = this.isSigned
                 ? api.tx(this).signFake(address, signOptions).toU8a()
@@ -244,7 +244,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       return api.derive.tx.signingInfo(address, options.nonce, options.era).pipe(
         first(),
         mergeMap(async (signingInfo): Promise<UpdateInfo> => {
-          const eraOptions = makeEraOptions(api, this.$registry, options, signingInfo);
+          const eraOptions = makeEraOptions(api, this.registry, options, signingInfo);
           let updateId = -1;
 
           if (isKeyringPair(account)) {
@@ -316,7 +316,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         throw new Error('No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
       }
 
-      const payload = this.$registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
+      const payload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
         address,
         blockNumber: header ? header.number : 0,
         method: this.method

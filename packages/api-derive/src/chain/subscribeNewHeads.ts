@@ -39,7 +39,7 @@ export function subscribeNewHeads (instanceId: string, api: DeriveApi): () => Ob
       map(([header, validators, author]): HeaderExtended => {
         header.$createdAtHash = header.hash;
 
-        return createHeaderExtended(header.$registry, header, validators, author);
+        return createHeaderExtended(header.registry, header, validators, author);
       })
     )
   );

@@ -21,11 +21,12 @@ interface Options {
  * in some eth_* RPCs
  */
 export class Float extends Number implements IFloat {
+  readonly registry: Registry;
+
   public $createdAtHash?: IU8a;
   readonly $encodedLength: number;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
-  readonly $registry: Registry;
 
   readonly #bitLength: 32 | 64;
 
@@ -41,7 +42,7 @@ export class Float extends Number implements IFloat {
     this.#bitLength = bitLength;
     this.$encodedLength = bitLength / 8;
     this.$initialU8aLength = this.$encodedLength;
-    this.$registry = registry;
+    this.registry = registry;
   }
 
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
@@ -64,11 +65,6 @@ export class Float extends Number implements IFloat {
     return warnGet(this, 'isEmpty');
   }
 
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
-  }
-
   public static with (bitLength: 32 | 64): CodecClass<Float> {
     return class extends Float {
       constructor (registry: Registry, value?: AnyFloat) {
@@ -81,7 +77,7 @@ export class Float extends Number implements IFloat {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**

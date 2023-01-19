@@ -26,9 +26,6 @@ interface CodecDeprecated {
 
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version. */
   readonly isEmpty: boolean;
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version. */
-  readonly registry: Registry;
 }
 
 /**
@@ -79,16 +76,14 @@ export interface Codec extends CodecDeprecated {
   $isStorageFallback?: boolean;
 
   /**
-    * @description
-    * The type registry associated with this object, as available when this type
-    * was initially created.
-    */
-  readonly $registry: Registry;
-
-  /**
    * @description Returns a hash of the value
    */
   readonly hash: IU8a;
+
+  /**
+   * @description The registry associated with this object
+   */
+  readonly registry: Registry;
 
   /**
    * @description Compares the value of the input to see if there is a match

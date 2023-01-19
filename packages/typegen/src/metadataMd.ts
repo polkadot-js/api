@@ -256,7 +256,7 @@ function addConstants ({ lookup, pallets }: MetadataLatest): string {
 }
 
 /** @internal */
-function addStorage ({ $registry: registry, lookup, pallets }: MetadataLatest): string {
+function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
   const { substrate } = getSubstrateStorage(registry);
   const moduleSections = pallets
     .sort(sortByName)
