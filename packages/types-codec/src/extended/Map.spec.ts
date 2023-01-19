@@ -83,7 +83,7 @@ describe('CodecMap', (): void => {
       expect(none.toHex()).toEqual('0x00');
       expect(none.encodedLength).toEqual(1);
       expect(
-        new CodecMap(registry, Text, Text, none.toHex()).$initialU8aLength
+        new CodecMap(registry, Text, Text, none.toHex()).initialU8aLength
       ).toEqual(none.encodedLength);
     });
 
@@ -97,7 +97,7 @@ describe('CodecMap', (): void => {
       expect(some.toHex()).toEqual('0x0804310c666f6f04320c626172');
       expect(some.encodedLength).toEqual(1 + ((1 + 1) * 2) + ((1 + 3) * 2));
       expect(
-        new CodecMap(registry, Text, Text, some.toHex()).$initialU8aLength
+        new CodecMap(registry, Text, Text, some.toHex()).initialU8aLength
       ).toEqual(some.encodedLength);
     });
   });

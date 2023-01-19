@@ -183,16 +183,11 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
  * an extension to enum where the value type is determined by the actual index.
  */
 export class Enum implements IEnum {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
+  readonly registry: Registry;
 
-  public readonly registry: Registry;
-
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #def: TypesDef;
   readonly #entryIndex: number;
@@ -217,8 +212,8 @@ export class Enum implements IEnum {
     this.#entryIndex = this.#indexes.indexOf(decoded.index);
     this.#raw = decoded.value;
 
-    if (this.#raw.$initialU8aLength) {
-      this.$initialU8aLength = 1 + this.#raw.$initialU8aLength;
+    if (this.#raw.initialU8aLength) {
+      this.initialU8aLength = 1 + this.#raw.initialU8aLength;
     }
   }
 

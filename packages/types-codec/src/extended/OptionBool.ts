@@ -33,7 +33,7 @@ export class OptionBool extends Option<Bool> {
         : value
     );
 
-    this.$initialU8aLength = 1;
+    this.initialU8aLength = 1;
   }
 
   /**

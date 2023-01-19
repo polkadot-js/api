@@ -68,7 +68,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
     super(registry, Classes[0].length);
 
-    this.$initialU8aLength = (
+    this.initialU8aLength = (
       isU8a(value)
         ? decodeU8a(registry, this, value, Classes)
         : decodeTuple(registry, this, value, Classes)

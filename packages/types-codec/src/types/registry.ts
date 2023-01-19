@@ -53,7 +53,7 @@ export interface Registry {
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
 
-  $createdAtHash?: IU8a;
+  createdAtHash?: IU8a;
 
   findMetaCall (callIndex: Uint8Array): CallFunction;
   findMetaError (errorIndex: Uint8Array | { error: BN, index: BN } | { error: BN | Uint8Array, index: BN }): RegistryError;

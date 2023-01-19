@@ -32,7 +32,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    this.$initialU8aLength = (
+    this.initialU8aLength = (
       isU8a(value)
         ? decodeU8aVec(registry, this, value, 0, this.#Type)
         : decodeVec(registry, this, value, 0, this.#Type)

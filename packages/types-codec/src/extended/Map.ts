@@ -94,16 +94,11 @@ function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyTyp
 }
 
 export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements IMap<K, V> {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
+  readonly registry: Registry;
 
-  public readonly registry: Registry;
-
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #KeyClass: CodecClass<K>;
   readonly #ValClass: CodecClass<V>;
@@ -115,7 +110,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
     this.registry = registry;
-    this.$initialU8aLength = decodedLength;
+    this.initialU8aLength = decodedLength;
     this.#KeyClass = KeyClass;
     this.#ValClass = ValClass;
     this.#type = type;

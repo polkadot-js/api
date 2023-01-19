@@ -29,5 +29,5 @@ export function extractContributed (paraId: string | number | BN, events: Vec<Fr
       }
 
       return result;
-    }, { added, blockHash: events.$createdAtHash?.toHex() || '-', removed });
+    }, { added, blockHash: events.createdAtHash?.toHex() || '-', removed });
 }

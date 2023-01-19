@@ -66,16 +66,11 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
  * with a value if/as required/found.
  */
 export class Option<T extends Codec> implements IOption<T> {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
+  readonly registry: Registry;
 
-  public readonly registry: Registry;
-
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #Type: CodecClass<T>;
   readonly #raw: T;
@@ -92,8 +87,8 @@ export class Option<T extends Codec> implements IOption<T> {
     this.#Type = Type;
     this.#raw = decoded as T;
 
-    if (decoded?.$initialU8aLength) {
-      this.$initialU8aLength = 1 + decoded.$initialU8aLength;
+    if (decoded?.initialU8aLength) {
+      this.initialU8aLength = 1 + decoded.initialU8aLength;
     }
   }
 

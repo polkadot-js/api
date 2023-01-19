@@ -166,9 +166,6 @@ function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainPr
 }
 
 export class TypeRegistry implements Registry {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-
   #chainProperties?: ChainProperties;
   #classes = new Map<string, CodecClass>();
   #definitions = new Map<string, string>();
@@ -189,7 +186,7 @@ export class TypeRegistry implements Registry {
   readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
   readonly #moduleMap: Record<string, string[]> = {};
 
-  public $createdAtHash?: Hash;
+  public createdAtHash?: Hash;
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
@@ -202,7 +199,7 @@ export class TypeRegistry implements Registry {
     }
 
     if (createdAtHash) {
-      this.$createdAtHash = this.createType('BlockHash', createdAtHash);
+      this.createdAtHash = this.createType('BlockHash', createdAtHash);
     }
   }
 

@@ -23,25 +23,19 @@ export interface Inspect {
  * as an encoding/decoding layer
  */
 export interface Codec {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  createdAtHash?: never;
-
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  initialU8aLength?: never;
-
   /**
    * @description
    * The block at which this value was retrieved/created (set to non-empty when
    * retrieved from storage)
    */
-  $createdAtHash?: IU8a;
+  createdAtHash?: IU8a;
 
   /**
    * @description
    * The length of the initial encoded value (Only available when the value was
    * constructed from a Uint8Array input)
    */
-  $initialU8aLength?: number;
+  initialU8aLength?: number;
 
   /**
    * @description
@@ -53,7 +47,7 @@ export interface Codec {
    * any empty storage item should erturn the default. (This is the same as the
    * implementation on the Substrate runtime)
    */
-  $isStorageFallback?: boolean;
+  isStorageFallback?: boolean;
 
   /**
    * @description The length of the value when encoded as a Uint8Array

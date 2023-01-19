@@ -12,18 +12,13 @@ import { isNull } from '@polkadot/util';
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Null implements Codec {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
+  readonly encodedLength = 0;
+  readonly isEmpty = true;
+  readonly registry: Registry;
 
-  public readonly encodedLength = 0;
-  public readonly isEmpty = true;
-  public readonly registry: Registry;
-
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength = 0;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength = 0;
+  public isStorageFallback?: boolean;
 
   constructor (registry: Registry) {
     this.registry = registry;

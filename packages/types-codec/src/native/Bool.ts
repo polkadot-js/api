@@ -13,16 +13,11 @@ import { isU8a, u8aToHex } from '@polkadot/util';
  * @noInheritDoc
  */
 export class bool extends Boolean implements Codec {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
+  readonly registry: Registry;
 
-  public readonly registry: Registry;
-
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength = 1;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength = 1;
+  public isStorageFallback?: boolean;
 
   constructor (registry: Registry, value: bool | AnyBool | Uint8Array | number = false) {
     super(
