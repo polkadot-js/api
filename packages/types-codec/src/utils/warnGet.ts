@@ -3,7 +3,8 @@
 
 const hasWarned: Record<string, boolean> = {};
 
-export function warnGet <T> (obj: Record<string, any>, name: string): T {
+/** @description Warns (once, per class) on the use of a deprecated interface */
+export function warnGet <T> (obj: Record<string, any>, name: 'createdAtHash' | 'initialU8aLength'): T {
   const clazz = `${obj.constructor?.name || 'Codec'}`;
   const check = `${clazz}.${name}`;
   const pass = `$${name}`;
@@ -11,7 +12,7 @@ export function warnGet <T> (obj: Record<string, any>, name: string): T {
   if (!hasWarned[check]) {
     hasWarned[check] = true;
 
-    console.warn(`The use of ${check} is deprecated and will be removed in a future version, use ${clazz}.${pass} instead`);
+    console.warn(`Use ${clazz}.${pass} instead. The previous ${check} is deprecated and will be removed in a future version.`);
   }
 
   return obj[pass] as T;
