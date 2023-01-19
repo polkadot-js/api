@@ -50,7 +50,7 @@ describe('Tuple', (): void => {
       const INPUT = '0xcc0200000000';
       const test = registry.createType('(u32, [u32; 0], u16)', INPUT);
 
-      expect(test.encodedLength).toEqual(4 + 0 + 2);
+      expect(test.$encodedLength).toEqual(4 + 0 + 2);
       expect(test.toHex()).toEqual(INPUT);
     });
   });

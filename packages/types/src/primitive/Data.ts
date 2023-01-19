@@ -108,7 +108,7 @@ export class Data extends Enum {
   /**
    * @description The encoded length
    */
-  public override get encodedLength (): number {
+  public override get $encodedLength (): number {
     return this.toU8a().length;
   }
 

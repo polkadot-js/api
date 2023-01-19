@@ -21,12 +21,11 @@ interface Options {
  * in some eth_* RPCs
  */
 export class Float extends Number implements IFloat {
-  readonly encodedLength: number;
-  readonly $registry: Registry;
-
   public $createdAtHash?: IU8a;
+  readonly $encodedLength: number;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
+  readonly $registry: Registry;
 
   readonly #bitLength: 32 | 64;
 
@@ -40,14 +39,19 @@ export class Float extends Number implements IFloat {
     );
 
     this.#bitLength = bitLength;
-    this.encodedLength = bitLength / 8;
-    this.$initialU8aLength = this.encodedLength;
+    this.$encodedLength = bitLength / 8;
+    this.$initialU8aLength = this.$encodedLength;
     this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
   public get createdAtHash (): IU8a | undefined {
     return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
+  public get encodedLength (): number {
+    return warnGet(this, 'encodedLength');
   }
 
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */

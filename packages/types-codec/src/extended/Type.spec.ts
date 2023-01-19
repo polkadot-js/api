@@ -106,7 +106,7 @@ describe('Type', (): void => {
     const u8a = new Type(registry, original).toU8a();
     const decoded = new Type(registry, u8a);
 
-    expect(decoded.encodedLength).toEqual(original.length + 1); // extra byte for length
+    expect(decoded.$encodedLength).toEqual(original.length + 1); // extra byte for length
     expect(decoded.toString()).toEqual(expected);
   });
 

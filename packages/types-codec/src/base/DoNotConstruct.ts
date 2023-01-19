@@ -31,6 +31,11 @@ export class DoNotConstruct implements Codec {
     return warnGet(this, 'createdAtHash');
   }
 
+  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
+  public get encodedLength (): number {
+    return warnGet(this, 'encodedLength');
+  }
+
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
@@ -57,7 +62,7 @@ export class DoNotConstruct implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     throw this.#neverError;
   }
 

@@ -97,6 +97,11 @@ export class Option<T extends Codec> implements IOption<T> {
     return warnGet(this, 'createdAtHash');
   }
 
+  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
+  public get encodedLength (): number {
+    return warnGet(this, 'encodedLength');
+  }
+
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
@@ -131,9 +136,9 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get encodedLength (): number {
+  public get $encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
-    return 1 + this.#raw.encodedLength;
+    return 1 + this.#raw.$encodedLength;
   }
 
   /**
@@ -261,7 +266,7 @@ export class Option<T extends Codec> implements IOption<T> {
       return this.#raw.toU8a(true);
     }
 
-    const u8a = new Uint8Array(this.encodedLength);
+    const u8a = new Uint8Array(this.$encodedLength);
 
     if (this.isSome) {
       u8a.set([1]);

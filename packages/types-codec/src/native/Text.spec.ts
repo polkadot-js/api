@@ -59,14 +59,14 @@ describe('Text', (): void => {
     it('calulates the length & encoded length correctly for ASCII', (): void => {
       const test = new Text(registry, 'abcde');
 
-      expect(test.encodedLength).toEqual(6);
+      expect(test.$encodedLength).toEqual(6);
       expect(test).toHaveLength(5);
     });
 
     it('calulates the length & encoded length correctly for non-ASCII', (): void => {
       const test = new Text(registry, '中文');
 
-      expect(test.encodedLength).toEqual(7);
+      expect(test.$encodedLength).toEqual(7);
       expect(test).toHaveLength(2);
     });
 
