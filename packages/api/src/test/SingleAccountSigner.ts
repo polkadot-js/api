@@ -11,9 +11,7 @@ let id = 0;
 
 export class SingleAccountSigner implements Signer {
   readonly #keyringPair: KeyringPair;
-
   readonly #registry: Registry;
-
   readonly #signDelay: number;
 
   constructor (registry: Registry, keyringPair: KeyringPair, signDelay = 0) {

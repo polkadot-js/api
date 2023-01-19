@@ -172,13 +172,9 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore This is assigned via this.decodeArgsFromMeta()
   #args: A;
-
   #meta?: StorageEntryMetadataLatest;
-
   #outputType: string;
-
   #method?: string;
-
   #section?: string;
 
   constructor (registry: Registry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?], override: Partial<StorageKeyExtra> = {}) {

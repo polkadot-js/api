@@ -58,7 +58,6 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly address: AccountId;
 
   readonly #query: MapMessageQuery<ApiType> = {};
-
   readonly #tx: MapMessageTx<ApiType> = {};
 
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {

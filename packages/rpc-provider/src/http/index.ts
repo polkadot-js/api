@@ -36,13 +36,9 @@ const l = logger('api-http');
  */
 export class HttpProvider implements ProviderInterface {
   readonly #callCache = new LRUCache();
-
   readonly #coder: RpcCoder;
-
   readonly #endpoint: string;
-
   readonly #headers: Record<string, string>;
-
   readonly #stats: ProviderStats;
 
   /**

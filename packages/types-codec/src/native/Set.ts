@@ -104,7 +104,6 @@ export class CodecSet extends Set<string> implements ISet<string> {
   public $isStorageFallback?: boolean;
 
   readonly #allowed: SetValues;
-
   readonly #byteLength: number;
 
   constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string, bitLength = 8) {

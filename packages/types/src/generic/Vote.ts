@@ -69,7 +69,6 @@ function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
  */
 export class GenericVote extends U8aFixed {
   #aye: boolean;
-
   #conviction: Conviction;
 
   constructor (registry: Registry, value?: InputTypes) {

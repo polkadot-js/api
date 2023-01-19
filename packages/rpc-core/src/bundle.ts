@@ -85,7 +85,6 @@ function isTreatAsHex (key: StorageKey): boolean {
  */
 export class RpcCore {
   #instanceId: string;
-
   #registryDefault: Registry;
 
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
@@ -94,9 +93,7 @@ export class RpcCore {
   readonly #storageCache = new Map<string, Codec>();
 
   public readonly mapping = new Map<string, DefinitionRpcExt>();
-
   public readonly provider: ProviderInterface;
-
   public readonly sections: string[] = [];
 
   /**

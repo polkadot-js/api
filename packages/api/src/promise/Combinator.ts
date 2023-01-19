@@ -14,17 +14,11 @@ export interface CombinatorFunction {
 
 export class Combinator<T extends unknown[] = unknown[]> {
   #allHasFired = false;
-
   #callback: CombinatorCallback<T>;
-
   #fired: boolean[] = [];
-
   #fns: CombinatorFunction[] = [];
-
   #isActive = true;
-
   #results: unknown[] = [];
-
   #subscriptions: UnsubscribePromise[] = [];
 
   constructor (fns: (CombinatorFunction | [CombinatorFunction, ...unknown[]])[], callback: CombinatorCallback<T>) {
