@@ -10,11 +10,6 @@ import type { AnyJson, Codec, CodecClass, Inspect, IU8a, Registry } from '../typ
  * An unknown type that fails on construction with the type info
  */
 export class DoNotConstruct implements Codec {
-  /** @deprecated This is not populated anymore. Use createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   readonly registry: Registry;
 
   public createdAtHash?: IU8a;
