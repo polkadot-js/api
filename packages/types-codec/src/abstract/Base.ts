@@ -4,16 +4,13 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types';
 
+import { warnGet } from '../utils';
+
 /**
  * @name Base
  * @description A type extends the Base class, when it holds a value
  */
 export abstract class AbstractBase<T extends Codec> implements Codec {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -26,6 +23,16 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
     this.$initialU8aLength = initialU8aLength;
     this.#raw = value;
     this.registry = registry;
+  }
+
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   /**

@@ -6,7 +6,7 @@ import type { AnyJson, Codec, Inspect, IU8a, IVec, Registry } from '../types';
 
 import { compactToU8a, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 
-import { compareArray } from '../utils/compareArray';
+import { compareArray, warnGet } from '../utils';
 
 /**
  * @name AbstractArray
@@ -16,11 +16,6 @@ import { compareArray } from '../utils/compareArray';
  * @noInheritDoc
  */
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -39,6 +34,16 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     super(length);
 
     this.registry = registry;
+  }
+
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   /**

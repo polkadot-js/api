@@ -6,7 +6,7 @@ import type { AnyJson, Codec, CodecClass, Inspect, ISet, IU8a, Registry } from '
 
 import { compactFromU8aLim, compactToU8a, isHex, isU8a, logger, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareSet, decodeU8aVec, sortSet, typeToConstructor } from '../utils';
+import { compareSet, decodeU8aVec, sortSet, typeToConstructor, warnGet } from '../utils';
 
 const l = logger('BTreeSet');
 
@@ -70,11 +70,6 @@ function decodeSet<V extends Codec> (registry: Registry, valType: CodecClass<V> 
 }
 
 export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V> {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -91,6 +86,16 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     this.registry = registry;
     this.$initialU8aLength = decodedLength;
     this.#ValClass = ValClass;
+  }
+
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   public static with<V extends Codec> (valType: CodecClass<V> | string): CodecClass<BTreeSet<V>> {

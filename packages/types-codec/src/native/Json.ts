@@ -6,7 +6,7 @@ import type { AnyJson, Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isFunction, objectProperties, stringify } from '@polkadot/util';
 
-import { compareMap } from '../utils';
+import { compareMap, warnGet } from '../utils';
 
 /** @internal */
 function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
@@ -22,11 +22,6 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
  * @noInheritDoc
  */
 export class Json extends Map<string, any> implements Codec {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -41,6 +36,16 @@ export class Json extends Map<string, any> implements Codec {
     this.registry = registry;
 
     objectProperties(this, decoded.map(([k]) => k), (k) => this.get(k));
+  }
+
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   /**

@@ -6,7 +6,7 @@ import type { CodecClass, Inspect, ISet, IU8a, Registry } from '../types';
 
 import { BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringify, stringPascalCase, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareArray } from '../utils';
+import { compareArray, warnGet } from '../utils';
 
 type SetValues = Record<string, number | BN>;
 
@@ -92,11 +92,6 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * a bitwise representation of the values.
  */
 export class CodecSet extends Set<string> implements ISet<string> {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -112,6 +107,16 @@ export class CodecSet extends Set<string> implements ISet<string> {
     this.registry = registry;
     this.#allowed = setValues;
     this.#byteLength = bitLength / 8;
+  }
+
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   public static with (values: SetValues, bitLength?: number): CodecClass<CodecSet> {

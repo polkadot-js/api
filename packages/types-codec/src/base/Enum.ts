@@ -6,7 +6,7 @@ import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from 
 
 import { isHex, isNumber, isObject, isString, isU8a, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { mapToTypeMap, typesToMap } from '../utils';
+import { mapToTypeMap, typesToMap, warnGet } from '../utils';
 import { Null } from './Null';
 
 // export interface, this is used in Enum.with, so required as public by TS
@@ -183,11 +183,6 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
  * an extension to enum where the value type is determined by the actual index.
  */
 export class Enum implements IEnum {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -220,6 +215,16 @@ export class Enum implements IEnum {
     if (this.#raw.$initialU8aLength) {
       this.$initialU8aLength = 1 + this.#raw.$initialU8aLength;
     }
+  }
+
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   public static with (Types: Record<string, string | CodecClass> | Record<string, number> | string[]): EnumCodecClass<Enum> {

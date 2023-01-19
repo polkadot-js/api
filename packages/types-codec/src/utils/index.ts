@@ -10,3 +10,4 @@ export { typeToConstructor } from './typeToConstructor';
 export { sanitize } from './sanitize';
 export { sortAsc, sortSet, sortMap } from './sortValues';
 export { typesToMap } from './typesToMap';
+export { warnGet } from './warnGet';

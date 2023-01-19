@@ -6,6 +6,8 @@ import type { AnyJson, AnyU8a, Inspect, IU8a, Registry } from '../types';
 
 import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 
+import { warnGet } from '../utils';
+
 /**
  * @name Raw
  * @description
@@ -16,11 +18,6 @@ import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -40,6 +37,16 @@ export class Raw extends Uint8Array implements IU8a {
 
     this.registry = registry;
     this.$initialU8aLength = initialU8aLength;
+  }
+
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   /**

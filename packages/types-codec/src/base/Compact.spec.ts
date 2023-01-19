@@ -12,6 +12,18 @@ const CompactU32 = Compact.with(U32);
 describe('Compact', (): void => {
   const registry = new TypeRegistry();
 
+  describe('@deprecated', (): void => {
+    it('warns on createdAtHash usage', () => {
+      // eslint-disable-next-line deprecation/deprecation
+      expect(new Compact(registry, 'u128').createdAtHash).not.toBeDefined();
+    });
+
+    it('warns on initialU8aLength usage', () => {
+      // eslint-disable-next-line deprecation/deprecation
+      expect(new Compact(registry, 'u128').initialU8aLength).toEqual(0);
+    });
+  });
+
   describe('constructor', (): void => {
     it('fails on > MAX_SAFE_INTEGER', (): void => {
       // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
