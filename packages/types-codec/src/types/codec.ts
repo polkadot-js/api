@@ -24,10 +24,10 @@ export interface Inspect {
  */
 export interface Codec {
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  readonly createdAtHash?: IU8a;
+  readonly createdAtHash: IU8a | undefined;
 
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  readonly initialU8aLength?: number;
+  readonly initialU8aLength: number | undefined;
 
   /**
    * @description
