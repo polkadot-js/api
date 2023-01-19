@@ -25,6 +25,7 @@ export class Json extends Map<string, any> implements Codec {
   readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
+  readonly $encodedLength = 0;
   public $initialU8aLength?: number;
   public $isStorageFallback?: boolean;
 
@@ -43,6 +44,11 @@ export class Json extends Map<string, any> implements Codec {
     return warnGet(this, 'createdAtHash');
   }
 
+  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
+  public get encodedLength (): number {
+    return warnGet(this, 'encodedLength');
+  }
+
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
@@ -51,13 +57,6 @@ export class Json extends Map<string, any> implements Codec {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
-  }
-
-  /**
-   * @description Always 0, never encodes as a Uint8Array
-   */
-  public get encodedLength (): number {
-    return 0;
   }
 
   /**

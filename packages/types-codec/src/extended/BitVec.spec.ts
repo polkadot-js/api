@@ -19,7 +19,7 @@ describe('BitVec', (): void => {
 
         it('has the right encodedLength', (): void => {
           expect(
-            bitvec.encodedLength
+            bitvec.$encodedLength
           ).toEqual((test.length - 2) / 2);
         });
 

@@ -239,7 +239,7 @@ export class Abi {
     return args.map(({ type: { lookupName, type } }): Codec => {
       const value = this.registry.createType(lookupName || type, data.subarray(offset));
 
-      offset += value.encodedLength;
+      offset += value.$encodedLength;
 
       return value;
     });

@@ -37,7 +37,7 @@ describe('Bool', (): void => {
   });
 
   it('correctly encodes length', (): void => {
-    expect(new Bool(registry, true).encodedLength).toEqual(1);
+    expect(new Bool(registry, true).$encodedLength).toEqual(1);
   });
 
   describe('utils', (): void => {
