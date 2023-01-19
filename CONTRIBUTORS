@@ -1,4 +1,4 @@
-    3323	Jaco                          	Cleanup class variable linebreaks (#5422)
+    3322	Jaco                          	Add $isStorageFallback on Codec interface (#5421)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
