@@ -55,8 +55,8 @@ export class GenericMultiAddress extends Enum {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspectU8a (): Inspect {
-    const { inner, outer = [] } = this.inner.inspectU8a();
+  override inspect (): Inspect {
+    const { inner, outer = [] } = this.inner.inspect();
 
     return {
       inner,

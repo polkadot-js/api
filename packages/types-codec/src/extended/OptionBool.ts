@@ -64,7 +64,7 @@ export class OptionBool extends Option<Bool> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
+  public override inspect (): Inspect {
     return { outer: [this.toU8a()] };
   }
 

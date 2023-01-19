@@ -74,7 +74,7 @@ export class DoNotConstruct implements Codec {
     throw this.#neverError;
   }
 
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     throw this.#neverError;
   }
 

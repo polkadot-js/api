@@ -76,7 +76,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
+  public override inspect (): Inspect {
     return {
       inner: this.inspectInner()
     };

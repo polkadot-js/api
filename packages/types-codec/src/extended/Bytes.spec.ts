@@ -65,7 +65,7 @@ describe('Bytes', (): void => {
 
   it('has a sane inspect', (): void => {
     expect(
-      new Bytes(registry, '0x12345678').inspectU8a()
+      new Bytes(registry, '0x12345678').inspect()
     ).toEqual({
       outer: [new Uint8Array([4 << 2]), new Uint8Array([0x12, 0x34, 0x56, 0x78])]
     });

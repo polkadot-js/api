@@ -91,7 +91,7 @@ export class Json extends Map<string, any> implements Codec {
   /**
    * @description Unimplemented, will throw
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     throw new Error('Unimplemented');
   }
 

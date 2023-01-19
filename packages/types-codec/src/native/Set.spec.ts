@@ -97,7 +97,7 @@ describe('Set', (): void => {
     });
 
     it('has a sane inspect', (): void => {
-      expect(set.inspectU8a()).toEqual({
+      expect(set.inspect()).toEqual({
         outer: [new Uint8Array([SET_ROLES.full | SET_ROLES.authority])]
       });
     });

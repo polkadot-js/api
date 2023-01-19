@@ -180,12 +180,12 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     if (this.isNone) {
       return { outer: [new Uint8Array([0])] };
     }
 
-    const { inner, outer = [] } = this.#raw.inspectU8a();
+    const { inner, outer = [] } = this.#raw.inspect();
 
     return {
       inner,

@@ -137,7 +137,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

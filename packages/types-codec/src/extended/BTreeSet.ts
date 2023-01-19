@@ -155,11 +155,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     const inner = new Array<Inspect>();
 
     for (const v of this.values()) {
-      inner.push(v.inspectU8a());
+      inner.push(v.inspect());
     }
 
     return {

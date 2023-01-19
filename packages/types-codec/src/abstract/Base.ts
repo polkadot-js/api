@@ -75,8 +75,8 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
-    return this.#raw.inspectU8a();
+  public inspect (): Inspect {
+    return this.#raw.inspect();
   }
 
   /**

@@ -209,7 +209,7 @@ describe('BTreeSet', (): void => {
 
   it('has a sane inspect', (): void => {
     expect(
-      new (BTreeSet.with(U32))(registry, [1, 2, 3, 4]).inspectU8a()
+      new (BTreeSet.with(U32))(registry, [1, 2, 3, 4]).inspect()
     ).toEqual({
       inner: [
         { outer: [new Uint8Array([1, 0, 0, 0])] },

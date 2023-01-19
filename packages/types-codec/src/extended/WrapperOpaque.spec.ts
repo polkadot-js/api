@@ -47,7 +47,7 @@ describe('WrapperOpaque', (): void => {
 
   it('has a sane inspect', (): void => {
     expect(
-      new WrapperOpaque(registry, 'u32', '0x78563412').inspectU8a()
+      new WrapperOpaque(registry, 'u32', '0x78563412').inspect()
     ).toEqual({
       inner: [{ outer: [new Uint8Array([0x78, 0x56, 0x34, 0x12])] }],
       outer: [new Uint8Array([4 << 2])]

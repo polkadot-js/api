@@ -48,7 +48,7 @@ describe('BitVec', (): void => {
 
   it('has a sane inspect', (): void => {
     expect(
-      new BitVec(registry, '0x0837').inspectU8a()
+      new BitVec(registry, '0x0837').inspect()
     ).toEqual({
       outer: [new Uint8Array([0]), new Uint8Array([0x08, 0x37])]
     });

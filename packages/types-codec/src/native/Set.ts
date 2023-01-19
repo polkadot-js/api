@@ -215,7 +215,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

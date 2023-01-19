@@ -303,7 +303,7 @@ describe('Enum', (): void => {
             registry,
             { Text, U32 },
             '0x0134120000'
-          ).inspectU8a()
+          ).inspect()
         ).toEqual({
           outer: [new Uint8Array([0x01]), new Uint8Array([0x34, 0x12, 0x00, 0x00])]
         });

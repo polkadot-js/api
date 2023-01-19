@@ -70,10 +70,10 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
+  public override inspect (): Inspect {
     return this.#decoded
       ? {
-        inner: [this.#decoded.inspectU8a()],
+        inner: [this.#decoded.inspect()],
         outer: [compactToU8a(this.length)]
       }
       : {

@@ -67,7 +67,7 @@ export class BitVec extends Raw {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
+  public override inspect (): Inspect {
     return {
       outer: [compactToU8a(this.#decodedLength), super.toU8a()]
     };

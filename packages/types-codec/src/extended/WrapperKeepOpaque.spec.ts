@@ -52,7 +52,7 @@ describe('WrapperKeepOpaque', (): void => {
 
   it('has a sane inspect (non-decodable)', (): void => {
     expect(
-      new ClazzUSize(registry, u8au32).inspectU8a()
+      new ClazzUSize(registry, u8au32).inspect()
     ).toEqual({
       outer: [new Uint8Array([4 << 2]), new Uint8Array([0x87, 0xd6, 0x12, 0x00])]
     });
@@ -60,7 +60,7 @@ describe('WrapperKeepOpaque', (): void => {
 
   it('has a sane inspect (decodable)', (): void => {
     expect(
-      new ClazzU32(registry, u8au32).inspectU8a()
+      new ClazzU32(registry, u8au32).inspect()
     ).toEqual({
       inner: [{ outer: [new Uint8Array([0x87, 0xd6, 0x12, 0x00])] }],
       outer: [new Uint8Array([4 << 2])]

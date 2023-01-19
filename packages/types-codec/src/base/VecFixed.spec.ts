@@ -62,7 +62,7 @@ describe('VecFixed', (): void => {
     });
 
     it('has a sane inspect', (): void => {
-      expect(test.inspectU8a()).toEqual({
+      expect(test.inspect()).toEqual({
         inner: [
           { outer: [new Uint8Array([1 << 2]), stringToU8a('1')] },
           { outer: [new Uint8Array([1 << 2]), stringToU8a('2')] },
