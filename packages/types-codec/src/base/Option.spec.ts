@@ -198,7 +198,7 @@ describe('Option', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        new Option(registry, U32, '1234').inspect()
+        new Option(registry, U32, '1234').inspectU8a()
       ).toEqual({
         outer: [new Uint8Array([0x01]), new Uint8Array([210, 4, 0, 0])]
       });

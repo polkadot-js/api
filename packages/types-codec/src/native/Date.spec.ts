@@ -75,7 +75,7 @@ describe('Date', (): void => {
     });
 
     it('has a sane inspect', (): void => {
-      expect(new CodecDate(registry, 3).inspect()).toEqual({
+      expect(new CodecDate(registry, 3).inspectU8a()).toEqual({
         outer: [new Uint8Array([3, 0, 0, 0, 0, 0, 0, 0])]
       });
     });

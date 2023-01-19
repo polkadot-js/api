@@ -18,7 +18,7 @@ describe('ExtrinsicPayload', (): void => {
   it('has a sane inspect', (): void => {
     // we don't expect this to fail, however it is actually a good
     // reference for the ordering in base Substrate
-    expect(new ExtrinsicPayload(registry, { method: tx.timestamp.set(0).toHex() } as never).inspect()).toEqual({
+    expect(new ExtrinsicPayload(registry, { method: tx.timestamp.set(0).toHex() } as never).inspectU8a()).toEqual({
       inner: [
         { name: 'method', outer: [new Uint8Array([3, 0, 0])] },
         { name: 'era', outer: [new Uint8Array([0]), new Uint8Array([0])] },

@@ -127,7 +127,7 @@ describe('UInt', (): void => {
 
   it('has a sane inspect', (): void => {
     expect(
-      new UInt(registry, '0x12', 16).inspect()
+      new UInt(registry, '0x12', 16).inspectU8a()
     ).toEqual({
       outer: [new Uint8Array([0x12, 0x00])]
     });

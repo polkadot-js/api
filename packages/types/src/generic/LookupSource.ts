@@ -93,7 +93,7 @@ export class GenericLookupSource extends AbstractBase<GenericAccountId | Generic
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspect (): Inspect {
+  override inspectU8a (): Inspect {
     const value = this.inner.toU8a().subarray(0, this._rawLength);
 
     return {
