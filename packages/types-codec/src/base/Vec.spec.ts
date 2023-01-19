@@ -185,7 +185,7 @@ describe('Vec', (): void => {
       ];
       const vec = registry.createType('Vec<AccountId>', addrs);
 
-      expect(vec.inspect()).toEqual({
+      expect(vec.inspectU8a()).toEqual({
         inner: addrs.map((a) => ({
           outer: [decodeAddress(a)]
         })),

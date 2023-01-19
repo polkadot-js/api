@@ -2,10 +2,13 @@
 
 ## master
 
+- **Breaking change** The `Codec.inspect()` call has been renamed to `Codec.inspectU8a()`. This should not only have a minor impact on (very limited) users since the functionality is not used in general operation, but rather only in specialized tools that wish the inspect the actual bytes encoding.
+
 Changes:
 
 - Add `$isStorageFallback` on the `Codec` interface. (`true` if entry was created from a metadata fallback value from an empty storage item)
-- Rename `initialU8aLength/createdAtHash` to `$initialU8aLength/$createdAtHash` on the `Codec` interface. (these are marked for internal usage)
+- Prefix `isEmpty/initialU8aLength/createdAtHash` with `$` on the `Codec` interface, e.g. `$isEmpty`. (The original interface getters has been marked as deprecated, aill warn, but is available)
+- Rename `inspect()` to `inspectU8a()` on `Codec` interfaces
 
 
 ## 9.11.3 Jan 15, 2023

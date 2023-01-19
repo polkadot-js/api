@@ -98,7 +98,7 @@ describe('Raw', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        new Raw(registry, [1, 2, 3, 4, 5]).inspect()
+        new Raw(registry, [1, 2, 3, 4, 5]).inspectU8a()
       ).toEqual({
         outer: [new Uint8Array([1, 2, 3, 4, 5])]
       });

@@ -123,7 +123,7 @@ export class Text extends String implements IText {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspect (): Inspect {
+  public inspectU8a (): Inspect {
     const value = stringToU8a(super.toString());
 
     return {

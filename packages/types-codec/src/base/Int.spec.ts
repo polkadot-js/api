@@ -65,7 +65,7 @@ describe('Int', (): void => {
 
   it('has a sane inspect', (): void => {
     expect(
-      new Int(registry, '0x12', 16).inspect()
+      new Int(registry, '0x12', 16).inspectU8a()
     ).toEqual({
       outer: [new Uint8Array([0x12, 0x00])]
     });
