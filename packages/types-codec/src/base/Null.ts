@@ -6,17 +6,14 @@ import type { Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isNull } from '@polkadot/util';
 
+import { warnGet } from '../utils';
+
 /**
  * @name Null
  * @description
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Null implements Codec {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly encodedLength = 0;
   public readonly isEmpty = true;
   public readonly registry: Registry;
@@ -27,6 +24,16 @@ export class Null implements Codec {
 
   constructor (registry: Registry) {
     this.registry = registry;
+  }
+
+  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated This will be removed in a future version. Use $initialU8aLength instead. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   /**

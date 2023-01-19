@@ -6,6 +6,8 @@ import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from 
 
 import { BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
 
+import { warnGet } from '../utils';
+
 export const DEFAULT_UINT_BITS = 64;
 
 // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
@@ -72,11 +74,6 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<strin
  * @noInheritDoc
  */
 export abstract class AbstractInt extends BN implements INumber {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
   public readonly encodedLength: number;
   public readonly isUnsigned: boolean;
@@ -114,6 +111,16 @@ export abstract class AbstractInt extends BN implements INumber {
     } else if (super.bitLength() > maxBits) {
       throw new Error(`${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
     }
+  }
+
+  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated This will be removed in a future version. Use $initialU8aLength instead. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   /**

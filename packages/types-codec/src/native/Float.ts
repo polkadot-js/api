@@ -6,6 +6,8 @@ import type { AnyFloat, CodecClass, IFloat, Inspect, IU8a, Registry } from '../t
 
 import { floatToU8a, isHex, isU8a, u8aToFloat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
+import { warnGet } from '../utils';
+
 interface Options {
   bitLength?: 32 | 64;
 }
@@ -19,11 +21,6 @@ interface Options {
  * in some eth_* RPCs
  */
 export class Float extends Number implements IFloat {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly encodedLength: number;
   public readonly registry: Registry;
 
@@ -46,6 +43,16 @@ export class Float extends Number implements IFloat {
     this.encodedLength = bitLength / 8;
     this.$initialU8aLength = this.encodedLength;
     this.registry = registry;
+  }
+
+  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated This will be removed in a future version. Use $initialU8aLength instead. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   public static with (bitLength: 32 | 64): CodecClass<Float> {

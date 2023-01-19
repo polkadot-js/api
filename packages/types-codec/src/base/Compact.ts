@@ -7,7 +7,7 @@ import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, 
 
 import { compactFromU8a, compactFromU8aLim, compactToU8a, isU8a } from '@polkadot/util';
 
-import { typeToConstructor } from '../utils';
+import { typeToConstructor, warnGet } from '../utils';
 
 interface Options<T> {
   definition?: CodecClass<T>;
@@ -47,11 +47,6 @@ function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<
  * a number and making the compact representation thereof
  */
 export class Compact<T extends INumber> implements ICompact<T> {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -69,6 +64,16 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
     this.$initialU8aLength = decodedLength;
     this.#raw = raw;
+  }
+
+  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated This will be removed in a future version. Use $initialU8aLength instead. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {

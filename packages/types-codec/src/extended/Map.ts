@@ -10,7 +10,7 @@ import { AbstractArray } from '../abstract/Array';
 import { Enum } from '../base/Enum';
 import { Raw } from '../native/Raw';
 import { Struct } from '../native/Struct';
-import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils';
+import { compareMap, decodeU8a, sortMap, typeToConstructor, warnGet } from '../utils';
 
 const l = logger('Map');
 
@@ -94,11 +94,6 @@ function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyTyp
 }
 
 export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements IMap<K, V> {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -119,6 +114,16 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     this.#KeyClass = KeyClass;
     this.#ValClass = ValClass;
     this.#type = type;
+  }
+
+  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated This will be removed in a future version. Use $initialU8aLength instead. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   /**

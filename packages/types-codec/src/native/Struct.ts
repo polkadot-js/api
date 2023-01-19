@@ -6,7 +6,7 @@ import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Regi
 
 import { isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils';
+import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap, warnGet } from '../utils';
 
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 
@@ -103,11 +103,6 @@ export class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
-  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
-  public createdAtHash?: never;
-  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
-  public initialU8aLength?: never;
-
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -131,6 +126,16 @@ export class Struct<
     this.registry = registry;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;
+  }
+
+  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  public get createdAtHash (): IU8a | undefined {
+    return warnGet(this, 'createdAtHash');
+  }
+
+  /** @deprecated This will be removed in a future version. Use $initialU8aLength instead. */
+  public get initialU8aLength (): number | undefined {
+    return warnGet(this, 'initialU8aLength');
   }
 
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
