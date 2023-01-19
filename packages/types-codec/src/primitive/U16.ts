@@ -10,5 +10,5 @@ import { UInt } from '../base/UInt';
  */
 export class u16 extends UInt.with(16) {
   // NOTE without this, we cannot properly determine extensions
-  public readonly __UIntType = 'u16';
+  readonly __UIntType = 'u16';
 }

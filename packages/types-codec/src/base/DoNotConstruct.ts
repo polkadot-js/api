@@ -12,7 +12,7 @@ import { warnGet } from '../utils';
  * An unknown type that fails on construction with the type info
  */
 export class DoNotConstruct implements Codec {
-  public readonly registry: Registry;
+  readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $isStorageFallback?: boolean;
@@ -34,6 +34,11 @@ export class DoNotConstruct implements Codec {
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
+  }
+
+  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
+  public get isEmpty (): boolean {
+    return warnGet(this, 'isEmpty');
   }
 
   public static with (typeName?: string): CodecClass {
@@ -61,7 +66,7 @@ export class DoNotConstruct implements Codec {
   /**
    * @description Checks if the value is an empty value (always true)
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     throw this.#neverError;
   }
 

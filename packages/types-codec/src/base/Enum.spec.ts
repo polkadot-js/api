@@ -293,7 +293,7 @@ describe('Enum', (): void => {
       it('has isNone set, with correct index (i.e. no values are used)', (): void => {
         const test = new Enum(registry, ['foo', 'bar'], 1);
 
-        expect(test.isNone).toBe(true);
+        expect(test.$isNone).toBe(true);
         expect(test.index).toEqual(1);
       });
 

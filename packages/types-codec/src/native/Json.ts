@@ -22,7 +22,7 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
  * @noInheritDoc
  */
 export class Json extends Map<string, any> implements Codec {
-  public readonly registry: Registry;
+  readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -48,6 +48,11 @@ export class Json extends Map<string, any> implements Codec {
     return warnGet(this, 'initialU8aLength');
   }
 
+  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
+  public get isEmpty (): boolean {
+    return warnGet(this, 'isEmpty');
+  }
+
   /**
    * @description Always 0, never encodes as a Uint8Array
    */
@@ -65,7 +70,7 @@ export class Json extends Map<string, any> implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return [...this.keys()].length === 0;
   }
 

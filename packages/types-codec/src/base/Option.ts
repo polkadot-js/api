@@ -66,7 +66,7 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
  * with a value if/as required/found.
  */
 export class Option<T extends Codec> implements IOption<T> {
-  public readonly registry: Registry;
+  readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -100,6 +100,11 @@ export class Option<T extends Codec> implements IOption<T> {
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
+  }
+
+  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
+  public get isEmpty (): boolean {
+    return warnGet(this, 'isEmpty');
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Option<O>> {
@@ -136,7 +141,7 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description Checks if the Option has no value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.isNone;
   }
 

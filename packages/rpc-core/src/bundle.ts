@@ -92,9 +92,9 @@ export class RpcCore {
 
   readonly #storageCache = new Map<string, Codec>();
 
-  public readonly mapping = new Map<string, DefinitionRpcExt>();
-  public readonly provider: ProviderInterface;
-  public readonly sections: string[] = [];
+  readonly mapping = new Map<string, DefinitionRpcExt>();
+  readonly provider: ProviderInterface;
+  readonly sections: string[] = [];
 
   /**
    * @constructor

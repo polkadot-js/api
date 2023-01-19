@@ -47,7 +47,7 @@ function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<
  * a number and making the compact representation thereof
  */
 export class Compact<T extends INumber> implements ICompact<T> {
-  public readonly registry: Registry;
+  readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -74,6 +74,11 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
+  }
+
+  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
+  public get isEmpty (): boolean {
+    return warnGet(this, 'isEmpty');
   }
 
   public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {
@@ -107,8 +112,8 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
-    return this.#raw.isEmpty;
+  public get $isEmpty (): boolean {
+    return this.#raw.$isEmpty;
   }
 
   /**

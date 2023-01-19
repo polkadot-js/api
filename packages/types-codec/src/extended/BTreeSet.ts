@@ -70,7 +70,7 @@ function decodeSet<V extends Codec> (registry: Registry, valType: CodecClass<V> 
 }
 
 export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V> {
-  public readonly registry: Registry;
+  readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -96,6 +96,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
+  }
+
+  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
+  public get isEmpty (): boolean {
+    return warnGet(this, 'isEmpty');
   }
 
   public static with<V extends Codec> (valType: CodecClass<V> | string): CodecClass<BTreeSet<V>> {
@@ -129,7 +134,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
+  public get $isEmpty (): boolean {
     return this.size === 0;
   }
 

@@ -25,8 +25,8 @@ export interface CodeConstructor<ApiType extends ApiTypes> {
 }
 
 export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
-  public readonly blueprint?: Blueprint<ApiType>;
-  public readonly contract?: Contract<ApiType>;
+  readonly blueprint?: Blueprint<ApiType>;
+  readonly contract?: Contract<ApiType>;
 
   constructor (result: ISubmittableResult, blueprint?: Blueprint<ApiType>, contract?: Contract<ApiType>) {
     super(result);
@@ -37,7 +37,7 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
 }
 
 export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
-  public readonly code: Uint8Array;
+  readonly code: Uint8Array;
 
   readonly #tx: MapConstructorExec<ApiType> = {};
 
