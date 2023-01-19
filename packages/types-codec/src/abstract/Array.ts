@@ -41,11 +41,6 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     return warnGet(this, 'createdAtHash');
   }
 
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
@@ -59,13 +54,13 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     // We need to loop through all entries since they may have a variable length themselves,
     // e.g. when a Vec or Compact is contained withing, it has a variable length based on data
     let total = compactToU8a(this.length).length;
 
     for (let i = 0; i < this.length; i++) {
-      total += this[i].$encodedLength;
+      total += this[i].encodedLength;
     }
 
     return total;

@@ -39,7 +39,6 @@ export class CodecDate extends Date implements INumber {
   readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
-  readonly $encodedLength = BITLENGTH / 8;
   public $initialU8aLength = BITLENGTH / 8;
   public $isStorageFallback?: boolean;
 
@@ -54,11 +53,6 @@ export class CodecDate extends Date implements INumber {
     return warnGet(this, 'createdAtHash');
   }
 
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
@@ -67,6 +61,13 @@ export class CodecDate extends Date implements INumber {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
+  }
+
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
+  public get encodedLength (): number {
+    return BITLENGTH / 8;
   }
 
   /**

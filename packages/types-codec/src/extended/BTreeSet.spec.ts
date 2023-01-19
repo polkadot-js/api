@@ -130,7 +130,7 @@ describe('BTreeSet', (): void => {
     it('correctly encodes length', (): void => {
       expect(
         new (
-          BTreeSet.with(U32))(registry, mockU32Set).$encodedLength
+          BTreeSet.with(U32))(registry, mockU32Set).encodedLength
       ).toEqual(17);
     });
 
@@ -139,10 +139,10 @@ describe('BTreeSet', (): void => {
 
       // only the length byte
       expect(none.toHex()).toEqual('0x00');
-      expect(none.$encodedLength).toEqual(1);
+      expect(none.encodedLength).toEqual(1);
       expect(
         (new (BTreeSet.with(U32))(registry, none.toHex())).$initialU8aLength
-      ).toEqual(none.$encodedLength);
+      ).toEqual(none.encodedLength);
     });
 
     it('correctly encodes/decodes filled', (): void => {
@@ -150,10 +150,10 @@ describe('BTreeSet', (): void => {
 
       // length byte + 2 values, 2 << 2 with u32 values
       expect(some.toHex()).toEqual('0x080100000002000000');
-      expect(some.$encodedLength).toEqual(1 + (4 * 2));
+      expect(some.encodedLength).toEqual(1 + (4 * 2));
       expect(
         (new (BTreeSet.with(U32))(registry, some.toHex())).$initialU8aLength
-      ).toEqual(some.$encodedLength);
+      ).toEqual(some.encodedLength);
     });
   });
 

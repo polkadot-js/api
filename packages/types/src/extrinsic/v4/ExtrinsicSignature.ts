@@ -62,9 +62,9 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     return this.isSigned
-      ? super.$encodedLength
+      ? super.encodedLength
       : 0;
   }
 

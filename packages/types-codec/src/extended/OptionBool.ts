@@ -39,7 +39,7 @@ export class OptionBool extends Option<Bool> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     return 1;
   }
 

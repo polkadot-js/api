@@ -108,7 +108,7 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
       ? registry.createTypeUnsafe(getSiName(registry.lookup, type), [value.subarray(offset + hashLen)])
       : registry.createTypeUnsafe('Raw', [value.subarray(offset, offset + hashLen)]);
 
-    offset += hashLen + (canDecode ? decoded.$encodedLength : 0);
+    offset += hashLen + (canDecode ? decoded.encodedLength : 0);
     result[i] = decoded;
   }
 

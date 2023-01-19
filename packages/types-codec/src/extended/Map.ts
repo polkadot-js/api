@@ -121,11 +121,6 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
     return warnGet(this, 'createdAtHash');
   }
 
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
@@ -139,11 +134,11 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     let len = compactToU8a(this.size).length;
 
     for (const [k, v] of this.entries()) {
-      len += k.$encodedLength + v.$encodedLength;
+      len += k.encodedLength + v.encodedLength;
     }
 
     return len;

@@ -18,9 +18,6 @@ interface CodecDeprecated {
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
   readonly createdAtHash: IU8a | undefined;
 
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  readonly encodedLength: number;
-
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   readonly initialU8aLength: number | undefined;
 
@@ -46,12 +43,6 @@ export interface Codec extends CodecDeprecated {
 
   /**
    * @description
-   * The length of the value when encoded as a Uint8Array (which is the SCALE representation)
-   */
-  readonly $encodedLength: number;
-
-  /**
-   * @description
    * The length of the initial encoded value (Only available when the value was
    * constructed from a Uint8Array input)
    */
@@ -74,6 +65,11 @@ export interface Codec extends CodecDeprecated {
    * implementation on the Substrate runtime)
    */
   $isStorageFallback?: boolean;
+
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
+  readonly encodedLength: number;
 
   /**
    * @description Returns a hash of the value

@@ -142,7 +142,7 @@ export class MortalEra extends Tuple {
   /**
    * @description Encoded length for mortals occupy 2 bytes, different from the actual Tuple since it is encoded. This is a shortcut fro `toU8a().length`
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     return 2;
   }
 
@@ -247,10 +247,10 @@ export class GenericExtrinsicEra extends Enum implements IExtrinsicEra {
   /**
    * @description Override the encoded length method
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     return this.isImmortalEra
-      ? this.asImmortalEra.$encodedLength
-      : this.asMortalEra.$encodedLength;
+      ? this.asImmortalEra.encodedLength
+      : this.asMortalEra.encodedLength;
   }
 
   /**

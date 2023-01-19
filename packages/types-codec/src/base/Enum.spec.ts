@@ -430,7 +430,7 @@ describe('Enum', (): void => {
       const test = new Test(registry, 123, 1);
 
       expect(test.toHex()).toEqual('0x017b000000');
-      expect(test.$encodedLength).toEqual(1 + 4);
+      expect(test.encodedLength).toEqual(1 + 4);
     });
 
     it('encodes a single entry correctly', (): void => {

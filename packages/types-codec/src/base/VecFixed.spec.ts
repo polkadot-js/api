@@ -50,14 +50,14 @@ describe('VecFixed', (): void => {
     it('has empty Uint8Array when length is 0', (): void => {
       const test = new (VecFixed.with(Text, 0))(registry);
 
-      expect(test.$encodedLength).toEqual(0);
+      expect(test.encodedLength).toEqual(0);
       expect(test.toU8a()).toEqual(new Uint8Array([]));
     });
 
     it('has equivalent to 1 Uint8Array when length is 1', (): void => {
       const test = new (VecFixed.with(Text, 1))(registry, ['hello']);
 
-      expect(test.$encodedLength).toEqual(1 + 5);
+      expect(test.encodedLength).toEqual(1 + 5);
       expect(test.toU8a()).toEqual(new Uint8Array([20, 104, 101, 108, 108, 111]));
     });
 

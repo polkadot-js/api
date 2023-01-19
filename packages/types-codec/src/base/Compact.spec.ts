@@ -44,19 +44,19 @@ describe('Compact', (): void => {
 
     it('has the correct encodedLength for constructor values (string BlockNumber)', (): void => {
       expect(
-        new (Compact.with('BlockNumber'))(registry, 0xfffffff9).$encodedLength
+        new (Compact.with('BlockNumber'))(registry, 0xfffffff9).encodedLength
       ).toEqual(5);
     });
 
     it('has the correct encodedLength for constructor values (class BlockNumber)', (): void => {
       expect(
-        new (Compact.with(registry.createClass('BlockNumber')))(registry, 0xfffffff9).$encodedLength
+        new (Compact.with(registry.createClass('BlockNumber')))(registry, 0xfffffff9).encodedLength
       ).toEqual(5);
     });
 
     it('has the correct encodedLength for constructor values (u32)', (): void => {
       expect(
-        new (Compact.with(U32))(registry, 0xffff9).$encodedLength
+        new (Compact.with(U32))(registry, 0xffff9).encodedLength
       ).toEqual(4);
     });
 

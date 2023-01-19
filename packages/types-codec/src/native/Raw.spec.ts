@@ -45,7 +45,7 @@ describe('Raw', (): void => {
   });
 
   it('correctly encodes length', (): void => {
-    expect(u8a.$encodedLength).toEqual(5);
+    expect(u8a.encodedLength).toEqual(5);
   });
 
   it('allows wrapping of a pre-existing instance', (): void => {

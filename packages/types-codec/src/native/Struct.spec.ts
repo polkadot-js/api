@@ -207,7 +207,7 @@ describe('Struct', (): void => {
           txt: Text,
           u32: U32
         })
-      )(registry, { foo: 'bazzing', bar: 69 }).$encodedLength
+      )(registry, { foo: 'bazzing', bar: 69 }).encodedLength
     ).toEqual(5);
   });
 
