@@ -110,12 +110,12 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    */
   public inspectU8a (): Inspect {
     return {
-      inner: this.inspectInner(),
+      inner: this.inspectU8aInner(),
       outer: [compactToU8a(this.length)]
     };
   }
 
-  public inspectInner (): Inspect[] {
+  public inspectU8aInner (): Inspect[] {
     const inner = new Array<Inspect>(this.length);
 
     for (let i = 0; i < this.length; i++) {

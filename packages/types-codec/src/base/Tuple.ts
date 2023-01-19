@@ -117,7 +117,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    */
   public override inspectU8a (): Inspect {
     return {
-      inner: this.inspectInner()
+      inner: this.inspectU8aInner()
     };
   }
 

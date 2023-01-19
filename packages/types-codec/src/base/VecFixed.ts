@@ -78,7 +78,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    */
   public override inspectU8a (): Inspect {
     return {
-      inner: this.inspectInner()
+      inner: this.inspectU8aInner()
     };
   }
 
