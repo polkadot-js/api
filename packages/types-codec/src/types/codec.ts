@@ -23,10 +23,10 @@ export interface Inspect {
  * as an encoding/decoding layer
  */
 export interface Codec {
-  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  /** @deprecated Use $createdAtHash instead. This will be removed in a future version. */
   readonly createdAtHash?: IU8a;
 
-  /** @deprecated This will be removed in a future version. Use $initialU8aLength instead. */
+  /** @deprecated Use $initialU8aLength instead. This will be removed in a future version. */
   readonly initialU8aLength?: number;
 
   /**
