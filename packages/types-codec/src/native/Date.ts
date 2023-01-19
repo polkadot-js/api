@@ -6,8 +6,6 @@ import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from 
 
 import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
-import { warnGet } from '../utils';
-
 const BITLENGTH: UIntBitLength = 64;
 const U8A_OPTS = { bitLength: BITLENGTH, isLe: true };
 
@@ -36,6 +34,11 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
  * @noInheritDoc
  */
 export class CodecDate extends Date implements INumber {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -46,16 +49,6 @@ export class CodecDate extends Date implements INumber {
     super(decodeDate(value));
 
     this.registry = registry;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
   }
 
   /**

@@ -14,14 +14,6 @@ export interface Inspect {
   outer?: Uint8Array[];
 }
 
-interface CodecDeprecated {
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  readonly createdAtHash: IU8a | undefined;
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  readonly initialU8aLength: number | undefined;
-}
-
 /**
  * @name Codec
  * @description
@@ -30,7 +22,13 @@ interface CodecDeprecated {
  * with getters and functions. The Codec Base is however required for operating
  * as an encoding/decoding layer
  */
-export interface Codec extends CodecDeprecated {
+export interface Codec {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  createdAtHash?: never;
+
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  initialU8aLength?: never;
+
   /**
    * @description
    * The block at which this value was retrieved/created (set to non-empty when

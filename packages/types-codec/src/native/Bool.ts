@@ -6,8 +6,6 @@ import type { AnyBool, Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isU8a, u8aToHex } from '@polkadot/util';
 
-import { warnGet } from '../utils';
-
 /**
  * @name bool
  * @description
@@ -15,6 +13,11 @@ import { warnGet } from '../utils';
  * @noInheritDoc
  */
 export class bool extends Boolean implements Codec {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -31,16 +34,6 @@ export class bool extends Boolean implements Codec {
     );
 
     this.registry = registry;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
   }
 
   /**

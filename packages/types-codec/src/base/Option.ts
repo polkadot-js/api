@@ -6,7 +6,7 @@ import type { AnyJson, Codec, CodecClass, Inspect, IOption, IU8a, Registry } fro
 
 import { isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
-import { typeToConstructor, warnGet } from '../utils';
+import { typeToConstructor } from '../utils';
 import { Null } from './Null';
 
 interface Options<T> {
@@ -66,6 +66,11 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
  * with a value if/as required/found.
  */
 export class Option<T extends Codec> implements IOption<T> {
+  /** @deprecated This is not populated anymore. Use $createdAtHash instead. */
+  public createdAtHash?: never;
+  /** @deprecated This is not populated anymore. Use $initialU8aLength instead. */
+  public initialU8aLength?: never;
+
   public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
@@ -90,16 +95,6 @@ export class Option<T extends Codec> implements IOption<T> {
     if (decoded?.$initialU8aLength) {
       this.$initialU8aLength = 1 + decoded.$initialU8aLength;
     }
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Option<O>> {
