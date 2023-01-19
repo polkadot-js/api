@@ -232,7 +232,7 @@ function addConstants ({ lookup, pallets }: MetadataLatest): string {
     description: DESC_CONSTANTS,
     sections: pallets
       .sort(sortByName)
-      .filter(({ constants }) => !constants.$isEmpty)
+      .filter(({ constants }) => !constants.isEmpty)
       .map(({ constants, name }) => {
         const sectionName = stringLowerFirst(name);
 
@@ -256,7 +256,7 @@ function addConstants ({ lookup, pallets }: MetadataLatest): string {
 }
 
 /** @internal */
-function addStorage ({ $registry: registry, lookup, pallets }: MetadataLatest): string {
+function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
   const { substrate } = getSubstrateStorage(registry);
   const moduleSections = pallets
     .sort(sortByName)

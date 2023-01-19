@@ -6,7 +6,7 @@ import type { AnyJson, Codec, Inspect, IU8a, IVec, Registry } from '../types';
 
 import { compactToU8a, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 
-import { compareArray, warnGet } from '../utils';
+import { compareArray } from '../utils/compareArray';
 
 /**
  * @name AbstractArray
@@ -16,10 +16,11 @@ import { compareArray, warnGet } from '../utils';
  * @noInheritDoc
  */
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
-  readonly $registry: Registry;
+  readonly registry: Registry;
+
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   /**
    * @description This ensures that operators such as clice, filter, map, etc. return
@@ -32,44 +33,19 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   protected constructor (registry: Registry, length: number) {
     super(length);
 
-    this.$registry = registry;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
+    this.registry = registry;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     // We need to loop through all entries since they may have a variable length themselves,
     // e.g. when a Vec or Compact is contained withing, it has a variable length based on data
     let total = compactToU8a(this.length).length;
 
     for (let i = 0; i < this.length; i++) {
-      total += this[i].$encodedLength;
+      total += this[i].encodedLength;
     }
 
     return total;
@@ -79,13 +55,13 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.length === 0;
   }
 
@@ -107,7 +83,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     return {
       inner: this.inspectInner(),
       outer: [compactToU8a(this.length)]
@@ -118,7 +94,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     const inner = new Array<Inspect>(this.length);
 
     for (let i = 0; i < this.length; i++) {
-      inner[i] = this[i].inspectU8a();
+      inner[i] = this[i].inspect();
     }
 
     return inner;

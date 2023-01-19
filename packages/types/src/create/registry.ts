@@ -7,7 +7,7 @@ import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
 import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
-import { DoNotConstruct, Json, Raw, warnGet } from '@polkadot/types-codec';
+import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
 import { assertReturn, BN_ZERO, formatBalance, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -186,7 +186,7 @@ export class TypeRegistry implements Registry {
   readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
   readonly #moduleMap: Record<string, string[]> = {};
 
-  public $createdAtHash?: Hash;
+  public createdAtHash?: Hash;
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
@@ -199,13 +199,8 @@ export class TypeRegistry implements Registry {
     }
 
     if (createdAtHash) {
-      this.$createdAtHash = this.createType('BlockHash', createdAtHash);
+      this.createdAtHash = this.createType('BlockHash', createdAtHash);
     }
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
   }
 
   public get chainDecimals (): number[] {

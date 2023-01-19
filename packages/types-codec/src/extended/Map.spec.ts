@@ -81,10 +81,10 @@ describe('CodecMap', (): void => {
 
       // only the length byte
       expect(none.toHex()).toEqual('0x00');
-      expect(none.$encodedLength).toEqual(1);
+      expect(none.encodedLength).toEqual(1);
       expect(
-        new CodecMap(registry, Text, Text, none.toHex()).$initialU8aLength
-      ).toEqual(none.$encodedLength);
+        new CodecMap(registry, Text, Text, none.toHex()).initialU8aLength
+      ).toEqual(none.encodedLength);
     });
 
     it('correctly encodes/decodes filled', (): void => {
@@ -95,10 +95,10 @@ describe('CodecMap', (): void => {
 
       // length byte + 2 values, 2 << 2 with Text values
       expect(some.toHex()).toEqual('0x0804310c666f6f04320c626172');
-      expect(some.$encodedLength).toEqual(1 + ((1 + 1) * 2) + ((1 + 3) * 2));
+      expect(some.encodedLength).toEqual(1 + ((1 + 1) * 2) + ((1 + 3) * 2));
       expect(
-        new CodecMap(registry, Text, Text, some.toHex()).$initialU8aLength
-      ).toEqual(some.$encodedLength);
+        new CodecMap(registry, Text, Text, some.toHex()).initialU8aLength
+      ).toEqual(some.encodedLength);
     });
   });
 
@@ -107,7 +107,7 @@ describe('CodecMap', (): void => {
       new CodecMap(registry, Text, Text, new Map([
         [new Text(registry, '1'), new Text(registry, 'foo')],
         [new Text(registry, '2'), new Text(registry, 'bar')]
-      ])).inspectU8a()
+      ])).inspect()
     ).toEqual({
       inner: [
         { outer: [new Uint8Array([1 << 2]), stringToU8a('1')] },

@@ -37,7 +37,7 @@ describe('Bool', (): void => {
   });
 
   it('correctly encodes length', (): void => {
-    expect(new Bool(registry, true).$encodedLength).toEqual(1);
+    expect(new Bool(registry, true).encodedLength).toEqual(1);
   });
 
   describe('utils', (): void => {
@@ -58,13 +58,13 @@ describe('Bool', (): void => {
     });
 
     it('has sane isEmpty aligning with the rest', (): void => {
-      expect(new Bool(registry).$isEmpty).toBe(true);
-      expect(new Bool(registry, false).$isEmpty).toBe(true);
-      expect(new Bool(registry, true).$isEmpty).toBe(false);
+      expect(new Bool(registry).isEmpty).toBe(true);
+      expect(new Bool(registry, false).isEmpty).toBe(true);
+      expect(new Bool(registry, true).isEmpty).toBe(false);
     });
 
     it('has a sane inspect', (): void => {
-      expect(new Bool(registry, true).inspectU8a()).toEqual({
+      expect(new Bool(registry, true).inspect()).toEqual({
         outer: [new Uint8Array([1])]
       });
     });

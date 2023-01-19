@@ -4,55 +4,29 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types';
 
-import { warnGet } from '../utils';
-
 /**
  * @name Base
  * @description A type extends the Base class, when it holds a value
  */
 export abstract class AbstractBase<T extends Codec> implements Codec {
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
-  readonly $registry: Registry;
+  readonly registry: Registry;
+
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #raw: T;
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
-    this.$initialU8aLength = initialU8aLength;
+    this.initialU8aLength = initialU8aLength;
     this.#raw = value;
-    this.$registry = registry;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
+    this.registry = registry;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     return this.toU8a().length;
   }
 
@@ -60,7 +34,7 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   public get inner (): T {
@@ -70,8 +44,8 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
-    return this.#raw.$isEmpty;
+  public get isEmpty (): boolean {
+    return this.#raw.isEmpty;
   }
 
   /**
@@ -84,8 +58,8 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
-    return this.#raw.inspectU8a();
+  public inspect (): Inspect {
+    return this.#raw.inspect();
   }
 
   /**

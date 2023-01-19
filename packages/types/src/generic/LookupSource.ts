@@ -70,7 +70,7 @@ export class GenericLookupSource extends AbstractBase<GenericAccountId | Generic
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     const rawLength = this._rawLength;
 
     return rawLength + (
@@ -87,13 +87,13 @@ export class GenericLookupSource extends AbstractBase<GenericAccountId | Generic
   protected get _rawLength (): number {
     return this.inner instanceof GenericAccountIndex
       ? GenericAccountIndex.calcLength(this.inner)
-      : this.inner.$encodedLength;
+      : this.inner.encodedLength;
   }
 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspectU8a (): Inspect {
+  override inspect (): Inspect {
     const value = this.inner.toU8a().subarray(0, this._rawLength);
 
     return {

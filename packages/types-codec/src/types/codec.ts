@@ -14,23 +14,6 @@ export interface Inspect {
   outer?: Uint8Array[];
 }
 
-interface CodecDeprecated {
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  readonly createdAtHash: IU8a | undefined;
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  readonly encodedLength: number;
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  readonly initialU8aLength: number | undefined;
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version. */
-  readonly isEmpty: boolean;
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version. */
-  readonly registry: Registry;
-}
-
 /**
  * @name Codec
  * @description
@@ -39,32 +22,20 @@ interface CodecDeprecated {
  * with getters and functions. The Codec Base is however required for operating
  * as an encoding/decoding layer
  */
-export interface Codec extends CodecDeprecated {
+export interface Codec {
   /**
    * @description
    * The block at which this value was retrieved/created (set to non-empty when
    * retrieved from storage)
    */
-  $createdAtHash?: IU8a;
-
-  /**
-   * @description
-   * The length of the value when encoded as a Uint8Array (which is the SCALE representation)
-   */
-  readonly $encodedLength: number;
+  createdAtHash?: IU8a;
 
   /**
    * @description
    * The length of the initial encoded value (Only available when the value was
    * constructed from a Uint8Array input)
    */
-  $initialU8aLength?: number;
-
-  /**
-   * @description
-   * Checks if the value is an empty value, with the internal bytes all-zero
-   */
-  $isEmpty: boolean;
+  initialU8aLength?: number;
 
   /**
    * @description
@@ -76,19 +47,27 @@ export interface Codec extends CodecDeprecated {
    * any empty storage item should erturn the default. (This is the same as the
    * implementation on the Substrate runtime)
    */
-  $isStorageFallback?: boolean;
+  isStorageFallback?: boolean;
 
   /**
-    * @description
-    * The type registry associated with this object, as available when this type
-    * was initially created.
-    */
-  readonly $registry: Registry;
+   * @description The length of the value when encoded as a Uint8Array
+   */
+  readonly encodedLength: number;
 
   /**
    * @description Returns a hash of the value
    */
   readonly hash: IU8a;
+
+  /**
+   * @description Checks if the value is an empty value
+   */
+  readonly isEmpty: boolean;
+
+  /**
+   * @description The registry associated with this object
+   */
+  readonly registry: Registry;
 
   /**
    * @description Compares the value of the input to see if there is a match
@@ -98,7 +77,7 @@ export interface Codec extends CodecDeprecated {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  inspectU8a (isBare?: BareOpts): Inspect;
+  inspect (isBare?: BareOpts): Inspect;
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation

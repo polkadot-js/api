@@ -33,7 +33,7 @@ describe('Set', (): void => {
   it('constructs via an string[]', (): void => {
     const set = new CodecSet(registry, SET_ROLES, ['full', 'authority']);
 
-    expect(set.$isEmpty).toEqual(false);
+    expect(set.isEmpty).toEqual(false);
     expect(set.toString()).toEqual(
       '[full, authority]'
     );
@@ -97,7 +97,7 @@ describe('Set', (): void => {
     });
 
     it('has a sane inspect', (): void => {
-      expect(set.inspectU8a()).toEqual({
+      expect(set.inspect()).toEqual({
         outer: [new Uint8Array([SET_ROLES.full | SET_ROLES.authority])]
       });
     });

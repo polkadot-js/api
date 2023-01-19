@@ -6,7 +6,7 @@ import type { CodecClass, Inspect, ISet, IU8a, Registry } from '../types';
 
 import { BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringify, stringPascalCase, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareArray, warnGet } from '../utils';
+import { compareArray } from '../utils';
 
 type SetValues = Record<string, number | BN>;
 
@@ -92,11 +92,11 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * a bitwise representation of the values.
  */
 export class CodecSet extends Set<string> implements ISet<string> {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #allowed: SetValues;
   readonly #byteLength: number;
@@ -104,34 +104,9 @@ export class CodecSet extends Set<string> implements ISet<string> {
   constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string, bitLength = 8) {
     super(decodeSet(setValues, value, bitLength));
 
-    this.$registry = registry;
+    this.registry = registry;
     this.#allowed = setValues;
     this.#byteLength = bitLength / 8;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
   }
 
   public static with (values: SetValues, bitLength?: number): CodecClass<CodecSet> {
@@ -158,7 +133,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     return this.#byteLength;
   }
 
@@ -166,13 +141,13 @@ export class CodecSet extends Set<string> implements ISet<string> {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description true is the Set contains no values
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.size === 0;
   }
 
@@ -225,7 +200,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

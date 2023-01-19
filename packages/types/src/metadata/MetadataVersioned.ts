@@ -65,7 +65,7 @@ export class MetadataVersioned extends Struct {
     }
 
     if (!this.#converted.has(version)) {
-      this.#converted.set(version, fromPrev(this.$registry, this[asPrev] as F, this.version));
+      this.#converted.set(version, fromPrev(this.registry, this[asPrev] as F, this.version));
     }
 
     return this.#converted.get(version) as T;
@@ -82,9 +82,9 @@ export class MetadataVersioned extends Struct {
    * @description Returns the wrapped metadata as a limited calls-only (latest) version
    */
   public get asCallsOnly (): MetadataVersioned {
-    return new MetadataVersioned(this.$registry, {
+    return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
-      metadata: this.$registry.createTypeUnsafe('MetadataAll', [toCallsOnly(this.$registry, this.asLatest), LATEST_VERSION])
+      metadata: this.registry.createTypeUnsafe('MetadataAll', [toCallsOnly(this.registry, this.asLatest), LATEST_VERSION])
     });
   }
 
@@ -154,7 +154,7 @@ export class MetadataVersioned extends Struct {
   }
 
   public getUniqTypes (throwError: boolean): string[] {
-    return getUniqTypes(this.$registry, this.asLatest, throwError);
+    return getUniqTypes(this.registry, this.asLatest, throwError);
   }
 
   /**

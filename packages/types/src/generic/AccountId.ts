@@ -67,7 +67,7 @@ class BaseAccountId extends U8aFixed {
    * @description Returns the string representation of the value
    */
   public override toString (): string {
-    return encodeAddress(this, this.$registry.chainSS58);
+    return encodeAddress(this, this.registry.chainSS58);
   }
 
   /**

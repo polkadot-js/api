@@ -68,7 +68,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
 
     super(registry, Classes[0].length);
 
-    this.$initialU8aLength = (
+    this.initialU8aLength = (
       isU8a(value)
         ? decodeU8a(registry, this, value, Classes)
         : decodeTuple(registry, this, value, Classes)
@@ -93,11 +93,11 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     let total = 0;
 
     for (let i = 0; i < this.length; i++) {
-      total += this[i].$encodedLength;
+      total += this[i].encodedLength;
     }
 
     return total;
@@ -109,13 +109,13 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   public get Types (): string[] {
     return this.#Types[1].length
       ? this.#Types[1]
-      : this.#Types[0].map((T) => new T(this.$registry).toRawType());
+      : this.#Types[0].map((T) => new T(this.registry).toRawType());
   }
 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
+  public override inspect (): Inspect {
     return {
       inner: this.inspectInner()
     };
@@ -126,7 +126,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    */
   public toRawType (): string {
     const types = this.#Types[0].map((T) =>
-      this.$registry.getClassName(T) || new T(this.$registry).toRawType()
+      this.registry.getClassName(T) || new T(this.registry).toRawType()
     );
 
     return `(${types.join(',')})`;

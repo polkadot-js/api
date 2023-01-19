@@ -6,7 +6,7 @@ import type { AnyJson, Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isFunction, objectProperties, stringify } from '@polkadot/util';
 
-import { compareMap, warnGet } from '../utils';
+import { compareMap } from '../utils';
 
 /** @internal */
 function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
@@ -22,59 +22,40 @@ function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
  * @noInheritDoc
  */
 export class Json extends Map<string, any> implements Codec {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  readonly $encodedLength = 0;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   constructor (registry: Registry, value?: Record<string, unknown> | null) {
     const decoded = decodeJson(value);
 
     super(decoded);
 
-    this.$registry = registry;
+    this.registry = registry;
 
     objectProperties(this, decoded.map(([k]) => k), (k) => this.get(k));
   }
 
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
+  /**
+   * @description Always 0, never encodes as a Uint8Array
+   */
   public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
+    return 0;
   }
 
   /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return [...this.keys()].length === 0;
   }
 
@@ -95,7 +76,7 @@ export class Json extends Map<string, any> implements Codec {
   /**
    * @description Unimplemented, will throw
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     throw new Error('Unimplemented');
   }
 

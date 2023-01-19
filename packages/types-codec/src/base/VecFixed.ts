@@ -32,7 +32,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    this.$initialU8aLength = (
+    this.initialU8aLength = (
       isU8a(value)
         ? decodeU8aVec(registry, this, value, 0, this.#Type)
         : decodeVec(registry, this, value, 0, this.#Type)
@@ -57,17 +57,17 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The type for the items
    */
   public get Type (): string {
-    return new this.#Type(this.$registry).toRawType();
+    return new this.#Type(this.registry).toRawType();
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     let total = 0;
 
     for (let i = 0; i < this.length; i++) {
-      total += this[i].$encodedLength;
+      total += this[i].encodedLength;
     }
 
     return total;
@@ -76,7 +76,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
+  public override inspect (): Inspect {
     return {
       inner: this.inspectInner()
     };

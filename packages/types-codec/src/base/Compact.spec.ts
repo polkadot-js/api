@@ -12,18 +12,6 @@ const CompactU32 = Compact.with(U32);
 describe('Compact', (): void => {
   const registry = new TypeRegistry();
 
-  describe('@deprecated', (): void => {
-    it('warns on createdAtHash usage', () => {
-      // eslint-disable-next-line deprecation/deprecation
-      expect(new Compact(registry, 'u128').createdAtHash).not.toBeDefined();
-    });
-
-    it('warns on initialU8aLength usage', () => {
-      // eslint-disable-next-line deprecation/deprecation
-      expect(new Compact(registry, 'u128').initialU8aLength).toEqual(0);
-    });
-  });
-
   describe('constructor', (): void => {
     it('fails on > MAX_SAFE_INTEGER', (): void => {
       // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
@@ -44,19 +32,19 @@ describe('Compact', (): void => {
 
     it('has the correct encodedLength for constructor values (string BlockNumber)', (): void => {
       expect(
-        new (Compact.with('BlockNumber'))(registry, 0xfffffff9).$encodedLength
+        new (Compact.with('BlockNumber'))(registry, 0xfffffff9).encodedLength
       ).toEqual(5);
     });
 
     it('has the correct encodedLength for constructor values (class BlockNumber)', (): void => {
       expect(
-        new (Compact.with(registry.createClass('BlockNumber')))(registry, 0xfffffff9).$encodedLength
+        new (Compact.with(registry.createClass('BlockNumber')))(registry, 0xfffffff9).encodedLength
       ).toEqual(5);
     });
 
     it('has the correct encodedLength for constructor values (u32)', (): void => {
       expect(
-        new (Compact.with(U32))(registry, 0xffff9).$encodedLength
+        new (Compact.with(U32))(registry, 0xffff9).encodedLength
       ).toEqual(4);
     });
 
@@ -98,7 +86,7 @@ describe('Compact', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        new (Compact.with(U32))(registry, 0xffff).inspectU8a()
+        new (Compact.with(U32))(registry, 0xffff).inspect()
       ).toEqual({
         outer: [new Uint8Array([254, 255, 3, 0])]
       });

@@ -18,7 +18,7 @@ export function createHeaderExtended (registry: Registry, header?: Header, valid
       super(registry, header);
 
       this.#author = author || extractAuthor(this.digest, validators || []);
-      this.$createdAtHash = header?.$createdAtHash;
+      this.createdAtHash = header?.createdAtHash;
     }
 
     /**

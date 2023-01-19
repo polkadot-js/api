@@ -45,7 +45,7 @@ describe('Raw', (): void => {
   });
 
   it('correctly encodes length', (): void => {
-    expect(u8a.$encodedLength).toEqual(5);
+    expect(u8a.encodedLength).toEqual(5);
   });
 
   it('allows wrapping of a pre-existing instance', (): void => {
@@ -98,7 +98,7 @@ describe('Raw', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        new Raw(registry, [1, 2, 3, 4, 5]).inspectU8a()
+        new Raw(registry, [1, 2, 3, 4, 5]).inspect()
       ).toEqual({
         outer: [new Uint8Array([1, 2, 3, 4, 5])]
       });

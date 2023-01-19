@@ -116,7 +116,7 @@ function querySystemAccount (api: DeriveApi, accountId: AccountId): Observable<R
 
       const nonce = (infoOrTuple as AccountInfo).nonce || (infoOrTuple as [Index, AccountData])[0];
 
-      if (!data || data.$isEmpty) {
+      if (!data || data.isEmpty) {
         return [
           nonce,
           [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]

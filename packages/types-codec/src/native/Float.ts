@@ -6,8 +6,6 @@ import type { AnyFloat, CodecClass, IFloat, Inspect, IU8a, Registry } from '../t
 
 import { floatToU8a, isHex, isU8a, u8aToFloat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { warnGet } from '../utils';
-
 interface Options {
   bitLength?: 32 | 64;
 }
@@ -21,11 +19,12 @@ interface Options {
  * in some eth_* RPCs
  */
 export class Float extends Number implements IFloat {
-  public $createdAtHash?: IU8a;
-  readonly $encodedLength: number;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
-  readonly $registry: Registry;
+  readonly encodedLength: number;
+  readonly registry: Registry;
+
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #bitLength: 32 | 64;
 
@@ -39,34 +38,9 @@ export class Float extends Number implements IFloat {
     );
 
     this.#bitLength = bitLength;
-    this.$encodedLength = bitLength / 8;
-    this.$initialU8aLength = this.$encodedLength;
-    this.$registry = registry;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
+    this.encodedLength = bitLength / 8;
+    this.initialU8aLength = this.encodedLength;
+    this.registry = registry;
   }
 
   public static with (bitLength: 32 | 64): CodecClass<Float> {
@@ -81,13 +55,13 @@ export class Float extends Number implements IFloat {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description Returns true if the type wraps an empty/default all-0 value
    */
-  public get $isEmpty (): boolean {
+  get isEmpty (): boolean {
     return this.valueOf() === 0;
   }
 
@@ -101,7 +75,7 @@ export class Float extends Number implements IFloat {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

@@ -55,7 +55,7 @@ export class Linkage<T extends Codec> extends Struct {
   public override toU8a (): Uint8Array {
     // As part of a storage query (where these appear), in the case of empty, the values
     // are NOT populated by the node - follow the same logic, leaving it empty
-    return this.$isEmpty
+    return this.isEmpty
       ? EMPTY
       : super.toU8a();
   }

@@ -6,8 +6,6 @@ import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from 
 
 import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
-import { warnGet } from '../utils';
-
 const BITLENGTH: UIntBitLength = 64;
 const U8A_OPTS = { bitLength: BITLENGTH, isLe: true };
 
@@ -36,55 +34,36 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
  * @noInheritDoc
  */
 export class CodecDate extends Date implements INumber {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  readonly $encodedLength = BITLENGTH / 8;
-  public $initialU8aLength = BITLENGTH / 8;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength = BITLENGTH / 8;
+  public isStorageFallback?: boolean;
 
   constructor (registry: Registry, value: CodecDate | Date | AnyNumber = 0) {
     super(decodeDate(value));
 
-    this.$registry = registry;
+    this.registry = registry;
   }
 
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
+    return BITLENGTH / 8;
   }
 
   /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.getTime() === 0;
   }
 
@@ -105,7 +84,7 @@ export class CodecDate extends Date implements INumber {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

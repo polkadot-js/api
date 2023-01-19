@@ -40,8 +40,8 @@ export class GenericExtrinsicPayloadV4 extends Struct {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
-    return super.inspectU8a({ method: true });
+  public override inspect (): Inspect {
+    return super.inspect({ method: true });
   }
 
   /**
@@ -116,6 +116,6 @@ export class GenericExtrinsicPayloadV4 extends Struct {
     // means that the data-as-signed is un-decodable, but is also doesn't need
     // the extra information, only the pure data (and is not decoded) ...
     // The same applies to V1..V3, if we have a V5, carry this comment
-    return sign(this.$registry, signerPair, this.toU8a({ method: true }), this.#signOptions);
+    return sign(this.registry, signerPair, this.toU8a({ method: true }), this.#signOptions);
   }
 }

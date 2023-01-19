@@ -207,7 +207,7 @@ describe('Struct', (): void => {
           txt: Text,
           u32: U32
         })
-      )(registry, { foo: 'bazzing', bar: 69 }).$encodedLength
+      )(registry, { foo: 'bazzing', bar: 69 }).encodedLength
     ).toEqual(5);
   });
 
@@ -380,7 +380,7 @@ describe('Struct', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        new Struct(registry, def, val).inspectU8a()
+        new Struct(registry, def, val).inspect()
       ).toEqual({
         inner: [
           {

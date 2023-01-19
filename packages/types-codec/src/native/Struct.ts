@@ -6,7 +6,7 @@ import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Regi
 
 import { isBoolean, isFunction, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap, warnGet } from '../utils';
+import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils';
 
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 
@@ -103,11 +103,11 @@ export class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #jsonMap: Map<keyof S, string>;
   readonly #Types: Definition;
@@ -122,35 +122,10 @@ export class Struct<
 
     super(decoded);
 
-    this.$initialU8aLength = decodedLength;
-    this.$registry = registry;
+    this.initialU8aLength = decodedLength;
+    this.registry = registry;
     this.#jsonMap = jsonMap;
     this.#Types = typeMap;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
   }
 
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
@@ -185,9 +160,9 @@ export class Struct<
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     for (const v of this.values()) {
-      if (!v.$isEmpty) {
+      if (!v.isEmpty) {
         return false;
       }
     }
@@ -198,11 +173,11 @@ export class Struct<
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     let total = 0;
 
     for (const v of this.values()) {
-      total += v.$encodedLength;
+      total += v.encodedLength;
     }
 
     return total;
@@ -212,7 +187,7 @@ export class Struct<
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -223,7 +198,7 @@ export class Struct<
     const [Types, keys] = this.#Types;
 
     for (let i = 0; i < keys.length; i++) {
-      result[keys[i]] = new Types[i](this.$registry).toRawType();
+      result[keys[i]] = new Types[i](this.registry).toRawType();
     }
 
     return result as E;
@@ -261,12 +236,12 @@ export class Struct<
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (isBare?: BareOpts): Inspect {
+  public inspect (isBare?: BareOpts): Inspect {
     const inner = new Array<Inspect>();
 
     for (const [k, v] of this.entries()) {
       inner.push({
-        ...v.inspectU8a(
+        ...v.inspect(
           !isBare || isBoolean(isBare)
             ? isBare
             : isBare[k]
@@ -345,7 +320,7 @@ export class Struct<
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return stringify(typesToMap(this.$registry, this.#Types));
+    return stringify(typesToMap(this.registry, this.#Types));
   }
 
   /**

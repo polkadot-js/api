@@ -8,7 +8,7 @@ describe('IdentityFields', (): void => {
 
   it('has a custom u64 (64-bit) encodedLength', (): void => {
     expect(
-      registry.createType('IdentityFields').$encodedLength
+      registry.createType('IdentityFields').encodedLength
     ).toEqual(8);
   });
 

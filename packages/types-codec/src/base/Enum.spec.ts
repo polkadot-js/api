@@ -293,7 +293,7 @@ describe('Enum', (): void => {
       it('has isNone set, with correct index (i.e. no values are used)', (): void => {
         const test = new Enum(registry, ['foo', 'bar'], 1);
 
-        expect(test.$isNone).toBe(true);
+        expect(test.isNone).toBe(true);
         expect(test.index).toEqual(1);
       });
 
@@ -303,7 +303,7 @@ describe('Enum', (): void => {
             registry,
             { Text, U32 },
             '0x0134120000'
-          ).inspectU8a()
+          ).inspect()
         ).toEqual({
           outer: [new Uint8Array([0x01]), new Uint8Array([0x34, 0x12, 0x00, 0x00])]
         });
@@ -430,7 +430,7 @@ describe('Enum', (): void => {
       const test = new Test(registry, 123, 1);
 
       expect(test.toHex()).toEqual('0x017b000000');
-      expect(test.$encodedLength).toEqual(1 + 4);
+      expect(test.encodedLength).toEqual(1 + 4);
     });
 
     it('encodes a single entry correctly', (): void => {

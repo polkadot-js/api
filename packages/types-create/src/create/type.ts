@@ -24,7 +24,7 @@ function checkInstance (created: Codec, matcher: Uint8Array): void {
     ) ||
     (
       // when the created is empty and matcher is also empty, let it slide...
-      created.$isEmpty &&
+      created.isEmpty &&
       matcher.every((v) => !v)
     )
   );
@@ -54,11 +54,11 @@ function initType<T extends Codec> (registry: Registry, Type: CodecClass, params
   isPedantic && checkPedantic(created, params);
 
   if (blockHash) {
-    created.$createdAtHash = createTypeUnsafe<IU8a>(registry, 'BlockHash', [blockHash]);
+    created.createdAtHash = createTypeUnsafe<IU8a>(registry, 'BlockHash', [blockHash]);
   }
 
   if (isFallback) {
-    created.$isStorageFallback = true;
+    created.isStorageFallback = true;
   }
 
   return created as T;

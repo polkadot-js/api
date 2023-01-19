@@ -19,7 +19,7 @@ function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbea
   validators.forEach((validator, index): void => {
     const validatorId = validator.toString();
     const blockCount = numBlocks[index];
-    const hasMessage = !heartbeats[index].$isEmpty;
+    const hasMessage = !heartbeats[index].isEmpty;
     const prev = result[validatorId];
 
     if (!prev || prev.hasMessage !== hasMessage || !prev.blockCount.eq(blockCount)) {

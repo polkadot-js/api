@@ -26,7 +26,7 @@ describe('Null', (): void => {
   });
 
   it('isEmpty', (): void => {
-    expect(new Null(registry).$isEmpty).toBe(true);
+    expect(new Null(registry).isEmpty).toBe(true);
   });
 
   it('has an empty hex', (): void => {

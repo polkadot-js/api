@@ -60,14 +60,14 @@ export class BitVec extends Raw {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     return this.length + compactToU8a(this.#decodedLength).length;
   }
 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
+  public override inspect (): Inspect {
     return {
       outer: [compactToU8a(this.#decodedLength), super.toU8a()]
     };

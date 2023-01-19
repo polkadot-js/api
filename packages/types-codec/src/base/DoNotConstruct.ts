@@ -4,51 +4,24 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, Inspect, IU8a, Registry } from '../types';
 
-import { warnGet } from '../utils';
-
 /**
  * @name DoNotConstruct
  * @description
  * An unknown type that fails on construction with the type info
  */
 export class DoNotConstruct implements Codec {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public isStorageFallback?: boolean;
 
   #neverError: Error;
 
   constructor (registry: Registry, typeName = 'DoNotConstruct') {
-    this.$registry = registry;
+    this.registry = registry;
     this.#neverError = new Error(`DoNotConstruct: Cannot construct unknown type ${typeName}`);
 
     throw this.#neverError;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
   }
 
   public static with (typeName?: string): CodecClass {
@@ -62,7 +35,7 @@ export class DoNotConstruct implements Codec {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     throw this.#neverError;
   }
 
@@ -76,7 +49,7 @@ export class DoNotConstruct implements Codec {
   /**
    * @description Checks if the value is an empty value (always true)
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     throw this.#neverError;
   }
 
@@ -84,7 +57,7 @@ export class DoNotConstruct implements Codec {
     throw this.#neverError;
   }
 
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     throw this.#neverError;
   }
 

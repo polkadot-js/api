@@ -158,7 +158,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
    * @description The argument definitions
    */
   public get argsDef (): ArgsDef {
-    return getArgsDef(this.$registry, this.meta);
+    return getArgsDef(this.registry, this.meta);
   }
 
   /**
@@ -193,14 +193,14 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
    * @description Returns the name of the method
    */
   public get method (): string {
-    return this.$registry.findMetaCall(this.callIndex).method;
+    return this.registry.findMetaCall(this.callIndex).method;
   }
 
   /**
    * @description Returns the module containing the method
    */
   public get section (): string {
-    return this.$registry.findMetaCall(this.callIndex).section;
+    return this.registry.findMetaCall(this.callIndex).section;
   }
 
   /**
@@ -217,7 +217,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
     let call: CallFunction | undefined;
 
     try {
-      call = this.$registry.findMetaCall(this.callIndex);
+      call = this.registry.findMetaCall(this.callIndex);
     } catch (error) {
       // swallow
     }

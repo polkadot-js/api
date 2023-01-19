@@ -80,7 +80,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    this.$initialU8aLength = (
+    this.initialU8aLength = (
       isU8a(decodeFrom)
         ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
         : decodeVec(registry, this, decodeFrom, startAt, this.#Type)
@@ -115,7 +115,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
     // convert type first, this removes overhead from the eq
     const other = _other instanceof this.#Type
       ? _other
-      : new this.#Type(this.$registry, _other);
+      : new this.#Type(this.registry, _other);
 
     for (let i = 0; i < this.length; i++) {
       if (other.eq(this[i])) {
@@ -130,6 +130,6 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Vec<${this.$registry.getClassName(this.#Type) || new this.#Type(this.$registry).toRawType()}>`;
+    return `Vec<${this.registry.getClassName(this.#Type) || new this.#Type(this.registry).toRawType()}>`;
   }
 }

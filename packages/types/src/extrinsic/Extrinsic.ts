@@ -131,7 +131,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     return this.toU8a().length;
   }
 
@@ -266,13 +266,13 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  override inspectU8a (): Inspect {
+  override inspect (): Inspect {
     const encoded = u8aConcat(...this.toU8aInner());
 
     return {
       inner: this.isSigned
-        ? this.inner.inspectU8a().inner
-        : this.inner.method.inspectU8a().inner,
+        ? this.inner.inspect().inner
+        : this.inner.method.inspect().inner,
       outer: [compactToU8a(encoded.length), new Uint8Array([this.version])]
     };
   }

@@ -40,7 +40,7 @@ describe('OptionBool', (): void => {
   });
 
   it('has a sane inspect', (): void => {
-    expect(new OptionBool(registry, true).inspectU8a()).toEqual({
+    expect(new OptionBool(registry, true).inspect()).toEqual({
       outer: [new Uint8Array([1])]
     });
   });

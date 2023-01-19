@@ -108,7 +108,7 @@ function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Arr
       ? registry.createTypeUnsafe(getSiName(registry.lookup, type), [value.subarray(offset + hashLen)])
       : registry.createTypeUnsafe('Raw', [value.subarray(offset, offset + hashLen)]);
 
-    offset += hashLen + (canDecode ? decoded.$encodedLength : 0);
+    offset += hashLen + (canDecode ? decoded.encodedLength : 0);
     result[i] = decoded;
   }
 
@@ -236,11 +236,11 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
     this.#section = section || this.#section;
 
     if (meta) {
-      this.#outputType = unwrapStorageType(this.$registry, meta.type);
+      this.#outputType = unwrapStorageType(this.registry, meta.type);
     }
 
     try {
-      this.#args = decodeArgsFromMeta(this.$registry, this.toU8a(true), meta);
+      this.#args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta);
     } catch (error) {
       // ignore...
     }

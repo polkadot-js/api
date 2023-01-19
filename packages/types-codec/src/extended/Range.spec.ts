@@ -25,7 +25,7 @@ describe('Range', (): void => {
   });
 
   it('has a sane inspect', (): void => {
-    expect(range.inspectU8a()).toEqual({
+    expect(range.inspect()).toEqual({
       inner: [
         { outer: [new Uint8Array([1, 0, 0, 0])] },
         { outer: [new Uint8Array([2, 0, 0, 0])] }

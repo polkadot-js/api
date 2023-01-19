@@ -46,7 +46,7 @@ export function createSignedBlockExtended (registry: Registry, block?: SignedBlo
       this.#author = author || extractAuthor(this.block.header.digest, validators || []);
       this.#events = events || ([] as EventRecord[]);
       this.#extrinsics = mapExtrinsics(this.block.extrinsics, this.#events);
-      this.$createdAtHash = block?.$createdAtHash;
+      this.createdAtHash = block?.createdAtHash;
     }
 
     /**

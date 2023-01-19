@@ -87,7 +87,7 @@ describe('BTreeMap', (): void => {
   it('correctly encodes length', (): void => {
     expect(
       new (
-        BTreeMap.with(Text, U32))(registry, mockU32TextMap).$encodedLength
+        BTreeMap.with(Text, U32))(registry, mockU32TextMap).encodedLength
     ).toEqual(13);
   });
 
@@ -195,7 +195,7 @@ describe('BTreeMap', (): void => {
         [new Text(registry, '1'), new Text(registry, 'foo')],
         [new Text(registry, '2'), new Text(registry, 'bar')],
         [new Text(registry, '3'), new Text(registry, 'baz')]
-      ])).inspectU8a()
+      ])).inspect()
     ).toEqual({
       inner: [
         { outer: [new Uint8Array([1 << 2]), stringToU8a('1')] },

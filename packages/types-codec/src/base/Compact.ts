@@ -7,7 +7,7 @@ import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, 
 
 import { compactFromU8a, compactFromU8aLim, compactToU8a, isU8a } from '@polkadot/util';
 
-import { typeToConstructor, warnGet } from '../utils';
+import { typeToConstructor } from '../utils';
 
 interface Options<T> {
   definition?: CodecClass<T>;
@@ -47,47 +47,23 @@ function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<
  * a number and making the compact representation thereof
  */
 export class Compact<T extends INumber> implements ICompact<T> {
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
-  readonly $registry: Registry;
+  readonly registry: Registry;
+
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #Type: CodecClass<T>;
   readonly #raw: T;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
-    this.$registry = registry;
+    this.registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
     const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
 
-    this.$initialU8aLength = decodedLength;
+    this.initialU8aLength = decodedLength;
     this.#raw = raw;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
   }
 
   public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {
@@ -107,7 +83,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     return this.toU8a().length;
   }
 
@@ -115,14 +91,14 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
-    return this.#raw.$isEmpty;
+  public get isEmpty (): boolean {
+    return this.#raw.isEmpty;
   }
 
   /**
@@ -146,7 +122,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };
@@ -205,7 +181,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Compact<${this.$registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
+    return `Compact<${this.registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
   }
 
   /**

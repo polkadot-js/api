@@ -6,48 +6,22 @@ import type { Codec, Inspect, IU8a, Registry } from '../types';
 
 import { isNull } from '@polkadot/util';
 
-import { warnGet } from '../utils';
-
 /**
  * @name Null
  * @description
  * Implements a type that does not contain anything (apart from `null`)
  */
 export class Null implements Codec {
-  public $createdAtHash?: IU8a;
-  readonly $encodedLength = 0;
-  public $initialU8aLength = 0;
-  public $isStorageFallback?: boolean;
-  readonly $isEmpty = true;
-  readonly $registry: Registry;
+  readonly encodedLength = 0;
+  readonly isEmpty = true;
+  readonly registry: Registry;
+
+  public createdAtHash?: IU8a;
+  public initialU8aLength = 0;
+  public isStorageFallback?: boolean;
 
   constructor (registry: Registry) {
-    this.$registry = registry;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
+    this.registry = registry;
   }
 
   /**
@@ -67,7 +41,7 @@ export class Null implements Codec {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     return {};
   }
 

@@ -76,17 +76,11 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
 
 export class Abi {
   readonly events: AbiEvent[];
-
   readonly constructors: AbiConstructor[];
-
   readonly info: ContractProjectInfo;
-
   readonly json: Record<string, unknown>;
-
   readonly messages: AbiMessage[];
-
   readonly metadata: ContractMetadataLatest;
-
   readonly registry: Registry;
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
@@ -239,7 +233,7 @@ export class Abi {
     return args.map(({ type: { lookupName, type } }): Codec => {
       const value = this.registry.createType(lookupName || type, data.subarray(offset));
 
-      offset += value.$encodedLength;
+      offset += value.encodedLength;
 
       return value;
     });

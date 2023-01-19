@@ -51,7 +51,7 @@ export class Result<O extends Codec, E extends Codec> extends Enum implements IR
    * @description Checks if the Result has no value
    */
   public override get isEmpty (): boolean {
-    return this.isOk && this.value.$isEmpty;
+    return this.isOk && this.value.isEmpty;
   }
 
   /**

@@ -33,13 +33,13 @@ export class OptionBool extends Option<Bool> {
         : value
     );
 
-    this.$initialU8aLength = 1;
+    this.initialU8aLength = 1;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     return 1;
   }
 
@@ -64,7 +64,7 @@ export class OptionBool extends Option<Bool> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
+  public override inspect (): Inspect {
     return { outer: [this.toU8a()] };
   }
 

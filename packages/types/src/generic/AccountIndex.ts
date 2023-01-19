@@ -87,7 +87,7 @@ export class GenericAccountIndex extends u32 {
     }
 
     // convert and compare
-    return super.eq(this.$registry.createTypeUnsafe('AccountIndex', [other]));
+    return super.eq(this.registry.createTypeUnsafe('AccountIndex', [other]));
   }
 
   /**
@@ -117,7 +117,7 @@ export class GenericAccountIndex extends u32 {
   public override toString (): string {
     const length = GenericAccountIndex.calcLength(this);
 
-    return encodeAddress(this.toU8a().subarray(0, length), this.$registry.chainSS58);
+    return encodeAddress(this.toU8a().subarray(0, length), this.registry.chainSS58);
   }
 
   /**

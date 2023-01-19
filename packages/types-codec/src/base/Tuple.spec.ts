@@ -50,7 +50,7 @@ describe('Tuple', (): void => {
       const INPUT = '0xcc0200000000';
       const test = registry.createType('(u32, [u32; 0], u16)', INPUT);
 
-      expect(test.$encodedLength).toEqual(4 + 0 + 2);
+      expect(test.encodedLength).toEqual(4 + 0 + 2);
       expect(test.toHex()).toEqual(INPUT);
     });
   });
@@ -123,7 +123,7 @@ describe('Tuple', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        tuple.inspectU8a()
+        tuple.inspect()
       ).toEqual({
         inner: [
           { outer: [new Uint8Array([7 << 2]), stringToU8a('bazzing')] },

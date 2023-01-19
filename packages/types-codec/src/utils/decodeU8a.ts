@@ -41,7 +41,7 @@ export function decodeU8a <T extends Codec = Codec> (registry: Registry, result:
     while (i < count) {
       const value = new Types[i](registry, u8a.subarray(offset));
 
-      offset += value.$initialU8aLength || value.$encodedLength;
+      offset += value.initialU8aLength || value.encodedLength;
       result[i] = value;
       i++;
     }
@@ -67,7 +67,7 @@ export function decodeU8aStruct (registry: Registry, result: [string, Codec][], 
     while (i < count) {
       const value = new Types[i](registry, u8a.subarray(offset));
 
-      offset += value.$initialU8aLength || value.$encodedLength;
+      offset += value.initialU8aLength || value.encodedLength;
       result[i] = [keys[i], value];
       i++;
     }
@@ -93,7 +93,7 @@ export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, resu
     while (i < count) {
       const value = new Type(registry, u8a.subarray(offset));
 
-      offset += value.$initialU8aLength || value.$encodedLength;
+      offset += value.initialU8aLength || value.encodedLength;
       result[i] = value;
       i++;
     }

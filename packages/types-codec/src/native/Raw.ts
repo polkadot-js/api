@@ -6,8 +6,6 @@ import type { AnyJson, AnyU8a, Inspect, IU8a, Registry } from '../types';
 
 import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 
-import { warnGet } from '../utils';
-
 /**
  * @name Raw
  * @description
@@ -18,11 +16,11 @@ import { warnGet } from '../utils';
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   /**
    * @description This ensures that operators such as clice, filter, map, etc. return
@@ -35,39 +33,14 @@ export class Raw extends Uint8Array implements IU8a {
   constructor (registry: Registry, value?: AnyU8a, initialU8aLength?: number) {
     super(u8aToU8a(value));
 
-    this.$registry = registry;
-    this.$initialU8aLength = initialU8aLength;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
+    this.registry = registry;
+    this.initialU8aLength = initialU8aLength;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     return this.length;
   }
 
@@ -75,7 +48,7 @@ export class Raw extends Uint8Array implements IU8a {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -88,7 +61,7 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description Returns true if the type wraps an empty/default all-0 value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return !this.length || isUndefined(this.find((b) => !!b));
   }
 
@@ -121,7 +94,7 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     return {
       outer: [this.toU8a()]
     };

@@ -20,7 +20,7 @@ describe('HashMap', (): void => {
       new (HashMap.with(Text, Text))(registry, new Map([
         [new Text(registry, '1'), new Text(registry, 'foo')],
         [new Text(registry, '2'), new Text(registry, 'bar')]
-      ])).inspectU8a()
+      ])).inspect()
     ).toEqual({
       inner: [
         { outer: [new Uint8Array([1 << 2]), stringToU8a('1')] },

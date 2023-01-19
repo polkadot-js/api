@@ -6,7 +6,6 @@ import type { AnyString, AnyU8a, Inspect, IText, IU8a, Registry } from '../types
 
 import { compactAddLength, compactFromU8aLim, compactToU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
-import { warnGet } from '../utils';
 import { Raw } from './Raw';
 
 const MAX_LENGTH = 128 * 1024;
@@ -50,11 +49,11 @@ function decodeText (value?: null | AnyString | AnyU8a | { toString: () => strin
  * @noInheritDoc
  */
 export class Text extends String implements IText {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   #override: string | null = null;
 
@@ -63,39 +62,14 @@ export class Text extends String implements IText {
 
     super(str);
 
-    this.$registry = registry;
-    this.$initialU8aLength = decodedLength;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
+    this.registry = registry;
+    this.initialU8aLength = decodedLength;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     return this.toU8a().length;
   }
 
@@ -103,13 +77,13 @@ export class Text extends String implements IText {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.length === 0;
   }
 
@@ -133,7 +107,7 @@ export class Text extends String implements IText {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     const value = stringToU8a(super.toString());
 
     return {

@@ -37,7 +37,7 @@ describe('Option', (): void => {
     ].forEach((test): void => {
       expect(test.isSome).toBe(true);
       expect(test.isNone).toBe(false);
-      expect(test.$isEmpty).toBe(false);
+      expect(test.isEmpty).toBe(false);
       expect(test.toU8a()).toEqual(new Uint8Array([1]));
       expect(test.unwrap().toHex()).toEqual('0x');
     });
@@ -198,7 +198,7 @@ describe('Option', (): void => {
 
     it('has a sane inspect', (): void => {
       expect(
-        new Option(registry, U32, '1234').inspectU8a()
+        new Option(registry, U32, '1234').inspect()
       ).toEqual({
         outer: [new Uint8Array([0x01]), new Uint8Array([210, 4, 0, 0])]
       });

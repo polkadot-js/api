@@ -50,14 +50,14 @@ export class Bytes extends Raw {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public override get $encodedLength (): number {
+  public override get encodedLength (): number {
     return this.length + compactToU8a(this.length).length;
   }
 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (isBare?: boolean): Inspect {
+  public override inspect (isBare?: boolean): Inspect {
     const clength = compactToU8a(this.length);
 
     return {

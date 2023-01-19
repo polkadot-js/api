@@ -70,10 +70,10 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public override inspectU8a (): Inspect {
+  public override inspect (): Inspect {
     return this.#decoded
       ? {
-        inner: [this.#decoded.inspectU8a()],
+        inner: [this.#decoded.inspect()],
         outer: [compactToU8a(this.length)]
       }
       : {
@@ -103,7 +103,7 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {
-    return `${this.#opaqueName}<${this.$registry.getClassName(this.#Type) || (this.#decoded ? this.#decoded.toRawType() : new this.#Type(this.$registry).toRawType())}>`;
+    return `${this.#opaqueName}<${this.registry.getClassName(this.#Type) || (this.#decoded ? this.#decoded.toRawType() : new this.#Type(this.registry).toRawType())}>`;
   }
 
   /**

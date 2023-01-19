@@ -6,7 +6,7 @@ import type { AnyJson, Codec, CodecClass, Inspect, IOption, IU8a, Registry } fro
 
 import { isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
-import { typeToConstructor, warnGet } from '../utils';
+import { typeToConstructor } from '../utils';
 import { Null } from './Null';
 
 interface Options<T> {
@@ -66,11 +66,11 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
  * with a value if/as required/found.
  */
 export class Option<T extends Codec> implements IOption<T> {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #Type: CodecClass<T>;
   readonly #raw: T;
@@ -83,38 +83,13 @@ export class Option<T extends Codec> implements IOption<T> {
         : new Type(registry, value.subarray(1))
       : decodeOption(registry, Type, value);
 
-    this.$registry = registry;
+    this.registry = registry;
     this.#Type = Type;
     this.#raw = decoded as T;
 
-    if (decoded?.$initialU8aLength) {
-      this.$initialU8aLength = 1 + decoded.$initialU8aLength;
+    if (decoded?.initialU8aLength) {
+      this.initialU8aLength = 1 + decoded.initialU8aLength;
     }
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Option<O>> {
@@ -136,22 +111,22 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
-    return 1 + this.#raw.$encodedLength;
+    return 1 + this.#raw.encodedLength;
   }
 
   /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description Checks if the Option has no value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.isNone;
   }
 
@@ -190,12 +165,12 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     if (this.isNone) {
       return { outer: [new Uint8Array([0])] };
     }
 
-    const { inner, outer = [] } = this.#raw.inspectU8a();
+    const { inner, outer = [] } = this.#raw.inspect();
 
     return {
       inner,
@@ -243,7 +218,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (isBare?: boolean): string {
-    const wrapped = this.$registry.getClassName(this.#Type) || new this.#Type(this.$registry).toRawType();
+    const wrapped = this.registry.getClassName(this.#Type) || new this.#Type(this.registry).toRawType();
 
     return isBare
       ? wrapped
@@ -266,7 +241,7 @@ export class Option<T extends Codec> implements IOption<T> {
       return this.#raw.toU8a(true);
     }
 
-    const u8a = new Uint8Array(this.$encodedLength);
+    const u8a = new Uint8Array(this.encodedLength);
 
     if (this.isSome) {
       u8a.set([1]);
@@ -304,6 +279,6 @@ export class Option<T extends Codec> implements IOption<T> {
   public unwrapOrDefault (): T {
     return this.isSome
       ? this.unwrap()
-      : new this.#Type(this.$registry);
+      : new this.#Type(this.registry);
   }
 }

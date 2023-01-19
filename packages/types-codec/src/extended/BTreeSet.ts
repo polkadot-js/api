@@ -6,7 +6,7 @@ import type { AnyJson, Codec, CodecClass, Inspect, ISet, IU8a, Registry } from '
 
 import { compactFromU8aLim, compactToU8a, isHex, isU8a, logger, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareSet, decodeU8aVec, sortSet, typeToConstructor, warnGet } from '../utils';
+import { compareSet, decodeU8aVec, sortSet, typeToConstructor } from '../utils';
 
 const l = logger('BTreeSet');
 
@@ -70,11 +70,11 @@ function decodeSet<V extends Codec> (registry: Registry, valType: CodecClass<V> 
 }
 
 export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V> {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #ValClass: CodecClass<V>;
 
@@ -83,34 +83,9 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
     super(sortSet(values));
 
-    this.$registry = registry;
-    this.$initialU8aLength = decodedLength;
+    this.registry = registry;
+    this.initialU8aLength = decodedLength;
     this.#ValClass = ValClass;
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
   }
 
   public static with<V extends Codec> (valType: CodecClass<V> | string): CodecClass<BTreeSet<V>> {
@@ -124,11 +99,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     let len = compactToU8a(this.size).length;
 
     for (const v of this.values()) {
-      len += v.$encodedLength;
+      len += v.encodedLength;
     }
 
     return len;
@@ -138,13 +113,13 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns a hash of the value
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.size === 0;
   }
 
@@ -165,11 +140,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     const inner = new Array<Inspect>();
 
     for (const v of this.values()) {
-      inner.push(v.inspectU8a());
+      inner.push(v.inspect());
     }
 
     return {
@@ -215,7 +190,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `BTreeSet<${this.$registry.getClassName(this.#ValClass) || new this.#ValClass(this.$registry).toRawType()}>`;
+    return `BTreeSet<${this.registry.getClassName(this.#ValClass) || new this.#ValClass(this.registry).toRawType()}>`;
   }
 
   /**

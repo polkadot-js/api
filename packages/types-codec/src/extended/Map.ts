@@ -10,7 +10,7 @@ import { AbstractArray } from '../abstract/Array';
 import { Enum } from '../base/Enum';
 import { Raw } from '../native/Raw';
 import { Struct } from '../native/Struct';
-import { compareMap, decodeU8a, sortMap, typeToConstructor, warnGet } from '../utils';
+import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils';
 
 const l = logger('Map');
 
@@ -94,11 +94,11 @@ function decodeMap<K extends Codec, V extends Codec> (registry: Registry, keyTyp
 }
 
 export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends Map<K, V> implements IMap<K, V> {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #KeyClass: CodecClass<K>;
   readonly #ValClass: CodecClass<V>;
@@ -109,46 +109,21 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
     super(type === 'BTreeMap' ? sortMap(decoded) : decoded);
 
-    this.$registry = registry;
-    this.$initialU8aLength = decodedLength;
+    this.registry = registry;
+    this.initialU8aLength = decodedLength;
     this.#KeyClass = KeyClass;
     this.#ValClass = ValClass;
     this.#type = type;
   }
 
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
-  }
-
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
+  public get encodedLength (): number {
     let len = compactToU8a(this.size).length;
 
     for (const [k, v] of this.entries()) {
-      len += k.$encodedLength + v.$encodedLength;
+      len += k.encodedLength + v.encodedLength;
     }
 
     return len;
@@ -158,13 +133,13 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @description Returns a hash of the value
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.size === 0;
   }
 
@@ -178,12 +153,12 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
+  public inspect (): Inspect {
     const inner = new Array<Inspect>();
 
     for (const [k, v] of this.entries()) {
-      inner.push(k.inspectU8a());
-      inner.push(v.inspectU8a());
+      inner.push(k.inspect());
+      inner.push(v.inspect());
     }
 
     return {
@@ -250,7 +225,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `${this.#type}<${this.$registry.getClassName(this.#KeyClass) || new this.#KeyClass(this.$registry).toRawType()},${this.$registry.getClassName(this.#ValClass) || new this.#ValClass(this.$registry).toRawType()}>`;
+    return `${this.#type}<${this.registry.getClassName(this.#KeyClass) || new this.#KeyClass(this.registry).toRawType()},${this.registry.getClassName(this.#ValClass) || new this.#ValClass(this.registry).toRawType()}>`;
   }
 
   /**

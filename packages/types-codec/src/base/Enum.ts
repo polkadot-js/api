@@ -6,7 +6,7 @@ import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from 
 
 import { isHex, isNumber, isObject, isString, isU8a, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { mapToTypeMap, typesToMap, warnGet } from '../utils';
+import { mapToTypeMap, typesToMap } from '../utils';
 import { Null } from './Null';
 
 // export interface, this is used in Enum.with, so required as public by TS
@@ -183,16 +183,16 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
  * an extension to enum where the value type is determined by the actual index.
  */
 export class Enum implements IEnum {
-  readonly $registry: Registry;
+  readonly registry: Registry;
 
-  public $createdAtHash?: IU8a;
-  public $initialU8aLength?: number;
-  readonly $isBasic: boolean;
-  public $isStorageFallback?: boolean;
+  public createdAtHash?: IU8a;
+  public initialU8aLength?: number;
+  public isStorageFallback?: boolean;
 
   readonly #def: TypesDef;
   readonly #entryIndex: number;
   readonly #indexes: number[];
+  readonly #isBasic: boolean;
   readonly #isIndexed: boolean;
   readonly #raw: Codec;
 
@@ -204,53 +204,17 @@ export class Enum implements IEnum {
       ? createFromU8a(registry, def, value[0], value.subarray(1))
       : decodeEnum(registry, def, value, index);
 
-    this.$isBasic = isBasic;
-
-    this.$registry = registry;
+    this.registry = registry;
     this.#def = def;
+    this.#isBasic = isBasic;
     this.#isIndexed = isIndexed;
     this.#indexes = Object.values(def).map(({ index }) => index);
     this.#entryIndex = this.#indexes.indexOf(decoded.index);
     this.#raw = decoded.value;
 
-    if (this.#raw.$initialU8aLength) {
-      this.$initialU8aLength = 1 + this.#raw.$initialU8aLength;
+    if (this.#raw.initialU8aLength) {
+      this.initialU8aLength = 1 + this.#raw.initialU8aLength;
     }
-  }
-
-  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
-  public get createdAtHash (): IU8a | undefined {
-    return warnGet(this, 'createdAtHash');
-  }
-
-  /** @deprecated Use $encodedLength instead. This getter will be removed in a future version. */
-  public get encodedLength (): number {
-    return warnGet(this, 'encodedLength');
-  }
-
-  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
-  public get initialU8aLength (): number | undefined {
-    return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $registry instead. This getter will be removed in a future version */
-  public get registry (): Registry {
-    return warnGet(this, 'registry');
-  }
-
-  /** @deprecated Use $isBasic instead. This getter will be removed in a future version */
-  public get isBasic (): boolean {
-    return warnGet(this, 'isBasic');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $isNone instead. This getter will be removed in a future version */
-  public get isNone (): boolean {
-    return warnGet(this, 'isNone');
   }
 
   public static with (Types: Record<string, string | CodecClass> | Record<string, number> | string[]): EnumCodecClass<Enum> {
@@ -297,15 +261,15 @@ export class Enum implements IEnum {
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
-  public get $encodedLength (): number {
-    return 1 + this.#raw.$encodedLength;
+  public get encodedLength (): number {
+    return 1 + this.#raw.encodedLength;
   }
 
   /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.$registry.hash(this.toU8a());
+    return this.registry.hash(this.toU8a());
   }
 
   /**
@@ -323,16 +287,23 @@ export class Enum implements IEnum {
   }
 
   /**
+   * @description true if this is a basic enum (no values)
+   */
+  public get isBasic (): boolean {
+    return this.#isBasic;
+  }
+
+  /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
-    return this.#raw.$isEmpty;
+  public get isEmpty (): boolean {
+    return this.#raw.isEmpty;
   }
 
   /**
    * @description Checks if the Enum points to a [[Null]] type
    */
-  public get $isNone (): boolean {
+  public get isNone (): boolean {
     return this.#raw instanceof Null;
   }
 
@@ -373,7 +344,7 @@ export class Enum implements IEnum {
       return !this.toU8a().some((entry, index) => entry !== other[index]);
     } else if (isNumber(other)) {
       return this.toNumber() === other;
-    } else if (this.$isBasic && isString(other)) {
+    } else if (this.#isBasic && isString(other)) {
       return this.type === other;
     } else if (isHex(other)) {
       return this.toHex() === other;
@@ -390,12 +361,12 @@ export class Enum implements IEnum {
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspectU8a (): Inspect {
-    if (this.$isBasic) {
+  public inspect (): Inspect {
+    if (this.#isBasic) {
       return { outer: [new Uint8Array([this.index])] };
     }
 
-    const { inner, outer = [] } = this.#raw.inspectU8a();
+    const { inner, outer = [] } = this.#raw.inspect();
 
     return {
       inner,
@@ -414,7 +385,7 @@ export class Enum implements IEnum {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.$isBasic || this.$isNone
+    return this.#isBasic || this.isNone
       ? this.type
       : { [this.type]: this.#raw.toHuman(isExtended) };
   }
@@ -423,7 +394,7 @@ export class Enum implements IEnum {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.$isBasic
+    return this.#isBasic
       ? this.type
       : { [stringCamelCase(this.type)]: this.#raw.toJSON() };
   }
@@ -439,7 +410,7 @@ export class Enum implements IEnum {
    * @description Converts the value in a best-fit primitive form
    */
   public toPrimitive (): AnyJson {
-    return this.$isBasic
+    return this.#isBasic
       ? this.type
       : { [stringCamelCase(this.type)]: this.#raw.toPrimitive() };
   }
@@ -448,7 +419,7 @@ export class Enum implements IEnum {
    * @description Returns a raw struct representation of the enum types
    */
   protected _toRawStruct (): string[] | Record<string, string | number> {
-    if (this.$isBasic) {
+    if (this.#isBasic) {
       return this.#isIndexed
         ? this.defKeys.reduce((out: Record<string, number>, key, index): Record<string, number> => {
           out[key] = this.#indexes[index];
@@ -460,7 +431,7 @@ export class Enum implements IEnum {
 
     const entries = Object.entries(this.#def);
 
-    return typesToMap(this.$registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
+    return typesToMap(this.registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
       out[0][i] = Type;
       out[1][i] = key;
 
@@ -479,7 +450,7 @@ export class Enum implements IEnum {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this.$isNone
+    return this.isNone
       ? this.type
       : stringify(this.toJSON());
   }
