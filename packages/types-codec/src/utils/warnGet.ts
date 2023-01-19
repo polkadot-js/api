@@ -12,7 +12,7 @@ export function warnGet <T> (obj: Record<string, any>, name: 'createdAtHash' | '
   if (!hasWarned[check]) {
     hasWarned[check] = true;
 
-    console.warn(`Use ${clazz}.${pass} instead. The previous ${check} is deprecated and will be removed in a future version.`);
+    console.warn(`Use ${clazz}.${pass} instead. The use of ${check} is deprecated and will be removed in a future version.`);
   }
 
   return obj[pass] as T;

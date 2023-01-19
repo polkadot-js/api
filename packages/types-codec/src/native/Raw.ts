@@ -39,12 +39,12 @@ export class Raw extends Uint8Array implements IU8a {
     this.$initialU8aLength = initialU8aLength;
   }
 
-  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
   public get createdAtHash (): IU8a | undefined {
     return warnGet(this, 'createdAtHash');
   }
 
-  /** @deprecated This will be removed in a future version. Use $initialU8aLength instead. */
+  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
   }

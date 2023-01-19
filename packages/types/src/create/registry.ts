@@ -203,7 +203,7 @@ export class TypeRegistry implements Registry {
     }
   }
 
-  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
   public get createdAtHash (): IU8a | undefined {
     return warnGet(this, 'createdAtHash');
   }

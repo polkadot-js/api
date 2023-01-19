@@ -88,12 +88,12 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
     this.#ValClass = ValClass;
   }
 
-  /** @deprecated This will be removed in a future version. Use $createdAtHash instead. */
+  /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
   public get createdAtHash (): IU8a | undefined {
     return warnGet(this, 'createdAtHash');
   }
 
-  /** @deprecated This will be removed in a future version. Use $initialU8aLength instead. */
+  /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
   }
