@@ -21,8 +21,8 @@ interface Options {
  * in some eth_* RPCs
  */
 export class Float extends Number implements IFloat {
-  readonly encodedLength: number;
-  readonly registry: Registry;
+  public readonly encodedLength: number;
+  public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -55,11 +55,6 @@ export class Float extends Number implements IFloat {
     return warnGet(this, 'initialU8aLength');
   }
 
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
   public static with (bitLength: 32 | 64): CodecClass<Float> {
     return class extends Float {
       constructor (registry: Registry, value?: AnyFloat) {
@@ -78,7 +73,7 @@ export class Float extends Number implements IFloat {
   /**
    * @description Returns true if the type wraps an empty/default all-0 value
    */
-  public get $isEmpty (): boolean {
+  get isEmpty (): boolean {
     return this.valueOf() === 0;
   }
 

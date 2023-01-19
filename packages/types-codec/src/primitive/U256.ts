@@ -10,5 +10,5 @@ import { UInt } from '../base/UInt';
  */
 export class u256 extends UInt.with(256) {
   // NOTE without this, we cannot properly determine extensions
-  readonly __UIntType = 'u256';
+  public readonly __UIntType = 'u256';
 }

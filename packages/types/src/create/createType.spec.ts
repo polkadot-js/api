@@ -22,7 +22,7 @@ describe('createType', (): void => {
 
     expect(f64.toRawType()).toEqual('Fixed64');
     expect(f64.bitLength()).toEqual(64);
-    expect(f64.$isUnsigned).toBe(false);
+    expect(f64.isUnsigned).toBe(false);
     expect(f64 instanceof Int).toBe(true);
   });
 

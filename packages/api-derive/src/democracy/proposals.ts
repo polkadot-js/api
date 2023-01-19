@@ -30,7 +30,7 @@ function isNewDepositors (depositors: ITuple<[Vec<AccountId>, Balance]> | ITuple
 function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
   return proposals
     .filter(([, , proposer], index): boolean =>
-      !!(optDepositors[index]?.isSome) && !proposer.$isEmpty
+      !!(optDepositors[index]?.isSome) && !proposer.isEmpty
     )
     .map(([index, hash, proposer], proposalIndex): DeriveProposal => {
       const depositors = optDepositors[proposalIndex].unwrap();

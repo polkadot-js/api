@@ -36,7 +36,7 @@ function decodeDate (value: CodecDate | Date | AnyNumber): Date {
  * @noInheritDoc
  */
 export class CodecDate extends Date implements INumber {
-  readonly registry: Registry;
+  public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength = BITLENGTH / 8;
@@ -58,11 +58,6 @@ export class CodecDate extends Date implements INumber {
     return warnGet(this, 'initialU8aLength');
   }
 
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -80,7 +75,7 @@ export class CodecDate extends Date implements INumber {
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.getTime() === 0;
   }
 

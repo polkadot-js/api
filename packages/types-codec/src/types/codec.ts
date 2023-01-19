@@ -20,9 +20,6 @@ interface CodecDeprecated {
 
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   readonly initialU8aLength: number | undefined;
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version. */
-  readonly isEmpty: boolean;
 }
 
 /**
@@ -50,12 +47,6 @@ export interface Codec extends CodecDeprecated {
 
   /**
    * @description
-   * Checks if the value is an empty value, with the internal bytes all-zero
-   */
-  $isEmpty: boolean;
-
-  /**
-   * @description
    * (internal usage) Indicates that the value was created via a fallback. This
    * is used when with data specified in the metadata when the storage entry is
    * empty.
@@ -75,6 +66,11 @@ export interface Codec extends CodecDeprecated {
    * @description Returns a hash of the value
    */
   readonly hash: IU8a;
+
+  /**
+   * @description Checks if the value is an empty value
+   */
+  readonly isEmpty: boolean;
 
   /**
    * @description The registry associated with this object

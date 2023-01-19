@@ -16,7 +16,7 @@ import { compareArray, warnGet } from '../utils';
  * @noInheritDoc
  */
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
-  readonly registry: Registry;
+  public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -46,11 +46,6 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     return warnGet(this, 'initialU8aLength');
   }
 
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -76,7 +71,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.length === 0;
   }
 

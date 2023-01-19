@@ -183,16 +183,16 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
  * an extension to enum where the value type is determined by the actual index.
  */
 export class Enum implements IEnum {
-  readonly registry: Registry;
+  public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
-  readonly $isBasic: boolean;
   public $isStorageFallback?: boolean;
 
   readonly #def: TypesDef;
   readonly #entryIndex: number;
   readonly #indexes: number[];
+  readonly #isBasic: boolean;
   readonly #isIndexed: boolean;
   readonly #raw: Codec;
 
@@ -204,10 +204,9 @@ export class Enum implements IEnum {
       ? createFromU8a(registry, def, value[0], value.subarray(1))
       : decodeEnum(registry, def, value, index);
 
-    this.$isBasic = isBasic;
-
     this.registry = registry;
     this.#def = def;
+    this.#isBasic = isBasic;
     this.#isIndexed = isIndexed;
     this.#indexes = Object.values(def).map(({ index }) => index);
     this.#entryIndex = this.#indexes.indexOf(decoded.index);
@@ -226,21 +225,6 @@ export class Enum implements IEnum {
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isBasic instead. This getter will be removed in a future version */
-  public get isBasic (): boolean {
-    return warnGet(this, 'isBasic');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
-  /** @deprecated Use $isNone instead. This getter will be removed in a future version */
-  public get isNone (): boolean {
-    return warnGet(this, 'isNone');
   }
 
   public static with (Types: Record<string, string | CodecClass> | Record<string, number> | string[]): EnumCodecClass<Enum> {
@@ -313,16 +297,23 @@ export class Enum implements IEnum {
   }
 
   /**
+   * @description true if this is a basic enum (no values)
+   */
+  public get isBasic (): boolean {
+    return this.#isBasic;
+  }
+
+  /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
-    return this.#raw.$isEmpty;
+  public get isEmpty (): boolean {
+    return this.#raw.isEmpty;
   }
 
   /**
    * @description Checks if the Enum points to a [[Null]] type
    */
-  public get $isNone (): boolean {
+  public get isNone (): boolean {
     return this.#raw instanceof Null;
   }
 
@@ -363,7 +354,7 @@ export class Enum implements IEnum {
       return !this.toU8a().some((entry, index) => entry !== other[index]);
     } else if (isNumber(other)) {
       return this.toNumber() === other;
-    } else if (this.$isBasic && isString(other)) {
+    } else if (this.#isBasic && isString(other)) {
       return this.type === other;
     } else if (isHex(other)) {
       return this.toHex() === other;
@@ -381,7 +372,7 @@ export class Enum implements IEnum {
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public inspect (): Inspect {
-    if (this.$isBasic) {
+    if (this.#isBasic) {
       return { outer: [new Uint8Array([this.index])] };
     }
 
@@ -404,7 +395,7 @@ export class Enum implements IEnum {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.$isBasic || this.$isNone
+    return this.#isBasic || this.isNone
       ? this.type
       : { [this.type]: this.#raw.toHuman(isExtended) };
   }
@@ -413,7 +404,7 @@ export class Enum implements IEnum {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.$isBasic
+    return this.#isBasic
       ? this.type
       : { [stringCamelCase(this.type)]: this.#raw.toJSON() };
   }
@@ -429,7 +420,7 @@ export class Enum implements IEnum {
    * @description Converts the value in a best-fit primitive form
    */
   public toPrimitive (): AnyJson {
-    return this.$isBasic
+    return this.#isBasic
       ? this.type
       : { [stringCamelCase(this.type)]: this.#raw.toPrimitive() };
   }
@@ -438,7 +429,7 @@ export class Enum implements IEnum {
    * @description Returns a raw struct representation of the enum types
    */
   protected _toRawStruct (): string[] | Record<string, string | number> {
-    if (this.$isBasic) {
+    if (this.#isBasic) {
       return this.#isIndexed
         ? this.defKeys.reduce((out: Record<string, number>, key, index): Record<string, number> => {
           out[key] = this.#indexes[index];
@@ -469,7 +460,7 @@ export class Enum implements IEnum {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this.$isNone
+    return this.isNone
       ? this.type
       : stringify(this.toJSON());
   }

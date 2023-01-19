@@ -50,7 +50,7 @@ function decodeText (value?: null | AnyString | AnyU8a | { toString: () => strin
  * @noInheritDoc
  */
 export class Text extends String implements IText {
-  readonly registry: Registry;
+  public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -77,11 +77,6 @@ export class Text extends String implements IText {
     return warnGet(this, 'initialU8aLength');
   }
 
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -99,7 +94,7 @@ export class Text extends String implements IText {
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.length === 0;
   }
 

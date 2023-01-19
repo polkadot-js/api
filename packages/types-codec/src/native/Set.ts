@@ -92,7 +92,7 @@ function decodeSet (setValues: SetValues, value: string[] | Set<string> | Uint8A
  * a bitwise representation of the values.
  */
 export class CodecSet extends Set<string> implements ISet<string> {
-  readonly registry: Registry;
+  public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -117,11 +117,6 @@ export class CodecSet extends Set<string> implements ISet<string> {
   /** @deprecated Use $initialU8aLength instead. This getter will be removed in a future version. */
   public get initialU8aLength (): number | undefined {
     return warnGet(this, 'initialU8aLength');
-  }
-
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
   }
 
   public static with (values: SetValues, bitLength?: number): CodecClass<CodecSet> {
@@ -162,7 +157,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
   /**
    * @description true is the Set contains no values
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return this.size === 0;
   }
 

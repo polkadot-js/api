@@ -10,5 +10,5 @@ import { UInt } from '../base/UInt';
  */
 export class u64 extends UInt.with(64) {
   // NOTE without this, we cannot properly determine extensions
-  readonly __UIntType = 'u64';
+  public readonly __UIntType = 'u64';
 }

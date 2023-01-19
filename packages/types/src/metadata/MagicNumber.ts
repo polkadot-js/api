@@ -11,7 +11,7 @@ export class MagicNumber extends U32 {
   constructor (registry: Registry, value?: AnyNumber) {
     super(registry, value);
 
-    if (!this.$isEmpty && !this.eq(MAGIC_NUMBER)) {
+    if (!this.isEmpty && !this.eq(MAGIC_NUMBER)) {
       throw new Error(`MagicNumber mismatch: expected ${registry.createTypeUnsafe('u32', [MAGIC_NUMBER]).toHex()}, found ${this.toHex()}`);
     }
   }

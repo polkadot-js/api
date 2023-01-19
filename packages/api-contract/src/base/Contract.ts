@@ -42,7 +42,7 @@ function createTx <ApiType extends ApiTypes> (meta: AbiMessage, fn: (options: Co
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
-  readonly contractEvents?: DecodedEvent[];
+  public readonly contractEvents?: DecodedEvent[];
 
   constructor (result: ISubmittableResult, contractEvents?: DecodedEvent[]) {
     super(result);
@@ -55,7 +55,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   /**
    * @description The on-chain address for this contract
    */
-  readonly address: AccountId;
+  public readonly address: AccountId;
 
   readonly #query: MapMessageQuery<ApiType> = {};
   readonly #tx: MapMessageTx<ApiType> = {};

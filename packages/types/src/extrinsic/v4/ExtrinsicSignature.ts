@@ -72,7 +72,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description `true` if the signature is valid
    */
   public get isSigned (): boolean {
-    return !this.signature.$isEmpty;
+    return !this.signature.isEmpty;
   }
 
   /**

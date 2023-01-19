@@ -23,7 +23,7 @@ export interface BlueprintConstructor<ApiType extends ApiTypes> {
 }
 
 export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
-  readonly contract?: Contract<ApiType>;
+  public readonly contract?: Contract<ApiType>;
 
   constructor (result: ISubmittableResult, contract?: Contract<ApiType>) {
     super(result);
@@ -36,7 +36,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   /**
    * @description The on-chain code hash for this blueprint
    */
-  readonly codeHash: Hash;
+  public readonly codeHash: Hash;
 
   readonly #tx: MapConstructorExec<ApiType> = {};
 

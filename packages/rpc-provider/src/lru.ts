@@ -7,7 +7,7 @@
 const DEFAULT_CAPACITY = 128;
 
 class LRUNode {
-  readonly key: string;
+  public readonly key: string;
 
   public next: LRUNode;
   public prev: LRUNode;
@@ -20,7 +20,7 @@ class LRUNode {
 
 // https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU
 export class LRUCache {
-  readonly capacity: number;
+  public readonly capacity: number;
 
   readonly #data: Map<string, unknown> = new Map();
   readonly #refs: Map<string, LRUNode> = new Map();

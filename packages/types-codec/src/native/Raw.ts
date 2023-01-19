@@ -18,7 +18,7 @@ import { warnGet } from '../utils';
  * @noInheritDoc
  */
 export class Raw extends Uint8Array implements IU8a {
-  readonly registry: Registry;
+  public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -49,11 +49,6 @@ export class Raw extends Uint8Array implements IU8a {
     return warnGet(this, 'initialU8aLength');
   }
 
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
@@ -78,7 +73,7 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description Returns true if the type wraps an empty/default all-0 value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     return !this.length || isUndefined(this.find((b) => !!b));
   }
 

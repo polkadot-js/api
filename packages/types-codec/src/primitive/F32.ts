@@ -10,5 +10,5 @@ import { Float } from '../native/Float';
  */
 export class f32 extends Float.with(32) {
   // NOTE without this, we cannot properly determine extensions
-  readonly __FloatType = 'f32';
+  public readonly __FloatType = 'f32';
 }

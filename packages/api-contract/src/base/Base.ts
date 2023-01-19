@@ -11,9 +11,9 @@ import { isFunction } from '@polkadot/util';
 import { Abi } from '../Abi';
 
 export abstract class Base<ApiType extends ApiTypes> {
-  readonly abi: Abi;
+  public readonly abi: Abi;
 
-  readonly api: ApiBase<ApiType>;
+  public readonly api: ApiBase<ApiType>;
 
   protected readonly _decorateMethod: DecorateMethod<ApiType>;
 

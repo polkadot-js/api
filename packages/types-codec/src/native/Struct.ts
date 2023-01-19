@@ -103,7 +103,7 @@ export class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
-  readonly registry: Registry;
+  public readonly registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -138,11 +138,6 @@ export class Struct<
     return warnGet(this, 'initialU8aLength');
   }
 
-  /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
-  public get isEmpty (): boolean {
-    return warnGet(this, 'isEmpty');
-  }
-
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
     let definition: Definition | undefined;
 
@@ -175,9 +170,9 @@ export class Struct<
   /**
    * @description Checks if the value is an empty value
    */
-  public get $isEmpty (): boolean {
+  public get isEmpty (): boolean {
     for (const v of this.values()) {
-      if (!v.$isEmpty) {
+      if (!v.isEmpty) {
         return false;
       }
     }
