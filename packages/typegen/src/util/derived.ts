@@ -67,10 +67,10 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
       }
     }
   } else if (isChildClass(Enum, Clazz)) {
-    const { defKeys, isBasic } = new (Clazz as Constructor)(registry) as Enum;
+    const { $isBasic, defKeys } = new (Clazz as Constructor)(registry) as Enum;
     const keys = defKeys.filter((v) => !v.startsWith('__Unused'));
 
-    if (isBasic) {
+    if ($isBasic) {
       possibleTypes.push(arrayToStrType(keys), 'number');
     } else {
       // TODO We don't really want any here, these should be expanded
