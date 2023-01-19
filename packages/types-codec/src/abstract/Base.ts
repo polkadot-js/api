@@ -22,7 +22,7 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
     this.$initialU8aLength = initialU8aLength;
     this.#raw = value;
-    this.registry = registry;
+    this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
@@ -51,7 +51,7 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   public get inner (): T {

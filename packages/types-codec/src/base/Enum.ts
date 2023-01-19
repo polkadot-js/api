@@ -206,7 +206,7 @@ export class Enum implements IEnum {
 
     this.$isBasic = isBasic;
 
-    this.registry = registry;
+    this.$registry = registry;
     this.#def = def;
     this.#isIndexed = isIndexed;
     this.#indexes = Object.values(def).map(({ index }) => index);
@@ -295,7 +295,7 @@ export class Enum implements IEnum {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -450,7 +450,7 @@ export class Enum implements IEnum {
 
     const entries = Object.entries(this.#def);
 
-    return typesToMap(this.registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
+    return typesToMap(this.$registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
       out[0][i] = Type;
       out[1][i] = key;
 

@@ -15,7 +15,7 @@ import { warnGet } from '../utils';
  */
 export class Null implements Codec {
   readonly encodedLength = 0;
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength = 0;
@@ -23,7 +23,7 @@ export class Null implements Codec {
   readonly $isEmpty = true;
 
   constructor (registry: Registry) {
-    this.registry = registry;
+    this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
@@ -39,6 +39,11 @@ export class Null implements Codec {
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
+  }
+
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): boolean {
+    return warnGet(this, 'registry');
   }
 
   /**

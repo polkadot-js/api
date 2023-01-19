@@ -16,7 +16,7 @@ import { compareArray, warnGet } from '../utils';
  * @noInheritDoc
  */
 export abstract class AbstractArray<T extends Codec> extends Array<T> implements IVec<T> {
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -33,7 +33,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   protected constructor (registry: Registry, length: number) {
     super(length);
 
-    this.registry = registry;
+    this.$registry = registry;
   }
 
   /** @deprecated Use $createdAtHash instead. This getter will be removed in a future version. */
@@ -49,6 +49,11 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
+  }
+
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): boolean {
+    return warnGet(this, 'registry');
   }
 
   /**
@@ -70,7 +75,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**

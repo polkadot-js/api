@@ -57,7 +57,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   readonly #raw: T;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
-    this.registry = registry;
+    this.$registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
     const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
@@ -106,7 +106,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -196,7 +196,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Compact<${this.registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
+    return `Compact<${this.$registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
   }
 
   /**

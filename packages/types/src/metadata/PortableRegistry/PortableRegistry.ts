@@ -388,7 +388,7 @@ function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], na
 /** @internal */
 function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: Record<string, SiTypeParameter[]>): void {
   // Register the types we extracted
-  lookup.registry.register(lookups);
+  lookup.$registry.register(lookups);
 
   // Try and extract the AccountId/Address/Signature type from UncheckedExtrinsic
   if (params.SpRuntimeUncheckedExtrinsic) {
@@ -408,7 +408,7 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
       nsAccountId = lookup.getSiType(idParam.type.unwrap()).path.join('::');
     }
 
-    lookup.registry.register({
+    lookup.$registry.register({
       AccountId: ['sp_core::crypto::AccountId32'].includes(nsAccountId)
         ? 'AccountId32'
         : ['account::AccountId20', 'primitive_types::H160'].includes(nsAccountId)
@@ -435,7 +435,7 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
 
     const weightDef = lookup.getTypeDef(`Lookup${weight[0]}`);
 
-    lookup.registry.register({
+    lookup.$registry.register({
       Weight: Array.isArray(weightDef.sub) && weightDef.sub.length !== 1
         // we have a complex structure
         ? 'SpWeightsWeightV2Weight'
@@ -501,7 +501,7 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): T
     const { lookupIndex, name, params: p } = dedup[i];
 
     names[lookupIndex] = name;
-    lookups[name] = lookup.registry.createLookupType(lookupIndex);
+    lookups[name] = lookup.$registry.createLookupType(lookupIndex);
     params[name] = p;
   }
 
@@ -583,7 +583,7 @@ export class PortableRegistry extends Struct implements ILookup {
         info: TypeDefInfo.DoNotConstruct,
         lookupIndex,
         lookupName,
-        type: this.registry.createLookupType(lookupIndex)
+        type: this.$registry.createLookupType(lookupIndex)
       };
 
       // Set named items since we will get into circular lookups along the way
@@ -645,14 +645,14 @@ export class PortableRegistry extends Struct implements ILookup {
         info: TypeDefInfo.Si,
         lookupIndex,
         lookupName: this.#names[lookupIndex],
-        type: this.registry.createLookupType(lookupId)
+        type: this.$registry.createLookupType(lookupId)
       }
       : typeDef;
   }
 
   #getLookupId (lookupId: SiLookupTypeId | string | number): number {
     if (isString(lookupId)) {
-      if (!this.registry.isLookupType(lookupId)) {
+      if (!this.$registry.isLookupType(lookupId)) {
         throw new Error(`PortableRegistry: Expected a lookup string type, found ${lookupId}`);
       }
 
@@ -703,7 +703,7 @@ export class PortableRegistry extends Struct implements ILookup {
       throw new Error('Only support for [Type; <length>], where length <= 2048');
     }
 
-    return withTypeString(this.registry, {
+    return withTypeString(this.$registry, {
       info: TypeDefInfo.VecFixed,
       length,
       sub: this.#createSiDef(type)
@@ -735,7 +735,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   #extractCompact (_: number, { type }: SiTypeDefCompact): TypeDef {
-    return withTypeString(this.registry, {
+    return withTypeString(this.$registry, {
       info: TypeDefInfo.Compact,
       sub: this.#createSiDef(type)
     });
@@ -751,7 +751,7 @@ export class PortableRegistry extends Struct implements ILookup {
           throw new Error(`BTreeMap requires 2 parameters, found ${params.length}`);
         }
 
-        return withTypeString(this.registry, {
+        return withTypeString(this.$registry, {
           info: TypeDefInfo.BTreeMap,
           sub: params.map(({ type }) => this.#createSiDef(type.unwrap()))
         });
@@ -760,7 +760,7 @@ export class PortableRegistry extends Struct implements ILookup {
           throw new Error(`BTreeSet requires 1 parameter, found ${params.length}`);
         }
 
-        return withTypeString(this.registry, {
+        return withTypeString(this.$registry, {
           info: TypeDefInfo.BTreeSet,
           sub: this.#createSiDef(params[0].type.unwrap())
         });
@@ -769,7 +769,7 @@ export class PortableRegistry extends Struct implements ILookup {
           throw new Error(`Range requires 1 parameter, found ${params.length}`);
         }
 
-        return withTypeString(this.registry, {
+        return withTypeString(this.$registry, {
           info: pathFirst === 'Range'
             ? TypeDefInfo.Range
             : TypeDefInfo.RangeInclusive,
@@ -781,7 +781,7 @@ export class PortableRegistry extends Struct implements ILookup {
           throw new Error(`WrapperOpaque requires 1 parameter, found ${params.length}`);
         }
 
-        return withTypeString(this.registry, {
+        return withTypeString(this.$registry, {
           info: pathLast === 'WrapperKeepOpaque'
             ? TypeDefInfo.WrapperKeepOpaque
             : TypeDefInfo.WrapperOpaque,
@@ -801,9 +801,9 @@ export class PortableRegistry extends Struct implements ILookup {
       throw new Error('Set handling expects param/field as single entries');
     }
 
-    return withTypeString(this.registry, {
+    return withTypeString(this.$registry, {
       info: TypeDefInfo.Set,
-      length: this.registry.createTypeUnsafe<u32>(this.registry.createLookupType(fields[0].type), []).bitLength(),
+      length: this.$registry.createTypeUnsafe<u32>(this.$registry.createLookupType(fields[0].type), []).bitLength(),
       sub: this.getSiType(params[0].type.unwrap()).def.asVariant.variants.map(({ index, name }): TypeDef => ({
         // This will be an issue > 2^53 - 1 ... don't have those (yet)
         index: index.toNumber(),
@@ -855,7 +855,7 @@ export class PortableRegistry extends Struct implements ILookup {
 
     const [sub, alias] = this.#extractFieldsAlias(fields);
 
-    return withTypeString(this.registry, objectSpread(
+    return withTypeString(this.$registry, objectSpread(
       {
         info: isTuple // Tuple check first
           ? TypeDefInfo.Tuple
@@ -940,7 +940,7 @@ export class PortableRegistry extends Struct implements ILookup {
       };
     }
 
-    return withTypeString(this.registry, {
+    return withTypeString(this.$registry, {
       info: TypeDefInfo.Vec,
       lookupIndex,
       lookupName: this.#names[lookupIndex],
@@ -960,7 +960,7 @@ export class PortableRegistry extends Struct implements ILookup {
 
     const sub = ids.map((t) => this.#createSiDef(t));
 
-    return withTypeString(this.registry, {
+    return withTypeString(this.$registry, {
       info: TypeDefInfo.Tuple,
       lookupIndex,
       lookupName: this.#names[lookupIndex],
@@ -979,13 +979,13 @@ export class PortableRegistry extends Struct implements ILookup {
 
         // NOTE This is opt-in (unhandled), not by default
         // if (sub.type === 'bool') {
-        //   return withTypeString(this.registry, {
+        //   return withTypeString(this.$registry, {
         //     info: TypeDefInfo.Plain,
         //     type: 'OptionBool'
         //   });
         // }
 
-        return withTypeString(this.registry, {
+        return withTypeString(this.$registry, {
           info: TypeDefInfo.Option,
           sub: this.#createSiDef(params[0].type.unwrap())
         });
@@ -994,7 +994,7 @@ export class PortableRegistry extends Struct implements ILookup {
           throw new Error(`Result requires 2 parameters, found ${params.length}`);
         }
 
-        return withTypeString(this.registry, {
+        return withTypeString(this.$registry, {
           info: TypeDefInfo.Result,
           sub: params.map(({ type }, index) =>
             objectSpread({
@@ -1043,7 +1043,7 @@ export class PortableRegistry extends Struct implements ILookup {
         );
       });
 
-    return withTypeString(this.registry, {
+    return withTypeString(this.$registry, {
       info: TypeDefInfo.Enum,
       lookupIndex,
       lookupName: this.#names[lookupIndex],

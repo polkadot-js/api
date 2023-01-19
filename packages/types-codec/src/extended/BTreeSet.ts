@@ -70,7 +70,7 @@ function decodeSet<V extends Codec> (registry: Registry, valType: CodecClass<V> 
 }
 
 export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V> {
-  readonly registry: Registry;
+  readonly $registry: Registry;
 
   public $createdAtHash?: IU8a;
   public $initialU8aLength?: number;
@@ -83,7 +83,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
     super(sortSet(values));
 
-    this.registry = registry;
+    this.$registry = registry;
     this.$initialU8aLength = decodedLength;
     this.#ValClass = ValClass;
   }
@@ -101,6 +101,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   /** @deprecated Use $isEmpty instead. This getter will be removed in a future version */
   public get isEmpty (): boolean {
     return warnGet(this, 'isEmpty');
+  }
+
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): boolean {
+    return warnGet(this, 'registry');
   }
 
   public static with<V extends Codec> (valType: CodecClass<V> | string): CodecClass<BTreeSet<V>> {
@@ -128,7 +133,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns a hash of the value
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -205,7 +210,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `BTreeSet<${this.registry.getClassName(this.#ValClass) || new this.#ValClass(this.registry).toRawType()}>`;
+    return `BTreeSet<${this.$registry.getClassName(this.#ValClass) || new this.#ValClass(this.$registry).toRawType()}>`;
   }
 
   /**

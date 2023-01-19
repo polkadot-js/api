@@ -74,7 +74,7 @@ function decodeAbstractInt (value: Exclude<AnyNumber, Uint8Array> | Record<strin
  * @noInheritDoc
  */
 export abstract class AbstractInt extends BN implements INumber {
-  readonly registry: Registry;
+  readonly $registry: Registry;
   readonly encodedLength: number;
 
   public $createdAtHash?: IU8a;
@@ -97,7 +97,7 @@ export abstract class AbstractInt extends BN implements INumber {
         : decodeAbstractInt(value, isSigned)
     );
 
-    this.registry = registry;
+    this.$registry = registry;
     this.#bitLength = bitLength;
     this.encodedLength = this.$initialU8aLength = this.#bitLength / 8;
     this.$isUnsigned = !isSigned;
@@ -132,11 +132,16 @@ export abstract class AbstractInt extends BN implements INumber {
     return warnGet(this, 'isUnsigned');
   }
 
+  /** @deprecated Use $registry instead. This getter will be removed in a future version */
+  public get registry (): boolean {
+    return warnGet(this, 'registry');
+  }
+
   /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+    return this.$registry.hash(this.toU8a());
   }
 
   /**
@@ -223,7 +228,7 @@ export abstract class AbstractInt extends BN implements INumber {
         ? 'everything'
         // FIXME In the case of multiples we need some way of detecting which instance this belongs
         // to. as it stands we will always format (incorrectly) against the first token defined
-        : formatBalance(this, { decimals: this.registry.chainDecimals[0], withSi: true, withUnit: this.registry.chainTokens[0] });
+        : formatBalance(this, { decimals: this.$registry.chainDecimals[0], withSi: true, withUnit: this.$registry.chainTokens[0] });
     }
 
     const [, divisor] = FORMATTERS.find(([type]) => type === rawType) || [];
@@ -262,7 +267,7 @@ export abstract class AbstractInt extends BN implements INumber {
     // NOTE In the case of balances, which have a special meaning on the UI
     // and can be interpreted differently, return a specific value for it so
     // underlying it always matches (no matter which length it actually is)
-    return this instanceof this.registry.createClassUnsafe('Balance')
+    return this instanceof this.$registry.createClassUnsafe('Balance')
       ? 'Balance'
       : `${this.$isUnsigned ? 'u' : 'i'}${this.bitLength()}`;
   }

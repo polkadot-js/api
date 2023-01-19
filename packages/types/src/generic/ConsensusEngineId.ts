@@ -83,15 +83,15 @@ export class GenericConsensusEngineId extends U8aFixed {
   public extractAuthor (bytes: Bytes, sessionValidators: AccountId[]): AccountId | undefined {
     if (sessionValidators?.length) {
       if (this.isAura) {
-        return getAuraAuthor(this.registry, bytes, sessionValidators);
+        return getAuraAuthor(this.$registry, bytes, sessionValidators);
       } else if (this.isBabe) {
-        return getBabeAuthor(this.registry, bytes, sessionValidators);
+        return getBabeAuthor(this.$registry, bytes, sessionValidators);
       }
     }
 
     // For pow & Moonbeam, the bytes are the actual author
     if (this.isPow || bytes.length === 20) {
-      return getBytesAsAuthor(this.registry, bytes);
+      return getBytesAsAuthor(this.$registry, bytes);
     }
 
     return undefined;
