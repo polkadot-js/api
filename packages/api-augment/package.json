@@ -20,18 +20,18 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.11.4-6-x",
+  "version": "9.11.4-7-x",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.20.7",
-    "@polkadot/api-base": "9.11.4-6-x",
-    "@polkadot/rpc-augment": "9.11.4-6-x",
-    "@polkadot/types": "9.11.4-6-x",
-    "@polkadot/types-augment": "9.11.4-6-x",
-    "@polkadot/types-codec": "9.11.4-6-x",
+    "@polkadot/api-base": "9.11.4-7-x",
+    "@polkadot/rpc-augment": "9.11.4-7-x",
+    "@polkadot/types": "9.11.4-7-x",
+    "@polkadot/types-augment": "9.11.4-7-x",
+    "@polkadot/types-codec": "9.11.4-7-x",
     "@polkadot/util": "^10.2.6"
   },
   "devDependencies": {
-    "@polkadot/types-support": "9.11.4-6-x"
+    "@polkadot/types-support": "9.11.4-7-x"
   }
 }
