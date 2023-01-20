@@ -842,7 +842,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           nextTick((): void => {
             // get all the calls in this instance, resolve with it
             // and then clear the queue so we don't add more
-            // (anyhting after this will be added to a new queue)
+            // (anything after this will be added to a new queue)
             const calls = queue[queueIdx][1];
 
             delete queue[queueIdx];
@@ -871,7 +871,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // Decorate the base storage call. In the case or rxjs or promise-without-callback (await)
   // we make a subscription, alternatively we push this through a single-shot query
   private _decorateStorageCall<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    return decorateMethod((...args: unknown[]): Observable<Codec> => {
+    const memoed = memo(this.#instanceId, (...args: unknown[]): Observable<Codec> => {
       const call = extractStorageArgs(this.#registry, creator, args);
 
       if (!this.hasSubscriptions) {
@@ -879,7 +879,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       }
 
       return this._queueStorage(call, this.#storageSubQ);
-    }, {
+    });
+
+    return decorateMethod(memoed, {
       methodName: creator.method,
       overrideNoSub: (...args: unknown[]) =>
         this._queueStorage(extractStorageArgs(this.#registry, creator, args), this.#storageGetQ)
