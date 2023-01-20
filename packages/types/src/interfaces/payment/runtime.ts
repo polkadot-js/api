@@ -129,16 +129,20 @@ export const runtime: DefinitionsCall = {
   TransactionPaymentCallApi: [
     {
       methods: objectSpread(
+        {},
         V3_QUERY_WEIGHT_TO_FEE,
         V3_QUERY_LENGTH_TO_FEE,
         V2_V3_SHARED_QUERY_INFO,
-        V1_V2_V3_SHARED_CALL),
+        V1_V2_V3_SHARED_CALL
+      ),
       version: 3
     },
     {
       methods: objectSpread(
+        {},
         V2_V3_SHARED_QUERY_INFO,
-        V1_V2_V3_SHARED_CALL),
+        V1_V2_V3_SHARED_CALL
+      ),
       version: 2
     },
     {
