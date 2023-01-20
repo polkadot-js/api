@@ -43,7 +43,7 @@ function decodeTuple (registry: Registry, result: Codec[], value: Exclude<AnyTup
     }
 
     return [result, 0];
-  } else if (isU8a(value) || isHex(value)) {
+  } else if (isHex(value)) {
     return decodeU8a(registry, result, u8aToU8a(value), Classes);
   } else if (!value) {
     const Types = Classes[0];
