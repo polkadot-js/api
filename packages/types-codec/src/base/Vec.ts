@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, CodecClass, Registry } from '../types';
 
-import { compactFromU8aLim, isU8a, logger, u8aToU8a } from '@polkadot/util';
+import { compactFromU8aLim, isHex, isU8a, logger, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/Array';
 import { decodeU8aVec, typeToConstructor } from '../utils';
@@ -58,9 +58,13 @@ export function decodeVec<T extends Codec> (registry: Registry, result: T[], val
     }
 
     return [0, 0];
+  } else if (isHex(value)) {
+    return decodeU8aVec(registry, result, u8aToU8a(value), startAt, Type);
+  } else if (!value) {
+    return [0, 0];
+  } else {
+    throw new Error(`Expected array input to Vec<*> decoding, found ${typeof value}`);
   }
-
-  return decodeU8aVec(registry, result, u8aToU8a(value), startAt, Type);
 }
 
 /**

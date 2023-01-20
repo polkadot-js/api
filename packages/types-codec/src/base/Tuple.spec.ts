@@ -21,6 +21,15 @@ describe('Tuple', (): void => {
     );
   });
 
+  describe('constructor', (): void => {
+    it('fails construction on non-Array, non-Hex inputs', (): void => {
+      // @ts-expect-error We are intentionally passing a non-valid input
+      expect(new Tuple(registry, [Text, Text], '12345')).toThrow(/Expected array input to Tuple decoding, found string/);
+      // @ts-expect-error We are intentionally passing a non-valid input
+      expect(new Tuple(registry, [Text, Text], {})).toThrow(/Expected array input to Tuple decoding, found object/);
+    });
+  });
+
   describe('decoding', (): void => {
     const testDecode = (type: string, input: AnyTupleValue): void =>
       it(`can decode from ${type}`, (): void => {
