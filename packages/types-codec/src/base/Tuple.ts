@@ -53,9 +53,9 @@ function decodeTuple (registry: Registry, result: Codec[], value: Exclude<AnyTup
     }
 
     return [result, 0];
-  } else {
-    throw new Error(`Expected array input to Tuple decoding, found ${typeof value}: ${value as unknown as string}`);
   }
+
+  throw new Error(`Expected array input to Tuple decoding, found ${typeof value}: ${value as unknown as string}`);
 }
 
 /**
