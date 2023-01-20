@@ -27,9 +27,9 @@ describe('Vec', (): void => {
   describe('constructor', (): void => {
     it('fails construction on non-Array, non-Hex inputs', (): void => {
       // @ts-expect-error We are intentionally passing a non-valid input
-      expect(new Vec(registry, Text, '12345')).toThrow(/Expected array input to Vec<*> decoding, found string/);
+      expect(() => new Vec(registry, Text, '12345')).toThrow(/decoding, found string/);
       // @ts-expect-error We are intentionally passing a non-valid input
-      expect(new Vec(registry, Text, {})).toThrow(/Expected array input to Vec<*> decoding, found object/);
+      expect(() => new Vec(registry, Text, {})).toThrow(/decoding, found object/);
     });
 
     it('allows construction via hex & null values', (): void => {

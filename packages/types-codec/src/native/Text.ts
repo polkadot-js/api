@@ -35,9 +35,13 @@ function decodeText (value?: null | AnyString | AnyU8a | { toString: () => strin
     return [u8aToString(value.subarray(offset, total)), total];
   } else if (isHex(value)) {
     return [u8aToString(hexToU8a(value)), 0];
+  } else if (isString(value)) {
+    return [value.toString(), 0];
+  } else if (!value) {
+    return ['', 0];
   }
 
-  return [value ? value.toString() : '', 0];
+  throw new Error(`Expected string input to Text decoding, found ${typeof value}: ${value as unknown as string}`);
 }
 
 /**
