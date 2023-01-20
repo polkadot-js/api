@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Codec, CodecClass, Registry } from '../types';
 
-import { compactFromU8aLim, isHex, isU8a, logger, u8aToU8a } from '@polkadot/util';
+import { compactFromU8aLim, isHex, isU8a, logger, stringify, u8aToU8a } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/Array';
 import { decodeU8aVec, typeToConstructor } from '../utils';
@@ -38,7 +38,7 @@ function decodeVecLength (value: Uint8Array | HexString | unknown[]): [Uint8Arra
     return [null, 0, 0];
   }
 
-  throw new Error(`Expected array/hex input to Vec<*> decoding, found ${typeof value}: ${value as unknown as string}`);
+  throw new Error(`Expected array/hex input to Vec<*> decoding, found ${typeof value}: ${stringify(value)}`);
 }
 
 export function decodeVec<T extends Codec> (registry: Registry, result: T[], value: Uint8Array | HexString | unknown[] | null, startAt: number, Type: CodecClass<T>): [number, number] {
