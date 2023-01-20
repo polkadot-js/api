@@ -24,67 +24,81 @@ describe('Vec', (): void => {
     vector = new Vec(registry, Text, ['1', '23', '345', '4567', new Text(registry, '56789')]);
   });
 
-  it('wraps a sequence of values', (): void => {
-    expect(vector.length).toEqual(5); // eslint-disable-line
-  });
+  describe('constructor', (): void => {
+    it('fails construction on non-Array, non-Hex inputs', (): void => {
+      // @ts-expect-error We are intentionally passing a non-valid input
+      expect(() => new Vec(registry, Text, '12345')).toThrow(/decoding, found string/);
+      // @ts-expect-error We are intentionally passing a non-valid input
+      expect(() => new Vec(registry, Text, {})).toThrow(/decoding, found object/);
+    });
 
-  it('has a sane representation for toString', (): void => {
-    expect(vector.toString()).toEqual('[1, 23, 345, 4567, 56789]');
-  });
+    it('allows construction via hex & null values', (): void => {
+      // @ts-expect-error We are intentionally passing a non-valid input
+      expect(new Vec(registry, Text, null)).toHaveLength(0);
+    });
 
-  it('encodes with length prefix', (): void => {
-    expect(vector.toU8a()).toEqual(new Uint8Array([
-      5 << 2,
-      1 << 2, 49,
-      2 << 2, 50, 51,
-      3 << 2, 51, 52, 53,
-      4 << 2, 52, 53, 54, 55,
-      5 << 2, 53, 54, 55, 56, 57
-    ]));
-  });
+    it('decodes a complex type via construction', (): void => {
+      const test = createTypeUnsafe<Vec<ITuple<[PropIndex, AccountId]>>>(registry, 'Vec<(PropIndex, AccountId)>', [new Uint8Array([
+        4, 10, 0, 0, 0, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
+      ])]);
 
-  it('allows construction via JSON', (): void => {
-    expect(
-      new Vec(registry, Text, ['6', '7']).toJSON()
-    ).toEqual(['6', '7']);
-  });
+      expect(test[0][0].toNumber()).toEqual(10);
+      expect(test[0][1].toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaQua');
+    });
 
-  it('allows construction via JSON (string type)', (): void => {
-    expect(
-      new Vec(registry, 'u32', ['6', '7']).toJSON()
-    ).toEqual([6, 7]);
-  });
+    it('decodes a complex type via construction', (): void => {
+      const INPUT = '0x08cc0200000000ce0200000001';
+      const test = createTypeUnsafe<Vec<Codec>>(registry, 'Vec<(u32, [u32; 0], u16)>', [INPUT]);
 
-  it('exposes the type', (): void => {
-    expect(vector.Type).toEqual('Text');
-  });
+      expect(test).toHaveLength(2);
+      expect(test.toHex()).toEqual(INPUT);
+    });
 
-  it('decodes reusing instantiated inputs', (): void => {
-    const foo = new Text(registry, 'bar');
+    it('allows construction via JSON', (): void => {
+      expect(
+        new Vec(registry, Text, ['6', '7']).toJSON()
+      ).toEqual(['6', '7']);
+    });
 
-    expect(
-      (new Vec(registry, Text, [foo]))[0]
-    ).toBe(foo);
-  });
+    it('allows construction via JSON (string type)', (): void => {
+      expect(
+        new Vec(registry, 'u32', ['6', '7']).toJSON()
+      ).toEqual([6, 7]);
+    });
 
-  it('decodes a complex type via construction', (): void => {
-    const test = createTypeUnsafe<Vec<ITuple<[PropIndex, AccountId]>>>(registry, 'Vec<(PropIndex, AccountId)>', [new Uint8Array([
-      4, 10, 0, 0, 0, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
-    ])]);
+    it('decodes reusing instantiated inputs', (): void => {
+      const foo = new Text(registry, 'bar');
 
-    expect(test[0][0].toNumber()).toEqual(10);
-    expect(test[0][1].toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaQua');
-  });
-
-  it('decodes a complex type via construction', (): void => {
-    const INPUT = '0x08cc0200000000ce0200000001';
-    const test = createTypeUnsafe<Vec<Codec>>(registry, 'Vec<(u32, [u32; 0], u16)>', [INPUT]);
-
-    expect(test).toHaveLength(2);
-    expect(test.toHex()).toEqual(INPUT);
+      expect(
+        (new Vec(registry, Text, [foo]))[0]
+      ).toBe(foo);
+    });
   });
 
   describe('vector-like functions', (): void => {
+    it('wraps a sequence of values', (): void => {
+      expect(vector).toHaveLength(5);
+    });
+
+    it('has a sane representation for toString', (): void => {
+      expect(vector.toString()).toEqual('[1, 23, 345, 4567, 56789]');
+    });
+
+    it('encodes with length prefix', (): void => {
+      expect(vector.toU8a()).toEqual(new Uint8Array([
+        5 << 2,
+        1 << 2, 49,
+        2 << 2, 50, 51,
+        3 << 2, 51, 52, 53,
+        4 << 2, 52, 53, 54, 55,
+        5 << 2, 53, 54, 55, 56, 57
+      ]));
+    });
+
+    it('exposes the type', (): void => {
+      expect(vector.Type).toEqual('Text');
+    });
+
     it('allows retrieval of a specific item', (): void => {
       expect(
         vector[2].toString()
