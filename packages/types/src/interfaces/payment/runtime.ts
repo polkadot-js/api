@@ -96,8 +96,10 @@ export const runtime: DefinitionsCall = {
     },
     {
       methods: objectSpread(
+        {},
         V2_V3_SHARED_QUERY_INFO,
-        V1_V2_V3_SHARED_PAY),
+        V1_V2_V3_SHARED_PAY
+      ),
       version: 2
     },
     {
