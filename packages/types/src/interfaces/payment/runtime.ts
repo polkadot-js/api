@@ -58,7 +58,7 @@ const V2_V3_SHARED_QUERY_INFO: Record<string, DefinitionCall> = {
 
 const V3_QUERY_WEIGHT_TO_FEE: Record<string, DefinitionCall> = {
   query_weight_to_fee: {
-    description: "Query the output of the current WeightToFee given some input",
+    description: 'Query the output of the current WeightToFee given some input',
     params: [
       {
         name: 'weight',
@@ -71,7 +71,7 @@ const V3_QUERY_WEIGHT_TO_FEE: Record<string, DefinitionCall> = {
 
 const V3_QUERY_LENGTH_TO_FEE: Record<string, DefinitionCall> = {
   query_length_to_fee: {
-    description: "Query the output of the current LengthToFee given some input",
+    description: 'Query the output of the current LengthToFee given some input',
     params: [
       {
         name: 'length',
