@@ -1,4 +1,4 @@
-    3332	Jaco                          	Apply memo(...) on batched storage subscriptions (#5435)
+    3333	Jaco                          	Bump dev (& remove duplicated files) (#5437)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
