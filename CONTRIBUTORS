@@ -1,4 +1,4 @@
-    3334	Jaco                          	Ensure `api.queryMulti` returns empty result when no keys are provided (#5436)
+    3336	Jaco                          	9.12.1 (#5438)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
