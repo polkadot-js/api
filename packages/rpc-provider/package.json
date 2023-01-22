@@ -20,13 +20,13 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.11.4-11-x",
+  "version": "9.11.4-12-x",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.20.13",
     "@polkadot/keyring": "^10.2.6",
-    "@polkadot/types": "9.11.4-11-x",
-    "@polkadot/types-support": "9.11.4-11-x",
+    "@polkadot/types": "9.11.4-12-x",
+    "@polkadot/types-support": "9.11.4-12-x",
     "@polkadot/util": "^10.2.6",
     "@polkadot/util-crypto": "^10.2.6",
     "@polkadot/x-fetch": "^10.2.6",
