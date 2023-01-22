@@ -5,6 +5,10 @@
 Changes:
 
 - Add `isStorageFallback` on the `Codec` interface. (`true` if entry was created from a metadata fallback value from an empty storage item)
+- Ensure `api.queryMulti` returns empty result when no keys are provided
+- Add explicit Array checks on `Vec/Tuple` inputs
+- Align `Struct.{toU8a/toPrimitive/toHuman/toJSON}` population of results
+- Apply memoization to batched API queries
 
 
 ## 9.11.3 Jan 15, 2023
