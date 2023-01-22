@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportTokensMiscBalanceStatus, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpWeightsWeightV2Weight, XcmV1MultiLocation, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchDispatchInfo, FrameSupportTokensMiscBalanceStatus, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpFinalityGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpWeightsWeightV2Weight, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -324,13 +324,13 @@ declare module '@polkadot/api-base/types/events' {
        **/
       ElectionFinalized: AugmentedEvent<ApiType, [compute: PalletElectionProviderMultiPhaseElectionCompute, score: SpNposElectionsElectionScore], { compute: PalletElectionProviderMultiPhaseElectionCompute, score: SpNposElectionsElectionScore }>;
       /**
+       * There was a phase transition in a given round.
+       **/
+      PhaseTransitioned: AugmentedEvent<ApiType, [from: PalletElectionProviderMultiPhasePhase, to: PalletElectionProviderMultiPhasePhase, round: u32], { from: PalletElectionProviderMultiPhasePhase, to: PalletElectionProviderMultiPhasePhase, round: u32 }>;
+      /**
        * An account has been rewarded for their signed submission being finalized.
        **/
       Rewarded: AugmentedEvent<ApiType, [account: AccountId32, value: u128], { account: AccountId32, value: u128 }>;
-      /**
-       * The signed phase of the given round has started.
-       **/
-      SignedPhaseStarted: AugmentedEvent<ApiType, [round: u32], { round: u32 }>;
       /**
        * An account has been slashed for submitting an invalid signed submission.
        **/
@@ -338,16 +338,13 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A solution was stored with the given compute.
        * 
-       * If the solution is signed, this means that it hasn't yet been processed. If the
-       * solution is unsigned, this means that it has also been processed.
-       * 
-       * The `bool` is `true` when a previous solution was ejected to make room for this one.
+       * The `origin` indicates the origin of the solution. If `origin` is `Some(AccountId)`,
+       * the stored solution was submited in the signed phase by a miner with the `AccountId`.
+       * Otherwise, the solution was stored either during the unsigned phase or by
+       * `T::ForceOrigin`. The `bool` is `true` when a previous solution was ejected to make
+       * room for this one.
        **/
-      SolutionStored: AugmentedEvent<ApiType, [compute: PalletElectionProviderMultiPhaseElectionCompute, prevEjected: bool], { compute: PalletElectionProviderMultiPhaseElectionCompute, prevEjected: bool }>;
-      /**
-       * The unsigned phase of the given round has started.
-       **/
-      UnsignedPhaseStarted: AugmentedEvent<ApiType, [round: u32], { round: u32 }>;
+      SolutionStored: AugmentedEvent<ApiType, [compute: PalletElectionProviderMultiPhaseElectionCompute, origin: Option<AccountId32>, prevEjected: bool], { compute: PalletElectionProviderMultiPhaseElectionCompute, origin: Option<AccountId32>, prevEjected: bool }>;
       /**
        * Generic event
        **/
@@ -872,6 +869,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       EraPaid: AugmentedEvent<ApiType, [eraIndex: u32, validatorPayout: u128, remainder: u128], { eraIndex: u32, validatorPayout: u128, remainder: u128 }>;
       /**
+       * A new force era mode was set.
+       **/
+      ForceEra: AugmentedEvent<ApiType, [mode: PalletStakingForcing], { mode: PalletStakingForcing }>;
+      /**
        * A nominator has been kicked from a validator.
        **/
       Kicked: AugmentedEvent<ApiType, [nominator: AccountId32, stash: AccountId32], { nominator: AccountId32, stash: AccountId32 }>;
@@ -1103,7 +1104,7 @@ declare module '@polkadot/api-base/types/events' {
        * Upward message executed with the given outcome.
        * \[ id, outcome \]
        **/
-      ExecutedUpward: AugmentedEvent<ApiType, [U8aFixed, XcmV2TraitsOutcome]>;
+      ExecutedUpward: AugmentedEvent<ApiType, [U8aFixed, XcmV3TraitsOutcome]>;
       /**
        * Upward message is invalid XCM.
        * \[ id \]
@@ -1211,19 +1212,45 @@ declare module '@polkadot/api-base/types/events' {
        * 
        * \[ hash, origin, assets \]
        **/
-      AssetsClaimed: AugmentedEvent<ApiType, [H256, XcmV1MultiLocation, XcmVersionedMultiAssets]>;
+      AssetsClaimed: AugmentedEvent<ApiType, [H256, XcmV3MultiLocation, XcmVersionedMultiAssets]>;
       /**
        * Some assets have been placed in an asset trap.
        * 
        * \[ hash, origin, assets \]
        **/
-      AssetsTrapped: AugmentedEvent<ApiType, [H256, XcmV1MultiLocation, XcmVersionedMultiAssets]>;
+      AssetsTrapped: AugmentedEvent<ApiType, [H256, XcmV3MultiLocation, XcmVersionedMultiAssets]>;
       /**
        * Execution of an XCM message was attempted.
        * 
        * \[ outcome \]
        **/
-      Attempted: AugmentedEvent<ApiType, [XcmV2TraitsOutcome]>;
+      Attempted: AugmentedEvent<ApiType, [XcmV3TraitsOutcome]>;
+      /**
+       * Fees were paid from a location for an operation (often for using `SendXcm`).
+       * 
+       * \[ paying location, fees \]
+       **/
+      FeesPaid: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiassetMultiAssets]>;
+      /**
+       * Expected query response has been received but the querier location of the response does
+       * not match the expected. The query remains registered for a later, valid, response to
+       * be received and acted upon.
+       * 
+       * \[ origin location, id, expected querier, maybe actual querier \]
+       **/
+      InvalidQuerier: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64, XcmV3MultiLocation, Option<XcmV3MultiLocation>]>;
+      /**
+       * Expected query response has been received but the expected querier location placed in
+       * storage by this runtime previously cannot be decoded. The query remains registered.
+       * 
+       * This is unexpected (since a location placed in storage in a previously executing
+       * runtime should be readable prior to query timeout) and dangerous since the possibly
+       * valid response will be dropped. Manual governance intervention is probably going to be
+       * needed.
+       * 
+       * \[ origin location, id \]
+       **/
+      InvalidQuerierVersion: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64]>;
       /**
        * Expected query response has been received but the origin location of the response does
        * not match that expected. The query remains registered for a later, valid, response to
@@ -1231,7 +1258,7 @@ declare module '@polkadot/api-base/types/events' {
        * 
        * \[ origin location, id, expected location \]
        **/
-      InvalidResponder: AugmentedEvent<ApiType, [XcmV1MultiLocation, u64, Option<XcmV1MultiLocation>]>;
+      InvalidResponder: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64, Option<XcmV3MultiLocation>]>;
       /**
        * Expected query response has been received but the expected origin location placed in
        * storage by this runtime previously cannot be decoded. The query remains registered.
@@ -1243,7 +1270,7 @@ declare module '@polkadot/api-base/types/events' {
        * 
        * \[ origin location, id \]
        **/
-      InvalidResponderVersion: AugmentedEvent<ApiType, [XcmV1MultiLocation, u64]>;
+      InvalidResponderVersion: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64]>;
       /**
        * Query response has been received and query is removed. The registered notification has
        * been dispatched and executed successfully.
@@ -1287,14 +1314,14 @@ declare module '@polkadot/api-base/types/events' {
        * 
        * \[ location, query ID, error \]
        **/
-      NotifyTargetSendFail: AugmentedEvent<ApiType, [XcmV1MultiLocation, u64, XcmV2TraitsError]>;
+      NotifyTargetSendFail: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64, XcmV3TraitsError]>;
       /**
        * Query response has been received and is ready for taking with `take_response`. There is
        * no registered notification call.
        * 
        * \[ id, response \]
        **/
-      ResponseReady: AugmentedEvent<ApiType, [u64, XcmV2Response]>;
+      ResponseReady: AugmentedEvent<ApiType, [u64, XcmV3Response]>;
       /**
        * Received query response has been read and removed.
        * 
@@ -1306,14 +1333,14 @@ declare module '@polkadot/api-base/types/events' {
        * 
        * \[ origin, destination, message \]
        **/
-      Sent: AugmentedEvent<ApiType, [XcmV1MultiLocation, XcmV1MultiLocation, XcmV2Xcm]>;
+      Sent: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiLocation, XcmV3Xcm]>;
       /**
        * The supported version of a location has been changed. This might be through an
        * automatic notification or a manual intervention.
        * 
        * \[ location, XCM version \]
        **/
-      SupportedVersionChanged: AugmentedEvent<ApiType, [XcmV1MultiLocation, u32]>;
+      SupportedVersionChanged: AugmentedEvent<ApiType, [XcmV3MultiLocation, u32]>;
       /**
        * Query response received which does not match a registered query. This may be because a
        * matching query was never registered, it may be because it is a duplicate response, or
@@ -1321,13 +1348,34 @@ declare module '@polkadot/api-base/types/events' {
        * 
        * \[ origin location, id \]
        **/
-      UnexpectedResponse: AugmentedEvent<ApiType, [XcmV1MultiLocation, u64]>;
+      UnexpectedResponse: AugmentedEvent<ApiType, [XcmV3MultiLocation, u64]>;
       /**
        * An XCM version change notification message has been attempted to be sent.
        * 
-       * \[ destination, result \]
+       * The cost of sending it (borne by the chain) is included.
+       * 
+       * \[ destination, result, cost \]
        **/
-      VersionChangeNotified: AugmentedEvent<ApiType, [XcmV1MultiLocation, u32]>;
+      VersionChangeNotified: AugmentedEvent<ApiType, [XcmV3MultiLocation, u32, XcmV3MultiassetMultiAssets]>;
+      /**
+       * We have requested that a remote chain sends us XCM version change notifications.
+       * 
+       * \[ destination location, cost \]
+       **/
+      VersionNotifyRequested: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiassetMultiAssets]>;
+      /**
+       * A remote has requested XCM version change notification from us and we have honored it.
+       * A version information message is sent to them and its cost is included.
+       * 
+       * \[ destination location, cost \]
+       **/
+      VersionNotifyStarted: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiassetMultiAssets]>;
+      /**
+       * We have requested that a remote chain stops sending us XCM version change notifications.
+       * 
+       * \[ destination location, cost \]
+       **/
+      VersionNotifyUnrequested: AugmentedEvent<ApiType, [XcmV3MultiLocation, XcmV3MultiassetMultiAssets]>;
       /**
        * Generic event
        **/

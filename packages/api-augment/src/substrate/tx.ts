@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedSubmittable, SubmittableExtrinsic, SubmittableE
 import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensMiscAttributeNamespace, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMessageQueueMockHelpersMessageOrigin, PalletMultisigTimepoint, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeHeader, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
@@ -3357,6 +3357,10 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     nis: {
       /**
+       * Make a private receipt communal and create fungible counterparts for its owner.
+       **/
+      communify: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
+      /**
        * Ensure we have sufficient funding for all potential payouts.
        * 
        * - `origin`: Must be accepted by `FundOrigin`.
@@ -3377,6 +3381,10 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       placeBid: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
       /**
+       * Make a communal receipt private and burn fungible counterparts from its owner.
+       **/
+      privatize: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
+      /**
        * Retract a previously placed bid.
        * 
        * Origin must be Signed, and the account should have previously issued a still-active bid
@@ -3390,13 +3398,22 @@ declare module '@polkadot/api-base/types/submittable' {
        * Reduce or remove an outstanding receipt, placing the according proportion of funds into
        * the account of the owner.
        * 
+       * - `origin`: Must be Signed and the account must be the owner of the fungible counterpart
+       * for receipt `index`.
+       * - `index`: The index of the receipt.
+       **/
+      thawCommunal: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
+      /**
+       * Reduce or remove an outstanding receipt, placing the according proportion of funds into
+       * the account of the owner.
+       * 
        * - `origin`: Must be Signed and the account must be the owner of the receipt `index` as
        * well as any fungible counterpart.
        * - `index`: The index of the receipt.
        * - `portion`: If `Some`, then only the given portion of the receipt should be thawed. If
        * `None`, then all of it should be.
        **/
-      thaw: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array, portion: Option<u128> | null | Uint8Array | u128 | AnyNumber) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Option<u128>]>;
+      thawPrivate: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array, maybeProportion: Option<Perquintill> | null | Uint8Array | Perquintill | AnyNumber) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Option<Perquintill>]>;
       /**
        * Generic tx
        **/
