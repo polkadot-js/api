@@ -587,39 +587,44 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateMulti<ApiType extends ApiTypes> (decorateMethod: DecorateMethod<ApiType>): QueryableStorageMulti<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((keys: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
-      (this.hasSubscriptions
-        ? this._rpcCore.state.subscribeStorage
-        : this._rpcCore.state.queryStorageAt
-      )(keys.map((args: QueryableStorageMultiArg<ApiType>): [StorageEntry, ...unknown[]] =>
-        Array.isArray(args)
-          ? args[0].creator.meta.type.isPlain
-            ? [args[0].creator]
-            : args[0].creator.meta.type.asMap.hashers.length === 1
-              ? [args[0].creator, args.slice(1)]
-              : [args[0].creator, ...args.slice(1)]
-          : [args.creator]
-      ))
+      keys.length
+        ? (this.hasSubscriptions
+          ? this._rpcCore.state.subscribeStorage
+          : this._rpcCore.state.queryStorageAt
+        )(keys.map((args: QueryableStorageMultiArg<ApiType>): [StorageEntry, ...unknown[]] =>
+          Array.isArray(args)
+            ? args[0].creator.meta.type.isPlain
+              ? [args[0].creator]
+              : args[0].creator.meta.type.asMap.hashers.length === 1
+                ? [args[0].creator, args.slice(1)]
+                : [args[0].creator, ...args.slice(1)]
+            : [args.creator]
+        ))
+        : of([])
     );
   }
 
   protected _decorateMultiAt<ApiType extends ApiTypes> (atApi: ApiDecoration<ApiType>, decorateMethod: DecorateMethod<ApiType>, blockHash: Uint8Array | string): QueryableStorageMulti<ApiType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return decorateMethod((calls: QueryableStorageMultiArg<ApiType>[]): Observable<Codec[]> =>
-      this._rpcCore.state.queryStorageAt(
-        calls.map((args: QueryableStorageMultiArg<ApiType>) => {
-          if (Array.isArray(args)) {
-            const { creator } = getAtQueryFn(atApi, args[0].creator);
+      calls.length
+        ? this._rpcCore.state.queryStorageAt(
+          calls.map((args: QueryableStorageMultiArg<ApiType>) => {
+            if (Array.isArray(args)) {
+              const { creator } = getAtQueryFn(atApi, args[0].creator);
 
-            return creator.meta.type.isPlain
-              ? [creator]
-              : creator.meta.type.asMap.hashers.length === 1
-                ? [creator, args.slice(1)]
-                : [creator, ...args.slice(1)];
-          }
+              return creator.meta.type.isPlain
+                ? [creator]
+                : creator.meta.type.asMap.hashers.length === 1
+                  ? [creator, args.slice(1)]
+                  : [creator, ...args.slice(1)];
+            }
 
-          return [getAtQueryFn(atApi, args.creator).creator];
-        }),
-        blockHash));
+            return [getAtQueryFn(atApi, args.creator).creator];
+          }),
+          blockHash)
+        : of([])
+    );
   }
 
   protected _decorateExtrinsics<ApiType extends ApiTypes> ({ tx }: DecoratedMeta, decorateMethod: DecorateMethod<ApiType>): SubmittableExtrinsics<ApiType> {
