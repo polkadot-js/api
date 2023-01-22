@@ -541,6 +541,10 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       queueCount: u32 & AugmentedConst<ApiType>;
       /**
+       * The name for the reserve ID.
+       **/
+      reserveId: U8aFixed & AugmentedConst<ApiType>;
+      /**
        * The maximum proportion which may be thawed and the period over which it is reset.
        **/
       thawThrottle: ITuple<[Perquintill, u32]> & AugmentedConst<ApiType>;

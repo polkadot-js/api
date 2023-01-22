@@ -1037,6 +1037,18 @@ declare module '@polkadot/api-base/types/errors' {
     };
     nis: {
       /**
+       * The receipt is already communal.
+       **/
+      AlreadyCommunal: AugmentedError<ApiType>;
+      /**
+       * There are enough funds for what is required.
+       **/
+      AlreadyFunded: AugmentedError<ApiType>;
+      /**
+       * The receipt is already private.
+       **/
+      AlreadyPrivate: AugmentedError<ApiType>;
+      /**
        * The amount of the bid is less than the minimum allowed.
        **/
       AmountTooSmall: AugmentedError<ApiType>;
@@ -1054,10 +1066,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DurationTooSmall: AugmentedError<ApiType>;
       /**
-       * There are enough funds for what is required.
-       **/
-      Funded: AugmentedError<ApiType>;
-      /**
        * The operation would result in a receipt worth an insignficant value.
        **/
       MakesDust: AugmentedError<ApiType>;
@@ -1066,29 +1074,29 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotExpired: AugmentedError<ApiType>;
       /**
-       * The given bid for retraction is not found.
-       **/
-      NotFound: AugmentedError<ApiType>;
-      /**
        * Not the owner of the receipt.
        **/
       NotOwner: AugmentedError<ApiType>;
+      /**
+       * The portion supplied is beyond the value of the receipt.
+       **/
+      PortionTooBig: AugmentedError<ApiType>;
       /**
        * The thaw throttle has been reached for this period.
        **/
       Throttled: AugmentedError<ApiType>;
       /**
-       * The portion supplied is beyond the value of the receipt.
-       **/
-      TooMuch: AugmentedError<ApiType>;
-      /**
        * Not enough funds are held to pay out.
        **/
       Unfunded: AugmentedError<ApiType>;
       /**
-       * Bond index is unknown.
+       * The given bid for retraction is not found.
        **/
-      Unknown: AugmentedError<ApiType>;
+      UnknownBid: AugmentedError<ApiType>;
+      /**
+       * Receipt index is unknown.
+       **/
+      UnknownReceipt: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -2314,6 +2322,10 @@ declare module '@polkadot/api-base/types/errors' {
     };
     xcmPallet: {
       /**
+       * The given account is not an identifiable sovereign account for any location.
+       **/
+      AccountNotSovereign: AugmentedError<ApiType>;
+      /**
        * The location is invalid since it already has a subscription from us.
        **/
       AlreadySubscribed: AugmentedError<ApiType>;
@@ -2339,13 +2351,33 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       Empty: AugmentedError<ApiType>;
       /**
+       * The operation required fees to be paid which the initiator could not meet.
+       **/
+      FeesNotMet: AugmentedError<ApiType>;
+      /**
        * The message execution fails the filter.
        **/
       Filtered: AugmentedError<ApiType>;
       /**
+       * The unlock operation cannot succeed because there are still users of the lock.
+       **/
+      InUse: AugmentedError<ApiType>;
+      /**
+       * Invalid asset for the operation.
+       **/
+      InvalidAsset: AugmentedError<ApiType>;
+      /**
        * Origin is invalid for sending.
        **/
       InvalidOrigin: AugmentedError<ApiType>;
+      /**
+       * A remote lock with the corresponding data could not be found.
+       **/
+      LockNotFound: AugmentedError<ApiType>;
+      /**
+       * The owner does not own (all) of the asset that they wish to do the operation on.
+       **/
+      LowBalance: AugmentedError<ApiType>;
       /**
        * The referenced subscription could not be found.
        **/
@@ -2359,6 +2391,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Too many assets have been attempted for transfer.
        **/
       TooManyAssets: AugmentedError<ApiType>;
+      /**
+       * The asset owner has too many locks on the asset.
+       **/
+      TooManyLocks: AugmentedError<ApiType>;
       /**
        * The desired destination was unreachable, generally because there is a no way of routing
        * to it.
