@@ -32,7 +32,7 @@
   "dependencies": {
     "@babel/core": "^7.20.12",
     "@babel/register": "^7.18.9",
-    "@babel/runtime": "^7.20.7",
+    "@babel/runtime": "^7.20.13",
     "@polkadot/api": "9.11.4-10-x",
     "@polkadot/api-augment": "9.11.4-10-x",
     "@polkadot/rpc-augment": "9.11.4-10-x",
@@ -51,6 +51,6 @@
   },
   "devDependencies": {
     "@types/websocket": "^1.0.5",
-    "@types/yargs": "^17.0.19"
+    "@types/yargs": "^17.0.20"
   }
 }
