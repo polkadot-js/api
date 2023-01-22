@@ -243,6 +243,10 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum length of a contract code in bytes. This limit applies to the instrumented
        * version of the code. Therefore `instantiate_with_code` can fail even when supplying
        * a wasm binary below this maximum size.
+       * 
+       * The value should be chosen carefully taking into the account the overall memory limit
+       * your runtime has, as well as the [maximum allowed callstack
+       * depth](#associatedtype.CallStack). Look into the `integrity_test()` for some insights.
        **/
       maxCodeLen: u32 & AugmentedConst<ApiType>;
       /**
@@ -771,6 +775,10 @@ declare module '@polkadot/api-base/types/consts' {
        * this value multiplied by `Period`.
        **/
       queueCount: u32 & AugmentedConst<ApiType>;
+      /**
+       * The name for the reserve ID.
+       **/
+      reserveId: U8aFixed & AugmentedConst<ApiType>;
       /**
        * The maximum proportion which may be thawed and the period over which it is reset.
        **/
