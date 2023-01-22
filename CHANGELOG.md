@@ -9,6 +9,7 @@ Changes:
 - Add explicit Array checks on `Vec/Tuple` inputs
 - Align `Struct.{toU8a/toPrimitive/toHuman/toJSON}` population of results
 - Apply memoization to batched API queries
+- Update to latest Polkadot, Kusama & Substrate metadata
 
 
 ## 9.11.3 Jan 15, 2023
