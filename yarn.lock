@@ -1998,7 +1998,6 @@ __metadata:
     "@polkadot/types": 9.11.4-12-x
     "@polkadot/types-augment": 9.11.4-12-x
     "@polkadot/types-codec": 9.11.4-12-x
-    "@polkadot/types-support": 9.11.4-12-x
     "@polkadot/util": ^10.2.6
   languageName: unknown
   linkType: soft
