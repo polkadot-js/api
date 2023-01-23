@@ -40,6 +40,23 @@ const V1_V2_V3_SHARED_CALL: Record<string, DefinitionCall> = {
 };
 
 const V2_V3_SHARED_QUERY_INFO: Record<string, DefinitionCall> = {
+  query_info: {
+    description: 'The call info',
+    params: [
+      {
+        name: 'call',
+        type: 'Call'
+      },
+      {
+        name: 'len',
+        type: 'u32'
+      }
+    ],
+    type: 'RuntimeDispatchInfo'
+  }
+};
+
+const V2_V3_SHARED_QUERY_CALL_INFO: Record<string, DefinitionCall> = {
   query_call_info: {
     description: 'The call info',
     params: [
@@ -132,7 +149,7 @@ export const runtime: DefinitionsCall = {
         {},
         V3_QUERY_WEIGHT_TO_FEE,
         V3_QUERY_LENGTH_TO_FEE,
-        V2_V3_SHARED_QUERY_INFO,
+        V2_V3_SHARED_QUERY_CALL_INFO,
         V1_V2_V3_SHARED_CALL
       ),
       version: 3
@@ -140,7 +157,7 @@ export const runtime: DefinitionsCall = {
     {
       methods: objectSpread(
         {},
-        V2_V3_SHARED_QUERY_INFO,
+        V2_V3_SHARED_QUERY_CALL_INFO,
         V1_V2_V3_SHARED_CALL
       ),
       version: 2
