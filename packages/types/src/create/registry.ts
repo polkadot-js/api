@@ -530,6 +530,12 @@ export class TypeRegistry implements Registry {
 
     // register all applicable types found
     lookup.register();
+  }
+
+  // register alias types
+  #registerLookup = (lookup: PortableRegistry): void => {
+    // attach the lookup before we register any types
+    this.setLookup(lookup);
 
     // default to V1 - this includes 1.5 (with single field)
     let weightType = 'WeightV1';
@@ -545,7 +551,7 @@ export class TypeRegistry implements Registry {
 
     // register the weight type
     this.register({ Weight: weightType });
-  }
+  };
 
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
@@ -554,7 +560,7 @@ export class TypeRegistry implements Registry {
     this.#firstCallIndex = null;
 
     // attach the lookup at this point (before injecting)
-    this.setLookup(this.#metadata.lookup);
+    this.#registerLookup(this.#metadata.lookup);
 
     injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls, this.#moduleMap);
     injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);
