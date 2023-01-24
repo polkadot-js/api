@@ -478,11 +478,11 @@ export class TypeRegistry implements Registry {
 
       this.#classes.set(arg1, arg2);
     } else {
-      this._registerObject(arg1);
+      this.#registerObject(arg1);
     }
   }
 
-  private _registerObject (obj: RegistryTypes): void {
+  #registerObject = (obj: RegistryTypes): void => {
     const entries = Object.entries(obj);
 
     for (let e = 0; e < entries.length; e++) {
@@ -508,7 +508,7 @@ export class TypeRegistry implements Registry {
         this.#definitions.set(name, def);
       }
     }
-  }
+  };
 
   // sets the chain properties
   public setChainProperties (properties?: ChainProperties): void {
@@ -532,6 +532,27 @@ export class TypeRegistry implements Registry {
     lookup.register();
   }
 
+  // register alias types
+  #registerLookup = (lookup: PortableRegistry): void => {
+    // attach the lookup before we register any types
+    this.setLookup(lookup);
+
+    // default to V1 - this includes 1.5 (with single field)
+    let weightType = 'WeightV1';
+
+    // detection for WeightV2 type
+    if (this.#definitions.get('SpWeightsWeightV2Weight')) {
+      const type = this.createType('SpWeightsWeightV2Weight');
+
+      if (type.refTime && type.proofSize) {
+        weightType = 'WeightV2';
+      }
+    }
+
+    // register the weight type
+    this.register({ Weight: weightType });
+  };
+
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     this.#metadata = metadata.asLatest;
@@ -539,7 +560,7 @@ export class TypeRegistry implements Registry {
     this.#firstCallIndex = null;
 
     // attach the lookup at this point (before injecting)
-    this.setLookup(this.#metadata.lookup);
+    this.#registerLookup(this.#metadata.lookup);
 
     injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls, this.#moduleMap);
     injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);
