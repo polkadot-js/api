@@ -532,7 +532,10 @@ export class TypeRegistry implements Registry {
     lookup.register();
   }
 
-  // register alias types
+  // register alias types alongside the portable/lookup setup
+  // (we don't combine this into setLookup since that would/could
+  // affect stand-along lookups, such as ABIs which don't have
+  // actual on-chain metadata)
   #registerLookup = (lookup: PortableRegistry): void => {
     // attach the lookup before we register any types
     this.setLookup(lookup);
