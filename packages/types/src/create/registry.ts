@@ -4,7 +4,7 @@
 import type { AnyString, Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant, WeightV2 } from '../interfaces/types';
 import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
@@ -547,7 +547,7 @@ export class TypeRegistry implements Registry {
     if (this.#definitions.get('SpWeightsWeightV2Weight')) {
       const type = this.createType('SpWeightsWeightV2Weight');
 
-      if (type.refTime && type.proofSize) {
+      if ((type as WeightV2).refTime && (type as WeightV2).proofSize) {
         weightType = 'WeightV2';
       }
     }
