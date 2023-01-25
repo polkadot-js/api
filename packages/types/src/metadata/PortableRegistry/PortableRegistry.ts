@@ -422,27 +422,6 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
         : names[sigParam.type.unwrap().toNumber()] || 'MultiSignature'
     });
   }
-
-  // handle weight overrides
-  if (params.SpWeightsWeightV2Weight) {
-    const weight = Object
-      .entries(names)
-      .find(([, n]) => n === 'SpWeightsWeightV2Weight');
-
-    if (!weight) {
-      throw new Error('Unable to extract weight type from SpWeightsWeightV2Weight');
-    }
-
-    const weightDef = lookup.getTypeDef(`Lookup${weight[0]}`);
-
-    lookup.registry.register({
-      Weight: Array.isArray(weightDef.sub) && weightDef.sub.length !== 1
-        // we have a complex structure
-        ? 'SpWeightsWeightV2Weight'
-        // single entry, fallback to weight V1
-        : 'WeightV1'
-    });
-  }
 }
 
 // this extracts aliases based on what we know the runtime config looks like in a

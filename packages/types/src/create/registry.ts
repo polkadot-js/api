@@ -4,7 +4,7 @@
 import type { AnyString, Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant } from '../interfaces/types';
+import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant, WeightV2 } from '../interfaces/types';
 import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
@@ -421,11 +421,11 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes?.typesBundle?.spec?.[specName.toString()]?.instances?.[moduleName] || this.#moduleMap[moduleName];
   }
 
-  public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R> {
+  public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K): CodecClass<R> {
     const Clazz = this.get<T, K>(name);
 
     if (!Clazz) {
-      throw new Error(msg || `type ${name} not found`);
+      throw new Error(`type ${name} not found`);
     }
 
     return Clazz as unknown as CodecClass<R>;
@@ -478,11 +478,11 @@ export class TypeRegistry implements Registry {
 
       this.#classes.set(arg1, arg2);
     } else {
-      this._registerObject(arg1);
+      this.#registerObject(arg1);
     }
   }
 
-  private _registerObject (obj: RegistryTypes): void {
+  #registerObject = (obj: RegistryTypes): void => {
     const entries = Object.entries(obj);
 
     for (let e = 0; e < entries.length; e++) {
@@ -508,7 +508,7 @@ export class TypeRegistry implements Registry {
         this.#definitions.set(name, def);
       }
     }
-  }
+  };
 
   // sets the chain properties
   public setChainProperties (properties?: ChainProperties): void {
@@ -532,14 +532,38 @@ export class TypeRegistry implements Registry {
     lookup.register();
   }
 
+  // register alias types alongside the portable/lookup setup
+  // (we don't combine this into setLookup since that would/could
+  // affect stand-along lookups, such as ABIs which don't have
+  // actual on-chain metadata)
+  #registerLookup = (lookup: PortableRegistry): void => {
+    // attach the lookup before we register any types
+    this.setLookup(lookup);
+
+    // default to V1 - this includes 1.5 (with single field)
+    let weightType = 'WeightV1';
+    const Clazz = this.get<WeightV2>('SpWeightsWeightV2Weight');
+
+    // detection for WeightV2 type
+    if (Clazz) {
+      const weight = new Clazz(this);
+
+      if (weight.refTime && weight.proofSize) {
+        weightType = 'SpWeightsWeightV2Weight';
+      }
+    }
+
+    this.register({ Weight: weightType });
+  };
+
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
     this.#metadata = metadata.asLatest;
     this.#metadataVersion = metadata.version;
     this.#firstCallIndex = null;
 
-    // attach the lookup at this point (before injecting)
-    this.setLookup(this.#metadata.lookup);
+    // attach the lookup at this point and register relevant types (before injecting)
+    this.#registerLookup(this.#metadata.lookup);
 
     injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls, this.#moduleMap);
     injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);
