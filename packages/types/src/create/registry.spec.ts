@@ -19,8 +19,9 @@ describe('TypeRegistry', (): void => {
   });
 
   it('throws on non-existent via getOrThrow', (): void => {
-    expect((): CodecClass<Codec> => registry.getOrThrow('non-exist')).toThrow('type non-exist not found');
-    expect((): CodecClass<Codec> => registry.getOrThrow('non-exist', 'foo bar blah')).toThrow('foo bar blah');
+    expect(
+      (): CodecClass<Codec> => registry.getOrThrow('non-exist')
+    ).toThrow('type non-exist not found');
   });
 
   it('handles non exist type as Unknown (via getOrUnknown)', (): void => {

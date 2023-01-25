@@ -421,11 +421,11 @@ export class TypeRegistry implements Registry {
     return this.#knownTypes?.typesBundle?.spec?.[specName.toString()]?.instances?.[moduleName] || this.#moduleMap[moduleName];
   }
 
-  public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K, msg?: string): CodecClass<R> {
+  public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K): CodecClass<R> {
     const Clazz = this.get<T, K>(name);
 
     if (!Clazz) {
-      throw new Error(msg || `type ${name} not found`);
+      throw new Error(`type ${name} not found`);
     }
 
     return Clazz as unknown as CodecClass<R>;
@@ -542,17 +542,17 @@ export class TypeRegistry implements Registry {
 
     // default to V1 - this includes 1.5 (with single field)
     let weightType = 'WeightV1';
+    const Clazz = this.get<WeightV2>('SpWeightsWeightV2Weight');
 
     // detection for WeightV2 type
-    if (this.#definitions.get('SpWeightsWeightV2Weight')) {
-      const type = this.createType('SpWeightsWeightV2Weight');
+    if (Clazz) {
+      const weight = new Clazz(this);
 
-      if ((type as WeightV2).refTime && (type as WeightV2).proofSize) {
-        weightType = 'WeightV2';
+      if (weight.refTime && weight.proofSize) {
+        weightType = 'SpWeightsWeightV2Weight';
       }
     }
 
-    // register the weight type
     this.register({ Weight: weightType });
   };
 
@@ -562,7 +562,7 @@ export class TypeRegistry implements Registry {
     this.#metadataVersion = metadata.version;
     this.#firstCallIndex = null;
 
-    // attach the lookup at this point (before injecting)
+    // attach the lookup at this point and register relevant types (before injecting)
     this.#registerLookup(this.#metadata.lookup);
 
     injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls, this.#moduleMap);

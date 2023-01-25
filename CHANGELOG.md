@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Adjust `Weight` alias detection (moved from `PortableRegistry` -> `Registry`)
+
+
 ## 9.12.1 Jan 22, 2023
 
 Changes:
