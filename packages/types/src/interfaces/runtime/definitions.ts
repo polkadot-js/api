@@ -217,7 +217,7 @@ export default {
       refTime: 'Compact<u64>',
       proofSize: 'Compact<u64>'
     },
-    Weight: 'WeightV1',
+    Weight: 'WeightV2',
     WeightMultiplier: 'Fixed64',
 
     // digest
