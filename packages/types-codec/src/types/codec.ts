@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson } from './helpers';
+import type { AnyJson, ToString } from './helpers';
 import type { IU8a } from './interfaces';
 import type { Registry } from './registry';
 
@@ -125,6 +125,12 @@ export interface CodecClass<T = Codec> {
   // NOTE: We need the any[] here, unknown[] does not work as expected
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new(registry: Registry, ...args: any[]): T;
+}
+
+export interface CodecObject<T extends ToString> extends Codec {
+  readonly $: T;
+
+  valueOf (): T;
 }
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toPrimitive' | 'toString' | 'toU8a';

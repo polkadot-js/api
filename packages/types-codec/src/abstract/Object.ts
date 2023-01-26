@@ -2,24 +2,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types';
+import type { AnyJson, BareOpts, CodecObject, Inspect, IU8a, Registry, ToString } from '../types';
 
 /**
- * @name Base
+ * @name Object
  * @description A type extends the Base class, when it holds a value
  */
-export abstract class AbstractBase<T extends Codec> implements Codec {
+export abstract class AbstractObject<T extends ToString> implements CodecObject<T> {
   readonly registry: Registry;
 
   public createdAtHash?: IU8a;
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #raw: T;
+  readonly $: T;
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
+    this.$ = value;
     this.initialU8aLength = initialU8aLength;
-    this.#raw = value;
     this.registry = registry;
   }
 
@@ -38,75 +38,52 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   }
 
   /**
-   * @description returns the inner (wrapped value)
-   */
-  public get inner (): T {
-    return this.#raw;
-  }
-
-  /**
    * @description Checks if the value is an empty value
    */
-  public get isEmpty (): boolean {
-    return this.#raw.isEmpty;
-  }
+  public abstract get isEmpty (): boolean;
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  public eq (other?: unknown): boolean {
-    return this.#raw.eq(other);
-  }
+  public abstract eq (other?: unknown): boolean;
 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
-  public inspect (): Inspect {
-    return this.#raw.inspect();
-  }
+  public abstract inspect (): Inspect;
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
-  public toHex (isLe?: boolean): HexString {
-    return this.#raw.toHex(isLe);
-  }
+  public abstract toHex (isLe?: boolean): HexString;
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
-    return this.#raw.toHuman(isExtended);
-  }
+  public abstract toHuman (isExtended?: boolean): AnyJson;
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public toJSON (): AnyJson {
-    return this.#raw.toJSON();
-  }
+  public abstract toJSON (): AnyJson;
 
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): AnyJson {
-    return this.#raw.toPrimitive();
-  }
+  public abstract toPrimitive (): AnyJson;
 
   /**
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this.#raw.toString();
+    return this.$.toString();
   }
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  public toU8a (isBare?: BareOpts): Uint8Array {
-    return this.#raw.toU8a(isBare);
-  }
+  public abstract toU8a (isBare?: BareOpts): Uint8Array;
 
   /**
    * @description Returns the base runtime type name for this instance
@@ -114,16 +91,9 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   public abstract toRawType (): string;
 
   /**
-   * @description Returns the inner wrapped value (equivalent to valueOf)
-   */
-  public unwrap (): T {
-    return this.#raw;
-  }
-
-  /**
-   * @description Returns the inner wrapped value
+   * @description Return the internal value (JS-aligned, same result as $)
    */
   public valueOf (): T {
-    return this.#raw;
+    return this.$;
   }
 }
