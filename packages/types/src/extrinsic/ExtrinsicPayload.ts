@@ -145,6 +145,13 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  public toRawType (): string {
+    return 'ExtrinsicPayload';
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   public override toString (): string {
