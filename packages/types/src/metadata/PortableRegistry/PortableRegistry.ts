@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Text, Type, Vec } from '@polkadot/types-codec';
-import type { AnyString, Registry } from '@polkadot/types-codec/types';
+import type { AnyString, LookupString, Registry } from '@polkadot/types-codec/types';
 import type { ILookup, TypeDef } from '@polkadot/types-create/types';
 import type { PortableType } from '../../interfaces/metadata';
 import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
@@ -25,7 +25,7 @@ interface Extract extends ExtractBase {
 }
 
 interface TypeInfo {
-  lookups: Record<string, string>;
+  lookups: Record<string, LookupString>;
   names: Record<number, string>;
   params: Record<string, SiTypeParameter[]>;
   types: Record<number, PortableType>;
@@ -470,7 +470,7 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): T
     types[lookupIndex] = type;
   }
 
-  const lookups: Record<string, string> = {};
+  const lookups: Record<string, LookupString> = {};
   const names: Record<number, string> = {};
   const params: Record<string, SiTypeParameter[]> = {};
   const dedup = removeDupeNames(lookup, portable, nameInfo);
@@ -489,7 +489,7 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): T
 
 export class PortableRegistry extends Struct implements ILookup {
   #alias: Record<number, string>;
-  #lookups: Record<string, string>;
+  #lookups: Record<string, LookupString>;
   #names: Record<number, string>;
   #params: Record<string, SiTypeParameter[]>;
   #typeDefs: Record<number, TypeDef> = {};
@@ -537,14 +537,14 @@ export class PortableRegistry extends Struct implements ILookup {
   /**
    * @description Returns the name for a specific lookup
    */
-  public getName (lookupId: SiLookupTypeId | string | number): string | undefined {
+  public getName (lookupId: SiLookupTypeId | LookupString | number): string | undefined {
     return this.#names[this.#getLookupId(lookupId)];
   }
 
   /**
    * @description Finds a specific type in the registry
    */
-  public getSiType (lookupId: SiLookupTypeId | string | number): SiType {
+  public getSiType (lookupId: SiLookupTypeId | LookupString | number): SiType {
     // NOTE catch-22 - this may already be used as part of the constructor, so
     // ensure that we have actually initialized it correctly
     const found = (this.#types || this.types)[this.#getLookupId(lookupId)];
@@ -559,7 +559,7 @@ export class PortableRegistry extends Struct implements ILookup {
   /**
    * @description Lookup the type definition for the index
    */
-  public getTypeDef (lookupId: SiLookupTypeId | string | number): TypeDef {
+  public getTypeDef (lookupId: SiLookupTypeId | LookupString | number): TypeDef {
     const lookupIndex = this.#getLookupId(lookupId);
 
     if (!this.#typeDefs[lookupIndex]) {
@@ -640,10 +640,10 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Converts a lookupId input to the actual lookup index */
-  #getLookupId (lookupId: SiLookupTypeId | string | number): number {
+  #getLookupId (lookupId: SiLookupTypeId | LookupString | number): number {
     if (isString(lookupId)) {
       if (!this.registry.isLookupType(lookupId)) {
-        throw new Error(`PortableRegistry: Expected a lookup string type, found ${lookupId}`);
+        throw new Error(`PortableRegistry: Expected a lookup string type, found ${lookupId as string}`);
       }
 
       return parseInt(lookupId.replace('Lookup', ''), 10);

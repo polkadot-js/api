@@ -6,7 +6,7 @@
 import '@polkadot/types-codec/types/registry';
 import '@polkadot/types-create/types/augmentRegistry';
 
-import type { AnyString, Codec, CodecClass } from '@polkadot/types-codec/types';
+import type { AnyString, Codec, CodecClass, LookupString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { MetadataLatest } from '../interfaces/metadata';
@@ -33,7 +33,7 @@ declare module '@polkadot/types-codec/types/registry' {
 
     clearCache (): void
 
-    createLookupType (lookupId: SiLookupTypeId | number): string;
+    createLookupType (lookupId: SiLookupTypeId | number): LookupString;
 
     createClass <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<DetectCodec<T, K>>;
     createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K>;
