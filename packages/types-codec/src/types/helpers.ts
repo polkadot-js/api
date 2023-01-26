@@ -33,3 +33,11 @@ export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 export type U8aBitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 264 | 512 | 520 | 1024 | 2048;
 
 export type AnyTupleValue = Exclude<AnyU8a, string> | HexString | (Codec | AnyU8a | AnyNumber | AnyString | undefined | null)[];
+
+export interface ToString {
+  toString: () => string;
+}
+
+export interface ToBn {
+  toBn: () => BN;
+}
