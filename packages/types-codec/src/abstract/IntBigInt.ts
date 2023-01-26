@@ -91,9 +91,7 @@ export abstract class AbstractBigInt extends AbstractObject<bigint> implements I
       registry,
       // shortcut isU8a as used in SCALE decoding
       isU8a(value)
-        ? bitLength <= 48
-          ? u8aToBigInt(value.subarray(0, bitLength / 8), { isNegative: isSigned })
-          : u8aToBigInt(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned })
+        ? u8aToBigInt(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned })
         : decodeBigInt(value, isSigned),
       bitLength / 8
     );
