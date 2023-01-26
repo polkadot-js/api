@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, Registry, U8aBitLength, UIntBitLength } from '@polkadot/types-codec/types';
+import type { Codec, CodecClass, LookupString, Registry, U8aBitLength, UIntBitLength } from '@polkadot/types-codec/types';
 import type { TypeDef } from '../types';
 
 import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Null, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
@@ -161,7 +161,7 @@ const infoMapping: Record<TypeDefInfo, (registry: Registry, value: TypeDef) => C
     ),
 
   [TypeDefInfo.Si]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
-    getTypeClass(registry, registry.lookup.getTypeDef(value.type)),
+    getTypeClass(registry, registry.lookup.getTypeDef(value.type as LookupString)),
 
   [TypeDefInfo.Struct]: (registry: Registry, value: TypeDef): CodecClass<Codec> =>
     Struct.with(getTypeClassMap(value), value.alias),
