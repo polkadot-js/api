@@ -42,4 +42,8 @@ export interface ToBn {
   toBn: () => BN;
 }
 
+export interface ToBigInt {
+  toBigInt: () => bigint;
+}
+
 export type LookupString = `Lookup${number}`;
