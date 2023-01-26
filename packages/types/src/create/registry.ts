@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyString, Codec, CodecClass, IU8a } from '@polkadot/types-codec/types';
+import type { AnyString, Codec, CodecClass, IU8a, LookupString } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef } from '../extrinsic/signedExtensions/types';
 import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant, WeightV2 } from '../interfaces/types';
@@ -240,15 +240,15 @@ export class TypeRegistry implements Registry {
   /**
    * @description Returns true if the type is in a Compat format
    */
-  public isLookupType (value: string): boolean {
+  public isLookupType (value: string): value is LookupString {
     return /Lookup\d+$/.test(value);
   }
 
   /**
    * @description Creates a lookup string from the supplied id
    */
-  public createLookupType (lookupId: SiLookupTypeId | number): string {
-    return `Lookup${lookupId.toString()}`;
+  public createLookupType (lookupId: SiLookupTypeId | number): LookupString {
+    return `Lookup${typeof lookupId === 'number' ? lookupId : lookupId.toNumber()}`;
   }
 
   public get knownTypes (): RegisteredTypes {
@@ -256,7 +256,7 @@ export class TypeRegistry implements Registry {
   }
 
   public get lookup (): PortableRegistry {
-    return assertReturn(this.#lookup, 'Lookup has not been set on this registry');
+    return assertReturn(this.#lookup, 'PortableRegistry has not been set on this registry');
   }
 
   public get metadata (): MetadataLatest {

@@ -1,4 +1,4 @@
-    3340	Jaco                          	Apply JSDoc comments onto PortableRegistry (#5443)
+    3342	Jaco                          	Remove unused BigInt extension (#5447)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)

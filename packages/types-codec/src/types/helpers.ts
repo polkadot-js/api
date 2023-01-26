@@ -41,3 +41,5 @@ export interface ToString {
 export interface ToBn {
   toBn: () => BN;
 }
+
+export type LookupString = `Lookup${number}`;

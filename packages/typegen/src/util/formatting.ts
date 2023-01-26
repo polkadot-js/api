@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import type { AnyString, Registry } from '@polkadot/types/types';
+import type { LookupString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
 import Handlebars from 'handlebars';
@@ -189,7 +190,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
   },
 
   [TypeDefInfo.Si]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
-    return formatType(registry, definitions, registry.lookup.getTypeDef(typeDef.type), imports, withShortcut);
+    return formatType(registry, definitions, registry.lookup.getTypeDef(typeDef.type as LookupString), imports, withShortcut);
   },
 
   [TypeDefInfo.Struct]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
