@@ -2,6 +2,10 @@
 
 ## master
 
+Contributed:
+
+- Add support for V3 of `TransactionPaymentApi` (Thanks to https://github.com/notlesh)
+
 Changes:
 
 - Adjust `Weight` alias detection (moved from `PortableRegistry` -> `Registry`)
