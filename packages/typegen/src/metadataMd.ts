@@ -14,6 +14,7 @@ import { Text } from '@polkadot/types/primitive';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import rpcdata from '@polkadot/types-support/metadata/static-substrate';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
+import { blake2AsHex } from '@polkadot/util-crypto';
 
 interface SectionItem {
   link?: string;
@@ -130,7 +131,7 @@ function getSiName (lookup: PortableRegistry, type: SiLookupTypeId): string {
 }
 
 /** @internal */
-function addRpc (): string {
+function addRpc (rpcMethods?: string[]): string {
   const sections = Object
     .keys(definitions)
     .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0);
@@ -148,6 +149,15 @@ function addRpc (): string {
           .forEach((methodName) => {
             const method = (section.rpc || {})[methodName];
             const sectionName = method.aliasSection || _sectionName;
+            const jsonrpc = (method.endpoint || `${sectionName}_${methodName}`);
+
+            if (rpcMethods) {
+              // if we are passing the rpcMethods params and we cannot find this method, skip it
+              if (jsonrpc !== 'rpc_methods' && !rpcMethods.includes(jsonrpc)) {
+                return;
+              }
+            }
+
             const topName = method.aliasSection ? `${_sectionName}/${method.aliasSection}` : _sectionName;
             let container = all.find(({ name }) => name === topName);
 
@@ -162,7 +172,6 @@ function addRpc (): string {
               return name + (isOptional ? '?' : '') + ': `' + type + '`';
             }).join(', ');
             const type = '`' + method.type + '`';
-            const jsonrpc = (method.endpoint || `${sectionName}_${methodName}`);
             const item: SectionItem = {
               interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
               jsonrpc: '`' + jsonrpc + '`',
@@ -185,7 +194,7 @@ function addRpc (): string {
 }
 
 /** @internal */
-function addRuntime (): string {
+function addRuntime (apis?: [string, number][]): string {
   const sections = Object
     .keys(definitions)
     .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0);
@@ -197,8 +206,18 @@ function addRuntime (): string {
       .reduce((all: Section[], _sectionName): Section[] => {
         Object
           .entries(definitions[_sectionName as 'babe'].runtime || {})
-          .forEach(([apiName, [{ methods }]]) => {
+          .forEach(([apiName, [{ methods, version }]]) => {
             const container: Section = { items: [], name: apiName };
+
+            if (apis) {
+              // if we are passing the api hashes and we cannot find this one, skip it
+              const apiHash = blake2AsHex(apiName, 64);
+              const api = apis.find(([hash]) => hash === apiHash);
+
+              if (!api || api[1] !== version) {
+                return;
+              }
+            }
 
             all.push(container);
 
@@ -420,8 +439,14 @@ export function main (): void {
 
   const latest = metadata.asLatest;
 
+  // TODO Pass the result from `rpc_methods` (done via util/wsMeta.ts -> getRpcMethodsViaWs)
+  // into here if we want to have a per-chain overview
   writeFile('docs/substrate/rpc.md', addRpc());
+
+  // TODO Pass the result from `state_getRuntimeVersion` (done via util/wsMeta.ts -> getRuntimeVersionViaWs)
+  // into here if we want to have a per-chain overview
   writeFile('docs/substrate/runtime.md', addRuntime());
+
   writeFile('docs/substrate/constants.md', addConstants(latest));
   writeFile('docs/substrate/storage.md', addStorage(latest));
   writeFile('docs/substrate/extrinsics.md', addExtrinsics(latest));
