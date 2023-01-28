@@ -5,7 +5,7 @@ import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { AnyNumber, Inspect, INumber, Registry, ToBigInt, UIntBitLength } from '../types';
 
-import { _0n, _1Bn, _1Mn, _1Qn, _100n, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBigInt, isBigInt, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, nToBigInt, u8aToBigInt } from '@polkadot/util';
+import { _0n, _1Bn, _1Mn, _1Qn, _100n, bnToBn, formatBalance, formatNumber, hexToBigInt, isBigInt, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, nToBigInt, nToHex, nToU8a, u8aToBigInt } from '@polkadot/util';
 import { BigInt } from '@polkadot/x-bigint';
 
 import { AbstractObject } from './Object';
@@ -177,7 +177,7 @@ export abstract class AbstractBigInt extends AbstractObject<bigint> implements I
    */
   public toHex (isLe = false): HexString {
     // For display/JSON, this is BE, for compare, use isLe
-    return bnToHex(this, {
+    return nToHex(this.$, {
       bitLength: this.bitLength(),
       isLe,
       isNegative: !this.isUnsigned
@@ -265,7 +265,7 @@ export abstract class AbstractBigInt extends AbstractObject<bigint> implements I
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this, {
+    return nToU8a(this.$, {
       bitLength: this.bitLength(),
       isLe: true,
       isNegative: !this.isUnsigned
