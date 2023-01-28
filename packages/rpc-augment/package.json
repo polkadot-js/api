@@ -27,6 +27,6 @@
     "@polkadot/rpc-core": "9.12.2-10-x",
     "@polkadot/types": "9.12.2-10-x",
     "@polkadot/types-codec": "9.12.2-10-x",
-    "@polkadot/util": "^10.2.6"
+    "@polkadot/util": "^10.3.1"
   }
 }
