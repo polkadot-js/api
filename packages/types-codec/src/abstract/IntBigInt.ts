@@ -3,9 +3,9 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, Inspect, INumber, Registry, UIntBitLength, ToBigInt } from '../types';
+import type { AnyNumber, Inspect, INumber, Registry, ToBigInt, UIntBitLength } from '../types';
 
-import { _0n, _1n, _2n, _100n, _1Bn, _1Mn, _1Qn, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBigInt, isBigInt, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, nToBigInt, u8aToBigInt } from '@polkadot/util';
+import { _0n, _1Bn, _1Mn, _1Qn, _100n, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBigInt, isBigInt, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, nToBigInt, u8aToBigInt } from '@polkadot/util';
 import { BigInt } from '@polkadot/x-bigint';
 
 import { AbstractObject } from './Object';
