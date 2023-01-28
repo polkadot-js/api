@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 
 import { WebSocket } from '@polkadot/x-ws';
 
-async function getWsData <T> (endpoint: string, method: 'state_getMetadata' | 'state_getRuntimeVersion'): Promise<T> {
+async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_getMetadata' | 'state_getRuntimeVersion'): Promise<T> {
   return new Promise((resolve): void => {
     try {
       const websocket = new WebSocket(endpoint);
@@ -43,4 +43,16 @@ async function getWsData <T> (endpoint: string, method: 'state_getMetadata' | 's
 
 export async function getMetadataViaWs (endpoint: string): Promise<HexString> {
   return getWsData<HexString>(endpoint, 'state_getMetadata');
+}
+
+export async function getRpcMethodsViaWs (endpoint: string): Promise<string[]> {
+  const result = await getWsData<{ methods: string[] }>(endpoint, 'rpc_methods');
+
+  return result.methods;
+}
+
+export async function getRuntimeVersionViaWs (endpoint: string): Promise<[apiHash: string, apiVersion: number][]> {
+  const result = await getWsData<{ apis: [string, number][] }>(endpoint, 'state_getRuntimeVersion');
+
+  return result.apis;
 }
