@@ -112,7 +112,6 @@ function renderPage (page: Page): string {
 
 function sortByName<T extends { name: Codec | string }> (a: T, b: T): number {
   // case insensitive (all-uppercase) sorting
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
   return a.name.toString().toUpperCase().localeCompare(b.name.toString().toUpperCase());
 }
 
