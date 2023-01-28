@@ -35,15 +35,10 @@ interface Page {
   sections: Section[];
 }
 
-const STATIC_TEXT = '\n\n(NOTE: These were generated from a static/snapshot view of a recent Substrate master node. Some items may not be available in older nodes, or in any customized implementations.)';
-
-const DESC_CONSTANTS = `The following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via \`api.consts.<module>.<method>\`. ${STATIC_TEXT}`;
-const DESC_EXTRINSICS = `The following sections contain Extrinsics methods are part of the default Substrate runtime. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${STATIC_TEXT}`;
-const DESC_ERRORS = `This page lists the errors that can be encountered in the different modules. ${STATIC_TEXT}`;
-const DESC_EVENTS = `Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime. ${STATIC_TEXT}`;
-const DESC_RPC = 'The following sections contain known RPC methods that may be available on specific nodes (depending on configuration and available pallets) and allow you to interact with the actual node, query, and submit.';
-const DESC_RUNTIME = 'The following section contains known runtime calls that may be available on specific runtimes (depending on configuration and available pallets). These call directly into the WASM runtime for queries and operations.';
-const DESC_STORAGE = `The following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}`;
+// TODO Make can make this a variable passed in via args if we want to generate
+// for different chain types
+const runtimeName = 'default Substrate runtime';
+const headerFn = () => `\n\n(NOTE: These were generated from a static/snapshot view of a recent ${runtimeName}. Some items may not be available in older nodes, or in any customized implementations.)`;
 
 /** @internal */
 function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
@@ -133,7 +128,7 @@ function getSiName (lookup: PortableRegistry, type: SiLookupTypeId): string {
 /** @internal */
 function addRpc (rpcMethods?: string[]): string {
   return renderPage({
-    description: DESC_RPC,
+    description: 'The following sections contain known RPC methods that may be available on specific nodes (depending on configuration and available pallets) and allow you to interact with the actual node, query, and submit.',
     sections: Object
       .keys(definitions)
       .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0)
@@ -194,7 +189,7 @@ function addRpc (rpcMethods?: string[]): string {
 /** @internal */
 function addRuntime (apis?: [apiHash: string, apiVersion: number][]): string {
   return renderPage({
-    description: DESC_RUNTIME,
+    description: 'The following section contains known runtime calls that may be available on specific runtimes (depending on configuration and available pallets). These call directly into the WASM runtime for queries and operations.',
     sections: Object
       .keys(definitions)
       .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0)
@@ -251,7 +246,7 @@ function addRuntime (apis?: [apiHash: string, apiVersion: number][]): string {
 /** @internal */
 function addConstants ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
-    description: DESC_CONSTANTS,
+    description: `The following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via \`api.consts.<module>.<method>\`. ${headerFn()}`,
     sections: pallets
       .sort(sortByName)
       .filter(({ constants }) => !constants.isEmpty)
@@ -316,7 +311,7 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
     });
 
   return renderPage({
-    description: DESC_STORAGE,
+    description: `The following sections contain Storage methods are part of the ${runtimeName}. On the api, these are exposed via \`api.query.<module>.<method>\`. ${headerFn()}`,
     sections: moduleSections.concat([{
       description: 'These are well-known keys that are always available to the runtime implementation of any Substrate-based network.',
       items: Object.entries(substrate).map(([name, { meta }]) => {
@@ -341,7 +336,7 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
 /** @internal */
 function addExtrinsics ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
-    description: DESC_EXTRINSICS,
+    description: `The following sections contain Extrinsics methods are part of the ${runtimeName}. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${headerFn()}`,
     sections: pallets
       .sort(sortByName)
       .filter(({ calls }) => calls.isSome)
@@ -373,7 +368,7 @@ function addExtrinsics ({ lookup, pallets }: MetadataLatest): string {
 /** @internal */
 function addEvents ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
-    description: DESC_EVENTS,
+    description: `Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the ${runtimeName}. ${headerFn()}`,
     sections: pallets
       .sort(sortByName)
       .filter(({ events }) => events.isSome)
@@ -401,7 +396,7 @@ function addEvents ({ lookup, pallets }: MetadataLatest): string {
 /** @internal */
 function addErrors ({ lookup, pallets }: MetadataLatest): string {
   return renderPage({
-    description: DESC_ERRORS,
+    description: `This page lists the errors that can be encountered in the different modules. ${headerFn()}`,
     sections: pallets
       .sort(sortByName)
       .filter(({ errors }) => errors.isSome)
