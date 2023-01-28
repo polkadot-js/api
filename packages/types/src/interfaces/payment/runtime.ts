@@ -41,11 +41,11 @@ const V1_V2_V3_SHARED_CALL: Record<string, DefinitionCall> = {
 
 const V2_V3_SHARED_PAY: Record<string, DefinitionCall> = {
   query_info: {
-    description: 'The call info',
+    description: 'The transaction info',
     params: [
       {
-        name: 'call',
-        type: 'Call'
+        name: 'uxt',
+        type: 'Extrinsic'
       },
       {
         name: 'len',
