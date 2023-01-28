@@ -431,22 +431,24 @@ export function main (): void {
 
   registry.setMetadata(metadata);
 
+  const latest = metadata.asLatest;
+
   // TODO Make can make this a variable passed in via args if we want to generate
   // for different chain types
   const runtimeName = 'default Substrate runtime';
-  const latest = metadata.asLatest;
+  const docRoot = 'docs/substrate';
 
   // TODO Pass the result from `rpc_methods` (done via util/wsMeta.ts -> getRpcMethodsViaWs)
   // into here if we want to have a per-chain overview
-  writeFile('docs/substrate/rpc.md', addRpc(runtimeName));
+  writeFile(`${docRoot}/rpc.md`, addRpc(runtimeName));
 
   // TODO Pass the result from `state_getRuntimeVersion` (done via util/wsMeta.ts -> getRuntimeVersionViaWs)
   // into here if we want to have a per-chain overview
-  writeFile('docs/substrate/runtime.md', addRuntime(runtimeName));
+  writeFile(`${docRoot}/runtime.md`, addRuntime(runtimeName));
 
-  writeFile('docs/substrate/constants.md', addConstants(runtimeName, latest));
-  writeFile('docs/substrate/storage.md', addStorage(runtimeName, latest));
-  writeFile('docs/substrate/extrinsics.md', addExtrinsics(runtimeName, latest));
-  writeFile('docs/substrate/events.md', addEvents(runtimeName, latest));
-  writeFile('docs/substrate/errors.md', addErrors(runtimeName, latest));
+  writeFile(`${docRoot}/constants.md`, addConstants(runtimeName, latest));
+  writeFile(`${docRoot}/storage.md`, addStorage(runtimeName, latest));
+  writeFile(`${docRoot}/extrinsics.md`, addExtrinsics(runtimeName, latest));
+  writeFile(`${docRoot}/events.md`, addEvents(runtimeName, latest));
+  writeFile(`${docRoot}/errors.md`, addErrors(runtimeName, latest));
 }
