@@ -14,6 +14,7 @@ import { Text } from '@polkadot/types/primitive';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import rpcdata from '@polkadot/types-support/metadata/static-substrate';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
+import { blake2AsHex } from '@polkadot/util-crypto';
 
 interface SectionItem {
   link?: string;
@@ -34,15 +35,7 @@ interface Page {
   sections: Section[];
 }
 
-const STATIC_TEXT = '\n\n(NOTE: These were generated from a static/snapshot view of a recent Substrate master node. Some items may not be available in older nodes, or in any customized implementations.)';
-
-const DESC_CONSTANTS = `The following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via \`api.consts.<module>.<method>\`. ${STATIC_TEXT}`;
-const DESC_EXTRINSICS = `The following sections contain Extrinsics methods are part of the default Substrate runtime. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${STATIC_TEXT}`;
-const DESC_ERRORS = `This page lists the errors that can be encountered in the different modules. ${STATIC_TEXT}`;
-const DESC_EVENTS = `Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime. ${STATIC_TEXT}`;
-const DESC_RPC = 'The following sections contain known RPC methods that may be available on specific nodes (depending on configuration and available pallets) and allow you to interact with the actual node, query, and submit.';
-const DESC_RUNTIME = 'The following section contains known runtime calls that may be available on specific runtimes (depending on configuration and available pallets). These call directly into the WASM runtime for queries and operations.';
-const DESC_STORAGE = `The following sections contain Storage methods are part of the default Substrate runtime. On the api, these are exposed via \`api.query.<module>.<method>\`. ${STATIC_TEXT}`;
+const headerFn = (runtimeDesc: string) => `\n\n(NOTE: These were generated from a static/snapshot view of a recent ${runtimeDesc}. Some items may not be available in older nodes, or in any customized implementations.)`;
 
 /** @internal */
 function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
@@ -119,7 +112,6 @@ function renderPage (page: Page): string {
 
 function sortByName<T extends { name: Codec | string }> (a: T, b: T): number {
   // case insensitive (all-uppercase) sorting
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
   return a.name.toString().toUpperCase().localeCompare(b.name.toString().toUpperCase());
 }
 
@@ -130,14 +122,12 @@ function getSiName (lookup: PortableRegistry, type: SiLookupTypeId): string {
 }
 
 /** @internal */
-function addRpc (): string {
-  const sections = Object
-    .keys(definitions)
-    .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0);
-
+function addRpc (_runtimeDesc: string, rpcMethods?: string[]): string {
   return renderPage({
-    description: DESC_RPC,
-    sections: sections
+    description: 'The following sections contain known RPC methods that may be available on specific nodes (depending on configuration and available pallets) and allow you to interact with the actual node, query, and submit.',
+    sections: Object
+      .keys(definitions)
+      .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0)
       .sort()
       .reduce((all: Section[], _sectionName): Section[] => {
         const section = definitions[_sectionName as 'babe'];
@@ -148,6 +138,15 @@ function addRpc (): string {
           .forEach((methodName) => {
             const method = (section.rpc || {})[methodName];
             const sectionName = method.aliasSection || _sectionName;
+            const jsonrpc = (method.endpoint || `${sectionName}_${methodName}`);
+
+            if (rpcMethods) {
+              // if we are passing the rpcMethods params and we cannot find this method, skip it
+              if (jsonrpc !== 'rpc_methods' && !rpcMethods.includes(jsonrpc)) {
+                return;
+              }
+            }
+
             const topName = method.aliasSection ? `${_sectionName}/${method.aliasSection}` : _sectionName;
             let container = all.find(({ name }) => name === topName);
 
@@ -162,7 +161,6 @@ function addRpc (): string {
               return name + (isOptional ? '?' : '') + ': `' + type + '`';
             }).join(', ');
             const type = '`' + method.type + '`';
-            const jsonrpc = (method.endpoint || `${sectionName}_${methodName}`);
             const item: SectionItem = {
               interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
               jsonrpc: '`' + jsonrpc + '`',
@@ -185,38 +183,53 @@ function addRpc (): string {
 }
 
 /** @internal */
-function addRuntime (): string {
-  const sections = Object
-    .keys(definitions)
-    .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0);
-
+function addRuntime (_runtimeDesc: string, apis?: [apiHash: string, apiVersion: number][]): string {
   return renderPage({
-    description: DESC_RUNTIME,
-    sections: sections
+    description: 'The following section contains known runtime calls that may be available on specific runtimes (depending on configuration and available pallets). These call directly into the WASM runtime for queries and operations.',
+    sections: Object
+      .keys(definitions)
+      .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0)
       .sort()
       .reduce((all: Section[], _sectionName): Section[] => {
         Object
           .entries(definitions[_sectionName as 'babe'].runtime || {})
-          .forEach(([apiName, [{ methods }]]) => {
-            const container: Section = { items: [], name: apiName };
+          .forEach(([apiName, versions]) => {
+            versions
+              .sort((a, b) => b.version - a.version)
+              .forEach(({ methods, version }, index) => {
+                if (apis) {
+                  // if we are passing the api hashes and we cannot find this one, skip it
+                  const apiHash = blake2AsHex(apiName, 64);
+                  const api = apis.find(([hash]) => hash === apiHash);
 
-            all.push(container);
+                  if (!api || api[1] !== version) {
+                    return;
+                  }
+                } else if (index) {
+                  // we only want the highest version
+                  return;
+                }
 
-            Object
-              .entries(methods)
-              .sort(([a], [b]) => a.localeCompare(b))
-              .forEach(([methodName, { description, params, type }]): void => {
-                const args = params.map(({ name, type }): string => {
-                  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-                  return name + ': `' + type + '`';
-                }).join(', ');
+                const container: Section = { items: [], name: apiName };
 
-                container.items.push({
-                  interface: '`' + `api.call.${stringCamelCase(apiName)}.${stringCamelCase(methodName)}` + '`',
-                  name: `${stringCamelCase(methodName)}(${args}): ${'`' + type + '`'}`,
-                  runtime: '`' + `${apiName}_${methodName}` + '`',
-                  summary: description
-                });
+                all.push(container);
+
+                Object
+                  .entries(methods)
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .forEach(([methodName, { description, params, type }]): void => {
+                    const args = params.map(({ name, type }): string => {
+                      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                      return name + ': `' + type + '`';
+                    }).join(', ');
+
+                    container.items.push({
+                      interface: '`' + `api.call.${stringCamelCase(apiName)}.${stringCamelCase(methodName)}` + '`',
+                      name: `${stringCamelCase(methodName)}(${args}): ${'`' + type + '`'}`,
+                      runtime: '`' + `${apiName}_${methodName}` + '`',
+                      summary: description
+                    });
+                  });
               });
           });
 
@@ -227,9 +240,9 @@ function addRuntime (): string {
 }
 
 /** @internal */
-function addConstants ({ lookup, pallets }: MetadataLatest): string {
+function addConstants (runtimeDesc: string, { lookup, pallets }: MetadataLatest): string {
   return renderPage({
-    description: DESC_CONSTANTS,
+    description: `The following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via \`api.consts.<module>.<method>\`. ${headerFn(runtimeDesc)}`,
     sections: pallets
       .sort(sortByName)
       .filter(({ constants }) => !constants.isEmpty)
@@ -256,7 +269,7 @@ function addConstants ({ lookup, pallets }: MetadataLatest): string {
 }
 
 /** @internal */
-function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
+function addStorage (runtimeDesc: string, { lookup, pallets, registry }: MetadataLatest): string {
   const { substrate } = getSubstrateStorage(registry);
   const moduleSections = pallets
     .sort(sortByName)
@@ -294,7 +307,7 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
     });
 
   return renderPage({
-    description: DESC_STORAGE,
+    description: `The following sections contain Storage methods are part of the ${runtimeDesc}. On the api, these are exposed via \`api.query.<module>.<method>\`. ${headerFn(runtimeDesc)}`,
     sections: moduleSections.concat([{
       description: 'These are well-known keys that are always available to the runtime implementation of any Substrate-based network.',
       items: Object.entries(substrate).map(([name, { meta }]) => {
@@ -317,9 +330,9 @@ function addStorage ({ lookup, pallets, registry }: MetadataLatest): string {
 }
 
 /** @internal */
-function addExtrinsics ({ lookup, pallets }: MetadataLatest): string {
+function addExtrinsics (runtimeDesc: string, { lookup, pallets }: MetadataLatest): string {
   return renderPage({
-    description: DESC_EXTRINSICS,
+    description: `The following sections contain Extrinsics methods are part of the ${runtimeDesc}. On the api, these are exposed via \`api.tx.<module>.<method>\`. ${headerFn(runtimeDesc)}`,
     sections: pallets
       .sort(sortByName)
       .filter(({ calls }) => calls.isSome)
@@ -349,9 +362,9 @@ function addExtrinsics ({ lookup, pallets }: MetadataLatest): string {
 }
 
 /** @internal */
-function addEvents ({ lookup, pallets }: MetadataLatest): string {
+function addEvents (runtimeDesc: string, { lookup, pallets }: MetadataLatest): string {
   return renderPage({
-    description: DESC_EVENTS,
+    description: `Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the ${runtimeDesc}. ${headerFn(runtimeDesc)}`,
     sections: pallets
       .sort(sortByName)
       .filter(({ events }) => events.isSome)
@@ -377,9 +390,9 @@ function addEvents ({ lookup, pallets }: MetadataLatest): string {
 }
 
 /** @internal */
-function addErrors ({ lookup, pallets }: MetadataLatest): string {
+function addErrors (runtimeDesc: string, { lookup, pallets }: MetadataLatest): string {
   return renderPage({
-    description: DESC_ERRORS,
+    description: `This page lists the errors that can be encountered in the different modules. ${headerFn(runtimeDesc)}`,
     sections: pallets
       .sort(sortByName)
       .filter(({ errors }) => errors.isSome)
@@ -420,11 +433,23 @@ export function main (): void {
 
   const latest = metadata.asLatest;
 
-  writeFile('docs/substrate/rpc.md', addRpc());
-  writeFile('docs/substrate/runtime.md', addRuntime());
-  writeFile('docs/substrate/constants.md', addConstants(latest));
-  writeFile('docs/substrate/storage.md', addStorage(latest));
-  writeFile('docs/substrate/extrinsics.md', addExtrinsics(latest));
-  writeFile('docs/substrate/events.md', addEvents(latest));
-  writeFile('docs/substrate/errors.md', addErrors(latest));
+  // TODO Make can make this a variable passed in via args if we want to generate
+  // for different chain types
+  const chainName = 'Substrate';
+  const runtimeDesc = `default ${chainName} runtime`;
+  const docRoot = `docs/${chainName.toLowerCase()}`;
+
+  // TODO Pass the result from `rpc_methods` (done via util/wsMeta.ts -> getRpcMethodsViaWs)
+  // into here if we want to have a per-chain overview
+  writeFile(`${docRoot}/rpc.md`, addRpc(runtimeDesc));
+
+  // TODO Pass the result from `state_getRuntimeVersion` (done via util/wsMeta.ts -> getRuntimeVersionViaWs)
+  // into here if we want to have a per-chain overview
+  writeFile(`${docRoot}/runtime.md`, addRuntime(runtimeDesc));
+
+  writeFile(`${docRoot}/constants.md`, addConstants(runtimeDesc, latest));
+  writeFile(`${docRoot}/storage.md`, addStorage(runtimeDesc, latest));
+  writeFile(`${docRoot}/extrinsics.md`, addExtrinsics(runtimeDesc, latest));
+  writeFile(`${docRoot}/events.md`, addEvents(runtimeDesc, latest));
+  writeFile(`${docRoot}/errors.md`, addErrors(runtimeDesc, latest));
 }
