@@ -1366,7 +1366,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Dispatch origin must be signed by the [`Config::ControlOrigin`].
        **/
-      control: AugmentedSubmittable<(uncheckedErasToCheck: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      control: AugmentedSubmittable<(erasToCheck: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Deregister oneself from the fast-unstake.
        * 

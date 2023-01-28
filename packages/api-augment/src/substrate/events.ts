@@ -165,7 +165,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Some assets were issued.
        **/
-      Issued: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, totalSupply: u128], { assetId: u32, owner: AccountId32, totalSupply: u128 }>;
+      Issued: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, amount: u128], { assetId: u32, owner: AccountId32, amount: u128 }>;
       /**
        * Metadata has been cleared for an asset.
        **/
@@ -569,12 +569,12 @@ declare module '@polkadot/api-base/types/events' {
        **/
       BatchChecked: AugmentedEvent<ApiType, [eras: Vec<u32>], { eras: Vec<u32> }>;
       /**
-       * A batch was terminated.
+       * A batch of a given size was terminated.
        * 
        * This is always follows by a number of `Unstaked` or `Slashed` events, marking the end
        * of the batch. A new batch will be created upon next block.
        **/
-      BatchFinished: AugmentedEvent<ApiType, []>;
+      BatchFinished: AugmentedEvent<ApiType, [size_: u32], { size_: u32 }>;
       /**
        * An internal error happened. Operations will be paused now.
        **/
@@ -1025,6 +1025,13 @@ declare module '@polkadot/api-base/types/events' {
        * \[kind, timeslot\].
        **/
       Offence: AugmentedEvent<ApiType, [kind: U8aFixed, timeslot: Bytes], { kind: U8aFixed, timeslot: Bytes }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    pov: {
+      TestEvent: AugmentedEvent<ApiType, []>;
       /**
        * Generic event
        **/

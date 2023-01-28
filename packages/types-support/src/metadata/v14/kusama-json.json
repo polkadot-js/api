@@ -236,7 +236,7 @@
             {
               "name": "BlockWeights",
               "type": 505,
-              "value": "0x07a084c41902000b00204aa9d10113ffffffffffffffff82eeac1600010b60943491580113a3703d0ad7a370bd010b0098f73e5d0113ffffffffffffffbf01000082eeac1600010b601c87fbcc0113a3703d0ad7a370fd010b00204aa9d10113ffffffffffffffff01070088526a7413000000000000004082eeac1600000000",
+              "value": "0x0700be149902000b00204aa9d10113ffffffffffffffff62f65c1a00010b68924890580113a3703d0ad7a370bd010b0098f73e5d0113ffffffffffffffbf01000062f65c1a00010b681a9bfacc0113a3703d0ad7a370fd010b00204aa9d10113ffffffffffffffff01070088526a7413000000000000004062f65c1a00000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
               ]
@@ -268,7 +268,7 @@
             {
               "name": "Version",
               "type": 511,
-              "value": "0x186b7573616d61347061726974792d6b7573616d61020000009a2400000000000040df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a802000000f3ff14d5ab5270590200000017a6bc0d0062aeb3010000001300000000",
+              "value": "0x186b7573616d61347061726974792d6b7573616d61020000009a2400000000000040df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a803000000f3ff14d5ab5270590300000017a6bc0d0062aeb3010000001300000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -5052,7 +5052,7 @@
             {
               "name": "SignedMaxWeight",
               "type": 8,
-              "value": "0x0bc00f7077560113a3703d0ad7a370bd",
+              "value": "0x0b68d433f7550113a3703d0ad7a370bd",
               "docs": [
                 " Maximum weight of a signed solution.",
                 "",
@@ -5139,7 +5139,7 @@
             {
               "name": "MinerMaxWeight",
               "type": 8,
-              "value": "0x0bc00f7077560113a3703d0ad7a370bd",
+              "value": "0x0b68d433f7550113a3703d0ad7a370bd",
               "docs": []
             },
             {

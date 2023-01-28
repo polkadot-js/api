@@ -6667,10 +6667,17 @@
             },
             {
               "name": "BatchFinished",
-              "fields": [],
+              "fields": [
+                {
+                  "name": "size",
+                  "type": 4,
+                  "typeName": "u32",
+                  "docs": []
+                }
+              ],
               "index": 4,
               "docs": [
-                "A batch was terminated.",
+                "A batch of a given size was terminated.",
                 "",
                 "This is always follows by a number of `Unstaked` or `Slashed` events, marking the end",
                 "of the batch. A new batch will be created upon next block."
@@ -26517,7 +26524,7 @@
               "name": "control",
               "fields": [
                 {
-                  "name": "unchecked_eras_to_check",
+                  "name": "eras_to_check",
                   "type": 4,
                   "typeName": "EraIndex",
                   "docs": []
