@@ -206,36 +206,43 @@ function addRuntime (apis?: [string, number][]): string {
       .reduce((all: Section[], _sectionName): Section[] => {
         Object
           .entries(definitions[_sectionName as 'babe'].runtime || {})
-          .forEach(([apiName, [{ methods, version }]]) => {
-            const container: Section = { items: [], name: apiName };
+          .forEach(([apiName, versions]) => {
+            versions
+              .sort((a, b) => b.version - a.version)
+              .forEach(({ methods, version }, index) => {
+                if (apis) {
+                  // if we are passing the api hashes and we cannot find this one, skip it
+                  const apiHash = blake2AsHex(apiName, 64);
+                  const api = apis.find(([hash]) => hash === apiHash);
 
-            if (apis) {
-              // if we are passing the api hashes and we cannot find this one, skip it
-              const apiHash = blake2AsHex(apiName, 64);
-              const api = apis.find(([hash]) => hash === apiHash);
+                  if (!api || api[1] !== version) {
+                    return;
+                  }
+                } else if (index) {
+                  // we only want the highest version
+                  return;
+                }
 
-              if (!api || api[1] !== version) {
-                return;
-              }
-            }
+                const container: Section = { items: [], name: apiName };
 
-            all.push(container);
+                all.push(container);
 
-            Object
-              .entries(methods)
-              .sort(([a], [b]) => a.localeCompare(b))
-              .forEach(([methodName, { description, params, type }]): void => {
-                const args = params.map(({ name, type }): string => {
-                  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-                  return name + ': `' + type + '`';
-                }).join(', ');
+                Object
+                  .entries(methods)
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .forEach(([methodName, { description, params, type }]): void => {
+                    const args = params.map(({ name, type }): string => {
+                      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                      return name + ': `' + type + '`';
+                    }).join(', ');
 
-                container.items.push({
-                  interface: '`' + `api.call.${stringCamelCase(apiName)}.${stringCamelCase(methodName)}` + '`',
-                  name: `${stringCamelCase(methodName)}(${args}): ${'`' + type + '`'}`,
-                  runtime: '`' + `${apiName}_${methodName}` + '`',
-                  summary: description
-                });
+                    container.items.push({
+                      interface: '`' + `api.call.${stringCamelCase(apiName)}.${stringCamelCase(methodName)}` + '`',
+                      name: `${stringCamelCase(methodName)}(${args}): ${'`' + type + '`'}`,
+                      runtime: '`' + `${apiName}_${methodName}` + '`',
+                      summary: description
+                    });
+                  });
               });
           });
 
