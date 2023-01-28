@@ -2,9 +2,17 @@
 
 ## master
 
+Contributed:
+
+- Add support for V3 of `TransactionPaymentApi` (Thanks to https://github.com/notlesh)
+
 Changes:
 
 - Adjust `Weight` alias detection (moved from `PortableRegistry` -> `Registry`)
+- Move default (typegen) weight alias to `WeightV2` (does not affect runtime detection)
+- Prepare metadata docs from chain generation for future cli arguments
+- Add base type object for (future) composite types
+- Apply additional JSDoc comments into `PortaleRegistry`
 
 
 ## 9.12.1 Jan 22, 2023
