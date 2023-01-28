@@ -356,12 +356,12 @@ declare module '@polkadot/api-base/types/events' {
        **/
       BatchChecked: AugmentedEvent<ApiType, [eras: Vec<u32>], { eras: Vec<u32> }>;
       /**
-       * A batch was terminated.
+       * A batch of a given size was terminated.
        * 
        * This is always follows by a number of `Unstaked` or `Slashed` events, marking the end
        * of the batch. A new batch will be created upon next block.
        **/
-      BatchFinished: AugmentedEvent<ApiType, []>;
+      BatchFinished: AugmentedEvent<ApiType, [size_: u32], { size_: u32 }>;
       /**
        * An internal error happened. Operations will be paused now.
        **/

@@ -12,7 +12,8 @@ Changes:
 - Move default (typegen) weight alias to `WeightV2` (does not affect runtime detection)
 - Prepare metadata docs from chain generation for future cli arguments
 - Add base type object for (future) composite types
-- Apply additional JSDoc comments into `PortaleRegistry`
+- Apply additional JSDoc comments into `PortableRegistry`
+- Update to latest Polkadot, Kusama & Substrate metadata
 
 
 ## 9.12.1 Jan 22, 2023
