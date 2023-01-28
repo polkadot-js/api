@@ -51,7 +51,7 @@ export async function getRpcMethodsViaWs (endpoint: string): Promise<string[]> {
   return result.methods;
 }
 
-export async function getRuntimeVersionViaWs (endpoint: string): Promise<[string, number][]> {
+export async function getRuntimeVersionViaWs (endpoint: string): Promise<[apiHash: string, apiVersion: number][]> {
   const result = await getWsData<{ apis: [string, number][] }>(endpoint, 'state_getRuntimeVersion');
 
   return result.apis;

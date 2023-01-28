@@ -194,7 +194,7 @@ function addRpc (rpcMethods?: string[]): string {
 }
 
 /** @internal */
-function addRuntime (apis?: [string, number][]): string {
+function addRuntime (apis?: [apiHash: string, apiVersion: number][]): string {
   const sections = Object
     .keys(definitions)
     .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0);
