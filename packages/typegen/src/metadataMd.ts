@@ -132,13 +132,11 @@ function getSiName (lookup: PortableRegistry, type: SiLookupTypeId): string {
 
 /** @internal */
 function addRpc (rpcMethods?: string[]): string {
-  const sections = Object
-    .keys(definitions)
-    .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0);
-
   return renderPage({
     description: DESC_RPC,
-    sections: sections
+    sections: Object
+      .keys(definitions)
+      .filter((key) => Object.keys(definitions[key as 'babe'].rpc || {}).length !== 0)
       .sort()
       .reduce((all: Section[], _sectionName): Section[] => {
         const section = definitions[_sectionName as 'babe'];
@@ -195,13 +193,11 @@ function addRpc (rpcMethods?: string[]): string {
 
 /** @internal */
 function addRuntime (apis?: [apiHash: string, apiVersion: number][]): string {
-  const sections = Object
-    .keys(definitions)
-    .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0);
-
   return renderPage({
     description: DESC_RUNTIME,
-    sections: sections
+    sections: Object
+      .keys(definitions)
+      .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0)
       .sort()
       .reduce((all: Section[], _sectionName): Section[] => {
         Object
