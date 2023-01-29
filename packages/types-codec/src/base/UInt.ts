@@ -18,7 +18,7 @@ import { AbstractInt } from '../abstract/Int';
 export class UInt extends AbstractInt {
   public static with (bitLength: UIntBitLength, typeName?: string): CodecClass<UInt> {
     return class extends UInt {
-      constructor (registry: Registry, value?: AnyNumber) {
+      constructor (registry: Registry, value?: AnyNumber | null) {
         super(registry, value, bitLength);
       }
 

@@ -63,6 +63,15 @@ describe('Int', (): void => {
     ).toEqual(-123);
   });
 
+  it('allows null/undefined', (): void => {
+    expect(
+      new Int(registry).toNumber()
+    ).toEqual(0);
+    expect(
+      new Int(registry, null).toNumber()
+    ).toEqual(0);
+  });
+
   it('has a sane inspect', (): void => {
     expect(
       new Int(registry, '0x12', 16).inspect()

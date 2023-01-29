@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 9.13.2 Jan 29, 2023
+
+Changes:
+
+- Allow null as valid param to Int/UInt
+
+
 ## 9.13.1 Jan 29, 2023
 
 Contributed:
