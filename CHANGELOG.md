@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 9.13.3 Feb 1, 2023
+
+Changes:
+
+- Adjust `Weight` alias detection to cater for `WeightV0/u32` overrides (e.g. early Kusama blocks)
+
+
 ## 9.13.2 Jan 29, 2023
 
 Changes:
