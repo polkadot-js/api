@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 9.13.4 Feb 1, 2023
+
+Changes:
+
+- None from 9.13.3 (The previous version had npm registry publishing issues)
+
+
 ## 9.13.3 Feb 1, 2023
 
 Changes:
