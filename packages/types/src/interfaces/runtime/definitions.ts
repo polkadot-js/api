@@ -212,6 +212,7 @@ export default {
     },
     ValidatorId: 'AccountId',
     ValidatorIdOf: 'ValidatorId',
+    WeightV0: 'u32',
     WeightV1: 'u64',
     WeightV2: {
       refTime: 'Compact<u64>',

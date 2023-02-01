@@ -394,6 +394,9 @@ export interface Weight extends WeightV2 {}
 /** @name WeightMultiplier */
 export interface WeightMultiplier extends Fixed64 {}
 
+/** @name WeightV0 */
+export interface WeightV0 extends u32 {}
+
 /** @name WeightV1 */
 export interface WeightV1 extends u64 {}
 
