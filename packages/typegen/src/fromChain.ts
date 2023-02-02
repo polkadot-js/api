@@ -9,7 +9,7 @@ import yargs from 'yargs';
 import { Definitions } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';
 
-import { generateDefaultCalls, generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
+import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTx } from './generate';
 import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
 
 function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
@@ -45,8 +45,8 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
   generateDefaultEvents(path.join(outputPath, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultQuery(path.join(outputPath, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultRpc(path.join(outputPath, 'augment-api-rpc.ts'), extraTypes);
+  generateDefaultRuntime(path.join(outputPath, 'augment-api-runtime.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultTx(path.join(outputPath, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultCalls(path.join(outputPath, 'augment-api-runtime.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
 
   writeFile(path.join(outputPath, 'augment-api.ts'), (): string =>
     [

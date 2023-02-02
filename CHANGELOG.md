@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 9.13.5 Feb 2, 2023
+
+Changes:
+
+- Adjust `Weight` alias for 1.5 chains
+- Ensure correct registry is pass through for runtime TS generation
+
+
 ## 9.13.4 Feb 1, 2023
 
 Changes:

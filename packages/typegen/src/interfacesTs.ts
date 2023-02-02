@@ -7,7 +7,7 @@ import kusama from '@polkadot/types-support/metadata/static-kusama';
 import polkadot from '@polkadot/types-support/metadata/static-polkadot';
 import substrate from '@polkadot/types-support/metadata/static-substrate';
 
-import { generateDefaultCalls, generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultInterface, generateDefaultLookup, generateDefaultQuery, generateDefaultRpc, generateDefaultTsDef, generateDefaultTx } from './generate';
+import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultInterface, generateDefaultLookup, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTsDef, generateDefaultTx } from './generate';
 
 const BASE = 'packages/api-augment/src';
 const METAS = Object.entries<HexString>({ kusama, polkadot, substrate });
@@ -26,7 +26,7 @@ export function main (): void {
     generateDefaultErrors(`${BASE}/${name}/errors.ts`, staticMeta);
     generateDefaultEvents(`${BASE}/${name}/events.ts`, staticMeta);
     generateDefaultQuery(`${BASE}/${name}/query.ts`, staticMeta);
+    generateDefaultRuntime(`${BASE}/${name}/runtime.ts`, staticMeta);
     generateDefaultTx(`${BASE}/${name}/tx.ts`, staticMeta);
-    generateDefaultCalls(`${BASE}/${name}/runtime.ts`, staticMeta);
   }
 }
