@@ -436,8 +436,6 @@ export class WsProvider implements ProviderInterface {
       this.#timeoutId = null;
     }
 
-    this.#emit('disconnected');
-
     // reject all hanging requests
     eraseRecord(this.#handlers, (h) => {
       try {
@@ -448,6 +446,8 @@ export class WsProvider implements ProviderInterface {
       }
     });
     eraseRecord(this.#waitingForId);
+
+    this.#emit('disconnected');
 
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
@@ -551,8 +551,9 @@ export class WsProvider implements ProviderInterface {
 
     this.#isConnected = true;
 
-    this.#emit('connected');
     this.#resubscribe();
+
+    this.#emit('connected');
 
     return true;
   };
