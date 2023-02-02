@@ -174,6 +174,10 @@ export class WsProvider implements ProviderInterface {
     return this.#isReadyPromise;
   }
 
+  public get endpoint (): string {
+    return this.#endpoints[this.#endpointIndex];
+  }
+
   /**
    * @description Returns a clone of the object
    */
@@ -197,10 +201,10 @@ export class WsProvider implements ProviderInterface {
 
       // the as typeof WebSocket here is Deno-specific - not available on the globalThis
       this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as typeof WebSocket, WebSocket)
-        ? new WebSocket(this.#endpoints[this.#endpointIndex])
+        ? new WebSocket(this.endpoint)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
-        : new WebSocket(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers, undefined, {
+        : new WebSocket(this.endpoint, undefined, undefined, this.#headers, undefined, {
           // default: true
           fragmentOutgoingMessages: true,
           // default: 16K (bump, the Node has issues with too many fragments, e.g. on setCode)
@@ -411,7 +415,7 @@ export class WsProvider implements ProviderInterface {
   };
 
   #onSocketClose = (event: CloseEvent): void => {
-    const error = new Error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
+    const error = new Error(`disconnected from ${this.endpoint}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
 
     if (this.#autoConnectMs > 0) {
       l.error(error.message);
@@ -543,7 +547,7 @@ export class WsProvider implements ProviderInterface {
       throw new Error('WebSocket cannot be null in onOpen');
     }
 
-    l.debug(() => ['connected to', this.#endpoints[this.#endpointIndex]]);
+    l.debug(() => ['connected to', this.endpoint]);
 
     this.#isConnected = true;
 
