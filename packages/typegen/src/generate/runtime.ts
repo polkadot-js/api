@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
-import type { DefinitionCallNamed, Definitions } from '@polkadot/types/types';
+import type { DefinitionCallNamed, Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types';
 
@@ -67,7 +67,7 @@ function getDefs (apis: Apis | null, defs: Record<string, Definitions>): Record<
 }
 
 /** @internal */
-export function generateCallTypes (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
+export function generateCallTypes (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes: ExtraTypes = {
       '@polkadot/types-augment': {
@@ -83,8 +83,7 @@ export function generateCallTypes (meta: Metadata, dest: string, extraTypes: Ext
 
     // find the system.Version in metadata
     let apis: Apis | null = null;
-    const { pallets, registry } = meta.asLatest;
-    const sysp = pallets.find(({ name }) => name.eq('System'));
+    const sysp = meta.asLatest.pallets.find(({ name }) => name.eq('System'));
 
     if (sysp) {
       const verc = sysp.constants.find(({ name }) => name.eq('Version'));
@@ -163,10 +162,11 @@ export function generateCallTypes (meta: Metadata, dest: string, extraTypes: Ext
   });
 }
 
-export function generateDefaultCalls (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
-  const { metadata } = initMeta(data, extraTypes);
+export function generateDefaultRuntime (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+  const { metadata, registry } = initMeta(data, extraTypes);
 
   generateCallTypes(
+    registry,
     metadata,
     dest,
     extraTypes,

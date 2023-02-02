@@ -540,24 +540,28 @@ export class TypeRegistry implements Registry {
     // attach the lookup before we register any types
     this.setLookup(lookup);
 
-    // default to V1 - this includes 1.5 (with single field)
-    let weightType = 'WeightV1';
-    const WeightV2 = this.get<WeightV2>('SpWeightsWeightV2Weight');
+    // we detect based on runtime configuration
+    let Weight: string | null = null;
 
-    // detection for WeightV2 type
-    if (WeightV2) {
-      const weight = new WeightV2(this);
+    if (this.hasType('SpWeightsWeightV2Weight')) {
+      // detection for WeightV2 type based on latest naming
+      const weightv2 = this.createType<WeightV2>('SpWeightsWeightV2Weight');
 
-      if (weight.refTime && weight.proofSize) {
-        weightType = 'SpWeightsWeightV2Weight';
-      }
-    }
-
-    if (weightType !== 'WeightV1' || !isBn(this.createType<WeightV1>('Weight'))) {
-      // where we have an already-supplied override, we don't clobber
+      Weight = weightv2.refTime && weightv2.proofSize
+        // with both refTime & proofSize we use as-is (WeightV2)
+        ? 'SpWeightsWeightV2Weight'
+        // fallback to WeightV1 (WeightV1.5 is a struct, single field)
+        : 'WeightV1';
+    } else if (!isBn(this.createType<WeightV1>('Weight'))) {
+      // where we have an already-supplied BN override, we don't clobber
       // it with our detected value (This protects against pre-defines
       // where Weight may be aliassed to WeightV0, e.g. in early Kusama chains)
-      this.register({ Weight: weightType });
+      Weight = 'WeightV1';
+    }
+
+    if (Weight) {
+      // we have detected a version, adjust the definition
+      this.register({ Weight });
     }
   };
 

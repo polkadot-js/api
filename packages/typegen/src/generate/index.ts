@@ -8,6 +8,6 @@ export { generateDefaultInterface } from './interfaceRegistry';
 export { generateDefaultLookup } from './lookup';
 export { generateDefaultQuery } from './query';
 export { generateDefaultRpc } from './rpc';
-export { generateDefaultCalls } from './runtime';
+export { generateDefaultRuntime } from './runtime';
 export { generateDefaultTsDef } from './tsDef';
 export { generateDefaultTx } from './tx';
