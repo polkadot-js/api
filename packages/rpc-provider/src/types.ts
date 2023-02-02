@@ -67,18 +67,20 @@ export interface ProviderInterface {
   unsubscribe (type: string, method: string, id: number | string): Promise<boolean>;
 }
 
+export interface EndpointStats {
+  bytesRecv: number;
+  bytesSent: number;
+  cached: number;
+  errors: number;
+  requests: number;
+  subscriptions: number;
+  timeout: number;
+}
+
 export interface ProviderStats {
   active: {
     requests: number;
     subscriptions: number;
   };
-  total: {
-    bytesRecv: number;
-    bytesSent: number;
-    cached: number;
-    errors: number;
-    requests: number;
-    subscriptions: number;
-    timeout: number;
-  };
+  total: EndpointStats;
 }
