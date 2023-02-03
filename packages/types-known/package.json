@@ -20,17 +20,17 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.13.6-2-x",
+  "version": "9.13.6-3-x",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.20.13",
     "@polkadot/networks": "^10.3.1",
-    "@polkadot/types": "9.13.6-2-x",
-    "@polkadot/types-codec": "9.13.6-2-x",
-    "@polkadot/types-create": "9.13.6-2-x",
+    "@polkadot/types": "9.13.6-3-x",
+    "@polkadot/types-codec": "9.13.6-3-x",
+    "@polkadot/types-create": "9.13.6-3-x",
     "@polkadot/util": "^10.3.1"
   },
   "devDependencies": {
-    "@polkadot/api": "9.13.6-2-x"
+    "@polkadot/api": "9.13.6-3-x"
   }
 }
