@@ -2076,9 +2076,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.68.3":
-  version: 0.68.3
-  resolution: "@polkadot/dev@npm:0.68.3"
+"@polkadot/dev@npm:^0.68.4":
+  version: 0.68.4
+  resolution: "@polkadot/dev@npm:0.68.4"
   dependencies:
     "@babel/cli": ^7.20.7
     "@babel/core": ^7.20.12
@@ -2136,9 +2136,9 @@ __metadata:
     jest-resolve: ^29.4.1
     madge: ^6.0.0
     prettier: ^2.8.3
-    rollup: ^3.12.0
+    rollup: ^3.12.1
     rollup-plugin-cleanup: ^3.2.1
-    typescript: ^4.9.4
+    typescript: ^4.9.5
     webpack: ^5.75.0
     webpack-cli: ^5.0.1
     webpack-dev-server: ^4.11.1
@@ -2171,7 +2171,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 3404164b1ea21eb5fd53542812a5ab80cdbcc3b3fe1a58e54f54ff7c4d0f84548763540271f1814ef6290ce929da65379dc3f1633a61a4e93d5376bed46d88cc
+  checksum: e5cab61d26e891ac0cfa2b6478fc626f06a3e7d62eeede550c13921ab378bd763f63579af8c2634554a4d6204ac70647c6f10597b39bbea9ccc9c17a9ae8afbe
   languageName: node
   linkType: hard
 
@@ -10659,9 +10659,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.12.0":
-  version: 3.12.0
-  resolution: "rollup@npm:3.12.0"
+"rollup@npm:^3.12.1":
+  version: 3.12.1
+  resolution: "rollup@npm:3.12.1"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -10669,7 +10669,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 66182947ea74bd4777e1a02514124f49eacc6b123e23738cf31342f8e73b79e43da05671aebe6d5f55b5830ebf3dd11f2eaba1b98b8fc6a9e6d96fd4c3ecc534
+  checksum: b6b3aa4bcc13b1f15c1945201f3837be07b249854ed8a73bd67411ffe56f691b808d5b563246b78ecea4110afdb9e9e6cc7d5a3f82965a5592187dbb10d3671f
   languageName: node
   linkType: hard
 
@@ -10680,7 +10680,7 @@ __metadata:
     "@babel/core": ^7.20.12
     "@babel/register": ^7.18.9
     "@babel/runtime": ^7.20.13
-    "@polkadot/dev": ^0.68.3
+    "@polkadot/dev": ^0.68.4
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^29.4.0
     copyfiles: ^2.4.1
@@ -11805,23 +11805,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.4":
-  version: 4.9.4
-  resolution: "typescript@npm:4.9.4"
+"typescript@npm:^4.9.5":
+  version: 4.9.5
+  resolution: "typescript@npm:4.9.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: e782fb9e0031cb258a80000f6c13530288c6d63f1177ed43f770533fdc15740d271554cdae86701c1dd2c83b082cea808b07e97fd68b38a172a83dbf9e0d0ef9
+  checksum: ee000bc26848147ad423b581bd250075662a354d84f0e06eb76d3b892328d8d4440b7487b5a83e851b12b255f55d71835b008a66cbf8f255a11e4400159237db
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^4.9.4#~builtin<compat/typescript>":
-  version: 4.9.4
-  resolution: "typescript@patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=bda367"
+"typescript@patch:typescript@npm%3A^4.9.5#~builtin<compat/typescript>":
+  version: 4.9.5
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=bda367"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 37f6e2c3c5e2aa5934b85b0fddbf32eeac8b1bacf3a5b51d01946936d03f5377fe86255d4e5a4ae628fd0cd553386355ad362c57f13b4635064400f3e8e05b9d
+  checksum: 2eee5c37cad4390385db5db5a8e81470e42e8f1401b0358d7390095d6f681b410f2c4a0c496c6ff9ebd775423c7785cdace7bcdad76c7bee283df3d9718c0f20
   languageName: node
   linkType: hard
 
