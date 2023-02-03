@@ -363,8 +363,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       }
     }
 
-    const filterKey = (k: string) => !allKeys.includes(k);
-    const unknown = exposed.filter(filterKey);
+    const unknown = exposed.filter((k: string) =>
+      !allKeys.includes(k) &&
+      !k.includes('_unstable_')
+    );
 
     if (unknown.length && !this._options.noInitWarn) {
       l.warn(`RPC methods not decorated: ${unknown.join(', ')}`);
