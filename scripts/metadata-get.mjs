@@ -8,9 +8,9 @@ import { fetch } from '@polkadot/x-fetch';
 const META = 14;
 const PREAMBLE = `// Copyright 2017-2023 @polkadot/types-support authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n/* eslint-disable */`;
 const CMD = {
-  kusama: 'cargo run --release -- purge-chain -y --chain kusama-dev  && cargo run --release -- --chain kusama-dev --alice --force-authoring',
-  polkadot: 'cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev',
-  substrate: 'cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev'
+  kusama: `${PREAMBLE}\n\n// cargo run --release -- purge-chain -y --chain kusama-dev  && cargo run --release -- --chain kusama-dev --alice --force-authoring\n\nexport default`,
+  polkadot: `${PREAMBLE}\n\n// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`,
+  substrate: `${PREAMBLE}\n\n// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`
 }
 
 let requestId = 0;
@@ -47,8 +47,8 @@ const chain = version.specName === 'node'
   : version.specName;
 const path = `packages/types-support/src/metadata/v${META}/${chain}`;
 
-fs.writeFileSync(`${path}-hex.ts`, `${PREAMBLE}\n\n// ${CMD[chain]}\n\nexport default '${metadata}';\n`);
-fs.writeFileSync(`${path}-rpc.ts`, `${PREAMBLE}\n\n// ${CMD[chain]}\n\n export default ${JSON.stringify(methods, null, 2)};\n`);
-fs.writeFileSync(`${path}-ver.ts`, `${PREAMBLE}\n\n// ${CMD[chain]}\n\n export default ${JSON.stringify(version, null, 2)};\n`);
+fs.writeFileSync(`${path}-hex.ts`, `${CMD[chain]} '${metadata}';\n`);
+fs.writeFileSync(`${path}-rpc.ts`, `${CMD[chain]} ${JSON.stringify(methods, null, 2)};\n`);
+fs.writeFileSync(`${path}-ver.ts`, `${CMD[chain]} ${JSON.stringify(version, null, 2)};\n`);
 
 console.log(`Done. ${chain}/${version.specVersion}`);

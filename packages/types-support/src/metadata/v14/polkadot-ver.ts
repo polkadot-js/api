@@ -5,7 +5,7 @@
 
 // cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev
 
- export default {
+export default {
   "specName": "polkadot",
   "implName": "parity-polkadot",
   "authoringVersion": 0,

@@ -5,7 +5,7 @@
 
 // cargo run --release -- purge-chain -y --chain kusama-dev  && cargo run --release -- --chain kusama-dev --alice --force-authoring
 
- export default {
+export default {
   "methods": [
     "account_nextIndex",
     "author_hasKey",

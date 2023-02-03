@@ -5,7 +5,7 @@
 
 // cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev
 
- export default {
+export default {
   "specName": "node",
   "implName": "substrate-node",
   "authoringVersion": 10,

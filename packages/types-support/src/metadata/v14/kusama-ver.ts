@@ -5,7 +5,7 @@
 
 // cargo run --release -- purge-chain -y --chain kusama-dev  && cargo run --release -- --chain kusama-dev --alice --force-authoring
 
- export default {
+export default {
   "specName": "kusama",
   "implName": "parity-kusama",
   "authoringVersion": 2,
