@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Additional override for `Compact<{ refTime: u64 }>` chains
+
+
 ## 9.13.5 Feb 2, 2023
 
 Changes:
