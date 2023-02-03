@@ -1,4 +1,4 @@
-    3356	Jaco                          	Bump deps (incl. TS) (#5468)
+    3357	Jaco                          	Overrides for deployed Weight 1.5 chains (#5469)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
