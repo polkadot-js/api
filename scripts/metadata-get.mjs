@@ -6,11 +6,11 @@ import fs from 'fs';
 import { fetch } from '@polkadot/x-fetch';
 
 const META = 14;
-const PREAMBLE = `// Copyright 2017-2023 @polkadot/types-support authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n/* eslint-disable */`;
+const PREAMBLE = `// Copyright 2017-2023 @polkadot/types-support authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n/* eslint-disable */\n\n`;
 const CMD = {
-  kusama: `${PREAMBLE}\n\n// cargo run --release -- purge-chain -y --chain kusama-dev  && cargo run --release -- --chain kusama-dev --alice --force-authoring\n\nexport default`,
-  polkadot: `${PREAMBLE}\n\n// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`,
-  substrate: `${PREAMBLE}\n\n// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`
+  kusama: `${PREAMBLE}// cargo run --release -- purge-chain -y --chain kusama-dev  && cargo run --release -- --chain kusama-dev --alice --force-authoring\n\nexport default`,
+  polkadot: `${PREAMBLE}// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`,
+  substrate: `${PREAMBLE}// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`
 }
 
 let requestId = 0;
@@ -23,14 +23,11 @@ async function get (method) {
       method,
       params: []
     }),
-    credentials: 'same-origin',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    method: 'post',
-    mode: 'cors',
-    cache: 'no-cache'
+    method: 'post'
   });
   const body = await res.json();
 
