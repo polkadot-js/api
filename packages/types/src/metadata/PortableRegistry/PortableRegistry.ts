@@ -50,6 +50,10 @@ const PATHS_ALIAS = splitNamespace([
   // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
   'account::AccountId20',
   'polkadot_runtime_common::claims::EthereumAddress',
+  // weights 2 is a structure, however for 1.5. with a single field it
+  // should be flatenned (can appear in Compact<Weight> extrinsics)
+  'frame_support::weights::weight_v2::Weight',
+  'sp_weights::weight_v2::Weight',
   // wildcard matching in place...
   // these have a specific encoding or logic, use a wildcard for {pallet, darwinia}_democracy
   '*_democracy::vote::Vote',
@@ -149,7 +153,15 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 }
 
 /** @internal check if the path matches the PATHS_ALIAS (with wildcards) */
-function getAliasPath ({ path }: SiType): string | null {
+function getAliasPath ({ def, path }: SiType): string | null {
+  // specific logic for weights - we override when non-complex struct
+  // (as applied in Weight 1.5 where we also have `Compact<{ refTime: u64 }>)
+  if (['frame_support::weights::weight_v2::Weight', 'sp_weights::weight_v2::Weight'].includes(path.join('::'))) {
+    return !def.isComposite || def.asComposite.fields.length === 1
+      ? 'WeightV1'
+      : null;
+  }
+
   // TODO We need to handle ink! Balance in some way
   return path.length && PATHS_ALIAS.some((a) => matchParts(a, path))
     ? path[path.length - 1].toString()
