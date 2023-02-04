@@ -46,6 +46,7 @@
        2	Zannis Kalampoukis            	fix: Typegen handles structs and vectors of structs without erroring (#4743)
        2	扩散性百万甜面包                      	Typo, deocrateMethod -> decorateMethod (#1594)
        1	Alan Sapede                   	Adds Eth feeHistory & maxPriorityFeePerGas rpc (#4956)
+       1	Aleš Ferlan                   	fix: use H160 for address in getTransactionCount (#5472)
        1	Brad Larson                   	[NEW] Support for custom headers with providers (#2423)
        1	Btwiuse Arch                  	Add side effect check workaround (#4994) (#5009)
        1	chriswmercer                  	little readme tweak (#279)
