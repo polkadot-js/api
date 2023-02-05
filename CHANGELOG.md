@@ -1,10 +1,15 @@
 # CHANGELOG
 
-## master
+## 9.13.6 Feb 5, 2023
+
+Contributed:
+
+- Align `eth_getTransactionCount` with frontier (Thanks to https://github.com/alko89)
 
 Changes:
 
 - Additional override for `Compact<{ refTime: u64 }>` chains
+- Add script to retrieve local rpc, version & metadata for typegen
 
 
 ## 9.13.5 Feb 2, 2023
