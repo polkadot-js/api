@@ -6,7 +6,7 @@ import type { Bytes, Compact, DoNotConstruct, Enum, Int, Null, Option, Struct, U
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
-import type { SystemOrigin } from '@polkadot/types/interfaces/system';
+import type { Event, SystemOrigin } from '@polkadot/types/interfaces/system';
 
 /** @name AccountId */
 export interface AccountId extends AccountId32 {}
@@ -306,11 +306,17 @@ export interface Releases extends Enum {
   readonly type: 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6' | 'V7' | 'V8' | 'V9' | 'V10';
 }
 
+/** @name RuntimeCall */
+export interface RuntimeCall extends Call {}
+
 /** @name RuntimeDbWeight */
 export interface RuntimeDbWeight extends Struct {
   readonly read: Weight;
   readonly write: Weight;
 }
+
+/** @name RuntimeEvent */
+export interface RuntimeEvent extends Event {}
 
 /** @name Seal */
 export interface Seal extends ITuple<[ConsensusEngineId, Bytes]> {}

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Extract aliases for `*_runtime::Runtime{Call, Event}` from metadata
+
+
 ## 9.13.6 Feb 5, 2023
 
 Contributed:
