@@ -66,6 +66,9 @@ const PATHS_ALIAS = splitNamespace([
   // shorten some well-known types
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
+  // runtime
+  '*_runtime::RuntimeCall',
+  '*_runtime::RuntimeEvent',
   // ink!
   'ink_env::types::*',
   'ink_primitives::types::*'
