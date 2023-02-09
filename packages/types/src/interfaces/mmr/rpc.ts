@@ -4,13 +4,9 @@
 import type { DefinitionsRpc } from '../../types';
 
 export const rpc: DefinitionsRpc = {
-  generateBatchProof: {
-    description: 'Generate MMR proof for the given leaf indices.',
+  mmrRoot: {
+    description: 'Get the MMR root hash for the current best block.',
     params: [
-      {
-        name: 'leafIndices',
-        type: 'Vec<u64>'
-      },
       {
         isHistoric: true,
         isOptional: true,
@@ -18,13 +14,19 @@ export const rpc: DefinitionsRpc = {
         type: 'BlockHash'
       }
     ],
-    type: 'MmrLeafProof'
+    type: 'MmrHash'
   },
+
   generateProof: {
-    description: 'Generate MMR proof for given leaf index.',
+    description: 'Generate MMR proof for the given block numbers.',
     params: [
       {
-        name: 'leafIndex',
+        name: 'blockNumbers',
+        type: 'Vec<u64>'
+      },
+      {
+        isOptional: true,
+        name: 'bestKnownBlockNumber',
         type: 'u64'
       },
       {
@@ -35,5 +37,31 @@ export const rpc: DefinitionsRpc = {
       }
     ],
     type: 'MmrLeafBatchProof'
-  }
+  },
+
+  verifyProof: {
+    description: 'Verify an MMR proof',
+    params: [
+      {
+        name: 'proof',
+        type: 'MmrLeafBatchProof'
+      },
+    ],
+    type: 'bool'
+  },
+
+  verifyProofStateless: {
+    description: 'Verify an MMR proof statelessly given an mmr_root',
+    params: [
+      {
+        name: 'mmrRoot',
+        type: 'MmrHash'
+      },
+      {
+        name: 'proof',
+        type: 'MmrLeafBatchProof'
+      },
+    ],
+    type: 'bool'
+  },
 };
