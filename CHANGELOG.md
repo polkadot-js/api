@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## master
+## 9.14.1 Feb 12, 2023
 
 Changes:
 
 - Extract aliases for `*_runtime::Runtime{Call, Event}` from metadata
+- Update to latest Polkadot, Kusama & Substrate metadata
 
 
 ## 9.13.6 Feb 5, 2023

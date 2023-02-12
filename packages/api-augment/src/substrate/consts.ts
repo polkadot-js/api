@@ -79,18 +79,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    authorship: {
-      /**
-       * The number of blocks back we should accept uncles.
-       * This means that we will deal with uncle-parents that are
-       * `UncleGenerations + 1` before `now`.
-       **/
-      uncleGenerations: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     babe: {
       /**
        * The amount of time, in slots, that each epoch should last.
@@ -473,18 +461,28 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The maximum number of candidates in a phragmen election.
        * 
-       * Warning: The election happens onchain, and this value will determine
-       * the size of the election. When this limit is reached no more
-       * candidates are accepted in the election.
+       * Warning: This impacts the size of the election which is run onchain. Chose wisely, and
+       * consider how it will impact `T::WeightInfo::election_phragmen`.
+       * 
+       * When this limit is reached no more candidates are accepted in the election.
        **/
       maxCandidates: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of voters to allow in a phragmen election.
        * 
-       * Warning: This impacts the size of the election which is run onchain.
+       * Warning: This impacts the size of the election which is run onchain. Chose wisely, and
+       * consider how it will impact `T::WeightInfo::election_phragmen`.
+       * 
        * When the limit is reached the new voters are ignored.
        **/
       maxVoters: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum numbers of votes per voter.
+       * 
+       * Warning: This impacts the size of the election which is run onchain. Chose wisely, and
+       * consider how it will impact `T::WeightInfo::election_phragmen`.
+       **/
+      maxVotesPerVoter: u32 & AugmentedConst<ApiType>;
       /**
        * Identifier for the elections-phragmen pallet's lock
        **/
@@ -527,6 +525,15 @@ declare module '@polkadot/api-base/types/consts' {
        * Max Authorities in use
        **/
       maxAuthorities: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of entries to keep in the set id to session index mapping.
+       * 
+       * Since the `SetIdSession` map is only used for validating equivocations this
+       * value should relate to the bonding duration of whatever staking system is
+       * being used (if any). If equivocation handling is not enabled then this value
+       * can be zero.
+       **/
+      maxSetIdSessionEntries: u64 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
