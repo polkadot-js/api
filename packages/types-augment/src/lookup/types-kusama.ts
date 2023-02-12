@@ -10,7 +10,7 @@ import type { ITuple } from '@polkadot/types-codec/types';
 import type { PerU16 } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
-  /** @name KusamaRuntimeSessionKeys (108) */
+  /** @name KusamaRuntimeSessionKeys (107) */
   interface KusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpFinalityGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
@@ -111,7 +111,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name KusamaRuntimeRuntime (873) */
+  /** @name KusamaRuntimeRuntime (871) */
   type KusamaRuntimeRuntime = Null;
 
 } // declare module
