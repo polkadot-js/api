@@ -375,7 +375,7 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Generate MMR proof for the given block numbers.
        **/
-      generateProof: AugmentedRpc<(blockNumbers: Vec<u64> | (u64 | AnyNumber | Uint8Array)[], bestKnownBlockNumber: Vec<u64> | (u64 | AnyNumber | Uint8Array)[], at?: BlockHash | string | Uint8Array) => Observable<MmrLeafBatchProof>>;
+      generateProof: AugmentedRpc<(blockNumbers: Vec<u64> | (u64 | AnyNumber | Uint8Array)[], bestKnownBlockNumber?: u64 | AnyNumber | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<MmrLeafBatchProof>>;
       /**
        * Get the MMR root hash for the current best block.
        **/
