@@ -19,7 +19,10 @@ jobs:
       GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_PAT_BOT }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
-    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 'lts/*'
       with:
         fetch-depth: 0
         token: ${{ secrets.GH_PAT_BOT }}

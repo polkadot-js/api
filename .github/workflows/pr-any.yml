@@ -11,7 +11,10 @@ jobs:
     env:
       YARN_ENABLE_SCRIPTS: false
     steps:
-    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 'lts/*'
     - uses: denoland/setup-deno@004814556e37c54a2f6e31384c9e18e983317366
       with:
         deno-version: vx.x.x
