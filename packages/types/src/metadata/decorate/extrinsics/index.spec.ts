@@ -55,7 +55,7 @@ describe('extrinsics', (): void => {
 
 describe('decorateExtrinsics', (): void => {
   it('should throw if an incorrect number of args is supplied', (): void => {
-    expect(() => extrinsics.balances.setBalance()).toThrowError(/expects 3 arguments/);
+    expect(() => extrinsics.balances.setBalance()).toThrow(/expects 3 arguments/);
   });
 
   it('should return a value if the storage function does not expect an argument', (): void => {

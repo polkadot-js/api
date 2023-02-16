@@ -134,7 +134,7 @@ describe('Struct', (): void => {
             u32: U32
           })
         )(registry, 'ABC')
-      ).toThrowError(/Cannot decode value/);
+      ).toThrow(/Cannot decode value/);
     });
 
     it('throws a sensical error on incorrect array values passed to structs', (): void => {

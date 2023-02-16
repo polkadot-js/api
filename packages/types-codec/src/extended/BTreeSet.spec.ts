@@ -123,7 +123,7 @@ describe('BTreeSet', (): void => {
       (): BTreeSet<U32> => new (
         BTreeSet.with(U32)
       )(registry, 'ABC')
-    ).toThrowError(/BTreeSet: cannot decode type/);
+    ).toThrow(/BTreeSet: cannot decode type/);
   });
 
   describe('enocodedLength & initialU8aLength', (): void => {
