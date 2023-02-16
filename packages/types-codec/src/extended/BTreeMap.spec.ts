@@ -81,7 +81,7 @@ describe('BTreeMap', (): void => {
       (): BTreeMap<Text, U32> => new (
         BTreeMap.with(Text, U32)
       )(registry, 'ABC')
-    ).toThrowError(/Map: cannot decode type/);
+    ).toThrow(/Map: cannot decode type/);
   });
 
   it('correctly encodes length', (): void => {

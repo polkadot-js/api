@@ -284,7 +284,7 @@ describe('ScProvider', () => {
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
-      expect(() => provider.clone()).toThrowError();
+      expect(() => provider.clone()).toThrow();
     });
   });
 
@@ -306,7 +306,7 @@ describe('ScProvider', () => {
 
       setChainSyncyingStatus(false);
 
-      await expect(provider.connect(undefined, mockedHealthChecker.healthChecker)).rejects.toThrowError(
+      await expect(provider.connect(undefined, mockedHealthChecker.healthChecker)).rejects.toThrow(
         'Already connected!'
       );
     });
@@ -402,7 +402,7 @@ describe('ScProvider', () => {
         throw new Error('boom!');
       });
 
-      await expect(provider.send('getData', ['foo'])).rejects.toThrowError(
+      await expect(provider.send('getData', ['foo'])).rejects.toThrow(
         'Disconnected'
       );
       expect(provider.isConnected).toBe(false);
@@ -565,7 +565,7 @@ describe('ScProvider', () => {
 
       await expect(
         provider.subscribe('foo', 'bar', ['baz'], () => {})
-      ).rejects.toThrowError('Unsupported subscribe method: bar');
+      ).rejects.toThrow('Unsupported subscribe method: bar');
     });
   });
 
@@ -577,7 +577,7 @@ describe('ScProvider', () => {
 
       setChainSyncyingStatus(false);
 
-      await expect(provider.unsubscribe('', '', '')).rejects.toThrowError(
+      await expect(provider.unsubscribe('', '', '')).rejects.toThrow(
         'Unable to find active subscription=::'
       );
     });

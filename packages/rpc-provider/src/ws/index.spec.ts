@@ -58,7 +58,7 @@ describe('Endpoint Parsing', (): void => {
   it('Throws when WsProvider endpoint is an invalid string', () => {
     expect(
       () => new WsProvider('http://127.0.0.1:9955', 0)
-    ).toThrowError(/^Endpoint should start with /);
+    ).toThrow(/^Endpoint should start with /);
   });
 
   it('Succeeds when WsProvider endpoint is a valid array', () => {
@@ -73,7 +73,7 @@ describe('Endpoint Parsing', (): void => {
 
     expect(
       () => new WsProvider(endpoints, 0)
-    ).toThrowError('WsProvider requires at least one Endpoint');
+    ).toThrow('WsProvider requires at least one Endpoint');
   });
 
   it('Throws when WsProvider endpoint is an invalid array', () => {
@@ -81,6 +81,6 @@ describe('Endpoint Parsing', (): void => {
 
     expect(
       () => new WsProvider(endpoints, 0)
-    ).toThrowError(/^Endpoint should start with /);
+    ).toThrow(/^Endpoint should start with /);
   });
 });

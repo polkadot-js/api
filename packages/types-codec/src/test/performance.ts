@@ -42,14 +42,14 @@ ${formatFixed(micro).padStart(NUM_PAD + PRE_PAD + 1)} μs/op`;
 }
 
 export function perf (name: string, count: number, inputs: unknown[][], exec: ExecFn): void {
-  if (process.env.GITHUB_REPOSITORY) {
-    return;
-  }
+  const test = process.env.GITHUB_REPOSITORY
+    ? it.skip
+    : it;
 
-  it(`performance: ${name}`, (): void => {
+  test(`performance: ${name}`, (): void => {
     const [time] = loop(count, inputs, exec);
 
-    console.log(`
+    console.error(`
 performance run for ${name} completed with ${formatNumber(count)} iterations.
 
 ${`${name}:`.padStart(PRE_PAD)} ${time.toFixed(2).padStart(NUM_PAD)} ms${formatOps(count, time)}
