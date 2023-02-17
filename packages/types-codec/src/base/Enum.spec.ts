@@ -305,6 +305,7 @@ describe('Enum', (): void => {
             '0x0134120000'
           ).inspect()
         ).toEqual({
+          inner: undefined,
           outer: [new Uint8Array([0x01]), new Uint8Array([0x34, 0x12, 0x00, 0x00])]
         });
       });

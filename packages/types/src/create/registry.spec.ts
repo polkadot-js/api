@@ -15,7 +15,7 @@ describe('TypeRegistry', (): void => {
   const registry = new TypeRegistry();
 
   it('handles non exist type', (): void => {
-    expect(registry.get('non-exist')).toBeUndefined();
+    expect(registry.get('non-exist')).not.toBeDefined();
   });
 
   it('throws on non-existent via getOrThrow', (): void => {

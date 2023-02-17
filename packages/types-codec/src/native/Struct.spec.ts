@@ -392,6 +392,7 @@ describe('Struct', (): void => {
             outer: [new Uint8Array([1 << 2]), new Uint8Array([0x99])]
           },
           {
+            inner: undefined,
             name: 'bar',
             outer: [new Uint8Array([1]), new Uint8Array([1, 0, 0, 0])]
           },
