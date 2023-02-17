@@ -100,7 +100,7 @@ describe('createType', (): void => {
   it('fails creation for a UInt<bitLength> where bitLength is not power of 8', (): void => {
     expect(
       () => registry.createType('UInt<20>').toRawType()
-    ).toThrow('UInt<20>: Only support for UInt<bitLength>, where length <= 8192 and a power of 8');
+    ).toThrow(/UInt<20>: Only support for UInt<bitLength>, where length <= 8192 and a power of 8/);
   });
 
   it('fails on creation of DoNotConstruct', (): void => {
@@ -108,7 +108,7 @@ describe('createType', (): void => {
 
     expect(
       () => new Clazz(registry)
-    ).toThrow('Cannot construct unknown type UnknownSomething');
+    ).toThrow(/Cannot construct unknown type UnknownSomething/);
   });
 
   it('allows creation of a [u8; 8]', (): void => {
