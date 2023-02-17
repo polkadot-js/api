@@ -3,8 +3,9 @@
 
 import type { Registry } from '@polkadot/types/types';
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
 
 import { TypeDefInfo } from '@polkadot/types/types';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -40,6 +41,9 @@ interface JSONAbi {
     spec: SpecDef;
   }
 }
+
+// FIXME When tests are converted to ESM (dropping Jest), convert to import.meta.url
+const __dirname = path.join(process.cwd(), 'packages/api-contracts/src/Abi');
 
 function stringifyInfo (key: string, value: unknown): unknown {
   return key === 'info'

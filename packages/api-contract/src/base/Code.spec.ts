@@ -1,8 +1,8 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 import { toPromiseMethod } from '@polkadot/api';
 
@@ -12,9 +12,12 @@ import v1contractFlipper from '../test/contracts/ink/v1/flipper.contract.json' a
 import { Code } from './Code';
 import { mockApi } from './mock';
 
-const v0wasmFlipper = fs.readFileSync(path.join(__dirname, '../test/contracts/ink/v0/flipper.wasm'));
+// FIXME When tests are converted to ESM (dropping Jest), convert to import.meta.url
+const __dirname = path.join(process.cwd(), 'packages/api-contracts/src/base');
 
 describe('Code', (): void => {
+  const v0wasmFlipper = fs.readFileSync(path.join(__dirname, '../test/contracts/ink/v0/flipper.wasm'), 'utf-8');
+
   it('can construct with an individual ABI/WASM combo', (): void => {
     expect(
       () => new Code(mockApi, v0abiFlipper as Record<string, unknown>, v0wasmFlipper, toPromiseMethod)
