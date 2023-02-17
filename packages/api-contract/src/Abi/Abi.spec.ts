@@ -5,6 +5,7 @@ import type { Registry } from '@polkadot/types/types';
 
 import fs from 'fs';
 import path from 'path';
+import process from 'process';
 
 import { TypeDefInfo } from '@polkadot/types/types';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -40,6 +41,9 @@ interface JSONAbi {
     spec: SpecDef;
   }
 }
+
+// FIXME When Jest is removed with ESM tests, this should be converted to use import.meta.url
+const cmpPath = path.join(process.cwd(), 'packages/api-contract/src/test/compare');
 
 function stringifyInfo (key: string, value: unknown): unknown {
   return key === 'info'
@@ -82,25 +86,23 @@ describe('Abi', (): void => {
   });
 
   describe('TypeDef', (): void => {
-    Object.keys(abis).forEach((abiName) => {
-      it(`initializes from a contract ABI (${abiName})`, (): void => {
-        const abi = new Abi(abis[abiName]);
-        const json = stringifyJson(abi.registry);
-        const cmpPath = path.join(__dirname, `../test/compare/${abiName}.test.json`);
+    it.each(Object.keys(abis))('initializes from a contract ABI: %s', (abiName): void => {
+      const abi = new Abi(abis[abiName]);
+      const json = stringifyJson(abi.registry);
+      const cmpFile = path.join(cmpPath, `${abiName}.test.json`);
+      const cmpText = fs.readFileSync(cmpFile, 'utf-8');
 
-        try {
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          expect(JSON.parse(json)).toEqual(require(cmpPath));
-        } catch (error) {
-          if (process.env.GITHUB_REPOSITORY) {
-            console.error(json);
+      try {
+        expect(JSON.parse(json)).toEqual(JSON.parse(cmpText));
+      } catch (error) {
+        if (process.env.GITHUB_REPOSITORY) {
+          console.error(json);
 
-            throw error;
-          }
-
-          fs.writeFileSync(cmpPath, json, { flag: 'w' });
+          throw error;
         }
-      });
+
+        fs.writeFileSync(cmpFile, json, { flag: 'w' });
+      }
     });
   });
 
