@@ -43,7 +43,7 @@ interface JSONAbi {
 }
 
 // FIXME When tests are converted to ESM (dropping Jest), convert to import.meta.url
-const dirName = path.join(process.cwd(), 'packages/api-contracts/src/Abi');
+const dirName = path.join(process.cwd(), 'packages/api-contract/src/Abi');
 
 function stringifyInfo (key: string, value: unknown): unknown {
   return key === 'info'
