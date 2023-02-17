@@ -22,7 +22,7 @@ function createWs (requests: Request[], autoConnect = 1000, headers?: Record<str
 describe('Ws', (): void => {
   afterEach(async () => {
     if (mock) {
-      mock.done();
+      await mock.done();
     }
 
     if (provider) {

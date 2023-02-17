@@ -16,9 +16,9 @@ describe.skip('send', (): void => {
     http = new HttpProvider(TEST_HTTP_URL);
   });
 
-  afterEach((): void => {
+  afterEach(async () => {
     if (mock) {
-      mock.done();
+      await mock.done();
     }
   });
 

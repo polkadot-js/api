@@ -27,19 +27,20 @@ const testFunction = (api: ApiRx): any => {
   };
 };
 
+function waitReady (api: ApiRx): Promise<ApiRx> {
+  return new Promise<ApiRx>((resolve) =>
+    api.isReady.subscribe((api) => resolve(api))
+  );
+}
+
 describe('derive', (): void => {
   const registry = new TypeRegistry();
 
   describe('builtin', (): void => {
     const api = new ApiRx({ provider: new MockProvider(registry), registry });
 
-    beforeAll((done): void => {
-      api.isReady.subscribe(() => done());
-    });
-
-    afterAll(async () => {
-      await api.disconnect();
-    });
+    beforeAll(() => waitReady(api));
+    afterAll(() => api.disconnect());
 
     testFunction(api)('accounts', 'idAndIndex', []);
     testFunction(api)('accounts', 'idToIndex', []);
@@ -81,13 +82,8 @@ describe('derive', (): void => {
       throwOnConnect: true
     });
 
-    beforeAll((done): void => {
-      api.isReady.subscribe(() => done());
-    });
-
-    afterAll(async () => {
-      await api.disconnect();
-    });
+    beforeAll(() => waitReady(api));
+    afterAll(() => api.disconnect());
 
     // override
     testFunction(api)('balances', 'fees', ['a', 'b']);

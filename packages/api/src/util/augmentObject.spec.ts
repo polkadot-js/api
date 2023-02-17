@@ -4,15 +4,14 @@
 import { augmentObject } from './augmentObject';
 
 describe('augmentObject', (): void => {
-  let spy: any;
+  let spy: jest.SpyInstance;
 
   beforeEach((): void => {
     spy = jest.spyOn(console, 'warn');
   });
 
   afterEach((): void => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    spy.mockClear();
+    spy.mockRestore();
   });
 
   it('logs added/removed sections and methods', (): void => {
@@ -24,12 +23,12 @@ describe('augmentObject', (): void => {
 
     expect(spy).toHaveBeenCalledWith(
       expect.anything(),
-      expect.stringContaining('API/AUGMENT'),
+      expect.stringMatching(/API\/AUGMENT/),
       'api.test: Found 1 added and 1 removed modules:\n\t  added: new\n\tremoved: baz'
     );
     expect(spy).toHaveBeenCalledWith(
       expect.anything(),
-      expect.stringContaining('API/AUGMENT'),
+      expect.stringMatching(/API\/AUGMENT/),
       'api.test: Found 2 added and 3 removed calls:\n\t  added: bar.b, foo.d\n\tremoved: bar.a, bar.c, foo.c'
     );
   });

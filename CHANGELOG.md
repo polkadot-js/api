@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Don't allow `WsProvider.connect()` on an open connection (creates resource leaks)
+
+
 ## 9.14.1 Feb 12, 2023
 
 Changes:
