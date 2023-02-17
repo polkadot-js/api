@@ -4,9 +4,9 @@
 import type { Registry } from '@polkadot/types-codec/types';
 import type { Check } from './types';
 
-import fs from 'node:fs';
-import path from 'node:path';
-import process from 'node:process';
+import fs from 'fs';
+import path from 'path';
+import process from 'process';
 
 import { hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 

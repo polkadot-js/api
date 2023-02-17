@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { ChainUpgradesExpanded } from '../types';
 
-import fs from 'node:fs';
+import fs from 'fs';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 

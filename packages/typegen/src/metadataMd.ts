@@ -5,7 +5,7 @@ import type { MetadataLatest, SiLookupTypeId } from '@polkadot/types/interfaces'
 import type { PortableRegistry } from '@polkadot/types/metadata';
 import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 
-import fs from 'node:fs';
+import fs from 'fs';
 
 import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';

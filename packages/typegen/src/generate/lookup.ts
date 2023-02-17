@@ -7,7 +7,7 @@ import type { TypeDef } from '@polkadot/types-create/types';
 import type { HexString } from '@polkadot/util/types';
 
 import Handlebars from 'handlebars';
-import path from 'node:path';
+import path from 'path';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { Registry } from '@polkadot/types/types';
