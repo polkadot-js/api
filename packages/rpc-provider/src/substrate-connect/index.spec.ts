@@ -23,14 +23,31 @@ import type { HealthChecker, SmoldotHealth } from './types';
 
 import { ScProvider } from '.';
 
-const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
+type MockChain = Sc.Chain & {
+  _spec: () => string
+  _recevedRequests: () => string[]
+  _isTerminated: () => boolean
+  _triggerCallback: (response: string | {}) => void
+  _setTerminateInterceptor: (fn: () => void) => void
+  _setSendJsonRpcInterceptor: (fn: (rpc: string) => void) => void
+  _getLatestRequest: () => string
+}
 
 type MockedHealthChecker = HealthChecker & {
   _isActive: () => boolean
   _triggerHealthUpdate: (update: SmoldotHealth) => void
 }
 
-const healthCheckerMock = (): MockedHealthChecker => {
+enum WellKnownChain {
+  polkadot = 'polkadot',
+  ksmcc3 = 'ksmcc3',
+  rococo_v2_2 = 'rococo_v2_2',
+  westend2 = 'westend2'
+}
+
+const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+function healthCheckerMock (): MockedHealthChecker {
   let cb: (health: SmoldotHealth) => void = () => {};
 
   let sendJsonRpc: (request: string) => void = () => {};
@@ -55,9 +72,9 @@ const healthCheckerMock = (): MockedHealthChecker => {
       cb(update);
     }
   };
-};
+}
 
-const healthCheckerFactory = () => {
+function healthCheckerFactory () {
   const _healthCheckers: MockedHealthChecker[] = [];
 
   return {
@@ -71,21 +88,11 @@ const healthCheckerFactory = () => {
     _healthCheckers,
     _latestHealthChecker: () => _healthCheckers.slice(-1)[0]
   };
-};
+}
 
 jest.mock('./Health', () => healthCheckerFactory());
 
-type MockChain = Sc.Chain & {
-  _spec: () => string
-  _recevedRequests: () => string[]
-  _isTerminated: () => boolean
-  _triggerCallback: (response: string | {}) => void
-  _setTerminateInterceptor: (fn: () => void) => void
-  _setSendJsonRpcInterceptor: (fn: (rpc: string) => void) => void
-  _getLatestRequest: () => string
-}
-
-const getFakeChain = (spec: string, callback: Sc.JsonRpcCallback): MockChain => {
+function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
   const _receivedRequests: string[] = [];
   let _isTerminated = false;
 
@@ -117,9 +124,9 @@ const getFakeChain = (spec: string, callback: Sc.JsonRpcCallback): MockChain => 
     },
     _getLatestRequest: () => _receivedRequests[_receivedRequests.length - 1]
   };
-};
+}
 
-const getFakeClient = () => {
+function getFakeClient () {
   const chains: MockChain[] = [];
   let addChainInterceptor: Promise<void> = Promise.resolve();
   let addWellKnownChainInterceptor: Promise<void> = Promise.resolve();
@@ -152,16 +159,9 @@ const getFakeClient = () => {
         return result;
       })
   };
-};
-
-enum WellKnownChain {
-  polkadot = 'polkadot',
-  ksmcc3 = 'ksmcc3',
-  rococo_v2_2 = 'rococo_v2_2',
-  westend2 = 'westend2'
 }
 
-const connectorFactory = () => {
+function connectorFactory () {
   const clients: ReturnType<typeof getFakeClient>[] = [];
   const latestClient = () => clients[clients.length - 1];
 
@@ -179,26 +179,26 @@ const connectorFactory = () => {
     latestChain: () =>
       latestClient()._chains()[latestClient()._chains().length - 1]
   };
-};
+}
 
-let mockSc: typeof Sc & { latestChain: () => MockChain };
-let mockedHealthChecker: ReturnType<typeof healthCheckerFactory>;
-const getCurrentHealthChecker = () => mockedHealthChecker._latestHealthChecker();
-
-const setChainSyncyingStatus = (isSyncing: boolean) => {
+function setChainSyncyingStatus (isSyncing: boolean) {
   getCurrentHealthChecker()._triggerHealthUpdate({
     isSyncing,
     peers: 1,
     shouldHavePeers: true
   });
-};
+}
 
-beforeAll(() => {
-  mockSc = connectorFactory() as unknown as typeof Sc & { latestChain: () => MockChain };
-  mockedHealthChecker = healthCheckerFactory();
-});
+let mockSc: typeof Sc & { latestChain: () => MockChain };
+let mockedHealthChecker: ReturnType<typeof healthCheckerFactory>;
+const getCurrentHealthChecker = () => mockedHealthChecker._latestHealthChecker();
 
 describe('ScProvider', () => {
+  beforeAll(() => {
+    mockSc = connectorFactory() as unknown as typeof Sc & { latestChain: () => MockChain };
+    mockedHealthChecker = healthCheckerFactory();
+  });
+
   describe('on', () => {
     it('emits `connected` as soon as the chain is not syncing', async () => {
       const provider = new ScProvider(mockSc, '');
