@@ -43,7 +43,7 @@ interface JSONAbi {
 }
 
 // FIXME When tests are converted to ESM (dropping Jest), convert to import.meta.url
-const __dirname = path.join(process.cwd(), 'packages/api-contracts/src/Abi');
+const dirName = path.join(process.cwd(), 'packages/api-contracts/src/Abi');
 
 function stringifyInfo (key: string, value: unknown): unknown {
   return key === 'info'
@@ -90,7 +90,7 @@ describe('Abi', (): void => {
       it(`initializes from a contract ABI (${abiName})`, (): void => {
         const abi = new Abi(abis[abiName]);
         const json = stringifyJson(abi.registry);
-        const cmpPath = path.join(__dirname, `../test/compare/${abiName}.test.json`);
+        const cmpPath = path.join(dirName, `../test/compare/${abiName}.test.json`);
 
         try {
           // eslint-disable-next-line @typescript-eslint/no-var-requires

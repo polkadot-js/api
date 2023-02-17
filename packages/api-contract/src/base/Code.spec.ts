@@ -13,10 +13,10 @@ import { Code } from './Code';
 import { mockApi } from './mock';
 
 // FIXME When tests are converted to ESM (dropping Jest), convert to import.meta.url
-const __dirname = path.join(process.cwd(), 'packages/api-contracts/src/base');
+const dirName = path.join(process.cwd(), 'packages/api-contracts/src/base');
 
 describe('Code', (): void => {
-  const v0wasmFlipper = fs.readFileSync(path.join(__dirname, '../test/contracts/ink/v0/flipper.wasm'), 'utf-8');
+  const v0wasmFlipper = fs.readFileSync(path.join(dirName, '../test/contracts/ink/v0/flipper.wasm'), 'utf-8');
 
   it('can construct with an individual ABI/WASM combo', (): void => {
     expect(
