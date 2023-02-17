@@ -21,8 +21,6 @@
 import type Sc from '@substrate/connect';
 import type { HealthChecker, SmoldotHealth } from './types';
 
-import { jest } from '@jest/globals';
-
 import { ScProvider } from '.';
 
 const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
@@ -551,8 +549,7 @@ describe('ScProvider', () => {
 
       expect(token).toBe(unsubscribeToken);
       expect(cb).toHaveBeenCalledTimes(1);
-      expect(cb.mock.lastCall![0]).toBeInstanceOf(Error);
-      expect(cb.mock.lastCall![1]).toBe(undefined);
+      expect(cb).toHaveBeenLastCalledWith(expect.any(Error), undefined);
     });
 
     it('errors when subscribing to an unsupported method', async () => {
@@ -561,8 +558,8 @@ describe('ScProvider', () => {
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
       setChainSyncyingStatus(false);
-      await wait(0);
 
+      await wait(0);
       await expect(
         provider.subscribe('foo', 'bar', ['baz'], () => {})
       ).rejects.toThrow('Unsupported subscribe method: bar');

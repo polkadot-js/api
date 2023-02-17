@@ -1,16 +1,11 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { jest } from '@jest/globals';
 import { of, timer } from 'rxjs';
 
 import { drr } from '.';
 
 describe('drr', (): void => {
-  beforeEach((): void => {
-    jest.setTimeout(15000);
-  });
-
   it('should not fire twice the same value', (done): void => {
     let count = 0;
 

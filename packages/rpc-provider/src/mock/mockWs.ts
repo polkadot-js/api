@@ -69,11 +69,7 @@ export function mockWs (requests: Request[], wsUrl: string = TEST_WS_URL): Scope
   let requestCount = 0;
   const scope: Scope = {
     body: {},
-    done: (): void => {
-      server.stop((): void => {
-        // ignore
-      });
-    },
+    done: () => new Promise<void>((resolve) => server.stop(resolve)),
     requests: 0,
     server
   };

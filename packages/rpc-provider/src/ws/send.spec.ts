@@ -36,7 +36,7 @@ describe('send', (): void => {
     global.WebSocket = globalWs;
 
     if (mock) {
-      mock.done();
+      await mock.done();
     }
 
     if (provider) {

@@ -4,8 +4,6 @@
 import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../types';
 
-import { jest } from '@jest/globals';
-
 import { createPair } from '@polkadot/keyring/pair';
 import { createTestKeyring } from '@polkadot/keyring/testing';
 import { MockProvider } from '@polkadot/rpc-provider/mock';
@@ -47,7 +45,6 @@ describe('ApiPromise', (): void => {
   }
 
   beforeEach((): void => {
-    jest.setTimeout(10000);
     provider = new MockProvider(registry);
   });
 

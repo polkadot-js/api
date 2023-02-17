@@ -188,6 +188,10 @@ export class WsProvider implements ProviderInterface {
    */
   // eslint-disable-next-line @typescript-eslint/require-await
   public async connect (): Promise<void> {
+    if (this.#websocket) {
+      throw new Error('WebSocket is already connected');
+    }
+
     try {
       this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
 
