@@ -3,6 +3,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import process from 'process';
 
 import { packageInfo } from '../packageInfo';
 
@@ -25,7 +26,7 @@ export function writeFile (dest: string, generator: () => string, noLog?: boolea
 export function readTemplate (template: string): string {
   // Inside the api repo itself, it will be 'auto'
   const rootDir = packageInfo.path === 'auto'
-    ? path.join(__dirname, '..')
+    ? path.join(process.cwd(), 'packages/typegen/src')
     : packageInfo.path;
 
   // NOTE With cjs in a subdir, search one lower as well
