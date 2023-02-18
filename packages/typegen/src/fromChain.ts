@@ -6,13 +6,13 @@ import type { HexString } from '@polkadot/util/types';
 import path from 'path';
 import yargs from 'yargs';
 
-import { Definitions } from '@polkadot/types/types';
+import { Definitions, DefinitionsTypes } from '@polkadot/types/types';
 import { formatNumber } from '@polkadot/util';
 
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTx } from './generate';
 import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
 
-function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
+async function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): Promise<void> {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
   const outputPath = assertDir(path.join(process.cwd(), output));
@@ -21,9 +21,12 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
 
   if (pkg) {
     try {
+      const defPath = assertFile(path.join(outputPath, 'definitions.ts'));
+      const defCont = await import(defPath) as { module: any };
+
       extraTypes = {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-argument
-        [pkg]: require(assertFile(path.join(outputPath, 'definitions.ts'))) as Record<string, any>
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        [pkg]: defCont.module
       };
     } catch (error) {
       console.error('ERROR: No custom definitions found:', (error as Error).message);
@@ -31,10 +34,12 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
   }
 
   try {
+    const lookPath = assertFile(path.join(outputPath, 'lookup.ts'));
+    const lookCont = await import(lookPath) as { module: { default: DefinitionsTypes } };
+
     customLookupDefinitions = {
       rpc: {},
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-      types: require(assertFile(path.join(outputPath, 'lookup.ts'))).default
+      types: lookCont.module.default
     };
   } catch (error) {
     console.error('ERROR: No lookup definitions found:', (error as Error).message);
@@ -64,7 +69,7 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
 
 type ArgV = { endpoint: string; output: string; package?: string; strict?: boolean };
 
-export function main (): void {
+async function mainPromise (): Promise<void> {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
@@ -86,14 +91,20 @@ export function main (): void {
     }
   }).argv as ArgV;
 
-  if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    getMetadataViaWs(endpoint)
-      .then((metadata) => generate(metadata, pkg, output, isStrict))
-      .catch(() => process.exit(1));
-  } else {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const metadata = (require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result;
+  let metadata: HexString;
 
-    generate(metadata, pkg, output, isStrict);
+  if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
+    metadata = await getMetadataViaWs(endpoint);
+  } else {
+    const metaPath = assertFile(path.join(process.cwd(), endpoint));
+    const metaCont = await import(metaPath) as { result: HexString };
+
+    metadata = metaCont.result;
   }
+
+  await generate(metadata, pkg, output, isStrict);
+}
+
+export function main (): void {
+  mainPromise().catch(() => process.exit(1));
 }
