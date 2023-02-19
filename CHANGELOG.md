@@ -1,10 +1,12 @@
 # CHANGELOG
 
-## master
+## 9.14.2 Feb 19, 2023
 
 Changes:
 
 - Don't allow `WsProvider.connect()` on an open connection (creates resource leaks)
+- Adjust typegen to use metadata-defined aliases in query return decoration
+- Update to latest Polkadot, Kusama & Substrate metadata
 
 
 ## 9.14.1 Feb 12, 2023

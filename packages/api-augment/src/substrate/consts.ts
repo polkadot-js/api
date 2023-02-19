@@ -704,6 +704,10 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       keyLimit: u32 & AugmentedConst<ApiType>;
       /**
+       * The max number of attributes a user could set per call.
+       **/
+      maxAttributesPerCall: u32 & AugmentedConst<ApiType>;
+      /**
        * The max duration in blocks for deadlines.
        **/
       maxDeadlineDuration: u32 & AugmentedConst<ApiType>;

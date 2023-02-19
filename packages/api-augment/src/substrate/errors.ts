@@ -415,10 +415,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ContractTrapped: AugmentedError<ApiType>;
       /**
-       * The debug message specified to `seal_debug_message` does contain invalid UTF-8.
-       **/
-      DebugMessageInvalidUTF8: AugmentedError<ApiType>;
-      /**
        * Input passed to a contract API function failed to decode as expected type.
        **/
       DecodingFailed: AugmentedError<ApiType>;
@@ -1213,6 +1209,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       IncorrectData: AugmentedError<ApiType>;
       /**
+       * The provided metadata might be too long.
+       **/
+      IncorrectMetadata: AugmentedError<ApiType>;
+      /**
        * The item is locked (non-transferable).
        **/
       ItemLocked: AugmentedError<ApiType>;
@@ -1236,6 +1236,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Item's metadata is locked.
        **/
       LockedItemMetadata: AugmentedError<ApiType>;
+      /**
+       * Can't set more attributes per one call.
+       **/
+      MaxAttributesLimitReached: AugmentedError<ApiType>;
       /**
        * The max supply is locked and can't be changed.
        **/
@@ -1317,6 +1321,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       WrongDuration: AugmentedError<ApiType>;
       /**
+       * The extrinsic was sent by the wrong origin.
+       **/
+      WrongOrigin: AugmentedError<ApiType>;
+      /**
        * The owner turned out to be different to what was expected.
        **/
       WrongOwner: AugmentedError<ApiType>;
@@ -1324,6 +1332,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The provided setting can't be set.
        **/
       WrongSetting: AugmentedError<ApiType>;
+      /**
+       * The provided signature is incorrect.
+       **/
+      WrongSignature: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
