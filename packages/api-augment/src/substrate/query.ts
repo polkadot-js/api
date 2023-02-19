@@ -227,6 +227,17 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       segmentIndex: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * A list of the last 100 skipped epochs and the corresponding session index
+       * when the epoch was skipped.
+       * 
+       * This is only used for validating equivocation proofs. An equivocation proof
+       * must contains a key-ownership proof for a given session, therefore we need a
+       * way to tie together sessions and epoch indices, i.e. we need to validate that
+       * a validator was the owner of a given key on a given session, and what the
+       * active epoch index was during that session.
+       **/
+      skippedEpochs: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u64, u32]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * TWOX-NOTE: `SegmentIndex` is an increasing integer, so this is okay.
        **/
       underConstruction: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<U8aFixed>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;

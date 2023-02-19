@@ -1187,6 +1187,10 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       earliestStoredSession: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * Executor parameter set for a given session index
+       **/
+      sessionExecutorParams: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Vec<PolkadotPrimitivesVstagingExecutorParamsExecutorParam>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
        * Session information in a rolling window.
        * Should have an entry in range `EarliestStoredSession..=CurrentSessionIndex`.
        * Does not have any entries before the session index in the first session change notification.
