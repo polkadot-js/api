@@ -20,12 +20,12 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.14.2",
+  "version": "9.14.3-0-x",
   "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.20.13",
-    "@polkadot/types": "9.14.2",
-    "@polkadot/types-codec": "9.14.2",
+    "@polkadot/types": "9.14.3-0-x",
+    "@polkadot/types-codec": "9.14.3-0-x",
     "@polkadot/util": "^10.4.2"
   }
 }
