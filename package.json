@@ -32,15 +32,15 @@
     "deno": "yarn polkadot-dev-deno-map && yarn build && deno check --import-map=import_map.json mod.ts",
     "lint": "polkadot-dev-run-lint",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "polkadot-dev-run-test --env jest --coverage --forceExit --runInBand ^e2e",
+    "test": "polkadot-dev-run-test --env node ^e2e",
     "test:node": "polkadot-dev-run-test --env node ^e2e",
-    "test:one": "polkadot-dev-run-test --detectOpenHandles --forceExit"
+    "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/register": "^7.18.9",
     "@babel/runtime": "^7.20.13",
-    "@polkadot/dev": "^0.68.38",
+    "@polkadot/dev": "^0.68.43",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/jest": "^29.4.0",
     "copyfiles": "^2.4.1"

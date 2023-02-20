@@ -37,9 +37,9 @@
     "nock": "^13.3.0"
   },
   "devDependencies": {
-    "@substrate/connect": "0.7.19"
+    "@substrate/connect": "0.7.20"
   },
   "optionalDependencies": {
-    "@substrate/connect": "0.7.19"
+    "@substrate/connect": "0.7.20"
   }
 }
