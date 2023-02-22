@@ -1888,9 +1888,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.69.4":
-  version: 0.69.4
-  resolution: "@polkadot/dev@npm:0.69.4"
+"@polkadot/dev@npm:^0.69.5":
+  version: 0.69.5
+  resolution: "@polkadot/dev@npm:0.69.5"
   dependencies:
     "@babel/cli": ^7.21.0
     "@babel/core": ^7.21.0
@@ -1987,7 +1987,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 85eab19596e0361951386c93f8e8848b7945449f90fde08134059d901768cd69cececb4368b1bee63fe71bb433334ce7a4385fa06fd6b287c39cf7eab189ad8f
+  checksum: 5af46b8269d3cd2e2b2edc52fbb45808d210d01d501f5a279f5870cfc0f85627906604155cf00142571b47136945572c5d4047cc8e0fadc4c57f3fb2ea67ace6
   languageName: node
   linkType: hard
 
@@ -10499,7 +10499,7 @@ fsevents@~2.3.2:
     "@babel/core": ^7.20.12
     "@babel/register": ^7.18.9
     "@babel/runtime": ^7.20.13
-    "@polkadot/dev": ^0.69.4
+    "@polkadot/dev": ^0.69.5
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/jest": ^29.4.0
     copyfiles: ^2.4.1
