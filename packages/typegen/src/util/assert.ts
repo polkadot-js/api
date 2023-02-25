@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import fs from 'fs';
+import fs from 'node:fs';
 
 import { assert } from '@polkadot/util';
 

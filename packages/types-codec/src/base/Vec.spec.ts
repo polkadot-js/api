@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import type { PropIndex } from '@polkadot/types/interfaces/democracy';
 import type { Codec, CodecTo, ITuple } from '@polkadot/types-codec/types';
 

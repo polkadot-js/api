@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionsCall, DefinitionsRpc, DefinitionsTypes, RegistryTypes } from '../types';
+import type { DefinitionCall, DefinitionRpc, DefinitionsCall, DefinitionsCallEntry, DefinitionsRpc, DefinitionsTypes, RegistryTypes } from '../types';
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
@@ -46,27 +46,31 @@ function inspectType (type: string): void {
 }
 
 describe('type definitions', (): void => {
-  const types = Object.entries(all).filter((v): v is [string, CheckDef] =>
+  const allTypes = Object.entries(all).filter((v): v is [string, CheckDef] =>
     !!v[1].types &&
     Object.keys(v[1].types).length !== 0 &&
     v[0] === 'benchmark'
   );
 
-  describe.each(types)('%s', (_, { types }): void => {
-    const typesKeys = Object.keys(types).filter((type) =>
-      // meant to fail
-      type !== 'ExtrinsicUnknown' &&
-      type !== 'ExtrinsicPayloadUnknown' &&
-      // injected at runtime
-      type !== 'Origin' &&
-      // it will fail of MetadataV0
-      type !== 'MetadataAll'
-    );
+  for (const [key, { types }] of allTypes) {
+    describe(key, (): void => {
+      const typesKeys = Object.keys(types).filter((type) =>
+        // meant to fail
+        type !== 'ExtrinsicUnknown' &&
+        type !== 'ExtrinsicPayloadUnknown' &&
+        // injected at runtime
+        type !== 'Origin' &&
+        // it will fail of MetadataV0
+        type !== 'MetadataAll'
+      );
 
-    it.each(typesKeys)('%s is known', (type): void => {
-      expect(() => inspectType(type)).not.toThrow();
+      for (const type of typesKeys) {
+        it(`${type} is known`, (): void => {
+          expect(() => inspectType(type)).not.toThrow();
+        });
+      }
     });
-  });
+  }
 });
 
 describe('rpc definitions', (): void => {
@@ -75,26 +79,32 @@ describe('rpc definitions', (): void => {
     Object.keys(v[1].rpc).length !== 0
   );
 
-  describe.each(rpcs)('%s', (section, { rpc }): void => {
-    const methodsEntries = Object.entries(rpc);
+  for (const [section, { rpc }] of rpcs) {
+    describe(section, (): void => {
+      const methodsEntries = Object.entries<DefinitionRpc>(rpc);
 
-    describe.each(methodsEntries)('%s', (method, { params, type }): void => {
-      // We cannot constuct V0, so just ignore
-      if (section !== 'state' || method !== 'getMetadata') {
-        it(`output ${type} is known`, (): void => {
-          expect(() => inspectType(type)).not.toThrow();
-        });
-      }
+      for (const [method, { params, type }] of methodsEntries) {
+        describe(method, (): void => {
+          // We cannot constuct V0, so just ignore
+          if (section !== 'state' || method !== 'getMetadata') {
+            it(`output ${type} is known`, (): void => {
+              expect(() => inspectType(type)).not.toThrow();
+            });
+          }
 
-      if (params.length) {
-        describe('params', (): void => {
-          it.each(params)('$name: $type is known', ({ type }): void => {
-            expect(() => inspectType(type)).not.toThrow();
-          });
+          if (params.length) {
+            describe('params', (): void => {
+              for (const { name, type } of params) {
+                it(`${name}: ${type} is known`, (): void => {
+                  expect(() => inspectType(type)).not.toThrow();
+                });
+              }
+            });
+          }
         });
       }
     });
-  });
+  }
 });
 
 describe('runtime definitions', (): void => {
@@ -103,27 +113,37 @@ describe('runtime definitions', (): void => {
     Object.keys(v[1].runtime).length !== 0
   );
 
-  describe.each(runtimes)('%s', (_, { runtime }): void => {
-    const versionsEntries = Object.entries(runtime);
+  for (const [key, { runtime }] of runtimes) {
+    describe(key, (): void => {
+      const versionsEntries = Object.entries<DefinitionsCallEntry[]>(runtime);
 
-    describe.each(versionsEntries)('%s', (_, versions): void => {
-      describe.each(versions)('version $version', ({ methods }): void => {
-        const methodsEntries = Object.entries(methods);
+      for (const [key, versions] of versionsEntries) {
+        describe(key, (): void => {
+          for (const { methods, version } of versions) {
+            describe(`version ${version}`, (): void => {
+              const methodsEntries = Object.entries<DefinitionCall>(methods);
 
-        describe.each(methodsEntries)('%s', (_, { params, type }): void => {
-          it(`output ${type} is known`, (): void => {
-            expect(() => inspectType(type)).not.toThrow();
-          });
+              for (const [key, { params, type }] of methodsEntries) {
+                describe(key, (): void => {
+                  it(`output ${type} is known`, (): void => {
+                    expect(() => inspectType(type)).not.toThrow();
+                  });
 
-          if (params.length) {
-            describe('params', (): void => {
-              it.each(params)('$name: $type is known', ({ type }): void => {
-                expect(() => inspectType(type)).not.toThrow();
-              });
+                  if (params.length) {
+                    describe('params', (): void => {
+                      for (const { name, type } of params) {
+                        it(`${name}: ${type} is known`, (): void => {
+                          expect(() => inspectType(type)).not.toThrow();
+                        });
+                      }
+                    });
+                  }
+                });
+              }
             });
           }
         });
-      });
+      }
     });
-  });
+  }
 });

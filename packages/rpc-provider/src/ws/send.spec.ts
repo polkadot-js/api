@@ -1,7 +1,9 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Constructor } from '@polkadot/types/types';
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import type { Request } from '../mock/mockWs';
 
 import { mockWs } from '../mock/mockWs';
@@ -26,7 +28,7 @@ function createWs (autoConnect = 1000): Promise<WsProvider> {
 }
 
 describe('send', (): void => {
-  let globalWs: Constructor<WebSocket>;
+  let globalWs: typeof WebSocket;
 
   beforeEach((): void => {
     globalWs = global.WebSocket;

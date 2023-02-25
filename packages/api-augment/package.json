@@ -23,7 +23,7 @@
   "version": "9.14.3-0-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
+    "@babel/runtime": "^7.21.0",
     "@polkadot/api-base": "9.14.3-0-x",
     "@polkadot/rpc-augment": "9.14.3-0-x",
     "@polkadot/types": "9.14.3-0-x",

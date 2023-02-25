@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -39,7 +42,9 @@ describe('derive', (): void => {
   describe('builtin', (): void => {
     const api = new ApiRx({ provider: new MockProvider(registry), registry });
 
-    beforeAll(() => waitReady(api));
+    beforeAll(async () => {
+      await waitReady(api);
+    });
     afterAll(() => api.disconnect());
 
     testFunction(api)('accounts', 'idAndIndex', []);
@@ -82,7 +87,9 @@ describe('derive', (): void => {
       throwOnConnect: true
     });
 
-    beforeAll(() => waitReady(api));
+    beforeAll(async () => {
+      await waitReady(api);
+    });
     afterAll(() => api.disconnect());
 
     // override

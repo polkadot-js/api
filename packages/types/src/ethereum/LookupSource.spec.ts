@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import { TypeRegistry } from '../create';
 import { GenericAccountIndex as AccountIndex } from '../generic';
 import { GenericEthereumAccountId as AccountId, GenericEthereumLookupSource as Address } from '.';

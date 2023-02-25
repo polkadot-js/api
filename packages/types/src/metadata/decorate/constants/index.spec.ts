@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import type { HexString } from '@polkadot/util/types';
 import type { BlockNumber } from '../../../interfaces';
 import type { Constants } from '../types';

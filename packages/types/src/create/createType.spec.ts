@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import { CodecSet, Int } from '@polkadot/types-codec';
 
 import { createClass, TypeRegistry } from '.';

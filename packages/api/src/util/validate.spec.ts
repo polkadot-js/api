@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import { decorateStorage, Metadata, TypeRegistry } from '@polkadot/types';
 import metaStatic from '@polkadot/types-support/metadata/static-substrate';
 

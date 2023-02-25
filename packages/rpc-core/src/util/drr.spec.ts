@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import { of, timer } from 'rxjs';
 
 import { drr } from '.';
@@ -17,7 +20,9 @@ describe('drr', (): void => {
       expect(count).toBe(1);
       sub.unsubscribe();
 
-      setTimeout(done, 2000);
+      setTimeout(() => {
+        done();
+      }, 2000);
     }, 50);
   });
 
@@ -31,7 +36,9 @@ describe('drr', (): void => {
       const sub = obs.subscribe((value): void => {
         expect(value > 1).toBe(true);
 
-        setTimeout(done, 2000);
+        setTimeout(() => {
+          done();
+        }, 2000);
       });
 
       sub.unsubscribe();

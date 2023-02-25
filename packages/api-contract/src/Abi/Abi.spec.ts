@@ -1,11 +1,14 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import type { Registry } from '@polkadot/types/types';
 
-import fs from 'fs';
-import path from 'path';
-import process from 'process';
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
 
 import { TypeDefInfo } from '@polkadot/types/types';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -86,24 +89,26 @@ describe('Abi', (): void => {
   });
 
   describe('TypeDef', (): void => {
-    it.each(Object.keys(abis))('initializes from a contract ABI: %s', (abiName): void => {
-      const abi = new Abi(abis[abiName]);
-      const json = stringifyJson(abi.registry);
-      const cmpFile = path.join(cmpPath, `${abiName}.test.json`);
-      const cmpText = fs.readFileSync(cmpFile, 'utf-8');
+    for (const [abiName, abiJson] of Object.entries(abis)) {
+      it(`initializes from a contract ABI: ${abiName}`, (): void => {
+        const abi = new Abi(abiJson);
+        const registryJson = stringifyJson(abi.registry);
+        const cmpFile = path.join(cmpPath, `${abiName}.test.json`);
+        const cmpText = fs.readFileSync(cmpFile, 'utf-8');
 
-      try {
-        expect(JSON.parse(json)).toEqual(JSON.parse(cmpText));
-      } catch (error) {
-        if (process.env.GITHUB_REPOSITORY) {
-          console.error(json);
+        try {
+          expect(JSON.parse(registryJson)).toEqual(JSON.parse(cmpText));
+        } catch (error) {
+          if (process.env.GITHUB_REPOSITORY) {
+            console.error(registryJson);
 
-          throw error;
+            throw error;
+          }
+
+          fs.writeFileSync(cmpFile, registryJson, { flag: 'w' });
         }
-
-        fs.writeFileSync(cmpFile, json, { flag: 'w' });
-      }
-    });
+      });
+    }
   });
 
   it('has the correct hash for the source', (): void => {
