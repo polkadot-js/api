@@ -23,7 +23,7 @@
   "version": "9.14.3-2-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
+    "@babel/runtime": "^7.21.0",
     "@polkadot/keyring": "^10.4.2",
     "@polkadot/types-augment": "9.14.3-2-x",
     "@polkadot/types-codec": "9.14.3-2-x",

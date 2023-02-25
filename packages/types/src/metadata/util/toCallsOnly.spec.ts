@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import staticLatest from '@polkadot/types-support/metadata/static-substrate';
 import staticV13 from '@polkadot/types-support/metadata/v13/substrate-hex';
 

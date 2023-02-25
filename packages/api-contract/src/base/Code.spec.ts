@@ -1,9 +1,12 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import fs from 'fs';
-import path from 'path';
-import process from 'process';
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
 
 import { toPromiseMethod } from '@polkadot/api';
 

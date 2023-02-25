@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { TypeRegistry } from '@polkadot/types/create';
