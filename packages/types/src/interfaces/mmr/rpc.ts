@@ -4,7 +4,7 @@
 import type { DefinitionsRpc } from '../../types';
 
 export const rpc: DefinitionsRpc = {
-  mmrRoot: {
+  root: {
     description: 'Get the MMR root hash for the current best block.',
     params: [
       {
@@ -54,7 +54,7 @@ export const rpc: DefinitionsRpc = {
     description: 'Verify an MMR proof statelessly given an mmr_root',
     params: [
       {
-        name: 'mmrRoot',
+        name: 'root',
         type: 'MmrHash'
       },
       {

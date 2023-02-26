@@ -379,7 +379,7 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Get the MMR root hash for the current best block.
        **/
-      mmrRoot: AugmentedRpc<(at?: BlockHash | string | Uint8Array) => Observable<MmrHash>>;
+      root: AugmentedRpc<(at?: BlockHash | string | Uint8Array) => Observable<MmrHash>>;
       /**
        * Verify an MMR proof
        **/
@@ -387,7 +387,7 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Verify an MMR proof statelessly given an mmr_root
        **/
-      verifyProofStateless: AugmentedRpc<(mmrRoot: MmrHash | string | Uint8Array, proof: MmrLeafBatchProof | { blockHash?: any; leaves?: any; proof?: any } | string | Uint8Array) => Observable<bool>>;
+      verifyProofStateless: AugmentedRpc<(root: MmrHash | string | Uint8Array, proof: MmrLeafBatchProof | { blockHash?: any; leaves?: any; proof?: any } | string | Uint8Array) => Observable<bool>>;
     };
     net: {
       /**

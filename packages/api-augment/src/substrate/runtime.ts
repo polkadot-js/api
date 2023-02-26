@@ -190,7 +190,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Return the on-chain MMR root hash.
        **/
-      mmrRoot: AugmentedCall<ApiType, () => Observable<Result<Hash, MmrError>>>;
+      root: AugmentedCall<ApiType, () => Observable<Result<Hash, MmrError>>>;
       /**
        * Verify MMR proof against on-chain MMR.
        **/

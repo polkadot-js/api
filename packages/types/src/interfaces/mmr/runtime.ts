@@ -21,7 +21,7 @@ export const runtime: DefinitionsCall = {
           ],
           type: 'Result<(Vec<MmrEncodableOpaqueLeaf>, MmrBatchProof), MmrError>'
         },
-        mmr_root: {
+        root: {
           description: 'Return the on-chain MMR root hash.',
           params: [],
           type: 'Result<Hash, MmrError>'
