@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedEvent } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscAttributeNamespace, FrameSupportTokensMiscBalanceStatus, KitchensinkRuntimeProxyType, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletConvictionVotingTally, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMessageQueueMockHelpersMessageOrigin, PalletMultisigTimepoint, PalletNftsPriceWithDirection, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, SpFinalityGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscAttributeNamespace, FrameSupportTokensMiscBalanceStatus, KitchensinkRuntimeProxyType, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletConvictionVotingTally, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNftsPriceWithDirection, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, SpFinalityGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -604,6 +604,24 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    glutton: {
+      /**
+       * The computation limit has been updated by root.
+       **/
+      ComputationLimitSet: AugmentedEvent<ApiType, [compute: Perbill], { compute: Perbill }>;
+      /**
+       * The pallet has been (re)initialized by root.
+       **/
+      PalletInitialized: AugmentedEvent<ApiType, [reinit: bool], { reinit: bool }>;
+      /**
+       * The storage limit has been updated by root.
+       **/
+      StorageLimitSet: AugmentedEvent<ApiType, [storage: Perbill], { storage: Perbill }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     grandpa: {
       /**
        * New authority set has been applied.
@@ -736,19 +754,19 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Message placed in overweight queue.
        **/
-      OverweightEnqueued: AugmentedEvent<ApiType, [hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, pageIndex: u32, messageIndex: u32], { hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, pageIndex: u32, messageIndex: u32 }>;
+      OverweightEnqueued: AugmentedEvent<ApiType, [hash_: H256, origin: u32, pageIndex: u32, messageIndex: u32], { hash_: H256, origin: u32, pageIndex: u32, messageIndex: u32 }>;
       /**
        * This page was reaped.
        **/
-      PageReaped: AugmentedEvent<ApiType, [origin: PalletMessageQueueMockHelpersMessageOrigin, index: u32], { origin: PalletMessageQueueMockHelpersMessageOrigin, index: u32 }>;
+      PageReaped: AugmentedEvent<ApiType, [origin: u32, index: u32], { origin: u32, index: u32 }>;
       /**
        * Message is processed.
        **/
-      Processed: AugmentedEvent<ApiType, [hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, weightUsed: SpWeightsWeightV2Weight, success: bool], { hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, weightUsed: SpWeightsWeightV2Weight, success: bool }>;
+      Processed: AugmentedEvent<ApiType, [hash_: H256, origin: u32, weightUsed: SpWeightsWeightV2Weight, success: bool], { hash_: H256, origin: u32, weightUsed: SpWeightsWeightV2Weight, success: bool }>;
       /**
        * Message discarded due to an error in the `MessageProcessor` (usually a format error).
        **/
-      ProcessingFailed: AugmentedEvent<ApiType, [hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, error: FrameSupportMessagesProcessMessageError], { hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, error: FrameSupportMessagesProcessMessageError }>;
+      ProcessingFailed: AugmentedEvent<ApiType, [hash_: H256, origin: u32, error: FrameSupportMessagesProcessMessageError], { hash_: H256, origin: u32, error: FrameSupportMessagesProcessMessageError }>;
       /**
        * Generic event
        **/
@@ -891,6 +909,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       OwnershipAcceptanceChanged: AugmentedEvent<ApiType, [who: AccountId32, maybeCollection: Option<u32>], { who: AccountId32, maybeCollection: Option<u32> }>;
       /**
+       * New attributes have been set for an `item` of the `collection`.
+       **/
+      PreSignedAttributesSet: AugmentedEvent<ApiType, [collection: u32, item: u32, namespace: FrameSupportTokensMiscAttributeNamespace], { collection: u32, item: u32, namespace: FrameSupportTokensMiscAttributeNamespace }>;
+      /**
        * The deposit for a set of `item`s within a `collection` has been updated.
        **/
       Redeposited: AugmentedEvent<ApiType, [collection: u32, successfulItems: Vec<u32>], { collection: u32, successfulItems: Vec<u32> }>;
@@ -993,7 +1015,7 @@ declare module '@polkadot/api-base/types/events' {
        * The roles of a pool have been updated to the given new roles. Note that the depositor
        * can never change.
        **/
-      RolesUpdated: AugmentedEvent<ApiType, [root: Option<AccountId32>, stateToggler: Option<AccountId32>, nominator: Option<AccountId32>], { root: Option<AccountId32>, stateToggler: Option<AccountId32>, nominator: Option<AccountId32> }>;
+      RolesUpdated: AugmentedEvent<ApiType, [root: Option<AccountId32>, bouncer: Option<AccountId32>, nominator: Option<AccountId32>], { root: Option<AccountId32>, bouncer: Option<AccountId32>, nominator: Option<AccountId32> }>;
       /**
        * The state of a pool has changed
        **/

@@ -886,6 +886,18 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    glutton: {
+      /**
+       * The pallet was already initialized.
+       * 
+       * Set `witness_count` to `Some` to bypass this error.
+       **/
+      AlreadyInitialized: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     grandpa: {
       /**
        * Attempt to signal GRANDPA change with one already pending.
@@ -1100,6 +1112,13 @@ declare module '@polkadot/api-base/types/errors' {
        * The message is queued for future execution.
        **/
       Queued: AugmentedError<ApiType>;
+      /**
+       * This message is temporarily unprocessable.
+       * 
+       * Such errors are expected, but not guaranteed, to resolve themselves eventually through
+       * retrying.
+       **/
+      TemporarilyUnprocessable: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1321,6 +1340,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       WrongDuration: AugmentedError<ApiType>;
       /**
+       * The provided namespace isn't supported in this call.
+       **/
+      WrongNamespace: AugmentedError<ApiType>;
+      /**
        * The extrinsic was sent by the wrong origin.
        **/
       WrongOrigin: AugmentedError<ApiType>;
@@ -1414,6 +1437,10 @@ declare module '@polkadot/api-base/types/errors' {
        * pool at a time.
        **/
       AccountBelongsToOtherPool: AugmentedError<ApiType>;
+      /**
+       * Bonding extra is restricted to the exact pending reward amount.
+       **/
+      BondExtraRestricted: AugmentedError<ApiType>;
       /**
        * The pools state cannot be changed.
        **/

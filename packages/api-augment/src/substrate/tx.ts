@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensMiscAttributeNamespace, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMessageQueueMockHelpersMessageOrigin, PalletMultisigTimepoint, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensMiscAttributeNamespace, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletSocietyJudgement, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusSlotsEquivocationProof, SpFinalityGrandpaEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -2000,6 +2000,32 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    glutton: {
+      /**
+       * Initializes the pallet by writing into `TrashData`.
+       * 
+       * Only callable by Root. A good default for `trash_count` is `5_000`.
+       **/
+      initializePallet: AugmentedSubmittable<(newCount: u32 | AnyNumber | Uint8Array, witnessCount: Option<u32> | null | Uint8Array | u32 | AnyNumber) => SubmittableExtrinsic<ApiType>, [u32, Option<u32>]>;
+      /**
+       * Set the `Compute` storage value that determines how much of the
+       * block's weight `ref_time` to use during `on_idle`.
+       * 
+       * Only callable by Root.
+       **/
+      setCompute: AugmentedSubmittable<(compute: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Perbill]>;
+      /**
+       * Set the `Storage` storage value that determines the PoV size usage
+       * for each block.
+       * 
+       * Only callable by Root.
+       **/
+      setStorage: AugmentedSubmittable<(storage: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Perbill]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     grandpa: {
       /**
        * Note that the current authority set of the GRANDPA finality gadget has stalled.
@@ -2425,6 +2451,9 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Execute an overweight message.
        * 
+       * Temporary processing errors will be propagated whereas permanent errors are treated
+       * as success condition.
+       * 
        * - `origin`: Must be `Signed`.
        * - `message_origin`: The origin from which the message to be executed arrived.
        * - `page`: The page in the queue in which the message to be executed is sitting.
@@ -2434,11 +2463,11 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Benchmark complexity considerations: O(index + weight_limit).
        **/
-      executeOverweight: AugmentedSubmittable<(messageOrigin: PalletMessageQueueMockHelpersMessageOrigin | { Here: any } | { There: any } | { Everywhere: any } | string | Uint8Array, page: u32 | AnyNumber | Uint8Array, index: u32 | AnyNumber | Uint8Array, weightLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletMessageQueueMockHelpersMessageOrigin, u32, u32, SpWeightsWeightV2Weight]>;
+      executeOverweight: AugmentedSubmittable<(messageOrigin: u32 | AnyNumber | Uint8Array, page: u32 | AnyNumber | Uint8Array, index: u32 | AnyNumber | Uint8Array, weightLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, SpWeightsWeightV2Weight]>;
       /**
        * Remove a page which has no more messages remaining to be processed or is stale.
        **/
-      reapPage: AugmentedSubmittable<(messageOrigin: PalletMessageQueueMockHelpersMessageOrigin | { Here: any } | { There: any } | { Everywhere: any } | string | Uint8Array, pageIndex: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletMessageQueueMockHelpersMessageOrigin, u32]>;
+      reapPage: AugmentedSubmittable<(messageOrigin: u32 | AnyNumber | Uint8Array, pageIndex: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
        * Generic tx
        **/
@@ -3033,6 +3062,22 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       setAttribute: AugmentedSubmittable<(collection: u32 | AnyNumber | Uint8Array, maybeItem: Option<u32> | null | Uint8Array | u32 | AnyNumber, namespace: FrameSupportTokensMiscAttributeNamespace | { Pallet: any } | { CollectionOwner: any } | { ItemOwner: any } | { Account: any } | string | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Option<u32>, FrameSupportTokensMiscAttributeNamespace, Bytes, Bytes]>;
       /**
+       * Set attributes for an item by providing the pre-signed approval.
+       * 
+       * Origin must be Signed and must be an owner of the `data.item`.
+       * 
+       * - `data`: The pre-signed approval that consists of the information about the item,
+       * attributes to update and until what block number.
+       * - `signature`: The signature of the `data` object.
+       * - `signer`: The `data` object's signer. Should be an owner of the collection for the
+       * `CollectionOwner` namespace.
+       * 
+       * Emits `AttributeSet` for each provided attribute.
+       * Emits `ItemAttributesApprovalAdded` if the approval wasn't set before.
+       * Emits `PreSignedAttributesSet` on success.
+       **/
+      setAttributesPreSigned: AugmentedSubmittable<(data: PalletNftsPreSignedAttributes | { collection?: any; item?: any; attributes?: any; namespace?: any; deadline?: any } | string | Uint8Array, signature: SpRuntimeMultiSignature | { Ed25519: any } | { Sr25519: any } | { Ecdsa: any } | string | Uint8Array, signer: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletNftsPreSignedAttributes, SpRuntimeMultiSignature, AccountId32]>;
+      /**
        * Set the maximum number of items a collection could have.
        * 
        * Origin must be either `ForceOrigin` or `Signed` and the sender should be the Owner of
@@ -3245,8 +3290,21 @@ declare module '@polkadot/api-base/types/submittable' {
        * accumulated rewards, see [`BondExtra`].
        * 
        * Bonding extra funds implies an automatic payout of all pending rewards as well.
+       * See `bond_extra_other` to bond pending rewards of `other` members.
        **/
       bondExtra: AugmentedSubmittable<(extra: PalletNominationPoolsBondExtra | { FreeBalance: any } | { Rewards: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletNominationPoolsBondExtra]>;
+      /**
+       * `origin` bonds funds from `extra` for some pool member `member` into their respective
+       * pools.
+       * 
+       * `origin` can bond extra funds from free balance or pending rewards when `origin ==
+       * other`.
+       * 
+       * In the case of `origin != other`, `origin` can only bond extra pending rewards of
+       * `other` members assuming set_claim_permission for the given member is
+       * `PermissionlessAll` or `PermissionlessCompound`.
+       **/
+      bondExtraOther: AugmentedSubmittable<(member: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, extra: PalletNominationPoolsBondExtra | { FreeBalance: any } | { Rewards: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, PalletNominationPoolsBondExtra]>;
       /**
        * Chill on behalf of the pool.
        * 
@@ -3264,8 +3322,17 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * The member will earn rewards pro rata based on the members stake vs the sum of the
        * members in the pools stake. Rewards do not "expire".
+       * 
+       * See `claim_payout_other` to caim rewards on bahalf of some `other` pool member.
        **/
       claimPayout: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * `origin` can claim payouts on some pool member `other`'s behalf.
+       * 
+       * Pool member `other` must have a `PermissionlessAll` or `PermissionlessWithdraw` in order
+       * for this call to be successful.
+       **/
+      claimPayoutOther: AugmentedSubmittable<(other: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * Create a new delegation pool.
        * 
@@ -3278,14 +3345,14 @@ declare module '@polkadot/api-base/types/submittable' {
        * creating multiple pools in the same extrinsic.
        * * `root` - The account to set as [`PoolRoles::root`].
        * * `nominator` - The account to set as the [`PoolRoles::nominator`].
-       * * `state_toggler` - The account to set as the [`PoolRoles::state_toggler`].
+       * * `bouncer` - The account to set as the [`PoolRoles::bouncer`].
        * 
        * # Note
        * 
        * In addition to `amount`, the caller will transfer the existential deposit; so the caller
        * needs at have at least `amount + existential_deposit` transferrable.
        **/
-      create: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, stateToggler: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress]>;
+      create: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, bouncer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress]>;
       /**
        * Create a new delegation pool with a previously used pool id
        * 
@@ -3294,7 +3361,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * same as `create` with the inclusion of
        * * `pool_id` - `A valid PoolId.
        **/
-      createWithPoolId: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, stateToggler: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress, u32]>;
+      createWithPoolId: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, bouncer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress, u32]>;
       /**
        * Stake funds with a pool. The amount to bond is transferred from the member to the
        * pools account and immediately increases the pools bond.
@@ -3328,6 +3395,21 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       poolWithdrawUnbonded: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
+       * Allows a pool member to set a claim permission to allow or disallow permissionless
+       * bonding and withdrawing.
+       * 
+       * By default, this is `Permissioned`, which implies only the pool member themselves can
+       * claim their pending rewards. If a pool member wishes so, they can set this to
+       * `PermissionlessAll` to allow any account to claim their rewards and bond extra to the
+       * pool.
+       * 
+       * # Arguments
+       * 
+       * * `origin` - Member of a pool.
+       * * `actor` - Account to claim reward. // improve this
+       **/
+      setClaimPermission: AugmentedSubmittable<(permission: PalletNominationPoolsClaimPermission | 'Permissioned' | 'PermissionlessCompound' | 'PermissionlessWithdraw' | 'PermissionlessAll' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletNominationPoolsClaimPermission]>;
+      /**
        * Update configurations for the nomination pools. The origin for this call must be
        * Root.
        * 
@@ -3343,7 +3425,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Set a new metadata for the pool.
        * 
-       * The dispatch origin of this call must be signed by the state toggler, or the root role
+       * The dispatch origin of this call must be signed by the bouncer, or the root role
        * of the pool.
        **/
       setMetadata: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, metadata: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Bytes]>;
@@ -3355,7 +3437,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * The dispatch origin of this call must be either:
        * 
-       * 1. signed by the state toggler, or the root role of the pool,
+       * 1. signed by the bouncer, or the root role of the pool,
        * 2. if the pool conditions to be open are NOT met (as described by `ok_to_be_open`), and
        * then the state of the pool can be permissionlessly changed to `Destroying`.
        **/
@@ -3370,8 +3452,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * # Conditions for a permissionless dispatch.
        * 
-       * * The pool is blocked and the caller is either the root or state-toggler. This is
-       * refereed to as a kick.
+       * * The pool is blocked and the caller is either the root or bouncer. This is refereed to
+       * as a kick.
        * * The pool is destroying and the member is not the depositor.
        * * The pool is destroying, the member is the depositor and no other members are in the
        * pool.
@@ -3403,7 +3485,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * It emits an event, notifying UIs of the role change. This event is quite relevant to
        * most pool members and they should be informed of changes to pool roles.
        **/
-      updateRoles: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, newRoot: PalletNominationPoolsConfigOpAccountId32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, newNominator: PalletNominationPoolsConfigOpAccountId32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, newStateToggler: PalletNominationPoolsConfigOpAccountId32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpAccountId32]>;
+      updateRoles: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, newRoot: PalletNominationPoolsConfigOpAccountId32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, newNominator: PalletNominationPoolsConfigOpAccountId32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array, newBouncer: PalletNominationPoolsConfigOpAccountId32 | { Noop: any } | { Set: any } | { Remove: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpAccountId32]>;
       /**
        * Withdraw unbonded funds from `member_account`. If no bonded funds can be unbonded, an
        * error is returned.
@@ -3415,7 +3497,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * * The pool is in destroy mode and the target is not the depositor.
        * * The target is the depositor and they are the only member in the sub pools.
-       * * The pool is blocked and the caller is either the root or state-toggler.
+       * * The pool is blocked and the caller is either the root or bouncer.
        * 
        * # Conditions for permissioned dispatch
        * 

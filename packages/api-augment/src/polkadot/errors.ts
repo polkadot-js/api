@@ -861,6 +861,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountBelongsToOtherPool: AugmentedError<ApiType>;
       /**
+       * Bonding extra is restricted to the exact pending reward amount.
+       **/
+      BondExtraRestricted: AugmentedError<ApiType>;
+      /**
        * The pools state cannot be changed.
        **/
       CanNotChangeState: AugmentedError<ApiType>;
