@@ -23,11 +23,11 @@
   "version": "9.14.3-4-x",
   "main": "index.js",
   "bin": {
-    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
-    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.cjs",
-    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.cjs",
-    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.cjs",
-    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
+    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.mjs",
+    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.mjs",
+    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.mjs",
+    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.mjs",
+    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.mjs"
   },
   "dependencies": {
     "@babel/core": "^7.21.0",
