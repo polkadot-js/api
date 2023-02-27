@@ -1,11 +1,14 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import type { Registry } from '@polkadot/types-codec/types';
 import type { Check } from './types';
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 import { hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
@@ -153,14 +156,15 @@ function serialize (registry: Registry, { data }: Check): void {
 
 export function testMeta (version: number, matchers: Record<string, Check>, withFallback = true): void {
   describe(`MetadataV${version}`, (): void => {
-    describe.each(Object.keys(matchers))('%s', (type): void => {
-      const matcher = matchers[type];
+    for (const [type, matcher] of Object.entries(matchers)) {
       const registry = new TypeRegistry();
 
-      serialize(registry, matcher);
-      decodeLatestMeta(registry, type, version, matcher);
-      toLatest(registry, version, matcher);
-      defaultValues(registry, matcher, true, withFallback);
-    });
+      describe(type, (): void => {
+        serialize(registry, matcher);
+        decodeLatestMeta(registry, type, version, matcher);
+        toLatest(registry, version, matcher);
+        defaultValues(registry, matcher, true, withFallback);
+      });
+    }
   });
 }

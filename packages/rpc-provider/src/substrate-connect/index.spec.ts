@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 /* eslint-disable sort-keys */
 /* eslint-disable promise/param-names */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -89,8 +92,6 @@ function healthCheckerFactory () {
     _latestHealthChecker: () => _healthCheckers.slice(-1)[0]
   };
 }
-
-jest.mock('./Health', () => healthCheckerFactory());
 
 function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
   const _receivedRequests: string[] = [];
@@ -249,16 +250,15 @@ describe('ScProvider', () => {
       setChainSyncyingStatus(false);
 
       const onConnected = jest.fn();
-
-      provider.on('connected', onConnected);
       const onDisconnected = jest.fn();
 
+      provider.on('connected', onConnected);
       provider.on('disconnected', onDisconnected);
 
       expect(onConnected).toHaveBeenCalled();
       expect(onDisconnected).not.toHaveBeenCalled();
 
-      onConnected.mockRestore();
+      onConnected.mockReset();
       setChainSyncyingStatus(true);
 
       expect(onConnected).not.toHaveBeenCalled();
@@ -304,9 +304,9 @@ describe('ScProvider', () => {
 
       setChainSyncyingStatus(false);
 
-      await expect(provider.connect(undefined, mockedHealthChecker.healthChecker)).rejects.toThrow(
-        'Already connected!'
-      );
+      await expect(
+        provider.connect(undefined, mockedHealthChecker.healthChecker)
+      ).rejects.toThrow(/Already connected/);
     });
   });
 
@@ -326,9 +326,8 @@ describe('ScProvider', () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-
       await provider.disconnect();
-      await expect(provider.disconnect()).resolves.not.toThrow();
+      await provider.disconnect();
     });
   });
 
@@ -400,9 +399,9 @@ describe('ScProvider', () => {
         throw new Error('boom!');
       });
 
-      await expect(provider.send('getData', ['foo'])).rejects.toThrow(
-        'Disconnected'
-      );
+      await expect(
+        provider.send('getData', ['foo'])
+      ).rejects.toThrow(/Disconnected/);
       expect(provider.isConnected).toBe(false);
     });
   });
@@ -562,7 +561,7 @@ describe('ScProvider', () => {
       await wait(0);
       await expect(
         provider.subscribe('foo', 'bar', ['baz'], () => {})
-      ).rejects.toThrow('Unsupported subscribe method: bar');
+      ).rejects.toThrow(/Unsupported subscribe method: bar/);
     });
   });
 
@@ -574,9 +573,9 @@ describe('ScProvider', () => {
 
       setChainSyncyingStatus(false);
 
-      await expect(provider.unsubscribe('', '', '')).rejects.toThrow(
-        'Unable to find active subscription=::'
-      );
+      await expect(
+        provider.unsubscribe('', '', '')
+      ).rejects.toThrow(/Unable to find active subscription/);
     });
   });
 

@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import type { UnsubscribePromise } from '../types';
 
 import { Combinator } from './Combinator';
@@ -84,7 +87,7 @@ describe('Combinator', (): void => {
 
   it('unsubscribes as required', (done): void => {
     // eslint-disable-next-line @typescript-eslint/require-await
-    const mocker = async (): Promise<any> => done;
+    const mocker = () => Promise.resolve(done);
     const combinator = new Combinator([
       mocker,
       // eslint-disable-next-line @typescript-eslint/require-await

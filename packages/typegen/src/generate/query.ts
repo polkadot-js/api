@@ -50,16 +50,14 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
         storageEntry.modifier.isOptional
           ? 'Option'
           : null,
-        defValue.lookupName
-          ? undefined
-          : defValue.type
+        defValue.lookupName || defValue.type
       ]);
 
       return [
         storageEntry.modifier.isOptional,
         keyDefs.map((k) => formatType(registry, allDefs, k.lookupName || k.type, imports)).join(', '),
         keyTypes.map((t, i) => `arg${keyTypes.length === 1 ? '' : (i + 1)}: ${t}`).join(', '),
-        formatType(registry, allDefs, outputType, imports)
+        outputType.lookupName || formatType(registry, allDefs, outputType, imports)
       ];
     }
 

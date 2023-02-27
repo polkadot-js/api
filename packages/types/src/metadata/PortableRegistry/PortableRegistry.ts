@@ -70,6 +70,8 @@ const PATHS_ALIAS = splitNamespace([
   '*_runtime::RuntimeCall',
   '*_runtime::RuntimeEvent',
   // ink!
+  'ink::env::types::*',
+  'ink::primitives::types::*',
   'ink_env::types::*',
   'ink_primitives::types::*'
 ]);

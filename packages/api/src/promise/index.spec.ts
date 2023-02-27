@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../types';
 
@@ -101,7 +104,7 @@ describe('ApiPromise', (): void => {
 
         await api.disconnect();
 
-        fail('Expected an error but none occurred.');
+        throw new Error('Expected an error but none occurred.');
       } catch {
         // Pass
       }
