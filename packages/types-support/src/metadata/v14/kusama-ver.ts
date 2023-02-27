@@ -75,6 +75,10 @@ export default {
     [
       "0x17a6bc0d0062aeb3",
       1
+    ],
+    [
+      "0x18ef58a3b67ba770",
+      1
     ]
   ],
   "transactionVersion": 19,
