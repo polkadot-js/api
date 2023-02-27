@@ -19,6 +19,7 @@
       "@polkadot/rpc-core/*": ["rpc-core/src/*"],
       "@polkadot/rpc-provider": ["rpc-provider/src"],
       "@polkadot/rpc-provider/*": ["rpc-provider/src/*"],
+      "@polkadot/typegen/*": ["typegen/src/*"],
       "@polkadot/types": ["types/src"],
       "@polkadot/types/*": ["types/src/*"],
       "@polkadot/types-augment": ["types-augment/src"],
