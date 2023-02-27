@@ -1455,9 +1455,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "@eslint/eslintrc@npm:1.4.1"
+"@eslint/eslintrc@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@eslint/eslintrc@npm:2.0.0"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.3.2
@@ -1468,7 +1468,14 @@ __metadata:
     js-yaml: ^4.1.0
     minimatch: ^3.1.2
     strip-json-comments: ^3.1.1
-  checksum: cd3e5a8683db604739938b1c1c8b77927dc04fce3e28e0c88e7f2cd4900b89466baf83dfbad76b2b9e4d2746abdd00dd3f9da544d3e311633d8693f327d04cd7
+  checksum: 31119c8ca06723d80384f18f5c78e0530d8e6306ad36379868650131a8b10dd7cffd7aff79a5deb3a2e9933660823052623d268532bae9538ded53d5b19a69a6
+  languageName: node
+  linkType: hard
+
+"@eslint/js@npm:8.35.0, @eslint/js@npm:^8.35.0":
+  version: 8.35.0
+  resolution: "@eslint/js@npm:8.35.0"
+  checksum: 6687ceff659a6d617e37823f809dc9c4b096535961a81acead27d26b1a51a4cf608a5e59d831ddd57f24f6f8bb99340a4a0e19f9c99b390fbb4b275f51ed5f5e
   languageName: node
   linkType: hard
 
@@ -1849,9 +1856,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.69.12":
-  version: 0.69.12
-  resolution: "@polkadot/dev@npm:0.69.12"
+"@polkadot/dev@npm:^0.69.17":
+  version: 0.69.17
+  resolution: "@polkadot/dev@npm:0.69.17"
   dependencies:
     "@babel/cli": ^7.21.0
     "@babel/core": ^7.21.0
@@ -1870,6 +1877,7 @@ __metadata:
     "@babel/preset-typescript": ^7.21.0
     "@babel/register": ^7.21.0
     "@babel/runtime": ^7.21.0
+    "@eslint/js": ^8.35.0
     "@rollup/plugin-alias": ^4.0.3
     "@rollup/plugin-commonjs": ^24.0.1
     "@rollup/plugin-dynamic-import-vars": ^2.0.3
@@ -1887,7 +1895,7 @@ __metadata:
     babel-plugin-module-resolver: ^5.0.0
     babel-plugin-styled-components: ^2.0.7
     browserslist: ^4.21.5
-    eslint: ^8.34.0
+    eslint: ^8.35.0
     eslint-config-standard: ^17.0.0
     eslint-import-resolver-node: ^0.3.7
     eslint-plugin-deprecation: ^1.3.3
@@ -1906,7 +1914,7 @@ __metadata:
     jsdom: ^21.1.0
     madge: ^6.0.0
     prettier: ^2.8.4
-    rollup: ^3.17.2
+    rollup: ^3.17.3
     rollup-plugin-cleanup: ^3.2.1
     tap-parser: ^12.0.1
     typescript: ^4.9.5
@@ -1914,7 +1922,7 @@ __metadata:
     webpack-cli: ^5.0.1
     webpack-dev-server: ^4.11.1
     webpack-merge: ^5.8.0
-    webpack-subresource-integrity: ^5.1.0
+    webpack-subresource-integrity: ^5.2.0-rc.1
     yargs: ^17.7.1
   bin:
     polkadot-ci-ghact-build: scripts/polkadot-ci-ghact-build.mjs
@@ -1946,7 +1954,7 @@ __metadata:
     polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 084e1e592e8293ac610b089bbdbe8d33597b2fa85d01252d1d4f7e86fc116f2bba43da06d35daffdc54030ba7209c0c1150ed48a539098a3f6fa614ba0a55c69
+  checksum: 1edd58b85b60c99ec59a00f6346ae5825849b905e97258f3bfc66216e0ffba3570e286451791baf00dd66f423fb0cf071ef7a9d21adb2654928d01d3cb49e52c
   languageName: node
   linkType: hard
 
@@ -2833,10 +2841,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.14.1":
-  version: 18.14.1
-  resolution: "@types/node@npm:18.14.1"
-  checksum: 58556bbdb0050e44a4934742c1da2530812782c06d266a758e669e44c5aa196166c5fce45fdb03f016876717e3840478b3220129bb77367f979607564047f0a3
+"@types/node@npm:*, @types/node@npm:^18.14.2":
+  version: 18.14.2
+  resolution: "@types/node@npm:18.14.2"
+  checksum: 53c07e721f6ae33de71306f6a0b75dae6066a4f55bd5484c93bd59ff25f0c5f004ceafeef509a4d0cb9e24a247efc34d50489bcc1b05a53ecc68e2fc088e65cb
   languageName: node
   linkType: hard
 
@@ -5683,11 +5691,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.34.0":
-  version: 8.34.0
-  resolution: "eslint@npm:8.34.0"
+"eslint@npm:^8.35.0":
+  version: 8.35.0
+  resolution: "eslint@npm:8.35.0"
   dependencies:
-    "@eslint/eslintrc": ^1.4.1
+    "@eslint/eslintrc": ^2.0.0
+    "@eslint/js": 8.35.0
     "@humanwhocodes/config-array": ^0.11.8
     "@humanwhocodes/module-importer": ^1.0.1
     "@nodelib/fs.walk": ^1.2.8
@@ -5701,7 +5710,7 @@ __metadata:
     eslint-utils: ^3.0.0
     eslint-visitor-keys: ^3.3.0
     espree: ^9.4.0
-    esquery: ^1.4.0
+    esquery: ^1.4.2
     esutils: ^2.0.2
     fast-deep-equal: ^3.1.3
     file-entry-cache: ^6.0.1
@@ -5728,7 +5737,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: 4e13e9eb05ac2248efbb6acae0b2325091235d5c47ba91a4775c7d6760778cbcd358a773ebd42f4629d2ad89e27c02f5d66eb1f737d75d9f5fc411454f83b2e5
+  checksum: 6212173691d90b1bc94dd3d640e1f210374b30c3905fc0a15e501cf71c6ca52aa3d80ea7a9a245adaaed26d6019169e01fb6881b3f2885b188d37069c749308c
   languageName: node
   linkType: hard
 
@@ -5753,12 +5762,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esquery@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "esquery@npm:1.4.0"
+"esquery@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "esquery@npm:1.4.2"
   dependencies:
     estraverse: ^5.1.0
-  checksum: a0807e17abd7fbe5fbd4fab673038d6d8a50675cdae6b04fbaa520c34581be0c5fa24582990e8acd8854f671dd291c78bb2efb9e0ed5b62f33bac4f9cf820210
+  checksum: 2f4ad89c5aafaca61cc2c15e256190f0d6deb4791cae6552d3cb4b1eb8867958cdf27a56aaa3272ff17435e3eaa19ee0d4129fac336ca6373d7354d7b5da7966
   languageName: node
   linkType: hard
 
@@ -9882,9 +9891,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.17.2":
-  version: 3.17.2
-  resolution: "rollup@npm:3.17.2"
+"rollup@npm:^3.17.3":
+  version: 3.17.3
+  resolution: "rollup@npm:3.17.3"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -9892,7 +9901,7 @@ fsevents@~2.3.2:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 9473eb7e7ffdb74c8e01e813eccb2e81e86cd429aea4705c424a5369845bedd871e715347a53be04a157f8febb99a8e502c124b896141e06d94fb86d6e121721
+  checksum: afce20a6ef4a613e5803eff7fb17a3efe740e326257b43f48bdbe10783f3eae79587d7e455234bc68f3c3154a50f2c29c85d4d2a42cdebcc17a5abeaeb04e0ed
   languageName: node
   linkType: hard
 
@@ -9903,9 +9912,9 @@ fsevents@~2.3.2:
     "@babel/core": ^7.21.0
     "@babel/register": ^7.21.0
     "@babel/runtime": ^7.21.0
-    "@polkadot/dev": ^0.69.12
+    "@polkadot/dev": ^0.69.17
     "@polkadot/typegen": "workspace:packages/typegen"
-    "@types/node": ^18.14.1
+    "@types/node": ^18.14.2
   languageName: unknown
   linkType: soft
 
@@ -11068,13 +11077,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"typed-assert@npm:^1.0.8":
-  version: 1.0.9
-  resolution: "typed-assert@npm:1.0.9"
-  checksum: 79351bd3ea184a552bf55a77bd3012f128741c841ed718d054c5abbbc8925362aa033ae2cdcc79e1f445a15112447c8a95a08ddf7ff8aeb04f805e92187f77c1
-  languageName: node
-  linkType: hard
-
 "typedarray-to-buffer@npm:^3.1.5":
   version: 3.1.5
   resolution: "typedarray-to-buffer@npm:3.1.5"
@@ -11511,18 +11513,16 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"webpack-subresource-integrity@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "webpack-subresource-integrity@npm:5.1.0"
-  dependencies:
-    typed-assert: ^1.0.8
+"webpack-subresource-integrity@npm:^5.2.0-rc.1":
+  version: 5.2.0-rc.1
+  resolution: "webpack-subresource-integrity@npm:5.2.0-rc.1"
   peerDependencies:
     html-webpack-plugin: ">= 5.0.0-beta.1 < 6"
     webpack: ^5.12.0
   peerDependenciesMeta:
     html-webpack-plugin:
       optional: true
-  checksum: 827c2c1170f52eaec9d68728d4c3910be5451253ffb24e7dbab35c48acc69c4b4ed6dcea2c29bd62b4cb4569c00eafa4e95d8aa00305656fe9c2a6aeb5415e1e
+  checksum: c61d3223b6ccb2bab58def36c964b3c8c38f54d8673a3de93af5963ca466e36c68dcdccaff978a227c62296236f231eef3d85e6b1b364724b35ffc252f6835d7
   languageName: node
   linkType: hard
 
