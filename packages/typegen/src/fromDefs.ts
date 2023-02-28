@@ -3,10 +3,12 @@
 
 import type { HexString } from '@polkadot/util/types';
 
+import fs from 'fs';
 import path from 'path';
 import yargs from 'yargs';
 
 import * as substrateDefs from '@polkadot/types/interfaces/definitions';
+import { isHex } from '@polkadot/util';
 
 import { generateInterfaceTypes } from './generate/interfaceRegistry';
 import { generateTsDef } from './generate/tsDef';
@@ -37,9 +39,9 @@ async function mainPromise (): Promise<void> {
   let userDefs: Record<string, any> = {};
 
   try {
-    const defPath = assertFile(path.join(inputPath, 'definitions.ts'));
-
-    userDefs = await import(defPath) as Record<string, any>;
+    userDefs = await import(
+      assertFile(path.join(inputPath, 'definitions.ts'))
+    ) as Record<string, any>;
   } catch (error) {
     console.error('ERROR: Unable to load user definitions:', (error as Error).message);
   }
@@ -76,10 +78,15 @@ async function mainPromise (): Promise<void> {
     if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
       metadata = await getMetadataViaWs(endpoint);
     } else {
-      const metaPath = assertFile(path.join(process.cwd(), endpoint));
-      const metaCont = await import(metaPath) as { result: HexString };
+      metadata = (
+        JSON.parse(
+          fs.readFileSync(assertFile(path.join(process.cwd(), endpoint)), 'utf-8')
+        ) as { result: HexString }
+      ).result;
 
-      metadata = metaCont.result;
+      if (!isHex(metadata)) {
+        throw new Error('Invalid metadata file');
+      }
     }
 
     generateDefaultLookup(inputPath, metadata);

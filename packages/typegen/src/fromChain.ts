@@ -3,11 +3,12 @@
 
 import type { HexString } from '@polkadot/util/types';
 
+import fs from 'fs';
 import path from 'path';
 import yargs from 'yargs';
 
 import { Definitions, DefinitionsTypes } from '@polkadot/types/types';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isHex } from '@polkadot/util';
 
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTx } from './generate';
 import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
@@ -96,10 +97,15 @@ async function mainPromise (): Promise<void> {
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
     metadata = await getMetadataViaWs(endpoint);
   } else {
-    const metaPath = assertFile(path.join(process.cwd(), endpoint));
-    const metaCont = await import(metaPath) as { result: HexString };
+    metadata = (
+      JSON.parse(
+        fs.readFileSync(assertFile(path.join(process.cwd(), endpoint)), 'utf-8')
+      ) as { result: HexString }
+    ).result;
 
-    metadata = metaCont.result;
+    if (!isHex(metadata)) {
+      throw new Error('Invalid metadata file');
+    }
   }
 
   await generate(metadata, pkg, output, isStrict);
