@@ -36,37 +36,43 @@ describe('subscribe', (): void => {
       });
   });
 
-  it('calls back with the last known value', (done): void => {
+  it('calls back with the last known value', async (): Promise<void> => {
     mock.isUpdating = false;
     mock.subscriptions.chain_subscribeNewHead.lastValue = 'testValue';
 
-    mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, value: string): void => {
-      expect(value).toEqual('testValue');
-      done();
-    }).catch(console.error);
+    await new Promise<boolean>((resolve) => {
+      mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, value: string): void => {
+        expect(value).toEqual('testValue');
+        resolve(true);
+      }).catch(console.error);
+    });
   });
 
-  it('calls back with new headers', (done): void => {
-    mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
-      if (header.number === 4) {
-        done();
-      }
-    }).catch(console.error);
+  it('calls back with new headers', async (): Promise<void> => {
+    await new Promise<boolean>((resolve) => {
+      mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
+        if (header.number === 4) {
+          resolve(true);
+        }
+      }).catch(console.error);
+    });
   });
 
-  it('handles errors withing callbacks gracefully', (done): void => {
+  it('handles errors within callbacks gracefully', async (): Promise<void> => {
     let hasThrown = false;
 
-    mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
-      if (!hasThrown) {
-        hasThrown = true;
+    await new Promise<boolean>((resolve) => {
+      mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
+        if (!hasThrown) {
+          hasThrown = true;
 
-        throw new Error('testing');
-      }
+          throw new Error('testing');
+        }
 
-      if (header.number === 3) {
-        done();
-      }
-    }).catch(console.error);
+        if (header.number === 3) {
+          resolve(true);
+        }
+      }).catch(console.error);
+    });
   });
 });

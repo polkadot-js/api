@@ -22,81 +22,89 @@ describe('Combinator', (): void => {
     fns = [];
   });
 
-  it('it triggers on all values', (done): void => {
-    let count = 0;
-    const combinator = new Combinator(
-      [storeFn],
-      (value: any[]): void => {
-        expect(value[0]).toEqual(`test${count}`);
+  it('it triggers on all values', async (): Promise<void> => {
+    await new Promise<boolean>((resolve) => {
+      let count = 0;
+      const combinator = new Combinator(
+        [storeFn],
+        (value: any[]): void => {
+          expect(value[0]).toEqual(`test${count}`);
 
-        count++;
+          count++;
 
-        if (count === 3) {
-          done();
+          if (count === 3) {
+            resolve(true);
+          }
         }
-      }
-    );
+      );
 
-    fns[0]('test0');
-    fns[0]('test1');
-    fns[0]('test2');
+      fns[0]('test0');
+      fns[0]('test1');
+      fns[0]('test2');
 
-    expect(combinator).toBeDefined();
-  });
-
-  it('combines values from 2 sources, firing when it has all results', (done): void => {
-    const combinator = new Combinator(
-      [storeFn, storeFn],
-      (value: any[]): void => {
-        expect(value).toEqual(['test0', 'test1']);
-
-        done();
-      }
-    );
-
-    fns[0]('test0');
-    fns[1]('test1');
-
-    expect(combinator).toBeDefined();
-  });
-
-  it('combines values from 2 sources, allowing multiple updates', (done): void => {
-    let count = 0;
-    const combinator = new Combinator(
-      [storeFn, storeFn],
-      (value: any[]): void => {
-        expect(value).toEqual(
-          count === 0
-            ? ['test0', 'test1']
-            : ['test2', 'test1']);
-
-        count++;
-
-        if (count === 2) {
-          done();
-        }
-      }
-    );
-
-    fns[0]('test0');
-    fns[1]('test1');
-    fns[0]('test2');
-
-    expect(combinator).toBeDefined();
-  });
-
-  it('unsubscribes as required', (done): void => {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    const mocker = () => Promise.resolve(done);
-    const combinator = new Combinator([
-      mocker,
-      // eslint-disable-next-line @typescript-eslint/require-await
-      async (): UnsubscribePromise => (): void => undefined
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ], (value: any[]): void => {
-      // ignore
+      expect(combinator).toBeDefined();
     });
+  });
 
-    combinator.unsubscribe();
+  it('combines values from 2 sources, firing when it has all results', async (): Promise<void> => {
+    await new Promise<boolean>((resolve) => {
+      const combinator = new Combinator(
+        [storeFn, storeFn],
+        (value: any[]): void => {
+          expect(value).toEqual(['test0', 'test1']);
+
+          resolve(true);
+        }
+      );
+
+      fns[0]('test0');
+      fns[1]('test1');
+
+      expect(combinator).toBeDefined();
+    });
+  });
+
+  it('combines values from 2 sources, allowing multiple updates', async (): Promise<void> => {
+    await new Promise<boolean>((resolve) => {
+      let count = 0;
+      const combinator = new Combinator(
+        [storeFn, storeFn],
+        (value: any[]): void => {
+          expect(value).toEqual(
+            count === 0
+              ? ['test0', 'test1']
+              : ['test2', 'test1']);
+
+          count++;
+
+          if (count === 2) {
+            resolve(true);
+          }
+        }
+      );
+
+      fns[0]('test0');
+      fns[1]('test1');
+      fns[0]('test2');
+
+      expect(combinator).toBeDefined();
+    });
+  });
+
+  it('unsubscribes as required', async (): Promise<void> => {
+    await new Promise<void>((resolve) => {
+      // eslint-disable-next-line @typescript-eslint/require-await
+      const mocker = () => Promise.resolve(resolve);
+      const combinator = new Combinator([
+        mocker,
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async (): UnsubscribePromise => (): void => undefined
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ], (value: any[]): void => {
+        // ignore
+      });
+
+      combinator.unsubscribe();
+    });
   });
 });

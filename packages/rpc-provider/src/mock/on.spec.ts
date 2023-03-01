@@ -22,20 +22,22 @@ describe('on', (): void => {
     await mock.disconnect();
   });
 
-  it('it emits both connected and disconnected events', (done): void => {
+  it('it emits both connected and disconnected events', async (): Promise<void> => {
     const events: Record<string, boolean> = { connected: false, disconnected: false };
 
-    const handler = (type: ProviderInterfaceEmitted): void => {
-      mock.on(type, (): void => {
-        events[type] = true;
+    await new Promise<boolean>((resolve) => {
+      const handler = (type: ProviderInterfaceEmitted): void => {
+        mock.on(type, (): void => {
+          events[type] = true;
 
-        if (Object.values(events).filter((value): boolean => value).length === 2) {
-          done();
-        }
-      });
-    };
+          if (Object.values(events).filter((value): boolean => value).length === 2) {
+            resolve(true);
+          }
+        });
+      };
 
-    handler('connected');
-    handler('disconnected');
+      handler('connected');
+      handler('disconnected');
+    });
   });
 });
