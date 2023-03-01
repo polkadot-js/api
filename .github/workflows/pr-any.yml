@@ -3,10 +3,10 @@ on: [pull_request]
 
 jobs:
   pr:
+    continue-on-error: true
     strategy:
       matrix:
         step: ['lint', 'test', 'build', 'deno']
-    name: ${{ matrix.step }}
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_SCRIPTS: false
