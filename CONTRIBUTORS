@@ -1,4 +1,4 @@
-    3382	Jaco                          	Bump dev & update gh workflows (#5515)
+    3383	Jaco                          	Ensure that provider disconnect clears all subscriptions (#5516)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
