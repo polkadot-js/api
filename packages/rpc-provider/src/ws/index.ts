@@ -3,7 +3,7 @@
 
 /* eslint-disable camelcase */
 
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
+import type { EndpointStats, JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
 
 import EventEmitter from 'eventemitter3';
 
@@ -59,6 +59,10 @@ function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): voi
   });
 }
 
+function defaultEndpointStats (): EndpointStats {
+  return { bytesRecv: 0, bytesSent: 0, cached: 0, errors: 0, requests: 0, subscriptions: 0, timeout: 0 };
+}
+
 /**
  * # @polkadot/rpc-provider/ws
  *
@@ -92,6 +96,7 @@ export class WsProvider implements ProviderInterface {
 
   #autoConnectMs: number;
   #endpointIndex: number;
+  #endpointStats: EndpointStats;
   #isConnected = false;
   #subscriptions: Record<string, WsStateSubscription> = {};
   #timeoutId?: ReturnType<typeof setInterval> | null = null;
@@ -128,8 +133,9 @@ export class WsProvider implements ProviderInterface {
     this.#websocket = null;
     this.#stats = {
       active: { requests: 0, subscriptions: 0 },
-      total: { bytesRecv: 0, bytesSent: 0, cached: 0, errors: 0, requests: 0, subscriptions: 0, timeout: 0 }
+      total: defaultEndpointStats()
     };
+    this.#endpointStats = defaultEndpointStats();
     this.#timeout = timeout || DEFAULT_TIMEOUT_MS;
 
     if (autoConnectMs > 0) {
@@ -174,11 +180,19 @@ export class WsProvider implements ProviderInterface {
     return this.#isReadyPromise;
   }
 
+  public get endpoint (): string {
+    return this.#endpoints[this.#endpointIndex];
+  }
+
   /**
    * @description Returns a clone of the object
    */
   public clone (): WsProvider {
     return new WsProvider(this.#endpoints);
+  }
+
+  protected selectEndpointIndex (endpoints: string[]): number {
+    return (this.#endpointIndex + 1) % endpoints.length;
   }
 
   /**
@@ -193,14 +207,14 @@ export class WsProvider implements ProviderInterface {
     }
 
     try {
-      this.#endpointIndex = (this.#endpointIndex + 1) % this.#endpoints.length;
+      this.#endpointIndex = this.selectEndpointIndex(this.#endpoints);
 
       // the as typeof WebSocket here is Deno-specific - not available on the globalThis
       this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as typeof WebSocket, WebSocket)
-        ? new WebSocket(this.#endpoints[this.#endpointIndex])
+        ? new WebSocket(this.endpoint)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
-        : new WebSocket(this.#endpoints[this.#endpointIndex], undefined, undefined, this.#headers, undefined, {
+        : new WebSocket(this.endpoint, undefined, undefined, this.#headers, undefined, {
           // default: true
           fragmentOutgoingMessages: true,
           // default: 16K (bump, the Node has issues with too many fragments, e.g. on setCode)
@@ -281,6 +295,10 @@ export class WsProvider implements ProviderInterface {
     };
   }
 
+  public get endpointStats (): EndpointStats {
+    return this.#endpointStats;
+  }
+
   /**
    * @summary Listens on events after having subscribed using the [[subscribe]] function.
    * @param  {ProviderInterfaceEmitted} type Event
@@ -302,6 +320,7 @@ export class WsProvider implements ProviderInterface {
    * @param subscription Subscription details (internally used)
    */
   public send <T = any> (method: string, params: unknown[], isCacheable?: boolean, subscription?: SubscriptionHandler): Promise<T> {
+    this.#endpointStats.requests++;
     this.#stats.total.requests++;
 
     const [id, body] = this.#coder.encodeJson(method, params);
@@ -316,6 +335,7 @@ export class WsProvider implements ProviderInterface {
         this.#callCache.set(body, resultPromise);
       }
     } else {
+      this.#endpointStats.cached++;
       this.#stats.total.cached++;
     }
 
@@ -344,9 +364,11 @@ export class WsProvider implements ProviderInterface {
           start: Date.now(),
           subscription
         };
+        this.#endpointStats.bytesSent += body.length;
         this.#stats.total.bytesSent += body.length;
         this.#websocket.send(body);
       } catch (error) {
+        this.#endpointStats.errors++;
         this.#stats.total.errors++;
 
         reject(error);
@@ -373,6 +395,7 @@ export class WsProvider implements ProviderInterface {
    * ```
    */
   public subscribe (type: string, method: string, params: unknown[], callback: ProviderInterfaceCallback): Promise<number | string> {
+    this.#endpointStats.subscriptions++;
     this.#stats.total.subscriptions++;
 
     // subscriptions are not cached, LRU applies to .at(<blockHash>) only
@@ -411,7 +434,7 @@ export class WsProvider implements ProviderInterface {
   };
 
   #onSocketClose = (event: CloseEvent): void => {
-    const error = new Error(`disconnected from ${this.#endpoints[this.#endpointIndex]}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
+    const error = new Error(`disconnected from ${this.endpoint}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
 
     if (this.#autoConnectMs > 0) {
       l.error(error.message);
@@ -432,8 +455,6 @@ export class WsProvider implements ProviderInterface {
       this.#timeoutId = null;
     }
 
-    this.#emit('disconnected');
-
     // reject all hanging requests
     eraseRecord(this.#handlers, (h) => {
       try {
@@ -444,6 +465,11 @@ export class WsProvider implements ProviderInterface {
       }
     });
     eraseRecord(this.#waitingForId);
+
+    // Reset stats for active endpoint
+    this.#endpointStats = defaultEndpointStats();
+
+    this.#emit('disconnected');
 
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
@@ -462,6 +488,7 @@ export class WsProvider implements ProviderInterface {
   #onSocketMessage = (message: MessageEvent<string>): void => {
     l.debug(() => ['received', message.data]);
 
+    this.#endpointStats.bytesRecv += message.data.length;
     this.#stats.total.bytesRecv += message.data.length;
 
     const response = JSON.parse(message.data) as JsonRpcResponse;
@@ -502,6 +529,7 @@ export class WsProvider implements ProviderInterface {
         }
       }
     } catch (error) {
+      this.#endpointStats.errors++;
       this.#stats.total.errors++;
 
       handler.callback(error as Error, undefined);
@@ -532,6 +560,7 @@ export class WsProvider implements ProviderInterface {
 
       handler.callback(null, result);
     } catch (error) {
+      this.#endpointStats.errors++;
       this.#stats.total.errors++;
 
       handler.callback(error as Error, undefined);
@@ -543,12 +572,13 @@ export class WsProvider implements ProviderInterface {
       throw new Error('WebSocket cannot be null in onOpen');
     }
 
-    l.debug(() => ['connected to', this.#endpoints[this.#endpointIndex]]);
+    l.debug(() => ['connected to', this.endpoint]);
 
     this.#isConnected = true;
 
-    this.#emit('connected');
     this.#resubscribe();
+
+    this.#emit('connected');
 
     return true;
   };
@@ -590,6 +620,7 @@ export class WsProvider implements ProviderInterface {
           // ignore
         }
 
+        this.#endpointStats.timeout++;
         this.#stats.total.timeout++;
         delete this.#handlers[ids[i]];
       }
