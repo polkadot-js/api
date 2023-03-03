@@ -10,7 +10,6 @@ jobs:
     strategy:
       matrix:
         step: ['build:release']
-    name: ${{ matrix.step }}
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_SCRIPTS: false

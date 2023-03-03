@@ -40,9 +40,9 @@
     "@babel/core": "^7.21.0",
     "@babel/register": "^7.21.0",
     "@babel/runtime": "^7.21.0",
-    "@polkadot/dev": "^0.69.21",
+    "@polkadot/dev": "^0.69.25",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/node": "^18.14.2"
+    "@types/node": "^18.14.5"
   },
   "resolutions": {
     "typescript": "^4.9.5"
