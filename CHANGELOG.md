@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Expose per-endpoint stats for providers (Thanks to https://github.com/jeluard)
+- Adjust ink! primitive extraction for v4 (Thanks to https://github.com/statictype)
+
+Changes:
+
+- Ensure that provider disconnect clears all subscriptions
+
+
 ## 9.14.2 Feb 19, 2023
 
 Changes:

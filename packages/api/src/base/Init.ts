@@ -373,6 +373,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private _subscribeHealth (): void {
+    this._unsubscribeHealth();
+
     // Only enable the health keepalive on WS, not needed on HTTP
     this.#healthTimer = this.hasSubscriptions
       ? setInterval((): void => {
@@ -428,7 +430,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   #onProviderDisconnect (): void {
     this._isConnected.next(false);
-    this._unsubscribeHealth();
+    this._unsubscribe();
     this.emit('disconnected');
   }
 
