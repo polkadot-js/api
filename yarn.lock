@@ -1856,9 +1856,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.69.21":
-  version: 0.69.21
-  resolution: "@polkadot/dev@npm:0.69.21"
+"@polkadot/dev@npm:^0.69.25":
+  version: 0.69.25
+  resolution: "@polkadot/dev@npm:0.69.25"
   dependencies:
     "@babel/cli": ^7.21.0
     "@babel/core": ^7.21.0
@@ -1891,7 +1891,6 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.54.0
     "@typescript-eslint/parser": ^5.54.0
     "@vue/component-compiler-utils": ^3.3.0
-    babel-plugin-module-extension-resolver: ^1.0.0
     babel-plugin-module-resolver: ^5.0.0
     babel-plugin-styled-components: ^2.0.7
     browserslist: ^4.21.5
@@ -1913,8 +1912,7 @@ __metadata:
     gh-release: ^7.0.2
     jsdom: ^21.1.0
     madge: ^6.0.0
-    prettier: ^2.8.4
-    rollup: ^3.17.3
+    rollup: ^3.18.0
     rollup-plugin-cleanup: ^3.2.1
     tap-parser: ^12.0.1
     typescript: ^4.9.5
@@ -1936,25 +1934,19 @@ __metadata:
     polkadot-dev-copy-dir: scripts/polkadot-dev-copy-dir.mjs
     polkadot-dev-copy-to: scripts/polkadot-dev-copy-to.mjs
     polkadot-dev-deno-map: scripts/polkadot-dev-deno-map.mjs
-    polkadot-dev-run-esbuild: scripts/polkadot-dev-run-esbuild.mjs
     polkadot-dev-run-lint: scripts/polkadot-dev-run-lint.mjs
     polkadot-dev-run-node-ts: scripts/polkadot-dev-run-node-ts.mjs
-    polkadot-dev-run-prettier: scripts/polkadot-dev-run-prettier.mjs
-    polkadot-dev-run-swc: scripts/polkadot-dev-run-swc.mjs
     polkadot-dev-run-test: scripts/polkadot-dev-run-test.mjs
     polkadot-dev-version: scripts/polkadot-dev-version.mjs
     polkadot-dev-yarn-only: scripts/polkadot-dev-yarn-only.mjs
-    polkadot-exec-esbuild: scripts/polkadot-exec-esbuild.mjs
     polkadot-exec-eslint: scripts/polkadot-exec-eslint.mjs
     polkadot-exec-ghpages: scripts/polkadot-exec-ghpages.mjs
     polkadot-exec-ghrelease: scripts/polkadot-exec-ghrelease.mjs
     polkadot-exec-node-test: scripts/polkadot-exec-node-test.mjs
-    polkadot-exec-prettier: scripts/polkadot-exec-prettier.mjs
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
-    polkadot-exec-swc: scripts/polkadot-exec-swc.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 105eb73b1769ca033787af3b346e753dd40ba63053cc04f4cde191f6f53660ad465fec2c362e9025f7f564152d4117942932949274eaf80d53a3acbf25b99172
+  checksum: 80579467976cc5f124e0a5c04c4c142f541523485eb00d8838c82f9a48d0c14c8e5ce3fe139d02ed52af8013bdb2eb35cd06534962a4e80a46a1374bc46be8d1
   languageName: node
   linkType: hard
 
@@ -2841,10 +2833,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.14.2":
-  version: 18.14.2
-  resolution: "@types/node@npm:18.14.2"
-  checksum: 53c07e721f6ae33de71306f6a0b75dae6066a4f55bd5484c93bd59ff25f0c5f004ceafeef509a4d0cb9e24a247efc34d50489bcc1b05a53ecc68e2fc088e65cb
+"@types/node@npm:*, @types/node@npm:^18.14.5":
+  version: 18.14.5
+  resolution: "@types/node@npm:18.14.5"
+  checksum: 415fb0edc132baa9580f1b7a381a3f10b662f5d7a7d11641917fa0961788ccede3272badc414aadc47306e9fc35c5f6c59159ac470b46d3f3a15fb0446224c8c
   languageName: node
   linkType: hard
 
@@ -3825,13 +3817,6 @@ __metadata:
   version: 1.11.0
   resolution: "aws4@npm:1.11.0"
   checksum: 5a00d045fd0385926d20ebebcfba5ec79d4482fe706f63c27b324d489a04c68edb0db99ed991e19eda09cb8c97dc2452059a34d97545cebf591d7a2b5a10999f
-  languageName: node
-  linkType: hard
-
-"babel-plugin-module-extension-resolver@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "babel-plugin-module-extension-resolver@npm:1.0.0"
-  checksum: ade0426653bad6d395ee27ffef26b962635d070c78dd9b3a18a631dd9bf8009d76eb0bd26166ad4ab2fb178fb3d439da8d085f973038a122ee42851781570aa4
   languageName: node
   linkType: hard
 
@@ -9274,7 +9259,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"prettier@npm:^1.18.2 || ^2.0.0, prettier@npm:^2.8.4":
+"prettier@npm:^1.18.2 || ^2.0.0":
   version: 2.8.4
   resolution: "prettier@npm:2.8.4"
   bin:
@@ -9891,9 +9876,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.17.3":
-  version: 3.17.3
-  resolution: "rollup@npm:3.17.3"
+"rollup@npm:^3.18.0":
+  version: 3.18.0
+  resolution: "rollup@npm:3.18.0"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -9901,7 +9886,7 @@ fsevents@~2.3.2:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: afce20a6ef4a613e5803eff7fb17a3efe740e326257b43f48bdbe10783f3eae79587d7e455234bc68f3c3154a50f2c29c85d4d2a42cdebcc17a5abeaeb04e0ed
+  checksum: 0bcd1abb1cc383abdd09b5594de862ecb2f946e950954bb472a370289bdc4499aea8d04477be55ce205450d973d38ad255f0dc6926162500a251d73bf0e60e6f
   languageName: node
   linkType: hard
 
@@ -9912,9 +9897,9 @@ fsevents@~2.3.2:
     "@babel/core": ^7.21.0
     "@babel/register": ^7.21.0
     "@babel/runtime": ^7.21.0
-    "@polkadot/dev": ^0.69.21
+    "@polkadot/dev": ^0.69.25
     "@polkadot/typegen": "workspace:packages/typegen"
-    "@types/node": ^18.14.2
+    "@types/node": ^18.14.5
   languageName: unknown
   linkType: soft
 
