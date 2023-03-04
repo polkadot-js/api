@@ -2010,8 +2010,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/typegen@workspace:packages/typegen"
   dependencies:
-    "@babel/core": ^7.21.0
-    "@babel/register": ^7.21.0
     "@polkadot/api": 10.0.0
     "@polkadot/api-augment": 10.0.0
     "@polkadot/rpc-augment": 10.0.0
