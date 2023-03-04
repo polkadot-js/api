@@ -20,20 +20,20 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.14.3-11-x",
+  "version": "10.0.0",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/keyring": "^10.4.2",
-    "@polkadot/types-augment": "9.14.3-11-x",
-    "@polkadot/types-codec": "9.14.3-11-x",
-    "@polkadot/types-create": "9.14.3-11-x",
-    "@polkadot/util": "^10.4.2",
-    "@polkadot/util-crypto": "^10.4.2",
+    "@polkadot/keyring": "^11.0.1",
+    "@polkadot/types-augment": "10.0.0",
+    "@polkadot/types-codec": "10.0.0",
+    "@polkadot/types-create": "10.0.0",
+    "@polkadot/util": "^11.0.1",
+    "@polkadot/util-crypto": "^11.0.1",
     "rxjs": "^7.8.0",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^10.4.2",
-    "@polkadot/types-support": "9.14.3-11-x"
+    "@polkadot/keyring": "^11.0.1",
+    "@polkadot/types-support": "10.0.0"
   }
 }
