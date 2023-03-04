@@ -19,7 +19,7 @@ import { getUniqTypes, toCallsOnly } from './util';
 
 // Use these to generate all the Meta* types below via template keys
 // NOTE: Keep from latest -> earliest, see the LATEST_VERSION 0 index
-const KNOWN_VERSIONS = <const> [14, 13, 12, 11, 10, 9];
+const KNOWN_VERSIONS = [14, 13, 12, 11, 10, 9] as const;
 const LATEST_VERSION = KNOWN_VERSIONS[0];
 
 type MetaAll = typeof KNOWN_VERSIONS[number];

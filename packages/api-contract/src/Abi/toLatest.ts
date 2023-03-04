@@ -11,7 +11,7 @@ import { v3ToV4 } from './toV4';
 
 // The versions where an enum is used, aka V0 is missing
 // (Order from newest, i.e. we expect more on newest vs oldest)
-export const enumVersions = <const> ['V4', 'V3', 'V2', 'V1'];
+export const enumVersions = ['V4', 'V3', 'V2', 'V1'] as const;
 
 type Versions = typeof enumVersions[number] | 'V0';
 

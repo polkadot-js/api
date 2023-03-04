@@ -32,7 +32,6 @@
   "dependencies": {
     "@babel/core": "^7.21.0",
     "@babel/register": "^7.21.0",
-    "@babel/runtime": "^7.21.0",
     "@polkadot/api": "9.14.3-10-x",
     "@polkadot/api-augment": "9.14.3-10-x",
     "@polkadot/rpc-augment": "9.14.3-10-x",
@@ -46,6 +45,7 @@
     "@polkadot/util-crypto": "^10.4.2",
     "@polkadot/x-ws": "^10.4.2",
     "handlebars": "^4.7.7",
+    "tslib": "^2.5.0",
     "websocket": "^1.0.34",
     "yargs": "^17.7.1"
   },

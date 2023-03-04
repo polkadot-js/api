@@ -23,10 +23,10 @@
   "version": "9.14.3-10-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.21.0",
     "@polkadot/rpc-core": "9.14.3-10-x",
     "@polkadot/types": "9.14.3-10-x",
     "@polkadot/util": "^10.4.2",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "tslib": "^2.5.0"
   }
 }

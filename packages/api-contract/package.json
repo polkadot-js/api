@@ -23,14 +23,14 @@
   "version": "9.14.3-10-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.21.0",
     "@polkadot/api": "9.14.3-10-x",
     "@polkadot/types": "9.14.3-10-x",
     "@polkadot/types-codec": "9.14.3-10-x",
     "@polkadot/types-create": "9.14.3-10-x",
     "@polkadot/util": "^10.4.2",
     "@polkadot/util-crypto": "^10.4.2",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
     "@polkadot/api-augment": "9.14.3-10-x",
