@@ -11,7 +11,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import * as allMan from '../manual';
 import * as allGen from '.';
 
-const keys = <const> ['kusama', 'polkadot', 'westend'];
+const keys = ['kusama', 'polkadot', 'westend'] as const;
 const urls = {
   kusama: 'wss://kusama-rpc.polkadot.io',
   polkadot: 'wss://rpc.polkadot.io',

@@ -19,7 +19,7 @@ const allData: Record<string, HexString> = {
   substrate
 };
 
-for (const type of <const> ['kusama', 'polkadot', 'substrate']) {
+for (const type of ['kusama', 'polkadot', 'substrate'] as const) {
   describe(`${type}metadata`, (): void => {
     const metadata = new Metadata(new TypeRegistry(), allData[type]);
 

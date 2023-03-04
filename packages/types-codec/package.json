@@ -23,9 +23,9 @@
   "version": "9.14.3-10-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.21.0",
     "@polkadot/util": "^10.4.2",
-    "@polkadot/x-bigint": "^10.4.2"
+    "@polkadot/x-bigint": "^10.4.2",
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
     "@polkadot/types": "9.14.3-10-x",
