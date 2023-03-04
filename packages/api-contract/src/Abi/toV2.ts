@@ -23,11 +23,11 @@ interface ArgsEntry <T extends WithArgs> extends NamedEntry {
   args: GetArgsType<T>['args'][0][];
 }
 
-const ARG_TYPES = <const> {
+const ARG_TYPES = {
   ContractConstructorSpec: 'ContractMessageParamSpecV2',
   ContractEventSpec: 'ContractEventParamSpecV2',
   ContractMessageSpec: 'ContractMessageParamSpecV2'
-};
+} as const;
 
 function v1ToV2Label (entry: NamedEntry): { label: Text } {
   return objectSpread({}, entry, {

@@ -41,6 +41,10 @@ export default {
       1
     ],
     [
+      "0x18ef58a3b67ba770",
+      1
+    ],
+    [
       "0xcbca25e39f142387",
       2
     ],
@@ -63,6 +67,10 @@ export default {
     [
       "0xf3ff14d5ab527059",
       3
+    ],
+    [
+      "0x899a250cbe84f250",
+      1
     ],
     [
       "0x91d5df18b0d2cf58",

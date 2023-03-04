@@ -3,10 +3,12 @@
 
 import type { HexString } from '@polkadot/util/types';
 
+import fs from 'fs';
 import path from 'path';
 import yargs from 'yargs';
 
 import * as substrateDefs from '@polkadot/types/interfaces/definitions';
+import { isHex } from '@polkadot/util';
 
 import { generateInterfaceTypes } from './generate/interfaceRegistry';
 import { generateTsDef } from './generate/tsDef';
@@ -15,7 +17,7 @@ import { assertDir, assertFile, getMetadataViaWs } from './util';
 
 type ArgV = { input: string; package: string; endpoint?: string; };
 
-export function main (): void {
+async function mainPromise (): Promise<void> {
   const { endpoint, input, package: pkg } = yargs.strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
@@ -37,8 +39,9 @@ export function main (): void {
   let userDefs: Record<string, any> = {};
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    userDefs = require(assertFile(path.join(inputPath, 'definitions.ts'))) as Record<string, any>;
+    userDefs = await import(
+      assertFile(path.join(inputPath, 'definitions.ts'))
+    ) as Record<string, any>;
   } catch (error) {
     console.error('ERROR: Unable to load user definitions:', (error as Error).message);
   }
@@ -70,15 +73,26 @@ export function main (): void {
   generateInterfaceTypes(allDefs, path.join(inputPath, 'augment-types.ts'));
 
   if (endpoint) {
-    if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-      getMetadataViaWs(endpoint)
-        .then((metadata) => generateDefaultLookup(inputPath, metadata))
-        .catch(() => process.exit(1));
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const metaHex = (require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result;
+    let metadata: HexString;
 
-      generateDefaultLookup(inputPath, metaHex);
+    if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
+      metadata = await getMetadataViaWs(endpoint);
+    } else {
+      metadata = (
+        JSON.parse(
+          fs.readFileSync(assertFile(path.join(process.cwd(), endpoint)), 'utf-8')
+        ) as { result: HexString }
+      ).result;
+
+      if (!isHex(metadata)) {
+        throw new Error('Invalid metadata file');
+      }
     }
+
+    generateDefaultLookup(inputPath, metadata);
   }
+}
+
+export function main (): void {
+  mainPromise().catch(() => process.exit(1));
 }

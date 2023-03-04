@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Expose per-endpoint stats for providers (Thanks to https://github.com/jeluard)
+- Adjust ink! primitive extraction for v4 (Thanks to https://github.com/statictype)
+
+Changes:
+
+- Ensure that provider disconnect clears all subscriptions
+- Adjust typegen to internally use `import()` (catering for ESM provided types)
+- Swap TS -> JS compiler to use tsc (from babel)
+- Adjust all tests to use `node:test` runner (ESM variants)
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
 ## 9.14.2 Feb 19, 2023
 
 Changes:

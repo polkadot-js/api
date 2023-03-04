@@ -11,9 +11,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "9.14.3-4-x",
+  "version": "9.14.3-10-x",
   "versions": {
-    "git": "9.14.3-4-x",
+    "git": "9.14.3-10-x",
     "npm": "9.14.2"
   },
   "workspaces": [
@@ -22,7 +22,7 @@
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
     "build:extra": "(cd packages/typegen && polkadot-dev-copy-dir scripts build/scripts)",
-    "build:interfaces": "polkadot-types-internal-interfaces",
+    "build:interfaces": "node --loader @polkadot/dev/node/ts packages/typegen/scripts/polkadot-types-internal-interfaces.mjs",
     "build:metadata": "yarn build:interfaces && polkadot-dev-run-test packages/types/src/metadata/v14",
     "build:release": "polkadot-ci-ghact-build",
     "build:rollup": "polkadot-exec-rollup --config",
@@ -40,9 +40,9 @@
     "@babel/core": "^7.21.0",
     "@babel/register": "^7.21.0",
     "@babel/runtime": "^7.21.0",
-    "@polkadot/dev": "^0.69.17",
+    "@polkadot/dev": "^0.69.27",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/node": "^18.14.2"
+    "@types/node": "^18.14.5"
   },
   "resolutions": {
     "typescript": "^4.9.5"

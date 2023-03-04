@@ -55,24 +55,26 @@ describe('Cached Observables', (): void => {
     expect(observable2).not.toBe(observable1);
   });
 
-  it('subscribes to the same one if within the period (unbsub delay)', (done): void => {
+  it('subscribes to the same one if within the period (unbsub delay)', async (): Promise<void> => {
     const observable1 = rpc.chain.subscribeNewHeads();
     const sub1 = observable1.subscribe();
 
     sub1.unsubscribe();
 
-    setTimeout((): void => {
-      const observable2 = rpc.chain.subscribeNewHeads();
-      const sub2 = observable2.subscribe();
+    await new Promise<boolean>((resolve) => {
+      setTimeout((): void => {
+        const observable2 = rpc.chain.subscribeNewHeads();
+        const sub2 = observable2.subscribe();
 
-      expect(observable1).toBe(observable2);
+        expect(observable1).toBe(observable2);
 
-      sub2.unsubscribe();
-      done();
-    }, 500);
+        sub2.unsubscribe();
+        resolve(true);
+      }, 500);
+    });
   });
 
-  it('clears cache if there are no more subscribers', (done): void => {
+  it('clears cache if there are no more subscribers', async (): Promise<void> => {
     const observable1 = rpc.chain.subscribeNewHeads();
     const observable2 = rpc.chain.subscribeNewHeads();
     const sub1 = observable1.subscribe();
@@ -83,13 +85,15 @@ describe('Cached Observables', (): void => {
     sub1.unsubscribe();
     sub2.unsubscribe();
 
-    setTimeout((): void => {
-      // No more subscribers, now create a new observable
-      const observable3 = rpc.chain.subscribeNewHeads();
+    await new Promise<boolean>((resolve) => {
+      setTimeout((): void => {
+        // No more subscribers, now create a new observable
+        const observable3 = rpc.chain.subscribeNewHeads();
 
-      expect(observable3).not.toBe(observable1);
-      done();
-    }, 3500);
+        expect(observable3).not.toBe(observable1);
+        resolve(true);
+      }, 3500);
+    });
   });
 
   it('creates different observables for different methods but same arguments', (): void => {
@@ -107,7 +111,7 @@ describe('Cached Observables', (): void => {
     expect(observable2).toBe(observable1);
   });
 
-  it('creates multiple observables for subsequent one-shots delayed', (done): void => {
+  it('creates multiple observables for subsequent one-shots delayed', async (): Promise<void> => {
     const observable1 = rpc.chain.getBlockHash(123);
 
     const sub = observable1.subscribe((): void => {
@@ -116,9 +120,11 @@ describe('Cached Observables', (): void => {
 
     expect(rpc.chain.getBlockHash(123)).toBe(observable1);
 
-    setTimeout((): void => {
-      expect(rpc.chain.getBlockHash(123)).not.toBe(observable1);
-      done();
-    }, 3500);
+    await new Promise<boolean>((resolve) => {
+      setTimeout((): void => {
+        expect(rpc.chain.getBlockHash(123)).not.toBe(observable1);
+        resolve(true);
+      }, 3500);
+    });
   });
 });
