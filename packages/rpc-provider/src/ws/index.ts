@@ -45,8 +45,6 @@ const RETRY_DELAY = 2_500;
 const DEFAULT_TIMEOUT_MS = 60 * 1000;
 const TIMEOUT_INTERVAL = 5_000;
 
-const MEGABYTE = 1024 * 1024;
-
 const l = logger('api-ws');
 
 function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): void {
@@ -213,16 +211,9 @@ export class WsProvider implements ProviderInterface {
       this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as typeof WebSocket, WebSocket)
         ? new WebSocket(this.endpoint)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore - WS may be an instance of w3cwebsocket, which supports headers
-        : new WebSocket(this.endpoint, undefined, undefined, this.#headers, undefined, {
-          // default: true
-          fragmentOutgoingMessages: true,
-          // default: 16K (bump, the Node has issues with too many fragments, e.g. on setCode)
-          fragmentationThreshold: 1 * MEGABYTE,
-          // default: 1MiB (also align with maxReceivedMessageSize)
-          maxReceivedFrameSize: 24 * MEGABYTE,
-          // default: 8MB (however Polkadot api.query.staking.erasStakers.entries(356) is over that, 16M is ok there)
-          maxReceivedMessageSize: 24 * MEGABYTE
+        // @ts-ignore - WS may be an instance of ws, which supports options
+        : new WebSocket(this.endpoint, undefined, {
+          headers: this.#headers
         });
 
       if (this.#websocket) {
