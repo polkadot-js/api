@@ -20,25 +20,25 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api": "10.0.0",
-    "@polkadot/api-augment": "10.0.0",
-    "@polkadot/api-base": "10.0.0",
-    "@polkadot/rpc-core": "10.0.0",
-    "@polkadot/types": "10.0.0",
-    "@polkadot/types-codec": "10.0.0",
+    "@polkadot/api": "10.0.1",
+    "@polkadot/api-augment": "10.0.1",
+    "@polkadot/api-base": "10.0.1",
+    "@polkadot/rpc-core": "10.0.1",
+    "@polkadot/types": "10.0.1",
+    "@polkadot/types-codec": "10.0.1",
     "@polkadot/util": "^11.0.1",
     "@polkadot/util-crypto": "^11.0.1",
     "rxjs": "^7.8.0",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@polkadot/api": "10.0.0",
-    "@polkadot/api-augment": "10.0.0",
-    "@polkadot/rpc-augment": "10.0.0",
-    "@polkadot/rpc-provider": "10.0.0",
-    "@polkadot/types-support": "10.0.0"
+    "@polkadot/api": "10.0.1",
+    "@polkadot/api-augment": "10.0.1",
+    "@polkadot/rpc-augment": "10.0.1",
+    "@polkadot/rpc-provider": "10.0.1",
+    "@polkadot/types-support": "10.0.1"
   }
 }
