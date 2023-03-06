@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
 /// <reference types="@polkadot/dev/node/test/node" />
 
 import type { ApprovalFlag } from '@polkadot/types/interfaces';

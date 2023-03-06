@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line spaced-comment
 /// <reference types="@polkadot/dev/node/test/node" />
 
 import { alias, flattenSingleTuple, removeColons, removeExtensions } from '@polkadot/types-codec/utils/sanitize';
