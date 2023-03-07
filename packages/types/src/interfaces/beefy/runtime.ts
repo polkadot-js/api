@@ -12,6 +12,34 @@ export const runtime: DefinitionsCall = {
           params: [],
           type: 'Option<BlockNumber>'
         },
+        generate_key_ownership_proof: {
+          description: 'Generates a proof of key ownership for the given authority in the given set.',
+          params: [
+            {
+              name: 'setId',
+              type: 'ValidatorSetId'
+            },
+            {
+              name: 'authorityId',
+              type: 'AuthorityId'
+            }
+          ],
+          type: 'Option<OpaqueKeyOwnershipProof>'
+        },
+        submit_report_equivocation_unsigned_extrinsic: {
+          description: 'Submits an unsigned extrinsic to report an equivocation.',
+          params: [
+            {
+              name: 'equivocationProof',
+              type: 'BeefyEquivocationProof'
+            },
+            {
+              name: 'keyOwnerProof',
+              type: 'OpaqueKeyOwnershipProof'
+            }
+          ],
+          type: 'Option<Null>'
+        },
         validator_set: {
           description: 'Return the current active BEEFY validator set',
           params: [],
