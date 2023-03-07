@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Align runtime APIs with latest Substrate
+
+
 ## 10.0.1 Mar 4, 2023
 
 Contributed:

@@ -29,6 +29,7 @@ export { default as identity } from './identity/definitions';
 export { default as imOnline } from './imOnline/definitions';
 export { default as lottery } from './lottery/definitions';
 export { default as mmr } from './mmr/definitions';
+export { default as nfts } from './nfts/definitions';
 export { default as nompools } from './nompools/definitions';
 export { default as offences } from './offences/definitions';
 export { default as pow } from './pow/definitions';

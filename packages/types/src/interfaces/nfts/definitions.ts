@@ -12,9 +12,7 @@ export default {
   rpc: {},
   runtime,
   types: {
-    NpApiError: {
-      _enum: ['MemberNotFound', 'OverflowInPendingRewards']
-    },
-    NpPoolId: 'u32'
+    NftCollectionId: 'u32',
+    NftItemId: 'u32'
   }
 } as Definitions;

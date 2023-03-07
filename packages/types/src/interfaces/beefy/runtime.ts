@@ -7,6 +7,11 @@ export const runtime: DefinitionsCall = {
   BeefyApi: [
     {
       methods: {
+        beefy_genesis: {
+          description: 'Return the block number where BEEFY consensus is enabled/started',
+          params: [],
+          type: 'Option<BlockNumber>'
+        },
         validator_set: {
           description: 'Return the current active BEEFY validator set',
           params: [],
