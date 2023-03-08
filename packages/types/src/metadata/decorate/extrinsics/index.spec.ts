@@ -9,7 +9,7 @@ import { BN } from '@polkadot/util';
 
 import { TypeRegistry } from '../../../create/index.js';
 import { Metadata } from '../../Metadata.js';
-import { decorateExtrinsics } from '../index.js';
+import { decorateExtrinsics } from './index.js';
 
 const keyring = createTestPairs({ type: 'ed25519' }, false);
 const registry = new TypeRegistry();
