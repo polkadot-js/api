@@ -5,14 +5,14 @@ import type { Observable } from 'rxjs';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi, DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPoints, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
-import type { DeriveStakingQuery } from './types';
+import type { DeriveApi, DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPoints, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types.js';
+import type { DeriveStakingQuery } from './types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { BN_BILLION, BN_ZERO, objectSpread } from '@polkadot/util';
 
-import { firstMemo, memo } from '../util';
+import { firstMemo, memo } from '../util/index.js';
 
 type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 

@@ -3,8 +3,8 @@
 
 import type { SignOptions } from '@polkadot/keyring/types';
 import type { AnyTuple, Codec, IMethod as IMethodBase, INumber, IText } from '@polkadot/types-codec/types';
-import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../interfaces/metadata';
-import type { Registry } from './registry';
+import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../interfaces/metadata/index.js';
+import type { Registry } from './registry.js';
 
 export type { ICompact, IEnum, IMap, INumber, IOption, IResult, ISet, IStruct, IText, ITuple, IU8a, IVec } from '@polkadot/types-codec/types';
 

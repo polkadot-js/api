@@ -5,11 +5,11 @@ import type { Observable } from 'rxjs';
 import type { Option } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingExposure, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
-import type { DeriveApi, DeriveStakingQuery, StakingQueryFlags } from '../types';
+import type { DeriveApi, DeriveStakingQuery, StakingQueryFlags } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { firstMemo, memo } from '../util';
+import { firstMemo, memo } from '../util/index.js';
 
 function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestination: PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: PalletStakingExposure, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
   return {

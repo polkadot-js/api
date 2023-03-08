@@ -3,7 +3,7 @@
 
 import { isFunction } from '@polkadot/util/is/function';
 
-import { RpcErrorInterface } from '../types';
+import { RpcErrorInterface } from '../types.js';
 
 const UNKNOWN = -99999;
 

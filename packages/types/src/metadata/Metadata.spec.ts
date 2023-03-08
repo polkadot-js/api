@@ -9,8 +9,8 @@ import kusama from '@polkadot/types-support/metadata/static-kusama';
 import polkadot from '@polkadot/types-support/metadata/static-polkadot';
 import substrate from '@polkadot/types-support/metadata/static-substrate';
 
-import { TypeRegistry } from '../create';
-import { Metadata } from './Metadata';
+import { TypeRegistry } from '../create/index.js';
+import { Metadata } from './Metadata.js';
 
 const allData: Record<string, HexString> = {
   kusama,

@@ -6,13 +6,13 @@ import type { AccountId, Address, Balance } from '@polkadot/types/interfaces';
 import type{ PalletElectionsPhragmenSeatHolder } from '@polkadot/types/lookup';
 import type { Codec } from '@polkadot/types/types';
 import type { Option } from '@polkadot/types-codec';
-import type { DeriveAccountFlags, DeriveApi } from '../types';
+import type { DeriveAccountFlags, DeriveApi } from '../types.js';
 
 import { map, of } from 'rxjs';
 
 import { isFunction } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type FlagsIntermediate = [
   PalletElectionsPhragmenSeatHolder[] | [AccountId, Balance][] | undefined,

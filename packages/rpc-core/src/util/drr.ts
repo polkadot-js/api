@@ -7,7 +7,7 @@ import { catchError, distinctUntilChanged, publishReplay, refCount, tap } from '
 
 import { stringify } from '@polkadot/util';
 
-import { refCountDelay } from './refCountDelay';
+import { refCountDelay } from './refCountDelay.js';
 
 export type DrrResult = <T> (source$: Observable<T>) => Observable<T>;
 

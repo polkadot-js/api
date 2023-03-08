@@ -5,13 +5,13 @@ import type { Observable } from 'rxjs';
 import type { AccountId, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi, DeriveDemocracyLock } from '../types';
+import type { DeriveApi, DeriveDemocracyLock } from '../types.js';
 
 import { map, of, switchMap } from 'rxjs';
 
 import { BN_ZERO, isUndefined } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type ReferendumInfoFinished = PalletDemocracyReferendumInfo['asFinished'];
 type VotingDelegating = PalletDemocracyVoteVoting['asDelegating'];

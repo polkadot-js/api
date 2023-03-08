@@ -4,7 +4,7 @@
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types';
+import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -13,7 +13,7 @@ import { Text } from '@polkadot/types/primitive';
 import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
-import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
+import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 
 const MAPPED_NAMES: Record<string, string> = {
   class: 'clazz',

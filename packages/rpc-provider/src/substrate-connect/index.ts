@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type ScType from '@substrate/connect';
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
+import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types.js';
 
 import EventEmitter from 'eventemitter3';
 
 import { isError, isFunction, isObject, logger, objectSpread } from '@polkadot/util';
 
-import { RpcCoder } from '../coder';
-import { healthChecker } from './Health';
+import { RpcCoder } from '../coder/index.js';
+import { healthChecker } from './Health.js';
 
 type ResponseCallback = (response: string | Error) => void;
 

@@ -7,11 +7,11 @@ import type { Vec } from '@polkadot/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 import type { PalletElectionsPhragmenVoter } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi, DeriveCouncilVote, DeriveCouncilVotes } from '../types';
+import type { DeriveApi, DeriveCouncilVote, DeriveCouncilVotes } from '../types.js';
 
 import { combineLatest, map, of } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 // Voter is current tuple is 2.x-era
 type VoteEntry = PalletElectionsPhragmenVoter | ITuple<[Balance, Vec<AccountId>]>;

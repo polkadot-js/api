@@ -5,4 +5,4 @@
 export * from '@polkadot/rpc-core/types/jsonrpc';
 
 // normal exports
-export * from './base';
+export * from './base.js';

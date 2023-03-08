@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec } from '../types';
+import type { Codec } from '../types/index.js';
 
-import { AbstractArray } from '../abstract/Array';
+import { AbstractArray } from '../abstract/Array.js';
 
 /**
  * @name VecAny

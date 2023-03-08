@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveCache } from './types';
+import type { DeriveCache } from './types.js';
 
 const mapCache = new Map<string, any>();
 

@@ -3,12 +3,12 @@
 
 import type { AnyU8a, Registry } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
-import type { IExtrinsicEra, INumber } from '../types';
+import type { IExtrinsicEra, INumber } from '../types/index.js';
 
 import { Enum, Raw, Tuple, U64 } from '@polkadot/types-codec';
 import { bnToBn, formatNumber, hexToU8a, isHex, isObject, isU8a, u8aToBn, u8aToU8a } from '@polkadot/util';
 
-import { IMMORTAL_ERA } from './constants';
+import { IMMORTAL_ERA } from './constants.js';
 
 type MortalEraValue = [INumber, INumber];
 

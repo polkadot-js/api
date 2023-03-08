@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic as SubmittableExtrinsicBase } from '../submittable/types';
-import type { QueryableStorageEntry as QueryableStorageEntryBase, SubmittableExtrinsicFunction as SubmittableExtrinsicFunctionBase } from '../types';
+import type { QueryableStorageEntry as QueryableStorageEntryBase, SubmittableExtrinsicFunction as SubmittableExtrinsicFunctionBase } from '../types/index.js';
 
 export type QueryableStorageEntry = QueryableStorageEntryBase<'promise'>;
 export type SubmittableExtrinsic = SubmittableExtrinsicBase<'promise'>;

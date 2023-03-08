@@ -3,8 +3,8 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TypeRegistry } from '../create';
-import { CID_AURA, GenericConsensusEngineId as ConsensusEngineId } from './ConsensusEngineId';
+import { TypeRegistry } from '../create/index.js';
+import { CID_AURA, GenericConsensusEngineId as ConsensusEngineId } from './ConsensusEngineId.js';
 
 describe('ConsensusEngineId', (): void => {
   const registry = new TypeRegistry();

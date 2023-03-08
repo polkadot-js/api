@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, IMap, Inspect, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, IMap, Inspect, IU8a, Registry } from '../types/index.js';
 
 import { compactFromU8aLim, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/Array';
-import { Enum } from '../base/Enum';
-import { Raw } from '../native/Raw';
-import { Struct } from '../native/Struct';
-import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils';
+import { AbstractArray } from '../abstract/Array.js';
+import { Enum } from '../base/Enum.js';
+import { Raw } from '../native/Raw.js';
+import { Struct } from '../native/Struct.js';
+import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils/index.js';
 
 const l = logger('Map');
 

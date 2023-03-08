@@ -12,7 +12,7 @@ import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json' as
 import block00301 from '@polkadot/types-support/json/SignedBlock.003.01.json' assert { type: 'json' };
 import { BN } from '@polkadot/util';
 
-import { TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create/index.js';
 
 describe('Header', (): void => {
   const registry = new TypeRegistry();

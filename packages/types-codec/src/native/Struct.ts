@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Registry } from '../types';
+import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Registry } from '../types/index.js';
 
 import { isBoolean, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils';
+import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils/index.js';
 
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 

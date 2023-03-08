@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-import { packageInfo } from '../packageInfo';
+import { packageInfo } from '../packageInfo.js';
 
 export function writeFile (dest: string, generator: () => string, noLog?: boolean): void {
   !noLog && console.log(`${dest}\n\tGenerating`);

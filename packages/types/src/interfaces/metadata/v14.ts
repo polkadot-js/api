@@ -4,11 +4,11 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { DefinitionsTypes, DefinitionTypeStruct } from '../../types';
+import type { DefinitionsTypes, DefinitionTypeStruct } from '../../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 
-import { Si1Variant } from '../scaleInfo/v1';
+import { Si1Variant } from '../scaleInfo/v1.js';
 
 export const v14: DefinitionsTypes = {
   // registry

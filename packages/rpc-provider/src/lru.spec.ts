@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { LRUCache } from './lru';
+import { LRUCache } from './lru.js';
 
 describe('LRUCache', (): void => {
   it('allows getting of items below capacity', (): void => {

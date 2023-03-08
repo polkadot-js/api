@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Callback } from '@polkadot/types/types';
-import type { UnsubscribePromise } from '../types';
+import type { UnsubscribePromise } from '../types/index.js';
 
 import { isFunction } from '@polkadot/util';
 

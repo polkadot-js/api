@@ -3,13 +3,13 @@
 
 import type { Observable } from 'rxjs';
 import type { HeaderExtended } from '../type/types';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { combineLatest, map, switchMap } from 'rxjs';
 
-import { createHeaderExtended } from '../type';
-import { memo } from '../util';
-import { getAuthorDetails } from './util';
+import { createHeaderExtended } from '../type/index.js';
+import { memo } from '../util/index.js';
+import { getAuthorDetails } from './util.js';
 
 /**
  * @name getHeader

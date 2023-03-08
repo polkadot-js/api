@@ -4,10 +4,10 @@
 import type { ContractMetadataLatest, ContractMetadataV4 } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 
-import { v0ToV1 } from './toV1';
-import { v1ToV2 } from './toV2';
-import { v2ToV3 } from './toV3';
-import { v3ToV4 } from './toV4';
+import { v0ToV1 } from './toV1.js';
+import { v1ToV2 } from './toV2.js';
+import { v2ToV3 } from './toV3.js';
+import { v3ToV4 } from './toV4.js';
 
 // The versions where an enum is used, aka V0 is missing
 // (Order from newest, i.e. we expect more on newest vs oldest)

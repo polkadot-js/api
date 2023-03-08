@@ -6,7 +6,7 @@ import type { ExtraTypes } from '../generate/types';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
-import { registerDefinitions } from './register';
+import { registerDefinitions } from './register.js';
 
 interface Result {
   metadata: Metadata;

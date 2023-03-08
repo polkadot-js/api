@@ -3,9 +3,9 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import type { JsonRpcResponse } from '../types';
+import type { JsonRpcResponse } from '../types.js';
 
-import { RpcCoder } from '.';
+import { RpcCoder } from './index.js';
 
 describe('decodeResponse', (): void => {
   let coder: RpcCoder;

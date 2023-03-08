@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IsError } from '@polkadot/types/metadata/decorate/types';
-import type { ApiTypes } from './base';
+import type { ApiTypes } from './base.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type AugmentedError<ApiType extends ApiTypes> = IsError;

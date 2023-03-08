@@ -4,12 +4,12 @@
 import type { Observable } from 'rxjs';
 import type { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi, DeriveStakerSlashes } from '../types';
+import type { DeriveApi, DeriveStakerSlashes } from '../types.js';
 
 import { combineLatest, map, of } from 'rxjs';
 
-import { firstMemo, memo } from '../util';
-import { erasHistoricApplyAccount } from './util';
+import { firstMemo, memo } from '../util/index.js';
+import { erasHistoricApplyAccount } from './util.js';
 
 export function _ownSlashes (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -5,10 +5,10 @@
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
-import { TypeRegistry } from '../create';
-import { Metadata } from '../metadata';
-import { fallbackExtensions } from './signedExtensions';
-import { GenericExtrinsic as Extrinsic } from '.';
+import { TypeRegistry } from '../create/index.js';
+import { Metadata } from '../metadata/index.js';
+import { fallbackExtensions } from './signedExtensions/index.js';
+import { GenericExtrinsic as Extrinsic } from './index.js';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);

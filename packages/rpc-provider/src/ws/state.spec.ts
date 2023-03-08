@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { WsProvider } from './';
+import { WsProvider } from './index.js';
 
 describe('state', (): void => {
   it('requires an ws:// prefixed endpoint', (): void => {

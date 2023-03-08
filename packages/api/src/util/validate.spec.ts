@@ -6,7 +6,7 @@
 import { decorateStorage, Metadata, TypeRegistry } from '@polkadot/types';
 import metaStatic from '@polkadot/types-support/metadata/static-substrate';
 
-import { extractStorageArgs } from './validate';
+import { extractStorageArgs } from './validate.js';
 
 describe('extractStorageArgs', (): void => {
   const registry = new TypeRegistry();

@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionCall, DefinitionRpc, DefinitionsCall, DefinitionsCallEntry, DefinitionsRpc, DefinitionsTypes, RegistryTypes } from '../types';
+import type { DefinitionCall, DefinitionRpc, DefinitionsCall, DefinitionsCallEntry, DefinitionsRpc, DefinitionsTypes, RegistryTypes } from '../types/index.js';
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
-import { getTypeDef, TypeRegistry } from '../create';
-import { Metadata } from '../metadata';
-import * as all from './definitions';
+import { getTypeDef, TypeRegistry } from '../create/index.js';
+import { Metadata } from '../metadata/index.js';
+import * as all from './definitions.js';
 
 interface CheckDef {
   rpc: DefinitionsRpc;

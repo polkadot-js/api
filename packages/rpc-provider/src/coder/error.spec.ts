@@ -5,7 +5,7 @@
 
 import { isError } from '@polkadot/util/is/error';
 
-import RpcError from './error';
+import RpcError from './error.js';
 
 describe('RpcError', (): void => {
   describe('constructor', (): void => {

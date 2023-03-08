@@ -4,15 +4,15 @@
 import type { Observable } from 'rxjs';
 import type { Option, u32 } from '@polkadot/types';
 import type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveCollectiveProposal } from '../types';
-import type { Collective } from './types';
+import type { DeriveApi, DeriveCollectiveProposal } from '../types.js';
+import type { Collective } from './types.js';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isFunction } from '@polkadot/util';
 
-import { firstObservable } from '../util';
-import { callMethod, withSection } from './helpers';
+import { firstObservable } from '../util/index.js';
+import { callMethod, withSection } from './helpers.js';
 
 // We are re-exporting these from here to ensure that *.d.ts generation is correct
 export type { Option, u32 } from '@polkadot/types';

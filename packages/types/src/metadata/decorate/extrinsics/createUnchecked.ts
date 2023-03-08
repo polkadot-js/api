@@ -3,7 +3,7 @@
 
 import type { AnyJson, AnyTuple, Registry } from '@polkadot/types-codec/types';
 import type { Call, FunctionMetadataLatest } from '../../../interfaces';
-import type { CallFunction, IMethod } from '../../../types';
+import type { CallFunction, IMethod } from '../../../types/index.js';
 
 import { stringCamelCase } from '@polkadot/util';
 

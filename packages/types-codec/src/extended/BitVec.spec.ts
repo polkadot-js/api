@@ -6,7 +6,7 @@
 import { TypeRegistry } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
-import { BitVec } from './';
+import { BitVec } from './index.js';
 
 // form Inclusion BitVec<lsb0, u8>
 const TESTS = ['0x00', '0x0817', '0x0837', '0x087b', '0x0c33'];

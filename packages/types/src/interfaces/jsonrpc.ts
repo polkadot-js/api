@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionRpcExt, DefinitionRpcSub } from '../types';
+import type { DefinitionRpcExt, DefinitionRpcSub } from '../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 
-import * as defs from './definitions';
+import * as defs from './definitions.js';
 
 const jsonrpc: Record<string, Record<string, DefinitionRpcExt>> = {};
 

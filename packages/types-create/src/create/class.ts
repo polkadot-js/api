@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, CodecClass, LookupString, Registry, U8aBitLength, UIntBitLength } from '@polkadot/types-codec/types';
-import type { TypeDef } from '../types';
+import type { TypeDef } from '../types/index.js';
 
 import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, DoNotConstruct, Enum, HashMap, Int, Null, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
 import { isNumber, stringify } from '@polkadot/util';
 
-import { TypeDefInfo } from '../types';
-import { getTypeDef } from '../util/getTypeDef';
+import { TypeDefInfo } from '../types/index.js';
+import { getTypeDef } from '../util/getTypeDef.js';
 
 function getTypeDefType ({ lookupName, type }: TypeDef): string {
   return lookupName || type;

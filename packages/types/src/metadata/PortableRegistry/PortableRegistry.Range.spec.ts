@@ -3,8 +3,8 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TypeRegistry } from '../../create';
-import { PortableRegistry } from '.';
+import { TypeRegistry } from '../../create/index.js';
+import { PortableRegistry } from './index.js';
 
 const registry = new TypeRegistry();
 const types = [

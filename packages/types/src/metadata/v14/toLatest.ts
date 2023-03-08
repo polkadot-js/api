@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { MetadataLatest, MetadataV14 } from '../../interfaces/metadata';
+import type { MetadataLatest, MetadataV14 } from '../../interfaces/metadata/index.js';
 
 /**
  * Convert the Metadata (which is an alias) to latest

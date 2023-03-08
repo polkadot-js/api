@@ -5,11 +5,11 @@ import type { Observable } from 'rxjs';
 import type { Option, u32, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 import type { PalletSocietyBid } from '@polkadot/types/lookup';
-import type { DeriveApi, DeriveSociety } from '../types';
+import type { DeriveApi, DeriveSociety } from '../types.js';
 
 import { map } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type Result = [Vec<PalletSocietyBid>, Option<AccountId>, Option<AccountId>, Option<AccountId>, u32, BalanceOf]
 

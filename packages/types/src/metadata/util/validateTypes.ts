@@ -5,8 +5,8 @@ import type { Registry } from '@polkadot/types-codec/types';
 
 import { logger } from '@polkadot/util';
 
-import { extractTypes } from './extractTypes';
-import { flattenUniq } from './flattenUniq';
+import { extractTypes } from './extractTypes.js';
+import { flattenUniq } from './flattenUniq.js';
 
 const l = logger('metadata');
 

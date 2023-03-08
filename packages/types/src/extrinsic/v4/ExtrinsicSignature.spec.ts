@@ -7,9 +7,9 @@ import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 import { BN_ZERO } from '@polkadot/util';
 
-import { TypeRegistry } from '../../create';
-import { Metadata } from '../../metadata';
-import { GenericExtrinsicSignatureV4 as ExtrinsicSignature } from '.';
+import { TypeRegistry } from '../../create/index.js';
+import { Metadata } from '../../metadata/index.js';
+import { GenericExtrinsicSignatureV4 as ExtrinsicSignature } from './index.js';
 
 const signOptions = {
   blockHash: '0x1234567890123456789012345678901234567890123456789012345678901234',

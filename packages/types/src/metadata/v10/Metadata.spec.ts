@@ -4,7 +4,7 @@
 import substrateData from '@polkadot/types-support/metadata/v10/substrate-hex';
 import substrateJson from '@polkadot/types-support/metadata/v10/substrate-json.json' assert { type: 'json' };
 
-import { testMeta } from '../util/testUtil';
+import { testMeta } from '../util/testUtil.js';
 
 testMeta(10, {
   substrate: {

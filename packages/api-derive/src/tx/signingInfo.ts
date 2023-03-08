@@ -4,14 +4,14 @@
 import type { Observable } from 'rxjs';
 import type { Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isNumber, isUndefined } from '@polkadot/util';
 
-import { unwrapBlockNumber } from '../util';
-import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants';
+import { unwrapBlockNumber } from '../util/index.js';
+import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants.js';
 
 interface Result {
   header: Header | null;

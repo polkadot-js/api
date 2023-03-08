@@ -10,9 +10,9 @@ import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyJson, AnyTuple, CallFunction, Codec, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, DefinitionsCallEntry, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { SubmittableExtrinsic } from '../submittable/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types';
-import type { VersionedRegistry } from './types';
+import type { SubmittableExtrinsic } from '../submittable/types.js';
+import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types/index.js';
+import type { VersionedRegistry } from './types.js';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
 
@@ -24,12 +24,12 @@ import { getSpecRuntime } from '@polkadot/types-known';
 import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-import { createSubmittable } from '../submittable';
-import { augmentObject } from '../util/augmentObject';
-import { AllDerives, decorateDeriveSections } from '../util/decorate';
-import { extractStorageArgs } from '../util/validate';
-import { Events } from './Events';
-import { findCall, findError } from './find';
+import { createSubmittable } from '../submittable/index.js';
+import { augmentObject } from '../util/augmentObject.js';
+import { AllDerives, decorateDeriveSections } from '../util/decorate.js';
+import { extractStorageArgs } from '../util/validate.js';
+import { Events } from './Events.js';
+import { findCall, findError } from './find.js';
 
 interface MetaDecoration {
   callIndex?: Uint8Array;

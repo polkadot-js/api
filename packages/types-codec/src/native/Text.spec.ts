@@ -9,7 +9,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { Bytes, Raw, Text } from '@polkadot/types-codec';
 import { stringToU8a } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 describe('Text', (): void => {
   const registry = new TypeRegistry();

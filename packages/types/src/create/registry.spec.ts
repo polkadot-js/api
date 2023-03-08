@@ -11,7 +11,7 @@ import { DoNotConstruct, Struct, Text, U32 } from '@polkadot/types-codec';
 import { isChildClass, u8aToU8a } from '@polkadot/util';
 import { keccakAsU8a } from '@polkadot/util-crypto';
 
-import { TypeRegistry } from '.';
+import { TypeRegistry } from './index.js';
 
 describe('TypeRegistry', (): void => {
   const registry = new TypeRegistry();

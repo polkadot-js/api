@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { RpcCoder } from '.';
+import { RpcCoder } from './index.js';
 
 describe('encodeJson', (): void => {
   let coder: RpcCoder;

@@ -4,9 +4,9 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
-import { runtime } from './runtime';
+import { runtime } from './runtime.js';
 
 export default {
   rpc: {},

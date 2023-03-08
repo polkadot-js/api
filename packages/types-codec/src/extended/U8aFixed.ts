@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, CodecClass, Registry, U8aBitLength } from '../types';
+import type { AnyU8a, CodecClass, Registry, U8aBitLength } from '../types/index.js';
 
 import { isU8a, u8aToU8a } from '@polkadot/util';
 
-import { Raw } from '../native/Raw';
+import { Raw } from '../native/Raw.js';
 
 /** @internal */
 function decodeU8aFixed (value: AnyU8a, bitLength: U8aBitLength): [AnyU8a, number] {

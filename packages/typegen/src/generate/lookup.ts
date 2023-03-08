@@ -16,8 +16,8 @@ import staticPolkadot from '@polkadot/types-support/metadata/static-polkadot';
 import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 import { isString, stringify } from '@polkadot/util';
 
-import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util';
-import { typeEncoders } from './tsDef';
+import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util/index.js';
+import { typeEncoders } from './tsDef.js';
 
 const WITH_TYPEDEF = false;
 

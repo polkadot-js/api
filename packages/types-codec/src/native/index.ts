@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export { bool, bool as Bool } from './Bool';
-export { CodecDate, CodecDate as Date } from './Date';
-export { Float } from './Float';
-export { Json } from './Json';
-export { Raw } from './Raw';
-export { CodecSet, CodecSet as Set } from './Set';
-export { Struct } from './Struct';
-export { Text } from './Text';
+export { bool, bool as Bool } from './Bool.js';
+export { CodecDate, CodecDate as Date } from './Date.js';
+export { Float } from './Float.js';
+export { Json } from './Json.js';
+export { Raw } from './Raw.js';
+export { CodecSet, CodecSet as Set } from './Set.js';
+export { Struct } from './Struct.js';
+export { Text } from './Text.js';

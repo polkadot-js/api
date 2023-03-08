@@ -3,7 +3,7 @@
 
 import type { SignOptions } from '@polkadot/keyring/types';
 import type { Registry } from '@polkadot/types-codec/types';
-import type { IKeyringPair } from '../types';
+import type { IKeyringPair } from '../types/index.js';
 
 // a helper function for both types of payloads, Raw and metadata-known
 export function sign (registry: Registry, signerPair: IKeyringPair, u8a: Uint8Array, options?: SignOptions): Uint8Array {

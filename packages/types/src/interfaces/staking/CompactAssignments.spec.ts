@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create/index.js';
 
 const ACTUAL = '0x' +
   // Vec<ValidatorIndex>

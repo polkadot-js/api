@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyNumber, CodecClass, Registry, UIntBitLength } from '../types';
+import type { AnyNumber, CodecClass, Registry, UIntBitLength } from '../types/index.js';
 
-import { AbstractInt } from '../abstract/Int';
+import { AbstractInt } from '../abstract/Int.js';
 
 /**
  * @name Int

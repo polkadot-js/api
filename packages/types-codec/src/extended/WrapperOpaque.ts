@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, Registry } from '../types';
+import type { Codec, CodecClass, Registry } from '../types/index.js';
 
-import { WrapperKeepOpaque } from './WrapperKeepOpaque';
+import { WrapperKeepOpaque } from './WrapperKeepOpaque.js';
 
 export class WrapperOpaque<T extends Codec> extends WrapperKeepOpaque<T> {
   constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown) {

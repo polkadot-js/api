@@ -5,9 +5,9 @@
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
-import { TypeRegistry } from '../../create';
-import { decorateExtrinsics, Metadata } from '../../metadata';
-import { GenericExtrinsicPayloadV4 as ExtrinsicPayload } from '.';
+import { TypeRegistry } from '../../create/index.js';
+import { decorateExtrinsics, Metadata } from '../../metadata/index.js';
+import { GenericExtrinsicPayloadV4 as ExtrinsicPayload } from './index.js';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);

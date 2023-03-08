@@ -6,7 +6,7 @@ import type { HexString } from '@polkadot/util/types';
 
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { MetadataVersioned } from './MetadataVersioned';
+import { MetadataVersioned } from './MetadataVersioned.js';
 
 // magic + lowest supported version
 const EMPTY_METADATA = new Uint8Array([0x6d, 0x65, 0x74, 0x61, 9]);

@@ -5,7 +5,7 @@ import type { Hash, ReferendumInfoTo239, Tally } from '@polkadot/types/interface
 import type { FrameSupportPreimagesBounded, PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { Option } from '@polkadot/types-codec';
 import type { HexString } from '@polkadot/util/types';
-import type { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types';
+import type { DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes, DeriveReferendumVoteState } from '../types.js';
 
 import { BN, bnSqrt, isHex, isString, isU8a, objectSpread, stringToHex, u8aToHex } from '@polkadot/util';
 

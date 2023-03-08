@@ -3,7 +3,7 @@
 
 import type { BlockNumber, DispatchError, DispatchInfo, EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, ISubmittableResult } from '@polkadot/types/types';
-import type { SubmittableResultValue } from './types';
+import type { SubmittableResultValue } from './types.js';
 
 const recordIdentity = (record: EventRecord) => record;
 

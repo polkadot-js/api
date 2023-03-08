@@ -8,9 +8,9 @@ import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { u8aToHex } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-import { TypeRegistry } from '../../../create';
-import { Metadata } from '../../';
-import { decorateStorage } from '..';
+import { TypeRegistry } from '../../../create/index.js';
+import { Metadata } from '../../index.js';
+import { decorateStorage } from '../index.js';
 
 const keyring = createTestPairs({ type: 'ed25519' });
 

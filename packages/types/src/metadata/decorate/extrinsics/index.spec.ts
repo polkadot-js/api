@@ -7,9 +7,9 @@ import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import metadataStatic from '@polkadot/types-support/metadata/v13/substrate-hex';
 import { BN } from '@polkadot/util';
 
-import { TypeRegistry } from '../../../create';
-import { Metadata } from '../../Metadata';
-import { decorateExtrinsics } from '..';
+import { TypeRegistry } from '../../../create/index.js';
+import { Metadata } from '../../Metadata.js';
+import { decorateExtrinsics } from '../index.js';
 
 const keyring = createTestPairs({ type: 'ed25519' }, false);
 const registry = new TypeRegistry();

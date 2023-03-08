@@ -3,13 +3,13 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import type { RpcInterface } from './types';
+import type { RpcInterface } from './types/index.js';
 
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { RpcCore } from '.';
+import { RpcCore } from './index.js';
 
 describe('Cached Observables', (): void => {
   const registry = new TypeRegistry();

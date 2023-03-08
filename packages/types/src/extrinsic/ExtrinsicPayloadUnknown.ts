@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { ExtrinsicPayloadOptions } from './types';
+import type { ExtrinsicPayloadOptions } from './types.js';
 
 import { Struct } from '@polkadot/types-codec';
 

@@ -5,13 +5,13 @@ import type { Observable } from 'rxjs';
 import type { u32 } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { combineLatest, map, of } from 'rxjs';
 
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 export function erasHistoric (instanceId: string, api: DeriveApi): (withActive?: boolean) => Observable<EraIndex[]> {
   return memo(instanceId, (withActive?: boolean): Observable<EraIndex[]> =>

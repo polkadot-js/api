@@ -4,13 +4,13 @@
 import type { Observable } from 'rxjs';
 import type { Option, u64 } from '@polkadot/types';
 import type { BlockNumber, SessionIndex } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveSessionInfo, DeriveSessionProgress } from '../types';
+import type { DeriveApi, DeriveSessionInfo, DeriveSessionProgress } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type ResultSlotsNoSession = [u64, u64, u64];
 type ResultSlots = [u64, u64, u64, Option<SessionIndex>];

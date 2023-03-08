@@ -5,14 +5,14 @@ import type { Observable } from 'rxjs';
 import type { Option } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { PalletBagsListListBag, PalletBagsListListNode } from '@polkadot/types/lookup';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { BehaviorSubject, map, of, switchMap, tap, toArray } from 'rxjs';
 
 import { nextTick } from '@polkadot/util';
 
-import { memo } from '../util';
-import { getQueryInterface } from './util';
+import { memo } from '../util/index.js';
+import { getQueryInterface } from './util.js';
 
 function traverseLinks (api: DeriveApi, head: AccountId32 | string): Observable<PalletBagsListListNode[]> {
   const subject = new BehaviorSubject<AccountId32 | string>(head);

@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HealthChecker, SmoldotHealth } from './types';
+import type { HealthChecker, SmoldotHealth } from './types.js';
 
 import { stringify } from '@polkadot/util';
 

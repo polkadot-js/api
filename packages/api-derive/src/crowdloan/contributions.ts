@@ -4,14 +4,14 @@
 import type { Observable } from 'rxjs';
 import type { StorageKey } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi, DeriveContributions } from '../types';
+import type { DeriveApi, DeriveContributions } from '../types.js';
 
 import { BehaviorSubject, combineLatest, EMPTY, map, of, startWith, switchMap, tap, toArray } from 'rxjs';
 
 import { arrayFlatten, isFunction, nextTick } from '@polkadot/util';
 
-import { memo } from '../util';
-import { extractContributed } from './util';
+import { memo } from '../util/index.js';
+import { extractContributed } from './util.js';
 
 interface Changes {
   added: string[];

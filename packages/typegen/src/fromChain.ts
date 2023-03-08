@@ -10,8 +10,8 @@ import yargs from 'yargs';
 import { Definitions, DefinitionsTypes } from '@polkadot/types/types';
 import { formatNumber, isHex } from '@polkadot/util';
 
-import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTx } from './generate';
-import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
+import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTx } from './generate/index.js';
+import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util/index.js';
 
 async function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): Promise<void> {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);

@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyString } from '../types';
+import { AnyString } from '../types/index.js';
 
 type Mapper = (value: string) => string;
 

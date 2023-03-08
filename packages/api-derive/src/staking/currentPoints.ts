@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 /**
  * @description Retrieve the staking overview, including elected and points earned

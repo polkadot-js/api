@@ -6,12 +6,12 @@ import type { Option } from '@polkadot/types';
 import type { H256 } from '@polkadot/types/interfaces';
 import type { FrameSupportPreimagesBounded, PalletDemocracyVoteThreshold } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi, DeriveProposalExternal } from '../types';
+import type { DeriveApi, DeriveProposalExternal } from '../types.js';
 
 import { map, of, switchMap } from 'rxjs';
 
-import { memo } from '../util';
-import { getImageHashBounded } from './util';
+import { memo } from '../util/index.js';
+import { getImageHashBounded } from './util.js';
 
 function withImage (api: DeriveApi, nextOpt: Option<ITuple<[H256 | FrameSupportPreimagesBounded, PalletDemocracyVoteThreshold]>>): Observable<DeriveProposalExternal | null> {
   if (nextOpt.isNone) {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PortableType, Si0Field, Si0LookupTypeId, Si0Path, Si0Type, Si0TypeDefArray, Si0TypeDefBitSequence, Si0TypeDefComposite, Si0TypeDefPrimitive, Si0TypeDefSequence, Si0TypeDefVariant, Si1Field, Si1TypeDef, SiTypeDef } from '../../interfaces';
-import type { Registry } from '../../types';
+import type { Registry } from '../../types/index.js';
 
 import { assertUnreachable } from '@polkadot/util';
 

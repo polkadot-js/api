@@ -3,7 +3,7 @@
 
 // As per frontier
 
-import type { DefinitionsRpc } from '../../types';
+import type { DefinitionsRpc } from '../../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 

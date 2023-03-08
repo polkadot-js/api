@@ -7,7 +7,7 @@
 
 import json3 from '@polkadot/types-support/json/GrandpaRoundstate.001.json' assert { type: 'json' };
 
-import { TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create/index.js';
 
 describe('ReportedRoundStates', (): void => {
   const registry = new TypeRegistry();

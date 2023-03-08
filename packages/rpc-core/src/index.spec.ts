@@ -9,7 +9,7 @@ import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 import { isFunction } from '@polkadot/util';
 
-import { RpcCore } from '.';
+import { RpcCore } from './index.js';
 
 describe('Api', (): void => {
   const registry = new TypeRegistry();

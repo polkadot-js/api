@@ -5,7 +5,7 @@
 
 import { CodecSet, Int } from '@polkadot/types-codec';
 
-import { createClass, TypeRegistry } from '.';
+import { createClass, TypeRegistry } from './index.js';
 
 describe('createType', (): void => {
   const registry = new TypeRegistry();

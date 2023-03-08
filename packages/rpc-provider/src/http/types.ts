@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Logger } from '@polkadot/util/types';
-import type { RpcCoder } from '../coder';
+import type { RpcCoder } from '../coder/index.js';
 
 export interface HttpState {
   coder: RpcCoder;

@@ -5,13 +5,13 @@ import type { Observable } from 'rxjs';
 import type { QueryableStorageEntry } from '@polkadot/api-base/types';
 import type { AccountData, AccountId, AccountIndex, AccountInfo, Address, Balance, Index } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData } from '../types';
+import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isFunction, objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type BalanceResult = [Balance, Balance, Balance, Balance];
 

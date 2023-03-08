@@ -8,7 +8,7 @@ import polkadotJson from '@polkadot/types-support/metadata/v13/polkadot-json.jso
 import substrateData from '@polkadot/types-support/metadata/v13/substrate-hex';
 import substrateJson from '@polkadot/types-support/metadata/v13/substrate-json.json' assert { type: 'json' };
 
-import { testMeta } from '../util/testUtil';
+import { testMeta } from '../util/testUtil.js';
 
 testMeta(13, {
   kusama: {

@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, Inspect, Registry } from '../types';
+import type { Codec, CodecClass, Inspect, Registry } from '../types/index.js';
 
 import { isU8a, u8aConcatStrict } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/Array';
-import { decodeU8aVec, typeToConstructor } from '../utils';
-import { decodeVec } from './Vec';
+import { AbstractArray } from '../abstract/Array.js';
+import { decodeU8aVec, typeToConstructor } from '../utils/index.js';
+import { decodeVec } from './Vec.js';
 
 interface Options<T> {
   definition?: CodecClass<T>;

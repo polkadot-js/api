@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, Inspect, Registry } from '../types';
+import type { AnyU8a, Inspect, Registry } from '../types/index.js';
 
 import { compactAddLength, compactFromU8aLim, compactToU8a, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { Raw } from '../native/Raw';
+import { Raw } from '../native/Raw.js';
 
 // Bytes are used for things like on-chain code, so it has a healthy limit
 const MAX_LENGTH = 10 * 1024 * 1024;

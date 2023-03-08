@@ -9,8 +9,8 @@ import { AbstractBase } from '@polkadot/types-codec';
 import { isBigInt, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { GenericAccountId } from './AccountId';
-import { GenericAccountIndex } from './AccountIndex';
+import { GenericAccountId } from './AccountId.js';
+import { GenericAccountIndex } from './AccountIndex.js';
 
 // eslint-disable-next-line no-use-before-define
 type AnyAddress = bigint | BN | GenericLookupSource | GenericAccountId | GenericAccountIndex | number[] | Uint8Array | number | string;

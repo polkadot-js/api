@@ -5,7 +5,7 @@
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { MockProvider } from './';
+import { MockProvider } from './index.js';
 
 describe('subscribe', (): void => {
   const registry = new TypeRegistry();

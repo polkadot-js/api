@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { map } from 'rxjs';
 

@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTuple, CodecClass, INumber, Registry } from '../types';
+import type { AnyTuple, CodecClass, INumber, Registry } from '../types/index.js';
 
-import { Tuple } from '../base/Tuple';
+import { Tuple } from '../base/Tuple.js';
 
 type RangeType = 'Range' | 'RangeInclusive';
 

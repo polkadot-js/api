@@ -7,7 +7,7 @@ import type { ApprovalFlag } from '@polkadot/types/interfaces';
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { approvalFlagsToBools } from './approvalFlagsToBools';
+import { approvalFlagsToBools } from './approvalFlagsToBools.js';
 
 describe('approvalFlagsToBools', (): void => {
   const registry = new TypeRegistry();

@@ -3,7 +3,7 @@
 
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types';
+import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -12,7 +12,7 @@ import { Definitions } from '@polkadot/types/types';
 import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
-import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util';
+import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
 

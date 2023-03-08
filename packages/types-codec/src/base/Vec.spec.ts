@@ -11,7 +11,7 @@ import { Text, u32, Vec } from '@polkadot/types-codec';
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { decodeAddress, randomAsU8a } from '@polkadot/util-crypto';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);

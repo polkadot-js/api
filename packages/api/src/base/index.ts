@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignerPayloadRawBase } from '@polkadot/types/types';
-import type { ApiOptions, ApiTypes, DecorateMethod, Signer } from '../types';
+import type { ApiOptions, ApiTypes, DecorateMethod, Signer } from '../types/index.js';
 
 import { isString, objectSpread, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { Getters } from './Getters';
+import { Getters } from './Getters.js';
 
 interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;

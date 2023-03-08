@@ -10,8 +10,8 @@ import { AbstractInt, bool, Compact, Enum, Null, Option, Struct, Tuple, UInt, Ve
 import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { isChildClass, stringify } from '@polkadot/util';
 
-import { formatType } from './formatting';
-import { ModuleTypes, setImports, TypeImports } from './imports';
+import { formatType } from './formatting.js';
+import { ModuleTypes, setImports, TypeImports } from './imports.js';
 
 function arrayToStrType (arr: string[]): string {
   return `${arr.map((c) => `'${c}'`).join(' | ')}`;

@@ -3,9 +3,9 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import type { UnsubscribePromise } from '../types';
+import type { UnsubscribePromise } from '../types/index.js';
 
-import { Combinator } from './Combinator';
+import { Combinator } from './Combinator.js';
 
 describe('Combinator', (): void => {
   let fns: ((value: any) => void)[] = [];

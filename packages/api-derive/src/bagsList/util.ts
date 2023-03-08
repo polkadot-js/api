@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorage } from '@polkadot/api-base/types';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 export function getQueryInterface (api: DeriveApi): QueryableStorage<'rxjs'>['voterBagsList'] {
   return (

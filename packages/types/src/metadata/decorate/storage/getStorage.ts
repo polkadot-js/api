@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { StorageEntry } from '../../../primitive/types';
-import type { Storage } from '../types';
+import type { StorageEntry } from '../../../primitive/types.js';
+import type { Storage } from '../types.js';
 
-import { substrate } from './substrate';
+import { substrate } from './substrate.js';
 
 /** @internal */
 export function getStorage (registry: Registry): Storage {

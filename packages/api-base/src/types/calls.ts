@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { AnyFunction, Codec, DefinitionCallNamed } from '@polkadot/types/types';
-import type { ApiTypes, ReturnCodec } from './base';
+import type { ApiTypes, ReturnCodec } from './base.js';
 
 export type DecoratedCallBase<ApiType extends ApiTypes, F extends AnyFunction = (...args: any[]) => Observable<Codec>> =
   ApiType extends 'rxjs'
