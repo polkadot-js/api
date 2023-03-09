@@ -25,7 +25,7 @@ function writeJson (json: unknown, version: number, type: string, sub: 'json' | 
 }
 
 function readJson <T = unknown> (version: number, type: string, sub: 'json' | 'types'): T {
-  JSON.parse(
+  return JSON.parse(
     fs.readFileSync(getJsonName(version, type, sub), 'utf-8')
   ) as unknown as T;
 }
