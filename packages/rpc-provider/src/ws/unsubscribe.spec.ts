@@ -6,8 +6,8 @@
 import type { Request } from '../mock/mockWs';
 import type { Global, Mock } from './../mock/types';
 
-import { mockWs } from '../mock/mockWs';
-import { WsProvider } from './';
+import { mockWs } from '../mock/mockWs.js';
+import { WsProvider } from './index.js';
 
 declare const global: Global;
 

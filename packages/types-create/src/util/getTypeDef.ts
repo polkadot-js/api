@@ -7,8 +7,8 @@ import type { TypeDef } from '@polkadot/types-create/types';
 import { sanitize } from '@polkadot/types-codec';
 import { isNumber, isString, objectSpread } from '@polkadot/util';
 
-import { TypeDefInfo } from '../types';
-import { typeSplit } from './typeSplit';
+import { TypeDefInfo } from '../types/index.js';
+import { typeSplit } from './typeSplit.js';
 
 interface TypeDefOptions {
   name?: string;

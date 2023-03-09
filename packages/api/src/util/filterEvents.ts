@@ -5,7 +5,7 @@ import type { BlockNumber, EventRecord, ExtrinsicStatus, H256, SignedBlock } fro
 
 import { isCompact } from '@polkadot/util';
 
-import { l } from './logging';
+import { l } from './logging.js';
 
 export function filterEvents (txHash: H256, { block: { extrinsics, header } }: SignedBlock, allEvents: EventRecord[], status: ExtrinsicStatus): { events?: EventRecord[], txIndex?: number, blockNumber?: BlockNumber } {
   // extrinsics to hashes

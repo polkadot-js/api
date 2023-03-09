@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // augment our internal Lookup & Registry interfaces
-import './augmentLookup';
-import './augmentRegistry';
+import './augmentLookup.js';
+import './augmentRegistry.js';
 
 // augmented exports
 export * from '@polkadot/types/types/registry';
@@ -12,11 +12,11 @@ export * from '@polkadot/types/types/registry';
 export type { Observable } from 'rxjs';
 
 // other exports
-export * from '../create/types';
-export * from './calls';
-export * from './codec';
-export * from './definitions';
-export * from './detect';
-export * from './events';
-export * from './extrinsic';
-export * from './interfaces';
+export * from '../create/types.js';
+export * from './calls.js';
+export * from './codec.js';
+export * from './definitions.js';
+export * from './detect.js';
+export * from './events.js';
+export * from './extrinsic.js';
+export * from './interfaces.js';

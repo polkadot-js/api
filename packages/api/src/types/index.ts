@@ -14,9 +14,9 @@ import type { Call, Extrinsic, Hash, RuntimeVersionPartial } from '@polkadot/typ
 import type { CallFunction, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { ApiBase } from '../base';
-import type { SubmittableExtrinsic } from '../types/submittable';
-import type { AllDerives } from '../util/decorate';
+import type { ApiBase } from '../base/index.js';
+import type { SubmittableExtrinsic } from '../types/submittable.js';
+import type { AllDerives } from '../util/decorate.js';
 
 export * from '@polkadot/api-base/types';
 export * from '@polkadot/api/types/calls';
@@ -28,7 +28,7 @@ export * from '@polkadot/api/types/submittable';
 
 export type { Signer, SignerResult } from '@polkadot/types/types';
 
-export { ApiBase } from '../base';
+export { ApiBase } from '../base/index.js';
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx extends ApiInterfaceBase {

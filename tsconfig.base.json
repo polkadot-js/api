@@ -33,7 +33,6 @@
       "@polkadot/types-support": ["types-support/src"],
       "@polkadot/types-support/*": ["types-support/src/*"]
     },
-    "skipLibCheck": true,
-    "target": "es2020"
+    "skipLibCheck": true
   }
  }

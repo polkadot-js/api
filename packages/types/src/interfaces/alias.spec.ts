@@ -3,8 +3,8 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TypeRegistry } from '../create/registry';
-import { getAliasTypes } from './alias';
+import { TypeRegistry } from '../create/registry.js';
+import { getAliasTypes } from './alias.js';
 
 const registry = new TypeRegistry();
 

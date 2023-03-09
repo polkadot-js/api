@@ -5,9 +5,9 @@ import type { Definitions } from '@polkadot/types/types';
 
 import { objectSpread } from '@polkadot/util';
 
-import kusama from './kusama';
-import polkadot from './polkadot';
-import substrate from './substrate';
+import kusama from './kusama.js';
+import polkadot from './polkadot.js';
+import substrate from './substrate.js';
 
 export default {
   rpc: {},

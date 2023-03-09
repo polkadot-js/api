@@ -7,7 +7,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { CodecDate, Compact, U32 } from '@polkadot/types-codec';
 import { BN } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 const CompactU32 = Compact.with(U32);
 

@@ -3,9 +3,9 @@
 
 import type { AccountId, DispatchError, DispatchInfo, EventRecord, Extrinsic, SignedBlock } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
-import type { SignedBlockExtended, TxWithEvent } from './types';
+import type { SignedBlockExtended, TxWithEvent } from './types.js';
 
-import { extractAuthor } from './util';
+import { extractAuthor } from './util.js';
 
 function mapExtrinsics (extrinsics: Extrinsic[], records: EventRecord[]): TxWithEvent[] {
   return extrinsics.map((extrinsic, index): TxWithEvent => {

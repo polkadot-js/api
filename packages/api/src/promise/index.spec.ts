@@ -4,7 +4,7 @@
 /// <reference types="@polkadot/dev/node/test/node" />
 
 import type { HexString } from '@polkadot/util/types';
-import type { SubmittableExtrinsic } from '../types';
+import type { SubmittableExtrinsic } from '../types/index.js';
 
 import { createPair } from '@polkadot/keyring/pair';
 import { createTestKeyring } from '@polkadot/keyring/testing';
@@ -12,8 +12,8 @@ import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
-import { SingleAccountSigner } from '../test';
-import { ApiPromise } from '.';
+import { SingleAccountSigner } from '../test/index.js';
+import { ApiPromise } from './index.js';
 
 const TRANSFER_SIG = '0xcc277eb341d3801c08f149508221583fa3185cc3944e6cb376cd061640305edd7dc24dfd754adb24768f1d8547389b7720e6f626bc81f5593fba1141e7f7ba07';
 

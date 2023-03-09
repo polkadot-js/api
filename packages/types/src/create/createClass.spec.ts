@@ -5,7 +5,7 @@
 
 import { TypeDefInfo } from '@polkadot/types-create';
 
-import { createClass, getTypeClass, TypeRegistry } from '.';
+import { createClass, getTypeClass, TypeRegistry } from './index.js';
 
 describe('createClass', (): void => {
   const registry = new TypeRegistry();

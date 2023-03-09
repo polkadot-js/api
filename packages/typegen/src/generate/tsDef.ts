@@ -13,7 +13,7 @@ import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { assert, isString, stringify, stringPascalCase } from '@polkadot/util';
 
-import { createImports, exportInterface, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util';
+import { createImports, exportInterface, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util/index.js';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];

@@ -3,7 +3,7 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { Codec } from './codec';
+import type { Codec } from './codec.js';
 
 export type AnyJson = string | number | boolean | null | undefined | AnyJson[] | { [index: string]: AnyJson };
 

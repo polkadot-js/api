@@ -1,6 +1,6 @@
 // Copyright 2017-2023 @polkadot/types-augment authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import './augment';
+import './augment.js';
 
-export { packageInfo } from './packageInfo';
+export { packageInfo } from './packageInfo.js';

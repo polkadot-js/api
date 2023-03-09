@@ -6,12 +6,12 @@
 
 // As per frontier
 
-import type { DefinitionsTypes } from '../../types';
+import type { DefinitionsTypes } from '../../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 
-import { rpc } from './rpc';
-import { runtime } from './runtime';
+import { rpc } from './rpc.js';
+import { runtime } from './runtime.js';
 
 const V0: DefinitionsTypes = {
   BlockV0: {

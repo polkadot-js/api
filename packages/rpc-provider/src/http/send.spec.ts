@@ -5,8 +5,8 @@
 
 import type { Mock } from '../mock/types';
 
-import { mockHttp, TEST_HTTP_URL } from '../mock/mockHttp';
-import { HttpProvider } from './';
+import { mockHttp, TEST_HTTP_URL } from '../mock/mockHttp.js';
+import { HttpProvider } from './index.js';
 
 // Does not work with Node 18 (native fetch)
 // See https://github.com/nock/nock/issues/2397

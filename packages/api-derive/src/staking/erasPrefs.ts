@@ -5,13 +5,13 @@ import type { Observable } from 'rxjs';
 import type { StorageKey } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
-import type { DeriveApi, DeriveEraPrefs, DeriveEraValPrefs } from '../types';
+import type { DeriveApi, DeriveEraPrefs, DeriveEraValPrefs } from '../types.js';
 
 import { map, of } from 'rxjs';
 
-import { memo } from '../util';
-import { getEraCache, setEraCache } from './cache';
-import { combineEras, erasHistoricApply, singleEra } from './util';
+import { memo } from '../util/index.js';
+import { getEraCache, setEraCache } from './cache.js';
+import { combineEras, erasHistoricApply, singleEra } from './util.js';
 
 const CACHE_KEY = 'eraPrefs';
 

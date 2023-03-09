@@ -3,8 +3,8 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TypeRegistry } from '../create';
-import { GenericExtrinsicEra as ExtrinsicEra } from '.';
+import { TypeRegistry } from '../create/index.js';
+import { GenericExtrinsicEra as ExtrinsicEra } from './index.js';
 
 describe('ExtrinsicEra', (): void => {
   const registry = new TypeRegistry();

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { ExtrinsicOptions } from './types';
+import type { ExtrinsicOptions } from './types.js';
 
 import { Struct } from '@polkadot/types-codec';
 
-import { UNMASK_VERSION } from './constants';
+import { UNMASK_VERSION } from './constants.js';
 
 /**
  * @name GenericExtrinsicUnknown

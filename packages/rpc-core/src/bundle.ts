@@ -7,17 +7,17 @@ import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, AnyNumber, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
-import type { RpcInterfaceMethod } from './types';
+import type { RpcInterfaceMethod } from './types/index.js';
 
 import { Observable, publishReplay, refCount } from 'rxjs';
 
 import { rpcDefinitions } from '@polkadot/types';
 import { hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aConcat, u8aToU8a } from '@polkadot/util';
 
-import { drr, refCountDelay } from './util';
+import { drr, refCountDelay } from './util/index.js';
 
-export { packageInfo } from './packageInfo';
-export * from './util';
+export { packageInfo } from './packageInfo.js';
+export * from './util/index.js';
 
 interface StorageChangeSetJSON {
   block: string;

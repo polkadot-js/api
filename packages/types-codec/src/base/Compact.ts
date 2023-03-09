@@ -3,11 +3,11 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, Registry } from '../types';
+import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, Registry } from '../types/index.js';
 
 import { compactFromU8a, compactFromU8aLim, compactToU8a, isU8a } from '@polkadot/util';
 
-import { typeToConstructor } from '../utils';
+import { typeToConstructor } from '../utils/index.js';
 
 interface Options<T> {
   definition?: CodecClass<T>;

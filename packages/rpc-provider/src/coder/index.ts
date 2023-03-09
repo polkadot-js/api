@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
+import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types.js';
 
 import { isNumber, isString, isUndefined, stringify } from '@polkadot/util';
 
-import RpcError from './error';
+import RpcError from './error.js';
 
 function formatErrorData (data?: string | number): string {
   if (isUndefined(data)) {

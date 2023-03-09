@@ -3,13 +3,13 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import type { ChainUpgradesExpanded, ChainUpgradesRaw } from './types';
+import type { ChainUpgradesExpanded, ChainUpgradesRaw } from './types.js';
 
 import { stringify, u8aEq } from '@polkadot/util';
 
-import * as allGen from './e2e';
-import * as allMan from './manual';
-import all from '.';
+import * as allGen from './e2e/index.js';
+import * as allMan from './manual/index.js';
+import all from './index.js';
 
 interface TestDef {
   genesisHash: string;

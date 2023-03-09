@@ -3,8 +3,8 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TypeRegistry } from '../create';
-import { GenericAccountId as AccountId, GenericAccountIndex as AccountIndex, GenericLookupSource as LookupSource } from '.';
+import { TypeRegistry } from '../create/index.js';
+import { GenericAccountId as AccountId, GenericAccountIndex as AccountIndex, GenericLookupSource as LookupSource } from './index.js';
 
 describe('LookupSource', (): void => {
   const registry = new TypeRegistry();

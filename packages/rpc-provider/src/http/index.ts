@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types';
+import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types.js';
 
 import { logger } from '@polkadot/util';
 import { fetch } from '@polkadot/x-fetch';
 
-import { RpcCoder } from '../coder';
-import defaults from '../defaults';
-import { LRUCache } from '../lru';
+import { RpcCoder } from '../coder/index.js';
+import defaults from '../defaults.js';
+import { LRUCache } from '../lru.js';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
 

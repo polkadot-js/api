@@ -5,7 +5,7 @@
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { getSimilarTypes } from './derived';
+import { getSimilarTypes } from './derived.js';
 
 describe('getSimilarTypes', (): void => {
   const registry = new TypeRegistry();

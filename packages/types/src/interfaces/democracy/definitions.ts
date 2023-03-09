@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
 export const AllConvictions = [
   // 0.1x votes, unlocked.

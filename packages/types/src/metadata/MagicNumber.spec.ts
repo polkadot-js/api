@@ -3,8 +3,8 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TypeRegistry } from '../create';
-import { MAGIC_NUMBER, MagicNumber } from './MagicNumber';
+import { TypeRegistry } from '../create/index.js';
+import { MAGIC_NUMBER, MagicNumber } from './MagicNumber.js';
 
 describe('MagicNumber', (): void => {
   const registry = new TypeRegistry();

@@ -6,8 +6,8 @@
 import staticLatest from '@polkadot/types-support/metadata/static-substrate';
 import staticV13 from '@polkadot/types-support/metadata/v13/substrate-hex';
 
-import { TypeRegistry } from '../../create';
-import { Metadata } from '../Metadata';
+import { TypeRegistry } from '../../create/index.js';
+import { Metadata } from '../Metadata.js';
 
 describe('toCallsOnly', (): void => {
   const registry = new TypeRegistry();

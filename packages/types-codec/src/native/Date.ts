@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types';
+import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types/index.js';
 
 import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 

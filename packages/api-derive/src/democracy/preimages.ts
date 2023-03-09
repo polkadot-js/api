@@ -7,14 +7,14 @@ import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '
 import type { Bytes, Option } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { DeriveApi, DeriveProposalImage } from '../types';
+import type { DeriveApi, DeriveProposalImage } from '../types.js';
 
 import { map, of, switchMap } from 'rxjs';
 
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import { firstMemo, memo } from '../util';
-import { getImageHashBounded } from './util';
+import { firstMemo, memo } from '../util/index.js';
+import { getImageHashBounded } from './util.js';
 
 type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
 type OldPreimage = ITuple<PreimageInfo>;

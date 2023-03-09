@@ -10,7 +10,7 @@ export * from '@polkadot/api-base/types/storage';
 export * from '@polkadot/api-base/types/submittable';
 
 // normal exports
-export * from './api';
-export * from './base';
-export * from './derive';
-export * from './rpc';
+export * from './api.js';
+export * from './base.js';
+export * from './derive.js';
+export * from './rpc.js';

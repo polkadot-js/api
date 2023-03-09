@@ -10,10 +10,10 @@ import yargs from 'yargs';
 import * as substrateDefs from '@polkadot/types/interfaces/definitions';
 import { isHex } from '@polkadot/util';
 
-import { generateInterfaceTypes } from './generate/interfaceRegistry';
-import { generateTsDef } from './generate/tsDef';
-import { generateDefaultLookup } from './generate';
-import { assertDir, assertFile, getMetadataViaWs } from './util';
+import { generateDefaultLookup } from './generate/index.js';
+import { generateInterfaceTypes } from './generate/interfaceRegistry.js';
+import { generateTsDef } from './generate/tsDef.js';
+import { assertDir, assertFile, getMetadataViaWs } from './util/index.js';
 
 type ArgV = { input: string; package: string; endpoint?: string; };
 

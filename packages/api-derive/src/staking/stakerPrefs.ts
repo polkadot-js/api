@@ -3,12 +3,12 @@
 
 import type { Observable } from 'rxjs';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveStakerPrefs } from '../types';
+import type { DeriveApi, DeriveStakerPrefs } from '../types.js';
 
 import { map } from 'rxjs';
 
-import { memo } from '../util';
-import { erasHistoricApplyAccount } from './util';
+import { memo } from '../util/index.js';
+import { erasHistoricApplyAccount } from './util.js';
 
 export function _stakerPrefs (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerPrefs[]> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

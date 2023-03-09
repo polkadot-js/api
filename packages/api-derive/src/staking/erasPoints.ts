@@ -4,15 +4,15 @@
 import type { Observable } from 'rxjs';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
-import type { DeriveApi, DeriveEraPoints, DeriveEraValPoints } from '../types';
+import type { DeriveApi, DeriveEraPoints, DeriveEraValPoints } from '../types.js';
 
 import { map, of } from 'rxjs';
 
 import { BN_ZERO } from '@polkadot/util';
 
-import { memo } from '../util';
-import { filterCachedEras, getEraMultiCache, setEraMultiCache } from './cache';
-import { erasHistoricApply, filterEras } from './util';
+import { memo } from '../util/index.js';
+import { filterCachedEras, getEraMultiCache, setEraMultiCache } from './cache.js';
+import { erasHistoricApply, filterEras } from './util.js';
 
 const CACHE_KEY = 'eraPoints';
 

@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { map, startWith, switchMap } from 'rxjs';
 
-import { drr, memo } from '../util';
+import { drr, memo } from '../util/index.js';
 
 function onBondedEvent (api: DeriveApi): Observable<number> {
   let current = Date.now();

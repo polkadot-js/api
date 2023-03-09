@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PortableType } from '../../../interfaces';
-import type { StorageEntry } from '../../../primitive/types';
-import type { Registry } from '../../../types';
+import type { PortableType } from '../../../interfaces/index.js';
+import type { StorageEntry } from '../../../primitive/types.js';
+import type { Registry } from '../../../types/index.js';
 
-import { createFunction } from './createFunction';
+import { createFunction } from './createFunction.js';
 
 export interface ManualMetadata {
   docs: string;

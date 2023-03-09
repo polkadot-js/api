@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyJson, AnyTuple, Codec } from '@polkadot/types-codec/types';
-import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
-import type { AllHashers } from '../interfaces/metadata/definitions';
-import type { SiLookupTypeId } from '../interfaces/scaleInfo';
-import type { InterfaceTypes, IStorageKey, Registry } from '../types';
-import type { StorageEntry } from './types';
+import type { AllHashers } from '../interfaces/metadata/definitions.js';
+import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata/index.js';
+import type { SiLookupTypeId } from '../interfaces/scaleInfo/index.js';
+import type { InterfaceTypes, IStorageKey, Registry } from '../types/index.js';
+import type { StorageEntry } from './types.js';
 
 import { Bytes } from '@polkadot/types-codec';
 import { isFunction, isString, isU8a } from '@polkadot/util';
 
-import { getSiName } from '../metadata/util';
+import { getSiName } from '../metadata/util/index.js';
 
 interface Decoded {
   key?: Uint8Array | string;

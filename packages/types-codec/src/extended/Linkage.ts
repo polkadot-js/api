@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, Registry } from '../types';
+import type { Codec, CodecClass, Registry } from '../types/index.js';
 
-import { Option } from '../base/Option';
-import { Tuple } from '../base/Tuple';
-import { Vec } from '../base/Vec';
-import { Struct } from '../native/Struct';
+import { Option } from '../base/Option.js';
+import { Tuple } from '../base/Tuple.js';
+import { Vec } from '../base/Vec.js';
+import { Struct } from '../native/Struct.js';
 
 type TypeWithValues = [CodecClass, any[]];
 

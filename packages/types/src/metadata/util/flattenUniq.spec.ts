@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { flattenUniq } from '.';
+import { flattenUniq } from './index.js';
 
 describe('flattenUniq', (): void => {
   it('flattens nested arrays', (): void => {

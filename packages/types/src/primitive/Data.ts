@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IU8a, Registry } from '@polkadot/types-codec/types';
-import type { H256 } from '../interfaces/runtime';
+import type { H256 } from '../interfaces/runtime/index.js';
 
 import { Bytes, Enum } from '@polkadot/types-codec';
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';

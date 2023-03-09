@@ -4,13 +4,13 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 
-import hrmpTypes from './hrmp';
-import { runtime } from './runtime';
-import slotTypes from './slots';
+import hrmpTypes from './hrmp.js';
+import { runtime } from './runtime.js';
+import slotTypes from './slots.js';
 
 // proposeParachain
 const proposeTypes = {

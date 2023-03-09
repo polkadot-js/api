@@ -3,18 +3,18 @@
 
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod, Inspect } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
-import type { FunctionMetadataLatest } from '../interfaces/metadata';
-import type { Address, Call, CodecHash } from '../interfaces/runtime';
-import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types';
-import type { GenericExtrinsicEra } from './ExtrinsicEra';
-import type { ExtrinsicValueV4 } from './v4/Extrinsic';
+import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics/index.js';
+import type { FunctionMetadataLatest } from '../interfaces/metadata/index.js';
+import type { Address, Call, CodecHash } from '../interfaces/runtime/index.js';
+import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types/index.js';
+import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
+import type { ExtrinsicValueV4 } from './v4/Extrinsic.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
-import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
+import { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic.js';
+import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants.js';
 
 interface CreateOptions {
   version?: number;

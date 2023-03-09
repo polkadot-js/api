@@ -7,17 +7,17 @@ import type { SubmittableExtrinsic } from '@polkadot/api-base/types';
 import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { Codec, InterfaceTypes } from '@polkadot/types/types';
-import type { DeriveApi, DeriveCollectiveProposal } from '../types';
+import type { DeriveApi, DeriveCollectiveProposal } from '../types.js';
 
 import { firstValueFrom, of } from 'rxjs';
 
 import { ApiPromise } from '@polkadot/api';
 
-import { BountyFactory } from '../test/bountyFactory';
-import { BytesFactory } from '../test/bytesFactory';
-import { createApiWithAugmentations } from '../test/helpers';
-import { ProposalFactory } from '../test/proposalFactory';
-import { bounties } from '.';
+import { BountyFactory } from '../test/bountyFactory.js';
+import { BytesFactory } from '../test/bytesFactory.js';
+import { createApiWithAugmentations } from '../test/helpers.js';
+import { ProposalFactory } from '../test/proposalFactory.js';
+import { bounties } from './index.js';
 
 const DEFAULT_PROPOSER = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
 

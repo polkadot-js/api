@@ -7,7 +7,7 @@ import type { Text } from '@polkadot/types';
 import type { ContractExecResultResult, ContractSelector, StorageDeposit, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { Abi } from '.';
+import type { Abi } from './index.js';
 
 export interface ContractBase<ApiType extends ApiTypes> {
   readonly abi: Abi;

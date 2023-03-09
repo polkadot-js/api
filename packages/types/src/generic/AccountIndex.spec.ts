@@ -5,8 +5,8 @@
 
 import { BN } from '@polkadot/util';
 
-import { TypeRegistry } from '../create';
-import { GenericAccountIndex as AccountIndex } from '.';
+import { TypeRegistry } from '../create/index.js';
+import { GenericAccountIndex as AccountIndex } from './index.js';
 
 describe('AccountIndex', (): void => {
   const registry = new TypeRegistry();

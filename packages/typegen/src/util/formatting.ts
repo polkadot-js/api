@@ -13,8 +13,8 @@ import * as typesCodec from '@polkadot/types-codec';
 import { getTypeDef, paramsNotation, TypeDefInfo } from '@polkadot/types-create';
 import { isString, stringify } from '@polkadot/util';
 
-import { readTemplate } from './file';
-import { ModuleTypes, setImports, TypeImports } from './imports';
+import { readTemplate } from './file.js';
+import { ModuleTypes, setImports, TypeImports } from './imports.js';
 
 interface ImportDef {
   file: string;

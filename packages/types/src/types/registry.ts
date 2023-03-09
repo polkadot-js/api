@@ -6,14 +6,14 @@ import type { BitVec, Bool, bool, Bytes, F32, f32, F64, f64, I8, i8, I16, i16, I
 import type { RegistryTypes } from '@polkadot/types-codec/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericSignerPayload } from '../extrinsic';
-import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { GenericCall } from '../generic';
-import type { HeaderPartial } from '../interfaces/runtime';
-import type { RuntimeVersionPartial } from '../interfaces/state';
-import type { Metadata, PortableRegistry } from '../metadata';
-import type { Data, StorageKey } from '../primitive';
-import type { DefinitionRpc, DefinitionRpcSub, DefinitionsCall } from './definitions';
+import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericSignerPayload } from '../extrinsic/index.js';
+import type { ExtDef } from '../extrinsic/signedExtensions/types.js';
+import type { GenericCall } from '../generic/index.js';
+import type { HeaderPartial } from '../interfaces/runtime/index.js';
+import type { RuntimeVersionPartial } from '../interfaces/state/index.js';
+import type { Metadata, PortableRegistry } from '../metadata/index.js';
+import type { Data, StorageKey } from '../primitive/index.js';
+import type { DefinitionRpc, DefinitionRpcSub, DefinitionsCall } from './definitions.js';
 
 export type { Registry, RegistryError, RegistryTypes } from '@polkadot/types-codec/types';
 

@@ -4,17 +4,17 @@
 /// <reference types="@polkadot/dev/node/test/node" />
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { Check } from './types';
+import type { Check } from './types.js';
 
 import fs from 'node:fs';
 import path from 'node:path';
 
 import { hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry } from '../../create';
-import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey';
-import { Metadata } from '../Metadata';
-import { getUniqTypes } from './getUniqTypes';
+import { TypeRegistry } from '../../create/index.js';
+import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey.js';
+import { Metadata } from '../Metadata.js';
+import { getUniqTypes } from './getUniqTypes.js';
 
 function writeJson (json: unknown, version: number, type: string, sub: 'json' | 'types'): void {
   fs.writeFileSync(

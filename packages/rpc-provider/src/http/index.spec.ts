@@ -3,8 +3,8 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TEST_HTTP_URL } from '../mock/mockHttp';
-import { HttpProvider } from './';
+import { TEST_HTTP_URL } from '../mock/mockHttp.js';
+import { HttpProvider } from './index.js';
 
 describe('Http', (): void => {
   let http: HttpProvider;

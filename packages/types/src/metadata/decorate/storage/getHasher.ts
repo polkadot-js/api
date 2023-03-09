@@ -1,8 +1,8 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StorageHasher } from '../../../interfaces';
-import type { AllHashers } from '../../../interfaces/metadata/definitions';
+import type { StorageHasher } from '../../../interfaces/index.js';
+import type { AllHashers } from '../../../interfaces/metadata/definitions.js';
 
 import { u8aConcat, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a, xxhashAsU8a } from '@polkadot/util-crypto';

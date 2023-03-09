@@ -1,15 +1,17 @@
 // Copyright 2017-2023 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev/node/test/node" />
+
 import type { HexString } from '@polkadot/util/types';
-import type { ChainUpgradesExpanded } from '../types';
+import type { ChainUpgradesExpanded } from '../types.js';
 
 import fs from 'node:fs';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
-import * as allMan from '../manual';
-import * as allGen from '.';
+import * as allMan from '../manual/index.js';
+import * as allGen from './index.js';
 
 const keys = ['kusama', 'polkadot', 'westend'] as const;
 const urls = {
@@ -35,7 +37,7 @@ for (const chain of keys) {
   // Auto-generated from on-chain data & manual definitions, do not edit
   /* eslint-disable quotes, comma-spacing */
 
-  import type { ChainUpgradesExpanded } from '../types';
+  import type { ChainUpgradesExpanded } from '../types.js';
 
   const upgrades: ChainUpgradesExpanded = ${JSON.stringify(final, null, 2)};
 

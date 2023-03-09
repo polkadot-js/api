@@ -8,7 +8,7 @@ import type { DefinitionRpc } from '@polkadot/types/types';
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { RpcCore } from '.';
+import { RpcCore } from './index.js';
 
 describe('methodSend', (): void => {
   const registry = new TypeRegistry();

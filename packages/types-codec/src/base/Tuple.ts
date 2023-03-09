@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTupleValue, Codec, CodecClass, Inspect, ITuple, Registry } from '../types';
+import type { AnyTupleValue, Codec, CodecClass, Inspect, ITuple, Registry } from '../types/index.js';
 
 import { isFunction, isHex, isString, isU8a, stringify, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/Array';
-import { decodeU8a, mapToTypeMap, typeToConstructor } from '../utils';
+import { AbstractArray } from '../abstract/Array.js';
+import { decodeU8a, mapToTypeMap, typeToConstructor } from '../utils/index.js';
 
 type TupleType = (CodecClass | string);
 

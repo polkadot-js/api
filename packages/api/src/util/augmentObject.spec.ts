@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { augmentObject } from './augmentObject';
+import { augmentObject } from './augmentObject.js';
 
 describe('augmentObject', (): void => {
   let spy: ReturnType<typeof jest.spyOn>;

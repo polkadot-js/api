@@ -7,7 +7,7 @@
 
 import json3 from '@polkadot/types-support/json/Header.003.json' assert { type: 'json' };
 
-import { TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create/index.js';
 
 describe('Digest', (): void => {
   const registry = new TypeRegistry();

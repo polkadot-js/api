@@ -6,7 +6,7 @@ import type { TypeDef } from '@polkadot/types-create/types';
 
 import { isNumber, isUndefined, objectSpread, stringify } from '@polkadot/util';
 
-import { TypeDefInfo } from '../types';
+import { TypeDefInfo } from '../types/index.js';
 
 type ToString = { toString: () => string };
 

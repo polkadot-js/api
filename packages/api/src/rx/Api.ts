@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiOptions } from '../types';
+import type { ApiOptions } from '../types/index.js';
 
 import { from, Observable } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
-import { ApiBase } from '../base';
-import { toRxMethod } from './decorateMethod';
+import { ApiBase } from '../base/index.js';
+import { toRxMethod } from './decorateMethod.js';
 
 /**
  * # @polkadot/api/rx

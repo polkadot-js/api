@@ -6,8 +6,8 @@ import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes } from '@polkadot/api/types';
 import type { WeightV1, WeightV2 } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { AbiConstructor, AbiMessage, BlueprintOptions, WeightAll } from '../types';
-import type { BlueprintDeploy, ContractGeneric } from './types';
+import type { AbiConstructor, AbiMessage, BlueprintOptions, WeightAll } from '../types.js';
+import type { BlueprintDeploy, ContractGeneric } from './types.js';
 
 import { Bytes } from '@polkadot/types';
 import { bnToBn, compactAddLength, u8aToU8a } from '@polkadot/util';

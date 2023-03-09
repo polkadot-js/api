@@ -5,7 +5,7 @@
 
 import { of, timer } from 'rxjs';
 
-import { drr } from '.';
+import { drr } from './index.js';
 
 describe('drr', (): void => {
   it('should not fire twice the same value', async (): Promise<void> => {

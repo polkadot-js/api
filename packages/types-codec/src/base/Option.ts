@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, Inspect, IOption, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, Inspect, IOption, IU8a, Registry } from '../types/index.js';
 
 import { isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
-import { typeToConstructor } from '../utils';
-import { Null } from './Null';
+import { typeToConstructor } from '../utils/index.js';
+import { Null } from './Null.js';
 
 interface Options<T> {
   definition?: CodecClass<T>;

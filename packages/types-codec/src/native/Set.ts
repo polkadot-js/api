@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { CodecClass, Inspect, ISet, IU8a, Registry } from '../types';
+import type { CodecClass, Inspect, ISet, IU8a, Registry } from '../types/index.js';
 
 import { BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringify, stringPascalCase, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareArray } from '../utils';
+import { compareArray } from '../utils/index.js';
 
 type SetValues = Record<string, number | BN>;
 

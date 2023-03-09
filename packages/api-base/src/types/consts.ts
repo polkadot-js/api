@@ -3,7 +3,7 @@
 
 import type { PalletConstantMetadataLatest } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
-import type { ApiTypes } from './base';
+import type { ApiTypes } from './base.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface AugmentedConst<ApiType extends ApiTypes> {

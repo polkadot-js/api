@@ -5,13 +5,13 @@ import type { Observable } from 'rxjs';
 import type { ObsInnerType } from '@polkadot/api-base/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { ExactDerive } from '../derive';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from 'rxjs';
 
 import { arrayChunk, arrayFlatten, nextTick } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type ApplyReturn<T extends keyof ExactDerive['staking']> = ReturnType<ExactDerive['staking'][T]>;
 

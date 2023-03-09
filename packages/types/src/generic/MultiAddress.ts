@@ -7,8 +7,8 @@ import { Enum } from '@polkadot/types-codec';
 import { isBn, isNumber, isString, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { GenericAccountId } from './AccountId';
-import { GenericAccountIndex } from './AccountIndex';
+import { GenericAccountId } from './AccountId.js';
+import { GenericAccountIndex } from './AccountIndex.js';
 
 function decodeU8a (registry: Registry, u8a: Uint8Array): unknown {
   if ([0, 32].includes(u8a.length)) {

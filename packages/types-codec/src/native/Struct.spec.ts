@@ -10,7 +10,7 @@ import type { CodecTo } from '@polkadot/types-codec/types';
 import { TypeRegistry } from '@polkadot/types';
 import { Bool, Enum, Option, Struct, Text, U32, Vec } from '@polkadot/types-codec';
 
-import { TEST_A } from './Struct.data';
+import { TEST_A } from './Struct.data.js';
 
 describe('Struct', (): void => {
   const registry = new TypeRegistry();

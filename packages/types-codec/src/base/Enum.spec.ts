@@ -9,7 +9,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { Enum, Null, Text, U32 } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 const PEnum = Enum.with({ a: U32, b: U32 });
 

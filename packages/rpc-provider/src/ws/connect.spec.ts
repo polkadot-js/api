@@ -5,8 +5,8 @@
 
 import type { Mock } from '../mock/types';
 
-import { mockWs } from '../mock/mockWs';
-import { WsProvider } from './';
+import { mockWs } from '../mock/mockWs.js';
+import { WsProvider } from './index.js';
 
 const TEST_WS_URL = 'ws://localhost-connect.spec.ts:9988';
 

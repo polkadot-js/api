@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionsTypes } from '../../types';
+import type { DefinitionsTypes } from '../../types/index.js';
 
 // order important in structs... :)
 /* eslint-disable sort-keys */

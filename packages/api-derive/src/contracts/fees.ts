@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi, DeriveContractFees } from '../types';
+import type { DeriveApi, DeriveContractFees } from '../types.js';
 
 import { map, of } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
 

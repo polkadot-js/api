@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, Inspect, IU8a, IVec, Registry } from '../types';
+import type { AnyJson, Codec, Inspect, IU8a, IVec, Registry } from '../types/index.js';
 
 import { compactToU8a, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 
-import { compareArray } from '../utils/compareArray';
+import { compareArray } from '../utils/compareArray.js';
 
 /**
  * @name AbstractArray

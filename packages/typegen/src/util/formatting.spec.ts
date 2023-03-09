@@ -5,7 +5,7 @@
 
 import { TypeRegistry } from '@polkadot/types';
 
-import { formatType } from './formatting';
+import { formatType } from './formatting.js';
 
 describe('formatType', (): void => {
   const registry = new TypeRegistry();

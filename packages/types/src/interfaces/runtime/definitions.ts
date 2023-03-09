@@ -4,11 +4,11 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 
-import { runtime } from './runtime';
+import { runtime } from './runtime.js';
 
 const numberTypes = {
   Fixed64: 'Int<64, Fixed64>',

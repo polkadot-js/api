@@ -3,12 +3,12 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import type { RpcInterface } from './types';
+import type { RpcInterface } from './types/index.js';
 
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { RpcCore } from '.';
+import { RpcCore } from './index.js';
 
 describe('replay', (): void => {
   const registry = new TypeRegistry();

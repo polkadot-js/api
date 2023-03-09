@@ -3,14 +3,14 @@
 
 import type { AnyTuple, Registry } from '@polkadot/types-codec/types';
 import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
-import type { IEvent, IEventLike } from '../../../types';
-import type { Events, IsEvent } from '../types';
+import type { IEvent, IEventLike } from '../../../types/index.js';
+import type { Events, IsEvent } from '../types.js';
 
 import { isCodec, isU8a, lazyMethod, stringCamelCase } from '@polkadot/util';
 
-import { lazyVariants } from '../../../create/lazy';
-import { variantToMeta } from '../errors';
-import { objectNameToString } from '../util';
+import { lazyVariants } from '../../../create/lazy.js';
+import { variantToMeta } from '../errors/index.js';
+import { objectNameToString } from '../util.js';
 
 export function filterEventsSome ({ events }: PalletMetadataLatest): boolean {
   return events.isSome;

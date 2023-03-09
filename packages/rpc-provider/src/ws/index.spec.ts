@@ -4,10 +4,10 @@
 /// <reference types="@polkadot/dev/node/test/node" />
 
 import type { Request } from '../mock/mockWs';
+import type { Mock } from '../mock/types.js';
 
-import { mockWs } from '../mock/mockWs';
-import { Mock } from '../mock/types';
-import { WsProvider } from './';
+import { mockWs } from '../mock/mockWs.js';
+import { WsProvider } from './index.js';
 
 const TEST_WS_URL = 'ws://localhost-index.spec.ts:9977';
 

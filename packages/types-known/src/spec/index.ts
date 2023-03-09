@@ -3,15 +3,15 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
-import centrifugeChain from './centrifuge-chain';
-import kusama from './kusama';
-import node from './node';
-import nodeTemplate from './node-template';
-import polkadot from './polkadot';
-import rococo from './rococo';
-import shell from './shell';
-import statemint from './statemint';
-import westend from './westend';
+import centrifugeChain from './centrifuge-chain.js';
+import kusama from './kusama.js';
+import node from './node.js';
+import nodeTemplate from './node-template.js';
+import polkadot from './polkadot.js';
+import rococo from './rococo.js';
+import shell from './shell.js';
+import statemint from './statemint.js';
+import westend from './westend.js';
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
 const typesSpec: Record<string, OverrideVersionedType[]> = {

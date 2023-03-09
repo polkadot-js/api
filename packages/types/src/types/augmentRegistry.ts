@@ -8,14 +8,14 @@ import '@polkadot/types-create/types/augmentRegistry';
 
 import type { AnyString, Codec, CodecClass, LookupString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
-import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { MetadataLatest } from '../interfaces/metadata';
-import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo';
-import type { ChainProperties } from '../interfaces/system';
-import type { Metadata, PortableRegistry } from '../metadata';
-import type { CallFunction as CallFunctionExt } from './calls';
-import type { DetectCodec } from './detect';
-import type { CodecHasher, RegisteredTypes } from './registry';
+import type { ExtDef } from '../extrinsic/signedExtensions/types.js';
+import type { MetadataLatest } from '../interfaces/metadata/index.js';
+import type { SiField, SiLookupTypeId } from '../interfaces/scaleInfo/index.js';
+import type { ChainProperties } from '../interfaces/system/index.js';
+import type { Metadata, PortableRegistry } from '../metadata/index.js';
+import type { CallFunction as CallFunctionExt } from './calls.js';
+import type { DetectCodec } from './detect.js';
+import type { CodecHasher, RegisteredTypes } from './registry.js';
 
 declare module '@polkadot/types-codec/types/registry' {
   interface RegistryError {

@@ -13,7 +13,7 @@ import { ApiRx } from '@polkadot/api';
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { ExactDerive } from '.';
+import { ExactDerive } from './index.js';
 
 const testFunction = (api: ApiRx): any => {
   return <S extends keyof ExactDerive, M extends keyof (typeof api.derive[S])>(section: S, method: M, inputs: any[]): void => {

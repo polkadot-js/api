@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveSocietyMember } from '../types';
+import type { DeriveApi, DeriveSocietyMember } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 export function _members (instanceId: string, api: DeriveApi): (accountIds: AccountId[]) => Observable<DeriveSocietyMember[]> {
   return memo(instanceId, (accountIds: AccountId[]): Observable<DeriveSocietyMember[]> =>

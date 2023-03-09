@@ -5,13 +5,13 @@ import type { Observable } from 'rxjs';
 import type { Bytes, Option, u32 } from '@polkadot/types';
 import type { AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveAccountInfo, DeriveAccountRegistration, DeriveApi } from '../types';
+import type { DeriveAccountInfo, DeriveAccountRegistration, DeriveApi } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { u8aToString } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 function retrieveNick (api: DeriveApi, accountId?: AccountId): Observable<string | undefined> {
   return ((

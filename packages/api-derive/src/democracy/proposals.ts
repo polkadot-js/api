@@ -6,14 +6,14 @@ import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, Balance, Hash, PropIndex } from '@polkadot/types/interfaces';
 import type { FrameSupportPreimagesBounded } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi, DeriveProposal, DeriveProposalImage } from '../types';
+import type { DeriveApi, DeriveProposal, DeriveProposalImage } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isFunction, objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
-import { getImageHashBounded } from './util';
+import { memo } from '../util/index.js';
+import { getImageHashBounded } from './util.js';
 
 type DepositorsNew = Option<ITuple<[Vec<AccountId>, Balance]>>;
 type DepositorsOld = Option<ITuple<[Balance, Vec<AccountId>]>>;

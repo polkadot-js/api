@@ -8,8 +8,8 @@ import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import * as defaultPrimitives from '@polkadot/types/primitive';
 
-import { createImports, readTemplate, setImports, writeFile } from '../util';
-import { ModuleTypes } from '../util/imports';
+import { ModuleTypes } from '../util/imports.js';
+import { createImports, readTemplate, setImports, writeFile } from '../util/index.js';
 
 const primitiveClasses = {
   ...defaultPrimitives,

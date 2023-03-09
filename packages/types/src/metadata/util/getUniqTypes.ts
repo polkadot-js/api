@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { MetadataLatest, SiLookupTypeId } from '../../interfaces';
-import type { PortableRegistry } from '../../metadata';
+import type { MetadataLatest, SiLookupTypeId } from '../../interfaces/index.js';
+import type { PortableRegistry } from '../../metadata/index.js';
 
-import { flattenUniq } from './flattenUniq';
-import { validateTypes } from './validateTypes';
+import { flattenUniq } from './flattenUniq.js';
+import { validateTypes } from './validateTypes.js';
 
 /** @internal */
 function extractTypes (lookup: PortableRegistry, types: { type: SiLookupTypeId }[]): string[] {

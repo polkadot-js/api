@@ -21,9 +21,9 @@
 // Jest has "some" issues with `await import` - we don't transform these
 
 import type Sc from '@substrate/connect';
-import type { HealthChecker, SmoldotHealth } from './types';
+import type { HealthChecker, SmoldotHealth } from './types.js';
 
-import { ScProvider } from '.';
+import { ScProvider } from './index.js';
 
 type MockChain = Sc.Chain & {
   _spec: () => string

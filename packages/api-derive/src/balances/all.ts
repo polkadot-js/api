@@ -5,13 +5,13 @@ import type { Observable } from 'rxjs';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, Balance, BalanceLockTo212, BlockNumber, VestingSchedule } from '@polkadot/types/interfaces';
 import type { PalletBalancesBalanceLock, PalletBalancesReserveData, PalletVestingVestingInfo } from '@polkadot/types/lookup';
-import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData, DeriveBalancesAllVesting } from '../types';
+import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData, DeriveBalancesAll, DeriveBalancesAllAccountData, DeriveBalancesAllVesting } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { BN, BN_ZERO, bnMax, bnMin, isFunction, objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type ResultBalance = [PalletVestingVestingInfo[] | null, ((PalletBalancesBalanceLock | BalanceLockTo212)[])[], PalletBalancesReserveData[][]];
 type Result = [DeriveBalancesAccount, ResultBalance, BlockNumber];

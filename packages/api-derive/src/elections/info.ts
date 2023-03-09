@@ -6,14 +6,14 @@ import type { u32, Vec } from '@polkadot/types';
 import type { AccountId32, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { PalletElectionsPhragmenSeatHolder } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi } from '../types';
-import type { DeriveElectionsInfo } from './types';
+import type { DeriveApi } from '../types.js';
+import type { DeriveElectionsInfo } from './types.js';
 
 import { combineLatest, map, of } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 // SeatHolder is current tuple is 2.x-era Substrate
 type Member = PalletElectionsPhragmenSeatHolder | ITuple<[AccountId32, Balance]>;

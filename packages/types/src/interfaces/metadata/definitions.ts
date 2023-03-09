@@ -4,18 +4,18 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 
-import { AllHashers } from './hashers';
-import { runtime } from './runtime';
-import { v9 } from './v9';
-import { v10 } from './v10';
-import { v11 } from './v11';
-import { v12 } from './v12';
-import { v13 } from './v13';
-import { v14 } from './v14';
+import { AllHashers } from './hashers.js';
+import { runtime } from './runtime.js';
+import { v9 } from './v9.js';
+import { v10 } from './v10.js';
+import { v11 } from './v11.js';
+import { v12 } from './v12.js';
+import { v13 } from './v13.js';
+import { v14 } from './v14.js';
 
 export { AllHashers };
 

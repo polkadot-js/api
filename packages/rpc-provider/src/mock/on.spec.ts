@@ -3,11 +3,11 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import type { ProviderInterfaceEmitted } from '../types';
+import type { ProviderInterfaceEmitted } from '../types.js';
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { MockProvider } from '.';
+import { MockProvider } from './index.js';
 
 describe('on', (): void => {
   const registry = new TypeRegistry();

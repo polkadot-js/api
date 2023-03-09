@@ -3,7 +3,7 @@
 
 import type { Option, Text } from '@polkadot/types-codec';
 import type { ICompact, INumber, LookupString } from '@polkadot/types-codec/types';
-import type { TypeDef } from './types';
+import type { TypeDef } from './types.js';
 
 // A simplified SiType without the need for an interface import
 // (while type interfaces are still in @polkadot/types). This provides

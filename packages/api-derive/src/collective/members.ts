@@ -3,7 +3,7 @@
 
 import type { AccountId } from '@polkadot/types/interfaces';
 
-import { callMethod } from './helpers';
+import { callMethod } from './helpers.js';
 
 // We are re-exporting these from here to ensure that *.d.ts generation is correct
 export type { AccountId } from '@polkadot/types/interfaces';

@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { EventRecord, Hash, SignedBlock } from '@polkadot/types/interfaces';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { combineLatest, map, switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 interface Result {
   block: SignedBlock;

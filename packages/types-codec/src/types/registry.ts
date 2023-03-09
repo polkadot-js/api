@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Codec, CodecClass } from './codec';
-import type { AnyTuple, LookupString } from './helpers';
-import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
+import type { Codec, CodecClass } from './codec.js';
+import type { AnyTuple, LookupString } from './helpers.js';
+import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces.js';
 
 export type OnlyCodec<K, T, Types> =
   K extends keyof Types

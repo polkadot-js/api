@@ -6,8 +6,8 @@ import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { Bytes } from '@polkadot/types';
 import type { AccountId, ContractExecResult, EventRecord, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
-import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent, WeightAll } from '../types';
-import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
+import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent, WeightAll } from '../types.js';
+import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types.js';
 
 import { map } from 'rxjs';
 
@@ -15,10 +15,10 @@ import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
 import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, isUndefined, logger } from '@polkadot/util';
 
-import { Abi } from '../Abi';
-import { applyOnEvent } from '../util';
-import { Base } from './Base';
-import { convertWeight, withMeta } from './util';
+import { Abi } from '../Abi/index.js';
+import { applyOnEvent } from '../util.js';
+import { Base } from './Base.js';
+import { convertWeight, withMeta } from './util.js';
 
 export interface ContractConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId): Contract<ApiType>;

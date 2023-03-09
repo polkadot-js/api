@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveSocietyMember } from '../types';
+import type { DeriveApi, DeriveSocietyMember } from '../types.js';
 
 import { map } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 /**
  * @description Get the member info for a society

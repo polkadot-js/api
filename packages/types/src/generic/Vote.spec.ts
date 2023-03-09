@@ -3,8 +3,8 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TypeRegistry } from '../create';
-import { GenericVote } from '.';
+import { TypeRegistry } from '../create/index.js';
+import { GenericVote } from './index.js';
 
 describe('GenericVote', (): void => {
   const registry = new TypeRegistry();

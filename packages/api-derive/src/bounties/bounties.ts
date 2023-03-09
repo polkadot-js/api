@@ -5,12 +5,12 @@ import type { Observable } from 'rxjs';
 import type { Bytes, Option } from '@polkadot/types';
 import type { BountyIndex } from '@polkadot/types/interfaces';
 import type { PalletBountiesBounty } from '@polkadot/types/lookup';
-import type { DeriveApi, DeriveBounties, DeriveCollectiveProposal } from '../types';
+import type { DeriveApi, DeriveBounties, DeriveCollectiveProposal } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { memo } from '../util';
-import { filterBountiesProposals } from './helpers/filterBountyProposals';
+import { memo } from '../util/index.js';
+import { filterBountiesProposals } from './helpers/filterBountyProposals.js';
 
 type Result = [Option<PalletBountiesBounty>[], Option<Bytes>[], BountyIndex[], DeriveCollectiveProposal[]];
 

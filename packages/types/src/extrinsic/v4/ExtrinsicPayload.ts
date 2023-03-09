@@ -4,14 +4,14 @@
 import type { SignOptions } from '@polkadot/keyring/types';
 import type { Inspect, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { BlockHash } from '../../interfaces/chain';
-import type { ExtrinsicEra } from '../../interfaces/extrinsics';
-import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../../types';
+import type { BlockHash } from '../../interfaces/chain/index.js';
+import type { ExtrinsicEra } from '../../interfaces/extrinsics/index.js';
+import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../../types/index.js';
 
 import { Bytes, Enum, Struct } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
-import { sign } from '../util';
+import { sign } from '../util.js';
 
 /**
  * @name GenericExtrinsicPayloadV4

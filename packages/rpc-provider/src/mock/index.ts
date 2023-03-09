@@ -5,8 +5,8 @@
 
 import type { Header } from '@polkadot/types/interfaces';
 import type { Codec, Registry } from '@polkadot/types/types';
-import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
-import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions } from './types';
+import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types.js';
+import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions } from './types.js';
 
 import EventEmitter from 'eventemitter3';
 

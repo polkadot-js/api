@@ -7,7 +7,7 @@ import { TypeRegistry } from '@polkadot/types';
 import { UInt } from '@polkadot/types-codec';
 import { BN, BN_TWO, isBn } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 describe('UInt', (): void => {
   const registry = new TypeRegistry();

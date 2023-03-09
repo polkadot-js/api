@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { Codec } from '../types';
+import type { Codec } from '../types/index.js';
 
 import { Json, Option, Text, u32, Vec } from '@polkadot/types-codec';
 import { isFunction, isNull, isUndefined } from '@polkadot/util';

@@ -3,9 +3,9 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { TypeRegistry } from '../create';
-import { GenericAccountIndex as AccountIndex } from '../generic';
-import { GenericEthereumAccountId as AccountId, GenericEthereumLookupSource as Address } from '.';
+import { TypeRegistry } from '../create/index.js';
+import { GenericAccountIndex as AccountIndex } from '../generic/index.js';
+import { GenericEthereumAccountId as AccountId, GenericEthereumLookupSource as Address } from './index.js';
 
 describe('EthereumLookupSource', (): void => {
   const registry = new TypeRegistry();

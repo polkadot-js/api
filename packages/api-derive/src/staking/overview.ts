@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { DeriveApi, DeriveStakingOverview } from '../types';
+import type { DeriveApi, DeriveStakingOverview } from '../types.js';
 
 import { combineLatest, map } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 /**
  * @description Retrieve the staking overview, including elected and points earned

@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '../types';
+import type { Registry } from '../types/index.js';
 
-import { u32 } from './U32';
+import { u32 } from './U32.js';
 
 /**
  * @name USize

@@ -11,7 +11,7 @@ import substrateData from '@polkadot/types-support/metadata/v14/substrate-hex';
 import substrateJson from '@polkadot/types-support/metadata/v14/substrate-json.json' assert { type: 'json' };
 import substrateTypes from '@polkadot/types-support/metadata/v14/substrate-types.json' assert { type: 'json' };
 
-import { testMeta } from '../util/testUtil';
+import { testMeta } from '../util/testUtil.js';
 
 testMeta(14, {
   kusama: {

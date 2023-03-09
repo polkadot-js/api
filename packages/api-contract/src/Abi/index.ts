@@ -4,13 +4,13 @@
 import type { Bytes } from '@polkadot/types';
 import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
 import type { Codec, Registry } from '@polkadot/types/types';
-import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
+import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
 import { TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
 import { assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { convertVersions, enumVersions } from './toLatest';
+import { convertVersions, enumVersions } from './toLatest.js';
 
 const l = logger('Abi');
 

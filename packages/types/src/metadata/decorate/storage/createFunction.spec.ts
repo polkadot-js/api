@@ -5,9 +5,9 @@
 
 import { u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry } from '../../../create';
-import { Metadata } from '../../Metadata';
-import { createFunction } from './createFunction';
+import { TypeRegistry } from '../../../create/index.js';
+import { Metadata } from '../../Metadata.js';
+import { createFunction } from './createFunction.js';
 
 describe('createFunction', (): void => {
   const registry = new TypeRegistry();

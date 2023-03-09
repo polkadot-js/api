@@ -5,12 +5,12 @@ import type { Text, u8 } from '@polkadot/types-codec';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, MetadataLatest, SiField, SiVariant } from '../../../interfaces';
 import type { PortableRegistry } from '../../../metadata';
-import type { Errors, IsError } from '../types';
+import type { Errors, IsError } from '../types.js';
 
 import { isCodec, isU8a, lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
-import { lazyVariants } from '../../../create/lazy';
-import { objectNameToString } from '../util';
+import { lazyVariants } from '../../../create/lazy.js';
+import { objectNameToString } from '../util.js';
 
 interface ItemMeta {
   args: string[];

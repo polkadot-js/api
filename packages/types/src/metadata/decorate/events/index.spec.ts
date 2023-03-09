@@ -5,9 +5,9 @@
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
-import { TypeRegistry } from '../../../create';
-import { Metadata } from '../../Metadata';
-import { decorateEvents } from '..';
+import { TypeRegistry } from '../../../create/index.js';
+import { Metadata } from '../../Metadata.js';
+import { decorateEvents } from '../index.js';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);

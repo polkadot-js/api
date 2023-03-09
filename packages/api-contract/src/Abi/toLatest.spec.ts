@@ -5,8 +5,8 @@
 
 import { TypeRegistry } from '@polkadot/types';
 
-import abis from '../test/contracts';
-import { v0ToLatest, v1ToLatest, v2ToLatest, v3ToLatest, v4ToLatest } from './toLatest';
+import abis from '../test/contracts/index.js';
+import { v0ToLatest, v1ToLatest, v2ToLatest, v3ToLatest, v4ToLatest } from './toLatest.js';
 
 describe('v0ToLatest', (): void => {
   const registry = new TypeRegistry();

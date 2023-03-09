@@ -3,9 +3,9 @@
 
 import type { AnyJson, Codec, CodecClass } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
-import type { EventMetadataLatest } from '../interfaces/metadata';
-import type { EventId } from '../interfaces/system';
-import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types';
+import type { EventMetadataLatest } from '../interfaces/metadata/index.js';
+import type { EventId } from '../interfaces/system/index.js';
+import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types/index.js';
 
 import { Null, Struct, Tuple } from '@polkadot/types-codec';
 import { objectProperties, objectSpread } from '@polkadot/util';
