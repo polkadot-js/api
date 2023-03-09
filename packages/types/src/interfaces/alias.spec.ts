@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node.d.ts" />
+/// <reference types="@polkadot/dev/node/test/node" />
 
 import { TypeRegistry } from '../create/registry.js';
 import { getAliasTypes } from './alias.js';

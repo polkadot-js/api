@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node.d.ts" />
+/// <reference types="@polkadot/dev/node/test/node" />
 
 import { TypeRegistry } from '@polkadot/types';
 import { HashMap, Struct, Text, U32 } from '@polkadot/types-codec';

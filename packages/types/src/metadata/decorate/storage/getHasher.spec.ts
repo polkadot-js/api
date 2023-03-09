@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node.d.ts" />
+/// <reference types="@polkadot/dev/node/test/node" />
 
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';

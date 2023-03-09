@@ -30,6 +30,7 @@
       "@polkadot/rpc-provider/mock": ["rpc-provider/src/mock/index.ts"],
       "@polkadot/rpc-provider/packageInfo": ["rpc-provider/src/packageInfo.ts"],
       "@polkadot/rpc-provider/types": ["rpc-provider/src/types.ts"],
+      "@polkadot/typegen/*": ["typegen/src/*.ts"],
       "@polkadot/types": ["types/src/index.ts"],
       "@polkadot/types/codec": ["types/src/codec/index.ts"],
       "@polkadot/types/create": ["types/src/create/index.ts"],
