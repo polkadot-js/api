@@ -6,7 +6,7 @@ import type { u32 } from '@polkadot/types';
 import type { Balance, BlockNumber, BountyIndex, Hash, Proposal, ProposalIndex, SetIndex, Votes } from '@polkadot/types/interfaces';
 import type { PalletBountiesBounty, PalletTreasuryProposal } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { ExactDerive } from './derive';
+import type { ExactDerive } from './derive.js';
 
 export * from './accounts/types.js';
 export * from './balances/types.js';

@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { alias, flattenSingleTuple, removeColons, removeExtensions } from '@polkadot/types-codec/utils/sanitize';
+import { alias, flattenSingleTuple, removeColons, removeExtensions } from './sanitize.js';
 
 describe('sanitize', (): void => {
   describe('alias', (): void => {

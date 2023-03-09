@@ -20,7 +20,7 @@
 // FIXME A number of tests here, that were passing, is not skipped since
 // Jest has "some" issues with `await import` - we don't transform these
 
-import type Sc from '@substrate/connect';
+import type * as Sc from '@substrate/connect';
 import type { HealthChecker, SmoldotHealth } from './types.js';
 
 import { ScProvider } from './index.js';

@@ -4,7 +4,7 @@
 /// <reference types="@polkadot/dev/node/test/node" />
 
 import type { HexString } from '@polkadot/util/types';
-import type { BlockNumber } from '../../../interfaces';
+import type { BlockNumber } from '../../../interfaces/index.js';
 import type { Constants } from '../types.js';
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';

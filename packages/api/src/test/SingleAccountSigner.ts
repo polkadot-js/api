@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { Registry, SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
+import type { Signer, SignerResult } from '../types/index.js';
 
 import { hexToU8a, objectSpread, u8aToHex } from '@polkadot/util';
 

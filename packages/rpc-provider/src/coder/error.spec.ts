@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import { isError } from '@polkadot/util/is/error';
+import { isError } from '@polkadot/util';
 
 import RpcError from './error.js';
 

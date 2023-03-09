@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import type { Mock } from '../mock/types';
+import type { Mock } from '../mock/types.js';
 
 import { mockHttp, TEST_HTTP_URL } from '../mock/mockHttp.js';
 import { HttpProvider } from './index.js';

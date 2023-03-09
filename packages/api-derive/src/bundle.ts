@@ -3,7 +3,7 @@
 
 import type { DeriveCustom } from '@polkadot/api-base/types';
 import type { AnyFunction, AnyString } from '@polkadot/types/types';
-import type { ExactDerive } from './derive';
+import type { ExactDerive } from './derive.js';
 import type { DeriveApi } from './types.js';
 
 import { lazyDeriveSection } from './util/index.js';

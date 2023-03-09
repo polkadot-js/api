@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type ScType from '@substrate/connect';
+import type * as ScType from '@substrate/connect';
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types.js';
 
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 
 import { isError, isFunction, isObject, logger, objectSpread } from '@polkadot/util';
 

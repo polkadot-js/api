@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev/node/test/node" />
 
-import type { Request } from '../mock/mockWs';
+import type { Request } from '../mock/mockWs.js';
 
 import { mockWs } from '../mock/mockWs.js';
 import { Global, Mock } from '../mock/types.js';

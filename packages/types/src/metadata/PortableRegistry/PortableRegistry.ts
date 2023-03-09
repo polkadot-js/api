@@ -5,7 +5,7 @@ import type { Option, Text, Type, Vec } from '@polkadot/types-codec';
 import type { AnyString, LookupString, Registry } from '@polkadot/types-codec/types';
 import type { ILookup, TypeDef } from '@polkadot/types-create/types';
 import type { PortableType } from '../../interfaces/metadata/index.js';
-import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
+import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo/index.js';
 
 import { sanitize, Struct, u32 } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo, withTypeString } from '@polkadot/types-create';

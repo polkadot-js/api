@@ -4,7 +4,7 @@
 import type { AccountId, Balance, EraIndex, RewardPoint } from '@polkadot/types/interfaces';
 import type { PalletStakingExposure, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveSessionIndexes } from '../session/types';
+import type { DeriveSessionIndexes } from '../session/types.js';
 
 export type DeriveEraValPoints = Record<string, RewardPoint>;
 
