@@ -199,7 +199,7 @@ export class RpcCore {
     memoized.raw = memoize(creator(false), memoOpts);
     memoized.meta = def;
 
-    return memoized;
+    return memoized as MemoizedRpcInterfaceMethod;
   }
 
   private _formatResult <T> (isScale: boolean, registry: Registry, blockHash: string | Uint8Array | null | undefined, method: string, def: DefinitionRpc, params: Codec[], result: unknown): T {
