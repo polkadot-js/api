@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev/node/test/node.d.ts" />
 
 import type { HexString } from '@polkadot/util/types';
-import type { BlockNumber } from '../../../interfaces';
+import type { BlockNumber } from '../../../interfaces/index.js';
 import type { Constants } from '../types.js';
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';

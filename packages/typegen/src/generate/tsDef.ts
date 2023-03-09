@@ -3,7 +3,7 @@
 
 import type { Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
-import type { ModuleTypes } from '../util/imports';
+import type { ModuleTypes } from '../util/imports.js';
 
 import Handlebars from 'handlebars';
 import path from 'path';

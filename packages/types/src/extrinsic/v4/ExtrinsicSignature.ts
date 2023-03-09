@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
-import type { Address, Call } from '../../interfaces/runtime';
+import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics/index.js';
+import type { Address, Call } from '../../interfaces/runtime/index.js';
 import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, Registry, SignatureOptions } from '../../types/index.js';
 import type { ExtrinsicSignatureOptions } from '../types.js';
 

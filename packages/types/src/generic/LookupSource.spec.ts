@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev/node/test/node.d.ts" />
 
 import { TypeRegistry } from '../create/index.js';
 import { GenericAccountId as AccountId, GenericAccountIndex as AccountIndex, GenericLookupSource as LookupSource } from './index.js';

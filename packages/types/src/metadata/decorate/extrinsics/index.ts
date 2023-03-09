@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
-import type { PortableRegistry } from '../../../metadata';
+import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces/index.js';
+import type { PortableRegistry } from '../../../metadata/index.js';
 import type { CallFunction } from '../../../types/index.js';
 import type { Extrinsics } from '../types.js';
 

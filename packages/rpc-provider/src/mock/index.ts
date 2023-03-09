@@ -8,7 +8,7 @@ import type { Codec, Registry } from '@polkadot/types/types';
 import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types.js';
 import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions } from './types.js';
 
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 
 import { createTestKeyring } from '@polkadot/keyring/testing';
 import { decorateStorage, Metadata } from '@polkadot/types';

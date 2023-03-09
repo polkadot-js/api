@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { ObsInnerType } from '@polkadot/api-base/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { ExactDerive } from '../derive';
+import type { ExactDerive } from '../derive.js';
 import type { DeriveApi } from '../types.js';
 
 import { BehaviorSubject, combineLatest, map, of, switchMap, tap, toArray } from 'rxjs';

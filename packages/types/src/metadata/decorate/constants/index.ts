@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { MetadataLatest, PalletConstantMetadataLatest } from '../../../interfaces';
+import type { MetadataLatest, PalletConstantMetadataLatest } from '../../../interfaces/index.js';
 import type { ConstantCodec, Constants } from '../types.js';
 
 import { hexToU8a, lazyMethod, lazyMethods, stringCamelCase } from '@polkadot/util';

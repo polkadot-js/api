@@ -1,11 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev/node/test/node.d.ts" />
 
-/// <reference types="@polkadot/dev/node/test/node" />
-
-import rpcDataV11 from '@polkadot/types-support//metadata/v11/substrate-hex';
+import rpcDataV11 from '@polkadot/types-support/metadata/v11/substrate-hex';
 
 import { TypeRegistry } from '../create/index.js';
 import { decorateStorage, Metadata } from '../metadata/index.js';

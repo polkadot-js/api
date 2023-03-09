@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev/node/test/node.d.ts" />
 
-import type { Request } from '../mock/mockWs';
+import type { Request } from '../mock/mockWs.js';
 import type { Mock } from '../mock/types.js';
 
 import { mockWs } from '../mock/mockWs.js';

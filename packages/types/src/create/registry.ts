@@ -3,7 +3,7 @@
 
 import type { AnyString, Codec, CodecClass, IU8a, LookupString } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
-import type { ExtDef } from '../extrinsic/signedExtensions/types';
+import type { ExtDef } from '../extrinsic/signedExtensions/types.js';
 import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant, WeightV1, WeightV2 } from '../interfaces/types.js';
 import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types/index.js';
 

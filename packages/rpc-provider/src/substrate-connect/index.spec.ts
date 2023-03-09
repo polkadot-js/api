@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev/node/test/node.d.ts" />
 
 /* eslint-disable sort-keys */
 /* eslint-disable promise/param-names */
@@ -20,7 +20,7 @@
 // FIXME A number of tests here, that were passing, is not skipped since
 // Jest has "some" issues with `await import` - we don't transform these
 
-import type Sc from '@substrate/connect';
+import type * as Sc from '@substrate/connect';
 import type { HealthChecker, SmoldotHealth } from './types.js';
 
 import { ScProvider } from './index.js';

@@ -3,7 +3,7 @@
 
 import type { ApiInterfaceEvents } from '../types/index.js';
 
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 
 export class Events {
   #eventemitter = new EventEmitter();

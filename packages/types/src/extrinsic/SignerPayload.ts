@@ -3,7 +3,7 @@
 
 import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { Address, BlockHash, Call, ExtrinsicEra, Hash } from '../interfaces';
+import type { Address, BlockHash, Call, ExtrinsicEra, Hash } from '../interfaces/index.js';
 import type { Codec, ICompact, INumber, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types/index.js';
 
 import { Option, Struct, Text, Vec } from '@polkadot/types-codec';

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from '../generate/types';
+import type { ExtraTypes } from '../generate/types.js';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 
