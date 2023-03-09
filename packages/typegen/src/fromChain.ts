@@ -60,7 +60,7 @@ async function generate (metaHex: HexString, pkg: string | undefined, output: st
       ...[
         ...['consts', 'errors', 'events', 'query', 'tx', 'rpc', 'runtime']
           .filter((key) => !!key)
-          .map((key) => `./augment-api-${key}`)
+          .map((key) => `./augment-api-${key}.js`)
       ].map((path) => `import '${path}';\n`)
     ].join('')
   );
