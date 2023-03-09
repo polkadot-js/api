@@ -6,6 +6,7 @@ import type { HexString } from '@polkadot/util/types';
 import fs from 'fs';
 import path from 'path';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import { Definitions, DefinitionsTypes } from '@polkadot/types/types';
 import { formatNumber, isHex } from '@polkadot/util';
@@ -71,7 +72,7 @@ async function generate (metaHex: HexString, pkg: string | undefined, output: st
 type ArgV = { endpoint: string; output: string; package?: string; strict?: boolean };
 
 async function mainPromise (): Promise<void> {
-  const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
+  const { endpoint, output, package: pkg, strict: isStrict } = yargs(hideBin(process.argv)).strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
       required: true,
