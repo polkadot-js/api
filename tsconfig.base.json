@@ -64,7 +64,8 @@
       "@polkadot/types-known": ["types-known/src/index.ts"],
       "@polkadot/types-known/packageInfo": ["types-known/src/packageInfo.ts"],
       "@polkadot/types-support": ["types-support/src/index.ts"],
-      "@polkadot/types-support/metadata/*": ["types-support/src/metadata/*.ts"],
+      "@polkadot/types-support/json/*": ["types-support/src/json/*"],
+      "@polkadot/types-support/metadata/*": ["types-support/src/metadata/*"],
       "@polkadot/types-support/packageInfo": ["types-support/src/packageInfo.ts"]
     },
     "skipLibCheck": true
