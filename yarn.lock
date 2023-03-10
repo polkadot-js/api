@@ -651,9 +651,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.71.1":
-  version: 0.71.1
-  resolution: "@polkadot/dev@npm:0.71.1"
+"@polkadot/dev@npm:^0.71.3":
+  version: 0.71.3
+  resolution: "@polkadot/dev@npm:0.71.3"
   dependencies:
     "@eslint/js": ^8.35.0
     "@rollup/plugin-alias": ^4.0.3
@@ -718,7 +718,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 18505f604cd99a6fa858fe0dd6f9f09f6ae46bc3428616dd8df6f4533b4854de1c517f1c0ede5f7c11a881ffea2175ffd48c8526ea16f7da3320595d0ae67cf8
+  checksum: ff7791efc27b11521753eb1175694b12e54fc7f3b3641ad7fbd1c7d2cc8b11a205b804fc1a313eeb6dedee015e7f6b381b0630d71ce530bd2bf38b30fe647079
   languageName: node
   linkType: hard
 
@@ -1406,10 +1406,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.14.5":
-  version: 18.14.5
-  resolution: "@types/node@npm:18.14.5"
-  checksum: 415fb0edc132baa9580f1b7a381a3f10b662f5d7a7d11641917fa0961788ccede3272badc414aadc47306e9fc35c5f6c59159ac470b46d3f3a15fb0446224c8c
+"@types/node@npm:*, @types/node@npm:^18.15.0":
+  version: 18.15.0
+  resolution: "@types/node@npm:18.15.0"
+  checksum: d81372276dd5053b1743338b61a2178ff9722dc609189d01fc7d1c2acd539414039e0e4780678730514390dad3f29c366a28c29e8dbd5b0025651181f6dd6669
   languageName: node
   linkType: hard
 
@@ -7760,9 +7760,9 @@ fsevents@~2.3.2:
     "@babel/core": ^7.21.0
     "@babel/register": ^7.21.0
     "@babel/runtime": ^7.21.0
-    "@polkadot/dev": ^0.71.1
+    "@polkadot/dev": ^0.71.3
     "@polkadot/typegen": "workspace:packages/typegen"
-    "@types/node": ^18.14.5
+    "@types/node": ^18.15.0
   languageName: unknown
   linkType: soft
 
