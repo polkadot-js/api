@@ -20,11 +20,11 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "10.0.2-7-x",
+  "version": "10.0.2-8-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/rpc-core": "10.0.2-7-x",
-    "@polkadot/types": "10.0.2-7-x",
+    "@polkadot/rpc-core": "10.0.2-8-x",
+    "@polkadot/types": "10.0.2-8-x",
     "@polkadot/util": "^11.0.1",
     "rxjs": "^7.8.0",
     "tslib": "^2.5.0"
