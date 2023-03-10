@@ -1,4 +1,4 @@
-    3392	Jaco                          	Align tsconfig to allow moduleResolution: nodenext (#5530)
+    3393	Jaco                          	Update GH actions (#5532)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
