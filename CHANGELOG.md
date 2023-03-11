@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 10.1.2 Mar 11, 2023
+
+Changes:
+
+- Adjust type exports to remove invalid generated exports from `/src/`
+
+
 ## 10.1.1 Mar 11, 2023
 
 Contributed:
