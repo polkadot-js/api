@@ -236,7 +236,7 @@
             {
               "name": "BlockWeights",
               "type": 510,
-              "value": "0x0700b2da2502000b00204aa9d10113ffffffffffffffff0225d21700010bc046eb90580113a3703d0ad7a370bd010b0098f73e5d0113ffffffffffffffbf0100000225d21700010bc0ce3dfbcc0113a3703d0ad7a370fd010b00204aa9d10113ffffffffffffffff01070088526a741300000000000000400225d21700000000",
+              "value": "0x07c0b8212702000b00204aa9d10113ffffffffffffffff2236eb1800010b7802a590580113a3703d0ad7a370bd010b0098f73e5d0113ffffffffffffffbf0100002236eb1800010b788af7facc0113a3703d0ad7a370fd010b00204aa9d10113ffffffffffffffff01070088526a741300000000000000402236eb1800000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
               ]
@@ -268,7 +268,7 @@
             {
               "name": "Version",
               "type": 516,
-              "value": "0x186b7573616d61347061726974792d6b7573616d61020000009a2400000000000044df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00100000091d5df18b0d2cf5801000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a803000000f3ff14d5ab5270590300000017a6bc0d0062aeb30100000018ef58a3b67ba770010000001300000000",
+              "value": "0x186b7573616d61347061726974792d6b7573616d61020000009a2400000000000044df6acb689907609b0400000037e397fc7c91f5e40100000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0200000049eaaf1b548a0cb00200000091d5df18b0d2cf5802000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a803000000f3ff14d5ab5270590300000017a6bc0d0062aeb30100000018ef58a3b67ba770010000001300000000",
               "docs": [
                 " Get the chain's current version."
               ]
@@ -5132,7 +5132,7 @@
             {
               "name": "SignedMaxWeight",
               "type": 8,
-              "value": "0x0bc094106b560113a3703d0ad7a370bd",
+              "value": "0x0bb8498369560113a3703d0ad7a370bd",
               "docs": [
                 " Maximum weight of a signed solution.",
                 "",
@@ -5219,7 +5219,7 @@
             {
               "name": "MinerMaxWeight",
               "type": 8,
-              "value": "0x0bc094106b560113a3703d0ad7a370bd",
+              "value": "0x0bb8498369560113a3703d0ad7a370bd",
               "docs": []
             },
             {
@@ -7389,8 +7389,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 834,
-                    "value": 835
+                    "key": 836,
+                    "value": 837
                   }
                 },
                 "fallback": "0x00",
@@ -7407,8 +7407,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 834,
-                    "value": 836
+                    "key": 836,
+                    "value": 838
                   }
                 },
                 "fallback": "0x00",
@@ -7426,7 +7426,7 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 834,
+                    "key": 836,
                     "value": 4
                   }
                 },
@@ -7460,7 +7460,7 @@
           },
           "constants": [],
           "errors": {
-            "type": 837
+            "type": 839
           },
           "index": 62
         },
@@ -7495,7 +7495,7 @@
                       "Twox64Concat"
                     ],
                     "key": 156,
-                    "value": 838
+                    "value": 840
                   }
                 },
                 "fallback": "0x00",
@@ -7545,7 +7545,7 @@
             }
           ],
           "errors": {
-            "type": 839
+            "type": 841
           },
           "index": 70
         },
@@ -7563,7 +7563,7 @@
                       "Twox64Concat"
                     ],
                     "key": 156,
-                    "value": 840
+                    "value": 842
                   }
                 },
                 "fallback": "0x00",
@@ -7613,7 +7613,7 @@
             }
           ],
           "errors": {
-            "type": 841
+            "type": 843
           },
           "index": 71
         },
@@ -7656,7 +7656,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 842,
+                    "key": 844,
                     "value": 6
                   }
                 },
@@ -7675,7 +7675,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 843
+                    "value": 845
                   }
                 },
                 "fallback": "0x00",
@@ -7726,7 +7726,7 @@
             }
           ],
           "errors": {
-            "type": 846
+            "type": 848
           },
           "index": 72
         },
@@ -7744,7 +7744,7 @@
                       "Twox64Concat"
                     ],
                     "key": 156,
-                    "value": 847
+                    "value": 849
                   }
                 },
                 "fallback": "0x00",
@@ -7822,7 +7822,7 @@
             }
           ],
           "errors": {
-            "type": 849
+            "type": 851
           },
           "index": 73
         },
@@ -7851,7 +7851,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 10,
-                    "value": 850
+                    "value": 852
                   }
                 },
                 "fallback": "0x00",
@@ -7900,7 +7900,7 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 855,
+                    "key": 857,
                     "value": 4
                   }
                 },
@@ -7918,7 +7918,7 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 855,
+                    "key": 857,
                     "value": 10
                   }
                 },
@@ -7936,8 +7936,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 855,
-                    "value": 856
+                    "key": 857,
+                    "value": 858
                   }
                 },
                 "fallback": "0x00",
@@ -7950,7 +7950,7 @@
                 "name": "VersionDiscoveryQueue",
                 "modifier": "Default",
                 "type": {
-                  "plain": 857
+                  "plain": 859
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -7963,7 +7963,7 @@
                 "name": "CurrentMigration",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 860
+                  "plain": 862
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -7980,8 +7980,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 862,
-                    "value": 864
+                    "key": 864,
+                    "value": 866
                   }
                 },
                 "fallback": "0x00",
@@ -7998,7 +7998,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 865
+                    "value": 867
                   }
                 },
                 "fallback": "0x00",
@@ -8016,58 +8016,58 @@
           },
           "constants": [],
           "errors": {
-            "type": 868
+            "type": 870
           },
           "index": 99
         }
       ],
       "extrinsic": {
-        "type": 869,
+        "type": 871,
         "version": 4,
         "signedExtensions": [
           {
             "identifier": "CheckNonZeroSender",
-            "type": 871,
+            "type": 873,
             "additionalSigned": 63
           },
           {
             "identifier": "CheckSpecVersion",
-            "type": 872,
+            "type": 874,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckTxVersion",
-            "type": 873,
+            "type": 875,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckGenesis",
-            "type": 874,
+            "type": 876,
             "additionalSigned": 11
           },
           {
             "identifier": "CheckMortality",
-            "type": 875,
+            "type": 877,
             "additionalSigned": 11
           },
           {
             "identifier": "CheckNonce",
-            "type": 877,
+            "type": 879,
             "additionalSigned": 63
           },
           {
             "identifier": "CheckWeight",
-            "type": 878,
+            "type": 880,
             "additionalSigned": 63
           },
           {
             "identifier": "ChargeTransactionPayment",
-            "type": 879,
+            "type": 881,
             "additionalSigned": 63
           }
         ]
       },
-      "type": 880
+      "type": 882
     }
   }
 }

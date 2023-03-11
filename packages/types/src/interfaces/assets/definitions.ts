@@ -6,8 +6,11 @@
 
 import type { Definitions } from '../../types/index.js';
 
+import { runtime } from './runtime.js';
+
 export default {
   rpc: {},
+  runtime,
   types: {
     AssetApprovalKey: {
       owner: 'AccountId',

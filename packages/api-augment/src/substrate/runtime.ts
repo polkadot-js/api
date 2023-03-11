@@ -6,8 +6,9 @@
 import '@polkadot/api-base/types/calls';
 
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
-import type { Bytes, Null, Option, Vec, u32 } from '@polkadot/types-codec';
+import type { Bytes, Null, Option, Result, Vec, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
+import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
@@ -16,10 +17,11 @@ import type { CodeSource, CodeUploadResult, ContractExecResult, ContractInstanti
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
+import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError, MmrLeafIndex, MmrProof } from '@polkadot/types/interfaces/mmr';
 import type { NftCollectionId, NftItemId } from '@polkadot/types/interfaces/nfts';
 import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-import type { AccountId, Balance, Block, Call, Header, Index, KeyTypeId, Slot, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, Block, Call, Hash, Header, Index, KeyTypeId, Slot, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
@@ -36,6 +38,17 @@ declare module '@polkadot/api-base/types/calls' {
        * The API to query account nonce (aka transaction index)
        **/
       accountNonce: AugmentedCall<ApiType, (accountId: AccountId | string | Uint8Array) => Observable<Index>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x8453b50b22293977/1 */
+    assetsApi: {
+      /**
+       * Return the current set of authorities.
+       **/
+      accountBalances: AugmentedCall<ApiType, (account: AccountId | string | Uint8Array) => Observable<Vec<ITuple<[u32, TAssetBalance]>>>>;
       /**
        * Generic call
        **/
@@ -177,6 +190,41 @@ declare module '@polkadot/api-base/types/calls' {
        * Returns the metadata of a runtime
        **/
       metadata: AugmentedCall<ApiType, () => Observable<OpaqueMetadata>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x91d5df18b0d2cf58/2 */
+    mmrApi: {
+      /**
+       * Generate MMR proof for a series of leaves under given indices.
+       **/
+      generateBatchProof: AugmentedCall<ApiType, (leafIndices: Vec<MmrLeafIndex> | (MmrLeafIndex | AnyNumber | Uint8Array)[]) => Observable<Result<ITuple<[Vec<MmrEncodableOpaqueLeaf>, MmrBatchProof]>, MmrError>>>;
+      /**
+       * Generate MMR proof for a leaf under given index.
+       **/
+      generateProof: AugmentedCall<ApiType, (leafIndex: MmrLeafIndex | AnyNumber | Uint8Array) => Observable<Result<ITuple<[MmrEncodableOpaqueLeaf, MmrProof]>, MmrError>>>;
+      /**
+       * Return the on-chain MMR root hash.
+       **/
+      mmrRoot: AugmentedCall<ApiType, () => Observable<Result<Hash, MmrError>>>;
+      /**
+       * Verify MMR proof against on-chain MMR for a batch of leaves.
+       **/
+      verifyBatchProof: AugmentedCall<ApiType, (leaves: Vec<MmrEncodableOpaqueLeaf> | (MmrEncodableOpaqueLeaf | string | Uint8Array)[], proof: MmrBatchProof | { leafIndices?: any; leafCount?: any; items?: any } | string | Uint8Array) => Observable<Result<ITuple<[]>, MmrError>>>;
+      /**
+       * Verify MMR proof against given root hash or a batch of leaves.
+       **/
+      verifyBatchProofStateless: AugmentedCall<ApiType, (root: Hash | string | Uint8Array, leaves: Vec<MmrEncodableOpaqueLeaf> | (MmrEncodableOpaqueLeaf | string | Uint8Array)[], proof: MmrBatchProof | { leafIndices?: any; leafCount?: any; items?: any } | string | Uint8Array) => Observable<Result<ITuple<[]>, MmrError>>>;
+      /**
+       * Verify MMR proof against on-chain MMR.
+       **/
+      verifyProof: AugmentedCall<ApiType, (leaf: MmrEncodableOpaqueLeaf | string | Uint8Array, proof: MmrProof | { leafIndex?: any; leafCount?: any; items?: any } | string | Uint8Array) => Observable<Result<ITuple<[]>, MmrError>>>;
+      /**
+       * Verify MMR proof against given root hash.
+       **/
+      verifyProofStateless: AugmentedCall<ApiType, (root: Hash | string | Uint8Array, leaf: MmrEncodableOpaqueLeaf | string | Uint8Array, proof: MmrProof | { leafIndex?: any; leafCount?: any; items?: any } | string | Uint8Array) => Observable<Result<ITuple<[]>, MmrError>>>;
       /**
        * Generic call
        **/
