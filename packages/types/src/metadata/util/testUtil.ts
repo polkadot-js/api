@@ -47,13 +47,10 @@ export function decodeLatestMeta (registry: Registry, type: string, version: num
       expect(json).toEqual(readJson(version, type, 'json'));
     } catch (error) {
       if (process.env.GITHUB_REPOSITORY) {
-        console.error(stringify(json));
-
         throw error;
-      } else {
-        console.error(error);
       }
 
+      console.error(error);
       writeJson(json, version, type, 'json');
     }
   });
@@ -66,13 +63,10 @@ export function decodeLatestMeta (registry: Registry, type: string, version: num
         expect(json).toEqual(readJson(version, type, 'types'));
       } catch (error) {
         if (process.env.GITHUB_REPOSITORY) {
-          console.error(stringify(metadata.toJSON()));
-
           throw error;
-        } else {
-          console.error(error);
         }
 
+        console.error(error);
         writeJson(json, version, type, 'types');
       }
     });

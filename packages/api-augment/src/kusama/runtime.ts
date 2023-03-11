@@ -85,7 +85,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x49eaaf1b548a0cb0/1 */
+    /** 0x49eaaf1b548a0cb0/2 */
     beefyApi: {
       /**
        * Return the block number where BEEFY consensus is enabled/started
@@ -184,7 +184,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x91d5df18b0d2cf58/1 */
+    /** 0x91d5df18b0d2cf58/2 */
     mmrApi: {
       /**
        * Generate MMR proof for a series of leaves under given indices.

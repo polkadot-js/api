@@ -8,6 +8,7 @@ import '@polkadot/api-base/types/calls';
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, Vec, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
+import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
@@ -37,6 +38,17 @@ declare module '@polkadot/api-base/types/calls' {
        * The API to query account nonce (aka transaction index)
        **/
       accountNonce: AugmentedCall<ApiType, (accountId: AccountId | string | Uint8Array) => Observable<Index>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x8453b50b22293977/1 */
+    assetsApi: {
+      /**
+       * Return the current set of authorities.
+       **/
+      accountBalances: AugmentedCall<ApiType, (account: AccountId | string | Uint8Array) => Observable<Vec<ITuple<[u32, TAssetBalance]>>>>;
       /**
        * Generic call
        **/
@@ -183,7 +195,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x91d5df18b0d2cf58/1 */
+    /** 0x91d5df18b0d2cf58/2 */
     mmrApi: {
       /**
        * Generate MMR proof for a series of leaves under given indices.

@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "10.0.2-8-x",
+  "version": "10.1.0",
   "versions": {
     "git": "10.0.2-8-x",
     "npm": "10.0.1"
@@ -37,10 +37,7 @@
     "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.0",
-    "@babel/register": "^7.21.0",
-    "@babel/runtime": "^7.21.0",
-    "@polkadot/dev": "^0.71.3",
+    "@polkadot/dev": "^0.71.4",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/node": "^18.15.0"
   },

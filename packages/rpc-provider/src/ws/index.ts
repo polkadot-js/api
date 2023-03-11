@@ -47,6 +47,7 @@ const TIMEOUT_INTERVAL = 5_000;
 
 const l = logger('api-ws');
 
+/** @internal Clears a Record<*> of all keys, optionally with all callback on clear */
 function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): void {
   Object.keys(record).forEach((key): void => {
     if (cb) {
@@ -57,6 +58,7 @@ function eraseRecord<T> (record: Record<string, T>, cb?: (item: T) => void): voi
   });
 }
 
+/** @internal Creates a default/empty stats object */
 function defaultEndpointStats (): EndpointStats {
   return { bytesRecv: 0, bytesSent: 0, cached: 0, errors: 0, requests: 0, subscriptions: 0, timeout: 0 };
 }

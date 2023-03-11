@@ -38,11 +38,11 @@ export default {
     ],
     [
       "0x49eaaf1b548a0cb0",
-      1
+      2
     ],
     [
       "0x91d5df18b0d2cf58",
-      1
+      2
     ],
     [
       "0xed99c5acb25eedf5",

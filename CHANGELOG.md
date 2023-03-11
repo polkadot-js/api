@@ -1,10 +1,16 @@
 # CHANGELOG
 
-## master
+## 10.1.1 Mar 11, 2023
+
+Contributed:
+
+- Fix yargs usage inside ESM modules (Thanks to https://github.com/conr2d)
 
 Changes:
 
 - Align runtime APIs with latest Substrate
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Use consistent `.js` imports in source files (TS moduleResolution)
 
 
 ## 10.0.1 Mar 4, 2023
