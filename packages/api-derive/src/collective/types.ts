@@ -8,6 +8,9 @@ import type { DeriveApi, DeriveCollectiveProposal } from '../types.js';
 
 export type Collective = 'allianceMotion' | 'council' | 'membership' | 'technicalCommittee';
 
+export type HasProposalsFnRet = (instanceId: string, api: DeriveApi) => () => Observable<boolean>;
+export type HasProposalsFn = (section: Collective) => HasProposalsFnRet;
+
 export type MembersFnRet = (instanceId: string, api: DeriveApi) => () => Observable<AccountId[]>;
 export type MembersFn = (section: Collective) => MembersFnRet;
 

@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { Option } from '@polkadot/types';
 import type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 import type { DeriveApi, DeriveCollectiveProposal } from '../types.js';
-import type { Collective, ProposalCountFn, ProposalFnRet, ProposalHashesFn, ProposalsFnRet } from './types.js';
+import type { Collective, HasProposalsFnRet, ProposalCountFn, ProposalFnRet, ProposalHashesFn, ProposalsFnRet } from './types.js';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -44,7 +44,7 @@ function _proposalsFrom (api: DeriveApi, query: DeriveApi['query']['council'], h
   );
 }
 
-export function hasProposals (section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<boolean> {
+export function hasProposals (section: Collective): HasProposalsFnRet {
   return withSection(section, (query) =>
     (): Observable<boolean> =>
       of(isFunction(query?.proposals))
