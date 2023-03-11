@@ -12,7 +12,9 @@ import { combineLatest, map, of } from 'rxjs';
 
 import { memo, unwrapBlockNumber } from '../util/index.js';
 
-export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber> {
+export type BlockNumberDerive = (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber>;
+
+export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): BlockNumberDerive {
   return (instanceId: string, api: DeriveApi) =>
     memo(instanceId, () =>
       fn(api).pipe(
