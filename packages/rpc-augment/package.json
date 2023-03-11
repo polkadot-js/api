@@ -26,7 +26,7 @@
     "@polkadot/rpc-core": "10.0.2-8-x",
     "@polkadot/types": "10.0.2-8-x",
     "@polkadot/types-codec": "10.0.2-8-x",
-    "@polkadot/util": "^11.0.1",
+    "@polkadot/util": "^11.0.2",
     "tslib": "^2.5.0"
   }
 }

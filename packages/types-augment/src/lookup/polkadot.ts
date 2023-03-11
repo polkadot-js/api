@@ -907,7 +907,7 @@ export default {
    * Lookup230: polkadot_runtime::SessionKeys
    **/
   PolkadotRuntimeSessionKeys: {
-    grandpa: 'SpFinalityGrandpaAppPublic',
+    grandpa: 'SpConsensusGrandpaAppPublic',
     babe: 'SpConsensusBabeAppPublic',
     imOnline: 'PalletImOnlineSr25519AppSr25519Public',
     paraValidator: 'PolkadotPrimitivesV2ValidatorAppPublic',
@@ -2323,14 +2323,29 @@ export default {
    **/
   PolkadotPrimitivesVstagingExecutorParamsExecutorParam: {
     _enum: {
+      __Unused0: 'Null',
       MaxMemoryPages: 'u32',
       StackLogicalMax: 'u32',
       StackNativeMax: 'u32',
-      PrecheckingMaxMemory: 'u64'
+      PrecheckingMaxMemory: 'u64',
+      PvfPrepTimeout: '(PolkadotPrimitivesV2PvfPrepTimeoutKind,u64)',
+      PvfExecTimeout: '(PolkadotPrimitivesV2PvfExecTimeoutKind,u64)'
     }
   },
   /**
-   * Lookup716: polkadot_primitives::v2::DisputeState<N>
+   * Lookup715: polkadot_primitives::v2::PvfPrepTimeoutKind
+   **/
+  PolkadotPrimitivesV2PvfPrepTimeoutKind: {
+    _enum: ['Precheck', 'Lenient']
+  },
+  /**
+   * Lookup716: polkadot_primitives::v2::PvfExecTimeoutKind
+   **/
+  PolkadotPrimitivesV2PvfExecTimeoutKind: {
+    _enum: ['Backing', 'Approval']
+  },
+  /**
+   * Lookup718: polkadot_primitives::v2::DisputeState<N>
    **/
   PolkadotPrimitivesV2DisputeState: {
     validatorsFor: 'BitVec',
@@ -2339,13 +2354,13 @@ export default {
     concludedAt: 'Option<u32>'
   },
   /**
-   * Lookup718: polkadot_runtime_parachains::disputes::pallet::Error<T>
+   * Lookup720: polkadot_runtime_parachains::disputes::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsDisputesPalletError: {
     _enum: ['DuplicateDisputeStatementSets', 'AncientDisputeStatement', 'ValidatorIndexOutOfBounds', 'InvalidSignature', 'DuplicateStatement', 'SingleSidedDispute', 'MaliciousBacker', 'MissingBackingVotes', 'UnconfirmedDispute']
   },
   /**
-   * Lookup719: polkadot_runtime_common::paras_registrar::ParaInfo<sp_core::crypto::AccountId32, Balance>
+   * Lookup721: polkadot_runtime_common::paras_registrar::ParaInfo<sp_core::crypto::AccountId32, Balance>
    **/
   PolkadotRuntimeCommonParasRegistrarParaInfo: {
     manager: 'AccountId32',
@@ -2353,25 +2368,25 @@ export default {
     locked: 'bool'
   },
   /**
-   * Lookup720: polkadot_runtime_common::paras_registrar::pallet::Error<T>
+   * Lookup722: polkadot_runtime_common::paras_registrar::pallet::Error<T>
    **/
   PolkadotRuntimeCommonParasRegistrarPalletError: {
     _enum: ['NotRegistered', 'AlreadyRegistered', 'NotOwner', 'CodeTooLarge', 'HeadDataTooLarge', 'NotParachain', 'NotParathread', 'CannotDeregister', 'CannotDowngrade', 'CannotUpgrade', 'ParaLocked', 'NotReserved', 'EmptyCode', 'CannotSwap']
   },
   /**
-   * Lookup722: polkadot_runtime_common::slots::pallet::Error<T>
+   * Lookup724: polkadot_runtime_common::slots::pallet::Error<T>
    **/
   PolkadotRuntimeCommonSlotsPalletError: {
     _enum: ['ParaNotOnboarding', 'LeaseError']
   },
   /**
-   * Lookup727: polkadot_runtime_common::auctions::pallet::Error<T>
+   * Lookup729: polkadot_runtime_common::auctions::pallet::Error<T>
    **/
   PolkadotRuntimeCommonAuctionsPalletError: {
     _enum: ['AuctionInProgress', 'LeasePeriodInPast', 'ParaNotRegistered', 'NotCurrentAuction', 'NotAuction', 'AuctionEnded', 'AlreadyLeasedOut']
   },
   /**
-   * Lookup728: polkadot_runtime_common::crowdloan::FundInfo<sp_core::crypto::AccountId32, Balance, BlockNumber, LeasePeriod>
+   * Lookup730: polkadot_runtime_common::crowdloan::FundInfo<sp_core::crypto::AccountId32, Balance, BlockNumber, LeasePeriod>
    **/
   PolkadotRuntimeCommonCrowdloanFundInfo: {
     depositor: 'AccountId32',
@@ -2386,7 +2401,7 @@ export default {
     fundIndex: 'u32'
   },
   /**
-   * Lookup729: polkadot_runtime_common::crowdloan::LastContribution<BlockNumber>
+   * Lookup731: polkadot_runtime_common::crowdloan::LastContribution<BlockNumber>
    **/
   PolkadotRuntimeCommonCrowdloanLastContribution: {
     _enum: {
@@ -2396,13 +2411,13 @@ export default {
     }
   },
   /**
-   * Lookup730: polkadot_runtime_common::crowdloan::pallet::Error<T>
+   * Lookup732: polkadot_runtime_common::crowdloan::pallet::Error<T>
    **/
   PolkadotRuntimeCommonCrowdloanPalletError: {
     _enum: ['FirstPeriodInPast', 'FirstPeriodTooFarInFuture', 'LastPeriodBeforeFirstPeriod', 'LastPeriodTooFarInFuture', 'CannotEndInPast', 'EndTooFarInFuture', 'Overflow', 'ContributionTooSmall', 'InvalidParaId', 'CapExceeded', 'ContributionPeriodOver', 'InvalidOrigin', 'NotParachain', 'LeaseActive', 'BidOrLeaseActive', 'FundNotEnded', 'NoContributions', 'NotReadyToDissolve', 'InvalidSignature', 'MemoTooLarge', 'AlreadyInNewRaise', 'VrfDelayInProgress', 'NoLeasePeriod']
   },
   /**
-   * Lookup731: pallet_xcm::pallet::QueryStatus<BlockNumber>
+   * Lookup733: pallet_xcm::pallet::QueryStatus<BlockNumber>
    **/
   PalletXcmQueryStatus: {
     _enum: {
@@ -2423,7 +2438,7 @@ export default {
     }
   },
   /**
-   * Lookup735: xcm::VersionedResponse
+   * Lookup737: xcm::VersionedResponse
    **/
   XcmVersionedResponse: {
     _enum: {
@@ -2432,7 +2447,7 @@ export default {
     }
   },
   /**
-   * Lookup741: pallet_xcm::pallet::VersionMigrationStage
+   * Lookup743: pallet_xcm::pallet::VersionMigrationStage
    **/
   PalletXcmVersionMigrationStage: {
     _enum: {
@@ -2443,7 +2458,7 @@ export default {
     }
   },
   /**
-   * Lookup744: xcm::VersionedAssetId
+   * Lookup746: xcm::VersionedAssetId
    **/
   XcmVersionedAssetId: {
     _enum: {
@@ -2451,7 +2466,7 @@ export default {
     }
   },
   /**
-   * Lookup745: pallet_xcm::pallet::RemoteLockedFungibleRecord
+   * Lookup747: pallet_xcm::pallet::RemoteLockedFungibleRecord
    **/
   PalletXcmRemoteLockedFungibleRecord: {
     amount: 'u128',
@@ -2460,21 +2475,21 @@ export default {
     users: 'u32'
   },
   /**
-   * Lookup749: pallet_xcm::pallet::Error<T>
+   * Lookup751: pallet_xcm::pallet::Error<T>
    **/
   PalletXcmError: {
     _enum: ['Unreachable', 'SendFailure', 'Filtered', 'UnweighableMessage', 'DestinationNotInvertible', 'Empty', 'CannotReanchor', 'TooManyAssets', 'InvalidOrigin', 'BadVersion', 'BadLocation', 'NoSubscription', 'AlreadySubscribed', 'InvalidAsset', 'LowBalance', 'TooManyLocks', 'AccountNotSovereign', 'FeesNotMet', 'LockNotFound', 'InUse']
   },
   /**
-   * Lookup760: pallet_transaction_payment::ChargeTransactionPayment<T>
+   * Lookup762: pallet_transaction_payment::ChargeTransactionPayment<T>
    **/
   PalletTransactionPaymentChargeTransactionPayment: 'Compact<u128>',
   /**
-   * Lookup761: polkadot_runtime_common::claims::PrevalidateAttests<T>
+   * Lookup763: polkadot_runtime_common::claims::PrevalidateAttests<T>
    **/
   PolkadotRuntimeCommonClaimsPrevalidateAttests: 'Null',
   /**
-   * Lookup762: polkadot_runtime::Runtime
+   * Lookup764: polkadot_runtime::Runtime
    **/
   PolkadotRuntimeRuntime: 'Null'
 };

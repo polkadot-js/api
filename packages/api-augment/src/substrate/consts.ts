@@ -965,6 +965,33 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    salary: {
+      /**
+       * The total budget per cycle.
+       * 
+       * This may change over the course of a cycle without any problem.
+       **/
+      budget: u128 & AugmentedConst<ApiType>;
+      /**
+       * The number of blocks within a cycle which accounts have to claim the payout.
+       * 
+       * The number of blocks between sequential payout cycles is the sum of this and
+       * `RegistrationPeriod`.
+       **/
+      payoutPeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * The number of blocks within a cycle which accounts have to register their intent to
+       * claim.
+       * 
+       * The number of blocks between sequential payout cycles is the sum of this and
+       * `PayoutPeriod`.
+       **/
+      registrationPeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     scheduler: {
       /**
        * The maximum weight that may be scheduled per block for any dispatchables.

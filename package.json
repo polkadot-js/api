@@ -40,7 +40,7 @@
     "@babel/core": "^7.21.0",
     "@babel/register": "^7.21.0",
     "@babel/runtime": "^7.21.0",
-    "@polkadot/dev": "^0.71.3",
+    "@polkadot/dev": "^0.71.4",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/node": "^18.15.0"
   },
