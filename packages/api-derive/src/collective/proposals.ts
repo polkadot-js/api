@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, u32 } from '@polkadot/types';
+import type { Option } from '@polkadot/types';
 import type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 import type { DeriveApi, DeriveCollectiveProposal } from '../types.js';
-import type { Collective } from './types.js';
+import type { Collective, HasProposalsFnRet, ProposalCountFn, ProposalFnRet, ProposalHashesFn, ProposalsFnRet } from './types.js';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
@@ -13,10 +13,6 @@ import { isFunction } from '@polkadot/util';
 
 import { firstObservable } from '../util/index.js';
 import { callMethod, withSection } from './helpers.js';
-
-// We are re-exporting these from here to ensure that *.d.ts generation is correct
-export type { Option, u32 } from '@polkadot/types';
-export type { Hash, Proposal, Votes } from '@polkadot/types/interfaces';
 
 type Result = [(Hash | Uint8Array | string)[], (Option<Proposal> | null)[], Option<Votes>[]];
 
@@ -48,14 +44,14 @@ function _proposalsFrom (api: DeriveApi, query: DeriveApi['query']['council'], h
   );
 }
 
-export function hasProposals (section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<boolean> {
+export function hasProposals (section: Collective): HasProposalsFnRet {
   return withSection(section, (query) =>
     (): Observable<boolean> =>
       of(isFunction(query?.proposals))
   );
 }
 
-export function proposals (section: Collective): (instanceId: string, api: DeriveApi) => () => Observable<DeriveCollectiveProposal[]> {
+export function proposals (section: Collective): ProposalsFnRet {
   return withSection(section, (query, api) =>
     (): Observable<DeriveCollectiveProposal[]> =>
       api.derive[section as 'council'].proposalHashes().pipe(
@@ -64,7 +60,7 @@ export function proposals (section: Collective): (instanceId: string, api: Deriv
   );
 }
 
-export function proposal (section: Collective): (instanceId: string, api: DeriveApi) => (hash: Hash | Uint8Array | string) => Observable<DeriveCollectiveProposal | null> {
+export function proposal (section: Collective): ProposalFnRet {
   return withSection(section, (query, api) =>
     (hash: Hash | Uint8Array | string): Observable<DeriveCollectiveProposal | null> =>
       isFunction(query?.proposals)
@@ -73,5 +69,5 @@ export function proposal (section: Collective): (instanceId: string, api: Derive
   );
 }
 
-export const proposalCount = /*#__PURE__*/ callMethod<u32 | null>('proposalCount', null);
-export const proposalHashes = /*#__PURE__*/ callMethod<Hash[]>('proposals', []);
+export const proposalCount: ProposalCountFn = /*#__PURE__*/ callMethod('proposalCount', null);
+export const proposalHashes: ProposalHashesFn = /*#__PURE__*/ callMethod('proposals', []);
