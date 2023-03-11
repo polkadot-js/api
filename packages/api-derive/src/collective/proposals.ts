@@ -73,5 +73,5 @@ export function proposal (section: Collective): (instanceId: string, api: Derive
   );
 }
 
-export const proposalCount = callMethod<u32 | null>('proposalCount', null);
-export const proposalHashes = callMethod<Hash[]>('proposals', []);
+export const proposalCount = /*#__PURE__*/ callMethod<u32 | null>('proposalCount', null);
+export const proposalHashes = /*#__PURE__*/ callMethod<Hash[]>('proposals', []);

@@ -136,7 +136,7 @@ export function preimages (instanceId: string, api: DeriveApi): (hashes: (Hash |
   );
 }
 
-export const preimage = firstMemo(
+export const preimage = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, hash: Hash | Uint8Array | string | FrameSupportPreimagesBounded) =>
     api.derive.democracy.preimages([hash])
 );

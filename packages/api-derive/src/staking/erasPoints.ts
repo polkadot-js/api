@@ -51,4 +51,4 @@ export function _erasPoints (instanceId: string, api: DeriveApi): (eras: EraInde
   });
 }
 
-export const erasPoints = erasHistoricApply('_erasPoints');
+export const erasPoints = /*#__PURE__*/ erasHistoricApply('_erasPoints');

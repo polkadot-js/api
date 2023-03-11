@@ -88,6 +88,6 @@ export function progress (instanceId: string, api: DeriveApi): () => Observable<
   );
 }
 
-export const eraLength = withProgressField('eraLength');
-export const eraProgress = withProgressField('eraProgress');
-export const sessionProgress = withProgressField('sessionProgress');
+export const eraLength = /*#__PURE__*/ withProgressField('eraLength');
+export const eraProgress = /*#__PURE__*/ withProgressField('eraProgress');
+export const sessionProgress = /*#__PURE__*/ withProgressField('sessionProgress');

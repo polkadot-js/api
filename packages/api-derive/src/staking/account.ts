@@ -86,7 +86,7 @@ export function accounts (instanceId: string, api: DeriveApi): (accountIds: (Uin
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export const account = firstMemo(
+export const account = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, opts?: StakingQueryFlags) =>
     api.derive.staking.accounts([accountId], opts)
 );

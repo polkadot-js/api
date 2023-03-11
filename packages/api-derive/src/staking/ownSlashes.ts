@@ -32,9 +32,9 @@ export function _ownSlashes (instanceId: string, api: DeriveApi): (accountId: Ui
   );
 }
 
-export const ownSlash = firstMemo(
+export const ownSlash = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, era: EraIndex) =>
     api.derive.staking._ownSlashes(accountId, [era], true)
 );
 
-export const ownSlashes = erasHistoricApplyAccount('_ownSlashes');
+export const ownSlashes = /*#__PURE__*/ erasHistoricApplyAccount('_ownSlashes');

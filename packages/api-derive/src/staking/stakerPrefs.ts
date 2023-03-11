@@ -24,4 +24,4 @@ export function _stakerPrefs (instanceId: string, api: DeriveApi): (accountId: U
   );
 }
 
-export const stakerPrefs = erasHistoricApplyAccount('_stakerPrefs');
+export const stakerPrefs = /*#__PURE__*/ erasHistoricApplyAccount('_stakerPrefs');

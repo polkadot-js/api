@@ -184,7 +184,7 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
   );
 }
 
-export const stakerRewards = firstMemo(
+export const stakerRewards = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, withActive?: boolean) =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive))

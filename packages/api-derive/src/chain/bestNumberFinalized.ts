@@ -5,6 +5,9 @@ import type { DeriveApi } from '../types.js';
 
 import { createBlockNumberDerive } from './util.js';
 
+// We are re-exporting these from here to ensure that *.d.ts generation is correct
+export type { BlockNumber } from '@polkadot/types/interfaces';
+
 /**
  * @name bestNumberFinalized
  * @returns A BlockNumber
@@ -18,7 +21,7 @@ import { createBlockNumberDerive } from './util.js';
  * });
  * ```
  */
-export const bestNumberFinalized = createBlockNumberDerive(
+export const bestNumberFinalized = /*#__PURE__*/ createBlockNumberDerive(
   (api: DeriveApi) =>
     api.rpc.chain.subscribeFinalizedHeads()
 );

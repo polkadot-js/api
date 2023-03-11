@@ -49,6 +49,6 @@ export function _eraExposure (instanceId: string, api: DeriveApi): (era: EraInde
   });
 }
 
-export const eraExposure = singleEra('_eraExposure');
-export const _erasExposure = combineEras('_eraExposure');
-export const erasExposure = erasHistoricApply('_erasExposure');
+export const eraExposure = /*#__PURE__*/ singleEra('_eraExposure');
+export const _erasExposure = /*#__PURE__*/ combineEras('_eraExposure');
+export const erasExposure = /*#__PURE__*/ erasHistoricApply('_erasExposure');

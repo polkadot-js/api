@@ -12,10 +12,6 @@ import { combineLatest, map, of } from 'rxjs';
 
 import { memo, unwrapBlockNumber } from '../util/index.js';
 
-// re-export these - since these needs to be resolvable from api-derive, i.e. without this
-// we would emit code with ../<somewhere>/src embedded in the *.d.ts files
-export type { BlockNumber } from '@polkadot/types/interfaces';
-
 export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber> {
   return (instanceId: string, api: DeriveApi) =>
     memo(instanceId, () =>

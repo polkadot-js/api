@@ -25,4 +25,4 @@ export function _stakerSlashes (instanceId: string, api: DeriveApi): (accountId:
   });
 }
 
-export const stakerSlashes = erasHistoricApplyAccount('_stakerSlashes');
+export const stakerSlashes = /*#__PURE__*/ erasHistoricApplyAccount('_stakerSlashes');

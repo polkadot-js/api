@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "10.1.1",
+  "version": "10.1.2",
   "versions": {
     "git": "10.1.1",
     "npm": "10.1.1"
@@ -37,7 +37,7 @@
     "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.71.4",
+    "@polkadot/dev": "^0.71.5",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/node": "^18.15.0"
   },
