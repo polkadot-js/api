@@ -10,12 +10,12 @@ export * from './votesOf.js';
 export type { u32 } from '@polkadot/types';
 export type { AccountId } from '@polkadot/types/interfaces';
 
-export const members = collectiveMembers('council');
+export const members = /*#__PURE__*/ collectiveMembers('council');
 
-export const hasProposals = collectiveHasProposals('council');
-export const proposal = collectiveProposal('council');
-export const proposalCount = collectiveProposalCount('council');
-export const proposalHashes = collectiveProposalHashes('council');
-export const proposals = collectiveProposals('council');
+export const hasProposals = /*#__PURE__*/ collectiveHasProposals('council');
+export const proposal = /*#__PURE__*/ collectiveProposal('council');
+export const proposalCount = /*#__PURE__*/ collectiveProposalCount('council');
+export const proposalHashes = /*#__PURE__*/ collectiveProposalHashes('council');
+export const proposals = /*#__PURE__*/ collectiveProposals('council');
 
-export const prime = collectivePrime('council');
+export const prime = /*#__PURE__*/ collectivePrime('council');

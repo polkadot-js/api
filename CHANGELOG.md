@@ -5,6 +5,7 @@
 Changes:
 
 - Adjust type exports to remove invalid generated exports from `/src/`
+- Apply missing `/*#__PURE__*/` exports in `api-derive`
 
 
 ## 10.1.1 Mar 11, 2023

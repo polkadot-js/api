@@ -111,7 +111,7 @@ export function identity (instanceId: string, api: DeriveApi): (accountId?: Acco
   );
 }
 
-export const hasIdentity = firstMemo(
+export const hasIdentity = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: AccountId | Uint8Array | string) =>
     api.derive.accounts.hasIdentityMulti([accountId])
 );

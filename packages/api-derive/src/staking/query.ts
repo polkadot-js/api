@@ -92,7 +92,7 @@ function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], f
 /**
  * @description From a stash, retrieve the controllerId and all relevant details
  */
-export const query = firstMemo(
+export const query = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, flags: StakingQueryFlags) =>
     api.derive.staking.queryMulti([accountId], flags)
 );

@@ -26,7 +26,7 @@ function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, Kitc
   };
 }
 
-export const keys = firstMemo(
+export const keys = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, stashId: Uint8Array | string) =>
     api.derive.staking.keysMulti([stashId])
 );

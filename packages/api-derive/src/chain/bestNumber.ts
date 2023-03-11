@@ -20,7 +20,7 @@ export type { BlockNumber } from '@polkadot/types/interfaces';
  * });
  * ```
  */
-export const bestNumber = createBlockNumberDerive(
+export const bestNumber = /*#__PURE__*/ createBlockNumberDerive(
   (api: DeriveApi) =>
     api.rpc.chain.subscribeNewHeads()
 );

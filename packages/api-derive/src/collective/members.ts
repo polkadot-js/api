@@ -8,4 +8,4 @@ import { callMethod } from './helpers.js';
 // We are re-exporting these from here to ensure that *.d.ts generation is correct
 export type { AccountId } from '@polkadot/types/interfaces';
 
-export const members = callMethod<AccountId[]>('members', []);
+export const members = /*#__PURE__*/ callMethod<AccountId[]>('members', []);

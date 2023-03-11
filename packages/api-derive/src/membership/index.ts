@@ -7,12 +7,12 @@ import { hasProposals as collectiveHasProposals, members as collectiveMembers, p
 export type { u32 } from '@polkadot/types';
 export type { AccountId } from '@polkadot/types/interfaces';
 
-export const members = collectiveMembers('membership');
+export const members = /*#__PURE__*/ collectiveMembers('membership');
 
-export const hasProposals = collectiveHasProposals('membership');
-export const proposal = collectiveProposal('membership');
-export const proposalCount = collectiveProposalCount('membership');
-export const proposalHashes = collectiveProposalHashes('membership');
-export const proposals = collectiveProposals('membership');
+export const hasProposals = /*#__PURE__*/ collectiveHasProposals('membership');
+export const proposal = /*#__PURE__*/ collectiveProposal('membership');
+export const proposalCount = /*#__PURE__*/ collectiveProposalCount('membership');
+export const proposalHashes = /*#__PURE__*/ collectiveProposalHashes('membership');
+export const proposals = /*#__PURE__*/ collectiveProposals('membership');
 
-export const prime = collectivePrime('membership');
+export const prime = /*#__PURE__*/ collectivePrime('membership');

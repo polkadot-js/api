@@ -40,4 +40,4 @@ export function _erasRewards (instanceId: string, api: DeriveApi): (eras: EraInd
   });
 }
 
-export const erasRewards = erasHistoricApply('_erasRewards');
+export const erasRewards = /*#__PURE__*/ erasHistoricApply('_erasRewards');

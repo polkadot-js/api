@@ -21,7 +21,7 @@ export type { BlockNumber } from '@polkadot/types/interfaces';
  * });
  * ```
  */
-export const bestNumberFinalized = createBlockNumberDerive(
+export const bestNumberFinalized = /*#__PURE__*/ createBlockNumberDerive(
   (api: DeriveApi) =>
     api.rpc.chain.subscribeFinalizedHeads()
 );
