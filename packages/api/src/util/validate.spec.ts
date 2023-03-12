@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node" />
+/// <reference types="@polkadot/dev/node/test/node.d.ts" />
 
 import { decorateStorage, Metadata, TypeRegistry } from '@polkadot/types';
 import metaStatic from '@polkadot/types-support/metadata/static-substrate';
