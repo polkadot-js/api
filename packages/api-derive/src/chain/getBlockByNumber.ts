@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { AnyNumber } from '@polkadot/types/types';
-import type { SignedBlockExtended } from '../type/types';
+import type { SignedBlockExtended } from '../type/types.js';
 import type { DeriveApi } from '../types.js';
 
 import { switchMap } from 'rxjs';
