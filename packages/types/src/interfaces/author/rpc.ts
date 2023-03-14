@@ -6,6 +6,7 @@ import type { DefinitionsRpc } from '../../types/index.js';
 export const rpc: DefinitionsRpc = {
   hasKey: {
     description: 'Returns true if the keystore has private keys for the given public key and key type.',
+    isUnsafe: true,
     params: [
       {
         name: 'publicKey',
@@ -20,6 +21,7 @@ export const rpc: DefinitionsRpc = {
   },
   hasSessionKeys: {
     description: 'Returns true if the keystore has private keys for the given session public keys.',
+    isUnsafe: true,
     params: [
       {
         name: 'sessionKeys',
@@ -30,6 +32,7 @@ export const rpc: DefinitionsRpc = {
   },
   insertKey: {
     description: 'Insert a key into the keystore.',
+    isUnsafe: true,
     params: [
       {
         name: 'keyType',
@@ -53,6 +56,7 @@ export const rpc: DefinitionsRpc = {
   },
   removeExtrinsic: {
     description: 'Remove given extrinsic from the pool and temporarily ban it to prevent reimporting',
+    isUnsafe: true,
     params: [
       {
         name: 'bytesOrHash',
@@ -63,6 +67,7 @@ export const rpc: DefinitionsRpc = {
   },
   rotateKeys: {
     description: 'Generate new session keys and returns the corresponding public keys',
+    isUnsafe: true,
     params: [],
     type: 'Bytes'
   },
