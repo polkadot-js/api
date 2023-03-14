@@ -6,6 +6,7 @@ import type { DefinitionsRpc } from '../../types/index.js';
 export const rpc: DefinitionsRpc = {
   localStorageGet: {
     description: 'Get offchain local storage under given key and prefix',
+    isUnsafe: true,
     params: [
       {
         name: 'kind',
@@ -20,6 +21,7 @@ export const rpc: DefinitionsRpc = {
   },
   localStorageSet: {
     description: 'Set offchain local storage under given key and prefix',
+    isUnsafe: true,
     params: [
       {
         name: 'kind',

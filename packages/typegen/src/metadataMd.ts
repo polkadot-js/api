@@ -161,19 +161,16 @@ function addRpc (_runtimeDesc: string, rpcMethods?: string[]): string {
               return name + (isOptional ? '?' : '') + ': `' + type + '`';
             }).join(', ');
             const type = '`' + method.type + '`';
-            const item: SectionItem = {
+
+            container.items.push({
               interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
               jsonrpc: '`' + jsonrpc + '`',
               // link: jsonrpc,
               name: `${methodName}(${args}): ${type}`,
-              ...(method.description && { summary: method.description })
-            };
-
-            if (method.deprecated) {
-              item.deprecated = method.deprecated;
-            }
-
-            container.items.push(item);
+              ...((method.description && { summary: method.description }) || {}),
+              ...((method.deprecated && { deprecated: method.deprecated }) || {}),
+              ...((method.isUnsafe && { unsafe: 'This method is only active with appropriate flags' }) || {})
+            });
           });
 
         return all;

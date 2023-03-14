@@ -17,6 +17,7 @@ export const rpc: DefinitionsRpc = {
   },
   addLogFilter: {
     description: 'Adds the supplied directives to the current log filter',
+    isUnsafe: true,
     params: [
       {
         name: 'directives',
@@ -27,6 +28,7 @@ export const rpc: DefinitionsRpc = {
   },
   addReservedPeer: {
     description: 'Adds a reserved peer',
+    isUnsafe: true,
     params: [
       {
         name: 'peer',
@@ -48,6 +50,7 @@ export const rpc: DefinitionsRpc = {
   dryRun: {
     alias: ['system_dryRunAt'],
     description: 'Dry run an extrinsic at a given block',
+    isUnsafe: true,
     params: [
       {
         name: 'extrinsic',
@@ -86,6 +89,7 @@ export const rpc: DefinitionsRpc = {
   networkState: {
     alias: ['system_unstable_networkState'],
     description: 'Returns current state of the network',
+    isUnsafe: true,
     params: [],
     type: 'NetworkState'
   },
@@ -96,6 +100,7 @@ export const rpc: DefinitionsRpc = {
   },
   peers: {
     description: 'Returns the currently connected peers',
+    isUnsafe: true,
     params: [],
     type: 'Vec<PeerInfo>'
   },
@@ -106,6 +111,7 @@ export const rpc: DefinitionsRpc = {
   },
   removeReservedPeer: {
     description: 'Remove a reserved peer',
+    isUnsafe: true,
     params: [
       {
         name: 'peerId',
@@ -121,6 +127,7 @@ export const rpc: DefinitionsRpc = {
   },
   resetLogFilter: {
     description: 'Resets the log filter to Substrate defaults',
+    isUnsafe: true,
     params: [],
     type: 'Null'
   },

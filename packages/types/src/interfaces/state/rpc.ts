@@ -215,6 +215,7 @@ export const rpc: DefinitionsRpc = {
   getPairs: {
     deprecated: 'Use `api.rpc.state.getKeysPaged` to retrieve keys',
     description: 'Returns the keys with prefix, leave empty to get all the keys (deprecated: Use getKeysPaged)',
+    isUnsafe: true,
     params: [
       {
         name: 'prefix',
@@ -311,6 +312,7 @@ export const rpc: DefinitionsRpc = {
   },
   queryStorage: {
     description: 'Query historical storage entries (by key) starting from a start block',
+    isUnsafe: true,
     params: [
       {
         name: 'keys',
@@ -357,6 +359,10 @@ export const rpc: DefinitionsRpc = {
   },
   subscribeStorage: {
     description: 'Subscribes to storage changes for the provided keys',
+    // NOTE Just marking it here to follow the logic - this is unsafe when no
+    // keys are provided (i.e. subscribing to all), generally this is used
+    // extensively with normal subscriptions
+    // isUnsafe: true,
     params: [
       {
         isOptional: true,
@@ -373,6 +379,7 @@ export const rpc: DefinitionsRpc = {
   },
   traceBlock: {
     description: 'Provides a way to trace the re-execution of a single block',
+    isUnsafe: true,
     params: [
       {
         name: 'block',
@@ -395,6 +402,7 @@ export const rpc: DefinitionsRpc = {
   },
   trieMigrationStatus: {
     description: 'Check current migration state',
+    isUnsafe: true,
     params: [
       {
         isHistoric: true,
