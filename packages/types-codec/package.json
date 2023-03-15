@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "Implementation of the SCALE codec",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=14"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-codec#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/types-codec",
   "repository": {
     "directory": "packages/types-codec",
