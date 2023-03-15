@@ -23,12 +23,12 @@ async function generate (metaHex: HexString, pkg: string | undefined, output: st
 
   if (pkg) {
     try {
-      const defPath = assertFile(path.join(outputPath, 'definitions.ts'));
-      const defCont = await import(defPath) as { module: any };
+      const defCont = await import(
+        assertFile(path.join(outputPath, 'definitions.ts'))
+      ) as Record<string, any>;
 
       extraTypes = {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        [pkg]: defCont.module
+        [pkg]: defCont
       };
     } catch (error) {
       console.error('ERROR: No custom definitions found:', (error as Error).message);
@@ -36,12 +36,13 @@ async function generate (metaHex: HexString, pkg: string | undefined, output: st
   }
 
   try {
-    const lookPath = assertFile(path.join(outputPath, 'lookup.ts'));
-    const lookCont = await import(lookPath) as { module: { default: DefinitionsTypes } };
+    const lookCont = await import(
+      assertFile(path.join(outputPath, 'lookup.ts'))
+    ) as { default: DefinitionsTypes };
 
     customLookupDefinitions = {
       rpc: {},
-      types: lookCont.module.default
+      types: lookCont.default
     };
   } catch (error) {
     console.error('ERROR: No lookup definitions found:', (error as Error).message);
@@ -113,5 +114,10 @@ async function mainPromise (): Promise<void> {
 }
 
 export function main (): void {
-  mainPromise().catch(() => process.exit(1));
+  mainPromise().catch((error) => {
+    console.error();
+    console.error(error);
+    console.error();
+    process.exit(1);
+  });
 }
