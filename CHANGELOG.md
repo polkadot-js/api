@@ -1,12 +1,5 @@
 # CHANGELOG
 
-## 10.1.3 Mar 15, 2023
-
-Changes:
-
-- Remove incorrect `.module.` specifiers in typegen code
-
-
 ## 10.1.2 Mar 11, 2023
 
 Changes:
