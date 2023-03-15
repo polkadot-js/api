@@ -16,10 +16,6 @@ const META_V1_TO_V2: DefinitionsCallEntry['methods'] = {
 export const runtime: DefinitionsCall = {
   Metadata: [
     {
-      methods: objectSpread({}, META_V1_TO_V2),
-      version: 1
-    },
-    {
       methods: objectSpread({
         metadata_at_version: {
           description: 'Returns the metadata at a given version.',
@@ -38,6 +34,10 @@ export const runtime: DefinitionsCall = {
         }
       }, META_V1_TO_V2),
       version: 2
+    },
+    {
+      methods: objectSpread({}, META_V1_TO_V2),
+      version: 1
     }
   ]
 };
