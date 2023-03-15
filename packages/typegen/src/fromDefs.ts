@@ -40,9 +40,11 @@ async function mainPromise (): Promise<void> {
   let userDefs: Record<string, any> = {};
 
   try {
-    userDefs = await import(
+    const defCont = await import(
       assertFile(path.join(inputPath, 'definitions.ts'))
     ) as Record<string, any>;
+
+    userDefs = defCont;
   } catch (error) {
     console.error('ERROR: Unable to load user definitions:', (error as Error).message);
   }
@@ -95,5 +97,10 @@ async function mainPromise (): Promise<void> {
 }
 
 export function main (): void {
-  mainPromise().catch(() => process.exit(1));
+  mainPromise().catch((error) => {
+    console.error();
+    console.error(error);
+    console.error();
+    process.exit(1);
+  });
 }
