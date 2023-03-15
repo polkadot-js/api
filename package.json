@@ -25,7 +25,7 @@
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
     "build:before": "(cd packages/typegen && polkadot-dev-copy-dir scripts build/scripts)",
-    "build:interfaces": "node --loader @polkadot/dev/node/ts packages/typegen/scripts/polkadot-types-internal-interfaces.mjs",
+    "build:interfaces": "node --loader @polkadot/dev-ts packages/typegen/scripts/polkadot-types-internal-interfaces.mjs",
     "build:metadata": "yarn build:interfaces && polkadot-dev-run-test packages/types/src/metadata/v14",
     "build:release": "polkadot-ci-ghact-build",
     "build:rollup": "polkadot-exec-rollup --config",
