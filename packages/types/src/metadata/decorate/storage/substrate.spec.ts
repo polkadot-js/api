@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node.d.ts" />
+/// <reference types="@polkadot/dev-test/node.d.ts" />
 
 import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';

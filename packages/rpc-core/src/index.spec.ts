@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev/node/test/node.d.ts" />
+/// <reference types="@polkadot/dev-test/node.d.ts" />
 
 import type { ProviderInterface } from '@polkadot/rpc-provider/types';
 
