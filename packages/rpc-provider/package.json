@@ -35,9 +35,9 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@substrate/connect": "0.7.20"
+    "@substrate/connect": "0.7.21"
   },
   "optionalDependencies": {
-    "@substrate/connect": "0.7.20"
+    "@substrate/connect": "0.7.21"
   }
 }

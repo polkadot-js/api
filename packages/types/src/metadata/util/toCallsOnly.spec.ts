@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev-test/node.d.ts" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import staticLatest from '@polkadot/types-support/metadata/static-substrate';
 import staticV13 from '@polkadot/types-support/metadata/v13/substrate-hex';
