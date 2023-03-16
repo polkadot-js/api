@@ -1,10 +1,18 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add methods for `Metadada_*` v2 state calls
+
+
 ## 10.1.3 Mar 15, 2023
 
 Changes:
 
 - Remove incorrect `.module.` specifiers in typegen code
+- Mark unsafe RPC methods (and include in `rpc.md` generation)
 
 
 ## 10.1.2 Mar 11, 2023
