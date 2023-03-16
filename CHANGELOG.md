@@ -4,7 +4,7 @@
 
 Changes:
 
-- Add methods for `Metadada_*` v2 state calls
+- Add methods for `Metadata_*` v2 state calls
 
 
 ## 10.1.3 Mar 15, 2023
