@@ -138,7 +138,7 @@ export class WsProvider implements ProviderInterface {
     this.#endpointStats = defaultEndpointStats();
     this.#timeout = timeout || DEFAULT_TIMEOUT_MS;
 
-    if (autoConnectMs > 0) {
+    if (autoConnectMs && autoConnectMs > 0) {
       this.connectWithRetry().catch((): void => {
         // does not throw
       });
