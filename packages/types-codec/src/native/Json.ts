@@ -141,8 +141,7 @@ export class Json extends Map<string, any> implements Codec {
   /**
    * @description Unimplemented, will throw
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     throw new Error('Unimplemented');
   }
 }

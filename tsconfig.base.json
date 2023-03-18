@@ -67,7 +67,6 @@
       "@polkadot/types-support/json/*": ["types-support/src/json/*"],
       "@polkadot/types-support/metadata/*": ["types-support/src/metadata/*.ts"],
       "@polkadot/types-support/packageInfo": ["types-support/src/packageInfo.ts"]
-    },
-    "skipLibCheck": true
+    }
   }
  }

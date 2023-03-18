@@ -118,8 +118,7 @@ function decodeExtrinsicEra (value: IExtrinsicEra | MortalMethod | MortalEnumDef
  * The ImmortalEra for an extrinsic
  */
 export class ImmortalEra extends Raw {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor (registry: Registry, value?: AnyU8a) {
+  constructor (registry: Registry, _value?: AnyU8a) {
     // For immortals, we always provide the known value (i.e. treated as a
     // constant no matter how it is constructed - it is a fixed structure)
     super(registry, IMMORTAL_ERA);
@@ -187,8 +186,7 @@ export class MortalEra extends Tuple {
    *     greater than 1 << 12, then it will be a factor of the times greater than 1<<12 that
    *     `period` is.
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public override toU8a (isBare?: boolean): Uint8Array {
+  public override toU8a (_isBare?: boolean): Uint8Array {
     const period = this.period.toNumber();
     const encoded = Math.min(
       15,

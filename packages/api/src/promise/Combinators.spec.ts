@@ -98,8 +98,7 @@ describe('Combinator', (): void => {
         mocker,
         // eslint-disable-next-line @typescript-eslint/require-await
         async (): UnsubscribePromise => (): void => undefined
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ], (value: any[]): void => {
+      ], (_: any[]): void => {
         // ignore
       });
 

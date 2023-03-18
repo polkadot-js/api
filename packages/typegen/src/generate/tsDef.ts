@@ -32,8 +32,7 @@ export function createGetter (definitions: Record<string, ModuleTypes>, name = '
 }
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function errorUnhandled (_: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
+function errorUnhandled (_: Registry, _definitions: Record<string, ModuleTypes>, def: TypeDef, _imports: TypeImports): string {
   throw new Error(`Generate: ${def.name || ''}: Unhandled type ${TypeDefInfo[def.info]}`);
 }
 
@@ -96,7 +95,7 @@ function tsInt (_: Registry, definitions: Record<string, ModuleTypes>, def: Type
 }
 
 /** @internal */
-function tsNull (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex = -1, name }: TypeDef, imports: TypeImports): string {
+function tsNull (_registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex = -1, name }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Null']);
 
   // * @description extends [[${base}]]
@@ -151,8 +150,7 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
 }
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function tsSi (registry: Registry, definitions: Record<string, ModuleTypes>, typeDef: TypeDef, imports: TypeImports): string {
+function tsSi (_registry: Registry, _definitions: Record<string, ModuleTypes>, typeDef: TypeDef, _imports: TypeImports): string {
   // FIXME
   return `// SI: ${JSON.stringify(typeDef)}`;
 }

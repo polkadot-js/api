@@ -243,7 +243,7 @@ export class WsProvider implements ProviderInterface {
     if (this.#autoConnectMs > 0) {
       try {
         await this.connect();
-      } catch (error) {
+      } catch {
         setTimeout((): void => {
           this.connectWithRetry().catch((): void => {
             // does not throw
@@ -417,7 +417,7 @@ export class WsProvider implements ProviderInterface {
       return this.isConnected && !isNull(this.#websocket)
         ? this.send<boolean>(method, [id])
         : true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }

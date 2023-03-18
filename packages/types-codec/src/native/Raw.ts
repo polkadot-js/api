@@ -155,8 +155,7 @@ export class Raw extends Uint8Array implements IU8a {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     return Uint8Array.from(this);
   }
 

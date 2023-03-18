@@ -62,8 +62,7 @@ export interface PaginationOptions<A = unknown> {
   startKey?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type DecorateMethod<ApiType extends ApiTypes, T = any> =
+export type DecorateMethod<_ApiType extends ApiTypes, T = any> =
   <M extends (...args: any[]) => Observable<any>>(method: M, options?: DecorateMethodOptions) => T;
 
 type AsCodec<R extends Codec | any> = R extends Codec
@@ -71,3 +70,9 @@ type AsCodec<R extends Codec | any> = R extends Codec
   : Codec;
 
 export type ReturnCodec<F extends AnyFunction> = AsCodec<ObsInnerType<ReturnType<F>>>;
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface EmptyBase<_> {
+  // this is use to allow use to have unused vars in augmented interfaces,
+  // so intentionally left empty
+}

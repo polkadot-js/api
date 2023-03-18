@@ -24,7 +24,7 @@ function decodeU8a (registry: Registry, u8a: Uint8Array): MetadataVersioned | Ui
     // when we fail on V9, try to re-parse it as v10...
     try {
       return new MetadataVersioned(registry, u8a);
-    } catch (error) {
+    } catch {
       u8a[VERSION_IDX] = 10;
 
       return u8a;

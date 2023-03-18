@@ -17,7 +17,6 @@ const VERSION_KEY = ':__STORAGE_VERSION__:';
 const VERSION_DOCS = { docs: 'Returns the current pallet version from storage', type: 'u16' };
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function decorateStorage (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Storage {
   const result: Storage = getStorage(registry);
 

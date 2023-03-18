@@ -3,15 +3,14 @@
 
 import type { IsEvent } from '@polkadot/types/metadata/decorate/types';
 import type { AnyTuple } from '@polkadot/types/types';
-import type { ApiTypes } from './base.js';
+import type { ApiTypes, EmptyBase } from './base.js';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type AugmentedEvent<ApiType extends ApiTypes, T extends AnyTuple = AnyTuple, N = unknown> = IsEvent<T, N>;
+export type AugmentedEvent<_ extends ApiTypes, T extends AnyTuple = AnyTuple, N = unknown> = IsEvent<T, N>;
 
 // augmented interfaces
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface AugmentedEvents<ApiType extends ApiTypes> {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AugmentedEvents<ApiType extends ApiTypes> extends EmptyBase<ApiType> {
   // augmented
 }
 

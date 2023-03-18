@@ -6,7 +6,7 @@ import type { Codec, CodecClass, Registry } from '../types/index.js';
 import { u8aToHex } from '@polkadot/util';
 
 /** @internal */
-function formatFailure (registry: Registry, fn: 'decodeU8a' | 'decodeU8aStruct' | 'decodeU8aVec', result: unknown[], { message }: Error, u8a: Uint8Array, i: number, count: number, Type: CodecClass, key?: string): string {
+function formatFailure (registry: Registry, fn: 'decodeU8a' | 'decodeU8aStruct' | 'decodeU8aVec', _result: unknown[], { message }: Error, u8a: Uint8Array, i: number, count: number, Type: CodecClass, key?: string): string {
   let type = '';
 
   try {

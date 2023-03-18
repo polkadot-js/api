@@ -33,7 +33,7 @@ describe('methodSend', (): void => {
     };
 
     provider = {
-      send: jest.fn((method: string, params: unknown[]): Promise<unknown> =>
+      send: jest.fn((_method: string, params: unknown[]): Promise<unknown> =>
         Promise.resolve(params[0])
       )
     } as unknown as ProviderInterface;

@@ -118,14 +118,14 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Finds the index of the value in the array
    */
-  public override indexOf (_other?: unknown): number {
+  public override indexOf (other?: unknown): number {
     // convert type first, this removes overhead from the eq
-    const other = _other instanceof this.#Type
-      ? _other
-      : new this.#Type(this.registry, _other);
+    const check = other instanceof this.#Type
+      ? other
+      : new this.#Type(this.registry, other);
 
     for (let i = 0; i < this.length; i++) {
-      if (other.eq(this[i])) {
+      if (check.eq(this[i])) {
         return i;
       }
     }

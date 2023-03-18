@@ -218,7 +218,7 @@ function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeD
   writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
-function generateRegistry (registry: Registry, filtered: [PortableType, TypeDef][], destDir: string, subPath: string): void {
+function generateRegistry (_registry: Registry, filtered: [PortableType, TypeDef][], destDir: string, subPath: string): void {
   writeFile(path.join(destDir, `${subPath}.ts`), (): string => {
     const items = filtered
       .map(([, { lookupName }]) => lookupName)
