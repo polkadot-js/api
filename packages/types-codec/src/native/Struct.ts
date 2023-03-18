@@ -75,7 +75,7 @@ function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, 
 
       try {
         type = new Type(registry).toRawType();
-      } catch (error) {
+      } catch {
         // ignore
       }
 

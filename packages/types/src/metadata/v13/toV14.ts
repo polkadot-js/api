@@ -174,7 +174,6 @@ function convertConstants (specs: TypeSpec[], registry: Registry, constants: Mod
  * Apply module-specific type overrides (always be done as part of toV14)
  * @internal
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function convertErrors (specs: TypeSpec[], registry: Registry, modName: Text, errors: ErrorMetadataV13[], _sectionTypes: OverrideModuleType): PalletErrorMetadataV14 {
   const variants = errors.map(({ docs, name }, index): SiVariant =>
     registry.createTypeUnsafe('SiVariant', [{
@@ -293,7 +292,6 @@ function convertStorage (specs: TypeSpec[], registry: Registry, { items, prefix 
 }
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function convertExtrinsic (registry: Registry, { signedExtensions, version }: ExtrinsicMetadataV13): ExtrinsicMetadataV14 {
   return registry.createTypeUnsafe('ExtrinsicMetadataV14', [{
     signedExtensions: signedExtensions.map((identifier) => ({

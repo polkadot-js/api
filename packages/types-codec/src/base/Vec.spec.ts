@@ -131,7 +131,7 @@ describe('Vec', (): void => {
 
     it('exposes a working filter', (): void => {
       expect(
-        vector.filter((e, i): boolean => i >= 3).toString()
+        vector.filter((_, i): boolean => i >= 3).toString()
       ).toEqual('4567,56789');
     });
 

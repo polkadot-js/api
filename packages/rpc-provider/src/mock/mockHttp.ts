@@ -25,7 +25,7 @@ export function mockHttp (requests: Request[]): Mock {
   return requests.reduce((scope: HttpMock, request: Request) =>
     scope
       .post('/')
-      .reply(request.code || 200, (uri: string, body: { id: string }) => {
+      .reply(request.code || 200, (_uri: string, body: { id: string }) => {
         scope.body = scope.body || {};
         scope.body[request.method] = body;
 

@@ -259,8 +259,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     return bnToU8a(this.valueEncoded, {
       bitLength: this.#byteLength * 8,
       isLe: true

@@ -6,7 +6,7 @@ import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, Callback, Codec, IStorageKey } from '@polkadot/types/types';
-import type { ApiTypes, DropLast, MethodResult, PaginationOptions, PromiseOrObs, ReturnCodec, UnsubscribePromise } from './base.js';
+import type { ApiTypes, DropLast, EmptyBase, MethodResult, PaginationOptions, PromiseOrObs, ReturnCodec, UnsubscribePromise } from './base.js';
 
 interface StorageEntryObservableMulti<R extends Codec = Codec> {
   <T extends Codec = R>(args: (unknown[] | unknown)[]): Observable<T[]>;
@@ -114,8 +114,8 @@ export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunct
 
 // augmented interfaces
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface AugmentedQueries<ApiType extends ApiTypes> {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AugmentedQueries<ApiType extends ApiTypes> extends EmptyBase<ApiType> {
   // augmented
 }
 

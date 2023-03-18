@@ -10,7 +10,6 @@ import { hexToU8a, lazyMethod, lazyMethods, stringCamelCase } from '@polkadot/ut
 import { objectNameToCamel } from '../util.js';
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _version: number): Constants {
   const result: Constants = {};
 

@@ -8,7 +8,6 @@ import type { MetadataLatest, MetadataV14 } from '../../interfaces/metadata/inde
  * Convert the Metadata (which is an alias) to latest
  * @internal
  **/
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function toLatest (registry: Registry, v14: MetadataV14, _metaVersion: number): MetadataLatest {
+export function toLatest (_registry: Registry, v14: MetadataV14, _metaVersion: number): MetadataLatest {
   return v14;
 }

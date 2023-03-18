@@ -112,8 +112,7 @@ export class HttpProvider implements ProviderInterface {
    * @summary Events are not supported with the HttpProvider, see [[WsProvider]].
    * @description HTTP Provider does not have 'on' emitters. WebSockets should be used instead.
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
+  public on (_type: ProviderInterfaceEmitted, _sub: ProviderInterfaceEmitCb): () => void {
     l.error('HTTP Provider does not have \'on\' emitters, use WebSockets instead');
 
     return (): void => {
@@ -185,8 +184,8 @@ export class HttpProvider implements ProviderInterface {
   /**
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
-  public async subscribe (types: string, method: string, params: unknown[], cb: ProviderInterfaceCallback): Promise<number> {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async subscribe (_types: string, _method: string, _params: unknown[], _cb: ProviderInterfaceCallback): Promise<number> {
     l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);
@@ -195,8 +194,8 @@ export class HttpProvider implements ProviderInterface {
   /**
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
-  public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async unsubscribe (_type: string, _method: string, _id: number): Promise<boolean> {
     l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);

@@ -23,7 +23,7 @@ function createConverter <I, O> (next: (registry: Registry, input: O) => Contrac
     next(registry, step(registry, input));
 }
 
-export function v4ToLatest (registry: Registry, v4: ContractMetadataV4): ContractMetadataLatest {
+export function v4ToLatest (_registry: Registry, v4: ContractMetadataV4): ContractMetadataLatest {
   return v4;
 }
 
