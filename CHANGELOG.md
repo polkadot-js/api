@@ -1,10 +1,10 @@
 # CHANGELOG
 
-## master
+## 10.1.4 Mar 19, 2023
 
 Changes:
 
-- Add methods for `Metadata_*` v2 state calls
+- Add methods for v2 `Metadata_*` runtime calls
 
 
 ## 10.1.3 Mar 15, 2023

@@ -18,17 +18,17 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "10.1.4-6-x",
+  "version": "10.1.4",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^11.0.2",
-    "@polkadot/x-bigint": "^11.0.2",
+    "@polkadot/util": "^11.1.1",
+    "@polkadot/x-bigint": "^11.1.1",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@polkadot/types": "10.1.4-6-x",
-    "@polkadot/types-augment": "10.1.4-6-x",
-    "@polkadot/types-support": "10.1.4-6-x",
-    "@polkadot/util-crypto": "^11.0.2"
+    "@polkadot/types": "10.1.4",
+    "@polkadot/types-augment": "10.1.4",
+    "@polkadot/types-support": "10.1.4",
+    "@polkadot/util-crypto": "^11.1.1"
   }
 }
