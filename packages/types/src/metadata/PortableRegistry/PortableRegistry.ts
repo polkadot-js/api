@@ -48,6 +48,7 @@ const PATHS_ALIAS = splitNamespace([
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
   // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
+  'fp_account::AccountId20',
   'account::AccountId20',
   'polkadot_runtime_common::claims::EthereumAddress',
   // weights 2 is a structure, however for 1.5. with a single field it
