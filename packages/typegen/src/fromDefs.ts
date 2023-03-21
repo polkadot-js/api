@@ -76,23 +76,23 @@ async function mainPromise (): Promise<void> {
   generateInterfaceTypes(allDefs, path.join(inputPath, 'augment-types.ts'));
 
   if (endpoint) {
-    let metadata: HexString;
+    let metaHex: HexString;
 
     if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-      metadata = await getMetadataViaWs(endpoint);
+      metaHex = await getMetadataViaWs(endpoint);
     } else {
-      metadata = (
+      metaHex = (
         JSON.parse(
           fs.readFileSync(assertFile(path.join(process.cwd(), endpoint)), 'utf-8')
         ) as { result: HexString }
       ).result;
 
-      if (!isHex(metadata)) {
+      if (!isHex(metaHex)) {
         throw new Error('Invalid metadata file');
       }
     }
 
-    generateDefaultLookup(inputPath, metadata);
+    generateDefaultLookup(inputPath, metaHex);
   }
 }
 
