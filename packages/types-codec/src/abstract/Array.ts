@@ -90,6 +90,10 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
     };
   }
 
+  /**
+   * @internal
+   * @description Internal per-item inspection of internal values
+   */
   public inspectInner (): Inspect[] {
     const inner = new Array<Inspect>(this.length);
 
@@ -185,6 +189,11 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
       : u8aConcatStrict([compactToU8a(this.length), ...encoded]);
   }
 
+  /**
+   * @internal
+   * @description Internal per-item SCALE encoding of contained values
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   public toU8aInner (isBare?: boolean): Uint8Array[] {
     const encoded = new Array<Uint8Array>(this.length);
 

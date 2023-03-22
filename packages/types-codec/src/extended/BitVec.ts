@@ -73,6 +73,9 @@ export class BitVec extends Raw {
     };
   }
 
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
   public override toHuman (): string {
     return `0b${
       [...this.toU8a(true)]
@@ -94,7 +97,7 @@ export class BitVec extends Raw {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    const bitVec = super.toU8a();
+    const bitVec = super.toU8a(isBare);
 
     return isBare
       ? bitVec

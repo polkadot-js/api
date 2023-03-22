@@ -162,7 +162,6 @@ export class CodecDate extends Date implements INumber {
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (_isBare?: boolean): Uint8Array {
     return bnToU8a(this.toNumber(), U8A_OPTS);

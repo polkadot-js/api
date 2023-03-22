@@ -34,10 +34,16 @@ export class Linkage<T extends Codec> extends Struct {
     };
   }
 
+  /**
+   * @description Returns the next item the Linkage is pointing to
+   */
   public get previous (): Option<T> {
     return this.get('previous') as Option<T>;
   }
 
+  /**
+   * @description Returns the previous item the Linkage is pointing to
+   */
   public get next (): Option<T> {
     return this.get('next') as Option<T>;
   }
@@ -52,12 +58,12 @@ export class Linkage<T extends Codec> extends Struct {
   /**
    * @description Custom toU8a which with bare mode does not return the linkage if empty
    */
-  public override toU8a (): Uint8Array {
+  public override toU8a (isBare?: boolean): Uint8Array {
     // As part of a storage query (where these appear), in the case of empty, the values
     // are NOT populated by the node - follow the same logic, leaving it empty
     return this.isEmpty
       ? EMPTY
-      : super.toU8a();
+      : super.toU8a(isBare);
   }
 }
 
