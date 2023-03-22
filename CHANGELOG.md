@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Add support for new Frontier `AccountId20` mapping (Thanks to https://github.com/koushiro)
+
+Changes:
+
+- Basic support for markdown generation for different chains (only Kusama & Polkadot currently added)
+
+
 ## 10.1.4 Mar 19, 2023
 
 Changes:

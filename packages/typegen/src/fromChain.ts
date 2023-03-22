@@ -94,23 +94,23 @@ async function mainPromise (): Promise<void> {
     }
   }).argv as ArgV;
 
-  let metadata: HexString;
+  let metaHex: HexString;
 
   if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    metadata = await getMetadataViaWs(endpoint);
+    metaHex = await getMetadataViaWs(endpoint);
   } else {
-    metadata = (
+    metaHex = (
       JSON.parse(
         fs.readFileSync(assertFile(path.join(process.cwd(), endpoint)), 'utf-8')
       ) as { result: HexString }
     ).result;
 
-    if (!isHex(metadata)) {
+    if (!isHex(metaHex)) {
       throw new Error('Invalid metadata file');
     }
   }
 
-  await generate(metadata, pkg, output, isStrict);
+  await generate(metaHex, pkg, output, isStrict);
 }
 
 export function main (): void {
