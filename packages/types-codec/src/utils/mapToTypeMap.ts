@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodecClass, Registry } from '../types';
+import type { CodecClass, Registry } from '../types/index.js';
 
-import { typeToConstructor } from './typeToConstructor';
+import { typeToConstructor } from './typeToConstructor.js';
 
 /**
  * @description takes an input map of the form `{ [string]: string | CodecClass }` and returns a map of `{ [string]: CodecClass }`

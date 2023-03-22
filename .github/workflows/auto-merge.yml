@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: jacogr/action-merge@d2d64b4545acd93b0a9575177d3d215ae3f92029
         with:
-          checks: build,lint,test
+          checks: pr (build),pr (lint),pr (test)
           labels: -auto
           strategy: squash
           token: ${{ secrets.GH_PAT_BOT }}

@@ -8,7 +8,7 @@ import type { Registry } from '@polkadot/types/types';
 import { ApiBase } from '@polkadot/api/base';
 import { isFunction } from '@polkadot/util';
 
-import { Abi } from '../Abi';
+import { Abi } from '../Abi/index.js';
 
 export abstract class Base<ApiType extends ApiTypes> {
   readonly abi: Abi;

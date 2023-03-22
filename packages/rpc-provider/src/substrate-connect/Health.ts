@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HealthChecker, SmoldotHealth } from './types';
+import type { HealthChecker, SmoldotHealth } from './types.js';
 
 import { stringify } from '@polkadot/util';
 
@@ -113,7 +113,7 @@ class InnerChecker {
 
     try {
       parsedRequest = JSON.parse(request) as JSONRequest;
-    } catch (err) {
+    } catch {
       return;
     }
 
@@ -131,7 +131,7 @@ class InnerChecker {
 
     try {
       parsedResponse = JSON.parse(jsonRpcResponse) as { id: string, result: undefined | SmoldotHealth };
-    } catch (err) {
+    } catch {
       return jsonRpcResponse;
     }
 

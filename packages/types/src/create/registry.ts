@@ -3,24 +3,24 @@
 
 import type { AnyString, Codec, CodecClass, IU8a, LookupString } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
-import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant, WeightV1, WeightV2 } from '../interfaces/types';
-import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { ExtDef } from '../extrinsic/signedExtensions/types.js';
+import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant, WeightV1, WeightV2 } from '../interfaces/types.js';
+import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types/index.js';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
 import { assertReturn, BN_ZERO, formatBalance, isBn, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
-import { GenericEventData } from '../generic/Event';
-import * as baseTypes from '../index.types';
-import * as definitions from '../interfaces/definitions';
-import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate';
-import { createCallFunction } from '../metadata/decorate/extrinsics';
-import { Metadata } from '../metadata/Metadata';
-import { PortableRegistry } from '../metadata/PortableRegistry';
-import { lazyVariants } from './lazy';
+import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions/index.js';
+import { GenericEventData } from '../generic/Event.js';
+import * as baseTypes from '../index.types.js';
+import * as definitions from '../interfaces/definitions.js';
+import { createCallFunction } from '../metadata/decorate/extrinsics/index.js';
+import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate/index.js';
+import { Metadata } from '../metadata/Metadata.js';
+import { PortableRegistry } from '../metadata/PortableRegistry/index.js';
+import { lazyVariants } from './lazy.js';
 
 const DEFAULT_FIRST_CALL_IDX = new Uint8Array(2);
 

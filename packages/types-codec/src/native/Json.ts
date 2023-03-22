@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, Inspect, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, Inspect, IU8a, Registry } from '../types/index.js';
 
 import { isFunction, objectProperties, stringify } from '@polkadot/util';
 
-import { compareMap } from '../utils';
+import { compareMap } from '../utils/index.js';
 
 /** @internal */
 function decodeJson (value?: Record<string, unknown> | null): [string, any][] {
@@ -141,8 +141,7 @@ export class Json extends Map<string, any> implements Codec {
   /**
    * @description Unimplemented, will throw
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     throw new Error('Unimplemented');
   }
 }

@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
-import type { PortableRegistry } from '../../../metadata';
-import type { CallFunction } from '../../../types';
-import type { Extrinsics } from '../types';
+import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces/index.js';
+import type { PortableRegistry } from '../../../metadata/index.js';
+import type { CallFunction } from '../../../types/index.js';
+import type { Extrinsics } from '../types.js';
 
 import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
-import { lazyVariants } from '../../../create/lazy';
-import { getSiName } from '../../util';
-import { objectNameToCamel } from '../util';
-import { createUnchecked } from './createUnchecked';
+import { lazyVariants } from '../../../create/lazy.js';
+import { getSiName } from '../../util/index.js';
+import { objectNameToCamel } from '../util.js';
+import { createUnchecked } from './createUnchecked.js';
 
 export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
   return calls.isSome;

@@ -3,6 +3,6 @@
 
 import '@polkadot/api-augment';
 
-import { derive } from '.';
+import { derive } from './index.js';
 
 console.log(derive.chain.bestNumber);

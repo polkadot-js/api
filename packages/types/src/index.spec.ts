@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec } from './types';
+import type { Codec } from './types/index.js';
 
 import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 
-import * as definitions from './interfaces/definitions';
-import { TypeRegistry } from './create';
-import * as exported from './index.types';
-import { Metadata } from './metadata';
+import { TypeRegistry } from './create/index.js';
+import * as definitions from './interfaces/definitions.js';
+import { Metadata } from './metadata/index.js';
+import * as exported from './index.types.js';
 
 // NOTE This is not a shortcut to implementing types incorrectly. This is here
 // specifically for the types that _should_ throw in the constrtuctor, i.e

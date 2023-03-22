@@ -1,5 +1,97 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Add support for new Frontier `AccountId20` mapping (Thanks to https://github.com/koushiro)
+
+Changes:
+
+- Basic support for markdown generation for different chains (only Kusama & Polkadot currently added)
+
+
+## 10.1.4 Mar 19, 2023
+
+Changes:
+
+- Add methods for v2 `Metadata_*` runtime calls
+
+
+## 10.1.3 Mar 15, 2023
+
+Changes:
+
+- Remove incorrect `.module.` specifiers in typegen code
+- Mark unsafe RPC methods (and include in `rpc.md` generation)
+
+
+## 10.1.2 Mar 11, 2023
+
+Changes:
+
+- Adjust type exports to remove invalid generated exports from `/src/`
+- Apply missing `/*#__PURE__*/` exports in `api-derive`
+
+
+## 10.1.1 Mar 11, 2023
+
+Contributed:
+
+- Fix yargs usage inside ESM modules (Thanks to https://github.com/conr2d)
+
+Changes:
+
+- Align runtime APIs with latest Substrate
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Use consistent `.js` imports in source files (TS moduleResolution)
+
+
+## 10.0.1 Mar 4, 2023
+
+Contributed:
+
+- Expose per-endpoint stats for providers (Thanks to https://github.com/jeluard)
+- Adjust ink! primitive extraction for v4 (Thanks to https://github.com/statictype)
+
+Changes:
+
+- Ensure that provider disconnect clears all subscriptions
+- Adjust typegen to internally use `import()` (catering for ESM provided types)
+- Swap TS -> JS compiler to use tsc (from babel)
+- Adjust all tests to use `node:test` runner (ESM variants)
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
+## 9.14.2 Feb 19, 2023
+
+Changes:
+
+- Don't allow `WsProvider.connect()` on an open connection (creates resource leaks)
+- Adjust typegen to use metadata-defined aliases in query return decoration
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
+## 9.14.1 Feb 12, 2023
+
+Changes:
+
+- Extract aliases for `*_runtime::Runtime{Call, Event}` from metadata
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
+## 9.13.6 Feb 5, 2023
+
+Contributed:
+
+- Align `eth_getTransactionCount` with frontier (Thanks to https://github.com/alko89)
+
+Changes:
+
+- Additional override for `Compact<{ refTime: u64 }>` chains
+- Add script to retrieve local rpc, version & metadata for typegen
+
+
 ## 9.13.5 Feb 2, 2023
 
 Changes:

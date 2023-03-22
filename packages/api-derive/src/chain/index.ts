@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export * from './bestNumber';
-export * from './bestNumberFinalized';
-export * from './bestNumberLag';
-export * from './getHeader';
-export * from './getBlock';
-export * from './getBlockByNumber';
-export * from './subscribeFinalizedHeads';
-export * from './subscribeNewBlocks';
-export * from './subscribeNewHeads';
+export * from './bestNumber.js';
+export * from './bestNumberFinalized.js';
+export * from './bestNumberLag.js';
+export * from './getHeader.js';
+export * from './getBlock.js';
+export * from './getBlockByNumber.js';
+export * from './subscribeFinalizedHeads.js';
+export * from './subscribeNewBlocks.js';
+export * from './subscribeNewHeads.js';

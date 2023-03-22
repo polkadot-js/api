@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { CodecClass, Inspect, ISet, IU8a, Registry } from '../types';
+import type { CodecClass, Inspect, ISet, IU8a, Registry } from '../types/index.js';
 
 import { BN, bnToBn, bnToU8a, isBn, isNumber, isString, isU8a, isUndefined, objectProperties, stringify, stringPascalCase, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareArray } from '../utils';
+import { compareArray } from '../utils/index.js';
 
 type SetValues = Record<string, number | BN>;
 
@@ -259,8 +259,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     return bnToU8a(this.valueEncoded, {
       bitLength: this.#byteLength * 8,
       isLe: true

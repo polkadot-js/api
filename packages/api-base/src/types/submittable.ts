@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { AccountId, Address, ApplyExtrinsicResult, BlockNumber, Call, DispatchError, DispatchInfo, EventRecord, Extrinsic, ExtrinsicStatus, Hash, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import type { AnyFunction, AnyNumber, AnyTuple, Callback, CallBase, Codec, IExtrinsicEra, IKeyringPair, ISubmittableResult, Signer } from '@polkadot/types/types';
-import type { ApiTypes, PromiseOrObs } from './base';
+import type { ApiTypes, EmptyBase, PromiseOrObs } from './base.js';
 
 export type AugmentedSubmittable<T extends AnyFunction, A extends AnyTuple = AnyTuple> = T & CallBase<A>;
 
@@ -81,8 +81,8 @@ export interface SubmittableExtrinsicFunction<ApiType extends ApiTypes, A extend
 
 // augmented interfaces
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface AugmentedSubmittables<ApiType extends ApiTypes> {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AugmentedSubmittables<ApiType extends ApiTypes> extends EmptyBase<ApiType> {
   // augmented
 }
 

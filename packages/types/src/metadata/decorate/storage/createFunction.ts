@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ICompact, Inspect, INumber } from '@polkadot/types-codec/types';
-import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata';
-import type { StorageEntry, StorageEntryIterator } from '../../../primitive/types';
-import type { Registry } from '../../../types';
+import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata/index.js';
+import type { StorageEntry, StorageEntryIterator } from '../../../primitive/types.js';
+import type { Registry } from '../../../types/index.js';
 
 import { Raw } from '@polkadot/types-codec';
 import { compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
-import { StorageKey } from '../../../primitive';
-import { getSiName } from '../../util';
-import { getHasher } from './getHasher';
+import { StorageKey } from '../../../primitive/index.js';
+import { getSiName } from '../../util/index.js';
+import { getHasher } from './getHasher.js';
 
 export interface CreateItemOptions {
   key?: Uint8Array | string;

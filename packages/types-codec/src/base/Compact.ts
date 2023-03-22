@@ -3,11 +3,11 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, Registry } from '../types';
+import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, Registry } from '../types/index.js';
 
 import { compactFromU8a, compactFromU8aLim, compactToU8a, isU8a } from '@polkadot/util';
 
-import { typeToConstructor } from '../utils';
+import { typeToConstructor } from '../utils/index.js';
 
 interface Options<T> {
   definition?: CodecClass<T>;
@@ -195,8 +195,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     return compactToU8a(this.#raw.toBn());
   }
 

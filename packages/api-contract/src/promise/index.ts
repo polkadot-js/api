@@ -5,8 +5,8 @@ import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
 import { ApiPromise, toPromiseMethod } from '@polkadot/api';
 
-import { Abi } from '../Abi';
-import { Blueprint, Code, Contract } from '../base';
+import { Abi } from '../Abi/index.js';
+import { Blueprint, Code, Contract } from '../base/index.js';
 
 export class BlueprintPromise extends Blueprint<'promise'> {
   constructor (api: ApiPromise, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash) {

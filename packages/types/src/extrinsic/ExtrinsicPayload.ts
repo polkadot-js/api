@@ -3,15 +3,15 @@
 
 import type { AnyJson, BareOpts, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { BlockHash } from '../interfaces/chain';
-import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics';
-import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber } from '../types';
+import type { BlockHash } from '../interfaces/chain/index.js';
+import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics/index.js';
+import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber } from '../types/index.js';
 
 import { AbstractBase, Bytes } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
-import { DEFAULT_VERSION } from './constants';
-import { GenericExtrinsicEra } from './ExtrinsicEra';
+import { DEFAULT_VERSION } from './constants.js';
+import { GenericExtrinsicEra } from './ExtrinsicEra.js';
 
 interface ExtrinsicPayloadOptions {
   version?: number;

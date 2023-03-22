@@ -2,22 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { MetadataLatest, StorageEntryMetadataLatest } from '../../../interfaces';
-import type { Storage } from '../types';
+import type { MetadataLatest, StorageEntryMetadataLatest } from '../../../interfaces/index.js';
+import type { Storage } from '../types.js';
 
 import { lazyMethod, lazyMethods, stringCamelCase } from '@polkadot/util';
 
-import { objectNameToCamel } from '../util';
-import { createFunction, createKeyRaw, NO_RAW_ARGS } from './createFunction';
-import { getStorage } from './getStorage';
-import { createRuntimeFunction } from './util';
+import { objectNameToCamel } from '../util.js';
+import { createFunction, createKeyRaw, NO_RAW_ARGS } from './createFunction.js';
+import { getStorage } from './getStorage.js';
+import { createRuntimeFunction } from './util.js';
 
 const VERSION_NAME = 'palletVersion';
 const VERSION_KEY = ':__STORAGE_VERSION__:';
 const VERSION_DOCS = { docs: 'Returns the current pallet version from storage', type: 'u16' };
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function decorateStorage (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Storage {
   const result: Storage = getStorage(registry);
 

@@ -7,8 +7,8 @@ import type { TypeDef } from '@polkadot/types-create/types';
 import { sanitize } from '@polkadot/types-codec';
 import { isNumber, isString, objectSpread } from '@polkadot/util';
 
-import { TypeDefInfo } from '../types';
-import { typeSplit } from './typeSplit';
+import { TypeDefInfo } from '../types/index.js';
+import { typeSplit } from './typeSplit.js';
 
 interface TypeDefOptions {
   name?: string;
@@ -89,7 +89,6 @@ function _decodeSet (value: TypeDef, details: Record<string, number>, fallbackTy
 }
 
 // decode a struct, set or enum
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeStruct (value: TypeDef, type: string, _: string, count: number): TypeDef {
   const parsed = JSON.parse(type) as Record<string, unknown> & { _alias: string, _fallback?: string };
   const keys = Object.keys(parsed);
@@ -114,7 +113,6 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
 }
 
 // decode a fixed vector, e.g. [u8;32]
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number): TypeDef {
   const max = type.length - 1;
   let index = -1;
@@ -173,7 +171,6 @@ function _decodeTuple (value: TypeDef, _: string, subType: string, count: number
 }
 
 // decode a Int/UInt<bitLength[, name]>
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeAnyInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 'UInt'): TypeDef {
   const [strLength, displayName] = type.substring(clazz.length + 1, type.length - 1).split(',');
   const length = parseInt(strLength.trim(), 10);
@@ -196,7 +193,6 @@ function _decodeUInt (value: TypeDef, type: string, subType: string): TypeDef {
   return _decodeAnyInt(value, type, subType, 'UInt');
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeDoNotConstruct (value: TypeDef, type: string, _: string): TypeDef {
   const NAME_LENGTH = 'DoNotConstruct'.length;
 

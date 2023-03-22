@@ -6,7 +6,7 @@ import type { TypeDef } from '@polkadot/types-create/types';
 
 import { isNumber, isUndefined, objectSpread, stringify } from '@polkadot/util';
 
-import { TypeDefInfo } from '../types';
+import { TypeDefInfo } from '../types/index.js';
 
 type ToString = { toString: () => string };
 
@@ -96,21 +96,19 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
   [TypeDefInfo.HashMap]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'HashMap'),
 
-  [TypeDefInfo.Int]: (registry: Registry, { length = 32 }: TypeDef) =>
+  [TypeDefInfo.Int]: (_registry: Registry, { length = 32 }: TypeDef) =>
     `Int<${length}>`,
 
   [TypeDefInfo.Linkage]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Linkage'),
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef) =>
+  [TypeDefInfo.Null]: (_registry: Registry, _typeDef: TypeDef) =>
     'Null',
 
   [TypeDefInfo.Option]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Option'),
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Plain]: (registry: Registry, { displayName, type }: TypeDef) =>
+  [TypeDefInfo.Plain]: (_registry: Registry, { displayName, type }: TypeDef) =>
     displayName || type,
 
   [TypeDefInfo.Range]: (registry: Registry, typeDef: TypeDef) =>
@@ -122,8 +120,7 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
   [TypeDefInfo.Result]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Result'),
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Set]: (registry: Registry, { length = 8, sub }: TypeDef): string => {
+  [TypeDefInfo.Set]: (_registry: Registry, { length = 8, sub }: TypeDef): string => {
     if (!Array.isArray(sub)) {
       throw new Error('Unable to encode Set type');
     }
@@ -135,8 +132,7 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     });
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [TypeDefInfo.Si]: (registry: Registry, { lookupName, type }: TypeDef) =>
+  [TypeDefInfo.Si]: (_registry: Registry, { lookupName, type }: TypeDef) =>
     lookupName || type,
 
   [TypeDefInfo.Struct]: (registry: Registry, { alias, sub }: TypeDef): string => {
@@ -163,13 +159,13 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
     return `(${sub.map((type) => encodeTypeDef(registry, type)).join(',')})`;
   },
 
-  [TypeDefInfo.UInt]: (registry: Registry, { length = 32 }: TypeDef) =>
+  [TypeDefInfo.UInt]: (_registry: Registry, { length = 32 }: TypeDef) =>
     `UInt<${length}>`,
 
   [TypeDefInfo.Vec]: (registry: Registry, typeDef: TypeDef) =>
     encodeWithParams(registry, typeDef, 'Vec'),
 
-  [TypeDefInfo.VecFixed]: (registry: Registry, { length, sub }: TypeDef): string => {
+  [TypeDefInfo.VecFixed]: (_registry: Registry, { length, sub }: TypeDef): string => {
     if (!isNumber(length) || !sub || Array.isArray(sub)) {
       throw new Error('Unable to encode VecFixed type');
     }

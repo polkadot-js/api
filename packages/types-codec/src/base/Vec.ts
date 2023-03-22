@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, Registry } from '../types';
+import type { Codec, CodecClass, Registry } from '../types/index.js';
 
 import { compactFromU8aLim, isHex, isU8a, logger, stringify, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/Array';
-import { decodeU8aVec, typeToConstructor } from '../utils';
+import { AbstractArray } from '../abstract/Array.js';
+import { decodeU8aVec, typeToConstructor } from '../utils/index.js';
 
 const MAX_LENGTH = 64 * 1024;
 
@@ -118,14 +118,14 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Finds the index of the value in the array
    */
-  public override indexOf (_other?: unknown): number {
+  public override indexOf (other?: unknown): number {
     // convert type first, this removes overhead from the eq
-    const other = _other instanceof this.#Type
-      ? _other
-      : new this.#Type(this.registry, _other);
+    const check = other instanceof this.#Type
+      ? other
+      : new this.#Type(this.registry, other);
 
     for (let i = 0; i < this.length; i++) {
-      if (other.eq(this[i])) {
+      if (check.eq(this[i])) {
         return i;
       }
     }

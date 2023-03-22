@@ -1,16 +1,18 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { HexString } from '@polkadot/util/types';
-import type { BlockNumber } from '../../../interfaces';
-import type { Constants } from '../types';
+import type { BlockNumber } from '../../../interfaces/index.js';
+import type { Constants } from '../types.js';
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import rpcMetadataV10 from '@polkadot/types-support/metadata/v10/substrate-hex';
 
-import { TypeRegistry } from '../../../create';
-import { Metadata } from '../../Metadata';
-import { decorateConstants } from '..';
+import { TypeRegistry } from '../../../create/index.js';
+import { Metadata } from '../../Metadata.js';
+import { decorateConstants } from '../index.js';
 
 function init (meta: HexString): [Constants, TypeRegistry] {
   const registry = new TypeRegistry();

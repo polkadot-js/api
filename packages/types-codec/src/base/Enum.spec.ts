@@ -1,13 +1,15 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { Registry } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
 import { Enum, Null, Text, U32 } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 const PEnum = Enum.with({ a: U32, b: U32 });
 
@@ -305,6 +307,7 @@ describe('Enum', (): void => {
             '0x0134120000'
           ).inspect()
         ).toEqual({
+          inner: undefined,
           outer: [new Uint8Array([0x01]), new Uint8Array([0x34, 0x12, 0x00, 0x00])]
         });
       });

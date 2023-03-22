@@ -3,12 +3,12 @@
 
 import type { Observable } from 'rxjs';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { DeriveApi } from '../types';
-import type { DeriveEraValidatorExposure, DeriveStakerExposure } from './types';
+import type { DeriveApi } from '../types.js';
+import type { DeriveEraValidatorExposure, DeriveStakerExposure } from './types.js';
 
 import { map, switchMap } from 'rxjs';
 
-import { firstMemo, memo } from '../util';
+import { firstMemo, memo } from '../util/index.js';
 
 export function _stakerExposures (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerExposure[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive = false): Observable<DeriveStakerExposure[][]> => {
@@ -46,7 +46,7 @@ export function stakerExposures (instanceId: string, api: DeriveApi): (accountId
   );
 }
 
-export const stakerExposure = firstMemo(
+export const stakerExposure = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, withActive?: boolean) =>
     api.derive.staking.stakerExposures([accountId], withActive)
 );

@@ -1,13 +1,15 @@
 // Copyright 2017-2023 @polkadot/rpc-core authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { ProviderInterface } from '@polkadot/rpc-provider/types';
 
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 import { isFunction } from '@polkadot/util';
 
-import { RpcCore } from '.';
+import { RpcCore } from './index.js';
 
 describe('Api', (): void => {
   const registry = new TypeRegistry();

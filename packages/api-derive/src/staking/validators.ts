@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveStakingValidators } from '../types';
+import type { DeriveApi, DeriveStakingValidators } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 export function nextElected (instanceId: string, api: DeriveApi): () => Observable<AccountId[]> {
   return memo(instanceId, (): Observable<AccountId[]> =>

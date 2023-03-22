@@ -1,13 +1,15 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { BN } from '@polkadot/util';
 
-import { TypeRegistry } from '../../create';
-import { decorateExtrinsics, Metadata } from '../../metadata';
-import { GenericExtrinsicV4 as Extrinsic } from '.';
+import { TypeRegistry } from '../../create/index.js';
+import { decorateExtrinsics, Metadata } from '../../metadata/index.js';
+import { GenericExtrinsicV4 as Extrinsic } from './index.js';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);

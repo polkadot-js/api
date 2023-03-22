@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Enum } from '../base/Enum';
-import type { Codec } from '../types';
+import type { Enum } from '../base/Enum.js';
+import type { Codec } from '../types/index.js';
 
 import { bnToBn, isBigInt, isBn, isFunction, isNumber, stringify } from '@polkadot/util';
 

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountIndexes, DeriveApi } from '../types';
+import type { AccountIndexes, DeriveApi } from '../types.js';
 
 import { map, of, startWith } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 let indicesCache: AccountIndexes | null = null;
 

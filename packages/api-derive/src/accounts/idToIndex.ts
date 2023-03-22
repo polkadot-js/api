@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId, AccountIndex } from '@polkadot/types/interfaces';
-import type { AccountIndexes, DeriveApi } from '../types';
+import type { AccountIndexes, DeriveApi } from '../types.js';
 
 import { map } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 /**
  * @name idToIndex

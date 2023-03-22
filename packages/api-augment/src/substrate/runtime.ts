@@ -8,6 +8,7 @@ import '@polkadot/api-base/types/calls';
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, Vec, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
+import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
@@ -17,6 +18,8 @@ import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError, MmrLeafIndex, MmrProof } from '@polkadot/types/interfaces/mmr';
+import type { NftCollectionId, NftItemId } from '@polkadot/types/interfaces/nfts';
+import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { AccountId, Balance, Block, Call, Hash, Header, Index, KeyTypeId, Slot, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
@@ -35,6 +38,17 @@ declare module '@polkadot/api-base/types/calls' {
        * The API to query account nonce (aka transaction index)
        **/
       accountNonce: AugmentedCall<ApiType, (accountId: AccountId | string | Uint8Array) => Observable<Index>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x8453b50b22293977/1 */
+    assetsApi: {
+      /**
+       * Return the current set of authorities.
+       **/
+      accountBalances: AugmentedCall<ApiType, (account: AccountId | string | Uint8Array) => Observable<Vec<ITuple<[u32, TAssetBalance]>>>>;
       /**
        * Generic call
        **/
@@ -181,7 +195,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x91d5df18b0d2cf58/1 */
+    /** 0x91d5df18b0d2cf58/2 */
     mmrApi: {
       /**
        * Generate MMR proof for a series of leaves under given indices.
@@ -216,12 +230,51 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0x899a250cbe84f250/1 */
+    nftsApi: {
+      /**
+       * An attribute
+       **/
+      attribute: AugmentedCall<ApiType, (collection: NftCollectionId | AnyNumber | Uint8Array, item: NftItemId | AnyNumber | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Option<Bytes>>>;
+      /**
+       * A collection attribute
+       **/
+      collectionAttribute: AugmentedCall<ApiType, (collection: NftCollectionId | AnyNumber | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Option<Bytes>>>;
+      /**
+       * A collection owner
+       **/
+      collectionOwner: AugmentedCall<ApiType, (collection: NftCollectionId | AnyNumber | Uint8Array) => Observable<Option<AccountId>>>;
+      /**
+       * A custom attribute
+       **/
+      customAttribute: AugmentedCall<ApiType, (account: AccountId | string | Uint8Array, collection: NftCollectionId | AnyNumber | Uint8Array, item: NftItemId | AnyNumber | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Option<Bytes>>>;
+      /**
+       * Collection owner
+       **/
+      owner: AugmentedCall<ApiType, (collection: NftCollectionId | AnyNumber | Uint8Array, item: NftItemId | AnyNumber | Uint8Array) => Observable<Option<AccountId>>>;
+      /**
+       * System attribute
+       **/
+      systemAttribute: AugmentedCall<ApiType, (collection: NftCollectionId | AnyNumber | Uint8Array, item: NftItemId | AnyNumber | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Option<Bytes>>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
     /** 0x17a6bc0d0062aeb3/1 */
     nominationPoolsApi: {
+      /**
+       * Returns the equivalent points of `new_funds` for a given pool.
+       **/
+      balanceToPoints: AugmentedCall<ApiType, (poolId: NpPoolId | AnyNumber | Uint8Array, newFunds: Balance | AnyNumber | Uint8Array) => Observable<Balance>>;
       /**
        * Returns the pending rewards for the given member.
        **/
       pendingRewards: AugmentedCall<ApiType, (member: AccountId | string | Uint8Array) => Observable<Balance>>;
+      /**
+       * Returns the equivalent balance of `points` for a given pool.
+       **/
+      pointsToBalance: AugmentedCall<ApiType, (poolId: NpPoolId | AnyNumber | Uint8Array, points: Balance | AnyNumber | Uint8Array) => Observable<Balance>>;
       /**
        * Generic call
        **/
@@ -248,6 +301,17 @@ declare module '@polkadot/api-base/types/calls' {
        * Generate a set of session keys with optionally using the given seed.
        **/
       generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<Bytes>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x18ef58a3b67ba770/1 */
+    stakingApi: {
+      /**
+       * Returns the nominations quota for a nominator with a given balance.
+       **/
+      nominationsQuota: AugmentedCall<ApiType, (balance: Balance | AnyNumber | Uint8Array) => Observable<u32>>;
       /**
        * Generic call
        **/

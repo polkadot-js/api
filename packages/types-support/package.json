@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "Supporting files for types, mostly for testing",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=14"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-support#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/types-support",
   "repository": {
     "directory": "packages/types-support",
@@ -20,10 +18,10 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.13.5",
+  "version": "10.1.5-1-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/util": "^10.3.1"
+    "@polkadot/util": "^11.1.1",
+    "tslib": "^2.5.0"
   }
 }

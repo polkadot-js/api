@@ -1,7 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '../../create';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import { TypeRegistry } from '../../create/index.js';
 
 describe('KeyValueOption', (): void => {
   const registry = new TypeRegistry();

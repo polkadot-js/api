@@ -3,20 +3,23 @@
 
 import type { HexString } from '@polkadot/util/types';
 
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import * as substrateDefs from '@polkadot/types/interfaces/definitions';
+import { isHex } from '@polkadot/util';
 
-import { generateInterfaceTypes } from './generate/interfaceRegistry';
-import { generateTsDef } from './generate/tsDef';
-import { generateDefaultLookup } from './generate';
-import { assertDir, assertFile, getMetadataViaWs } from './util';
+import { generateDefaultLookup } from './generate/index.js';
+import { generateInterfaceTypes } from './generate/interfaceRegistry.js';
+import { generateTsDef } from './generate/tsDef.js';
+import { assertDir, assertFile, getMetadataViaWs } from './util/index.js';
 
 type ArgV = { input: string; package: string; endpoint?: string; };
 
-export function main (): void {
-  const { endpoint, input, package: pkg } = yargs.strict().options({
+async function mainPromise (): Promise<void> {
+  const { endpoint, input, package: pkg } = yargs(hideBin(process.argv)).strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
       type: 'string'
@@ -37,8 +40,11 @@ export function main (): void {
   let userDefs: Record<string, any> = {};
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    userDefs = require(assertFile(path.join(inputPath, 'definitions.ts'))) as Record<string, any>;
+    const defCont = await import(
+      assertFile(path.join(inputPath, 'definitions.ts'))
+    ) as Record<string, any>;
+
+    userDefs = defCont;
   } catch (error) {
     console.error('ERROR: Unable to load user definitions:', (error as Error).message);
   }
@@ -70,15 +76,31 @@ export function main (): void {
   generateInterfaceTypes(allDefs, path.join(inputPath, 'augment-types.ts'));
 
   if (endpoint) {
-    if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-      getMetadataViaWs(endpoint)
-        .then((metadata) => generateDefaultLookup(inputPath, metadata))
-        .catch(() => process.exit(1));
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const metaHex = (require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result;
+    let metaHex: HexString;
 
-      generateDefaultLookup(inputPath, metaHex);
+    if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
+      metaHex = await getMetadataViaWs(endpoint);
+    } else {
+      metaHex = (
+        JSON.parse(
+          fs.readFileSync(assertFile(path.join(process.cwd(), endpoint)), 'utf-8')
+        ) as { result: HexString }
+      ).result;
+
+      if (!isHex(metaHex)) {
+        throw new Error('Invalid metadata file');
+      }
     }
+
+    generateDefaultLookup(inputPath, metaHex);
   }
+}
+
+export function main (): void {
+  mainPromise().catch((error) => {
+    console.error();
+    console.error(error);
+    console.error();
+    process.exit(1);
+  });
 }

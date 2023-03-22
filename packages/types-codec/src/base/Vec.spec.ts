@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { PropIndex } from '@polkadot/types/interfaces/democracy';
 import type { Codec, CodecTo, ITuple } from '@polkadot/types-codec/types';
 
@@ -9,7 +11,7 @@ import { Text, u32, Vec } from '@polkadot/types-codec';
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { decodeAddress, randomAsU8a } from '@polkadot/util-crypto';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
@@ -129,7 +131,7 @@ describe('Vec', (): void => {
 
     it('exposes a working filter', (): void => {
       expect(
-        vector.filter((e, i): boolean => i >= 3).toString()
+        vector.filter((_, i): boolean => i >= 3).toString()
       ).toEqual('4567,56789');
     });
 

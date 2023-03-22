@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -11,7 +13,7 @@ import { ApiRx } from '@polkadot/api';
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { ExactDerive } from '.';
+import { ExactDerive } from './index.js';
 
 const testFunction = (api: ApiRx): any => {
   return <S extends keyof ExactDerive, M extends keyof (typeof api.derive[S])>(section: S, method: M, inputs: any[]): void => {
@@ -27,19 +29,22 @@ const testFunction = (api: ApiRx): any => {
   };
 };
 
+function waitReady (api: ApiRx): Promise<ApiRx> {
+  return new Promise<ApiRx>((resolve) =>
+    api.isReady.subscribe((api) => resolve(api))
+  );
+}
+
 describe('derive', (): void => {
   const registry = new TypeRegistry();
 
   describe('builtin', (): void => {
     const api = new ApiRx({ provider: new MockProvider(registry), registry });
 
-    beforeAll((done): void => {
-      api.isReady.subscribe(() => done());
+    beforeAll(async () => {
+      await waitReady(api);
     });
-
-    afterAll(async () => {
-      await api.disconnect();
-    });
+    afterAll(() => api.disconnect());
 
     testFunction(api)('accounts', 'idAndIndex', []);
     testFunction(api)('accounts', 'idToIndex', []);
@@ -81,13 +86,10 @@ describe('derive', (): void => {
       throwOnConnect: true
     });
 
-    beforeAll((done): void => {
-      api.isReady.subscribe(() => done());
+    beforeAll(async () => {
+      await waitReady(api);
     });
-
-    afterAll(async () => {
-      await api.disconnect();
-    });
+    afterAll(() => api.disconnect());
 
     // override
     testFunction(api)('balances', 'fees', ['a', 'b']);

@@ -5,10 +5,10 @@
 
 export default {
   /**
-   * Lookup108: kusama_runtime::SessionKeys
+   * Lookup107: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
-    grandpa: 'SpFinalityGrandpaAppPublic',
+    grandpa: 'SpConsensusGrandpaAppPublic',
     babe: 'SpConsensusBabeAppPublic',
     imOnline: 'PalletImOnlineSr25519AppSr25519Public',
     paraValidator: 'PolkadotPrimitivesV2ValidatorAppPublic',
@@ -164,7 +164,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup873: kusama_runtime::Runtime
+   * Lookup882: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };

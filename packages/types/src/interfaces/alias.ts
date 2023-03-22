@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OverrideModuleType, Registry } from '../types';
+import type { OverrideModuleType, Registry } from '../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 

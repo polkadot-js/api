@@ -1,8 +1,10 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '../create';
-import { CID_AURA, GenericConsensusEngineId as ConsensusEngineId } from './ConsensusEngineId';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import { TypeRegistry } from '../create/index.js';
+import { CID_AURA, GenericConsensusEngineId as ConsensusEngineId } from './ConsensusEngineId.js';
 
 describe('ConsensusEngineId', (): void => {
   const registry = new TypeRegistry();

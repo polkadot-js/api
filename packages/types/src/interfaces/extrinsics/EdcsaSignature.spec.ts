@@ -1,9 +1,11 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { hexToU8a } from '@polkadot/util';
 
-import { TypeRegistry } from '../../create';
+import { TypeRegistry } from '../../create/index.js';
 
 const TESTS = [
   '0x55bd020bdbbdc02de34e915effc9b18a99002f4c29f64e22e8dcbb69e722ea6c28e1bb53b9484063fbbfd205e49dcc1f620929f520c9c4c3695150f05a28f52a01',

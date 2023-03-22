@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec, CodecClass, IResult, Registry } from '../types';
+import type { Codec, CodecClass, IResult, Registry } from '../types/index.js';
 
-import { Enum } from './Enum';
+import { Enum } from './Enum.js';
 
 /**
  * @name Result

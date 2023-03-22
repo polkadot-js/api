@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Callback } from '@polkadot/types/types';
-import type { UnsubscribePromise } from '../types';
+import type { UnsubscribePromise } from '../types/index.js';
 
 import { isFunction } from '@polkadot/util';
 
@@ -62,7 +62,7 @@ export class Combinator<T extends unknown[] = unknown[]> {
     try {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#callback(this.#results as T);
-    } catch (error) {
+    } catch {
       // swallow, we don't want the handler to trip us up
     }
   }
@@ -82,7 +82,7 @@ export class Combinator<T extends unknown[] = unknown[]> {
         if (isFunction(unsubscribe)) {
           unsubscribe();
         }
-      } catch (error) {
+      } catch {
         // ignore
       }
     });

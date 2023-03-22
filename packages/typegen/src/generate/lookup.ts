@@ -16,8 +16,8 @@ import staticPolkadot from '@polkadot/types-support/metadata/static-polkadot';
 import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 import { isString, stringify } from '@polkadot/util';
 
-import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util';
-import { typeEncoders } from './tsDef';
+import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util/index.js';
+import { typeEncoders } from './tsDef.js';
 
 const WITH_TYPEDEF = false;
 
@@ -218,7 +218,7 @@ function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeD
   writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
-function generateRegistry (registry: Registry, filtered: [PortableType, TypeDef][], destDir: string, subPath: string): void {
+function generateRegistry (_registry: Registry, filtered: [PortableType, TypeDef][], destDir: string, subPath: string): void {
   writeFile(path.join(destDir, `${subPath}.ts`), (): string => {
     const items = filtered
       .map(([, { lookupName }]) => lookupName)

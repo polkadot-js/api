@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { StorageEntry } from '../../../primitive/types';
-import type { ManualMetadata } from './util';
+import type { StorageEntry } from '../../../primitive/types.js';
+import type { ManualMetadata } from './util.js';
 
-import { createRuntimeFunction } from './util';
+import { createRuntimeFunction } from './util.js';
 
 type Creator = (registry: Registry) => StorageEntry;
 

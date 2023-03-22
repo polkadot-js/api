@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyTuple, Codec, Registry } from '@polkadot/types-codec/types';
-import type { DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, ErrorMetadataLatest, EventMetadataLatest, PalletConstantMetadataLatest } from '../../interfaces';
-import type { StorageEntry } from '../../primitive/types';
-import type { CallFunction, IEvent, IEventLike } from '../../types';
+import type { DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, ErrorMetadataLatest, EventMetadataLatest, PalletConstantMetadataLatest } from '../../interfaces/index.js';
+import type { StorageEntry } from '../../primitive/types.js';
+import type { CallFunction, IEvent, IEventLike } from '../../types/index.js';
 
 export interface ConstantCodec extends Codec {
   readonly meta: PalletConstantMetadataLatest;

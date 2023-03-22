@@ -6,19 +6,19 @@ import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { AccountId, EventRecord } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { Codec } from '@polkadot/types-codec/types';
-import type { AbiConstructor, BlueprintOptions } from '../types';
-import type { MapConstructorExec } from './types';
+import type { AbiConstructor, BlueprintOptions } from '../types.js';
+import type { MapConstructorExec } from './types.js';
 
 import { SubmittableResult } from '@polkadot/api';
 import { ApiBase } from '@polkadot/api/base';
 import { BN_ZERO, compactAddLength, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
 
-import { Abi } from '../Abi';
-import { applyOnEvent } from '../util';
-import { Base } from './Base';
-import { Blueprint } from './Blueprint';
-import { Contract } from './Contract';
-import { convertWeight, createBluePrintTx, encodeSalt } from './util';
+import { Abi } from '../Abi/index.js';
+import { applyOnEvent } from '../util.js';
+import { Base } from './Base.js';
+import { Blueprint } from './Blueprint.js';
+import { Contract } from './Contract.js';
+import { convertWeight, createBluePrintTx, encodeSalt } from './util.js';
 
 export interface CodeConstructor<ApiType extends ApiTypes> {
   new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined): Code<ApiType>;

@@ -7,11 +7,11 @@ import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
 import type { CallFunction, RegistryError } from '@polkadot/types/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types';
+import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types/index.js';
 
-import { packageInfo } from '../packageInfo';
-import { findCall, findError } from './find';
-import { Init } from './Init';
+import { packageInfo } from '../packageInfo.js';
+import { findCall, findError } from './find.js';
+import { Init } from './Init.js';
 
 interface PkgJson {
   name: string;

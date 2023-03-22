@@ -1,12 +1,14 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { Raw } from '@polkadot/types-codec';
 
-import { TypeRegistry } from '../create';
-import { GenericEthereumAccountId as AccountId } from './AccountId';
+import { TypeRegistry } from '../create/index.js';
+import { GenericEthereumAccountId as AccountId } from './AccountId.js';
 
 describe('EthereumAccountId', (): void => {
   const registry = new TypeRegistry();

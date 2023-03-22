@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { CodecClass, ITuple } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
@@ -81,7 +83,7 @@ describe('BTreeMap', (): void => {
       (): BTreeMap<Text, U32> => new (
         BTreeMap.with(Text, U32)
       )(registry, 'ABC')
-    ).toThrowError(/Map: cannot decode type/);
+    ).toThrow(/Map: cannot decode type/);
   });
 
   it('correctly encodes length', (): void => {

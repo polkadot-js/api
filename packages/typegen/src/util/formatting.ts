@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import type { AnyString, Registry } from '@polkadot/types/types';
 import type { LookupString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
@@ -13,8 +11,8 @@ import * as typesCodec from '@polkadot/types-codec';
 import { getTypeDef, paramsNotation, TypeDefInfo } from '@polkadot/types-create';
 import { isString, stringify } from '@polkadot/util';
 
-import { readTemplate } from './file';
-import { ModuleTypes, setImports, TypeImports } from './imports';
+import { readTemplate } from './file.js';
+import { ModuleTypes, setImports, TypeImports } from './imports.js';
 
 interface ImportDef {
   file: string;
@@ -139,13 +137,13 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return singleParamNotation(registry, 'Compact', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.DoNotConstruct]: (registry: Registry, { lookupName }: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.DoNotConstruct]: (_registry: Registry, _typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, _withShortcut: boolean) => {
     setImports(definitions, imports, ['DoNotConstruct']);
 
     return 'DoNotConstruct';
   },
 
-  [TypeDefInfo.Enum]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Enum]: (_registry: Registry, typeDef: TypeDef, _definitions: Record<string, ModuleTypes>, _imports: TypeImports, _withShortcut: boolean) => {
     if (typeDef.lookupName) {
       return typeDef.lookupName;
     }
@@ -153,15 +151,15 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     throw new Error(`TypeDefInfo.Enum: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
-  [TypeDefInfo.Int]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Int]: (_registry: Registry, typeDef: TypeDef, _definitions: Record<string, ModuleTypes>, _imports: TypeImports, _withShortcut: boolean) => {
     throw new Error(`TypeDefInfo.Int: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
-  [TypeDefInfo.UInt]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.UInt]: (_registry: Registry, typeDef: TypeDef, _definitions: Record<string, ModuleTypes>, _imports: TypeImports, _withShortcut: boolean) => {
     throw new Error(`TypeDefInfo.UInt: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 
-  [TypeDefInfo.Null]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Null]: (_registry: Registry, _typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, _withShortcut: boolean) => {
     setImports(definitions, imports, ['Null']);
 
     return 'Null';
@@ -171,7 +169,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return singleParamNotation(registry, 'Option', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.Plain]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Plain]: (_registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, _withShortcut: boolean) => {
     setImports(definitions, imports, [typeDef.type]);
 
     return typeDef.type;
@@ -185,7 +183,7 @@ const formatters: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef, def
     return singleParamNotation(registry, 'RangeInclusive', typeDef, definitions, imports, withShortcut);
   },
 
-  [TypeDefInfo.Set]: (registry: Registry, typeDef: TypeDef, definitions: Record<string, ModuleTypes>, imports: TypeImports, withShortcut: boolean) => {
+  [TypeDefInfo.Set]: (_registry: Registry, typeDef: TypeDef, _definitions: Record<string, ModuleTypes>, _imports: TypeImports, _withShortcut: boolean) => {
     throw new Error(`TypeDefInfo.Set: Parameter formatting not implemented on ${stringify(typeDef)}`);
   },
 

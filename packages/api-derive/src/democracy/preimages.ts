@@ -7,14 +7,14 @@ import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '
 import type { Bytes, Option } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { DeriveApi, DeriveProposalImage } from '../types';
+import type { DeriveApi, DeriveProposalImage } from '../types.js';
 
 import { map, of, switchMap } from 'rxjs';
 
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import { firstMemo, memo } from '../util';
-import { getImageHashBounded } from './util';
+import { firstMemo, memo } from '../util/index.js';
+import { getImageHashBounded } from './util.js';
 
 type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
 type OldPreimage = ITuple<PreimageInfo>;
@@ -136,7 +136,7 @@ export function preimages (instanceId: string, api: DeriveApi): (hashes: (Hash |
   );
 }
 
-export const preimage = firstMemo(
+export const preimage = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, hash: Hash | Uint8Array | string | FrameSupportPreimagesBounded) =>
     api.derive.democracy.preimages([hash])
 );

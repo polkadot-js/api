@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { CodecTo } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';

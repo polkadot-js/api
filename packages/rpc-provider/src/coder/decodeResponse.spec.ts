@@ -1,9 +1,11 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { JsonRpcResponse } from '../types';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { RpcCoder } from '.';
+import type { JsonRpcResponse } from '../types.js';
+
+import { RpcCoder } from './index.js';
 
 describe('decodeResponse', (): void => {
   let coder: RpcCoder;

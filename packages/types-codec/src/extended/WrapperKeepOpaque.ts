@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, AnyU8a, Codec, CodecClass, Inspect, Registry } from '../types';
+import type { AnyJson, AnyU8a, Codec, CodecClass, Inspect, Registry } from '../types/index.js';
 
 import { compactAddLength, compactStripLength, compactToU8a, isHex, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { Raw } from '../native/Raw';
-import { typeToConstructor } from '../utils';
-import { Bytes } from './Bytes';
+import { Raw } from '../native/Raw.js';
+import { typeToConstructor } from '../utils/index.js';
+import { Bytes } from './Bytes.js';
 
 type OpaqueName = 'WrapperKeepOpaque' | 'WrapperOpaque';
 

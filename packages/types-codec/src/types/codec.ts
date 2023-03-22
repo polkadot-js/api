@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, ToString } from './helpers';
-import type { IU8a } from './interfaces';
-import type { Registry } from './registry';
+import type { AnyJson, ToString } from './helpers.js';
+import type { IU8a } from './interfaces.js';
+import type { Registry } from './registry.js';
 
 export type BareOpts = boolean | Record<string, boolean>;
 

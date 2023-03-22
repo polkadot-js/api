@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { DeriveApi, DeriveStakingWaiting, StakingQueryFlags } from '../types';
+import type { DeriveApi, DeriveStakingWaiting, StakingQueryFlags } from '../types.js';
 
 import { combineLatest, map, switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 const DEFAULT_FLAGS = { withController: true, withPrefs: true };
 

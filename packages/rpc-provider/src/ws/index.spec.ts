@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Request } from '../mock/mockWs';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { mockWs } from '../mock/mockWs';
-import { Mock } from '../mock/types';
-import { WsProvider } from './';
+import type { Request } from '../mock/mockWs.js';
+import type { Mock } from '../mock/types.js';
+
+import { mockWs } from '../mock/mockWs.js';
+import { WsProvider } from './index.js';
 
 const TEST_WS_URL = 'ws://localhost-index.spec.ts:9977';
 
@@ -22,7 +24,7 @@ function createWs (requests: Request[], autoConnect = 1000, headers?: Record<str
 describe('Ws', (): void => {
   afterEach(async () => {
     if (mock) {
-      mock.done();
+      await mock.done();
     }
 
     if (provider) {
@@ -58,7 +60,7 @@ describe('Endpoint Parsing', (): void => {
   it('Throws when WsProvider endpoint is an invalid string', () => {
     expect(
       () => new WsProvider('http://127.0.0.1:9955', 0)
-    ).toThrowError(/^Endpoint should start with /);
+    ).toThrow(/^Endpoint should start with /);
   });
 
   it('Succeeds when WsProvider endpoint is a valid array', () => {
@@ -73,7 +75,7 @@ describe('Endpoint Parsing', (): void => {
 
     expect(
       () => new WsProvider(endpoints, 0)
-    ).toThrowError('WsProvider requires at least one Endpoint');
+    ).toThrow('WsProvider requires at least one Endpoint');
   });
 
   it('Throws when WsProvider endpoint is an invalid array', () => {
@@ -81,6 +83,6 @@ describe('Endpoint Parsing', (): void => {
 
     expect(
       () => new WsProvider(endpoints, 0)
-    ).toThrowError(/^Endpoint should start with /);
+    ).toThrow(/^Endpoint should start with /);
   });
 });

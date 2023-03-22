@@ -4,10 +4,10 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
-import { rpc } from './rpc';
-import { runtime } from './runtime';
+import { rpc } from './rpc.js';
+import { runtime } from './runtime.js';
 
 export default {
   rpc,
@@ -24,6 +24,10 @@ export default {
       validatorSetId: 'ValidatorSetId'
     },
     BeefyId: '[u8; 33]',
+    BeefyEquivocationProof: {
+      first: 'BeefyVoteMessage',
+      second: 'BeefyVoteMessage'
+    },
     BeefySignedCommitment: {
       commitment: 'BeefyCommitment',
       signatures: 'Vec<Option<EcdsaSignature>>'
@@ -35,6 +39,11 @@ export default {
     },
     BeefyPayload: 'Vec<(BeefyPayloadId, Bytes)>',
     BeefyPayloadId: '[u8;2]',
+    BeefyVoteMessage: {
+      commitment: 'BeefyCommitment',
+      id: 'AuthorityId',
+      signature: 'Signature'
+    },
     MmrRootHash: 'H256',
     ValidatorSetId: 'u64',
     ValidatorSet: {

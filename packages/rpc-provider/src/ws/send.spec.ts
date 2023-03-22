@@ -1,12 +1,13 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Constructor } from '@polkadot/types/types';
-import type { Request } from '../mock/mockWs';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { mockWs } from '../mock/mockWs';
-import { Global, Mock } from '../mock/types';
-import { WsProvider } from './';
+import type { Request } from '../mock/mockWs.js';
+
+import { mockWs } from '../mock/mockWs.js';
+import { Global, Mock } from '../mock/types.js';
+import { WsProvider } from './index.js';
 
 declare const global: Global;
 
@@ -26,7 +27,7 @@ function createWs (autoConnect = 1000): Promise<WsProvider> {
 }
 
 describe('send', (): void => {
-  let globalWs: Constructor<WebSocket>;
+  let globalWs: typeof WebSocket;
 
   beforeEach((): void => {
     globalWs = global.WebSocket;
@@ -36,7 +37,7 @@ describe('send', (): void => {
     global.WebSocket = globalWs;
 
     if (mock) {
-      mock.done();
+      await mock.done();
     }
 
     if (provider) {

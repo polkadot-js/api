@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types/index.js';
 
 import { isHex, isNumber, isObject, isString, isU8a, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { mapToTypeMap, typesToMap } from '../utils';
-import { Null } from './Null';
+import { mapToTypeMap, typesToMap } from '../utils/index.js';
+import { Null } from './Null.js';
 
 // export interface, this is used in Enum.with, so required as public by TS
 export interface EnumCodecClass<T = Codec> {

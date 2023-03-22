@@ -36,6 +36,9 @@ async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_g
         websocket.close();
       };
     } catch (error) {
+      console.error();
+      console.error(error);
+      console.error();
       process.exit(1);
     }
   });

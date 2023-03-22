@@ -4,8 +4,8 @@
 import type { Option, Text, Type, Vec } from '@polkadot/types-codec';
 import type { AnyString, LookupString, Registry } from '@polkadot/types-codec/types';
 import type { ILookup, TypeDef } from '@polkadot/types-create/types';
-import type { PortableType } from '../../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
+import type { PortableType } from '../../interfaces/metadata/index.js';
+import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo/index.js';
 
 import { sanitize, Struct, u32 } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo, withTypeString } from '@polkadot/types-create';
@@ -47,11 +47,14 @@ const PATHS_ALIAS = splitNamespace([
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
-  // weights 1.5+ is a structure can be flatenned
-  'frame_support::weights::weight_v2::Weight',
   // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
+  'fp_account::AccountId20',
   'account::AccountId20',
   'polkadot_runtime_common::claims::EthereumAddress',
+  // weights 2 is a structure, however for 1.5. with a single field it
+  // should be flatenned (can appear in Compact<Weight> extrinsics)
+  'frame_support::weights::weight_v2::Weight',
+  'sp_weights::weight_v2::Weight',
   // wildcard matching in place...
   // these have a specific encoding or logic, use a wildcard for {pallet, darwinia}_democracy
   '*_democracy::vote::Vote',
@@ -64,7 +67,12 @@ const PATHS_ALIAS = splitNamespace([
   // shorten some well-known types
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
+  // runtime
+  '*_runtime::RuntimeCall',
+  '*_runtime::RuntimeEvent',
   // ink!
+  'ink::env::types::*',
+  'ink::primitives::types::*',
   'ink_env::types::*',
   'ink_primitives::types::*'
 ]);
@@ -151,7 +159,15 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 }
 
 /** @internal check if the path matches the PATHS_ALIAS (with wildcards) */
-function getAliasPath ({ path }: SiType): string | null {
+function getAliasPath ({ def, path }: SiType): string | null {
+  // specific logic for weights - we override when non-complex struct
+  // (as applied in Weight 1.5 where we also have `Compact<{ refTime: u64 }>)
+  if (['frame_support::weights::weight_v2::Weight', 'sp_weights::weight_v2::Weight'].includes(path.join('::'))) {
+    return !def.isComposite || def.asComposite.fields.length === 1
+      ? 'WeightV1'
+      : null;
+  }
+
   // TODO We need to handle ink! Balance in some way
   return path.length && PATHS_ALIAS.some((a) => matchParts(a, path))
     ? path[path.length - 1].toString()

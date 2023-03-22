@@ -3,7 +3,7 @@
 
 import type { EraIndex } from '@polkadot/types/interfaces';
 
-import { deriveCache } from '../util';
+import { deriveCache } from '../util/index.js';
 
 export function getEraCache <T> (CACHE_KEY: string, era: EraIndex, withActive?: boolean): [string, T | undefined] {
   const cacheKey = `${CACHE_KEY}-${era.toString()}`;

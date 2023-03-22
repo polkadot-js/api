@@ -1,10 +1,12 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
-import { BitVec } from './';
+import { BitVec } from './index.js';
 
 // form Inclusion BitVec<lsb0, u8>
 const TESTS = ['0x00', '0x0817', '0x0837', '0x087b', '0x0c33'];

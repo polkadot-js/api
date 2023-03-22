@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-b
 import type { Bytes, Null, Option, Result, Vec, bool, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
-import type { ValidatorSet } from '@polkadot/types/interfaces/beefy';
+import type { BeefyEquivocationProof, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -17,9 +17,10 @@ import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError, MmrLeafIndex, MmrProof } from '@polkadot/types/interfaces/mmr';
+import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
 import type { CandidateCommitments, CandidateEvent, CommittedCandidateReceipt, CoreState, GroupRotationInfo, InboundDownwardMessage, InboundHrmpMessage, OccupiedCoreAssumption, ParaId, ParaValidatorIndex, PersistedValidationData, PvfCheckStatement, ScrapedOnChainVotes, SessionInfo, ValidationCode, ValidationCodeHash, ValidatorSignature } from '@polkadot/types/interfaces/parachains';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-import type { AccountId, Balance, Block, Call, Hash, Header, Index, KeyTypeId, Slot, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, Block, BlockNumber, Call, Hash, Header, Index, KeyTypeId, Slot, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
@@ -84,8 +85,20 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x49eaaf1b548a0cb0/1 */
+    /** 0x49eaaf1b548a0cb0/2 */
     beefyApi: {
+      /**
+       * Return the block number where BEEFY consensus is enabled/started
+       **/
+      beefyGenesis: AugmentedCall<ApiType, () => Observable<Option<BlockNumber>>>;
+      /**
+       * Generates a proof of key ownership for the given authority in the given set.
+       **/
+      generateKeyOwnershipProof: AugmentedCall<ApiType, (setId: ValidatorSetId | AnyNumber | Uint8Array, authorityId: AuthorityId | string | Uint8Array) => Observable<Option<OpaqueKeyOwnershipProof>>>;
+      /**
+       * Submits an unsigned extrinsic to report an equivocation.
+       **/
+      submitReportEquivocationUnsignedExtrinsic: AugmentedCall<ApiType, (equivocationProof: BeefyEquivocationProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: OpaqueKeyOwnershipProof | string | Uint8Array) => Observable<Option<Null>>>;
       /**
        * Return the current active BEEFY validator set
        **/
@@ -171,7 +184,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x91d5df18b0d2cf58/1 */
+    /** 0x91d5df18b0d2cf58/2 */
     mmrApi: {
       /**
        * Generate MMR proof for a series of leaves under given indices.
@@ -209,9 +222,17 @@ declare module '@polkadot/api-base/types/calls' {
     /** 0x17a6bc0d0062aeb3/1 */
     nominationPoolsApi: {
       /**
+       * Returns the equivalent points of `new_funds` for a given pool.
+       **/
+      balanceToPoints: AugmentedCall<ApiType, (poolId: NpPoolId | AnyNumber | Uint8Array, newFunds: Balance | AnyNumber | Uint8Array) => Observable<Balance>>;
+      /**
        * Returns the pending rewards for the given member.
        **/
       pendingRewards: AugmentedCall<ApiType, (member: AccountId | string | Uint8Array) => Observable<Balance>>;
+      /**
+       * Returns the equivalent balance of `points` for a given pool.
+       **/
+      pointsToBalance: AugmentedCall<ApiType, (poolId: NpPoolId | AnyNumber | Uint8Array, points: Balance | AnyNumber | Uint8Array) => Observable<Balance>>;
       /**
        * Generic call
        **/
@@ -317,6 +338,17 @@ declare module '@polkadot/api-base/types/calls' {
        * Generate a set of session keys with optionally using the given seed.
        **/
       generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<Bytes>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x18ef58a3b67ba770/1 */
+    stakingApi: {
+      /**
+       * Returns the nominations quota for a nominator with a given balance.
+       **/
+      nominationsQuota: AugmentedCall<ApiType, (balance: Balance | AnyNumber | Uint8Array) => Observable<u32>>;
       /**
        * Generic call
        **/

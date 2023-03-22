@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Callback, Codec } from '@polkadot/types/types';
-import type { DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
+import type { DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types/index.js';
 
 import { catchError, EMPTY, Subscription, tap } from 'rxjs';
 

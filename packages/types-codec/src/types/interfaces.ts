@@ -3,8 +3,8 @@
 
 // import type { SignOptions } from '@polkadot/keyring/types';
 import type { BN } from '@polkadot/util';
-import type { ArgsDef, Codec } from './codec';
-import type { AnyTuple } from './helpers';
+import type { ArgsDef, Codec } from './codec.js';
+import type { AnyTuple } from './helpers.js';
 
 export interface ICompact<T extends INumber = INumber> extends Codec {
   toBigInt (): bigint;

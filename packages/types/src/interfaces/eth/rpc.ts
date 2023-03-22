@@ -3,7 +3,7 @@
 
 // As per frontier
 
-import type { DefinitionsRpc } from '../../types';
+import type { DefinitionsRpc } from '../../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 
@@ -306,8 +306,8 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
     description: 'Returns the number of transactions sent from given address at given time (block number).',
     params: [
       {
-        name: 'hash',
-        type: 'H256'
+        name: 'address',
+        type: 'H160'
       },
       {
         isHistoric: true,

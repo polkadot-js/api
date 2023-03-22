@@ -4,11 +4,11 @@
 import type { Observable } from 'rxjs';
 import type { ReferendumIndex } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { map, of } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 export function referendumIds (instanceId: string, api: DeriveApi): () => Observable<BN[]> {
   return memo(instanceId, (): Observable<BN[]> =>

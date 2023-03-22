@@ -7,13 +7,13 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletIdentityIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { Option } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { DeriveAccountRegistration, DeriveApi, DeriveHasIdentity } from '../types';
+import type { DeriveAccountRegistration, DeriveApi, DeriveHasIdentity } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isHex, u8aToString } from '@polkadot/util';
 
-import { firstMemo, memo } from '../util';
+import { firstMemo, memo } from '../util/index.js';
 
 type IdentityInfoAdditional = PalletIdentityIdentityInfo['additional'][0];
 
@@ -111,7 +111,7 @@ export function identity (instanceId: string, api: DeriveApi): (accountId?: Acco
   );
 }
 
-export const hasIdentity = firstMemo(
+export const hasIdentity = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: AccountId | Uint8Array | string) =>
     api.derive.accounts.hasIdentityMulti([accountId])
 );

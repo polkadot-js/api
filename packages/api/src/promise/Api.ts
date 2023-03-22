@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiOptions, UnsubscribePromise } from '../types';
+import type { ApiOptions, UnsubscribePromise } from '../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
 
-import { ApiBase } from '../base';
-import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator';
-import { promiseTracker, toPromiseMethod } from './decorateMethod';
+import { ApiBase } from '../base/index.js';
+import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator.js';
+import { promiseTracker, toPromiseMethod } from './decorateMethod.js';
 
 /**
  * # @polkadot/api/promise

@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ProviderInterfaceEmitted } from '../types';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import type { ProviderInterfaceEmitted } from '../types.js';
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { MockProvider } from '.';
+import { MockProvider } from './index.js';
 
 describe('on', (): void => {
   const registry = new TypeRegistry();
@@ -19,20 +21,22 @@ describe('on', (): void => {
     await mock.disconnect();
   });
 
-  it('it emits both connected and disconnected events', (done): void => {
+  it('it emits both connected and disconnected events', async (): Promise<void> => {
     const events: Record<string, boolean> = { connected: false, disconnected: false };
 
-    const handler = (type: ProviderInterfaceEmitted): void => {
-      mock.on(type, (): void => {
-        events[type] = true;
+    await new Promise<boolean>((resolve) => {
+      const handler = (type: ProviderInterfaceEmitted): void => {
+        mock.on(type, (): void => {
+          events[type] = true;
 
-        if (Object.values(events).filter((value): boolean => value).length === 2) {
-          done();
-        }
-      });
-    };
+          if (Object.values(events).filter((value): boolean => value).length === 2) {
+            resolve(true);
+          }
+        });
+      };
 
-    handler('connected');
-    handler('disconnected');
+      handler('connected');
+      handler('disconnected');
+    });
   });
 });

@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveApi, DeriveCollectiveProposal } from '../../types';
+import type { DeriveApi, DeriveCollectiveProposal } from '../../types.js';
 
 export function filterBountiesProposals (api: DeriveApi, allProposals: DeriveCollectiveProposal[]): DeriveCollectiveProposal[] {
   const bountyTxBase = api.tx.bounties ? api.tx.bounties : api.tx.treasury;

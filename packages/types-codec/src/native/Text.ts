@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyString, AnyU8a, Inspect, IText, IU8a, Registry } from '../types';
+import type { AnyString, AnyU8a, Inspect, IText, IU8a, Registry } from '../types/index.js';
 
 import { compactAddLength, compactFromU8aLim, compactToU8a, hexToU8a, isHex, isString, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
-import { Raw } from './Raw';
+import { Raw } from './Raw.js';
 
 const MAX_LENGTH = 128 * 1024;
 

@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types';
 import { Text, u16, VecFixed } from '@polkadot/types-codec';
 import { stringToU8a } from '@polkadot/util';

@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types';
 import { CodecDate, Compact, U32 } from '@polkadot/types-codec';
 import { BN } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 const CompactU32 = Compact.with(U32);
 

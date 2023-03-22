@@ -1,7 +1,9 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { RpcCoder } from '.';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import { RpcCoder } from './index.js';
 
 describe('encodeJson', (): void => {
   let coder: RpcCoder;

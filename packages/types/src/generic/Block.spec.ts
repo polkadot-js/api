@@ -1,17 +1,19 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 /* eslint-disable sort-keys */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import type { BlockValue } from './Block';
+import type { BlockValue } from './Block.js';
 
 import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json' assert { type: 'json' };
 import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 
-import { TypeRegistry } from '../create';
-import { Metadata } from '../metadata';
-import { GenericBlock as Block } from './Block';
+import { TypeRegistry } from '../create/index.js';
+import { Metadata } from '../metadata/index.js';
+import { GenericBlock as Block } from './Block.js';
 
 interface BlockJson {
   result: {

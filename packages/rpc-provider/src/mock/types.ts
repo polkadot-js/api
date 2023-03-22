@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Server } from 'mock-socket';
-import type { Constructor } from '@polkadot/types/types';
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-export interface Global extends NodeJS.Global {
-  WebSocket: Constructor<WebSocket>;
+export type Global = typeof globalThis & {
+  WebSocket: typeof WebSocket;
   fetch: any;
 }
 
@@ -14,7 +12,7 @@ export interface Mock {
   body: Record<string, Record<string, unknown>>;
   requests: number;
   server: Server;
-  done: () => Record<string, unknown>;
+  done: () => Promise<void>;
 }
 
 export type MockStateSubscriptionCallback = (error: Error | null, value: any) => void;

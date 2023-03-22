@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedEvent } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscAttributeNamespace, FrameSupportTokensMiscBalanceStatus, KitchensinkRuntimeProxyType, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletConvictionVotingTally, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMessageQueueMockHelpersMessageOrigin, PalletMultisigTimepoint, PalletNftsPriceWithDirection, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, SpFinalityGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, KitchensinkRuntimeProxyType, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletConvictionVotingTally, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsPalletAttributes, PalletNftsPriceWithDirection, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -130,6 +130,10 @@ declare module '@polkadot/api-base/types/events' {
        * Some asset `asset_id` was frozen.
        **/
       AssetFrozen: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      /**
+       * The min_balance of an asset has been updated by the asset owner.
+       **/
+      AssetMinBalanceChanged: AugmentedEvent<ApiType, [assetId: u32, newMinBalance: u128], { assetId: u32, newMinBalance: u128 }>;
       /**
        * An asset has had its attributes changed by the `Force` origin.
        **/
@@ -438,6 +442,18 @@ declare module '@polkadot/api-base/types/events' {
        **/
       ExternalTabled: AugmentedEvent<ApiType, []>;
       /**
+       * Metadata for a proposal or a referendum has been cleared.
+       **/
+      MetadataCleared: AugmentedEvent<ApiType, [owner: PalletDemocracyMetadataOwner, hash_: H256], { owner: PalletDemocracyMetadataOwner, hash_: H256 }>;
+      /**
+       * Metadata for a proposal or a referendum has been set.
+       **/
+      MetadataSet: AugmentedEvent<ApiType, [owner: PalletDemocracyMetadataOwner, hash_: H256], { owner: PalletDemocracyMetadataOwner, hash_: H256 }>;
+      /**
+       * Metadata has been transferred to new owner.
+       **/
+      MetadataTransferred: AugmentedEvent<ApiType, [prevOwner: PalletDemocracyMetadataOwner, owner: PalletDemocracyMetadataOwner, hash_: H256], { prevOwner: PalletDemocracyMetadataOwner, owner: PalletDemocracyMetadataOwner, hash_: H256 }>;
+      /**
        * A proposal has been rejected by referendum.
        **/
       NotPassed: AugmentedEvent<ApiType, [refIndex: u32], { refIndex: u32 }>;
@@ -592,11 +608,29 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    glutton: {
+      /**
+       * The computation limit has been updated by root.
+       **/
+      ComputationLimitSet: AugmentedEvent<ApiType, [compute: Perbill], { compute: Perbill }>;
+      /**
+       * The pallet has been (re)initialized by root.
+       **/
+      PalletInitialized: AugmentedEvent<ApiType, [reinit: bool], { reinit: bool }>;
+      /**
+       * The storage limit has been updated by root.
+       **/
+      StorageLimitSet: AugmentedEvent<ApiType, [storage: Perbill], { storage: Perbill }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     grandpa: {
       /**
        * New authority set has been applied.
        **/
-      NewAuthorities: AugmentedEvent<ApiType, [authoritySet: Vec<ITuple<[SpFinalityGrandpaAppPublic, u64]>>], { authoritySet: Vec<ITuple<[SpFinalityGrandpaAppPublic, u64]>> }>;
+      NewAuthorities: AugmentedEvent<ApiType, [authoritySet: Vec<ITuple<[SpConsensusGrandpaAppPublic, u64]>>], { authoritySet: Vec<ITuple<[SpConsensusGrandpaAppPublic, u64]>> }>;
       /**
        * Current authority set has been paused.
        **/
@@ -724,19 +758,19 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Message placed in overweight queue.
        **/
-      OverweightEnqueued: AugmentedEvent<ApiType, [hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, pageIndex: u32, messageIndex: u32], { hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, pageIndex: u32, messageIndex: u32 }>;
+      OverweightEnqueued: AugmentedEvent<ApiType, [hash_: H256, origin: u32, pageIndex: u32, messageIndex: u32], { hash_: H256, origin: u32, pageIndex: u32, messageIndex: u32 }>;
       /**
        * This page was reaped.
        **/
-      PageReaped: AugmentedEvent<ApiType, [origin: PalletMessageQueueMockHelpersMessageOrigin, index: u32], { origin: PalletMessageQueueMockHelpersMessageOrigin, index: u32 }>;
+      PageReaped: AugmentedEvent<ApiType, [origin: u32, index: u32], { origin: u32, index: u32 }>;
       /**
        * Message is processed.
        **/
-      Processed: AugmentedEvent<ApiType, [hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, weightUsed: SpWeightsWeightV2Weight, success: bool], { hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, weightUsed: SpWeightsWeightV2Weight, success: bool }>;
+      Processed: AugmentedEvent<ApiType, [hash_: H256, origin: u32, weightUsed: SpWeightsWeightV2Weight, success: bool], { hash_: H256, origin: u32, weightUsed: SpWeightsWeightV2Weight, success: bool }>;
       /**
        * Message discarded due to an error in the `MessageProcessor` (usually a format error).
        **/
-      ProcessingFailed: AugmentedEvent<ApiType, [hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, error: FrameSupportMessagesProcessMessageError], { hash_: H256, origin: PalletMessageQueueMockHelpersMessageOrigin, error: FrameSupportMessagesProcessMessageError }>;
+      ProcessingFailed: AugmentedEvent<ApiType, [hash_: H256, origin: u32, error: FrameSupportMessagesProcessMessageError], { hash_: H256, origin: u32, error: FrameSupportMessagesProcessMessageError }>;
       /**
        * Generic event
        **/
@@ -777,11 +811,11 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Attribute metadata has been cleared for a `collection` or `item`.
        **/
-      AttributeCleared: AugmentedEvent<ApiType, [collection: u32, maybeItem: Option<u32>, key: Bytes, namespace: FrameSupportTokensMiscAttributeNamespace], { collection: u32, maybeItem: Option<u32>, key: Bytes, namespace: FrameSupportTokensMiscAttributeNamespace }>;
+      AttributeCleared: AugmentedEvent<ApiType, [collection: u32, maybeItem: Option<u32>, key: Bytes, namespace: PalletNftsAttributeNamespace], { collection: u32, maybeItem: Option<u32>, key: Bytes, namespace: PalletNftsAttributeNamespace }>;
       /**
        * New attribute metadata has been set for a `collection` or `item`.
        **/
-      AttributeSet: AugmentedEvent<ApiType, [collection: u32, maybeItem: Option<u32>, key: Bytes, value: Bytes, namespace: FrameSupportTokensMiscAttributeNamespace], { collection: u32, maybeItem: Option<u32>, key: Bytes, value: Bytes, namespace: FrameSupportTokensMiscAttributeNamespace }>;
+      AttributeSet: AugmentedEvent<ApiType, [collection: u32, maybeItem: Option<u32>, key: Bytes, value: Bytes, namespace: PalletNftsAttributeNamespace], { collection: u32, maybeItem: Option<u32>, key: Bytes, value: Bytes, namespace: PalletNftsAttributeNamespace }>;
       /**
        * An `item` was destroyed.
        **/
@@ -878,6 +912,15 @@ declare module '@polkadot/api-base/types/events' {
        * Ownership acceptance has changed for an account.
        **/
       OwnershipAcceptanceChanged: AugmentedEvent<ApiType, [who: AccountId32, maybeCollection: Option<u32>], { who: AccountId32, maybeCollection: Option<u32> }>;
+      /**
+       * A new attribute in the `Pallet` namespace was set for the `collection` or an `item`
+       * within that `collection`.
+       **/
+      PalletAttributeSet: AugmentedEvent<ApiType, [collection: u32, item: Option<u32>, attribute: PalletNftsPalletAttributes, value: Bytes], { collection: u32, item: Option<u32>, attribute: PalletNftsPalletAttributes, value: Bytes }>;
+      /**
+       * New attributes have been set for an `item` of the `collection`.
+       **/
+      PreSignedAttributesSet: AugmentedEvent<ApiType, [collection: u32, item: u32, namespace: PalletNftsAttributeNamespace], { collection: u32, item: u32, namespace: PalletNftsAttributeNamespace }>;
       /**
        * The deposit for a set of `item`s within a `collection` has been updated.
        **/
@@ -981,7 +1024,7 @@ declare module '@polkadot/api-base/types/events' {
        * The roles of a pool have been updated to the given new roles. Note that the depositor
        * can never change.
        **/
-      RolesUpdated: AugmentedEvent<ApiType, [root: Option<AccountId32>, stateToggler: Option<AccountId32>, nominator: Option<AccountId32>], { root: Option<AccountId32>, stateToggler: Option<AccountId32>, nominator: Option<AccountId32> }>;
+      RolesUpdated: AugmentedEvent<ApiType, [root: Option<AccountId32>, bouncer: Option<AccountId32>, nominator: Option<AccountId32>], { root: Option<AccountId32>, bouncer: Option<AccountId32>, nominator: Option<AccountId32> }>;
       /**
        * The state of a pool has changed
        **/
@@ -1141,6 +1184,14 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Killed: AugmentedEvent<ApiType, [index: u32, tally: PalletRankedCollectiveTally], { index: u32, tally: PalletRankedCollectiveTally }>;
       /**
+       * Metadata for a referendum has been cleared.
+       **/
+      MetadataCleared: AugmentedEvent<ApiType, [index: u32, hash_: H256], { index: u32, hash_: H256 }>;
+      /**
+       * Metadata for a referendum has been set.
+       **/
+      MetadataSet: AugmentedEvent<ApiType, [index: u32, hash_: H256], { index: u32, hash_: H256 }>;
+      /**
        * A proposal has been rejected by referendum.
        **/
       Rejected: AugmentedEvent<ApiType, [index: u32, tally: PalletRankedCollectiveTally], { index: u32, tally: PalletRankedCollectiveTally }>;
@@ -1227,6 +1278,14 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Killed: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
       /**
+       * Metadata for a referendum has been cleared.
+       **/
+      MetadataCleared: AugmentedEvent<ApiType, [index: u32, hash_: H256], { index: u32, hash_: H256 }>;
+      /**
+       * Metadata for a referendum has been set.
+       **/
+      MetadataSet: AugmentedEvent<ApiType, [index: u32, hash_: H256], { index: u32, hash_: H256 }>;
+      /**
        * A proposal has been rejected by referendum.
        **/
       Rejected: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
@@ -1252,6 +1311,28 @@ declare module '@polkadot/api-base/types/events' {
        * Stored data off chain.
        **/
       Stored: AugmentedEvent<ApiType, [sender: AccountId32, contentHash: H256], { sender: AccountId32, contentHash: H256 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    salary: {
+      /**
+       * The next cycle begins.
+       **/
+      CycleStarted: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * A member is inducted into the payroll.
+       **/
+      Inducted: AugmentedEvent<ApiType, [who: AccountId32], { who: AccountId32 }>;
+      /**
+       * A payment happened.
+       **/
+      Paid: AugmentedEvent<ApiType, [who: AccountId32, beneficiary: AccountId32, amount: u128, id: Null], { who: AccountId32, beneficiary: AccountId32, amount: u128, id: Null }>;
+      /**
+       * A member registered for a payout.
+       **/
+      Registered: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
        * Generic event
        **/
@@ -1341,6 +1422,10 @@ declare module '@polkadot/api-base/types/events' {
        * A new \[max\] member count has been set
        **/
       NewMaxMembers: AugmentedEvent<ApiType, [max: u32], { max: u32 }>;
+      /**
+       * A group of members has been choosen as Skeptics
+       **/
+      SkepticsChosen: AugmentedEvent<ApiType, [skeptics: Vec<AccountId32>], { skeptics: Vec<AccountId32> }>;
       /**
        * A suspended member has been judged.
        **/

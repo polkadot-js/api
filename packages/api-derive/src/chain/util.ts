@@ -6,17 +6,15 @@ import type { QueryableStorage } from '@polkadot/api-base/types';
 import type { Compact, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Header } from '@polkadot/types/interfaces';
 import type { Codec, IOption } from '@polkadot/types/types';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { combineLatest, map, of } from 'rxjs';
 
-import { memo, unwrapBlockNumber } from '../util';
+import { memo, unwrapBlockNumber } from '../util/index.js';
 
-// re-export these - since these needs to be resolvable from api-derive, i.e. without this
-// we would emit code with ../<somewhere>/src embedded in the *.d.ts files
-export type { BlockNumber } from '@polkadot/types/interfaces';
+export type BlockNumberDerive = (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber>;
 
-export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber> {
+export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): BlockNumberDerive {
   return (instanceId: string, api: DeriveApi) =>
     memo(instanceId, () =>
       fn(api).pipe(

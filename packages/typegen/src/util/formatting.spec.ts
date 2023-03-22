@@ -1,9 +1,11 @@
 // Copyright 2017-2023 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types';
 
-import { formatType } from './formatting';
+import { formatType } from './formatting.js';
 
 describe('formatType', (): void => {
   const registry = new TypeRegistry();

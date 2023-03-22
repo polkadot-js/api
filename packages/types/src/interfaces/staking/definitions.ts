@@ -4,9 +4,11 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
 import { objectSpread } from '@polkadot/util';
+
+import { runtime } from './runtime.js';
 
 const deprecated = {
   Points: 'u32',
@@ -174,6 +176,7 @@ const phragmen = {
 
 export default {
   rpc: {},
+  runtime,
   types: objectSpread({}, deprecated, phragmen, {
     ActiveEraInfo: {
       index: 'EraIndex',

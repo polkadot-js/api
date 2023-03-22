@@ -6,6 +6,7 @@
 
 import process from 'process';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
@@ -29,7 +30,7 @@ type ArgV = { ws: string };
 
 export function main (): void {
   // retrieve and parse arguments - we do this globally, since this is a single command
-  const { ws } = yargs
+  const { ws } = yargs(hideBin(process.argv))
     .usage('Usage: [options]')
     .wrap(120)
     .strict()

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, CodecClass, Registry } from '@polkadot/types-codec/types';
-import type { DetectCodec } from '../types';
+import type { DetectCodec } from '../types/index.js';
 
 import { createClassUnsafe } from '@polkadot/types-create';
 

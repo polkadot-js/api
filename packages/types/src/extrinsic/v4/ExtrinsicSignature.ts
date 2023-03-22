@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics';
-import type { Address, Call } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, Registry, SignatureOptions } from '../../types';
-import type { ExtrinsicSignatureOptions } from '../types';
+import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics/index.js';
+import type { Address, Call } from '../../interfaces/runtime/index.js';
+import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, Registry, SignatureOptions } from '../../types/index.js';
+import type { ExtrinsicSignatureOptions } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
 import { isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
 
-import { EMPTY_U8A, IMMORTAL_ERA } from '../constants';
-import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload';
+import { EMPTY_U8A, IMMORTAL_ERA } from '../constants.js';
+import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload.js';
 
 // Ensure we have enough data for all types of signatures
 const FAKE_SIGNATURE = new Uint8Array(256).fill(1);

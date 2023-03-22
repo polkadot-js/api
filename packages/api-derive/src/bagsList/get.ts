@@ -5,15 +5,15 @@ import type { Observable } from 'rxjs';
 import type { Option, u64 } from '@polkadot/types';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi } from '../types';
-import type { Bag } from './types';
+import type { DeriveApi } from '../types.js';
+import type { Bag } from './types.js';
 
 import { map, of, switchMap } from 'rxjs';
 
 import { BN_ZERO, bnToBn, objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
-import { getQueryInterface } from './util';
+import { memo } from '../util/index.js';
+import { getQueryInterface } from './util.js';
 
 function orderBags (ids: BN[], bags: Option<PalletBagsListListBag>[]): Bag[] {
   const sorted = ids

@@ -9,9 +9,9 @@ import type { BN } from '@polkadot/util';
 
 import { bnToBn, objectSpread } from '@polkadot/util';
 
-import typesChain from './chain';
-import typesSpec from './spec';
-import upgrades from './upgrades';
+import typesChain from './chain/index.js';
+import typesSpec from './spec/index.js';
+import upgrades from './upgrades/index.js';
 
 /**
  * @description Perform the callback function using the stringified spec/chain

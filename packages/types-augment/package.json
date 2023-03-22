@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "Types generated augmentation",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=14"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-augment#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/types-augment",
   "repository": {
     "directory": "packages/types-augment",
@@ -20,12 +18,12 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.13.5",
+  "version": "10.1.5-1-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/types": "9.13.5",
-    "@polkadot/types-codec": "9.13.5",
-    "@polkadot/util": "^10.3.1"
+    "@polkadot/types": "10.1.5-1-x",
+    "@polkadot/types-codec": "10.1.5-1-x",
+    "@polkadot/util": "^11.1.1",
+    "tslib": "^2.5.0"
   }
 }

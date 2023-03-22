@@ -3,14 +3,13 @@
 
 import type { Observable } from 'rxjs';
 import type { AnyFunction, Codec, DefinitionCallNamed } from '@polkadot/types/types';
-import type { ApiTypes, ReturnCodec } from './base';
+import type { ApiTypes, EmptyBase, ReturnCodec } from './base.js';
 
 export type DecoratedCallBase<ApiType extends ApiTypes, F extends AnyFunction = (...args: any[]) => Observable<Codec>> =
   ApiType extends 'rxjs'
     ? <T extends Codec | any = ReturnCodec<F>> (...args: Parameters<F>) => Observable<T>
     : <T extends Codec | any = ReturnCodec<F>> (...args: Parameters<F>) => Promise<T>;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type AugmentedCall<ApiType extends ApiTypes, F extends AnyFunction = (...args: any[]) => Observable<Codec>> = DecoratedCallBase<ApiType, F> & {
   /** The metadata/description/definition for this method */
   meta: DefinitionCallNamed
@@ -18,8 +17,8 @@ export type AugmentedCall<ApiType extends ApiTypes, F extends AnyFunction = (...
 
 // augmented interfaces
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface AugmentedCalls<ApiType extends ApiTypes> {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AugmentedCalls<ApiType extends ApiTypes> extends EmptyBase<ApiType> {
   // augmented
 }
 

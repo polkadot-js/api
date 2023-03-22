@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveCache } from './types';
+import type { DeriveCache } from './types.js';
 
-import { deriveNoopCache } from './cacheImpl';
+import { deriveNoopCache } from './cacheImpl.js';
 
 interface CacheValue<T> {
   v: T;

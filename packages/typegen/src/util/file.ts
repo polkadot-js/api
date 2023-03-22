@@ -1,10 +1,11 @@
 // Copyright 2017-2023 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
 
-import { packageInfo } from '../packageInfo';
+import { packageInfo } from '../packageInfo.js';
 
 export function writeFile (dest: string, generator: () => string, noLog?: boolean): void {
   !noLog && console.log(`${dest}\n\tGenerating`);
@@ -25,7 +26,7 @@ export function writeFile (dest: string, generator: () => string, noLog?: boolea
 export function readTemplate (template: string): string {
   // Inside the api repo itself, it will be 'auto'
   const rootDir = packageInfo.path === 'auto'
-    ? path.join(__dirname, '..')
+    ? path.join(process.cwd(), 'packages/typegen/src')
     : packageInfo.path;
 
   // NOTE With cjs in a subdir, search one lower as well

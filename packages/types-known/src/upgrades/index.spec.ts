@@ -1,13 +1,15 @@
 // Copyright 2017-2023 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainUpgradesExpanded, ChainUpgradesRaw } from './types';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import type { ChainUpgradesExpanded, ChainUpgradesRaw } from './types.js';
 
 import { stringify, u8aEq } from '@polkadot/util';
 
-import * as allGen from './e2e';
-import * as allMan from './manual';
-import all from '.';
+import * as allGen from './e2e/index.js';
+import * as allMan from './manual/index.js';
+import all from './index.js';
 
 interface TestDef {
   genesisHash: string;
@@ -61,28 +63,30 @@ describe('generated', (): void => {
     expect(Object.keys(allMan).sort()).toEqual(Object.keys(allGen).sort());
   });
 
-  describe.each(Object.keys(allMan))('%s', (chain): void => {
-    it('should have all generated', (): void => {
-      const missing = allMan[chain as keyof typeof allMan].filter(([na, sa]) =>
-        !allGen[chain as keyof typeof allGen].some(([nb, sb]) =>
-          nb === na &&
-          sb === sa
-        )
-      );
+  for (const chain of Object.keys(allMan)) {
+    describe(chain, (): void => {
+      it('should have all generated', (): void => {
+        const missing = allMan[chain as keyof typeof allMan].filter(([na, sa]) =>
+          !allGen[chain as keyof typeof allGen].some(([nb, sb]) =>
+            nb === na &&
+            sb === sa
+          )
+        );
 
-      if (missing.length !== 0) {
-        throw new Error(`${chain}:: missing generated apis found, run yarn test:one packages/types-known/src/upgrades/e2e`);
-      }
-    });
+        if (missing.length !== 0) {
+          throw new Error(`${chain}:: missing generated apis found, run yarn test:one packages/types-known/src/upgrades/e2e`);
+        }
+      });
 
-    it('manual should be correctly ordered', (): void => {
-      checkOrder(chain, (allGen as Record<string, ChainUpgradesExpanded>)[chain]);
-    });
+      it('manual should be correctly ordered', (): void => {
+        checkOrder(chain, (allGen as Record<string, ChainUpgradesExpanded>)[chain]);
+      });
 
-    it('generated should be correctly ordered', (): void => {
-      checkOrder(chain, (allMan as Record<string, ChainUpgradesRaw>)[chain]);
+      it('generated should be correctly ordered', (): void => {
+        checkOrder(chain, (allMan as Record<string, ChainUpgradesRaw>)[chain]);
+      });
     });
-  });
+  }
 });
 
 describe('upgrades', (): void => {

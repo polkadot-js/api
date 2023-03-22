@@ -3,8 +3,8 @@
 
 import type { Vec } from '@polkadot/types-codec';
 import type { AnyNumber, AnyU8a, IU8a, Registry } from '@polkadot/types-codec/types';
-import type { GenericExtrinsic } from '../extrinsic/Extrinsic';
-import type { Digest, DigestItem, Header } from '../interfaces/runtime';
+import type { GenericExtrinsic } from '../extrinsic/Extrinsic.js';
+import type { Digest, DigestItem, Header } from '../interfaces/runtime/index.js';
 
 import { Struct } from '@polkadot/types-codec';
 

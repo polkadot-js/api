@@ -5,13 +5,13 @@ import type { Observable } from 'rxjs';
 import type { Option, u32, WrapperOpaque } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletImOnlineBoundedOpaqueNetworkState } from '@polkadot/types/lookup';
-import type { DeriveApi, DeriveHeartbeats } from '../types';
+import type { DeriveApi, DeriveHeartbeats } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { BN_ZERO } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type HeartbeatsOpt = Option<WrapperOpaque<PalletImOnlineBoundedOpaqueNetworkState>>;
 

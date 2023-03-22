@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types';
 import { bool, Bytes, Null, Option, Text, U32 } from '@polkadot/types-codec';
 
@@ -200,6 +202,7 @@ describe('Option', (): void => {
       expect(
         new Option(registry, U32, '1234').inspect()
       ).toEqual({
+        inner: undefined,
         outer: [new Uint8Array([0x01]), new Uint8Array([210, 4, 0, 0])]
       });
     });

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 import { memoize } from '@polkadot/util';
 
-import { drr } from './drr';
+import { drr } from './drr.js';
 
 type ObsFn <T> = (...params: unknown[]) => Observable<T>;
 

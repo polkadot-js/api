@@ -245,40 +245,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    authorship: {
-      /**
-       * The uncle is genesis.
-       **/
-      GenesisUncle: AugmentedError<ApiType>;
-      /**
-       * The uncle parent not in the chain.
-       **/
-      InvalidUncleParent: AugmentedError<ApiType>;
-      /**
-       * The uncle isn't recent enough to be included.
-       **/
-      OldUncle: AugmentedError<ApiType>;
-      /**
-       * The uncle is too high in chain.
-       **/
-      TooHighUncle: AugmentedError<ApiType>;
-      /**
-       * Too many uncles.
-       **/
-      TooManyUncles: AugmentedError<ApiType>;
-      /**
-       * The uncle is already included.
-       **/
-      UncleAlreadyIncluded: AugmentedError<ApiType>;
-      /**
-       * Uncles already set in the block.
-       **/
-      UnclesAlreadySet: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     babe: {
       /**
        * A given equivocation report is valid but already previously reported.
@@ -449,10 +415,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ContractTrapped: AugmentedError<ApiType>;
       /**
-       * The debug message specified to `seal_debug_message` does contain invalid UTF-8.
-       **/
-      DebugMessageInvalidUTF8: AugmentedError<ApiType>;
-      /**
        * Input passed to a contract API function failed to decode as expected type.
        **/
       DecodingFailed: AugmentedError<ApiType>;
@@ -513,6 +475,9 @@ declare module '@polkadot/api-base/types/errors' {
       RandomSubjectTooLong: AugmentedError<ApiType>;
       /**
        * A call tried to invoke a contract that is flagged as non-reentrant.
+       * The only other cause is that a call from a contract into the runtime tried to call back
+       * into `pallet-contracts`. This would make the whole pallet reentrant with regard to
+       * contract code execution which is not supported.
        **/
       ReentranceDenied: AugmentedError<ApiType>;
       /**
@@ -715,6 +680,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotVoter: AugmentedError<ApiType>;
       /**
+       * The preimage does not exist.
+       **/
+      PreimageNotExist: AugmentedError<ApiType>;
+      /**
        * Proposal still blacklisted
        **/
       ProposalBlacklisted: AugmentedError<ApiType>;
@@ -915,6 +884,18 @@ declare module '@polkadot/api-base/types/errors' {
        * The provided un-staker is not in the `Queue`.
        **/
       NotQueued: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    glutton: {
+      /**
+       * The pallet was already initialized.
+       * 
+       * Set `witness_count` to `Some` to bypass this error.
+       **/
+      AlreadyInitialized: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1135,6 +1116,13 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       Queued: AugmentedError<ApiType>;
       /**
+       * This message is temporarily unprocessable.
+       * 
+       * Such errors are expected, but not guaranteed, to resolve themselves eventually through
+       * retrying.
+       **/
+      TemporarilyUnprocessable: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -1243,6 +1231,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       IncorrectData: AugmentedError<ApiType>;
       /**
+       * The provided metadata might be too long.
+       **/
+      IncorrectMetadata: AugmentedError<ApiType>;
+      /**
        * The item is locked (non-transferable).
        **/
       ItemLocked: AugmentedError<ApiType>;
@@ -1266,6 +1258,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Item's metadata is locked.
        **/
       LockedItemMetadata: AugmentedError<ApiType>;
+      /**
+       * Can't set more attributes per one call.
+       **/
+      MaxAttributesLimitReached: AugmentedError<ApiType>;
       /**
        * The max supply is locked and can't be changed.
        **/
@@ -1347,6 +1343,14 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       WrongDuration: AugmentedError<ApiType>;
       /**
+       * The provided namespace isn't supported in this call.
+       **/
+      WrongNamespace: AugmentedError<ApiType>;
+      /**
+       * The extrinsic was sent by the wrong origin.
+       **/
+      WrongOrigin: AugmentedError<ApiType>;
+      /**
        * The owner turned out to be different to what was expected.
        **/
       WrongOwner: AugmentedError<ApiType>;
@@ -1354,6 +1358,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The provided setting can't be set.
        **/
       WrongSetting: AugmentedError<ApiType>;
+      /**
+       * The provided signature is incorrect.
+       **/
+      WrongSignature: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1432,6 +1440,10 @@ declare module '@polkadot/api-base/types/errors' {
        * pool at a time.
        **/
       AccountBelongsToOtherPool: AugmentedError<ApiType>;
+      /**
+       * Bonding extra is restricted to the exact pending reward amount.
+       **/
+      BondExtraRestricted: AugmentedError<ApiType>;
       /**
        * The pools state cannot be changed.
        **/
@@ -1684,6 +1696,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoTrack: AugmentedError<ApiType>;
       /**
+       * The preimage does not exist.
+       **/
+      PreimageNotExist: AugmentedError<ApiType>;
+      /**
        * The queue of the track is empty.
        **/
       QueueEmpty: AugmentedError<ApiType>;
@@ -1808,6 +1824,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoTrack: AugmentedError<ApiType>;
       /**
+       * The preimage does not exist.
+       **/
+      PreimageNotExist: AugmentedError<ApiType>;
+      /**
        * The queue of the track is empty.
        **/
       QueueEmpty: AugmentedError<ApiType>;
@@ -1829,6 +1849,65 @@ declare module '@polkadot/api-base/types/errors' {
        * Attempting to store empty data.
        **/
       Empty: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    salary: {
+      /**
+       * The account is already inducted.
+       **/
+      AlreadyInducted: AugmentedError<ApiType>;
+      /**
+       * The salary system has already been started.
+       **/
+      AlreadyStarted: AugmentedError<ApiType>;
+      /**
+       * There is no budget left for the payout.
+       **/
+      Bankrupt: AugmentedError<ApiType>;
+      /**
+       * The member's claim is zero.
+       **/
+      ClaimZero: AugmentedError<ApiType>;
+      /**
+       * The payment has neither failed nor succeeded yet.
+       **/
+      Inconclusive: AugmentedError<ApiType>;
+      /**
+       * The member does not have a current valid claim.
+       **/
+      NoClaim: AugmentedError<ApiType>;
+      /**
+       * The cycle is after that in which the payment was made.
+       **/
+      NotCurrent: AugmentedError<ApiType>;
+      NotInducted: AugmentedError<ApiType>;
+      /**
+       * The account is not a ranked member.
+       **/
+      NotMember: AugmentedError<ApiType>;
+      /**
+       * The payout cycles have not yet started.
+       **/
+      NotStarted: AugmentedError<ApiType>;
+      /**
+       * Cycle is not yet over.
+       **/
+      NotYet: AugmentedError<ApiType>;
+      /**
+       * There was some issue with the mechanism of payment.
+       **/
+      PayError: AugmentedError<ApiType>;
+      /**
+       * Current cycle's payment period is not yet begun.
+       **/
+      TooEarly: AugmentedError<ApiType>;
+      /**
+       * Current cycle's registration period is over.
+       **/
+      TooLate: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

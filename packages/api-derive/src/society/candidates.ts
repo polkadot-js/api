@@ -6,11 +6,11 @@ import type { BalanceOf } from '@polkadot/types/interfaces';
 import type { PalletSocietyBid, PalletSocietyBidKind } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { Option } from '@polkadot/types-codec';
-import type { DeriveApi, DeriveSocietyCandidate } from '../types';
+import type { DeriveApi, DeriveSocietyCandidate } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type ResultSuspend = Option<ITuple<[BalanceOf, PalletSocietyBidKind]>>;
 type Result = [PalletSocietyBid[], ResultSuspend[]]

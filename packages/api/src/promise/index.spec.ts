@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HexString } from '@polkadot/util/types';
-import type { SubmittableExtrinsic } from '../types';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { jest } from '@jest/globals';
+import type { HexString } from '@polkadot/util/types';
+import type { SubmittableExtrinsic } from '../types/index.js';
 
 import { createPair } from '@polkadot/keyring/pair';
 import { createTestKeyring } from '@polkadot/keyring/testing';
@@ -12,8 +12,8 @@ import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types';
 import { hexToU8a } from '@polkadot/util';
 
-import { SingleAccountSigner } from '../test';
-import { ApiPromise } from '.';
+import { SingleAccountSigner } from '../test/index.js';
+import { ApiPromise } from './index.js';
 
 const TRANSFER_SIG = '0xcc277eb341d3801c08f149508221583fa3185cc3944e6cb376cd061640305edd7dc24dfd754adb24768f1d8547389b7720e6f626bc81f5593fba1141e7f7ba07';
 
@@ -47,7 +47,6 @@ describe('ApiPromise', (): void => {
   }
 
   beforeEach((): void => {
-    jest.setTimeout(10000);
     provider = new MockProvider(registry);
   });
 
@@ -104,7 +103,7 @@ describe('ApiPromise', (): void => {
 
         await api.disconnect();
 
-        fail('Expected an error but none occurred.');
+        throw new Error('Expected an error but none occurred.');
       } catch {
         // Pass
       }

@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import rpcDataV11 from '@polkadot/types-support//metadata/v11/substrate-hex';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { TypeRegistry } from '../create';
-import { decorateStorage, Metadata } from '../metadata';
-import { StorageKey } from '.';
+import rpcDataV11 from '@polkadot/types-support/metadata/v11/substrate-hex';
+
+import { TypeRegistry } from '../create/index.js';
+import { decorateStorage, Metadata } from '../metadata/index.js';
+import { StorageKey } from './index.js';
 
 describe('StorageKey', (): void => {
   const registry = new TypeRegistry();

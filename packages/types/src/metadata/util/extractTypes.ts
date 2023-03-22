@@ -8,7 +8,7 @@ import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 type Extracted = string | Extracted[];
 
 function extractSubSingle (_: string, { sub }: TypeDef): Extracted[] {
-  const { lookupName, type } = sub as TypeDef;
+  const { lookupName, type } = sub as unknown as TypeDef;
 
   return extractTypes([lookupName || type]);
 }

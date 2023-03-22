@@ -1,8 +1,10 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '../create';
-import { GenericAccountId as AccountId, GenericAccountIndex as AccountIndex, GenericLookupSource as LookupSource } from '.';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import { TypeRegistry } from '../create/index.js';
+import { GenericAccountId as AccountId, GenericAccountIndex as AccountIndex, GenericLookupSource as LookupSource } from './index.js';
 
 describe('LookupSource', (): void => {
   const registry = new TypeRegistry();

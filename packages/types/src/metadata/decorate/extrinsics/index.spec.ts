@@ -1,13 +1,15 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import metadataStatic from '@polkadot/types-support/metadata/v13/substrate-hex';
 import { BN } from '@polkadot/util';
 
-import { TypeRegistry } from '../../../create';
-import { Metadata } from '../../Metadata';
-import { decorateExtrinsics } from '..';
+import { TypeRegistry } from '../../../create/index.js';
+import { Metadata } from '../../Metadata.js';
+import { decorateExtrinsics } from './index.js';
 
 const keyring = createTestPairs({ type: 'ed25519' }, false);
 const registry = new TypeRegistry();
@@ -55,7 +57,7 @@ describe('extrinsics', (): void => {
 
 describe('decorateExtrinsics', (): void => {
   it('should throw if an incorrect number of args is supplied', (): void => {
-    expect(() => extrinsics.balances.setBalance()).toThrowError(/expects 3 arguments/);
+    expect(() => extrinsics.balances.setBalance()).toThrow(/expects 3 arguments/);
   });
 
   it('should return a value if the storage function does not expect an argument', (): void => {

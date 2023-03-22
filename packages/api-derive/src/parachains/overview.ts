@@ -3,15 +3,15 @@
 
 import type { Observable } from 'rxjs';
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveParachain, DeriveParachainInfo } from '../types';
-import type { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } from './types';
+import type { DeriveApi, DeriveParachain, DeriveParachainInfo } from '../types.js';
+import type { DidUpdate, ParaInfoResult, PendingSwap, RelayDispatchQueueSize } from './types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
-import { didUpdateToBool } from './util';
+import { memo } from '../util/index.js';
+import { didUpdateToBool } from './util.js';
 
 type Result = [
   ParaId[],

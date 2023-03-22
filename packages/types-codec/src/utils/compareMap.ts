@@ -3,7 +3,7 @@
 
 import { isObject, isUndefined } from '@polkadot/util';
 
-import { hasEq } from './util';
+import { hasEq } from './util.js';
 
 function hasMismatch (a?: unknown, b?: unknown): boolean {
   return isUndefined(a) || (

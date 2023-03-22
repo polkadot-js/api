@@ -1,6 +1,9 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/api#readme",
   "license": "Apache-2.0",
   "packageManager": "yarn@3.2.0",
@@ -11,40 +14,37 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "9.13.5",
+  "version": "10.1.5-1-x",
   "versions": {
-    "git": "9.13.5",
-    "npm": "9.13.5"
+    "git": "10.1.5-1-x",
+    "npm": "10.1.4"
   },
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
-    "build:extra": "(cd packages/typegen && copyfiles scripts/* build)",
-    "build:interfaces": "polkadot-types-internal-interfaces",
-    "build:metadata": "yarn build:interfaces && yarn test:one packages/types/src/metadata/v14",
+    "build:before": "(cd packages/typegen && polkadot-dev-copy-dir scripts build/scripts)",
+    "build:interfaces": "node --loader @polkadot/dev-ts packages/typegen/scripts/polkadot-types-internal-interfaces.mjs",
+    "build:metadata": "yarn build:interfaces && polkadot-dev-run-test packages/types/src/metadata/v14",
     "build:release": "polkadot-ci-ghact-build",
     "build:rollup": "polkadot-exec-rollup --config",
-    "build:upgrades": "yarn test:one packages/types-known/src/upgrades/e2e",
+    "build:upgrades": "polkadot-dev-run-test upgrades/e2e",
     "chain:info": "polkadot-types-chain-info",
     "clean": "polkadot-dev-clean-build",
     "deno": "yarn polkadot-dev-deno-map && yarn build && deno check --import-map=import_map.json mod.ts",
     "lint": "polkadot-dev-run-lint",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
-    "test:one": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --detectOpenHandles --forceExit"
+    "test": "polkadot-dev-run-test --env node ^e2e",
+    "test:node": "polkadot-dev-run-test --env node ^e2e",
+    "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.12",
-    "@babel/register": "^7.18.9",
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/dev": "^0.68.3",
+    "@polkadot/dev": "^0.72.15",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/jest": "^29.4.0",
-    "copyfiles": "^2.4.1"
+    "@types/node": "^18.15.3"
   },
   "resolutions": {
-    "typescript": "^4.9.4"
+    "typescript": "^5.0.2"
   }
 }
