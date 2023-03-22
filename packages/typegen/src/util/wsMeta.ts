@@ -29,7 +29,12 @@ async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_g
       };
 
       websocket.onmessage = (message: { data: string }): void => {
-        tracker.resolve((JSON.parse(message.data) as { result: T }).result);
+        try {
+          tracker.resolve((JSON.parse(message.data) as { result: T }).result);
+        } catch (error) {
+          tracker.reject(error as Error);
+        }
+
         websocket.close();
       };
     } catch (error) {
