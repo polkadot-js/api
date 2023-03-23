@@ -5,6 +5,7 @@
 Contributed:
 
 - Add support for new Frontier `AccountId20` mapping (Thanks to https://github.com/koushiro)
+- Adjust MMR RPCs & runtime calls to align with latest (Thanks to https://github.com/Lederstrumpf)
 
 Changes:
 
