@@ -128,7 +128,9 @@ export class Float extends Number implements IFloat {
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    */
-  public toU8a (): Uint8Array {
-    return floatToU8a(this, { bitLength: this.#bitLength });
+  public toU8a (_isBare?: boolean): Uint8Array {
+    return floatToU8a(this, {
+      bitLength: this.#bitLength
+    });
   }
 }

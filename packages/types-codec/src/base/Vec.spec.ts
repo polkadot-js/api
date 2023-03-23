@@ -86,9 +86,19 @@ describe('Vec', (): void => {
       expect(vector.toString()).toEqual('[1, 23, 345, 4567, 56789]');
     });
 
-    it('encodes with length prefix', (): void => {
+    it('encodes with length prefix on toU8a()', (): void => {
       expect(vector.toU8a()).toEqual(new Uint8Array([
         5 << 2,
+        1 << 2, 49,
+        2 << 2, 50, 51,
+        3 << 2, 51, 52, 53,
+        4 << 2, 52, 53, 54, 55,
+        5 << 2, 53, 54, 55, 56, 57
+      ]));
+    });
+
+    it('encodes without length prefix on toU8a(true)', (): void => {
+      expect(vector.toU8a(true)).toEqual(new Uint8Array([
         1 << 2, 49,
         2 << 2, 50, 51,
         3 << 2, 51, 52, 53,

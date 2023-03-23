@@ -111,7 +111,8 @@ export interface Codec {
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   * @param isBare true when the value has none of the type-specific prefixes (internal use, only available on
+   * some Codec types, specifically those that add encodings such as length of indexes)
    */
   toU8a (isBare?: BareOpts): Uint8Array;
 }

@@ -147,6 +147,12 @@ describe('Option', (): void => {
     ).toEqual(new Uint8Array([1, 4 << 2, 49, 50, 51, 52]));
   });
 
+  it('allows bare specifiers on toU8a', (): void => {
+    expect(
+      new Option(registry, Text, '1234').toU8a(true)
+    ).toEqual(new Uint8Array([49, 50, 51, 52]));
+  });
+
   it('converts toU8a() without', (): void => {
     expect(
       new Option(registry, Text).toU8a()

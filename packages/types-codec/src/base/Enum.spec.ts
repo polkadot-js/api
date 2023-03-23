@@ -460,5 +460,28 @@ describe('Enum', (): void => {
     });
   });
 
+  describe('toU8a', (): void => {
+    const Test = Enum.with({
+      A: Text,
+      B: U32
+    });
+
+    it('has a correct toU8a() output', (): void => {
+      expect(
+        new Test(registry, { B: 69 }).toU8a()
+      ).toEqual(
+        new Uint8Array([1, 69, 0, 0, 0])
+      );
+    });
+
+    it('has a correct toU8a(true) output', (): void => {
+      expect(
+        new Test(registry, { B: 69 }).toU8a(true)
+      ).toEqual(
+        new Uint8Array([69, 0, 0, 0])
+      );
+    });
+  });
+
   perf('Enum', 20_000, [[new Uint8Array([0, 31, 32, 33, 34])]], (v: Uint8Array) => new PEnum(registry, v));
 });

@@ -9,6 +9,7 @@ export { i32, i32 as I32 } from './I32.js';
 export { i64, i64 as I64 } from './I64.js';
 export { i128, i128 as I128 } from './I128.js';
 export { i256, i256 as I256 } from './I256.js';
+export { isize, isize as ISize } from './ISize.js';
 export { u8, u8 as U8 } from './U8.js';
 export { u16, u16 as U16 } from './U16.js';
 export { u32, u32 as U32 } from './U32.js';
