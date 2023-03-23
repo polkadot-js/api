@@ -22,6 +22,7 @@ export default {
     MmrError: {
       _enum: ['Push', 'GetRoot', 'Commit', 'GenerateProof', 'Verify', 'LeafNotFound', ' PalletNotIncluded', 'InvalidLeafIndex']
     },
+    MmrHash: 'Hash',
     MmrLeafBatchProof: {
       blockHash: 'BlockHash',
       leaves: 'Bytes',

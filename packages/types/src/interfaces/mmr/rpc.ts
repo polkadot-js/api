@@ -4,27 +4,16 @@
 import type { DefinitionsRpc } from '../../types/index.js';
 
 export const rpc: DefinitionsRpc = {
-  generateBatchProof: {
-    description: 'Generate MMR proof for the given leaf indices.',
+  generateProof: {
+    description: 'Generate MMR proof for the given block numbers.',
     params: [
       {
-        name: 'leafIndices',
+        name: 'blockNumbers',
         type: 'Vec<u64>'
       },
       {
-        isHistoric: true,
         isOptional: true,
-        name: 'at',
-        type: 'BlockHash'
-      }
-    ],
-    type: 'MmrLeafProof'
-  },
-  generateProof: {
-    description: 'Generate MMR proof for given leaf index.',
-    params: [
-      {
-        name: 'leafIndex',
+        name: 'bestKnownBlockNumber',
         type: 'u64'
       },
       {
@@ -35,5 +24,44 @@ export const rpc: DefinitionsRpc = {
       }
     ],
     type: 'MmrLeafBatchProof'
+  },
+
+  root: {
+    description: 'Get the MMR root hash for the current best block.',
+    params: [
+      {
+        isHistoric: true,
+        isOptional: true,
+        name: 'at',
+        type: 'BlockHash'
+      }
+    ],
+    type: 'MmrHash'
+  },
+
+  verifyProof: {
+    description: 'Verify an MMR proof',
+    params: [
+      {
+        name: 'proof',
+        type: 'MmrLeafBatchProof'
+      }
+    ],
+    type: 'bool'
+  },
+
+  verifyProofStateless: {
+    description: 'Verify an MMR proof statelessly given an mmr_root',
+    params: [
+      {
+        name: 'root',
+        type: 'MmrHash'
+      },
+      {
+        name: 'proof',
+        type: 'MmrLeafBatchProof'
+      }
+    ],
+    type: 'bool'
   }
 };
