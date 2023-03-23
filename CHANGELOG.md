@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Use Promise resolve/reject to track state in typegen on-chain metadata retrievals
 - Basic support for markdown generation for different chains (only Kusama & Polkadot currently added)
 - Add not-to-be-used `ISize` type support (same as `USize`, throwing on use - added for completeness)
 - Expand tests around `toU8a()` where the `isBare` flag is is being used

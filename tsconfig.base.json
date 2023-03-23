@@ -6,6 +6,7 @@
       "@polkadot/api": ["api/src/index.ts"],
       "@polkadot/api/base": ["api/src/base/index.ts"],
       "@polkadot/api/packageInfo": ["api/src/packageInfo.ts"],
+      "@polkadot/api/promise/decorateMethod": ["api/src/promise/decorateMethod.ts"],
       "@polkadot/api/submittable/*": ["api/src/submittable/*.ts"],
       "@polkadot/api/types": ["api/src/types/index.ts"],
       "@polkadot/api/types/*": ["api/src/types/*.ts"],
