@@ -55,7 +55,7 @@ const MMR_V2: Record<string, DefinitionCall> = {
     ],
     type: 'Result<(), MmrError>'
   }
-}
+};
 
 const MMR_V1: Record<string, DefinitionCall> = {
   generate_batch_proof: {

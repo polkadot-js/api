@@ -4,19 +4,6 @@
 import type { DefinitionsRpc } from '../../types/index.js';
 
 export const rpc: DefinitionsRpc = {
-  root: {
-    description: 'Get the MMR root hash for the current best block.',
-    params: [
-      {
-        isHistoric: true,
-        isOptional: true,
-        name: 'at',
-        type: 'BlockHash'
-      }
-    ],
-    type: 'MmrHash'
-  },
-
   generateProof: {
     description: 'Generate MMR proof for the given block numbers.',
     params: [
@@ -37,6 +24,19 @@ export const rpc: DefinitionsRpc = {
       }
     ],
     type: 'MmrLeafBatchProof'
+  },
+
+  root: {
+    description: 'Get the MMR root hash for the current best block.',
+    params: [
+      {
+        isHistoric: true,
+        isOptional: true,
+        name: 'at',
+        type: 'BlockHash'
+      }
+    ],
+    type: 'MmrHash'
   },
 
   verifyProof: {
