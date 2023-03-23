@@ -3,27 +3,24 @@
 
 import type { HexString } from '@polkadot/util/types';
 
+import { promiseTracker } from '@polkadot/api/promise/decorateMethod';
 import { WebSocket } from '@polkadot/x-ws';
 
 async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_getMetadata' | 'state_getRuntimeVersion'): Promise<T> {
-  return new Promise((resolve): void => {
+  return new Promise((resolve, reject): void => {
+    const tracker = promiseTracker<T>(resolve, reject);
+
     try {
       const websocket = new WebSocket(endpoint);
 
       websocket.onclose = (event: { code: number; reason: string }): void => {
-        const msg = `disconnected, code: '${event.code}' reason: '${event.reason}'`;
-
-        if (event.code === 1000) {
-          console.log(msg);
-        } else {
-          console.error(msg);
-          process.exit(1);
+        if (event.code !== 1000) {
+          tracker.reject(new Error(`disconnected, code: '${event.code}' reason: '${event.reason}'`));
         }
       };
 
       websocket.onerror = (event: unknown): void => {
-        console.error(event);
-        process.exit(1);
+        tracker.reject(new Error(`WebSocket error:: ${JSON.stringify(event)}`));
       };
 
       websocket.onopen = (): void => {
@@ -32,14 +29,16 @@ async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_g
       };
 
       websocket.onmessage = (message: { data: string }): void => {
-        resolve((JSON.parse(message.data) as { result: T }).result);
+        try {
+          tracker.resolve((JSON.parse(message.data) as { result: T }).result);
+        } catch (error) {
+          tracker.reject(error as Error);
+        }
+
         websocket.close();
       };
     } catch (error) {
-      console.error();
-      console.error(error);
-      console.error();
-      process.exit(1);
+      tracker.reject(error as Error);
     }
   });
 }
