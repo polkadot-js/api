@@ -24,34 +24,30 @@ export function createBlockNumberDerive <T extends { number: Compact<BlockNumber
 }
 
 export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
-  // this is Moonbeam specific
-  if (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit) {
-    const mapId = header.digest.logs[0] && (
-      (header.digest.logs[0].isConsensus && header.digest.logs[0].asConsensus[1]) ||
-      (header.digest.logs[0].isPreRuntime && header.digest.logs[0].asPreRuntime[1])
-    );
-
-    if (mapId) {
-      return combineLatest([
-        of(header),
-        queryAt.session
-          ? queryAt.session.validators()
-          : of(null),
-        queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(mapId).pipe(
-          map((opt) =>
-            opt.unwrapOr({ account: null }).account
-          )
+  const validators = queryAt.session
+    ? queryAt.session.validators()
+    : of(null);
+  const nimbus = (header.digest.logs[0]) && (
+    // nimbus consensus stores the author's session key in the header digest logs
+    (header.digest.logs[0].isConsensus && header.digest.logs[0].asConsensus[0].isNimbus && header.digest.logs[0].asConsensus[1]) ||
+    (header.digest.logs[0].isPreRuntime && header.digest.logs[0].asPreRuntime[0].isNimbus && header.digest.logs[0].asPreRuntime[1])
+  );
+  const author = (!nimbus)
+    // normal operation, non-mapping
+    ? of(null)
+    // nimbus consensus, with mapping
+    : (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit)
+      // moonbeam resolves session key to author with pallet_author_mapping
+      ? queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(nimbus).pipe(
+          map((opt) => opt.unwrapOr({ account: null }).account)
         )
-      ]);
-    }
-  }
-
-  // normal operation, non-mapping
+      // manta resolves session key to author with pallet_session
+      : queryAt.session.keyOwner<IOption<{ account: AccountId } & Codec>>(header.digest.logs[0].asPreRuntime[0].toU8a(), nimbus).pipe(
+          map((opt) => opt.unwrapOr({ account: null }).account)
+        );
   return combineLatest([
     of(header),
-    queryAt.session
-      ? queryAt.session.validators()
-      : of(null),
-    of(null)
+    validators,
+    author
   ]);
 }
