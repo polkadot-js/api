@@ -6,7 +6,7 @@ import type { Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
 import type { DeriveApi } from '../types.js';
 
-import { combineLatest, map, of, switchMap } from 'rxjs';
+import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isNumber, isUndefined } from '@polkadot/util';
 
@@ -41,18 +41,22 @@ function signingHeader (api: DeriveApi): Observable<Header> {
           ? of(header)
           // in the case of the current block, we use the parent to minimize the
           // impact of forks on the system, but not completely remove it
-          : api.rpc.chain.getHeader(header.parentHash)
+          : api.rpc.chain.getHeader(header.parentHash).pipe(
+            catchError(() => of(header))
+          )
       )
     ),
     api.rpc.chain.getFinalizedHead().pipe(
       switchMap((hash) =>
-        api.rpc.chain.getHeader(hash)
+        api.rpc.chain.getHeader(hash).pipe(
+          catchError(() => of(null))
+        )
       )
     )
   ]).pipe(
     map(([current, finalized]) =>
       // determine the hash to use, current when lag > max, else finalized
-      unwrapBlockNumber(current).sub(unwrapBlockNumber(finalized)).gt(MAX_FINALITY_LAG)
+      !finalized || unwrapBlockNumber(current).sub(unwrapBlockNumber(finalized)).gt(MAX_FINALITY_LAG)
         ? current
         : finalized
     )

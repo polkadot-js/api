@@ -9,6 +9,7 @@ Contributed:
 Changes:
 
 - Use Promise resolve/reject to track state in typegen on-chain metadata retrievals
+- Adjust signing header retrieval, catering for discarded state fallbacks
 - Basic support for markdown generation for different chains (only Kusama & Polkadot currently added)
 
 
