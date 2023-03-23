@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { QueryableStorage } from '@polkadot/api-base/types';
 import type { Compact, Vec } from '@polkadot/types';
-import type { AccountId, BlockNumber, Header } from '@polkadot/types/interfaces';
+import type { AccountId, Address, BlockNumber, Header } from '@polkadot/types/interfaces';
 import type { Codec, IOption } from '@polkadot/types/types';
 import type { DeriveApi } from '../types.js';
 
@@ -24,34 +24,31 @@ export function createBlockNumberDerive <T extends { number: Compact<BlockNumber
 }
 
 export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
-  // this is Moonbeam specific
-  if (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit) {
-    const mapId = header.digest.logs[0] && (
-      (header.digest.logs[0].isConsensus && header.digest.logs[0].asConsensus[1]) ||
-      (header.digest.logs[0].isPreRuntime && header.digest.logs[0].asPreRuntime[1])
-    );
+  // nimbus consensus stores authorship in the header logs
+  const { logs: [log] } = header.digest;
+  const authorSessionKey = (log && (
+    (log.isConsensus && log.asConsensus[0].isNimbus && log.asConsensus[1]) ||
+    (log.isPreRuntime && log.asPreRuntime[0].isNimbus && log.asPreRuntime[1])
+  )) || null;
 
-    if (mapId) {
-      return combineLatest([
-        of(header),
-        queryAt.session
-          ? queryAt.session.validators()
-          : of(null),
-        queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(mapId).pipe(
-          map((opt) =>
-            opt.unwrapOr({ account: null }).account
-          )
+  const validators = queryAt.session
+    ? queryAt.session.validators()
+    : of(null);
+
+  const author = authorSessionKey
+    // use the author mapping pallet if available (ie: moonbeam, moonriver)
+    ? queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit
+      ? queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(authorSessionKey).pipe(
+          map(opt => opt.unwrapOr({ account: null }).account)
         )
-      ]);
-    }
-  }
+      // use the author session pallet if available (ie: manta, calamari)
+      : queryAt.session && queryAt.session.queuedKeys
+        ? queryAt.session.queuedKeys<Vec<(AccountId, { nimbus: Address })>>().pipe(
+            map(queuedKeys => queuedKeys.find(([_, { nimbus }]) => nimbus.toHex() === authorSessionKey.toHex())),
+            map(([collator]) => collator || null)
+          )
+        : null
+    : null;
 
-  // normal operation, non-mapping
-  return combineLatest([
-    of(header),
-    queryAt.session
-      ? queryAt.session.validators()
-      : of(null),
-    of(null)
-  ]);
+  return combineLatest([of(header), validators, author]);
 }
