@@ -549,8 +549,6 @@ declare module '@polkadot/types/types/registry' {
     I64: I64;
     i8: i8;
     I8: I8;
-    isize: isize;
-    ISize: ISize;
     IdentificationTuple: IdentificationTuple;
     IdentityFields: IdentityFields;
     IdentityInfo: IdentityInfo;
@@ -590,6 +588,8 @@ declare module '@polkadot/types/types/registry' {
     InteriorMultiLocation: InteriorMultiLocation;
     InvalidDisputeStatementKind: InvalidDisputeStatementKind;
     InvalidTransaction: InvalidTransaction;
+    isize: isize;
+    ISize: ISize;
     Json: Json;
     Junction: Junction;
     Junctions: Junctions;
