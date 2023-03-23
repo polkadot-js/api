@@ -41,9 +41,9 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
       ? queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(authorSessionKey).pipe(
           map(opt => opt.unwrapOr({ account: null }).account)
         )
-      // use the author session pallet if available (ie: manta, calamari)
+      // use the session pallet if available (ie: manta, calamari)
       : (queryAt.session && queryAt.session.queuedKeys)
-        ? queryAt.session.queuedKeys<Vec<(AccountId, { nimbus: Address })>>().pipe(
+        ? queryAt.session.queuedKeys<Vec<[AccountId, { nimbus: Address }]>>().pipe(
             catchError(() => of(null)), // handle scenarios where queuedKeys is not of the expected type
             map((queuedKeys) => queuedKeys.find(([_, { nimbus }]) => nimbus.toHex() === authorSessionKey.toHex())),
             map(([collator]) => collator || null)
