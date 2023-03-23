@@ -5,6 +5,7 @@
 Contributed:
 
 - Add support for new Frontier `AccountId20` mapping (Thanks to https://github.com/koushiro)
+- Adjust MMR RPCs & runtime calls to align with latest (Thanks to https://github.com/Lederstrumpf)
 
 Changes:
 
@@ -12,6 +13,7 @@ Changes:
 - Adjust signing header retrieval, catering for discarded state fallbacks
 - Basic support for markdown generation for different chains (only Kusama & Polkadot currently added)
 - Add not-to-be-used `ISize` type support (same as `USize`, throwing on use - added for completeness)
+- Ensure `AccountId20.eq` does not fail on null/undefined inputs
 - Expand tests around `toU8a()` where the `isBare` flag is is being used
 
 
