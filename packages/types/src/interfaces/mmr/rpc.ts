@@ -45,7 +45,7 @@ export const rpc: DefinitionsRpc = {
       {
         name: 'proof',
         type: 'MmrLeafBatchProof'
-      },
+      }
     ],
     type: 'bool'
   },
@@ -60,8 +60,8 @@ export const rpc: DefinitionsRpc = {
       {
         name: 'proof',
         type: 'MmrLeafBatchProof'
-      },
+      }
     ],
     type: 'bool'
-  },
+  }
 };

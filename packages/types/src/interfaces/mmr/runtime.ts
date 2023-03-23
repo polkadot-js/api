@@ -14,7 +14,7 @@ const MMR_V2: Record<string, DefinitionCall> = {
       {
         name: 'bestKnownBlockNumber',
         type: 'Option<BlockNumber>'
-      },
+      }
     ],
     type: 'Result<(Vec<MmrEncodableOpaqueLeaf>, MmrBatchProof), MmrError>'
   },
@@ -54,7 +54,7 @@ const MMR_V2: Record<string, DefinitionCall> = {
       }
     ],
     type: 'Result<(), MmrError>'
-  },
+  }
 }
 
 const MMR_V1: Record<string, DefinitionCall> = {
