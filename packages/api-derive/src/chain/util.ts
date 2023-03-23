@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
+import type { catchError, Observable } from 'rxjs';
 import type { QueryableStorage } from '@polkadot/api-base/types';
 import type { Compact, Vec } from '@polkadot/types';
 import type { AccountId, Address, BlockNumber, Header } from '@polkadot/types/interfaces';
