@@ -31,20 +31,21 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
     (log.isPreRuntime && log.asPreRuntime[0].isNimbus && log.asPreRuntime[1])
   )) || null;
 
-  const validators = queryAt.session
+  const validators = (queryAt.session)
     ? queryAt.session.validators()
     : of(null);
 
-  const author = authorSessionKey
+  const author = (authorSessionKey)
     // use the author mapping pallet if available (ie: moonbeam, moonriver)
-    ? queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit
+    ? (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit)
       ? queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(authorSessionKey).pipe(
           map(opt => opt.unwrapOr({ account: null }).account)
         )
       // use the author session pallet if available (ie: manta, calamari)
-      : queryAt.session && queryAt.session.queuedKeys
+      : (queryAt.session && queryAt.session.queuedKeys)
         ? queryAt.session.queuedKeys<Vec<(AccountId, { nimbus: Address })>>().pipe(
-            map(queuedKeys => queuedKeys.find(([_, { nimbus }]) => nimbus.toHex() === authorSessionKey.toHex())),
+            catchError(() => of(null)), // handle scenarios where queuedKeys is not of the expected type
+            map((queuedKeys) => queuedKeys.find(([_, { nimbus }]) => nimbus.toHex() === authorSessionKey.toHex())),
             map(([collator]) => collator || null)
           )
         : null
