@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { catchError, Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 import type { QueryableStorage } from '@polkadot/api-base/types';
 import type { Compact, Vec } from '@polkadot/types';
 import type { AccountId, Address, BlockNumber, Header } from '@polkadot/types/interfaces';
@@ -33,23 +33,19 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
 
   const validators = (queryAt.session)
     ? queryAt.session.validators()
-    : of(null);
+    : null;
 
   const author = (authorSessionKey)
     // use the author mapping pallet if available (ie: moonbeam, moonriver)
     ? (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit)
-      ? queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(authorSessionKey).pipe(
-          map(opt => opt.unwrapOr({ account: null }).account)
-        )
+      ? queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(authorSessionKey)
+        .pipe(map((opt) => opt.unwrapOr({ account: null }).account))
       // use the session pallet if available (ie: manta, calamari)
       : (queryAt.session && queryAt.session.queuedKeys)
-        ? queryAt.session.queuedKeys<Vec<[AccountId, { nimbus: Address }]>>().pipe(
-            catchError(() => of(null)), // handle scenarios where queuedKeys is not of the expected type
-            map((queuedKeys) => queuedKeys.find(([_, { nimbus }]) => nimbus.toHex() === authorSessionKey.toHex())),
-            map(([collator]) => collator || null)
-          )
+        ? queryAt.session.queuedKeys<Vec<[AccountId, { nimbus: Address }]>>()
+          .pipe(map((keys) => keys.find(([_, { nimbus }]) => nimbus.toHex() === authorSessionKey.toHex())[0]))
         : null
     : null;
 
-  return combineLatest([of(header), validators, author]);
+  return combineLatest([of(header), of(validators), of(author)]);
 }
