@@ -37,7 +37,7 @@ describe('ExtrinsicEra', (): void => {
     expect(extrinsicEra.asMortalEra.phase.toNumber()).toEqual(120);
   });
 
-  it.only('serializes and de-serializes from JSON', (): void => {
+  it('serializes and de-serializes from JSON', (): void => {
     const extrinsicEra = new ExtrinsicEra(registry, new Uint8Array([78, 156]));
     const u8a = extrinsicEra.toU8a();
     const json = extrinsicEra.toJSON();

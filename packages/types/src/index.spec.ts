@@ -20,6 +20,7 @@ const UNCONSTRUCTABLE = [
   'DoNotConstruct',
   'MetadataAll',
   'Origin',
+  'isize',
   'usize'
 ].map((v): string => v.toLowerCase());
 

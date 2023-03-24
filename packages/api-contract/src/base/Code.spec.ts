@@ -31,7 +31,7 @@ describe('Code', (): void => {
     ).not.toThrow();
   });
 
-  it.only('can construct with an .contract ABI (v1)', (): void => {
+  it('can construct with an .contract ABI (v1)', (): void => {
     expect(
       () => new Code(mockApi, v1contractFlipper as Record<string, unknown>, null, toPromiseMethod)
     ).not.toThrow();
