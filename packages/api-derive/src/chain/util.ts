@@ -11,7 +11,7 @@ import type { Struct } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { DeriveApi } from '../types.js';
 
-import { combineLatest, map, of } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { memo, unwrapBlockNumber } from '../util/index.js';
 
@@ -38,9 +38,7 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
     (log.isPreRuntime && log.asPreRuntime[0].isNimbus && log.asPreRuntime[1])
   )) || null;
 
-  const validators = (queryAt.session)
-    ? queryAt.session.validators()
-    : null;
+  const validators = (queryAt.session) ? queryAt.session.validators() : null;
 
   const mappedAuthor = (loggedAuthor)
     // use the author mapping pallet if available (ie: moonbeam, moonriver)
@@ -58,5 +56,5 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
         : null
     : null;
 
-  return combineLatest([of(header), of(validators), of(mappedAuthor)]) as Observable<[Header, Vec<AccountId> | null, AccountId | null]>;
+  return of([header, validators, mappedAuthor]) as Observable<[Header, Vec<AccountId> | null, AccountId | null]>;
 }
