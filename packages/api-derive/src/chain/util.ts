@@ -5,12 +5,19 @@ import type { Observable } from 'rxjs';
 import type { QueryableStorage } from '@polkadot/api-base/types';
 import type { Compact, Vec } from '@polkadot/types';
 import type { AccountId, Address, BlockNumber, Header } from '@polkadot/types/interfaces';
+import type { AccountId32 } from '@polkadot/types/interfaces/runtime';
 import type { Codec, IOption } from '@polkadot/types/types';
+import type { Struct } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { DeriveApi } from '../types.js';
 
 import { combineLatest, map, of } from 'rxjs';
 
 import { memo, unwrapBlockNumber } from '../util/index.js';
+
+interface INimbusSessionKeys extends Struct {
+  nimbus: Address;
+}
 
 export type BlockNumberDerive = (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber>;
 
@@ -42,10 +49,18 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
         .pipe(map((opt) => opt.unwrapOr({ account: null }).account))
       // use the session pallet if available (ie: manta, calamari)
       : (queryAt.session && queryAt.session.queuedKeys)
-        ? queryAt.session.queuedKeys<Vec<[AccountId, { nimbus: Address }]>>()
-          .pipe(map((keys) => keys.find(([_, { nimbus }]) => nimbus.toHex() === authorSessionKey.toHex())[0]))
+        ? queryAt.session.queuedKeys<Observable<Vec<ITuple<[AccountId32, INimbusSessionKeys]>>>>()
+          .pipe(
+            map((o: Observable<Vec<ITuple<[AccountId32, INimbusSessionKeys]>>>) =>
+              o.pipe(
+                map((qk: ITuple<[AccountId32, INimbusSessionKeys]>[]) =>
+                  (qk.find(([_, { nimbus }]) => nimbus.toHex() === authorSessionKey.toHex()) || [null])[0]
+                )
+              )
+            )
+          )
         : null
     : null;
 
-  return combineLatest([of(header), of(validators), of(author)]);
+  return combineLatest([of(header), of(validators), of(author)]) as Observable<[Header, Vec<AccountId> | null, AccountId | null]>;
 }
