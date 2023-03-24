@@ -16,6 +16,6 @@ export class isize extends i32 {
   constructor (registry: Registry, value?: unknown) {
     super(registry, value);
 
-    throw new Error('The `osize` type should not be used. Since it is platform-specific, it creates incompatibilities between native (generally i64) and WASM (always i32) code. Use one of the `i32` or `i64` types explicitly.');
+    throw new Error('The `isize` type should not be used. Since it is platform-specific, it creates incompatibilities between native (generally i64) and WASM (always i32) code. Use one of the `i32` or `i64` types explicitly.');
   }
 }
