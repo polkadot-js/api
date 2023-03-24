@@ -33,7 +33,7 @@ export function createBlockNumberDerive <T extends { number: Compact<BlockNumber
 export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
   // nimbus consensus stores authorship in the header logs
   const { logs: [log] } = header.digest;
-  const authorSessionKey = (log && (
+  const loggedAuthor = (log && (
     (log.isConsensus && log.asConsensus[0].isNimbus && log.asConsensus[1]) ||
     (log.isPreRuntime && log.asPreRuntime[0].isNimbus && log.asPreRuntime[1])
   )) || null;
@@ -42,25 +42,21 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
     ? queryAt.session.validators()
     : null;
 
-  const author = (authorSessionKey)
+  const mappedAuthor = (loggedAuthor)
     // use the author mapping pallet if available (ie: moonbeam, moonriver)
     ? (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit)
-      ? queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(authorSessionKey)
+      ? queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(loggedAuthor)
         .pipe(map((opt) => opt.unwrapOr({ account: null }).account))
       // use the session pallet if available (ie: manta, calamari)
       : (queryAt.session && queryAt.session.queuedKeys)
         ? queryAt.session.queuedKeys<Observable<Vec<ITuple<[AccountId32, INimbusSessionKeys]>>>>()
-          .pipe(
-            map((o: Observable<Vec<ITuple<[AccountId32, INimbusSessionKeys]>>>) =>
-              o.pipe(
-                map((qk: ITuple<[AccountId32, INimbusSessionKeys]>[]) =>
-                  (qk.find(([_, { nimbus }]) => nimbus.toHex() === authorSessionKey.toHex()) || [null])[0]
-                )
-              )
-            )
+          .pipe(map((o: Observable<Vec<ITuple<[AccountId32, INimbusSessionKeys]>>>) => o.pipe(
+            map((qk: ITuple<[AccountId32, INimbusSessionKeys]>[]) =>
+              (qk.find(([_, { nimbus }]) => nimbus.toHex() === loggedAuthor.toHex()) || [null])[0]
+            )))
           )
         : null
     : null;
 
-  return combineLatest([of(header), of(validators), of(author)]) as Observable<[Header, Vec<AccountId> | null, AccountId | null]>;
+  return combineLatest([of(header), of(validators), of(mappedAuthor)]) as Observable<[Header, Vec<AccountId> | null, AccountId | null]>;
 }
