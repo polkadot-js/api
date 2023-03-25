@@ -41,9 +41,7 @@ describe('ApiPromise', (): void => {
 
     const signer = new SingleAccountSigner(registry, aliceEd);
     const api = await ApiPromise.create({ provider, registry, signer, throwOnConnect: true });
-    const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 321564789876512345n);
-
-    console.error(registry.getSignedExtensionExtra(), registry.getSignedExtensionTypes());
+    const transfer = api.tx.balances.transferAllowDeath(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 321564789876512345n);
 
     return { api, transfer: await transfer.signAsync(aliceEd.address, {}) };
   }
@@ -139,47 +137,6 @@ describe('ApiPromise', (): void => {
   describe('decorator.signAsync', (): void => {
     it('signs a transfer using an external signer', async (): Promise<void> => {
       const { api, transfer } = await createTransfer();
-
-      // console.error(JSON.stringify(transfer.toHuman(), null, 2));
-      // console.error(transfer.method.toHex());
-
-// {
-//   specVersion: 'u32',
-//   transactionVersion: 'u32',
-//   genesisHash: 'Hash',
-//   blockHash: 'Hash'
-// } {
-//   era: 'ExtrinsicEra',
-//   nonce: 'Compact<Index>',
-//   tip: 'Compact<Balance>',
-//   assetId: 'Option<AssetId>'
-// }
-// {
-//   "isSigned": true,
-//   "method": {
-//     "args": {
-//       "dest": {
-//         "Id": "5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw"
-//       },
-//       "value": "321,564,789,876,512,345"
-//     },
-//     "method": "transfer",
-//     "section": "balances"
-//   },
-//   "era": {
-//     "MortalEra": {
-//       "period": "128",
-//       "phase": "125"
-//     }
-//   },
-//   "nonce": "0",
-//   "signature": "0xcc277eb341d3801c08f149508221583fa3185cc3944e6cb376cd061640305edd7dc24dfd754adb24768f1d8547389b7720e6f626bc81f5593fba1141e7f7ba07",
-//   "signer": {
-//     "Id": "5FA9nQDVg267DEd8m1ZypXLBnvN7SFxYwV7ndqSYGiN9TTpu"
-//   },
-//   "tip": "0"
-// }
-
 
       expect(transfer.signature.toHex()).toEqual(TRANSFER_SIG);
 
