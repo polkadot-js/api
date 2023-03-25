@@ -5,40 +5,36 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/lookup';
 
-import type { Compact, Enum, Null, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
+import type { BTreeMap, Compact, Enum, Null, Struct, Vec, u16, u32 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { PerU16 } from '@polkadot/types/interfaces/runtime';
+import type { H256, PerU16 } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
-  /** @name KusamaRuntimeSessionKeys (107) */
+  /** @name KusamaRuntimeSessionKeys (96) */
   interface KusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpConsensusGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
     readonly imOnline: PalletImOnlineSr25519AppSr25519Public;
-    readonly paraValidator: PolkadotPrimitivesV2ValidatorAppPublic;
-    readonly paraAssignment: PolkadotPrimitivesV2AssignmentAppPublic;
+    readonly paraValidator: PolkadotPrimitivesV4ValidatorAppPublic;
+    readonly paraAssignment: PolkadotPrimitivesV4AssignmentAppPublic;
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
   }
 
-  /** @name KusamaRuntimeOriginCaller (150) */
+  /** @name KusamaRuntimeOriginCaller (127) */
   interface KusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSupportDispatchRawOrigin;
     readonly isVoid: boolean;
-    readonly isCouncil: boolean;
-    readonly asCouncil: PalletCollectiveRawOrigin;
-    readonly isTechnicalCommittee: boolean;
-    readonly asTechnicalCommittee: PalletCollectiveRawOrigin;
     readonly isOrigins: boolean;
     readonly asOrigins: KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin;
     readonly isParachainsOrigin: boolean;
     readonly asParachainsOrigin: PolkadotRuntimeParachainsOriginPalletOrigin;
     readonly isXcmPallet: boolean;
     readonly asXcmPallet: PalletXcmOrigin;
-    readonly type: 'System' | 'Void' | 'Council' | 'TechnicalCommittee' | 'Origins' | 'ParachainsOrigin' | 'XcmPallet';
+    readonly type: 'System' | 'Void' | 'Origins' | 'ParachainsOrigin' | 'XcmPallet';
   }
 
-  /** @name KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin (154) */
+  /** @name KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin (129) */
   interface KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin extends Enum {
     readonly isStakingAdmin: boolean;
     readonly isTreasurer: boolean;
@@ -70,7 +66,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'StakingAdmin' | 'Treasurer' | 'FellowshipAdmin' | 'GeneralAdmin' | 'AuctionAdmin' | 'LeaseAdmin' | 'ReferendumCanceller' | 'ReferendumKiller' | 'SmallTipper' | 'BigTipper' | 'SmallSpender' | 'MediumSpender' | 'BigSpender' | 'WhitelistedCaller' | 'FellowshipInitiates' | 'Fellows' | 'FellowshipExperts' | 'FellowshipMasters' | 'Fellowship1Dan' | 'Fellowship2Dan' | 'Fellowship3Dan' | 'Fellowship4Dan' | 'Fellowship5Dan' | 'Fellowship6Dan' | 'Fellowship7Dan' | 'Fellowship8Dan' | 'Fellowship9Dan';
   }
 
-  /** @name KusamaRuntimeProxyType (231) */
+  /** @name KusamaRuntimeProxyType (208) */
   interface KusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isNonTransfer: boolean;
@@ -83,7 +79,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction' | 'Society';
   }
 
-  /** @name KusamaRuntimeNposCompactSolution24 (241) */
+  /** @name KusamaRuntimeNposCompactSolution24 (217) */
   interface KusamaRuntimeNposCompactSolution24 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -111,7 +107,68 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name KusamaRuntimeRuntime (882) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingPalletCall (363) */
+  interface PolkadotRuntimeParachainsDisputesSlashingPalletCall extends Enum {
+    readonly isReportDisputeLostUnsigned: boolean;
+    readonly asReportDisputeLostUnsigned: {
+      readonly disputeProof: PolkadotRuntimeParachainsDisputesSlashingDisputeProof;
+      readonly keyOwnerProof: SpSessionMembershipProof;
+    } & Struct;
+    readonly type: 'ReportDisputeLostUnsigned';
+  }
+
+  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputeProof (364) */
+  interface PolkadotRuntimeParachainsDisputesSlashingDisputeProof extends Struct {
+    readonly timeSlot: PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot;
+    readonly kind: PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind;
+    readonly validatorIndex: u32;
+    readonly validatorId: PolkadotPrimitivesV4ValidatorAppPublic;
+  }
+
+  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot (365) */
+  interface PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot extends Struct {
+    readonly sessionIndex: u32;
+    readonly candidateHash: H256;
+  }
+
+  /** @name PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind (366) */
+  interface PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind extends Enum {
+    readonly isForInvalid: boolean;
+    readonly isAgainstValid: boolean;
+    readonly type: 'ForInvalid' | 'AgainstValid';
+  }
+
+  /** @name KusamaRuntimeHoldReason (534) */
+  interface KusamaRuntimeHoldReason extends Enum {
+    readonly isNis: boolean;
+    readonly asNis: KusamaRuntimeHoldReasonNis;
+    readonly type: 'Nis';
+  }
+
+  /** @name KusamaRuntimeHoldReasonNis (535) */
+  interface KusamaRuntimeHoldReasonNis extends Enum {
+    readonly isNftReceipt: boolean;
+    readonly type: 'NftReceipt';
+  }
+
+  /** @name PolkadotRuntimeParachainsDisputesSlashingPendingSlashes (809) */
+  interface PolkadotRuntimeParachainsDisputesSlashingPendingSlashes extends Struct {
+    readonly keys_: BTreeMap<u32, PolkadotPrimitivesV4ValidatorAppPublic>;
+    readonly kind: PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind;
+  }
+
+  /** @name PolkadotRuntimeParachainsDisputesSlashingPalletError (813) */
+  interface PolkadotRuntimeParachainsDisputesSlashingPalletError extends Enum {
+    readonly isInvalidKeyOwnershipProof: boolean;
+    readonly isInvalidSessionIndex: boolean;
+    readonly isInvalidCandidateHash: boolean;
+    readonly isInvalidValidatorIndex: boolean;
+    readonly isValidatorIndexIdMismatch: boolean;
+    readonly isDuplicateSlashingReport: boolean;
+    readonly type: 'InvalidKeyOwnershipProof' | 'InvalidSessionIndex' | 'InvalidCandidateHash' | 'InvalidValidatorIndex' | 'ValidatorIndexIdMismatch' | 'DuplicateSlashingReport';
+  }
+
+  /** @name KusamaRuntimeRuntime (856) */
   type KusamaRuntimeRuntime = Null;
 
 } // declare module

@@ -48,7 +48,7 @@ describe('extrinsics', (): void => {
       '4634f7b973084f983ef48e2afbd72a990f7d4dd9d86c39e645cb34d9a45466b6' + // sig1
       '263f0f2020363a6475f91e323a8b1bd43dedd97e78ec3c5d5b5197466305400e' + // sig2
       '000000' + // nonce, era, tip
-      '0600' + // balances.transfer
+      '0600' + // balances.transferAllowDeath
       'ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' + // to
       'e56c' // value
     );

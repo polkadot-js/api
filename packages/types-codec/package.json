@@ -21,14 +21,14 @@
   "version": "10.1.5-7-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^11.1.1",
-    "@polkadot/x-bigint": "^11.1.1",
+    "@polkadot/util": "^11.1.2",
+    "@polkadot/x-bigint": "^11.1.2",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
     "@polkadot/types": "10.1.5-7-x",
     "@polkadot/types-augment": "10.1.5-7-x",
     "@polkadot/types-support": "10.1.5-7-x",
-    "@polkadot/util-crypto": "^11.1.1"
+    "@polkadot/util-crypto": "^11.1.2"
   }
 }

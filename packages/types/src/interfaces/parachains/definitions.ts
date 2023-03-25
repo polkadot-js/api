@@ -57,6 +57,19 @@ const disputeTypes = {
     session: 'SessionIndex',
     statements: 'Vec<(DisputeStatement, ParaValidatorIndex, ValidatorSignature)>'
   },
+  ExecutorParam: {
+    _enum: {
+      Phantom: 'Null', // index starts at 1... empty slot at 0
+      MaxMemoryPages: 'u32',
+      StackLogicalMax: 'u32',
+      StackNativeMax: 'u32',
+      PrecheckingMaxMemory: 'u64',
+      PvfPrepTimeout: '(PvfPrepTimeoutKind, u64)',
+      PvfExecTimeout: '(PvfExecTimeoutKind, u64)'
+    }
+  },
+  ExecutorParamsHash: 'Hash',
+  ExecutorParams: 'Vec<ExecutorParam>',
   ExplicitDisputeStatement: {
     valid: 'bool',
     candidateHash: 'CandidateHash',
@@ -66,6 +79,12 @@ const disputeTypes = {
     _enum: ['Explicit']
   },
   MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
+  PvfExecTimeoutKind: {
+    _enum: ['Backing', 'Approval']
+  },
+  PvfPrepTimeoutKind: {
+    _enum: ['Precheck', 'Lenient']
+  },
   ValidDisputeStatementKind: {
     _enum: {
       Explicit: 'Null',

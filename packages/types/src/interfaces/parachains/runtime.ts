@@ -180,16 +180,35 @@ const PH_V2_TO_V3: DefinitionsCallEntry['methods'] = {
   }
 };
 
+const PH_V3: DefinitionsCallEntry['methods'] = {
+  disputes: {
+    description: 'Returns all onchain disputes.',
+    params: [],
+    type: 'Vec<(SessionIndex, CandidateHash, DisputeState)>'
+  }
+};
+
+const PH_V4: DefinitionsCallEntry['methods'] = {
+  session_executor_params: {
+    description: 'Returns execution parameters for the session.',
+    params: [
+      {
+        name: 'sessionIndex',
+        type: 'SessionIndex'
+      }
+    ],
+    type: 'Option<ExecutorParams>'
+  }
+};
+
 export const runtime: DefinitionsCall = {
   ParachainHost: [
     {
-      methods: objectSpread({
-        disputes: {
-          description: 'Returns all onchain disputes.',
-          params: [],
-          type: 'Vec<(SessionIndex, CandidateHash, DisputeState)>'
-        }
-      }, PH_V1_TO_V2, PH_V2_TO_V3),
+      methods: objectSpread({}, PH_V1_TO_V2, PH_V2_TO_V3, PH_V3, PH_V4),
+      version: 4
+    },
+    {
+      methods: objectSpread({}, PH_V1_TO_V2, PH_V2_TO_V3, PH_V3),
       version: 3
     },
     {

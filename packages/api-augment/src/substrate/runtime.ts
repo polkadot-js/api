@@ -184,12 +184,20 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x37e397fc7c91f5e4/1 */
+    /** 0x37e397fc7c91f5e4/2 */
     metadata: {
       /**
        * Returns the metadata of a runtime
        **/
       metadata: AugmentedCall<ApiType, () => Observable<OpaqueMetadata>>;
+      /**
+       * Returns the metadata at a given version.
+       **/
+      metadataAtVersion: AugmentedCall<ApiType, (version: u32 | AnyNumber | Uint8Array) => Observable<Option<OpaqueMetadata>>>;
+      /**
+       * Returns the supported metadata versions.
+       **/
+      metadataVersions: AugmentedCall<ApiType, () => Observable<Vec<u32>>>;
       /**
        * Generic call
        **/

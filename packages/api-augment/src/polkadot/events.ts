@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportTokensMiscBalanceStatus, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV2CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpWeightsWeightV2Weight, XcmV3MultiLocation, XcmV3MultiassetMultiAssets, XcmV3Response, XcmV3TraitsError, XcmV3TraitsOutcome, XcmV3Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, PalletConvictionVotingTally, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsPoolState, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV4CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeProxyType, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, XcmV3MultiLocation, XcmV3MultiassetMultiAssets, XcmV3Response, XcmV3TraitsError, XcmV3TraitsOutcome, XcmV3Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -57,7 +57,11 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A balance was set by root.
        **/
-      BalanceSet: AugmentedEvent<ApiType, [who: AccountId32, free: u128, reserved: u128], { who: AccountId32, free: u128, reserved: u128 }>;
+      BalanceSet: AugmentedEvent<ApiType, [who: AccountId32, free: u128], { who: AccountId32, free: u128 }>;
+      /**
+       * Some amount was burned from an account.
+       **/
+      Burned: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
        * Some amount was deposited (e.g. for transaction fees).
        **/
@@ -72,6 +76,18 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Endowed: AugmentedEvent<ApiType, [account: AccountId32, freeBalance: u128], { account: AccountId32, freeBalance: u128 }>;
       /**
+       * Total issuance was increased by `amount`, creating a credit to be balanced.
+       **/
+      Issued: AugmentedEvent<ApiType, [amount: u128], { amount: u128 }>;
+      /**
+       * Some amount was minted into an account.
+       **/
+      Minted: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * Total issuance was decreased by `amount`, creating a debt to be balanced.
+       **/
+      Rescinded: AugmentedEvent<ApiType, [amount: u128], { amount: u128 }>;
+      /**
        * Some balance was reserved (moved from free to reserved).
        **/
       Reserved: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
@@ -81,9 +97,17 @@ declare module '@polkadot/api-base/types/events' {
        **/
       ReserveRepatriated: AugmentedEvent<ApiType, [from: AccountId32, to: AccountId32, amount: u128, destinationStatus: FrameSupportTokensMiscBalanceStatus], { from: AccountId32, to: AccountId32, amount: u128, destinationStatus: FrameSupportTokensMiscBalanceStatus }>;
       /**
+       * Some amount was restored into an account.
+       **/
+      Restored: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
        * Some amount was removed from the account (e.g. for misbehavior).
        **/
       Slashed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * Some amount was suspended from an account (it can be restored later).
+       **/
+      Suspended: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
        * Transfer succeeded.
        **/
@@ -92,6 +116,10 @@ declare module '@polkadot/api-base/types/events' {
        * Some balance was unreserved (moved from reserved to free).
        **/
       Unreserved: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * An account was upgraded.
+       **/
+      Upgraded: AugmentedEvent<ApiType, [who: AccountId32], { who: AccountId32 }>;
       /**
        * Some amount was withdrawn from the account (e.g. for transaction fees).
        **/
@@ -162,6 +190,20 @@ declare module '@polkadot/api-base/types/events' {
        * Someone claimed some DOTs.
        **/
       Claimed: AugmentedEvent<ApiType, [who: AccountId32, ethereumAddress: EthereumAddress, amount: u128], { who: AccountId32, ethereumAddress: EthereumAddress, amount: u128 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    convictionVoting: {
+      /**
+       * An account has delegated their vote to another account. \[who, target\]
+       **/
+      Delegated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
+      /**
+       * An \[account\] has cancelled a previous delegation operation.
+       **/
+      Undelegated: AugmentedEvent<ApiType, [AccountId32]>;
       /**
        * Generic event
        **/
@@ -567,6 +609,22 @@ declare module '@polkadot/api-base/types/events' {
        **/
       PaidOut: AugmentedEvent<ApiType, [member: AccountId32, poolId: u32, payout: u128], { member: AccountId32, poolId: u32, payout: u128 }>;
       /**
+       * A pool's commission `change_rate` has been changed.
+       **/
+      PoolCommissionChangeRateUpdated: AugmentedEvent<ApiType, [poolId: u32, changeRate: PalletNominationPoolsCommissionChangeRate], { poolId: u32, changeRate: PalletNominationPoolsCommissionChangeRate }>;
+      /**
+       * Pool commission has been claimed.
+       **/
+      PoolCommissionClaimed: AugmentedEvent<ApiType, [poolId: u32, commission: u128], { poolId: u32, commission: u128 }>;
+      /**
+       * A pool's commission setting has been changed.
+       **/
+      PoolCommissionUpdated: AugmentedEvent<ApiType, [poolId: u32, current: Option<ITuple<[Perbill, AccountId32]>>], { poolId: u32, current: Option<ITuple<[Perbill, AccountId32]>> }>;
+      /**
+       * A pool's maximum commission setting has been changed.
+       **/
+      PoolMaxCommissionUpdated: AugmentedEvent<ApiType, [poolId: u32, maxCommission: Perbill], { poolId: u32, maxCommission: Perbill }>;
+      /**
        * The active balance of pool `pool_id` has been slashed to `balance`.
        **/
       PoolSlashed: AugmentedEvent<ApiType, [poolId: u32, balance: u128], { poolId: u32, balance: u128 }>;
@@ -627,15 +685,15 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A candidate was backed. `[candidate, head_data]`
        **/
-      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesV2CandidateReceipt, Bytes, u32, u32]>;
+      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesV4CandidateReceipt, Bytes, u32, u32]>;
       /**
        * A candidate was included. `[candidate, head_data]`
        **/
-      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesV2CandidateReceipt, Bytes, u32, u32]>;
+      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesV4CandidateReceipt, Bytes, u32, u32]>;
       /**
        * A candidate timed out. `[candidate, head_data]`
        **/
-      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesV2CandidateReceipt, Bytes, u32]>;
+      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesV4CandidateReceipt, Bytes, u32]>;
       /**
        * Generic event
        **/
@@ -692,11 +750,6 @@ declare module '@polkadot/api-base/types/events' {
        * A dispute has been initiated. \[candidate hash, dispute location\]
        **/
       DisputeInitiated: AugmentedEvent<ApiType, [H256, PolkadotRuntimeParachainsDisputesDisputeLocation]>;
-      /**
-       * A dispute has timed out due to insufficient participation.
-       * `\[para id, candidate hash\]`
-       **/
-      DisputeTimedOut: AugmentedEvent<ApiType, [H256]>;
       /**
        * A dispute has concluded with supermajority against a candidate.
        * Block authors should no longer build on top of this head and should
@@ -792,6 +845,70 @@ declare module '@polkadot/api-base/types/events' {
        * disambiguation index and proxy type.
        **/
       PureCreated: AugmentedEvent<ApiType, [pure: AccountId32, who: AccountId32, proxyType: PolkadotRuntimeProxyType, disambiguationIndex: u16], { pure: AccountId32, who: AccountId32, proxyType: PolkadotRuntimeProxyType, disambiguationIndex: u16 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    referenda: {
+      /**
+       * A referendum has been approved and its proposal has been scheduled.
+       **/
+      Approved: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * A referendum has been cancelled.
+       **/
+      Cancelled: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
+      ConfirmAborted: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * A referendum has ended its confirmation phase and is ready for approval.
+       **/
+      Confirmed: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
+      ConfirmStarted: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * The decision deposit has been placed.
+       **/
+      DecisionDepositPlaced: AugmentedEvent<ApiType, [index: u32, who: AccountId32, amount: u128], { index: u32, who: AccountId32, amount: u128 }>;
+      /**
+       * The decision deposit has been refunded.
+       **/
+      DecisionDepositRefunded: AugmentedEvent<ApiType, [index: u32, who: AccountId32, amount: u128], { index: u32, who: AccountId32, amount: u128 }>;
+      /**
+       * A referendum has moved into the deciding phase.
+       **/
+      DecisionStarted: AugmentedEvent<ApiType, [index: u32, track: u16, proposal: FrameSupportPreimagesBounded, tally: PalletConvictionVotingTally], { index: u32, track: u16, proposal: FrameSupportPreimagesBounded, tally: PalletConvictionVotingTally }>;
+      /**
+       * A deposit has been slashaed.
+       **/
+      DepositSlashed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * A referendum has been killed.
+       **/
+      Killed: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
+      /**
+       * Metadata for a referendum has been cleared.
+       **/
+      MetadataCleared: AugmentedEvent<ApiType, [index: u32, hash_: H256], { index: u32, hash_: H256 }>;
+      /**
+       * Metadata for a referendum has been set.
+       **/
+      MetadataSet: AugmentedEvent<ApiType, [index: u32, hash_: H256], { index: u32, hash_: H256 }>;
+      /**
+       * A proposal has been rejected by referendum.
+       **/
+      Rejected: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
+      /**
+       * The submission deposit has been refunded.
+       **/
+      SubmissionDepositRefunded: AugmentedEvent<ApiType, [index: u32, who: AccountId32, amount: u128], { index: u32, who: AccountId32, amount: u128 }>;
+      /**
+       * A referendum has been submitted.
+       **/
+      Submitted: AugmentedEvent<ApiType, [index: u32, track: u16, proposal: FrameSupportPreimagesBounded], { index: u32, track: u16, proposal: FrameSupportPreimagesBounded }>;
+      /**
+       * A referendum has been timed out without being decided.
+       **/
+      TimedOut: AugmentedEvent<ApiType, [index: u32, tally: PalletConvictionVotingTally], { index: u32, tally: PalletConvictionVotingTally }>;
       /**
        * Generic event
        **/
@@ -1213,6 +1330,15 @@ declare module '@polkadot/api-base/types/events' {
        * Updated the score of some account to the given amount.
        **/
       ScoreUpdated: AugmentedEvent<ApiType, [who: AccountId32, newScore: u64], { who: AccountId32, newScore: u64 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    whitelist: {
+      CallWhitelisted: AugmentedEvent<ApiType, [callHash: H256], { callHash: H256 }>;
+      WhitelistedCallDispatched: AugmentedEvent<ApiType, [callHash: H256, result: Result<FrameSupportDispatchPostDispatchInfo, SpRuntimeDispatchErrorWithPostInfo>], { callHash: H256, result: Result<FrameSupportDispatchPostDispatchInfo, SpRuntimeDispatchErrorWithPostInfo> }>;
+      WhitelistedCallRemoved: AugmentedEvent<ApiType, [callHash: H256], { callHash: H256 }>;
       /**
        * Generic event
        **/

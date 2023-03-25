@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BTreeMap, BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, bool, u32 } from '@polkadot/types-codec';
+import type { BTreeMap, BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, Header, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
@@ -250,6 +250,30 @@ export interface DoubleVoteReport extends Struct {
 
 /** @name DownwardMessage */
 export interface DownwardMessage extends Bytes {}
+
+/** @name ExecutorParam */
+export interface ExecutorParam extends Enum {
+  readonly isPhantom: boolean;
+  readonly isMaxMemoryPages: boolean;
+  readonly asMaxMemoryPages: u32;
+  readonly isStackLogicalMax: boolean;
+  readonly asStackLogicalMax: u32;
+  readonly isStackNativeMax: boolean;
+  readonly asStackNativeMax: u32;
+  readonly isPrecheckingMaxMemory: boolean;
+  readonly asPrecheckingMaxMemory: u64;
+  readonly isPvfPrepTimeout: boolean;
+  readonly asPvfPrepTimeout: ITuple<[PvfPrepTimeoutKind, u64]>;
+  readonly isPvfExecTimeout: boolean;
+  readonly asPvfExecTimeout: ITuple<[PvfExecTimeoutKind, u64]>;
+  readonly type: 'Phantom' | 'MaxMemoryPages' | 'StackLogicalMax' | 'StackNativeMax' | 'PrecheckingMaxMemory' | 'PvfPrepTimeout' | 'PvfExecTimeout';
+}
+
+/** @name ExecutorParams */
+export interface ExecutorParams extends Vec<ExecutorParam> {}
+
+/** @name ExecutorParamsHash */
+export interface ExecutorParamsHash extends Hash {}
 
 /** @name ExplicitDisputeStatement */
 export interface ExplicitDisputeStatement extends Struct {
@@ -589,6 +613,20 @@ export interface PvfCheckStatement extends Struct {
   readonly subject: ValidationCodeHash;
   readonly sessionIndex: SessionIndex;
   readonly validatorIndex: ParaValidatorIndex;
+}
+
+/** @name PvfExecTimeoutKind */
+export interface PvfExecTimeoutKind extends Enum {
+  readonly isBacking: boolean;
+  readonly isApproval: boolean;
+  readonly type: 'Backing' | 'Approval';
+}
+
+/** @name PvfPrepTimeoutKind */
+export interface PvfPrepTimeoutKind extends Enum {
+  readonly isPrecheck: boolean;
+  readonly isLenient: boolean;
+  readonly type: 'Precheck' | 'Lenient';
 }
 
 /** @name QueuedParathread */
