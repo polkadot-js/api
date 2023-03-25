@@ -18,7 +18,7 @@ export default {
     ],
     [
       "0x37e397fc7c91f5e4",
-      1
+      2
     ],
     [
       "0x40fe3ad401f8959a",
