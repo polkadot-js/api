@@ -622,6 +622,13 @@ export interface PvfExecTimeoutKind extends Enum {
   readonly type: 'Backing' | 'Approval';
 }
 
+/** @name PvfPrepTimeoutKind */
+export interface PvfPrepTimeoutKind extends Enum {
+  readonly isPrecheck: boolean;
+  readonly isLenient: boolean;
+  readonly type: 'Precheck' | 'Lenient';
+}
+
 /** @name QueuedParathread */
 export interface QueuedParathread extends Struct {
   readonly claim: ParathreadEntry;

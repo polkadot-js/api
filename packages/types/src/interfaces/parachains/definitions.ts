@@ -82,6 +82,9 @@ const disputeTypes = {
   PvfExecTimeoutKind: {
     _enum: ['Backing', 'Approval']
   },
+  PvfPrepTimeoutKind: {
+    _enum: ['Precheck', 'Lenient']
+  },
   ValidDisputeStatementKind: {
     _enum: {
       Explicit: 'Null',
