@@ -1,8 +1,9 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
+  "engine-strict": true,
   "engines": {
-    "node": ">=14"
+    "node": ">=18.14"
   },
   "homepage": "https://github.com/polkadot-js/api#readme",
   "license": "Apache-2.0",
@@ -40,7 +41,7 @@
     "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.72.24",
+    "@polkadot/dev": "^0.72.25",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/node": "^18.15.9"
   },
