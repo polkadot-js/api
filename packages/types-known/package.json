@@ -18,17 +18,17 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "10.1.5-7-x",
+  "version": "10.1.5-8-x",
   "main": "index.js",
   "dependencies": {
     "@polkadot/networks": "^11.1.2",
-    "@polkadot/types": "10.1.5-7-x",
-    "@polkadot/types-codec": "10.1.5-7-x",
-    "@polkadot/types-create": "10.1.5-7-x",
+    "@polkadot/types": "10.1.5-8-x",
+    "@polkadot/types-codec": "10.1.5-8-x",
+    "@polkadot/types-create": "10.1.5-8-x",
     "@polkadot/util": "^11.1.2",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@polkadot/api": "10.1.5-7-x"
+    "@polkadot/api": "10.1.5-8-x"
   }
 }
