@@ -43,6 +43,8 @@ describe('ApiPromise', (): void => {
     const api = await ApiPromise.create({ provider, registry, signer, throwOnConnect: true });
     const transfer = api.tx.balances.transfer(keyring.getPair('0xe659a7a1628cdd93febc04a4e0646ea20e9f5f0ce097d9a05290d4a9e054df4e').address, 321564789876512345n);
 
+    // console.error(registry.getSignedExtensionExtra(), registry.getSignedExtensionTypes());
+
     return { api, transfer: await transfer.signAsync(aliceEd.address, {}) };
   }
 
