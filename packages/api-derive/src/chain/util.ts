@@ -36,7 +36,7 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
 
   if (loggedAuthor) {
 
-    // use the author mapping pallet if available (ie: moonbeam, moonriver)
+    // use the author mapping pallet, if available (ie: moonbeam, moonriver), to map session (nimbus) key to author (collator/validator) key
     if (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit) {
       return combineLatest([
         of(header),
@@ -46,7 +46,7 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
       ]);
     }
 
-    // use the session pallet if available (ie: manta, calamari)
+    // fall back to session pallet, if available (ie: manta, calamari), to map session (nimbus) key to author (collator/validator) key
     if (queryAt.session && queryAt.session.queuedKeys) {
       return combineLatest([
         of(header),
