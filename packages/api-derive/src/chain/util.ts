@@ -9,6 +9,7 @@ import type { Codec, IOption } from '@polkadot/types/types';
 import type { DeriveApi } from '../types.js';
 
 import { combineLatest, map, of } from 'rxjs';
+
 import { memo, unwrapBlockNumber } from '../util/index.js';
 
 export type BlockNumberDerive = (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber>;
@@ -35,7 +36,6 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
   ));
 
   if (loggedAuthor) {
-
     // use the author mapping pallet, if available (ie: moonbeam, moonriver), to map session (nimbus) key to author (collator/validator) key
     if (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit) {
       return combineLatest([
@@ -52,8 +52,8 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
         of(header),
         validators,
         queryAt.session.queuedKeys<[AccountId, { nimbus: Address }][]>().pipe(
-          map((x) => x.find(t => t[1].nimbus.toHex() === loggedAuthor.toHex())),
-          map((x) => (x) ? x[0] : null)
+          map((queuedKeys) => queuedKeys.find((sessionKey) => sessionKey[1].nimbus.toHex() === loggedAuthor.toHex())),
+          map((sessionKey) => (sessionKey) ? sessionKey[0] : null)
         )
       ]);
     }
