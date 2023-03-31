@@ -115,13 +115,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       }
 
       if (blockHash || isString(optionsOrHash) || isU8a(optionsOrHash)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
           () => api.rpc.system.dryRun(this.toHex(), blockHash || optionsOrHash as string)
-        );
+        )();
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<ApplyExtrinsicResult> =>
           this.#observeSign(account, optionsOrHash).pipe(
@@ -137,7 +135,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       }
 
       if (blockHash || isString(optionsOrHash) || isU8a(optionsOrHash)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
           (): Observable<RuntimeDispatchInfo> =>
             api.callAt(blockHash || optionsOrHash as string).pipe(
@@ -147,13 +144,12 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
                 return callAt.transactionPaymentApi.queryInfo(u8a, u8a.length);
               })
             )
-        );
+        )();
       }
 
       const [allOptions] = makeSignAndSendOptions(optionsOrHash);
       const address = isKeyringPair(account) ? account.address : account.toString();
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
           api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
@@ -182,8 +178,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore ISubmittableResult is not a Codec type, override
         isSubscription
           ? this.#observeSubscribe
           : this.#observeSend

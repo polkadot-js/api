@@ -56,14 +56,26 @@ export interface DecorateMethodOptions {
 
 export type DecorateFn <T extends Codec> = (...args: any[]) => Observable<T>;
 
+// FIXME This is _certainly_ better than the previous (very long-running) attempt at typing
+// this, https://github.com/polkadot-js/api/blob/cf1fabaecf3b5424ab472e1253928c9be88c0f28/packages/api-base/src/types/base.ts#L65-L66
+// but it is not close to being "perfect". We do lose the method arguments along the way.
+//
+// The issue here really is the method arguments/returns and how that relates to the
+// arguments and return of the T function that is passed through. We should have -
+//
+// - method arguments (should?) relate to the same arguments as T
+// - method returntype (should?) relate to the unwrapped return T
+//
+// (And doing so, or fixing it, has some adverse effects on api/base/Decorate.ts where
+// we are employing a bit of casting to get things in the right shape)
+export type DecorateMethod<_ApiType extends ApiTypes> =
+  <T = <R> (...args: any[]) => R>(method: (...args: any[]) => Observable<any>, options?: DecorateMethodOptions) => T;
+
 export interface PaginationOptions<A = unknown> {
   args: A[];
   pageSize: number;
   startKey?: string;
 }
-
-export type DecorateMethod<_ApiType extends ApiTypes, T = any> =
-  <M extends (...args: any[]) => Observable<any>>(method: M, options?: DecorateMethodOptions) => T;
 
 type AsCodec<R extends Codec | any> = R extends Codec
   ? R

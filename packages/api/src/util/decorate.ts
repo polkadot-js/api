@@ -30,7 +30,7 @@ export function decorateDeriveSections<ApiType extends ApiTypes> (decorateMethod
     Object.keys(derives[s]);
 
   const creator = (s: string, m: string) =>
-    decorateMethod(derives[s][m]) as AnyFunction;
+    decorateMethod(derives[s][m]);
 
   const result: AnyDerive = {};
   const names = Object.keys(derives);
