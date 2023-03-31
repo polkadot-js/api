@@ -1,7 +1,6 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "engine-strict": true,
   "engines": {
     "node": ">=18.14"
   },
@@ -15,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "10.2.2-1-x",
+  "version": "10.2.2-2-x",
   "versions": {
-    "git": "10.2.2-1-x",
+    "git": "10.2.2-2-x",
     "npm": "10.2.1"
   },
   "workspaces": [
