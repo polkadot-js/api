@@ -132,7 +132,7 @@ export default {
    * Lookup208: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society', 'NominationPools']
   },
   /**
    * Lookup217: kusama_runtime::NposCompactSolution24
@@ -164,7 +164,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup363: polkadot_runtime_parachains::disputes::slashing::pallet::Call<T>
+   * Lookup364: polkadot_runtime_parachains::disputes::slashing::pallet::Call<T>
    **/
   PolkadotRuntimeParachainsDisputesSlashingPalletCall: {
     _enum: {
@@ -175,7 +175,7 @@ export default {
     }
   },
   /**
-   * Lookup364: polkadot_runtime_parachains::disputes::slashing::DisputeProof
+   * Lookup365: polkadot_runtime_parachains::disputes::slashing::DisputeProof
    **/
   PolkadotRuntimeParachainsDisputesSlashingDisputeProof: {
     timeSlot: 'PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot',
@@ -184,20 +184,20 @@ export default {
     validatorId: 'PolkadotPrimitivesV4ValidatorAppPublic'
   },
   /**
-   * Lookup365: polkadot_runtime_parachains::disputes::slashing::DisputesTimeSlot
+   * Lookup366: polkadot_runtime_parachains::disputes::slashing::DisputesTimeSlot
    **/
   PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot: {
     sessionIndex: 'u32',
     candidateHash: 'H256'
   },
   /**
-   * Lookup366: polkadot_runtime_parachains::disputes::slashing::SlashingOffenceKind
+   * Lookup367: polkadot_runtime_parachains::disputes::slashing::SlashingOffenceKind
    **/
   PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind: {
     _enum: ['ForInvalid', 'AgainstValid']
   },
   /**
-   * Lookup534: kusama_runtime::HoldReason
+   * Lookup535: kusama_runtime::HoldReason
    **/
   KusamaRuntimeHoldReason: {
     _enum: {
@@ -243,13 +243,13 @@ export default {
     }
   },
   /**
-   * Lookup535: kusama_runtime::HoldReasonNis
+   * Lookup536: kusama_runtime::HoldReasonNis
    **/
   KusamaRuntimeHoldReasonNis: {
     _enum: ['NftReceipt']
   },
   /**
-   * Lookup809: polkadot_runtime_parachains::disputes::slashing::PendingSlashes
+   * Lookup810: polkadot_runtime_parachains::disputes::slashing::PendingSlashes
    **/
   PolkadotRuntimeParachainsDisputesSlashingPendingSlashes: {
     _alias: {
@@ -259,13 +259,13 @@ export default {
     kind: 'PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind'
   },
   /**
-   * Lookup813: polkadot_runtime_parachains::disputes::slashing::pallet::Error<T>
+   * Lookup814: polkadot_runtime_parachains::disputes::slashing::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsDisputesSlashingPalletError: {
     _enum: ['InvalidKeyOwnershipProof', 'InvalidSessionIndex', 'InvalidCandidateHash', 'InvalidValidatorIndex', 'ValidatorIndexIdMismatch', 'DuplicateSlashingReport']
   },
   /**
-   * Lookup856: kusama_runtime::Runtime
+   * Lookup857: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };
