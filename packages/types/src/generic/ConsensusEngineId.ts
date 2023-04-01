@@ -7,11 +7,11 @@ import type { AccountId, RawAuraPreDigest, RawBabePreDigestCompat } from '../int
 import { Bytes, U8aFixed, u32 } from '@polkadot/types-codec';
 import { BN, bnToU8a, isNumber, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
-export const CID_AURA = stringToU8a('aura');
-export const CID_BABE = stringToU8a('BABE');
-export const CID_GRPA = stringToU8a('FRNK');
-export const CID_POW = stringToU8a('pow_');
-export const CID_NMBS = stringToU8a('nmbs');
+export const CID_AURA = /*#__PURE__*/ stringToU8a('aura');
+export const CID_BABE = /*#__PURE__*/ stringToU8a('BABE');
+export const CID_GRPA = /*#__PURE__*/ stringToU8a('FRNK');
+export const CID_POW = /*#__PURE__*/ stringToU8a('pow_');
+export const CID_NMBS = /*#__PURE__*/ stringToU8a('nmbs');
 
 function getAuraAuthor (registry: Registry, bytes: Bytes, sessionValidators: AccountId[]): AccountId {
   return sessionValidators[
