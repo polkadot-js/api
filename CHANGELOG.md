@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 10.2.2 Apr 1, 2023
 
 Contributed:
 
