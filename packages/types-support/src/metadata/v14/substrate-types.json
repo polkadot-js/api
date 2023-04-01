@@ -41260,17 +41260,13 @@
     "id": 547,
     "type": {
       "path": [
-        "bounded_collections",
-        "bounded_vec",
-        "BoundedVec"
+        "pallet_contracts",
+        "storage",
+        "DeletionQueueManager"
       ],
       "params": [
         {
           "name": "T",
-          "type": 548
-        },
-        {
-          "name": "S",
           "type": null
         }
       ],
@@ -41278,9 +41274,15 @@
         "composite": {
           "fields": [
             {
-              "name": null,
-              "type": 549,
-              "typeName": "Vec<T>",
+              "name": "insert_counter",
+              "type": 4,
+              "typeName": "u32",
+              "docs": []
+            },
+            {
+              "name": "delete_counter",
+              "type": 4,
+              "typeName": "u32",
               "docs": []
             }
           ]
@@ -41291,43 +41293,6 @@
   },
   {
     "id": 548,
-    "type": {
-      "path": [
-        "pallet_contracts",
-        "storage",
-        "DeletedContract"
-      ],
-      "params": [],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": "trie_id",
-              "type": 396,
-              "typeName": "TrieId",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 549,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
-          "type": 548
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 550,
     "type": {
       "path": [
         "pallet_contracts",
@@ -41345,19 +41310,19 @@
           "fields": [
             {
               "name": "limits",
-              "type": 551,
+              "type": 549,
               "typeName": "Limits",
               "docs": []
             },
             {
               "name": "instruction_weights",
-              "type": 552,
+              "type": 550,
               "typeName": "InstructionWeights<T>",
               "docs": []
             },
             {
               "name": "host_fn_weights",
-              "type": 553,
+              "type": 551,
               "typeName": "HostFnWeights<T>",
               "docs": []
             }
@@ -41368,7 +41333,7 @@
     }
   },
   {
-    "id": 551,
+    "id": 549,
     "type": {
       "path": [
         "pallet_contracts",
@@ -41440,7 +41405,7 @@
     }
   },
   {
-    "id": 552,
+    "id": 550,
     "type": {
       "path": [
         "pallet_contracts",
@@ -41781,7 +41746,7 @@
     }
   },
   {
-    "id": 553,
+    "id": 551,
     "type": {
       "path": [
         "pallet_contracts",
@@ -42158,7 +42123,7 @@
     }
   },
   {
-    "id": 554,
+    "id": 552,
     "type": {
       "path": [
         "pallet_contracts",
@@ -42325,21 +42290,9 @@
               ]
             },
             {
-              "name": "DeletionQueueFull",
-              "fields": [],
-              "index": 18,
-              "docs": [
-                "Removal of a contract failed because the deletion queue is full.",
-                "",
-                "This can happen when calling `seal_terminate`.",
-                "The queue is filled by deleting contracts and emptied by a fixed amount each block.",
-                "Trying again during another block is the only way to resolve this issue."
-              ]
-            },
-            {
               "name": "DuplicateContract",
               "fields": [],
-              "index": 19,
+              "index": 18,
               "docs": [
                 "A contract with the same AccountId already exists."
               ]
@@ -42347,7 +42300,7 @@
             {
               "name": "TerminatedInConstructor",
               "fields": [],
-              "index": 20,
+              "index": 19,
               "docs": [
                 "A contract self destructed in its constructor.",
                 "",
@@ -42357,7 +42310,7 @@
             {
               "name": "ReentranceDenied",
               "fields": [],
-              "index": 21,
+              "index": 20,
               "docs": [
                 "A call tried to invoke a contract that is flagged as non-reentrant.",
                 "The only other cause is that a call from a contract into the runtime tried to call back",
@@ -42368,7 +42321,7 @@
             {
               "name": "StorageDepositNotEnoughFunds",
               "fields": [],
-              "index": 22,
+              "index": 21,
               "docs": [
                 "Origin doesn't have enough balance to pay the required storage deposits."
               ]
@@ -42376,7 +42329,7 @@
             {
               "name": "StorageDepositLimitExhausted",
               "fields": [],
-              "index": 23,
+              "index": 22,
               "docs": [
                 "More storage was created than allowed by the storage deposit limit."
               ]
@@ -42384,7 +42337,7 @@
             {
               "name": "CodeInUse",
               "fields": [],
-              "index": 24,
+              "index": 23,
               "docs": [
                 "Code removal was denied because the code is still in use by at least one contract."
               ]
@@ -42392,7 +42345,7 @@
             {
               "name": "ContractReverted",
               "fields": [],
-              "index": 25,
+              "index": 24,
               "docs": [
                 "The contract ran to completion but decided to revert its storage changes.",
                 "Please note that this error is only returned from extrinsics. When called directly",
@@ -42403,7 +42356,7 @@
             {
               "name": "CodeRejected",
               "fields": [],
-              "index": 26,
+              "index": 25,
               "docs": [
                 "The contract's code was found to be invalid during validation or instrumentation.",
                 "",
@@ -42418,7 +42371,7 @@
             {
               "name": "Indeterministic",
               "fields": [],
-              "index": 27,
+              "index": 26,
               "docs": [
                 "An indetermistic code was used in a context where this is not permitted."
               ]
@@ -42432,7 +42385,7 @@
     }
   },
   {
-    "id": 555,
+    "id": 553,
     "type": {
       "path": [
         "pallet_sudo",
@@ -42465,7 +42418,7 @@
     }
   },
   {
-    "id": 556,
+    "id": 554,
     "type": {
       "path": [
         "bounded_collections",
@@ -42487,7 +42440,7 @@
           "fields": [
             {
               "name": null,
-              "type": 557,
+              "type": 555,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -42498,7 +42451,7 @@
     }
   },
   {
-    "id": 557,
+    "id": 555,
     "type": {
       "path": [],
       "params": [],
@@ -42511,7 +42464,7 @@
     }
   },
   {
-    "id": 558,
+    "id": 556,
     "type": {
       "path": [
         "frame_support",
@@ -42522,7 +42475,7 @@
       "params": [
         {
           "name": "T",
-          "type": 559
+          "type": 557
         }
       ],
       "def": {
@@ -42536,7 +42489,7 @@
             },
             {
               "name": null,
-              "type": 559,
+              "type": 557,
               "typeName": "T",
               "docs": []
             }
@@ -42547,7 +42500,7 @@
     }
   },
   {
-    "id": 559,
+    "id": 557,
     "type": {
       "path": [
         "pallet_im_online",
@@ -42572,13 +42525,13 @@
           "fields": [
             {
               "name": "peer_id",
-              "type": 560,
+              "type": 558,
               "typeName": "WeakBoundedVec<u8, PeerIdEncodingLimit>",
               "docs": []
             },
             {
               "name": "external_addresses",
-              "type": 561,
+              "type": 559,
               "typeName": "WeakBoundedVec<WeakBoundedVec<u8, MultiAddrEncodingLimit>, AddressesLimit\n>",
               "docs": []
             }
@@ -42589,7 +42542,7 @@
     }
   },
   {
-    "id": 560,
+    "id": 558,
     "type": {
       "path": [
         "bounded_collections",
@@ -42622,7 +42575,7 @@
     }
   },
   {
-    "id": 561,
+    "id": 559,
     "type": {
       "path": [
         "bounded_collections",
@@ -42632,7 +42585,7 @@
       "params": [
         {
           "name": "T",
-          "type": 560
+          "type": 558
         },
         {
           "name": "S",
@@ -42644,7 +42597,7 @@
           "fields": [
             {
               "name": null,
-              "type": 562,
+              "type": 560,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -42655,20 +42608,20 @@
     }
   },
   {
-    "id": 562,
+    "id": 560,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 560
+          "type": 558
         }
       },
       "docs": []
     }
   },
   {
-    "id": 563,
+    "id": 561,
     "type": {
       "path": [
         "pallet_im_online",
@@ -42709,7 +42662,7 @@
     }
   },
   {
-    "id": 564,
+    "id": 562,
     "type": {
       "path": [
         "bounded_collections",
@@ -42731,7 +42684,7 @@
           "fields": [
             {
               "name": null,
-              "type": 565,
+              "type": 563,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -42742,7 +42695,7 @@
     }
   },
   {
-    "id": 565,
+    "id": 563,
     "type": {
       "path": [],
       "params": [],
@@ -42755,7 +42708,7 @@
     }
   },
   {
-    "id": 566,
+    "id": 564,
     "type": {
       "path": [
         "sp_staking",
@@ -42794,7 +42747,7 @@
     }
   },
   {
-    "id": 567,
+    "id": 565,
     "type": {
       "path": [],
       "params": [],
@@ -42808,7 +42761,7 @@
     }
   },
   {
-    "id": 568,
+    "id": 566,
     "type": {
       "path": [
         "bounded_collections",
@@ -42841,7 +42794,7 @@
     }
   },
   {
-    "id": 569,
+    "id": 567,
     "type": {
       "path": [
         "pallet_identity",
@@ -42867,7 +42820,7 @@
           "fields": [
             {
               "name": "judgements",
-              "type": 570,
+              "type": 568,
               "typeName": "BoundedVec<(RegistrarIndex, Judgement<Balance>), MaxJudgements>",
               "docs": []
             },
@@ -42890,7 +42843,7 @@
     }
   },
   {
-    "id": 570,
+    "id": 568,
     "type": {
       "path": [
         "bounded_collections",
@@ -42900,7 +42853,7 @@
       "params": [
         {
           "name": "T",
-          "type": 571
+          "type": 569
         },
         {
           "name": "S",
@@ -42912,7 +42865,7 @@
           "fields": [
             {
               "name": null,
-              "type": 572,
+              "type": 570,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -42923,7 +42876,7 @@
     }
   },
   {
-    "id": 571,
+    "id": 569,
     "type": {
       "path": [],
       "params": [],
@@ -42937,34 +42890,34 @@
     }
   },
   {
-    "id": 572,
+    "id": 570,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 571
+          "type": 569
         }
       },
       "docs": []
     }
   },
   {
-    "id": 573,
+    "id": 571,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           6,
-          574
+          572
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 574,
+    "id": 572,
     "type": {
       "path": [
         "bounded_collections",
@@ -42997,7 +42950,7 @@
     }
   },
   {
-    "id": 575,
+    "id": 573,
     "type": {
       "path": [
         "bounded_collections",
@@ -43007,7 +42960,7 @@
       "params": [
         {
           "name": "T",
-          "type": 576
+          "type": 574
         },
         {
           "name": "S",
@@ -43019,7 +42972,7 @@
           "fields": [
             {
               "name": null,
-              "type": 578,
+              "type": 576,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -43030,7 +42983,7 @@
     }
   },
   {
-    "id": 576,
+    "id": 574,
     "type": {
       "path": [
         "Option"
@@ -43038,7 +42991,7 @@
       "params": [
         {
           "name": "T",
-          "type": 577
+          "type": 575
         }
       ],
       "def": {
@@ -43055,7 +43008,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 577,
+                  "type": 575,
                   "typeName": null,
                   "docs": []
                 }
@@ -43070,7 +43023,7 @@
     }
   },
   {
-    "id": 577,
+    "id": 575,
     "type": {
       "path": [
         "pallet_identity",
@@ -43115,20 +43068,20 @@
     }
   },
   {
-    "id": 578,
+    "id": 576,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 576
+          "type": 574
         }
       },
       "docs": []
     }
   },
   {
-    "id": 579,
+    "id": 577,
     "type": {
       "path": [
         "pallet_identity",
@@ -43297,20 +43250,20 @@
     }
   },
   {
-    "id": 580,
+    "id": 578,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 581
+          "type": 579
         }
       },
       "docs": []
     }
   },
   {
-    "id": 581,
+    "id": 579,
     "type": {
       "path": [
         "pallet_society",
@@ -43337,7 +43290,7 @@
             },
             {
               "name": "kind",
-              "type": 582,
+              "type": 580,
               "typeName": "BidKind<AccountId, Balance>",
               "docs": []
             },
@@ -43354,7 +43307,7 @@
     }
   },
   {
-    "id": 582,
+    "id": 580,
     "type": {
       "path": [
         "pallet_society",
@@ -43412,21 +43365,21 @@
     }
   },
   {
-    "id": 583,
+    "id": 581,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           6,
-          582
+          580
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 584,
+    "id": 582,
     "type": {
       "path": [
         "pallet_society",
@@ -43455,20 +43408,20 @@
     }
   },
   {
-    "id": 585,
+    "id": 583,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 586
+          "type": 584
         }
       },
       "docs": []
     }
   },
   {
-    "id": 586,
+    "id": 584,
     "type": {
       "path": [],
       "params": [],
@@ -43482,7 +43435,7 @@
     }
   },
   {
-    "id": 587,
+    "id": 585,
     "type": {
       "path": [],
       "params": [],
@@ -43496,7 +43449,7 @@
     }
   },
   {
-    "id": 588,
+    "id": 586,
     "type": {
       "path": [
         "pallet_society",
@@ -43531,7 +43484,7 @@
     }
   },
   {
-    "id": 589,
+    "id": 587,
     "type": {
       "path": [
         "pallet_society",
@@ -43704,7 +43657,7 @@
     }
   },
   {
-    "id": 590,
+    "id": 588,
     "type": {
       "path": [
         "pallet_recovery",
@@ -43721,7 +43674,7 @@
         },
         {
           "name": "Friends",
-          "type": 591
+          "type": 589
         }
       ],
       "def": {
@@ -43741,7 +43694,7 @@
             },
             {
               "name": "friends",
-              "type": 591,
+              "type": 589,
               "typeName": "Friends",
               "docs": []
             },
@@ -43758,7 +43711,7 @@
     }
   },
   {
-    "id": 591,
+    "id": 589,
     "type": {
       "path": [
         "bounded_collections",
@@ -43791,7 +43744,7 @@
     }
   },
   {
-    "id": 592,
+    "id": 590,
     "type": {
       "path": [
         "pallet_recovery",
@@ -43808,7 +43761,7 @@
         },
         {
           "name": "Friends",
-          "type": 591
+          "type": 589
         }
       ],
       "def": {
@@ -43828,7 +43781,7 @@
             },
             {
               "name": "friends",
-              "type": 591,
+              "type": 589,
               "typeName": "Friends",
               "docs": []
             }
@@ -43839,7 +43792,7 @@
     }
   },
   {
-    "id": 593,
+    "id": 591,
     "type": {
       "path": [
         "pallet_recovery",
@@ -43992,7 +43945,7 @@
     }
   },
   {
-    "id": 594,
+    "id": 592,
     "type": {
       "path": [
         "bounded_collections",
@@ -44014,7 +43967,7 @@
           "fields": [
             {
               "name": null,
-              "type": 595,
+              "type": 593,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -44025,7 +43978,7 @@
     }
   },
   {
-    "id": 595,
+    "id": 593,
     "type": {
       "path": [],
       "params": [],
@@ -44038,7 +43991,7 @@
     }
   },
   {
-    "id": 596,
+    "id": 594,
     "type": {
       "path": [
         "pallet_vesting",
@@ -44067,7 +44020,7 @@
     }
   },
   {
-    "id": 597,
+    "id": 595,
     "type": {
       "path": [
         "pallet_vesting",
@@ -44133,7 +44086,7 @@
     }
   },
   {
-    "id": 598,
+    "id": 596,
     "type": {
       "path": [
         "bounded_collections",
@@ -44143,7 +44096,7 @@
       "params": [
         {
           "name": "T",
-          "type": 599
+          "type": 597
         },
         {
           "name": "S",
@@ -44155,7 +44108,7 @@
           "fields": [
             {
               "name": null,
-              "type": 601,
+              "type": 599,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -44166,7 +44119,7 @@
     }
   },
   {
-    "id": 599,
+    "id": 597,
     "type": {
       "path": [
         "Option"
@@ -44174,7 +44127,7 @@
       "params": [
         {
           "name": "T",
-          "type": 600
+          "type": 598
         }
       ],
       "def": {
@@ -44191,7 +44144,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 600,
+                  "type": 598,
                   "typeName": null,
                   "docs": []
                 }
@@ -44206,7 +44159,7 @@
     }
   },
   {
-    "id": 600,
+    "id": 598,
     "type": {
       "path": [
         "pallet_scheduler",
@@ -44274,20 +44227,20 @@
     }
   },
   {
-    "id": 601,
+    "id": 599,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 599
+          "type": 597
         }
       },
       "docs": []
     }
   },
   {
-    "id": 602,
+    "id": 600,
     "type": {
       "path": [
         "pallet_scheduler",
@@ -44352,7 +44305,7 @@
     }
   },
   {
-    "id": 603,
+    "id": 601,
     "type": {
       "path": [],
       "params": [],
@@ -44366,7 +44319,7 @@
     }
   },
   {
-    "id": 604,
+    "id": 602,
     "type": {
       "path": [
         "pallet_glutton",
@@ -44401,7 +44354,7 @@
     }
   },
   {
-    "id": 605,
+    "id": 603,
     "type": {
       "path": [
         "pallet_preimage",
@@ -44444,7 +44397,7 @@
               "fields": [
                 {
                   "name": "deposit",
-                  "type": 606,
+                  "type": 604,
                   "typeName": "Option<(AccountId, Balance)>",
                   "docs": []
                 },
@@ -44471,7 +44424,7 @@
     }
   },
   {
-    "id": 606,
+    "id": 604,
     "type": {
       "path": [
         "Option"
@@ -44511,7 +44464,7 @@
     }
   },
   {
-    "id": 607,
+    "id": 605,
     "type": {
       "path": [],
       "params": [],
@@ -44525,7 +44478,7 @@
     }
   },
   {
-    "id": 608,
+    "id": 606,
     "type": {
       "path": [
         "bounded_collections",
@@ -44558,7 +44511,7 @@
     }
   },
   {
-    "id": 609,
+    "id": 607,
     "type": {
       "path": [
         "pallet_preimage",
@@ -44631,13 +44584,13 @@
     }
   },
   {
-    "id": 610,
+    "id": 608,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          611,
+          609,
           6
         ]
       },
@@ -44645,7 +44598,7 @@
     }
   },
   {
-    "id": 611,
+    "id": 609,
     "type": {
       "path": [
         "bounded_collections",
@@ -44655,7 +44608,7 @@
       "params": [
         {
           "name": "T",
-          "type": 612
+          "type": 610
         },
         {
           "name": "S",
@@ -44667,7 +44620,7 @@
           "fields": [
             {
               "name": null,
-              "type": 613,
+              "type": 611,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -44678,7 +44631,7 @@
     }
   },
   {
-    "id": 612,
+    "id": 610,
     "type": {
       "path": [
         "pallet_proxy",
@@ -44726,26 +44679,26 @@
     }
   },
   {
-    "id": 613,
+    "id": 611,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 612
+          "type": 610
         }
       },
       "docs": []
     }
   },
   {
-    "id": 614,
+    "id": 612,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          615,
+          613,
           6
         ]
       },
@@ -44753,7 +44706,7 @@
     }
   },
   {
-    "id": 615,
+    "id": 613,
     "type": {
       "path": [
         "bounded_collections",
@@ -44763,7 +44716,7 @@
       "params": [
         {
           "name": "T",
-          "type": 616
+          "type": 614
         },
         {
           "name": "S",
@@ -44775,7 +44728,7 @@
           "fields": [
             {
               "name": null,
-              "type": 617,
+              "type": 615,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -44786,7 +44739,7 @@
     }
   },
   {
-    "id": 616,
+    "id": 614,
     "type": {
       "path": [
         "pallet_proxy",
@@ -44834,20 +44787,20 @@
     }
   },
   {
-    "id": 617,
+    "id": 615,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 616
+          "type": 614
         }
       },
       "docs": []
     }
   },
   {
-    "id": 618,
+    "id": 616,
     "type": {
       "path": [
         "pallet_proxy",
@@ -44936,7 +44889,7 @@
     }
   },
   {
-    "id": 619,
+    "id": 617,
     "type": {
       "path": [],
       "params": [],
@@ -44950,7 +44903,7 @@
     }
   },
   {
-    "id": 620,
+    "id": 618,
     "type": {
       "path": [
         "pallet_multisig",
@@ -45008,7 +44961,7 @@
     }
   },
   {
-    "id": 621,
+    "id": 619,
     "type": {
       "path": [
         "pallet_multisig",
@@ -45145,7 +45098,7 @@
     }
   },
   {
-    "id": 622,
+    "id": 620,
     "type": {
       "path": [
         "pallet_bounties",
@@ -45200,7 +45153,7 @@
             },
             {
               "name": "status",
-              "type": 623,
+              "type": 621,
               "typeName": "BountyStatus<AccountId, BlockNumber>",
               "docs": []
             }
@@ -45211,7 +45164,7 @@
     }
   },
   {
-    "id": 623,
+    "id": 621,
     "type": {
       "path": [
         "pallet_bounties",
@@ -45312,7 +45265,7 @@
     }
   },
   {
-    "id": 624,
+    "id": 622,
     "type": {
       "path": [
         "bounded_collections",
@@ -45345,7 +45298,7 @@
     }
   },
   {
-    "id": 625,
+    "id": 623,
     "type": {
       "path": [
         "pallet_bounties",
@@ -45463,7 +45416,7 @@
     }
   },
   {
-    "id": 626,
+    "id": 624,
     "type": {
       "path": [
         "pallet_tips",
@@ -45539,7 +45492,7 @@
     }
   },
   {
-    "id": 627,
+    "id": 625,
     "type": {
       "path": [
         "pallet_tips",
@@ -45616,7 +45569,7 @@
     }
   },
   {
-    "id": 628,
+    "id": 626,
     "type": {
       "path": [
         "pallet_assets",
@@ -45708,7 +45661,7 @@
             },
             {
               "name": "status",
-              "type": 629,
+              "type": 627,
               "typeName": "AssetStatus",
               "docs": []
             }
@@ -45719,7 +45672,7 @@
     }
   },
   {
-    "id": 629,
+    "id": 627,
     "type": {
       "path": [
         "pallet_assets",
@@ -45755,7 +45708,7 @@
     }
   },
   {
-    "id": 630,
+    "id": 628,
     "type": {
       "path": [
         "pallet_assets",
@@ -45793,7 +45746,7 @@
             },
             {
               "name": "reason",
-              "type": 631,
+              "type": 629,
               "typeName": "ExistenceReason<DepositBalance>",
               "docs": []
             },
@@ -45810,7 +45763,7 @@
     }
   },
   {
-    "id": 631,
+    "id": 629,
     "type": {
       "path": [
         "pallet_assets",
@@ -45864,7 +45817,7 @@
     }
   },
   {
-    "id": 632,
+    "id": 630,
     "type": {
       "path": [],
       "params": [],
@@ -45879,7 +45832,7 @@
     }
   },
   {
-    "id": 633,
+    "id": 631,
     "type": {
       "path": [
         "pallet_assets",
@@ -45918,7 +45871,7 @@
     }
   },
   {
-    "id": 634,
+    "id": 632,
     "type": {
       "path": [
         "pallet_assets",
@@ -45975,7 +45928,7 @@
     }
   },
   {
-    "id": 635,
+    "id": 633,
     "type": {
       "path": [
         "pallet_assets",
@@ -46167,7 +46120,7 @@
     }
   },
   {
-    "id": 636,
+    "id": 634,
     "type": {
       "path": [
         "pallet_lottery",
@@ -46223,21 +46176,21 @@
     }
   },
   {
-    "id": 637,
+    "id": 635,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           4,
-          638
+          636
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 638,
+    "id": 636,
     "type": {
       "path": [
         "bounded_collections",
@@ -46259,7 +46212,7 @@
           "fields": [
             {
               "name": null,
-              "type": 639,
+              "type": 637,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -46270,7 +46223,7 @@
     }
   },
   {
-    "id": 639,
+    "id": 637,
     "type": {
       "path": [],
       "params": [],
@@ -46283,7 +46236,7 @@
     }
   },
   {
-    "id": 640,
+    "id": 638,
     "type": {
       "path": [
         "pallet_lottery",
@@ -46364,73 +46317,73 @@
     }
   },
   {
+    "id": 639,
+    "type": {
+      "path": [
+        "bounded_collections",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 584
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 583,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 640,
+    "type": {
+      "path": [
+        "bounded_collections",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 641
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 642,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
     "id": 641,
-    "type": {
-      "path": [
-        "bounded_collections",
-        "bounded_vec",
-        "BoundedVec"
-      ],
-      "params": [
-        {
-          "name": "T",
-          "type": 586
-        },
-        {
-          "name": "S",
-          "type": null
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 585,
-              "typeName": "Vec<T>",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 642,
-    "type": {
-      "path": [
-        "bounded_collections",
-        "bounded_vec",
-        "BoundedVec"
-      ],
-      "params": [
-        {
-          "name": "T",
-          "type": 643
-        },
-        {
-          "name": "S",
-          "type": null
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 644,
-              "typeName": "Vec<T>",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 643,
     "type": {
       "path": [
         "pallet_nis",
@@ -46469,20 +46422,20 @@
     }
   },
   {
-    "id": 644,
+    "id": 642,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 643
+          "type": 641
         }
       },
       "docs": []
     }
   },
   {
-    "id": 645,
+    "id": 643,
     "type": {
       "path": [
         "pallet_nis",
@@ -46539,7 +46492,7 @@
     }
   },
   {
-    "id": 646,
+    "id": 644,
     "type": {
       "path": [
         "pallet_nis",
@@ -46571,7 +46524,7 @@
             },
             {
               "name": "owner",
-              "type": 606,
+              "type": 604,
               "typeName": "Option<(AccountId, Balance)>",
               "docs": []
             },
@@ -46588,7 +46541,7 @@
     }
   },
   {
-    "id": 647,
+    "id": 645,
     "type": {
       "path": [],
       "params": [],
@@ -46602,7 +46555,7 @@
     }
   },
   {
-    "id": 648,
+    "id": 646,
     "type": {
       "path": [
         "pallet_nis",
@@ -46766,7 +46719,7 @@
     }
   },
   {
-    "id": 649,
+    "id": 647,
     "type": {
       "path": [
         "pallet_uniques",
@@ -46853,7 +46806,7 @@
     }
   },
   {
-    "id": 650,
+    "id": 648,
     "type": {
       "path": [],
       "params": [],
@@ -46868,7 +46821,7 @@
     }
   },
   {
-    "id": 651,
+    "id": 649,
     "type": {
       "path": [
         "pallet_uniques",
@@ -46919,7 +46872,7 @@
     }
   },
   {
-    "id": 652,
+    "id": 650,
     "type": {
       "path": [
         "pallet_uniques",
@@ -46964,7 +46917,7 @@
     }
   },
   {
-    "id": 653,
+    "id": 651,
     "type": {
       "path": [
         "pallet_uniques",
@@ -47009,7 +46962,7 @@
     }
   },
   {
-    "id": 654,
+    "id": 652,
     "type": {
       "path": [],
       "params": [],
@@ -47024,7 +46977,7 @@
     }
   },
   {
-    "id": 655,
+    "id": 653,
     "type": {
       "path": [],
       "params": [],
@@ -47038,7 +46991,7 @@
     }
   },
   {
-    "id": 656,
+    "id": 654,
     "type": {
       "path": [],
       "params": [],
@@ -47052,7 +47005,7 @@
     }
   },
   {
-    "id": 657,
+    "id": 655,
     "type": {
       "path": [
         "pallet_uniques",
@@ -47225,7 +47178,7 @@
     }
   },
   {
-    "id": 658,
+    "id": 656,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47288,7 +47241,7 @@
     }
   },
   {
-    "id": 659,
+    "id": 657,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47298,7 +47251,7 @@
       "params": [
         {
           "name": "T",
-          "type": 660
+          "type": 658
         }
       ],
       "def": {
@@ -47317,7 +47270,7 @@
     }
   },
   {
-    "id": 660,
+    "id": 658,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47353,7 +47306,7 @@
     }
   },
   {
-    "id": 661,
+    "id": 659,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47367,11 +47320,11 @@
         },
         {
           "name": "Deposit",
-          "type": 662
+          "type": 660
         },
         {
           "name": "Approvals",
-          "type": 663
+          "type": 661
         }
       ],
       "def": {
@@ -47385,13 +47338,13 @@
             },
             {
               "name": "approvals",
-              "type": 663,
+              "type": 661,
               "typeName": "Approvals",
               "docs": []
             },
             {
               "name": "deposit",
-              "type": 662,
+              "type": 660,
               "typeName": "Deposit",
               "docs": []
             }
@@ -47402,7 +47355,7 @@
     }
   },
   {
-    "id": 662,
+    "id": 660,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47441,7 +47394,7 @@
     }
   },
   {
-    "id": 663,
+    "id": 661,
     "type": {
       "path": [
         "bounded_collections",
@@ -47467,7 +47420,7 @@
           "fields": [
             {
               "name": null,
-              "type": 664,
+              "type": 662,
               "typeName": "BTreeMap<K, V>",
               "docs": []
             }
@@ -47478,7 +47431,7 @@
     }
   },
   {
-    "id": 664,
+    "id": 662,
     "type": {
       "path": [
         "BTreeMap"
@@ -47498,7 +47451,7 @@
           "fields": [
             {
               "name": null,
-              "type": 665,
+              "type": 663,
               "typeName": null,
               "docs": []
             }
@@ -47509,20 +47462,20 @@
     }
   },
   {
-    "id": 665,
+    "id": 663,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 666
+          "type": 664
         }
       },
       "docs": []
     }
   },
   {
-    "id": 666,
+    "id": 664,
     "type": {
       "path": [],
       "params": [],
@@ -47536,7 +47489,7 @@
     }
   },
   {
-    "id": 667,
+    "id": 665,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47575,7 +47528,7 @@
     }
   },
   {
-    "id": 668,
+    "id": 666,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47585,7 +47538,7 @@
       "params": [
         {
           "name": "Deposit",
-          "type": 669
+          "type": 667
         },
         {
           "name": "StringLimit",
@@ -47597,7 +47550,7 @@
           "fields": [
             {
               "name": "deposit",
-              "type": 669,
+              "type": 667,
               "typeName": "Deposit",
               "docs": []
             },
@@ -47614,7 +47567,7 @@
     }
   },
   {
-    "id": 669,
+    "id": 667,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47653,7 +47606,7 @@
     }
   },
   {
-    "id": 670,
+    "id": 668,
     "type": {
       "path": [],
       "params": [],
@@ -47669,21 +47622,21 @@
     }
   },
   {
-    "id": 671,
+    "id": 669,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           108,
-          672
+          670
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 672,
+    "id": 670,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47722,7 +47675,7 @@
     }
   },
   {
-    "id": 673,
+    "id": 671,
     "type": {
       "path": [
         "bounded_collections",
@@ -47744,7 +47697,7 @@
           "fields": [
             {
               "name": null,
-              "type": 674,
+              "type": 672,
               "typeName": "BTreeSet<T>",
               "docs": []
             }
@@ -47755,7 +47708,7 @@
     }
   },
   {
-    "id": 674,
+    "id": 672,
     "type": {
       "path": [
         "BTreeSet"
@@ -47782,7 +47735,7 @@
     }
   },
   {
-    "id": 675,
+    "id": 673,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47841,7 +47794,7 @@
     }
   },
   {
-    "id": 676,
+    "id": 674,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47851,7 +47804,7 @@
       "params": [
         {
           "name": "T",
-          "type": 677
+          "type": 675
         }
       ],
       "def": {
@@ -47870,7 +47823,7 @@
     }
   },
   {
-    "id": 677,
+    "id": 675,
     "type": {
       "path": [
         "pallet_nfts",
@@ -47912,7 +47865,7 @@
     }
   },
   {
-    "id": 678,
+    "id": 676,
     "type": {
       "path": [
         "pallet_nfts",
@@ -48293,7 +48246,7 @@
     }
   },
   {
-    "id": 679,
+    "id": 677,
     "type": {
       "path": [
         "pallet_salary",
@@ -48353,7 +48306,7 @@
     }
   },
   {
-    "id": 680,
+    "id": 678,
     "type": {
       "path": [
         "pallet_salary",
@@ -48384,7 +48337,7 @@
             },
             {
               "name": "status",
-              "type": 681,
+              "type": 679,
               "typeName": "ClaimState<Balance, Id>",
               "docs": []
             }
@@ -48395,7 +48348,7 @@
     }
   },
   {
-    "id": 681,
+    "id": 679,
     "type": {
       "path": [
         "pallet_salary",
@@ -48465,7 +48418,7 @@
     }
   },
   {
-    "id": 682,
+    "id": 680,
     "type": {
       "path": [
         "pallet_salary",
@@ -48604,7 +48557,7 @@
     }
   },
   {
-    "id": 683,
+    "id": 681,
     "type": {
       "path": [
         "pallet_core_fellowship",
@@ -48644,7 +48597,7 @@
     }
   },
   {
-    "id": 684,
+    "id": 682,
     "type": {
       "path": [],
       "params": [],
@@ -48658,7 +48611,7 @@
     }
   },
   {
-    "id": 685,
+    "id": 683,
     "type": {
       "path": [
         "pallet_core_fellowship",
@@ -48761,7 +48714,7 @@
     }
   },
   {
-    "id": 686,
+    "id": 684,
     "type": {
       "path": [
         "bounded_collections",
@@ -48771,7 +48724,7 @@
       "params": [
         {
           "name": "T",
-          "type": 687
+          "type": 685
         },
         {
           "name": "S",
@@ -48783,7 +48736,7 @@
           "fields": [
             {
               "name": null,
-              "type": 688,
+              "type": 686,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -48794,7 +48747,7 @@
     }
   },
   {
-    "id": 687,
+    "id": 685,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -48835,20 +48788,20 @@
     }
   },
   {
-    "id": 688,
+    "id": 686,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 687
+          "type": 685
         }
       },
       "docs": []
     }
   },
   {
-    "id": 689,
+    "id": 687,
     "type": {
       "path": [
         "pallet_transaction_storage",
@@ -48977,7 +48930,7 @@
     }
   },
   {
-    "id": 690,
+    "id": 688,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -49034,7 +48987,7 @@
     }
   },
   {
-    "id": 691,
+    "id": 689,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -49073,7 +49026,7 @@
     }
   },
   {
-    "id": 692,
+    "id": 690,
     "type": {
       "path": [],
       "params": [],
@@ -49086,7 +49039,7 @@
     }
   },
   {
-    "id": 693,
+    "id": 691,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -49111,7 +49064,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 694,
+                  "type": 692,
                   "typeName": "ListError",
                   "docs": []
                 }
@@ -49130,7 +49083,7 @@
     }
   },
   {
-    "id": 694,
+    "id": 692,
     "type": {
       "path": [
         "pallet_bags_list",
@@ -49172,7 +49125,7 @@
     }
   },
   {
-    "id": 695,
+    "id": 693,
     "type": {
       "path": [
         "pallet_child_bounties",
@@ -49221,7 +49174,7 @@
             },
             {
               "name": "status",
-              "type": 696,
+              "type": 694,
               "typeName": "ChildBountyStatus<AccountId, BlockNumber>",
               "docs": []
             }
@@ -49232,7 +49185,7 @@
     }
   },
   {
-    "id": 696,
+    "id": 694,
     "type": {
       "path": [
         "pallet_child_bounties",
@@ -49315,7 +49268,7 @@
     }
   },
   {
-    "id": 697,
+    "id": 695,
     "type": {
       "path": [
         "pallet_child_bounties",
@@ -49364,7 +49317,7 @@
     }
   },
   {
-    "id": 698,
+    "id": 696,
     "type": {
       "path": [
         "pallet_referenda",
@@ -49413,7 +49366,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 699,
+                  "type": 697,
                   "typeName": "ReferendumStatus<TrackId, RuntimeOrigin, Moment, Call, Balance, Tally,\nAccountId, ScheduleAddress,>",
                   "docs": []
                 }
@@ -49432,13 +49385,13 @@
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 }
@@ -49457,13 +49410,13 @@
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 }
@@ -49482,13 +49435,13 @@
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 }
@@ -49507,13 +49460,13 @@
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 }
@@ -49541,7 +49494,7 @@
     }
   },
   {
-    "id": 699,
+    "id": 697,
     "type": {
       "path": [
         "pallet_referenda",
@@ -49617,19 +49570,19 @@
             },
             {
               "name": "submission_deposit",
-              "type": 700,
+              "type": 698,
               "typeName": "Deposit<AccountId, Balance>",
               "docs": []
             },
             {
               "name": "decision_deposit",
-              "type": 701,
+              "type": 699,
               "typeName": "Option<Deposit<AccountId, Balance>>",
               "docs": []
             },
             {
               "name": "deciding",
-              "type": 702,
+              "type": 700,
               "typeName": "Option<DecidingStatus<Moment>>",
               "docs": []
             },
@@ -49647,7 +49600,7 @@
             },
             {
               "name": "alarm",
-              "type": 704,
+              "type": 702,
               "typeName": "Option<(Moment, ScheduleAddress)>",
               "docs": []
             }
@@ -49658,7 +49611,7 @@
     }
   },
   {
-    "id": 700,
+    "id": 698,
     "type": {
       "path": [
         "pallet_referenda",
@@ -49697,7 +49650,7 @@
     }
   },
   {
-    "id": 701,
+    "id": 699,
     "type": {
       "path": [
         "Option"
@@ -49705,7 +49658,7 @@
       "params": [
         {
           "name": "T",
-          "type": 700
+          "type": 698
         }
       ],
       "def": {
@@ -49722,12 +49675,87 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 700,
+                  "type": 698,
                   "typeName": null,
                   "docs": []
                 }
               ],
               "index": 1,
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 700,
+    "type": {
+      "path": [
+        "Option"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 701
+        }
+      ],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "None",
+              "fields": [],
+              "index": 0,
+              "docs": []
+            },
+            {
+              "name": "Some",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 701,
+                  "typeName": null,
+                  "docs": []
+                }
+              ],
+              "index": 1,
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 701,
+    "type": {
+      "path": [
+        "pallet_referenda",
+        "types",
+        "DecidingStatus"
+      ],
+      "params": [
+        {
+          "name": "BlockNumber",
+          "type": 4
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": "since",
+              "type": 4,
+              "typeName": "BlockNumber",
+              "docs": []
+            },
+            {
+              "name": "confirming",
+              "type": 38,
+              "typeName": "Option<BlockNumber>",
               "docs": []
             }
           ]
@@ -49779,34 +49807,13 @@
   {
     "id": 703,
     "type": {
-      "path": [
-        "pallet_referenda",
-        "types",
-        "DecidingStatus"
-      ],
-      "params": [
-        {
-          "name": "BlockNumber",
-          "type": 4
-        }
-      ],
+      "path": [],
+      "params": [],
       "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": "since",
-              "type": 4,
-              "typeName": "BlockNumber",
-              "docs": []
-            },
-            {
-              "name": "confirming",
-              "type": 38,
-              "typeName": "Option<BlockNumber>",
-              "docs": []
-            }
-          ]
-        }
+        "tuple": [
+          4,
+          88
+        ]
       },
       "docs": []
     }
@@ -49815,34 +49822,27 @@
     "id": 704,
     "type": {
       "path": [
-        "Option"
+        "bounded_collections",
+        "bounded_vec",
+        "BoundedVec"
       ],
       "params": [
         {
           "name": "T",
-          "type": 705
+          "type": 584
+        },
+        {
+          "name": "S",
+          "type": null
         }
       ],
       "def": {
-        "variant": {
-          "variants": [
+        "composite": {
+          "fields": [
             {
-              "name": "None",
-              "fields": [],
-              "index": 0,
-              "docs": []
-            },
-            {
-              "name": "Some",
-              "fields": [
-                {
-                  "name": null,
-                  "type": 705,
-                  "typeName": null,
-                  "docs": []
-                }
-              ],
-              "index": 1,
+              "name": null,
+              "type": 583,
+              "typeName": "Vec<T>",
               "docs": []
             }
           ]
@@ -49857,10 +49857,9 @@
       "path": [],
       "params": [],
       "def": {
-        "tuple": [
-          4,
-          88
-        ]
+        "sequence": {
+          "type": 706
+        }
       },
       "docs": []
     }
@@ -49868,65 +49867,19 @@
   {
     "id": 706,
     "type": {
-      "path": [
-        "bounded_collections",
-        "bounded_vec",
-        "BoundedVec"
-      ],
-      "params": [
-        {
-          "name": "T",
-          "type": 586
-        },
-        {
-          "name": "S",
-          "type": null
-        }
-      ],
-      "def": {
-        "composite": {
-          "fields": [
-            {
-              "name": null,
-              "type": 585,
-              "typeName": "Vec<T>",
-              "docs": []
-            }
-          ]
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 707,
-    "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
-          "type": 708
-        }
-      },
-      "docs": []
-    }
-  },
-  {
-    "id": 708,
-    "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           94,
-          709
+          707
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 709,
+    "id": 707,
     "type": {
       "path": [
         "pallet_referenda",
@@ -49990,13 +49943,13 @@
             },
             {
               "name": "min_approval",
-              "type": 710,
+              "type": 708,
               "typeName": "Curve",
               "docs": []
             },
             {
               "name": "min_support",
-              "type": 710,
+              "type": 708,
               "typeName": "Curve",
               "docs": []
             }
@@ -50007,7 +49960,7 @@
     }
   },
   {
-    "id": 710,
+    "id": 708,
     "type": {
       "path": [
         "pallet_referenda",
@@ -50079,19 +50032,19 @@
               "fields": [
                 {
                   "name": "factor",
-                  "type": 711,
+                  "type": 709,
                   "typeName": "FixedI64",
                   "docs": []
                 },
                 {
                   "name": "x_offset",
-                  "type": 711,
+                  "type": 709,
                   "typeName": "FixedI64",
                   "docs": []
                 },
                 {
                   "name": "y_offset",
-                  "type": 711,
+                  "type": 709,
                   "typeName": "FixedI64",
                   "docs": []
                 }
@@ -50106,7 +50059,7 @@
     }
   },
   {
-    "id": 711,
+    "id": 709,
     "type": {
       "path": [
         "sp_arithmetic",
@@ -50119,7 +50072,7 @@
           "fields": [
             {
               "name": null,
-              "type": 712,
+              "type": 710,
               "typeName": "i64",
               "docs": []
             }
@@ -50130,7 +50083,7 @@
     }
   },
   {
-    "id": 712,
+    "id": 710,
     "type": {
       "path": [],
       "params": [],
@@ -50141,7 +50094,7 @@
     }
   },
   {
-    "id": 713,
+    "id": 711,
     "type": {
       "path": [
         "pallet_referenda",
@@ -50274,7 +50227,7 @@
     }
   },
   {
-    "id": 714,
+    "id": 712,
     "type": {
       "path": [
         "pallet_remark",
@@ -50315,7 +50268,7 @@
     }
   },
   {
-    "id": 715,
+    "id": 713,
     "type": {
       "path": [],
       "params": [],
@@ -50329,7 +50282,7 @@
     }
   },
   {
-    "id": 716,
+    "id": 714,
     "type": {
       "path": [
         "pallet_conviction_voting",
@@ -50366,7 +50319,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 717,
+                  "type": 715,
                   "typeName": "Casting<Balance, BlockNumber, PollIndex, MaxVotes>",
                   "docs": []
                 }
@@ -50379,7 +50332,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 723,
+                  "type": 721,
                   "typeName": "Delegating<Balance, AccountId, BlockNumber>",
                   "docs": []
                 }
@@ -50394,7 +50347,7 @@
     }
   },
   {
-    "id": 717,
+    "id": 715,
     "type": {
       "path": [
         "pallet_conviction_voting",
@@ -50424,19 +50377,19 @@
           "fields": [
             {
               "name": "votes",
-              "type": 718,
+              "type": 716,
               "typeName": "BoundedVec<(PollIndex, AccountVote<Balance>), MaxVotes>",
               "docs": []
             },
             {
               "name": "delegations",
-              "type": 721,
+              "type": 719,
               "typeName": "Delegations<Balance>",
               "docs": []
             },
             {
               "name": "prior",
-              "type": 722,
+              "type": 720,
               "typeName": "PriorLock<BlockNumber, Balance>",
               "docs": []
             }
@@ -50447,7 +50400,7 @@
     }
   },
   {
-    "id": 718,
+    "id": 716,
     "type": {
       "path": [
         "bounded_collections",
@@ -50457,7 +50410,7 @@
       "params": [
         {
           "name": "T",
-          "type": 719
+          "type": 717
         },
         {
           "name": "S",
@@ -50469,7 +50422,7 @@
           "fields": [
             {
               "name": null,
-              "type": 720,
+              "type": 718,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -50480,7 +50433,7 @@
     }
   },
   {
-    "id": 719,
+    "id": 717,
     "type": {
       "path": [],
       "params": [],
@@ -50494,20 +50447,20 @@
     }
   },
   {
-    "id": 720,
+    "id": 718,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 719
+          "type": 717
         }
       },
       "docs": []
     }
   },
   {
-    "id": 721,
+    "id": 719,
     "type": {
       "path": [
         "pallet_conviction_voting",
@@ -50542,7 +50495,7 @@
     }
   },
   {
-    "id": 722,
+    "id": 720,
     "type": {
       "path": [
         "pallet_conviction_voting",
@@ -50581,7 +50534,7 @@
     }
   },
   {
-    "id": 723,
+    "id": 721,
     "type": {
       "path": [
         "pallet_conviction_voting",
@@ -50625,13 +50578,13 @@
             },
             {
               "name": "delegations",
-              "type": 721,
+              "type": 719,
               "typeName": "Delegations<Balance>",
               "docs": []
             },
             {
               "name": "prior",
-              "type": 722,
+              "type": 720,
               "typeName": "PriorLock<BlockNumber, Balance>",
               "docs": []
             }
@@ -50642,7 +50595,7 @@
     }
   },
   {
-    "id": 724,
+    "id": 722,
     "type": {
       "path": [
         "bounded_collections",
@@ -50652,7 +50605,7 @@
       "params": [
         {
           "name": "T",
-          "type": 725
+          "type": 723
         },
         {
           "name": "S",
@@ -50664,7 +50617,7 @@
           "fields": [
             {
               "name": null,
-              "type": 726,
+              "type": 724,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -50675,7 +50628,7 @@
     }
   },
   {
-    "id": 725,
+    "id": 723,
     "type": {
       "path": [],
       "params": [],
@@ -50689,20 +50642,20 @@
     }
   },
   {
-    "id": 726,
+    "id": 724,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 725
+          "type": 723
         }
       },
       "docs": []
     }
   },
   {
-    "id": 727,
+    "id": 725,
     "type": {
       "path": [
         "pallet_conviction_voting",
@@ -50828,7 +50781,7 @@
     }
   },
   {
-    "id": 728,
+    "id": 726,
     "type": {
       "path": [
         "pallet_whitelist",
@@ -50893,7 +50846,7 @@
     }
   },
   {
-    "id": 729,
+    "id": 727,
     "type": {
       "path": [
         "bounded_collections",
@@ -50926,7 +50879,7 @@
     }
   },
   {
-    "id": 730,
+    "id": 728,
     "type": {
       "path": [
         "pallet_collective",
@@ -51035,7 +50988,7 @@
     }
   },
   {
-    "id": 731,
+    "id": 729,
     "type": {
       "path": [
         "bounded_collections",
@@ -51057,7 +51010,7 @@
           "fields": [
             {
               "name": null,
-              "type": 732,
+              "type": 730,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -51068,7 +51021,7 @@
     }
   },
   {
-    "id": 732,
+    "id": 730,
     "type": {
       "path": [],
       "params": [],
@@ -51081,7 +51034,7 @@
     }
   },
   {
-    "id": 733,
+    "id": 731,
     "type": {
       "path": [
         "pallet_alliance",
@@ -51116,7 +51069,7 @@
     }
   },
   {
-    "id": 734,
+    "id": 732,
     "type": {
       "path": [
         "bounded_collections",
@@ -51149,7 +51102,7 @@
     }
   },
   {
-    "id": 735,
+    "id": 733,
     "type": {
       "path": [
         "bounded_collections",
@@ -51171,7 +51124,7 @@
           "fields": [
             {
               "name": null,
-              "type": 736,
+              "type": 734,
               "typeName": "Vec<T>",
               "docs": []
             }
@@ -51182,7 +51135,7 @@
     }
   },
   {
-    "id": 736,
+    "id": 734,
     "type": {
       "path": [],
       "params": [],
@@ -51195,7 +51148,7 @@
     }
   },
   {
-    "id": 737,
+    "id": 735,
     "type": {
       "path": [
         "pallet_alliance",
@@ -51417,7 +51370,7 @@
     }
   },
   {
-    "id": 738,
+    "id": 736,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -51452,7 +51405,7 @@
             },
             {
               "name": "unbonding_eras",
-              "type": 739,
+              "type": 737,
               "typeName": "BoundedBTreeMap<EraIndex, BalanceOf<T>, T::MaxUnbonding>",
               "docs": []
             }
@@ -51463,7 +51416,7 @@
     }
   },
   {
-    "id": 739,
+    "id": 737,
     "type": {
       "path": [
         "bounded_collections",
@@ -51489,7 +51442,7 @@
           "fields": [
             {
               "name": null,
-              "type": 740,
+              "type": 738,
               "typeName": "BTreeMap<K, V>",
               "docs": []
             }
@@ -51500,7 +51453,7 @@
     }
   },
   {
-    "id": 740,
+    "id": 738,
     "type": {
       "path": [
         "BTreeMap"
@@ -51520,7 +51473,7 @@
           "fields": [
             {
               "name": null,
-              "type": 585,
+              "type": 583,
               "typeName": null,
               "docs": []
             }
@@ -51531,7 +51484,7 @@
     }
   },
   {
-    "id": 741,
+    "id": 739,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -51548,7 +51501,7 @@
           "fields": [
             {
               "name": "commission",
-              "type": 742,
+              "type": 740,
               "typeName": "Commission<T>",
               "docs": []
             },
@@ -51566,7 +51519,7 @@
             },
             {
               "name": "roles",
-              "type": 745,
+              "type": 743,
               "typeName": "PoolRoles<T::AccountId>",
               "docs": []
             },
@@ -51583,7 +51536,7 @@
     }
   },
   {
-    "id": 742,
+    "id": 740,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -51606,13 +51559,13 @@
             },
             {
               "name": "max",
-              "type": 743,
+              "type": 741,
               "typeName": "Option<Perbill>",
               "docs": []
             },
             {
               "name": "change_rate",
-              "type": 744,
+              "type": 742,
               "typeName": "Option<CommissionChangeRate<T::BlockNumber>>",
               "docs": []
             },
@@ -51629,7 +51582,7 @@
     }
   },
   {
-    "id": 743,
+    "id": 741,
     "type": {
       "path": [
         "Option"
@@ -51669,7 +51622,7 @@
     }
   },
   {
-    "id": 744,
+    "id": 742,
     "type": {
       "path": [
         "Option"
@@ -51709,7 +51662,7 @@
     }
   },
   {
-    "id": 745,
+    "id": 743,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -51755,7 +51708,7 @@
     }
   },
   {
-    "id": 746,
+    "id": 744,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -51807,7 +51760,7 @@
     }
   },
   {
-    "id": 747,
+    "id": 745,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -51824,13 +51777,13 @@
           "fields": [
             {
               "name": "no_era",
-              "type": 748,
+              "type": 746,
               "typeName": "UnbondPool<T>",
               "docs": []
             },
             {
               "name": "with_era",
-              "type": 749,
+              "type": 747,
               "typeName": "BoundedBTreeMap<EraIndex, UnbondPool<T>, TotalUnbondingPools<T>>",
               "docs": []
             }
@@ -51841,7 +51794,7 @@
     }
   },
   {
-    "id": 748,
+    "id": 746,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -51875,7 +51828,7 @@
     }
   },
   {
-    "id": 749,
+    "id": 747,
     "type": {
       "path": [
         "bounded_collections",
@@ -51889,7 +51842,7 @@
         },
         {
           "name": "V",
-          "type": 748
+          "type": 746
         },
         {
           "name": "S",
@@ -51901,7 +51854,7 @@
           "fields": [
             {
               "name": null,
-              "type": 750,
+              "type": 748,
               "typeName": "BTreeMap<K, V>",
               "docs": []
             }
@@ -51912,7 +51865,7 @@
     }
   },
   {
-    "id": 750,
+    "id": 748,
     "type": {
       "path": [
         "BTreeMap"
@@ -51924,7 +51877,7 @@
         },
         {
           "name": "V",
-          "type": 748
+          "type": 746
         }
       ],
       "def": {
@@ -51932,7 +51885,7 @@
           "fields": [
             {
               "name": null,
-              "type": 751,
+              "type": 749,
               "typeName": null,
               "docs": []
             }
@@ -51943,34 +51896,34 @@
     }
   },
   {
-    "id": 751,
+    "id": 749,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 752
+          "type": 750
         }
       },
       "docs": []
     }
   },
   {
-    "id": 752,
+    "id": 750,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
           4,
-          748
+          746
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 753,
+    "id": 751,
     "type": {
       "path": [
         "bounded_collections",
@@ -52003,7 +51956,7 @@
     }
   },
   {
-    "id": 754,
+    "id": 752,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -52183,7 +52136,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 755,
+                  "type": 753,
                   "typeName": "DefensiveError",
                   "docs": []
                 }
@@ -52283,7 +52236,7 @@
     }
   },
   {
-    "id": 755,
+    "id": 753,
     "type": {
       "path": [
         "pallet_nomination_pools",
@@ -52331,7 +52284,7 @@
     }
   },
   {
-    "id": 756,
+    "id": 754,
     "type": {
       "path": [
         "pallet_referenda",
@@ -52380,7 +52333,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 757,
+                  "type": 755,
                   "typeName": "ReferendumStatus<TrackId, RuntimeOrigin, Moment, Call, Balance, Tally,\nAccountId, ScheduleAddress,>",
                   "docs": []
                 }
@@ -52399,13 +52352,13 @@
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 }
@@ -52424,13 +52377,13 @@
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 }
@@ -52449,13 +52402,13 @@
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 }
@@ -52474,13 +52427,13 @@
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 },
                 {
                   "name": null,
-                  "type": 701,
+                  "type": 699,
                   "typeName": "Option<Deposit<AccountId, Balance>>",
                   "docs": []
                 }
@@ -52508,7 +52461,7 @@
     }
   },
   {
-    "id": 757,
+    "id": 755,
     "type": {
       "path": [
         "pallet_referenda",
@@ -52584,19 +52537,19 @@
             },
             {
               "name": "submission_deposit",
-              "type": 700,
+              "type": 698,
               "typeName": "Deposit<AccountId, Balance>",
               "docs": []
             },
             {
               "name": "decision_deposit",
-              "type": 701,
+              "type": 699,
               "typeName": "Option<Deposit<AccountId, Balance>>",
               "docs": []
             },
             {
               "name": "deciding",
-              "type": 702,
+              "type": 700,
               "typeName": "Option<DecidingStatus<Moment>>",
               "docs": []
             },
@@ -52614,7 +52567,7 @@
             },
             {
               "name": "alarm",
-              "type": 704,
+              "type": 702,
               "typeName": "Option<(Moment, ScheduleAddress)>",
               "docs": []
             }
@@ -52625,7 +52578,7 @@
     }
   },
   {
-    "id": 758,
+    "id": 756,
     "type": {
       "path": [
         "bounded_collections",
@@ -52658,7 +52611,7 @@
     }
   },
   {
-    "id": 759,
+    "id": 757,
     "type": {
       "path": [
         "pallet_referenda",
@@ -52791,7 +52744,7 @@
     }
   },
   {
-    "id": 760,
+    "id": 758,
     "type": {
       "path": [
         "pallet_ranked_collective",
@@ -52814,7 +52767,7 @@
     }
   },
   {
-    "id": 761,
+    "id": 759,
     "type": {
       "path": [],
       "params": [],
@@ -52828,7 +52781,7 @@
     }
   },
   {
-    "id": 762,
+    "id": 760,
     "type": {
       "path": [],
       "params": [],
@@ -52842,7 +52795,7 @@
     }
   },
   {
-    "id": 763,
+    "id": 761,
     "type": {
       "path": [
         "bounded_collections",
@@ -52875,7 +52828,7 @@
     }
   },
   {
-    "id": 764,
+    "id": 762,
     "type": {
       "path": [
         "pallet_ranked_collective",
@@ -52976,7 +52929,7 @@
     }
   },
   {
-    "id": 765,
+    "id": 763,
     "type": {
       "path": [
         "pallet_fast_unstake",
@@ -52994,13 +52947,13 @@
           "fields": [
             {
               "name": "stashes",
-              "type": 766,
+              "type": 764,
               "typeName": "BoundedVec<(T::AccountId, BalanceOf<T>), T::BatchSize>",
               "docs": []
             },
             {
               "name": "checked",
-              "type": 767,
+              "type": 765,
               "typeName": "BoundedVec<EraIndex, MaxChecking<T>>",
               "docs": []
             }
@@ -53011,7 +52964,7 @@
     }
   },
   {
-    "id": 766,
+    "id": 764,
     "type": {
       "path": [
         "bounded_collections",
@@ -53044,7 +52997,7 @@
     }
   },
   {
-    "id": 767,
+    "id": 765,
     "type": {
       "path": [
         "bounded_collections",
@@ -53077,7 +53030,7 @@
     }
   },
   {
-    "id": 768,
+    "id": 766,
     "type": {
       "path": [
         "pallet_fast_unstake",
@@ -53152,7 +53105,7 @@
     }
   },
   {
-    "id": 769,
+    "id": 767,
     "type": {
       "path": [
         "pallet_message_queue",
@@ -53187,7 +53140,7 @@
             },
             {
               "name": "ready_neighbours",
-              "type": 770,
+              "type": 768,
               "typeName": "Option<Neighbours<MessageOrigin>>",
               "docs": []
             },
@@ -53210,7 +53163,7 @@
     }
   },
   {
-    "id": 770,
+    "id": 768,
     "type": {
       "path": [
         "Option"
@@ -53218,7 +53171,7 @@
       "params": [
         {
           "name": "T",
-          "type": 771
+          "type": 769
         }
       ],
       "def": {
@@ -53235,7 +53188,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 771,
+                  "type": 769,
                   "typeName": null,
                   "docs": []
                 }
@@ -53250,7 +53203,7 @@
     }
   },
   {
-    "id": 771,
+    "id": 769,
     "type": {
       "path": [
         "pallet_message_queue",
@@ -53284,7 +53237,7 @@
     }
   },
   {
-    "id": 772,
+    "id": 770,
     "type": {
       "path": [
         "pallet_message_queue",
@@ -53335,7 +53288,7 @@
             },
             {
               "name": "heap",
-              "type": 773,
+              "type": 771,
               "typeName": "BoundedVec<u8, IntoU32<HeapSize, Size>>",
               "docs": []
             }
@@ -53346,7 +53299,7 @@
     }
   },
   {
-    "id": 773,
+    "id": 771,
     "type": {
       "path": [
         "bounded_collections",
@@ -53379,7 +53332,7 @@
     }
   },
   {
-    "id": 774,
+    "id": 772,
     "type": {
       "path": [
         "pallet_message_queue",
@@ -53464,7 +53417,7 @@
     }
   },
   {
-    "id": 775,
+    "id": 773,
     "type": {
       "path": [
         "bounded_collections",
@@ -53497,7 +53450,7 @@
     }
   },
   {
-    "id": 776,
+    "id": 774,
     "type": {
       "path": [
         "sp_runtime",
@@ -53520,7 +53473,7 @@
         },
         {
           "name": "Extra",
-          "type": 777
+          "type": 775
         }
       ],
       "def": {
@@ -53539,27 +53492,27 @@
     }
   },
   {
-    "id": 777,
+    "id": 775,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
+          776,
+          777,
           778,
           779,
           780,
-          781,
           782,
-          784,
-          785,
-          786
+          783,
+          784
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 778,
+    "id": 776,
     "type": {
       "path": [
         "frame_system",
@@ -53582,7 +53535,7 @@
     }
   },
   {
-    "id": 779,
+    "id": 777,
     "type": {
       "path": [
         "frame_system",
@@ -53605,7 +53558,7 @@
     }
   },
   {
-    "id": 780,
+    "id": 778,
     "type": {
       "path": [
         "frame_system",
@@ -53628,7 +53581,7 @@
     }
   },
   {
-    "id": 781,
+    "id": 779,
     "type": {
       "path": [
         "frame_system",
@@ -53651,7 +53604,7 @@
     }
   },
   {
-    "id": 782,
+    "id": 780,
     "type": {
       "path": [
         "frame_system",
@@ -53670,7 +53623,7 @@
           "fields": [
             {
               "name": null,
-              "type": 783,
+              "type": 781,
               "typeName": "Era",
               "docs": []
             }
@@ -53681,7 +53634,7 @@
     }
   },
   {
-    "id": 783,
+    "id": 781,
     "type": {
       "path": [
         "sp_runtime",
@@ -57021,7 +56974,7 @@
     }
   },
   {
-    "id": 784,
+    "id": 782,
     "type": {
       "path": [
         "frame_system",
@@ -57051,7 +57004,7 @@
     }
   },
   {
-    "id": 785,
+    "id": 783,
     "type": {
       "path": [
         "frame_system",
@@ -57074,7 +57027,7 @@
     }
   },
   {
-    "id": 786,
+    "id": 784,
     "type": {
       "path": [
         "pallet_asset_tx_payment",
@@ -57108,7 +57061,7 @@
     }
   },
   {
-    "id": 787,
+    "id": 785,
     "type": {
       "path": [
         "kitchensink_runtime",

@@ -76,7 +76,8 @@ declare module '@polkadot/types/lookup' {
     readonly isCancelProxy: boolean;
     readonly isAuction: boolean;
     readonly isSociety: boolean;
-    readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction' | 'Society';
+    readonly isNominationPools: boolean;
+    readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'IdentityJudgement' | 'CancelProxy' | 'Auction' | 'Society' | 'NominationPools';
   }
 
   /** @name KusamaRuntimeNposCompactSolution24 (217) */
@@ -107,7 +108,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingPalletCall (363) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingPalletCall (364) */
   interface PolkadotRuntimeParachainsDisputesSlashingPalletCall extends Enum {
     readonly isReportDisputeLostUnsigned: boolean;
     readonly asReportDisputeLostUnsigned: {
@@ -117,7 +118,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'ReportDisputeLostUnsigned';
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputeProof (364) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputeProof (365) */
   interface PolkadotRuntimeParachainsDisputesSlashingDisputeProof extends Struct {
     readonly timeSlot: PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot;
     readonly kind: PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind;
@@ -125,39 +126,39 @@ declare module '@polkadot/types/lookup' {
     readonly validatorId: PolkadotPrimitivesV4ValidatorAppPublic;
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot (365) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot (366) */
   interface PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot extends Struct {
     readonly sessionIndex: u32;
     readonly candidateHash: H256;
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind (366) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind (367) */
   interface PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind extends Enum {
     readonly isForInvalid: boolean;
     readonly isAgainstValid: boolean;
     readonly type: 'ForInvalid' | 'AgainstValid';
   }
 
-  /** @name KusamaRuntimeHoldReason (534) */
+  /** @name KusamaRuntimeHoldReason (535) */
   interface KusamaRuntimeHoldReason extends Enum {
     readonly isNis: boolean;
     readonly asNis: KusamaRuntimeHoldReasonNis;
     readonly type: 'Nis';
   }
 
-  /** @name KusamaRuntimeHoldReasonNis (535) */
+  /** @name KusamaRuntimeHoldReasonNis (536) */
   interface KusamaRuntimeHoldReasonNis extends Enum {
     readonly isNftReceipt: boolean;
     readonly type: 'NftReceipt';
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingPendingSlashes (809) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingPendingSlashes (810) */
   interface PolkadotRuntimeParachainsDisputesSlashingPendingSlashes extends Struct {
     readonly keys_: BTreeMap<u32, PolkadotPrimitivesV4ValidatorAppPublic>;
     readonly kind: PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind;
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingPalletError (813) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingPalletError (814) */
   interface PolkadotRuntimeParachainsDisputesSlashingPalletError extends Enum {
     readonly isInvalidKeyOwnershipProof: boolean;
     readonly isInvalidSessionIndex: boolean;
@@ -168,7 +169,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'InvalidKeyOwnershipProof' | 'InvalidSessionIndex' | 'InvalidCandidateHash' | 'InvalidValidatorIndex' | 'ValidatorIndexIdMismatch' | 'DuplicateSlashingReport';
   }
 
-  /** @name KusamaRuntimeRuntime (856) */
+  /** @name KusamaRuntimeRuntime (857) */
   type KusamaRuntimeRuntime = Null;
 
 } // declare module

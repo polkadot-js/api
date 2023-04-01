@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Support expanded Nimbus lookups to Collators (Thanks to https://github.com/grenade)
+
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
 ## 10.2.1 Mar 25, 2023
 
 Contributed:
