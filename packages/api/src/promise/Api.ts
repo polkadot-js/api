@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiOptions, UnsubscribePromise } from '../types/index.js';
+import type { CombinatorCallback, CombinatorFunction } from './Combinator.js';
 
 import { objectSpread } from '@polkadot/util';
 
 import { ApiBase } from '../base/index.js';
-import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator.js';
+import { Combinator } from './Combinator.js';
 import { promiseTracker, toPromiseMethod } from './decorateMethod.js';
 
 /**

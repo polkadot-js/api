@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { isFunction } from '@polkadot/util';
+import type { RpcErrorInterface } from '../types.js';
 
-import { RpcErrorInterface } from '../types.js';
+import { isFunction } from '@polkadot/util';
 
 const UNKNOWN = -99999;
 

@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Definitions, DefinitionsTypes } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
 import fs from 'node:fs';
@@ -8,7 +9,6 @@ import path from 'node:path';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-import { Definitions, DefinitionsTypes } from '@polkadot/types/types';
 import { formatNumber, isHex } from '@polkadot/util';
 
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTx } from './generate/index.js';

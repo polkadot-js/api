@@ -3,8 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { AnyFunction, AnyJson, Callback, DefinitionRpc } from '@polkadot/types/types';
-
-import { ApiTypes, PromiseResult, Push, RxResult, UnsubscribePromise } from './base.js';
+import type { ApiTypes, PromiseResult, Push, RxResult, UnsubscribePromise } from './base.js';
 
 export type { AugmentedRpc } from '@polkadot/rpc-core/types';
 
