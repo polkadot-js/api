@@ -5,9 +5,11 @@
 
 import '@polkadot/api-augment';
 
+import type { TestKeyringMap } from '@polkadot/keyring/testingPairs';
+
 import { ApiPromise } from '@polkadot/api';
 import { BlueprintPromise, ContractPromise } from '@polkadot/api-contract';
-import { createTestPairs, TestKeyringMap } from '@polkadot/keyring/testingPairs';
+import { createTestPairs } from '@polkadot/keyring/testingPairs';
 
 import abiIncrementer from './test/contracts/ink/v0/incrementer.json' assert { type: 'json' };
 

@@ -3,6 +3,7 @@
 
 import type { Constructor, Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
+import type { ModuleTypes, TypeImports } from './imports.js';
 
 import { GenericAccountId, GenericCall, GenericLookupSource, GenericVote } from '@polkadot/types/generic';
 import { AllConvictions } from '@polkadot/types/interfaces/democracy/definitions';
@@ -11,7 +12,7 @@ import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { isChildClass, stringify } from '@polkadot/util';
 
 import { formatType } from './formatting.js';
-import { ModuleTypes, setImports, TypeImports } from './imports.js';
+import { setImports } from './imports.js';
 
 function arrayToStrType (arr: string[]): string {
   return `${arr.map((c) => `'${c}'`).join(' | ')}`;

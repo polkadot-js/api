@@ -12,6 +12,7 @@ import type { AnyFunction, AnyJson, AnyTuple, CallFunction, Codec, DefinitionCal
 import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../submittable/types.js';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types/index.js';
+import type { AllDerives } from '../util/decorate.js';
 import type { VersionedRegistry } from './types.js';
 
 import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray } from 'rxjs';
@@ -26,7 +27,7 @@ import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { createSubmittable } from '../submittable/index.js';
 import { augmentObject } from '../util/augmentObject.js';
-import { AllDerives, decorateDeriveSections } from '../util/decorate.js';
+import { decorateDeriveSections } from '../util/decorate.js';
 import { extractStorageArgs } from '../util/validate.js';
 import { Events } from './Events.js';
 import { findCall, findError } from './find.js';

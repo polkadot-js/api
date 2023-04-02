@@ -7,13 +7,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
+import type { ExactDerive } from './index.js';
+
 import { from, Observable } from 'rxjs';
 
 import { ApiRx } from '@polkadot/api';
 import { MockProvider } from '@polkadot/rpc-provider/mock';
 import { TypeRegistry } from '@polkadot/types/create';
-
-import { ExactDerive } from './index.js';
 
 const testFunction = (api: ApiRx): any => {
   return <S extends keyof ExactDerive, M extends keyof (typeof api.derive[S])>(section: S, method: M, inputs: any[]): void => {

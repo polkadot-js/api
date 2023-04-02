@@ -4,9 +4,9 @@
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import type { Request } from '../mock/mockWs.js';
+import type { Global, Mock } from '../mock/types.js';
 
 import { mockWs } from '../mock/mockWs.js';
-import { Global, Mock } from '../mock/types.js';
 import { WsProvider } from './index.js';
 
 declare const global: Global;

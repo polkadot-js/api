@@ -4,6 +4,7 @@
 import type { AnyString, Registry } from '@polkadot/types/types';
 import type { LookupString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
+import type { ModuleTypes, TypeImports } from './imports.js';
 
 import Handlebars from 'handlebars';
 
@@ -12,7 +13,7 @@ import { getTypeDef, paramsNotation, TypeDefInfo } from '@polkadot/types-create'
 import { isString, stringify } from '@polkadot/util';
 
 import { readTemplate } from './file.js';
-import { ModuleTypes, setImports, TypeImports } from './imports.js';
+import { setImports } from './imports.js';
 
 interface ImportDef {
   file: string;

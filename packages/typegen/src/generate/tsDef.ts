@@ -4,6 +4,7 @@
 import type { Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 import type { ModuleTypes } from '../util/imports.js';
+import type { TypeImports } from '../util/index.js';
 
 import Handlebars from 'handlebars';
 import path from 'path';
@@ -13,7 +14,7 @@ import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { assert, isString, stringify, stringPascalCase } from '@polkadot/util';
 
-import { createImports, exportInterface, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util/index.js';
+import { createImports, exportInterface, formatType, readTemplate, setImports, writeFile } from '../util/index.js';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];
