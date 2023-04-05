@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
-    "build:before": "(cd packages/typegen && polkadot-dev-copy-dir scripts build/scripts)",
+    "build:before": "polkadot-dev-copy-dir --cd packages/typegen scripts build",
     "build:interfaces": "node --loader @polkadot/dev-ts packages/typegen/scripts/polkadot-types-internal-interfaces.mjs",
     "build:metadata": "yarn build:interfaces && polkadot-dev-run-test packages/types/src/metadata/v14",
     "build:release": "polkadot-ci-ghact-build",
@@ -40,7 +40,7 @@
     "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.72.32",
+    "@polkadot/dev": "^0.72.34",
     "@polkadot/typegen": "workspace:packages/typegen",
     "@types/node": "^18.15.11"
   },
