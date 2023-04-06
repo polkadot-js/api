@@ -14,6 +14,6 @@ export default {
   types: {
     FungiblesAccessError: {
       _enum: ['AssetIdConversionFailed', 'AmountToBalanceConversionFailed']
-    },
+    }
   }
 } as Definitions;
