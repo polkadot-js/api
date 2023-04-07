@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Add `BitVec.toBoolArray()` helper function
+- Tie down `BitVec` from metadata to only allow (default) Lsb
+
+
 ## 10.2.2 Apr 1, 2023
 
 Contributed:
