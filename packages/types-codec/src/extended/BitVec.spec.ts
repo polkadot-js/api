@@ -48,6 +48,44 @@ describe('BitVec', (): void => {
     });
   });
 
+  describe('toBoolArray() ordering', (): void => {
+    it('defaults to Lsb', (): void => {
+      expect(
+        new BitVec(registry, '0x0100010500').toBoolArray()
+      ).toEqual([
+        true, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false,
+        true, false, false, false, false, false, false, false,
+        true, false, true, false, false, false, false, false,
+        false, false, false, false, false, false, false, false
+      ]);
+    });
+
+    it('can output to Msb', (): void => {
+      expect(
+        new BitVec(registry, '0x0100010500', true).toBoolArray()
+      ).toEqual([
+        false, false, false, false, false, false, false, true,
+        false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, true,
+        false, false, false, false, false, true, false, true,
+        false, false, false, false, false, false, false, false
+      ]);
+    });
+
+    it('outputs all LSB bits', (): void => {
+      expect(
+        new BitVec(registry, '0x01000105ff').toBoolArray()
+      ).toEqual([
+        true, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false,
+        true, false, false, false, false, false, false, false,
+        true, false, true, false, false, false, false, false,
+        true, true, true, true, true, true, true, true
+      ]);
+    });
+  });
+
   it('has a sane inspect', (): void => {
     expect(
       new BitVec(registry, '0x0837').inspect()
