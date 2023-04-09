@@ -1,0 +1,1328 @@
+[
+  {
+    "info": "Plain",
+    "lookupIndex": 0,
+    "type": "AccountId",
+    "docs": [],
+    "namespace": "ink_primitives::types::AccountId",
+    "lookupNameRoot": "InkPrimitivesAccountId"
+  },
+  {
+    "info": "VecFixed",
+    "lookupIndex": 1,
+    "type": "[u8;32]",
+    "docs": [],
+    "namespace": "",
+    "length": 32,
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 2,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 2,
+    "type": "u8",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 3,
+    "type": "Null",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 4,
+    "type": "u16",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 5,
+    "type": "u32",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 6,
+    "type": "u64",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 7,
+    "type": "u128",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 8,
+    "type": "Bytes",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 9,
+    "type": "Result<Null, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 3,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 10,
+    "lookupName": "InkPrimitivesLangError",
+    "type": "{\"_enum\":[\"__Unused0\",\"CouldNotReadInput\"]}",
+    "docs": [],
+    "namespace": "ink_primitives::LangError",
+    "sub": [
+      {
+        "index": 0,
+        "info": "Null",
+        "name": "__Unused0",
+        "type": "Null"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "CouldNotReadInput"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 11,
+    "type": "Result<u128, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Plain",
+        "lookupIndex": 7,
+        "type": "u128",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 12,
+    "type": "Result<OpenbrushContractsTypesId, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 13,
+        "lookupName": "OpenbrushContractsTypesId",
+        "type": "Lookup13"
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 13,
+    "lookupName": "OpenbrushContractsTypesId",
+    "type": "{\"_enum\":{\"U8\":\"u8\",\"U16\":\"u16\",\"U32\":\"u32\",\"U64\":\"u64\",\"U128\":\"u128\",\"Bytes\":\"Bytes\"}}",
+    "docs": [],
+    "namespace": "openbrush_contracts::traits::types::Id",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 2,
+        "type": "u8",
+        "docs": [],
+        "namespace": "",
+        "typeName": "u8",
+        "index": 0,
+        "name": "U8"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 4,
+        "type": "u16",
+        "docs": [],
+        "namespace": "",
+        "typeName": "u16",
+        "index": 1,
+        "name": "U16"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 5,
+        "type": "u32",
+        "docs": [],
+        "namespace": "",
+        "typeName": "u32",
+        "index": 2,
+        "name": "U32"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 6,
+        "type": "u64",
+        "docs": [],
+        "namespace": "",
+        "typeName": "u64",
+        "index": 3,
+        "name": "U64"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 7,
+        "type": "u128",
+        "docs": [],
+        "namespace": "",
+        "typeName": "u128",
+        "index": 4,
+        "name": "U128"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 8,
+        "type": "Bytes",
+        "docs": [],
+        "namespace": "",
+        "typeName": "Bytes",
+        "index": 5,
+        "name": "Bytes"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 14,
+    "type": "Result<Option<AccountId>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Option",
+        "lookupIndex": 15,
+        "type": "Option<AccountId>",
+        "docs": [],
+        "namespace": "Option",
+        "sub": {
+          "info": "Plain",
+          "lookupIndex": 0,
+          "type": "AccountId",
+          "docs": [],
+          "namespace": "ink_primitives::types::AccountId",
+          "lookupNameRoot": "InkPrimitivesAccountId"
+        }
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Option",
+    "lookupIndex": 15,
+    "type": "Option<AccountId>",
+    "docs": [],
+    "namespace": "Option",
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 0,
+      "type": "AccountId",
+      "docs": [],
+      "namespace": "ink_primitives::types::AccountId",
+      "lookupNameRoot": "InkPrimitivesAccountId"
+    }
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 16,
+    "type": "Result<u32, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Plain",
+        "lookupIndex": 5,
+        "type": "u32",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Option",
+    "lookupIndex": 17,
+    "type": "Option<OpenbrushContractsTypesId>",
+    "docs": [],
+    "namespace": "Option",
+    "sub": {
+      "docs": [],
+      "info": "Si",
+      "lookupIndex": 13,
+      "lookupName": "OpenbrushContractsTypesId",
+      "type": "Lookup13"
+    }
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 18,
+    "type": "Result<bool, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Plain",
+        "lookupIndex": 19,
+        "type": "bool",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 19,
+    "type": "bool",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 20,
+    "type": "Result<Result<Null, OpenbrushContractsErrorsPsp34Psp34Error>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Result",
+        "lookupIndex": 21,
+        "type": "Result<Null, OpenbrushContractsErrorsPsp34Psp34Error>",
+        "docs": [],
+        "namespace": "Result",
+        "sub": [
+          {
+            "name": "Ok",
+            "info": "Null",
+            "lookupIndex": 3,
+            "type": "Null",
+            "docs": [],
+            "namespace": ""
+          },
+          {
+            "name": "Error",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 22,
+            "lookupName": "OpenbrushContractsErrorsPsp34Psp34Error",
+            "type": "Lookup22"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 21,
+    "type": "Result<Null, OpenbrushContractsErrorsPsp34Psp34Error>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 3,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 22,
+        "lookupName": "OpenbrushContractsErrorsPsp34Psp34Error",
+        "type": "Lookup22"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 22,
+    "lookupName": "OpenbrushContractsErrorsPsp34Psp34Error",
+    "type": "{\"_enum\":{\"Custom\":\"Bytes\",\"SelfApprove\":\"Null\",\"NotApproved\":\"Null\",\"TokenExists\":\"Null\",\"TokenNotExists\":\"Null\",\"SafeTransferCheckFailed\":\"Bytes\"}}",
+    "docs": [],
+    "namespace": "openbrush_contracts::traits::errors::psp34::PSP34Error",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 8,
+        "type": "Bytes",
+        "docs": [],
+        "namespace": "",
+        "typeName": "Text",
+        "index": 0,
+        "name": "Custom"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "SelfApprove"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 2,
+        "name": "NotApproved"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 3,
+        "name": "TokenExists"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 4,
+        "name": "TokenNotExists"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 8,
+        "type": "Bytes",
+        "docs": [],
+        "namespace": "",
+        "typeName": "Text",
+        "index": 5,
+        "name": "SafeTransferCheckFailed"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 23,
+    "type": "Result<Result<Null, OpenbrushContractsErrorsAccessControlAccessControlError>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Result",
+        "lookupIndex": 24,
+        "type": "Result<Null, OpenbrushContractsErrorsAccessControlAccessControlError>",
+        "docs": [],
+        "namespace": "Result",
+        "sub": [
+          {
+            "name": "Ok",
+            "info": "Null",
+            "lookupIndex": 3,
+            "type": "Null",
+            "docs": [],
+            "namespace": ""
+          },
+          {
+            "name": "Error",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 25,
+            "lookupName": "OpenbrushContractsErrorsAccessControlAccessControlError",
+            "type": "Lookup25"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 24,
+    "type": "Result<Null, OpenbrushContractsErrorsAccessControlAccessControlError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 3,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 25,
+        "lookupName": "OpenbrushContractsErrorsAccessControlAccessControlError",
+        "type": "Lookup25"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 25,
+    "lookupName": "OpenbrushContractsErrorsAccessControlAccessControlError",
+    "type": "{\"_enum\":[\"InvalidCaller\",\"MissingRole\",\"RoleRedundant\"]}",
+    "docs": [],
+    "namespace": "openbrush_contracts::traits::errors::access_control::AccessControlError",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "InvalidCaller"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "MissingRole"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 2,
+        "name": "RoleRedundant"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 26,
+    "type": "Result<Option<Bytes>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Option",
+        "lookupIndex": 27,
+        "type": "Option<Bytes>",
+        "docs": [],
+        "namespace": "Option",
+        "sub": {
+          "info": "Plain",
+          "lookupIndex": 8,
+          "type": "Bytes",
+          "docs": [],
+          "namespace": ""
+        }
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Option",
+    "lookupIndex": 27,
+    "type": "Option<Bytes>",
+    "docs": [],
+    "namespace": "Option",
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 8,
+      "type": "Bytes",
+      "docs": [],
+      "namespace": ""
+    }
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 28,
+    "type": "Result<Result<OpenbrushContractsTypesId, OpenbrushContractsErrorsPsp34Psp34Error>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Result",
+        "lookupIndex": 29,
+        "type": "Result<OpenbrushContractsTypesId, OpenbrushContractsErrorsPsp34Psp34Error>",
+        "docs": [],
+        "namespace": "Result",
+        "sub": [
+          {
+            "name": "Ok",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 13,
+            "lookupName": "OpenbrushContractsTypesId",
+            "type": "Lookup13"
+          },
+          {
+            "name": "Error",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 22,
+            "lookupName": "OpenbrushContractsErrorsPsp34Psp34Error",
+            "type": "Lookup22"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 29,
+    "type": "Result<OpenbrushContractsTypesId, OpenbrushContractsErrorsPsp34Psp34Error>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 13,
+        "lookupName": "OpenbrushContractsTypesId",
+        "type": "Lookup13"
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 22,
+        "lookupName": "OpenbrushContractsErrorsPsp34Psp34Error",
+        "type": "Lookup22"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 30,
+    "type": "Result<Result<Text, RmrkCommonErrorsError>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Result",
+        "lookupIndex": 31,
+        "type": "Result<Text, RmrkCommonErrorsError>",
+        "docs": [],
+        "namespace": "Result",
+        "sub": [
+          {
+            "name": "Ok",
+            "info": "Plain",
+            "lookupIndex": 32,
+            "type": "Text",
+            "docs": [],
+            "namespace": ""
+          },
+          {
+            "name": "Error",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 33,
+            "lookupName": "RmrkCommonErrorsError",
+            "type": "Lookup33"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 31,
+    "type": "Result<Text, RmrkCommonErrorsError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Plain",
+        "lookupIndex": 32,
+        "type": "Text",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 33,
+        "lookupName": "RmrkCommonErrorsError",
+        "type": "Lookup33"
+      }
+    ]
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 32,
+    "type": "Text",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 33,
+    "lookupName": "RmrkCommonErrorsError",
+    "type": "{\"_enum\":{\"Rmrk\":\"RmrkCommonErrorsRmrkError\",\"PSP34\":\"OpenbrushContractsErrorsPsp34Psp34Error\",\"AccessControl\":\"OpenbrushContractsErrorsAccessControlAccessControlError\",\"Reentrancy\":\"OpenbrushContractsErrorsReentrancyGuardReentrancyGuardError\"}}",
+    "docs": [],
+    "namespace": "rmrk_common::errors::Error",
+    "sub": [
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 34,
+        "lookupName": "RmrkCommonErrorsRmrkError",
+        "type": "Lookup34",
+        "typeName": "RmrkError",
+        "index": 0,
+        "name": "Rmrk"
+      },
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 22,
+        "lookupName": "OpenbrushContractsErrorsPsp34Psp34Error",
+        "type": "Lookup22",
+        "typeName": "PSP34Error",
+        "index": 1,
+        "name": "PSP34"
+      },
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 25,
+        "lookupName": "OpenbrushContractsErrorsAccessControlAccessControlError",
+        "type": "Lookup25",
+        "typeName": "AccessControlError",
+        "index": 2,
+        "name": "AccessControl"
+      },
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 35,
+        "lookupName": "OpenbrushContractsErrorsReentrancyGuardReentrancyGuardError",
+        "type": "Lookup35",
+        "typeName": "ReentrancyGuardError",
+        "index": 3,
+        "name": "Reentrancy"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 34,
+    "lookupName": "RmrkCommonErrorsRmrkError",
+    "type": "{\"_enum\":[\"AcceptedAssetsMissing\",\"AddingPendingAsset\",\"AddingPendingChild\",\"AddressNotEquippable\",\"AlreadyAddedAsset\",\"AlreadyAddedChild\",\"AssetHasNoParts\",\"AssetIdAlreadyExists\",\"AssetIdNotFound\",\"AssetIdNotEquippable\",\"BadConfig\",\"BadMintValue\",\"BadPriorityLength\",\"CannotMintZeroTokens\",\"CatalogNotFoundForAsset\",\"ChildNotFound\",\"UriNotFound\",\"CollectionIsFull\",\"InvalidAssetId\",\"InvalidParentId\",\"InvalidTokenId\",\"NotEquipped\",\"NotTokenOwner\",\"PartIsNotSlot\",\"SlotAlreayUsed\",\"TargetAssetCannotReceiveSlot\",\"UnknownEquippableAsset\",\"UnknownPart\",\"UnknownPartId\",\"WithdrawalFailed\"]}",
+    "docs": [],
+    "namespace": "rmrk_common::errors::RmrkError",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "AcceptedAssetsMissing"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "AddingPendingAsset"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 2,
+        "name": "AddingPendingChild"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 3,
+        "name": "AddressNotEquippable"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 4,
+        "name": "AlreadyAddedAsset"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 5,
+        "name": "AlreadyAddedChild"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 6,
+        "name": "AssetHasNoParts"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 7,
+        "name": "AssetIdAlreadyExists"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 8,
+        "name": "AssetIdNotFound"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 9,
+        "name": "AssetIdNotEquippable"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 10,
+        "name": "BadConfig"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 11,
+        "name": "BadMintValue"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 12,
+        "name": "BadPriorityLength"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 13,
+        "name": "CannotMintZeroTokens"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 14,
+        "name": "CatalogNotFoundForAsset"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 15,
+        "name": "ChildNotFound"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 16,
+        "name": "UriNotFound"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 17,
+        "name": "CollectionIsFull"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 18,
+        "name": "InvalidAssetId"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 19,
+        "name": "InvalidParentId"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 20,
+        "name": "InvalidTokenId"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 21,
+        "name": "NotEquipped"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 22,
+        "name": "NotTokenOwner"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 23,
+        "name": "PartIsNotSlot"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 24,
+        "name": "SlotAlreayUsed"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 25,
+        "name": "TargetAssetCannotReceiveSlot"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 26,
+        "name": "UnknownEquippableAsset"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 27,
+        "name": "UnknownPart"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 28,
+        "name": "UnknownPartId"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 29,
+        "name": "WithdrawalFailed"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 35,
+    "lookupName": "OpenbrushContractsErrorsReentrancyGuardReentrancyGuardError",
+    "type": "{\"_enum\":[\"ReentrantCall\"]}",
+    "docs": [],
+    "namespace": "openbrush_contracts::traits::errors::reentrancy_guard::ReentrancyGuardError",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "ReentrantCall"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 36,
+    "type": "Result<Option<u64>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Option",
+        "lookupIndex": 37,
+        "type": "Option<u64>",
+        "docs": [],
+        "namespace": "Option",
+        "sub": {
+          "info": "Plain",
+          "lookupIndex": 6,
+          "type": "u64",
+          "docs": [],
+          "namespace": ""
+        }
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Option",
+    "lookupIndex": 37,
+    "type": "Option<u64>",
+    "docs": [],
+    "namespace": "Option",
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 6,
+      "type": "u64",
+      "docs": [],
+      "namespace": ""
+    }
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 38,
+    "type": "Result<Result<Null, RmrkCommonErrorsError>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Result",
+        "lookupIndex": 39,
+        "type": "Result<Null, RmrkCommonErrorsError>",
+        "docs": [],
+        "namespace": "Result",
+        "sub": [
+          {
+            "name": "Ok",
+            "info": "Null",
+            "lookupIndex": 3,
+            "type": "Null",
+            "docs": [],
+            "namespace": ""
+          },
+          {
+            "name": "Error",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 33,
+            "lookupName": "RmrkCommonErrorsError",
+            "type": "Lookup33"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 39,
+    "type": "Result<Null, RmrkCommonErrorsError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 3,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 33,
+        "lookupName": "RmrkCommonErrorsError",
+        "type": "Lookup33"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 40,
+    "type": "Result<Result<OpenbrushContractsTypesId, RmrkCommonErrorsError>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Result",
+        "lookupIndex": 41,
+        "type": "Result<OpenbrushContractsTypesId, RmrkCommonErrorsError>",
+        "docs": [],
+        "namespace": "Result",
+        "sub": [
+          {
+            "name": "Ok",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 13,
+            "lookupName": "OpenbrushContractsTypesId",
+            "type": "Lookup13"
+          },
+          {
+            "name": "Error",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 33,
+            "lookupName": "RmrkCommonErrorsError",
+            "type": "Lookup33"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 41,
+    "type": "Result<OpenbrushContractsTypesId, RmrkCommonErrorsError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 13,
+        "lookupName": "OpenbrushContractsTypesId",
+        "type": "Lookup13"
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 33,
+        "lookupName": "RmrkCommonErrorsError",
+        "type": "Lookup33"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 42,
+    "type": "Result<Result<(OpenbrushContractsTypesId,OpenbrushContractsTypesId), RmrkCommonErrorsError>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Result",
+        "lookupIndex": 43,
+        "type": "Result<(OpenbrushContractsTypesId,OpenbrushContractsTypesId), RmrkCommonErrorsError>",
+        "docs": [],
+        "namespace": "Result",
+        "sub": [
+          {
+            "name": "Ok",
+            "info": "Tuple",
+            "lookupIndex": 44,
+            "type": "(OpenbrushContractsTypesId,OpenbrushContractsTypesId)",
+            "docs": [],
+            "namespace": "",
+            "sub": [
+              {
+                "docs": [],
+                "info": "Si",
+                "lookupIndex": 13,
+                "lookupName": "OpenbrushContractsTypesId",
+                "type": "Lookup13"
+              },
+              {
+                "docs": [],
+                "info": "Si",
+                "lookupIndex": 13,
+                "lookupName": "OpenbrushContractsTypesId",
+                "type": "Lookup13"
+              }
+            ]
+          },
+          {
+            "name": "Error",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 33,
+            "lookupName": "RmrkCommonErrorsError",
+            "type": "Lookup33"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 43,
+    "type": "Result<(OpenbrushContractsTypesId,OpenbrushContractsTypesId), RmrkCommonErrorsError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Tuple",
+        "lookupIndex": 44,
+        "type": "(OpenbrushContractsTypesId,OpenbrushContractsTypesId)",
+        "docs": [],
+        "namespace": "",
+        "sub": [
+          {
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 13,
+            "lookupName": "OpenbrushContractsTypesId",
+            "type": "Lookup13"
+          },
+          {
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 13,
+            "lookupName": "OpenbrushContractsTypesId",
+            "type": "Lookup13"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 33,
+        "lookupName": "RmrkCommonErrorsError",
+        "type": "Lookup33"
+      }
+    ]
+  },
+  {
+    "info": "Tuple",
+    "lookupIndex": 44,
+    "type": "(OpenbrushContractsTypesId,OpenbrushContractsTypesId)",
+    "docs": [],
+    "namespace": "",
+    "sub": [
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 13,
+        "lookupName": "OpenbrushContractsTypesId",
+        "type": "Lookup13"
+      },
+      {
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 13,
+        "lookupName": "OpenbrushContractsTypesId",
+        "type": "Lookup13"
+      }
+    ]
+  }
+]

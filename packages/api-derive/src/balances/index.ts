@@ -8,7 +8,4 @@ export * from './votingBalances.js';
 
 const votingBalance = all;
 
-export {
-  all,
-  votingBalance
-};
+export { all, votingBalance };
