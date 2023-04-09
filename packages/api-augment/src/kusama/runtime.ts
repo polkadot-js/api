@@ -369,6 +369,29 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0x37c8bb1350a9a2a8/4 */
+    transactionPaymentApi: {
+      /**
+       * The transaction fee details
+       **/
+      queryFeeDetails: AugmentedCall<ApiType, (uxt: Extrinsic | IExtrinsic | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<FeeDetails>>;
+      /**
+       * The transaction info
+       **/
+      queryInfo: AugmentedCall<ApiType, (uxt: Extrinsic | IExtrinsic | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<RuntimeDispatchInfo>>;
+      /**
+       * Query the output of the current LengthToFee given some input
+       **/
+      queryLengthToFee: AugmentedCall<ApiType, (length: u32 | AnyNumber | Uint8Array) => Observable<Balance>>;
+      /**
+       * Query the output of the current WeightToFee given some input
+       **/
+      queryWeightToFee: AugmentedCall<ApiType, (weight: Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => Observable<Balance>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
     /** 0xf3ff14d5ab527059/3 */
     transactionPaymentCallApi: {
       /**

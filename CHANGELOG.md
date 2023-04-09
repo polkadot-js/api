@@ -6,6 +6,8 @@ Changes:
 
 - Add `BitVec.toBoolArray()` helper function
 - Tie down `BitVec` from metadata to only allow (default) Lsb
+- Support for `TransactionPaymentApi/4`
+- Update to latest Polkadot, Kusama & Substrate metadata
 
 
 ## 10.2.2 Apr 1, 2023
