@@ -914,9 +914,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The portion supplied is beyond the value of the receipt.
        **/
       PortionTooBig: AugmentedError<ApiType>;
-      Release1: AugmentedError<ApiType>;
-      Release2: AugmentedError<ApiType>;
-      Tah: AugmentedError<ApiType>;
       /**
        * The thaw throttle has been reached for this period.
        **/

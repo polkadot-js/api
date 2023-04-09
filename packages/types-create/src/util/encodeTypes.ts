@@ -140,14 +140,13 @@ const encoders: Record<TypeDefInfo, (registry: Registry, typeDef: TypeDef) => st
       throw new Error('Unable to encode Struct type');
     }
 
-    return encodeSubTypes(registry, sub, false,
-      alias
-        ? {
-          _alias: [...alias.entries()].reduce<Record<string, string>>((all, [k, v]) =>
-            objectSpread(all, { [k]: v }), {}
-          )
-        }
-        : {}
+    return encodeSubTypes(registry, sub, false, alias
+      ? {
+        _alias: [...alias.entries()].reduce<Record<string, string>>((all, [k, v]) =>
+          objectSpread(all, { [k]: v }), {}
+        )
+      }
+      : {}
     );
   },
 

@@ -44439,24 +44439,6 @@
               "docs": [
                 "The receipt is already private."
               ]
-            },
-            {
-              "name": "Release1",
-              "fields": [],
-              "index": 15,
-              "docs": []
-            },
-            {
-              "name": "Release2",
-              "fields": [],
-              "index": 16,
-              "docs": []
-            },
-            {
-              "name": "Tah",
-              "fields": [],
-              "index": 17,
-              "docs": []
             }
           ]
         }
@@ -48598,6 +48580,12 @@
                 }
               ],
               "index": 6,
+              "docs": []
+            },
+            {
+              "name": "WasmExtBulkMemory",
+              "fields": [],
+              "index": 7,
               "docs": []
             }
           ]
