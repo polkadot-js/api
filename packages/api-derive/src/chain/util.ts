@@ -4,11 +4,12 @@
 import type { Observable } from 'rxjs';
 import type { QueryableStorage } from '@polkadot/api-base/types';
 import type { Compact, Vec } from '@polkadot/types';
-import type { AccountId, Address, BlockNumber, Header } from '@polkadot/types/interfaces';
+import type { AccountId, BlockNumber, Header } from '@polkadot/types/interfaces';
+import type { SpCoreSr25519Public } from '@polkadot/types/lookup';
 import type { Codec, IOption } from '@polkadot/types/types';
 import type { DeriveApi } from '../types.js';
 
-import { combineLatest, map, of } from 'rxjs';
+import { combineLatest, map, mergeMap, of } from 'rxjs';
 
 import { memo, unwrapBlockNumber } from '../util/index.js';
 
@@ -46,14 +47,19 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
       ]);
     }
 
-    // fall back to session pallet, if available (ie: manta, calamari), to map session (nimbus) key to author (collator/validator) key
-    if (queryAt.session && queryAt.session.queuedKeys) {
+    // fall back to session and parachain staking pallets, if available (ie: manta, calamari), to map session (nimbus) key to author (collator) key
+    if (queryAt.parachainStaking && queryAt.parachainStaking.selectedCandidates && queryAt.session && queryAt.session.nextKeys && queryAt.session.nextKeys.multi) {
       return combineLatest([
         of(header),
         validators,
-        queryAt.session.queuedKeys<[AccountId, { nimbus: Address }][]>().pipe(
-          map((queuedKeys) => queuedKeys.find((sessionKey) => sessionKey[1].nimbus.toHex() === loggedAuthor.toHex())),
-          map((sessionKey) => (sessionKey) ? sessionKey[0] : null)
+        queryAt.parachainStaking.selectedCandidates<AccountId[]>().pipe(
+          mergeMap((selectedCandidates) => combineLatest([
+            of(selectedCandidates),
+            queryAt.session.nextKeys.multi<IOption<{ nimbus: SpCoreSr25519Public } & Codec>>(selectedCandidates).pipe(
+              map((nextKeys) => nextKeys.findIndex((option) => option.unwrapOrDefault().nimbus.toHex() === loggedAuthor.toHex()))
+            )
+          ])),
+          map(([selectedCandidates, index]) => selectedCandidates[index])
         )
       ]);
     }
