@@ -735,7 +735,9 @@ export class PortableRegistry extends Struct implements ILookup {
       // through to the TypeDef (Here we could potentially re-use something
       // like index (???) to indicate and ensure we use it to pass to the
       // BitVec constructor - which does handle this type)
-      throw new Error(`Only LSB BitVec is currently supported, found ${bitOrder.namespace}`);
+      //
+      // See https://github.com/polkadot-js/api/issues/5588
+      // throw new Error(`Only LSB BitVec is currently supported, found ${bitOrder.namespace}`);
     }
 
     return {

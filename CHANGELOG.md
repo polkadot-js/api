@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 10.3.2 Apr 10, 2023
+
+Changes:
+
+- Revert throw on MSB BitVec (`toHuman()` output is still incorrect)
+
+
 ## 10.3.1 Apr 9, 2023
 
 Changes:
