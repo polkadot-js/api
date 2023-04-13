@@ -250,7 +250,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
       this.#hashCache = super.hash;
     }
 
-    return this.#hashCache as CodecHash;
+    return this.#hashCache;
   }
 
   /**
