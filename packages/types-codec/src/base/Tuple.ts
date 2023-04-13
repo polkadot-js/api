@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTupleValue, Codec, CodecClass, Inspect, ITuple, Registry } from '../types/index.js';
+import type { AnyTupleValue, Codec, CodecClass, DefinitionSetter, Inspect, ITuple, Registry } from '../types/index.js';
 
 import { isFunction, isHex, isString, isU8a, stringify, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
 
@@ -15,11 +15,6 @@ type TupleTypes = TupleType[] | {
 };
 
 type Definition = [CodecClass[], string[]];
-
-interface Options {
-  definition?: Definition;
-  setDefinition?: (d: Definition) => Definition;
-}
 
 function noopSetDefinition (d: Definition): Definition {
   return d;
@@ -67,7 +62,7 @@ function decodeTuple (registry: Registry, result: Codec[], value: Exclude<AnyTup
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   #Types: Definition;
 
-  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: Options = {}) {
+  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: DefinitionSetter<Definition> = {}) {
     const Classes = definition || setDefinition(
       Array.isArray(Types)
         ? [Types.map((t) => typeToConstructor(registry, t)), []]

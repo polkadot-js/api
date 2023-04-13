@@ -41,7 +41,7 @@ interface MetaDecoration {
 }
 
 interface FullDecoration<ApiType extends ApiTypes> {
-  createdAt?: Uint8Array;
+  createdAt?: Uint8Array | undefined;
   decoratedApi: ApiDecoration<ApiType>;
   decoratedMeta: DecoratedMeta;
 }

@@ -18,8 +18,8 @@ import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@
 export class Raw extends Uint8Array implements IU8a {
   readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
-  public initialU8aLength?: number;
+  public createdAtHash?: IU8a | undefined;
+  public initialU8aLength?: number | undefined;
   public isStorageFallback?: boolean;
 
   /**

@@ -130,7 +130,7 @@ class InnerChecker {
     let parsedResponse: {id: string, result?: SmoldotHealth, params?: { subscription: string }};
 
     try {
-      parsedResponse = JSON.parse(jsonRpcResponse) as { id: string, result: undefined | SmoldotHealth };
+      parsedResponse = JSON.parse(jsonRpcResponse) as { id: string, result?: SmoldotHealth };
     } catch {
       return jsonRpcResponse;
     }

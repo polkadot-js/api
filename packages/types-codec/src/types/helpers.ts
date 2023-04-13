@@ -42,4 +42,9 @@ export interface ToBn {
   toBn: () => BN;
 }
 
+export interface DefinitionSetter <T> {
+  definition?: T | undefined;
+  setDefinition?: (d: T) => T;
+}
+
 export type LookupString = `Lookup${number}`;

@@ -40,13 +40,13 @@ export type SubmittablePaymentResult<ApiType extends ApiTypes> =
     : Promise<RuntimeDispatchInfo>;
 
 export interface SubmittableResultValue {
-  dispatchError?: DispatchError;
-  dispatchInfo?: DispatchInfo;
+  dispatchError?: DispatchError | undefined;
+  dispatchInfo?: DispatchInfo | undefined;
   events?: EventRecord[];
-  internalError?: Error;
+  internalError?: Error | undefined;
   status: ExtrinsicStatus;
   txHash: Hash;
-  txIndex?: number;
+  txIndex?: number | undefined;
   blockNumber?: BlockNumber;
 }
 

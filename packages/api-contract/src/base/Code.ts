@@ -25,10 +25,10 @@ export interface CodeConstructor<ApiType extends ApiTypes> {
 }
 
 export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
-  readonly blueprint?: Blueprint<ApiType>;
-  readonly contract?: Contract<ApiType>;
+  readonly blueprint?: Blueprint<ApiType> | undefined;
+  readonly contract?: Contract<ApiType> | undefined;
 
-  constructor (result: ISubmittableResult, blueprint?: Blueprint<ApiType>, contract?: Contract<ApiType>) {
+  constructor (result: ISubmittableResult, blueprint?: Blueprint<ApiType> | undefined, contract?: Contract<ApiType> | undefined) {
     super(result);
 
     this.blueprint = blueprint;
@@ -77,14 +77,22 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       encodeSalt(salt)
     ).withResultTransform((result: ISubmittableResult) =>
       new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
-        records.reduce<[Blueprint<ApiType>?, Contract<ApiType>?]>(([blueprint, contract], { event }) =>
-          this.api.events.contracts.Instantiated.is(event)
-            ? [blueprint, new Contract<ApiType>(this.api, this.abi, (event as unknown as { data: [Codec, AccountId] }).data[1], this._decorateMethod)]
-            : this.api.events.contracts.CodeStored.is(event)
-              ? [new Blueprint<ApiType>(this.api, this.abi, (event as unknown as { data: [AccountId] }).data[0], this._decorateMethod), contract]
-              : [blueprint, contract],
-        [])
-      ) || []))
+        records.reduce<[Blueprint<ApiType> | undefined, Contract<ApiType> | undefined]>(([blueprint, contract], { event }) => {
+          if (this.api.events.contracts.Instantiated.is(event)) {
+            return [
+              blueprint,
+              new Contract<ApiType>(this.api, this.abi, (event as unknown as { data: [Codec, AccountId] }).data[1], this._decorateMethod)
+            ];
+          } else if (this.api.events.contracts.CodeStored.is(event)) {
+            return [
+              new Blueprint<ApiType>(this.api, this.abi, (event as unknown as { data: [AccountId] }).data[0], this._decorateMethod),
+              contract
+            ];
+          }
+
+          return [blueprint, contract];
+        }, [undefined, undefined])
+      ) || [undefined, undefined]))
     );
   };
 }

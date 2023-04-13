@@ -3,22 +3,22 @@
 
 import type { AccountId, AccountIndex, RegistrationJudgement } from '@polkadot/types/interfaces';
 
-export type AccountIdAndIndex = [AccountId?, AccountIndex?];
+export type AccountIdAndIndex = [AccountId | undefined, AccountIndex | undefined];
 
 export type AccountIndexes = Record<string, AccountIndex>;
 
 export interface DeriveAccountRegistration {
-  display?: string;
-  displayParent?: string;
-  email?: string;
-  image?: string;
-  legal?: string;
-  other?: Record<string, string>;
-  parent?: AccountId;
-  pgp?: string;
-  riot?: string;
-  twitter?: string;
-  web?: string;
+  display?: string | undefined;
+  displayParent?: string | undefined;
+  email?: string | undefined;
+  image?: string | undefined;
+  legal?: string | undefined;
+  other?: Record<string, string> | undefined;
+  parent?: AccountId | undefined;
+  pgp?: string | undefined;
+  riot?: string | undefined;
+  twitter?: string | undefined;
+  web?: string | undefined;
   judgements: RegistrationJudgement[];
 }
 
@@ -30,14 +30,14 @@ export interface DeriveAccountFlags {
 }
 
 export interface DeriveAccountInfo {
-  accountId?: AccountId;
-  accountIndex?: AccountIndex;
+  accountId?: AccountId | undefined;
+  accountIndex?: AccountIndex | undefined;
   identity: DeriveAccountRegistration;
-  nickname?: string;
+  nickname?: string | undefined;
 }
 
 export interface DeriveHasIdentity {
-  display?: string;
+  display?: string | undefined;
   hasIdentity: boolean;
-  parentId?: string;
+  parentId?: string | undefined;
 }

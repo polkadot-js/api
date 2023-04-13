@@ -11,10 +11,10 @@ import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } fr
 import type { Registry } from './registry.js';
 
 export interface ISubmittableResult {
-  readonly dispatchError?: DispatchError;
-  readonly dispatchInfo?: DispatchInfo;
+  readonly dispatchError?: DispatchError | undefined;
+  readonly dispatchInfo?: DispatchInfo | undefined;
   readonly events: EventRecord[];
-  readonly internalError?: Error;
+  readonly internalError?: Error | undefined;
   readonly status: ExtrinsicStatus;
   readonly isCompleted: boolean;
   readonly isError: boolean;
@@ -22,7 +22,7 @@ export interface ISubmittableResult {
   readonly isInBlock: boolean;
   readonly isWarning: boolean;
   readonly txHash: Hash;
-  readonly txIndex?: number;
+  readonly txIndex?: number | undefined;
 
   filterRecords (section: string, method: string): EventRecord[];
   findRecord (section: string, method: string): EventRecord | undefined;

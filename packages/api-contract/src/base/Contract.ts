@@ -42,7 +42,7 @@ function createTx <ApiType extends ApiTypes> (meta: AbiMessage, fn: (options: Co
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
-  readonly contractEvents?: DecodedEvent[];
+  readonly contractEvents?: DecodedEvent[] | undefined;
 
   constructor (result: ISubmittableResult, contractEvents?: DecodedEvent[]) {
     super(result);

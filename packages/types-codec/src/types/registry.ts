@@ -31,7 +31,7 @@ export type RegistryTypes =
   { _set: Record<string, number> }>;
 
 export interface CodecCreateOptions {
-  blockHash?: Uint8Array | string | null;
+  blockHash?: Uint8Array | string | null | undefined;
   isFallback?: boolean;
   isOptional?: boolean;
   isPedantic?: boolean;

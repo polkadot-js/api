@@ -26,7 +26,7 @@ interface WsStateAwaiting {
   method: string;
   params: unknown[];
   start: number;
-  subscription?: SubscriptionHandler;
+  subscription?: SubscriptionHandler | undefined;
 }
 
 interface WsStateSubscription extends SubscriptionHandler {
