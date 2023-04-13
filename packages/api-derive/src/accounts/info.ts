@@ -34,7 +34,7 @@ function retrieveNick (api: DeriveApi, accountId?: AccountId): Observable<string
 export function info (instanceId: string, api: DeriveApi): (address?: AccountIndex | AccountId | Address | Uint8Array | string | null) => Observable<DeriveAccountInfo> {
   return memo(instanceId, (address?: AccountIndex | AccountId | Address | Uint8Array | string | null): Observable<DeriveAccountInfo> =>
     api.derive.accounts.idAndIndex(address).pipe(
-      switchMap(([accountId, accountIndex]): Observable<[Partial<DeriveAccountInfo>, DeriveAccountRegistration, string?]> =>
+      switchMap(([accountId, accountIndex]): Observable<[Partial<DeriveAccountInfo>, DeriveAccountRegistration, string | undefined]> =>
         combineLatest([
           of({ accountId, accountIndex }),
           api.derive.accounts.identity(accountId),

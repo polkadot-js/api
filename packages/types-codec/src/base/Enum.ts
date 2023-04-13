@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types/index.js';
+import type { AnyJson, Codec, CodecClass, DefinitionSetter, IEnum, Inspect, IU8a, Registry } from '../types/index.js';
 
 import { isHex, isNumber, isObject, isString, isU8a, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -30,11 +30,6 @@ type TypesDef = Record<string, EntryDef>;
 interface Decoded {
   index: number;
   value: Codec;
-}
-
-interface Options {
-  definition?: Definition;
-  setDefinition?: (d: Definition) => Definition;
 }
 
 function noopSetDefinition (d: Definition): Definition {
@@ -196,7 +191,7 @@ export class Enum implements IEnum {
   readonly #isIndexed: boolean;
   readonly #raw: Codec;
 
-  constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number, { definition, setDefinition = noopSetDefinition }: Options = {}) {
+  constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number, { definition, setDefinition = noopSetDefinition }: DefinitionSetter<Definition> = {}) {
     const { def, isBasic, isIndexed } = definition || setDefinition(extractDef(registry, Types));
 
     // shortcut isU8a as used in SCALE decoding

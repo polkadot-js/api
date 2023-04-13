@@ -13,7 +13,7 @@ export interface ApiInterfaceRx {
   call: QueryableCalls<'rxjs'>;
   consts: QueryableConsts<'rxjs'>;
   extrinsicType: number;
-  genesisHash?: Hash;
+  genesisHash?: Hash | undefined;
   hasSubscriptions: boolean;
   registry: Registry;
   runtimeMetadata: Metadata;
@@ -22,7 +22,7 @@ export interface ApiInterfaceRx {
   queryMulti: QueryableStorageMulti<'rxjs'>;
   rpc: DecoratedRpc<'rxjs', RpcInterface>;
   tx: SubmittableExtrinsics<'rxjs'>;
-  signer?: Signer;
+  signer?: Signer | undefined;
 
   callAt: (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) => Observable<QueryableCalls<'rxjs'>>;
   queryAt: (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) => Observable<QueryableStorage<'rxjs'>>;

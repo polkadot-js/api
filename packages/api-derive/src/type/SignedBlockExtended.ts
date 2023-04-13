@@ -36,7 +36,7 @@ export function createSignedBlockExtended (registry: Registry, block?: SignedBlo
   const SignedBlockBase = registry.createClass('SignedBlock');
 
   class Implementation extends SignedBlockBase implements SignedBlockExtended {
-    readonly #author?: AccountId;
+    readonly #author?: AccountId | undefined;
     readonly #events: EventRecord[];
     readonly #extrinsics: TxWithEvent[];
 

@@ -2,18 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, Inspect, Registry } from '../types/index.js';
+import type { Codec, CodecClass, DefinitionSetter, Inspect, Registry } from '../types/index.js';
 
 import { isU8a, u8aConcatStrict } from '@polkadot/util';
 
 import { AbstractArray } from '../abstract/Array.js';
 import { decodeU8aVec, typeToConstructor } from '../utils/index.js';
 import { decodeVec } from './Vec.js';
-
-interface Options<T> {
-  definition?: CodecClass<T>;
-  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
-}
 
 function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
   return d;
@@ -27,7 +22,7 @@ function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
   #Type: CodecClass<T>;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[], { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[], { definition, setDefinition = noopSetDefinition }: DefinitionSetter<CodecClass<T>> = {}) {
     super(registry, length);
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));

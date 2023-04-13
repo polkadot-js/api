@@ -51,6 +51,7 @@
       "@polkadot/types/primitive/*": ["types/src/primitive/*.ts"],
       "@polkadot/types/types": ["types/src/types/index.ts"],
       "@polkadot/types/types/*": ["types/src/types/*.ts"],
+      "@polkadot/types/util": ["types/src/util/index.ts"],
       "@polkadot/types-augment": ["types-augment/src/index.ts"],
       "@polkadot/types-augment/lookup/*": ["types-augment/src/lookup/*.ts"],
       "@polkadot/types-augment/packageInfo": ["types-augment/src/packageInfo.ts"],

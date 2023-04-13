@@ -12,7 +12,7 @@ import path from 'node:path';
 import { hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create/index.js';
-import { unwrapStorageSi, unwrapStorageType } from '../../primitive/StorageKey.js';
+import { unwrapStorageSi, unwrapStorageType } from '../../util/index.js';
 import { Metadata } from '../Metadata.js';
 import { getUniqTypes } from './getUniqTypes.js';
 

@@ -23,7 +23,7 @@ export interface BlueprintConstructor<ApiType extends ApiTypes> {
 }
 
 export class BlueprintSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
-  readonly contract?: Contract<ApiType>;
+  readonly contract?: Contract<ApiType> | undefined;
 
   constructor (result: ISubmittableResult, contract?: Contract<ApiType>) {
     super(result);

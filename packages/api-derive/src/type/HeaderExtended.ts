@@ -12,7 +12,7 @@ export function createHeaderExtended (registry: Registry, header?: Header, valid
   const HeaderBase = registry.createClass('Header');
 
   class Implementation extends HeaderBase implements HeaderExtended {
-    readonly #author?: AccountId;
+    readonly #author?: AccountId | undefined;
 
     constructor (registry: Registry, header?: Header, validators?: AccountId[] | null, author?: AccountId | null) {
       super(registry, header);

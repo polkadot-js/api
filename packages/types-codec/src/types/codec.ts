@@ -9,7 +9,7 @@ import type { Registry } from './registry.js';
 export type BareOpts = boolean | Record<string, boolean>;
 
 export interface Inspect {
-  inner?: Inspect[];
+  inner?: Inspect[] | undefined;
   name?: string;
   outer?: Uint8Array[];
 }
@@ -28,14 +28,14 @@ export interface Codec {
    * The block at which this value was retrieved/created (set to non-empty when
    * retrieved from storage)
    */
-  createdAtHash?: IU8a;
+  createdAtHash?: IU8a | undefined;
 
   /**
    * @description
    * The length of the initial encoded value (Only available when the value was
    * constructed from a Uint8Array input)
    */
-  initialU8aLength?: number;
+  initialU8aLength?: number | undefined;
 
   /**
    * @description

@@ -3,16 +3,11 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, Registry } from '../types/index.js';
+import type { AnyJson, AnyNumber, CodecClass, DefinitionSetter, ICompact, Inspect, INumber, IU8a, Registry } from '../types/index.js';
 
 import { compactFromU8a, compactFromU8aLim, compactToU8a, isU8a } from '@polkadot/util';
 
 import { typeToConstructor } from '../utils/index.js';
-
-interface Options<T> {
-  definition?: CodecClass<T>;
-  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
-}
 
 function noopSetDefinition <T> (d: CodecClass<T>): CodecClass<T> {
   return d;
@@ -56,7 +51,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   readonly #Type: CodecClass<T>;
   readonly #raw: T;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: DefinitionSetter<CodecClass<T>> = {}) {
     this.registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
