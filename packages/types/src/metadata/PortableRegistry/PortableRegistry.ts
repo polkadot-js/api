@@ -722,13 +722,22 @@ export class PortableRegistry extends Struct implements ILookup {
       ? [a, b]
       : [b, a];
 
-    // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
-    // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
-    // we don't pass it though at all (all displays in LSB)
-    if (!BITVEC_NS.includes(bitOrder.namespace || '')) {
+    if (!bitOrder.namespace || !BITVEC_NS.includes(bitOrder.namespace)) {
       throw new Error(`Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
     } else if (bitStore.info !== TypeDefInfo.Plain || bitStore.type !== 'u8') {
       throw new Error(`Only u8 bitStore is currently supported, found ${bitStore.type}`);
+    }
+
+    const isLsb = BITVEC_NS_LSB.includes(bitOrder.namespace);
+
+    if (!isLsb) {
+      // TODO To remove this limitation, we need to pass an extra info flag
+      // through to the TypeDef (Here we could potentially re-use something
+      // like index (???) to indicate and ensure we use it to pass to the
+      // BitVec constructor - which does handle this type)
+      //
+      // See https://github.com/polkadot-js/api/issues/5588
+      // throw new Error(`Only LSB BitVec is currently supported, found ${bitOrder.namespace}`);
     }
 
     return {

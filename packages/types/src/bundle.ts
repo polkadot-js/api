@@ -12,7 +12,7 @@ export * from './metadata/index.js';
 export { TypeDefInfo } from '@polkadot/types-create';
 
 export { convertSiV0toV1 } from './metadata/PortableRegistry/index.js';
+export { unwrapStorageType } from './util/index.js';
 export { packageInfo } from './packageInfo.js';
-export { unwrapStorageType } from './primitive/StorageKey.js';
 
 export { typeDefinitions, rpcDefinitions };

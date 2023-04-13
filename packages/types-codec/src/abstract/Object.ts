@@ -12,7 +12,7 @@ export abstract class AbstractObject<T extends ToString> implements CodecObject<
   readonly registry: Registry;
 
   public createdAtHash?: IU8a;
-  public initialU8aLength?: number;
+  public initialU8aLength?: number | undefined;
   public isStorageFallback?: boolean;
 
   readonly $: T;

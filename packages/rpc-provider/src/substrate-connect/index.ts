@@ -54,7 +54,7 @@ export class ScProvider implements ProviderInterface {
   readonly #Sc: SubstrateConnect;
   readonly #coder: RpcCoder = new RpcCoder();
   readonly #spec: string | ScType.WellKnownChain;
-  readonly #sharedSandbox?: ScProvider;
+  readonly #sharedSandbox?: ScProvider | undefined;
   readonly #subscriptions: Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]> = new Map();
   readonly #resubscribeMethods: Map<string, ActiveSubs> = new Map();
   readonly #requests: Map<number, ResponseCallback> = new Map();

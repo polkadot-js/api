@@ -12,7 +12,7 @@ import type { ExtraTypes } from './types.js';
 import Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
-import { unwrapStorageSi } from '@polkadot/types/primitive/StorageKey';
+import { unwrapStorageSi } from '@polkadot/types/util';
 import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 

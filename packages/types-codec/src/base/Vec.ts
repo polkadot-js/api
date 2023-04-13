@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, Registry } from '../types/index.js';
+import type { Codec, CodecClass, DefinitionSetter, Registry } from '../types/index.js';
 
 import { compactFromU8aLim, isHex, isU8a, logger, stringify, u8aToU8a } from '@polkadot/util';
 
@@ -12,11 +12,6 @@ import { decodeU8aVec, typeToConstructor } from '../utils/index.js';
 const MAX_LENGTH = 64 * 1024;
 
 const l = logger('Vec');
-
-interface Options<T> {
-  definition?: CodecClass<T>;
-  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
-}
 
 function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
   return d;
@@ -80,7 +75,7 @@ export function decodeVec<T extends Codec> (registry: Registry, result: T[], val
 export class Vec<T extends Codec> extends AbstractArray<T> {
   #Type: CodecClass<T>;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = [], { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = [], { definition, setDefinition = noopSetDefinition }: DefinitionSetter<CodecClass<T>> = {}) {
     const [decodeFrom, length, startAt] = decodeVecLength(value);
 
     super(registry, length);

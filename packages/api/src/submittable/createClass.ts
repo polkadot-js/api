@@ -21,7 +21,7 @@ import { SubmittableResult } from './Result.js';
 interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
   apiType: ApiTypes;
-  blockHash?: Uint8Array;
+  blockHash?: Uint8Array | undefined;
   decorateMethod: ApiBase<ApiType>['_decorateMethod'];
 }
 
@@ -58,7 +58,7 @@ function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions
   });
 }
 
-function makeSignAndSendOptions (partialOptions?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult>?] {
+function makeSignAndSendOptions (partialOptions?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult> | undefined] {
   let options: Partial<SignerOptions> = {};
 
   if (isFunction(partialOptions)) {

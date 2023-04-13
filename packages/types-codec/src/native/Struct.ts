@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Registry } from '../types/index.js';
+import type { AnyJson, BareOpts, Codec, CodecClass, DefinitionSetter, Inspect, IStruct, IU8a, Registry } from '../types/index.js';
 
 import { isBoolean, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
@@ -11,11 +11,6 @@ import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils/
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 
 type Definition = [CodecClass[], string[]];
-
-interface Options {
-  definition?: Definition;
-  setDefinition?: (d: Definition) => Definition;
-}
 
 function noopSetDefinition (d: Definition): Definition {
   return d;
@@ -105,14 +100,14 @@ export class Struct<
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
   readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public createdAtHash?: IU8a | undefined;
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
   readonly #jsonMap: Map<keyof S, string>;
   readonly #Types: Definition;
 
-  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: Options = {}) {
+  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: DefinitionSetter<Definition> = {}) {
     const typeMap = definition || setDefinition(mapToTypeMap(registry, Types));
     const [decoded, decodedLength] = isU8a(value) || isHex(value)
       ? decodeU8aStruct(registry, new Array<[string, Codec]>(typeMap[0].length), u8aToU8a(value), typeMap)

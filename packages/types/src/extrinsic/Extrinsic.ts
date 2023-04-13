@@ -234,7 +234,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
  * - left as is, to create an inherent
  */
 export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBase<A> implements IExtrinsic<A> {
-  #hashCache?: CodecHash;
+  #hashCache?: CodecHash | undefined;
 
   static LATEST_EXTRINSIC_VERSION = LATEST_EXTRINSIC_VERSION;
 

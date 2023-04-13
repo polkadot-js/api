@@ -177,7 +177,7 @@ export class TypeRegistry implements Registry {
   #metadataVersion = 0;
   #signedExtensions: string[] = fallbackExtensions;
   #unknownTypes = new Map<string, boolean>();
-  #userExtensions?: ExtDef;
+  #userExtensions?: ExtDef | undefined;
 
   readonly #knownDefaults: Record<string, CodecClass>;
   readonly #knownDefinitions: Record<string, Definitions>;

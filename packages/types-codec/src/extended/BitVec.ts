@@ -74,6 +74,36 @@ export class BitVec extends Raw {
   }
 
   /**
+   * @description Creates a boolean array of the bit values
+   */
+  public toBoolArray (): boolean[] {
+    const map = [...this.toU8a(true)].map((v) => [
+      !!(v & 0b1000_0000),
+      !!(v & 0b0100_0000),
+      !!(v & 0b0010_0000),
+      !!(v & 0b0001_0000),
+      !!(v & 0b0000_1000),
+      !!(v & 0b0000_0100),
+      !!(v & 0b0000_0010),
+      !!(v & 0b0000_0001)
+    ]);
+    const result = new Array<boolean>(8 * map.length);
+
+    for (let i = 0; i < map.length; i++) {
+      const off = i * 8;
+      const v = map[i];
+
+      for (let j = 0; j < 8; j++) {
+        result[off + j] = this.#isMsb
+          ? v[j]
+          : v[7 - j];
+      }
+    }
+
+    return result;
+  }
+
+  /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public override toHuman (): string {

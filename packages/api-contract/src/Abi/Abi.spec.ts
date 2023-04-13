@@ -93,10 +93,13 @@ describe('Abi', (): void => {
         const abi = new Abi(abiJson);
         const registryJson = stringifyJson(abi.registry);
         const cmpFile = path.join(cmpPath, `${abiName}.test.json`);
-        const cmpText = fs.readFileSync(cmpFile, 'utf-8');
 
         try {
-          expect(JSON.parse(registryJson)).toEqual(JSON.parse(cmpText));
+          expect(
+            JSON.parse(registryJson)
+          ).toEqual(
+            JSON.parse(fs.readFileSync(cmpFile, 'utf-8'))
+          );
         } catch (error) {
           if (process.env.GITHUB_REPOSITORY) {
             console.error(registryJson);

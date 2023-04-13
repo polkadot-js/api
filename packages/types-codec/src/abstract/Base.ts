@@ -11,8 +11,8 @@ import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types
 export abstract class AbstractBase<T extends Codec> implements Codec {
   readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
-  public initialU8aLength?: number;
+  public createdAtHash?: IU8a | undefined;
+  public initialU8aLength?: number | undefined;
   public isStorageFallback?: boolean;
 
   readonly #raw: T;
