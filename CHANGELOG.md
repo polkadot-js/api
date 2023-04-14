@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Add support for Fungibles runtime api (Thanks to https://github.com/bkontur)
+
+
 ## 10.3.2 Apr 10, 2023
 
 Changes:
