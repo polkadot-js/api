@@ -15,7 +15,7 @@ export const runtime: DefinitionsCall = {
               type: 'AccountId'
             }
           ],
-          type: 'Result<Vec<MultiAsset>, FungiblesAccessError>'
+          type: 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>'
         }
       },
       version: 1
