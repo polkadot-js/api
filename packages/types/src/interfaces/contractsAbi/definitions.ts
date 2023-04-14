@@ -82,6 +82,14 @@ const spec = {
     args: 'Vec<ContractMessageParamSpecV2>',
     docs: 'Vec<Text>'
   },
+  ContractConstructorSpecV4: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    payable: 'bool',
+    default: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    docs: 'Vec<Text>'
+  },
   ContractContractSpecV0: {
     constructors: 'Vec<ContractConstructorSpecV0>',
     messages: 'Vec<ContractMessageSpecV0>',
@@ -107,6 +115,12 @@ const spec = {
     docs: 'Vec<Text>'
   },
   ContractContractSpecV4: 'ContractContractSpecV3',
+  ContractContractSpecV5: {
+    constructors: 'Vec<ContractConstructorSpecV4>',
+    messages: 'Vec<ContractMessageSpecV3>',
+    events: 'Vec<ContractEventSpecV2>',
+    docs: 'Vec<Text>'
+  },
   ContractDisplayName: 'SiPath',
   ContractEventParamSpecV0: {
     name: 'Text',
@@ -170,6 +184,16 @@ const spec = {
     returnType: 'Option<ContractTypeSpec>',
     docs: 'Vec<Text>'
   },
+  ContractMessageSpecV3: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    mutates: 'bool',
+    payable: 'bool',
+    default: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    returnType: 'Option<ContractTypeSpec>',
+    docs: 'Vec<Text>'
+  },
   ContractSelector: '[u8; 4]',
   ContractTypeSpec: {
     type: 'SiLookupTypeId',
@@ -200,18 +224,23 @@ const ContractMetadataV3 = {
 
 const ContractMetadataV4 = ContractMetadataV3;
 
+const ContractMetadataV5 = {
+  types: 'Vec<PortableType>',
+  spec: 'ContractContractSpecV5'
+};
+
 const ContractProjectInfo = {
   source: 'ContractProjectSource',
   contract: 'ContractProjectContract'
 };
 
 const latest = {
-  ContractConstructorSpecLatest: 'ContractConstructorSpecV3',
+  ContractConstructorSpecLatest: 'ContractConstructorSpecV4',
   ContractEventSpecLatest: 'ContractEventSpecV2',
   ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
-  ContractMessageSpecLatest: 'ContractMessageSpecV2',
-  ContractMetadataLatest: 'ContractMetadataV4'
+  ContractMessageSpecLatest: 'ContractMessageSpecV3',
+  ContractMetadataLatest: 'ContractMetadataV5'
 };
 
 export default {
@@ -223,13 +252,15 @@ export default {
     ContractMetadataV2,
     ContractMetadataV3,
     ContractMetadataV4,
+    ContractMetadataV5,
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
         V1: 'ContractMetadataV1',
         V2: 'ContractMetadataV2',
         V3: 'ContractMetadataV3',
-        V4: 'ContractMetadataV4'
+        V4: 'ContractMetadataV4',
+        V5: 'ContractMetadataV5'
       }
     },
     ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),

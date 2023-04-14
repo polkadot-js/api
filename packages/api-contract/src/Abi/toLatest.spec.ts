@@ -6,7 +6,7 @@
 import { TypeRegistry } from '@polkadot/types';
 
 import abis from '../test/contracts/index.js';
-import { v0ToLatest, v1ToLatest, v2ToLatest, v3ToLatest, v4ToLatest } from './toLatest.js';
+import { v0ToLatest, v1ToLatest, v2ToLatest, v3ToLatest, v4ToLatest, v5ToLatest } from './toLatest.js';
 
 describe('v0ToLatest', (): void => {
   const registry = new TypeRegistry();
@@ -135,5 +135,29 @@ describe('v4ToLatest', (): void => {
     expect(
       latest.spec.constructors[1].payable.isTrue
     ).toEqual(false);
+  });
+});
+
+describe('v5ToLatest', (): void => {
+  const registry = new TypeRegistry();
+  const contract = registry.createType('ContractMetadata', { V5: abis.ink_v5_flipperContract });
+  const latest = v5ToLatest(registry, contract.asV5);
+
+  it('has the correct constructor flags', (): void => {
+    expect(
+      latest.spec.constructors[0].default.isFalse
+    ).toEqual(true);
+    expect(
+      latest.spec.constructors[1].default.isTrue
+    ).toEqual(true);
+  });
+
+  it('has the correct message flags', (): void => {
+    expect(
+      latest.spec.messages[0].default.isTrue
+    ).toEqual(true);
+    expect(
+      latest.spec.messages[1].default.isFalse
+    ).toEqual(true);
   });
 });

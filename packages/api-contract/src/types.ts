@@ -39,6 +39,7 @@ export interface AbiMessage {
   isConstructor?: boolean;
   isMutating?: boolean;
   isPayable?: boolean;
+  isDefault?: boolean;
   method: string;
   path: string[];
   returnType?: TypeDef | null;

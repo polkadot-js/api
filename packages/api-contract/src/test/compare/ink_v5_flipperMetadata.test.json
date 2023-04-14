@@ -1,0 +1,88 @@
+[
+  {
+    "info": "Plain",
+    "lookupIndex": 0,
+    "type": "bool",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 1,
+    "type": "Result<Null, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 2,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 3,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup3"
+      }
+    ]
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 2,
+    "type": "Null",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 3,
+    "lookupName": "InkPrimitivesLangError",
+    "type": "{\"_enum\":[\"__Unused0\",\"CouldNotReadInput\"]}",
+    "docs": [],
+    "namespace": "ink_primitives::LangError",
+    "sub": [
+      {
+        "index": 0,
+        "info": "Null",
+        "name": "__Unused0",
+        "type": "Null"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "CouldNotReadInput"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 4,
+    "type": "Result<bool, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Plain",
+        "lookupIndex": 0,
+        "type": "bool",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 3,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup3"
+      }
+    ]
+  }
+]

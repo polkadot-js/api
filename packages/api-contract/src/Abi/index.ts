@@ -93,6 +93,7 @@ export class Abi {
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
       this.#createMessage(spec, index, {
         isConstructor: true,
+        isDefault: spec.default.isTrue,
         isPayable: spec.payable.isTrue
       })
     );
@@ -103,6 +104,7 @@ export class Abi {
       const typeSpec = spec.returnType.unwrapOr(null);
 
       return this.#createMessage(spec, index, {
+        isDefault: spec.default.isTrue,
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
@@ -208,6 +210,7 @@ export class Abi {
     const message = {
       ...add,
       args,
+      default: spec.default,
       docs: spec.docs.map((d) => d.toString()),
       fromU8a: (data: Uint8Array): DecodedMessage => ({
         args: this.#decodeArgs(args, data),
