@@ -5,6 +5,7 @@
 Contributed:
 
 - Add support for Fungibles runtime api (Thanks to https://github.com/bkontur)
+- Update Nimbus Collator lookups (Thanks to https://github.com/grenade)
 
 Changes:
 
