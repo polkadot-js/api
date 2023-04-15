@@ -41860,6 +41860,18 @@
               "docs": []
             },
             {
+              "name": "sr25519_verify",
+              "type": 9,
+              "typeName": "Weight",
+              "docs": []
+            },
+            {
+              "name": "sr25519_verify_per_byte",
+              "type": 9,
+              "typeName": "Weight",
+              "docs": []
+            },
+            {
               "name": "reentrance_count",
               "type": 9,
               "typeName": "Weight",

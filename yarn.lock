@@ -175,13 +175,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jridgewell/trace-mapping@npm:^0.3.14, @jridgewell/trace-mapping@npm:^0.3.9":
-  version: 0.3.17
-  resolution: "@jridgewell/trace-mapping@npm:0.3.17"
+"@jridgewell/trace-mapping@npm:^0.3.17, @jridgewell/trace-mapping@npm:^0.3.9":
+  version: 0.3.18
+  resolution: "@jridgewell/trace-mapping@npm:0.3.18"
   dependencies:
     "@jridgewell/resolve-uri": 3.1.0
     "@jridgewell/sourcemap-codec": 1.4.14
-  checksum: 9d703b859cff5cd83b7308fd457a431387db5db96bd781a63bf48e183418dd9d3d44e76b9e4ae13237f6abeeb25d739ec9215c1d5bfdd08f66f750a50074a339
+  checksum: 0572669f855260808c16fe8f78f5f1b4356463b11d3f2c7c0b5580c8ba1cbf4ae53efe9f627595830856e57dbac2325ac17eb0c3dd0ec42102e6f227cc289c02
   languageName: node
   linkType: hard
 
@@ -452,36 +452,36 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.72.42":
-  version: 0.72.42
-  resolution: "@polkadot/dev-test@npm:0.72.42"
+"@polkadot/dev-test@npm:^0.72.43":
+  version: 0.72.43
+  resolution: "@polkadot/dev-test@npm:0.72.43"
   dependencies:
     jsdom: ^21.1.1
     tslib: ^2.5.0
-  checksum: eff51b13d27cd2dd5815cabe2ef311f485602c28f0573bf0168f125812b254b84819be26406aa18cc6f3252dfb9084671bededd43f29b1a403ed6762161bfeeb
+  checksum: c7675d4338bc7dd77a7b281e50f50a8c667aea516669b3b3ac522afbecbc4689be4b13273642c02aa7277eb67d0843646da6790c7310074d640d98dc30d067cf
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.72.42":
-  version: 0.72.42
-  resolution: "@polkadot/dev-ts@npm:0.72.42"
+"@polkadot/dev-ts@npm:^0.72.43":
+  version: 0.72.43
+  resolution: "@polkadot/dev-ts@npm:0.72.43"
   dependencies:
     json5: ^2.2.3
     tslib: ^2.5.0
     typescript: ^5.0.4
-  checksum: c679ea2544ef9eb6c4294191d640d50af13efb39008ceaf8f325398e3989c76d7e091ab19669efbe65c96d9fbad80cddfd33bca4d7a6455ea9755d4a806c5053
+  checksum: 848c08c83f1e599322cd6afdd5562d4f51f82573cc2d12cb0a6b49554eee11d264ffb58d4b2a0359643d0854033877f2c020a2713709e360775375181c49bd25
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.72.42":
-  version: 0.72.42
-  resolution: "@polkadot/dev@npm:0.72.42"
+"@polkadot/dev@npm:^0.72.43":
+  version: 0.72.43
+  resolution: "@polkadot/dev@npm:0.72.43"
   dependencies:
     "@eslint/js": ^8.38.0
-    "@polkadot/dev-test": ^0.72.42
-    "@polkadot/dev-ts": ^0.72.42
+    "@polkadot/dev-test": ^0.72.43
+    "@polkadot/dev-ts": ^0.72.43
     "@rollup/plugin-alias": ^5.0.0
-    "@rollup/plugin-commonjs": ^24.0.1
+    "@rollup/plugin-commonjs": ^24.1.0
     "@rollup/plugin-dynamic-import-vars": ^2.0.3
     "@rollup/plugin-inject": ^5.0.3
     "@rollup/plugin-json": ^6.0.0
@@ -511,7 +511,7 @@ __metadata:
     rollup-plugin-cleanup: ^3.2.1
     tslib: ^2.5.0
     typescript: ^5.0.4
-    webpack: ^5.78.0
+    webpack: ^5.79.0
     webpack-cli: ^5.0.1
     webpack-dev-server: ^4.13.2
     webpack-merge: ^5.8.0
@@ -541,7 +541,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 1ed5062936ea439d225f044cbc84863b4031476be02491b622aac67b18b8421276114ebb1b38bee9ce7283ef544fe6f829076b4da238cad40dc3269b19e8fcd4
+  checksum: 77de56882855209cc02b9f5b4e37faea5971c9652486d596959703863923aebca4088aeac12fb03471c0c3fdf8715f4298e9529e70819851e3eb3f0c2cb1f0a3
   languageName: node
   linkType: hard
 
@@ -922,9 +922,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:^24.0.1":
-  version: 24.0.1
-  resolution: "@rollup/plugin-commonjs@npm:24.0.1"
+"@rollup/plugin-commonjs@npm:^24.1.0":
+  version: 24.1.0
+  resolution: "@rollup/plugin-commonjs@npm:24.1.0"
   dependencies:
     "@rollup/pluginutils": ^5.0.1
     commondir: ^1.0.1
@@ -937,7 +937,7 @@ __metadata:
   peerDependenciesMeta:
     rollup:
       optional: true
-  checksum: ff5b09f5c350640fe6836fcc97bf5c5612bf78b26eaaad01bf1aee955f0b136135d1a8950a02f680779aec1f16f2c6b6cf89d6080e84ed09be62737abb6b3a5f
+  checksum: 42faafc9bc8e04d75c86bb50d693ebb9c5eee19bf9ab3c09780b872547d12ff5ea85cfec7da75f5176d0aa4b5233101f667f44b85b331450a7bb14c95180852e
   languageName: node
   linkType: hard
 
@@ -1163,13 +1163,6 @@ __metadata:
   version: 1.0.0
   resolution: "@types/estree@npm:1.0.0"
   checksum: 910d97fb7092c6738d30a7430ae4786a38542023c6302b95d46f49420b797f21619cdde11fa92b338366268795884111c2eb10356e4bd2c8ad5b92941e9e6443
-  languageName: node
-  linkType: hard
-
-"@types/estree@npm:^0.0.51":
-  version: 0.0.51
-  resolution: "@types/estree@npm:0.0.51"
-  checksum: e56a3bcf759fd9185e992e7fdb3c6a5f81e8ff120e871641607581fb3728d16c811702a7d40fa5f869b7f7b4437ab6a87eb8d98ffafeee51e85bbe955932a189
   languageName: node
   linkType: hard
 
@@ -3357,10 +3350,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-module-lexer@npm:^0.9.0":
-  version: 0.9.3
-  resolution: "es-module-lexer@npm:0.9.3"
-  checksum: 84bbab23c396281db2c906c766af58b1ae2a1a2599844a504df10b9e8dc77ec800b3211fdaa133ff700f5703d791198807bba25d9667392d27a5e9feda344da8
+"es-module-lexer@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "es-module-lexer@npm:1.2.1"
+  checksum: c4145b853e1491eaa5d591e4580926d242978c38071ad3d09165c3b6d50314cc0ae3bf6e1dec81a9e53768b9299df2063d2e4a67d7742a5029ddeae6c4fc26f0
   languageName: node
   linkType: hard
 
@@ -7365,7 +7358,7 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@polkadot/dev": ^0.72.42
+    "@polkadot/dev": ^0.72.43
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/node": ^18.15.11
   languageName: unknown
@@ -7551,12 +7544,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"serialize-javascript@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "serialize-javascript@npm:6.0.0"
+"serialize-javascript@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "serialize-javascript@npm:6.0.1"
   dependencies:
     randombytes: ^2.1.0
-  checksum: 56f90b562a1bdc92e55afb3e657c6397c01a902c588c0fe3d4c490efdcc97dcd2a3074ba12df9e94630f33a5ce5b76a74784a7041294628a6f4306e0ec84bf93
+  checksum: 3c4f4cb61d0893b988415bdb67243637333f3f574e9e9cc9a006a2ced0b390b0b3b44aef8d51c951272a9002ec50885eefdc0298891bc27eb2fe7510ea87dc4f
   languageName: node
   linkType: hard
 
@@ -8108,15 +8101,15 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"terser-webpack-plugin@npm:^5.1.3":
-  version: 5.3.5
-  resolution: "terser-webpack-plugin@npm:5.3.5"
+"terser-webpack-plugin@npm:^5.3.7":
+  version: 5.3.7
+  resolution: "terser-webpack-plugin@npm:5.3.7"
   dependencies:
-    "@jridgewell/trace-mapping": ^0.3.14
+    "@jridgewell/trace-mapping": ^0.3.17
     jest-worker: ^27.4.5
     schema-utils: ^3.1.1
-    serialize-javascript: ^6.0.0
-    terser: ^5.14.1
+    serialize-javascript: ^6.0.1
+    terser: ^5.16.5
   peerDependencies:
     webpack: ^5.1.0
   peerDependenciesMeta:
@@ -8126,13 +8119,13 @@ fsevents@~2.3.2:
       optional: true
     uglify-js:
       optional: true
-  checksum: 611c7b38d6fa0213dc03f48da9efe29c7edd098fc128a64905f7c9b61af8e7c36c13113d46b50be19ee2b8378442f4e1b8b4ddac9bba2cb73499ed32fc0e18f4
+  checksum: 095e699fdeeb553cdf2c6f75f983949271b396d9c201d7ae9fc633c45c1c1ad14c7257ef9d51ccc62213dd3e97f875870ba31550f6d4f1b6674f2615562da7f7
   languageName: node
   linkType: hard
 
-"terser@npm:^5.14.1":
-  version: 5.14.2
-  resolution: "terser@npm:5.14.2"
+"terser@npm:^5.16.5":
+  version: 5.16.9
+  resolution: "terser@npm:5.16.9"
   dependencies:
     "@jridgewell/source-map": ^0.3.2
     acorn: ^8.5.0
@@ -8140,7 +8133,7 @@ fsevents@~2.3.2:
     source-map-support: ~0.5.20
   bin:
     terser: bin/terser
-  checksum: cabb50a640d6c2cfb351e4f43dc7bf7436f649755bb83eb78b2cacda426d5e0979bd44e6f92d713f3ca0f0866e322739b9ced888ebbce6508ad872d08de74fcc
+  checksum: b373693ee01ce08cc9b9595d57df889acbbc899d929a7fe53662330ce954d53145582f6715c9cc4839d555f5769a28fbeb203155b54e3a9c6c646db292002edd
   languageName: node
   linkType: hard
 
@@ -8788,12 +8781,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.78.0":
-  version: 5.78.0
-  resolution: "webpack@npm:5.78.0"
+"webpack@npm:^5.79.0":
+  version: 5.79.0
+  resolution: "webpack@npm:5.79.0"
   dependencies:
     "@types/eslint-scope": ^3.7.3
-    "@types/estree": ^0.0.51
+    "@types/estree": ^1.0.0
     "@webassemblyjs/ast": 1.11.1
     "@webassemblyjs/wasm-edit": 1.11.1
     "@webassemblyjs/wasm-parser": 1.11.1
@@ -8802,7 +8795,7 @@ fsevents@~2.3.2:
     browserslist: ^4.14.5
     chrome-trace-event: ^1.0.2
     enhanced-resolve: ^5.10.0
-    es-module-lexer: ^0.9.0
+    es-module-lexer: ^1.2.1
     eslint-scope: 5.1.1
     events: ^3.2.0
     glob-to-regexp: ^0.4.1
@@ -8813,7 +8806,7 @@ fsevents@~2.3.2:
     neo-async: ^2.6.2
     schema-utils: ^3.1.0
     tapable: ^2.1.1
-    terser-webpack-plugin: ^5.1.3
+    terser-webpack-plugin: ^5.3.7
     watchpack: ^2.4.0
     webpack-sources: ^3.2.3
   peerDependenciesMeta:
@@ -8821,7 +8814,7 @@ fsevents@~2.3.2:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 4213e5bcc23e54c2f2a589e8e96f1fb71a2c05d5033ffda6dd8bae32284abfa0eb6b6d0707806e8dcfa48a8fcda2448d3af6c4539061679251d94c0996bebf99
+  checksum: 3fbd82dadc75c8f823c900c5d50263830b77e6be6a8abb26eec12f93dec94c2f07fa44c1ef1f28319682404e532d9707ed04ed6cb89af87ca7d544e435d8ef95
   languageName: node
   linkType: hard
 

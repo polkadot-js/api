@@ -6,6 +6,11 @@ Contributed:
 
 - Add support for Fungibles runtime api (Thanks to https://github.com/bkontur)
 
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Minimal support for a `@tsconfig/stricter` setup
+
 
 ## 10.3.2 Apr 10, 2023
 
