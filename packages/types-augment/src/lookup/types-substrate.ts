@@ -6113,6 +6113,8 @@ declare module '@polkadot/types/lookup' {
     readonly hashBlake2128PerByte: SpWeightsWeightV2Weight;
     readonly ecdsaRecover: SpWeightsWeightV2Weight;
     readonly ecdsaToEthAddress: SpWeightsWeightV2Weight;
+    readonly sr25519Verify: SpWeightsWeightV2Weight;
+    readonly sr25519VerifyPerByte: SpWeightsWeightV2Weight;
     readonly reentranceCount: SpWeightsWeightV2Weight;
     readonly accountReentranceCount: SpWeightsWeightV2Weight;
     readonly instantiationNonce: SpWeightsWeightV2Weight;

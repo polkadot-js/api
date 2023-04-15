@@ -164,7 +164,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup364: polkadot_runtime_parachains::disputes::slashing::pallet::Call<T>
+   * Lookup369: polkadot_runtime_parachains::disputes::slashing::pallet::Call<T>
    **/
   PolkadotRuntimeParachainsDisputesSlashingPalletCall: {
     _enum: {
@@ -175,7 +175,7 @@ export default {
     }
   },
   /**
-   * Lookup365: polkadot_runtime_parachains::disputes::slashing::DisputeProof
+   * Lookup370: polkadot_runtime_parachains::disputes::slashing::DisputeProof
    **/
   PolkadotRuntimeParachainsDisputesSlashingDisputeProof: {
     timeSlot: 'PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot',
@@ -184,22 +184,22 @@ export default {
     validatorId: 'PolkadotPrimitivesV4ValidatorAppPublic'
   },
   /**
-   * Lookup366: polkadot_runtime_parachains::disputes::slashing::DisputesTimeSlot
+   * Lookup371: polkadot_runtime_parachains::disputes::slashing::DisputesTimeSlot
    **/
   PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot: {
     sessionIndex: 'u32',
     candidateHash: 'H256'
   },
   /**
-   * Lookup367: polkadot_runtime_parachains::disputes::slashing::SlashingOffenceKind
+   * Lookup372: polkadot_runtime_parachains::disputes::slashing::SlashingOffenceKind
    **/
   PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind: {
     _enum: ['ForInvalid', 'AgainstValid']
   },
   /**
-   * Lookup535: kusama_runtime::HoldReason
+   * Lookup540: kusama_runtime::RuntimeHoldReason
    **/
-  KusamaRuntimeHoldReason: {
+  KusamaRuntimeRuntimeHoldReason: {
     _enum: {
       __Unused0: 'Null',
       __Unused1: 'Null',
@@ -239,13 +239,13 @@ export default {
       __Unused35: 'Null',
       __Unused36: 'Null',
       __Unused37: 'Null',
-      Nis: 'KusamaRuntimeHoldReasonNis'
+      Nis: 'PalletNisHoldReason'
     }
   },
   /**
-   * Lookup536: kusama_runtime::HoldReasonNis
+   * Lookup541: pallet_nis::pallet::HoldReason
    **/
-  KusamaRuntimeHoldReasonNis: {
+  PalletNisHoldReason: {
     _enum: ['NftReceipt']
   },
   /**
