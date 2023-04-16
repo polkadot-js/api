@@ -38,9 +38,11 @@ export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint
           //
           // However for the first block (no parentHash available), we would
           // just use the as-is
-          header.parentHash.isEmpty
-            ? api.queryAt(blockHash)
-            : api.queryAt(header.parentHash)
+          api.queryAt(
+            header.parentHash.isEmpty
+              ? blockHash
+              : header.parentHash
+          )
         ])
       ),
       switchMap(([header, queryAt]) =>

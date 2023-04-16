@@ -30,16 +30,6 @@ export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array
       switchMap((signedBlock) =>
         combineLatest([
           of(signedBlock),
-          signedBlock.block.header.parentHash.isEmpty
-            ? of(null)
-            : api.queryAt(signedBlock.block.header.parentHash),
-          api.queryAt(blockHash)
-        ])
-      ),
-      switchMap(([signedBlock, parentAt, blockAt]) =>
-        combineLatest([
-          of(signedBlock),
-          blockAt.system.events(),
           // For on-chain state, we need to retrieve it as per the start
           // of the block being constructed, i.e. session validators would
           // be at the point of the block construction, not when all operations
@@ -47,7 +37,20 @@ export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array
           //
           // However for the first block (no parentHash available), we would
           // just use the as-is
-          getAuthorDetails(signedBlock.block.header, parentAt || blockAt)
+          api.queryAt(
+            signedBlock.block.header.parentHash.isEmpty
+              ? blockHash
+              : signedBlock.block.header.parentHash
+          ),
+          // eslint-disable-next-line deprecation/deprecation
+          api.query.system.events.at(blockHash)
+        ])
+      ),
+      switchMap(([signedBlock, parentAt, events]) =>
+        combineLatest([
+          of(signedBlock),
+          of(events),
+          getAuthorDetails(signedBlock.block.header, parentAt)
         ])
       ),
       map(([signedBlock, events, [, validators, author]]) =>
