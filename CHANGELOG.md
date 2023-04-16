@@ -1,6 +1,13 @@
 # CHANGELOG
 
-## master
+## 10.3.4 Apr 16, 2023
+
+Changes:
+
+- Ensure block author extract uses the correct as-at block construction state
+
+
+## 10.3.3 Apr 15, 2023
 
 Contributed:
 

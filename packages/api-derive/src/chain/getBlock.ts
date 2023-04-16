@@ -34,7 +34,7 @@ export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array
         combineLatest([
           of(signedBlock),
           queryAt.system.events(),
-          getAuthorDetails(signedBlock.block.header, queryAt)
+          getAuthorDetails(api, signedBlock.block.header, blockHash)
         ])
       ),
       map(([signedBlock, events, [, validators, author]]) =>
