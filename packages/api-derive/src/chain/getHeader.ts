@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { HeaderExtended } from '../type/types.js';
 import type { DeriveApi } from '../types.js';
 
-import { combineLatest, map, switchMap } from 'rxjs';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { createHeaderExtended } from '../type/index.js';
 import { memo } from '../util/index.js';
@@ -27,10 +27,22 @@ import { getAuthorDetails } from './util.js';
  */
 export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint8Array | string) => Observable<HeaderExtended> {
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended> =>
-    combineLatest([
-      api.rpc.chain.getHeader(blockHash),
-      api.queryAt(blockHash)
-    ]).pipe(
+    api.rpc.chain.getHeader(blockHash).pipe(
+      switchMap((header) =>
+        combineLatest([
+          of(header),
+          // For on-chain state, we need to retrieve it as per the start
+          // of the block being constructed, i.e. session validators would
+          // be at the point of the block construction, not when all operations
+          // has been supplied.
+          //
+          // However for the first block (no parentHash available), we would
+          // just use the as-is
+          header.parentHash.isEmpty
+            ? api.queryAt(blockHash)
+            : api.queryAt(header.parentHash)
+        ])
+      ),
       switchMap(([header, queryAt]) =>
         getAuthorDetails(header, queryAt)
       ),
