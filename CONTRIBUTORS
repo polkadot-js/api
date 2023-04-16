@@ -1,4 +1,4 @@
-    3433	Jaco                          	10.3.3 (#5596)
+    3434	Jaco                          	Author extract using correct as-at state (#5598)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
