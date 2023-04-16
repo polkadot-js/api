@@ -26,15 +26,28 @@ import { getAuthorDetails } from './util.js';
  */
 export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array | string) => Observable<SignedBlockExtended> {
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<SignedBlockExtended> =>
-    combineLatest([
-      api.rpc.chain.getBlock(blockHash),
-      api.queryAt(blockHash)
-    ]).pipe(
-      switchMap(([signedBlock, queryAt]) =>
+    api.rpc.chain.getBlock(blockHash).pipe(
+      switchMap((signedBlock) =>
         combineLatest([
           of(signedBlock),
-          queryAt.system.events(),
-          getAuthorDetails(signedBlock.block.header, queryAt)
+          signedBlock.block.header.parentHash.isEmpty
+            ? of(null)
+            : api.queryAt(signedBlock.block.header.parentHash),
+          api.queryAt(blockHash)
+        ])
+      ),
+      switchMap(([signedBlock, parentAt, blockAt]) =>
+        combineLatest([
+          of(signedBlock),
+          blockAt.system.events(),
+          // For on-chain state, we need to retrieve it as per the start
+          // of the block being constructed, i.e. session validators would
+          // be at the point of the block construction, not when all operations
+          // has been supplied.
+          //
+          // However for the first block (no parentHash available), we would
+          // just use the as-is
+          getAuthorDetails(signedBlock.block.header, parentAt || blockAt)
         ])
       ),
       map(([signedBlock, events, [, validators, author]]) =>
