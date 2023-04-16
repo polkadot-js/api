@@ -9,7 +9,7 @@ import type { SpCoreSr25519Public } from '@polkadot/types/lookup';
 import type { Codec, IOption } from '@polkadot/types/types';
 import type { DeriveApi } from '../types.js';
 
-import { combineLatest, map, mergeMap, of } from 'rxjs';
+import { combineLatest, map, mergeMap, of, switchMap } from 'rxjs';
 
 import { memo, unwrapBlockNumber } from '../util/index.js';
 
@@ -24,7 +24,8 @@ export function createBlockNumberDerive <T extends { number: Compact<BlockNumber
     );
 }
 
-export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
+/** @internal */
+function getAuthorDetailsWithAt (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
   const validators = queryAt.session
     ? queryAt.session.validators()
     : of(null);
@@ -71,4 +72,23 @@ export function getAuthorDetails (header: Header, queryAt: QueryableStorage<'rxj
     validators,
     of(null)
   ]);
+}
+
+export function getAuthorDetails (api: DeriveApi, header: Header, blockHash?: Uint8Array | string): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
+  // For on-chain state, we need to retrieve it as per the start
+  // of the block being constructed, i.e. session validators would
+  // be at the point of the block construction, not when all operations
+  // has been supplied.
+  //
+  // However for the first block (no parentHash available), we would
+  // just use the as-is
+  return api.queryAt(
+    header.parentHash.isEmpty
+      ? blockHash || header.hash
+      : header.parentHash
+  ).pipe(
+    switchMap((queryAt) =>
+      getAuthorDetailsWithAt(header, queryAt)
+    )
+  );
 }
