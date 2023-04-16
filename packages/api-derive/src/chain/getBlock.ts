@@ -26,12 +26,14 @@ import { getAuthorDetails } from './util.js';
  */
 export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array | string) => Observable<SignedBlockExtended> {
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<SignedBlockExtended> =>
-    api.rpc.chain.getBlock(blockHash).pipe(
-      switchMap((signedBlock) =>
+    combineLatest([
+      api.rpc.chain.getBlock(blockHash),
+      api.queryAt(blockHash)
+    ]).pipe(
+      switchMap(([signedBlock, queryAt]) =>
         combineLatest([
           of(signedBlock),
-          // eslint-disable-next-line deprecation/deprecation
-          api.query.system.events.at(blockHash),
+          queryAt.system.events(),
           getAuthorDetails(api, signedBlock.block.header, blockHash)
         ])
       ),
