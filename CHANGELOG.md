@@ -1,6 +1,6 @@
 # CHANGELOG
 
-### master
+## master
 
 Changes:
 
