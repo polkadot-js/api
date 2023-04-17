@@ -15,6 +15,9 @@ import { memo, unwrapBlockNumber } from '../util/index.js';
 
 export type BlockNumberDerive = (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber>;
 
+type OptionMapping = IOption<{ account: AccountId } & Codec>;
+type OptionNimbus = IOption<{ nimbus: SpCoreSr25519Public } & Codec>;
+
 export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): BlockNumberDerive {
   return (instanceId: string, api: DeriveApi) =>
     memo(instanceId, () =>
@@ -26,7 +29,7 @@ export function createBlockNumberDerive <T extends { number: Compact<BlockNumber
 
 /** @internal */
 function getAuthorDetailsWithAt (header: Header, queryAt: QueryableStorage<'rxjs'>): Observable<[Header, Vec<AccountId> | null, AccountId | null]> {
-  const validators = queryAt.session
+  const validators = queryAt.session?.validators
     ? queryAt.session.validators()
     : of(null);
 
@@ -39,28 +42,43 @@ function getAuthorDetailsWithAt (header: Header, queryAt: QueryableStorage<'rxjs
 
   if (loggedAuthor) {
     // use the author mapping pallet, if available (ie: moonbeam, moonriver), to map session (nimbus) key to author (collator/validator) key
-    if (queryAt.authorMapping && queryAt.authorMapping.mappingWithDeposit) {
+    if (queryAt.authorMapping?.mappingWithDeposit) {
       return combineLatest([
         of(header),
         validators,
-        queryAt.authorMapping.mappingWithDeposit<IOption<{ account: AccountId } & Codec>>(loggedAuthor)
-          .pipe(map((opt) => opt.unwrapOr({ account: null }).account))
+        queryAt.authorMapping.mappingWithDeposit<OptionMapping>(loggedAuthor).pipe(
+          map((o) =>
+            o.unwrapOr({ account: null }).account
+          )
+        )
       ]);
     }
 
     // fall back to session and parachain staking pallets, if available (ie: manta, calamari), to map session (nimbus) key to author (collator) key
-    if (queryAt.parachainStaking && queryAt.parachainStaking.selectedCandidates && queryAt.session && queryAt.session.nextKeys && queryAt.session.nextKeys.multi) {
+    if (queryAt.parachainStaking?.selectedCandidates && queryAt.session?.nextKeys) {
+      const loggedHex = loggedAuthor.toHex();
+
       return combineLatest([
         of(header),
         validators,
-        queryAt.parachainStaking.selectedCandidates<AccountId[]>().pipe(
-          mergeMap((selectedCandidates) => combineLatest([
-            of(selectedCandidates),
-            queryAt.session.nextKeys.multi<IOption<{ nimbus: SpCoreSr25519Public } & Codec>>(selectedCandidates).pipe(
-              map((nextKeys) => nextKeys.findIndex((option) => option.unwrapOrDefault().nimbus.toHex() === loggedAuthor.toHex()))
-            )
-          ])),
-          map(([selectedCandidates, index]) => selectedCandidates[index])
+        queryAt.parachainStaking.selectedCandidates<Vec<AccountId>>().pipe(
+          mergeMap((selectedCandidates) =>
+            combineLatest([
+              of(selectedCandidates),
+              queryAt.session.nextKeys.multi<OptionNimbus>(selectedCandidates).pipe(
+                map((nextKeys) =>
+                  nextKeys.findIndex((o) =>
+                    o.unwrapOrDefault().nimbus.toHex() === loggedHex
+                  )
+                )
+              )
+            ])
+          ),
+          map(([selectedCandidates, index]) =>
+            index === -1
+              ? null
+              : selectedCandidates[index]
+          )
         )
       ]);
     }
