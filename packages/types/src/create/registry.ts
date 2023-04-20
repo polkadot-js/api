@@ -566,7 +566,7 @@ export class TypeRegistry implements Registry {
   };
 
   // sets the metadata
-  public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
+  public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef, noInitWarn?: boolean): void {
     this.#metadata = metadata.asLatest;
     this.#metadataVersion = metadata.version;
     this.#firstCallIndex = null;
@@ -602,7 +602,8 @@ export class TypeRegistry implements Registry {
           ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
           : fallbackExtensions
       ),
-      userExtensions
+      userExtensions,
+      noInitWarn
     );
 
     // setup the chain properties with format overrides
@@ -612,14 +613,16 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the available signed extensions
-  setSignedExtensions (signedExtensions: string[] = fallbackExtensions, userExtensions?: ExtDef): void {
+  setSignedExtensions (signedExtensions: string[] = fallbackExtensions, userExtensions?: ExtDef, noInitWarn?: boolean): void {
     this.#signedExtensions = signedExtensions;
     this.#userExtensions = userExtensions;
 
-    const unknown = findUnknownExtensions(this.#signedExtensions, this.#userExtensions);
+    if (!noInitWarn) {
+      const unknown = findUnknownExtensions(this.#signedExtensions, this.#userExtensions);
 
-    if (unknown.length) {
-      l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);
+      if (unknown.length) {
+        l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);
+      }
     }
   }
 }
