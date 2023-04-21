@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Apply `noInitWarn` flag to signed extension warnings (Thanks to https://github.com/xlc)
+
+Changes:
+
+- Cleanup block author extraction derives
+- Drop support for Node 14 (EOL 30 Apr 2023)
+
+
 ## 10.3.4 Apr 16, 2023
 
 Changes:
