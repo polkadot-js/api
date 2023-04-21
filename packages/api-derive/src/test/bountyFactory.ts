@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
 import type { Codec, Constructor, InterfaceTypes, Registry } from '@polkadot/types/types';
 
-import { ApiPromise } from '@polkadot/api';
 import { Option, StorageKey } from '@polkadot/types';
 
 export class BountyFactory {

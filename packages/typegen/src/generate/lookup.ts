@@ -8,7 +8,7 @@ import type { TypeDef } from '@polkadot/types-create/types';
 import type { HexString } from '@polkadot/util/types';
 
 import Handlebars from 'handlebars';
-import path from 'path';
+import path from 'node:path';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import staticKusama from '@polkadot/types-support/metadata/static-kusama';

@@ -11,12 +11,11 @@ import type { StorageKey } from '@polkadot/types';
 import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
 import type { FrameSystemAccountInfo } from '@polkadot/types/lookup';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
+import type { SubmittableResult } from './index.js';
 
 import { ApiPromise } from '@polkadot/api';
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { createTypeUnsafe, TypeRegistry } from '@polkadot/types/create';
-
-import { SubmittableResult } from './index.js';
 
 const registry = new TypeRegistry();
 

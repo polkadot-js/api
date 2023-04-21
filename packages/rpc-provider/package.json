@@ -3,7 +3,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "description": "Transport providers for the API",
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "license": "Apache-2.0",
@@ -35,9 +35,9 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@substrate/connect": "0.7.23"
+    "@substrate/connect": "0.7.24"
   },
   "optionalDependencies": {
-    "@substrate/connect": "0.7.23"
+    "@substrate/connect": "0.7.24"
   }
 }

@@ -3,6 +3,7 @@
 
 import type { MetadataLatest, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { PortableRegistry } from '@polkadot/types/metadata';
+import type { Text } from '@polkadot/types/primitive';
 import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
@@ -15,7 +16,6 @@ import { hideBin } from 'yargs/helpers';
 import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
-import { Text } from '@polkadot/types/primitive';
 import { unwrapStorageType } from '@polkadot/types/util';
 import kusamaMeta, { rpc as kusamaRpc, version as kusamaVer } from '@polkadot/types-support/metadata/static-kusama';
 import polkadotMeta, { rpc as polkadotRpc, version as polkadotVer } from '@polkadot/types-support/metadata/static-polkadot';

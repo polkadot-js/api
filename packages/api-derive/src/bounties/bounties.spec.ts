@@ -3,6 +3,7 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api-base/types';
 import type { Bytes, Option, StorageKey } from '@polkadot/types';
 import type { Bounty, BountyIndex, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
@@ -10,8 +11,6 @@ import type { Codec, InterfaceTypes } from '@polkadot/types/types';
 import type { DeriveApi, DeriveCollectiveProposal } from '../types.js';
 
 import { firstValueFrom, of } from 'rxjs';
-
-import { ApiPromise } from '@polkadot/api';
 
 import { BountyFactory } from '../test/bountyFactory.js';
 import { BytesFactory } from '../test/bytesFactory.js';
