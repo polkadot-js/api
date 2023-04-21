@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
+import type { Abi } from '../Abi/index.js';
 
-import { ApiPromise, toPromiseMethod } from '@polkadot/api';
+import { toPromiseMethod } from '@polkadot/api';
 
-import { Abi } from '../Abi/index.js';
 import { Blueprint, Code, Contract } from '../base/index.js';
 
 export class BlueprintPromise extends Blueprint<'promise'> {

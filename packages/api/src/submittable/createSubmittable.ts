@@ -3,10 +3,10 @@
 
 import type { Call, Extrinsic } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types-codec/types';
+import type { ApiBase } from '../base/index.js';
 import type { ApiInterfaceRx, ApiTypes } from '../types/index.js';
 import type { SubmittableExtrinsic } from './types.js';
 
-import { ApiBase } from '../base/index.js';
 import { createClass } from './createClass.js';
 
 type Creator<ApiType extends ApiTypes> = (extrinsic: Call | Uint8Array | string) => SubmittableExtrinsic<ApiType>;

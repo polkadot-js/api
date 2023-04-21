@@ -7,7 +7,7 @@ import type { ModuleTypes } from '../util/imports.js';
 import type { TypeImports } from '../util/index.js';
 
 import Handlebars from 'handlebars';
-import path from 'path';
+import path from 'node:path';
 
 import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';

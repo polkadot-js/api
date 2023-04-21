@@ -97,7 +97,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
 
-    registry.setMetadata(metadata, undefined, objectSpread<ExtDef>({}, getSpecExtensions(registry, chain, version.specName), this._options.signedExtensions));
+    registry.setMetadata(metadata, undefined, objectSpread<ExtDef>({}, getSpecExtensions(registry, chain, version.specName), this._options.signedExtensions), this._options.noInitWarn);
   }
 
   /**

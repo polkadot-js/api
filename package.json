@@ -14,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "10.3.4",
+  "version": "10.3.5-1-x",
   "versions": {
-    "git": "10.3.4",
+    "git": "10.3.5-1-x",
     "npm": "10.3.4"
   },
   "workspaces": [
@@ -40,9 +40,9 @@
     "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.72.43",
+    "@polkadot/dev": "^0.73.1",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/node": "^18.15.11"
+    "@types/node": "^18.15.13"
   },
   "resolutions": {
     "typescript": "^5.0.4"

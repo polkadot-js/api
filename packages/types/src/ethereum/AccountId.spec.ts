@@ -5,10 +5,11 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import type { GenericEthereumAccountId as AccountId } from './AccountId.js';
+
 import { Raw } from '@polkadot/types-codec';
 
 import { TypeRegistry } from '../create/index.js';
-import { GenericEthereumAccountId as AccountId } from './AccountId.js';
 
 describe('EthereumAccountId', (): void => {
   const registry = new TypeRegistry();

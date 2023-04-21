@@ -77,5 +77,5 @@ export interface Registry {
   register (type: CodecClass | RegistryTypes): void;
   register (name: string, type: CodecClass): void;
   register (arg1: string | CodecClass | RegistryTypes, arg2?: CodecClass): void;
-  setMetadata (metadata: unknown, signedExtensions?: string[], userExtensions?: unknown): void;
+  setMetadata (metadata: unknown, signedExtensions?: string[], userExtensions?: unknown, noInitWarn?: boolean): void;
 }

@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { AugmentedCall, DeriveCustom, QueryableCalls } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
-import type { StorageKey, Text, u64 } from '@polkadot/types';
+import type { Metadata, StorageKey, Text, u64 } from '@polkadot/types';
 import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
@@ -20,7 +20,7 @@ import { BehaviorSubject, combineLatest, from, map, of, switchMap, tap, toArray 
 import { getAvailableDerives } from '@polkadot/api-derive';
 import { memo, RpcCore } from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { expandMetadata, GenericExtrinsic, Metadata, typeDefinitions, TypeRegistry } from '@polkadot/types';
+import { expandMetadata, GenericExtrinsic, typeDefinitions, TypeRegistry } from '@polkadot/types';
 import { getSpecRuntime } from '@polkadot/types-known';
 import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';

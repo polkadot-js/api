@@ -3,7 +3,9 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { CodecSet, Int } from '@polkadot/types-codec';
+import type { CodecSet } from '@polkadot/types-codec';
+
+import { Int } from '@polkadot/types-codec';
 
 import { createClass, TypeRegistry } from './index.js';
 

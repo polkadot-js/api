@@ -1,10 +1,11 @@
 // Copyright 2017-2023 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Bytes } from '@polkadot/types-codec';
 import type { Codec, CodecClass, IU8a, Registry } from '@polkadot/types-codec/types';
 import type { CreateOptions } from '../types/index.js';
 
-import { Bytes, Option } from '@polkadot/types-codec';
+import { Option } from '@polkadot/types-codec';
 import { isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { createClassUnsafe } from './class.js';
