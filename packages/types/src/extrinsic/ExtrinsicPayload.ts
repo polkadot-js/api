@@ -1,17 +1,18 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Bytes } from '@polkadot/types-codec';
 import type { AnyJson, BareOpts, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { BlockHash } from '../interfaces/chain/index.js';
 import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics/index.js';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber } from '../types/index.js';
+import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
 
-import { AbstractBase, Bytes } from '@polkadot/types-codec';
+import { AbstractBase } from '@polkadot/types-codec';
 import { u8aToHex } from '@polkadot/util';
 
 import { DEFAULT_VERSION } from './constants.js';
-import { GenericExtrinsicEra } from './ExtrinsicEra.js';
 
 interface ExtrinsicPayloadOptions {
   version?: number;

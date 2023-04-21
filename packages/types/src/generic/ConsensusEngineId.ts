@@ -1,10 +1,11 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Bytes, u32 } from '@polkadot/types-codec';
 import type { AnyU8a, Registry } from '@polkadot/types-codec/types';
 import type { AccountId, RawAuraPreDigest, RawBabePreDigestCompat } from '../interfaces/index.js';
 
-import { Bytes, U8aFixed, u32 } from '@polkadot/types-codec';
+import { U8aFixed } from '@polkadot/types-codec';
 import { BN, bnToU8a, isNumber, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 export const CID_AURA = /*#__PURE__*/ stringToU8a('aura');

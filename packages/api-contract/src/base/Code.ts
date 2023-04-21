@@ -1,19 +1,19 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiBase } from '@polkadot/api/base';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { AccountId, EventRecord } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { Codec } from '@polkadot/types-codec/types';
+import type { Abi } from '../Abi/index.js';
 import type { AbiConstructor, BlueprintOptions } from '../types.js';
 import type { MapConstructorExec } from './types.js';
 
 import { SubmittableResult } from '@polkadot/api';
-import { ApiBase } from '@polkadot/api/base';
 import { BN_ZERO, compactAddLength, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
 
-import { Abi } from '../Abi/index.js';
 import { applyOnEvent } from '../util.js';
 import { Base } from './Base.js';
 import { Blueprint } from './Blueprint.js';

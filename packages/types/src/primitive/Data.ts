@@ -1,10 +1,11 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Bytes } from '@polkadot/types-codec';
 import type { IU8a, Registry } from '@polkadot/types-codec/types';
 import type { H256 } from '../interfaces/runtime/index.js';
 
-import { Bytes, Enum } from '@polkadot/types-codec';
+import { Enum } from '@polkadot/types-codec';
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 /** @internal */

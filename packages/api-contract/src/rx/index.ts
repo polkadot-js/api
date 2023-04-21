@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiRx } from '@polkadot/api';
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
+import type { Abi } from '../Abi/index.js';
 
-import { ApiRx, toRxMethod } from '@polkadot/api';
+import { toRxMethod } from '@polkadot/api';
 
-import { Abi } from '../Abi/index.js';
 import { Blueprint, Code, Contract } from '../base/index.js';
 
 export class BlueprintRx extends Blueprint<'rxjs'> {
