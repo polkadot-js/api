@@ -109,6 +109,15 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    assetRate: {
+      AssetRateCreated: AugmentedEvent<ApiType, [assetId: u32, rate: u128], { assetId: u32, rate: u128 }>;
+      AssetRateRemoved: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      AssetRateUpdated: AugmentedEvent<ApiType, [assetId: u32, old: u128, new_: u128], { assetId: u32, old: u128, new_: u128 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     assets: {
       /**
        * Accounts were destroyed for given asset.
@@ -238,6 +247,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Endowed: AugmentedEvent<ApiType, [account: AccountId32, freeBalance: u128], { account: AccountId32, freeBalance: u128 }>;
       /**
+       * Some balance was frozen.
+       **/
+      Frozen: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
        * Total issuance was increased by `amount`, creating a credit to be balanced.
        **/
       Issued: AugmentedEvent<ApiType, [amount: u128], { amount: u128 }>;
@@ -274,6 +287,10 @@ declare module '@polkadot/api-base/types/events' {
        * Some amount was suspended from an account (it can be restored later).
        **/
       Suspended: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * Some balance was thawed.
+       **/
+      Thawed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
        * Transfer succeeded.
        **/

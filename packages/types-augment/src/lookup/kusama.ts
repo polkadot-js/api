@@ -164,7 +164,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup369: polkadot_runtime_parachains::disputes::slashing::pallet::Call<T>
+   * Lookup368: polkadot_runtime_parachains::disputes::slashing::pallet::Call<T>
    **/
   PolkadotRuntimeParachainsDisputesSlashingPalletCall: {
     _enum: {
@@ -175,7 +175,7 @@ export default {
     }
   },
   /**
-   * Lookup370: polkadot_runtime_parachains::disputes::slashing::DisputeProof
+   * Lookup369: polkadot_runtime_parachains::disputes::slashing::DisputeProof
    **/
   PolkadotRuntimeParachainsDisputesSlashingDisputeProof: {
     timeSlot: 'PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot',
@@ -184,14 +184,14 @@ export default {
     validatorId: 'PolkadotPrimitivesV4ValidatorAppPublic'
   },
   /**
-   * Lookup371: polkadot_runtime_parachains::disputes::slashing::DisputesTimeSlot
+   * Lookup370: polkadot_runtime_parachains::disputes::slashing::DisputesTimeSlot
    **/
   PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot: {
     sessionIndex: 'u32',
     candidateHash: 'H256'
   },
   /**
-   * Lookup372: polkadot_runtime_parachains::disputes::slashing::SlashingOffenceKind
+   * Lookup371: polkadot_runtime_parachains::disputes::slashing::SlashingOffenceKind
    **/
   PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind: {
     _enum: ['ForInvalid', 'AgainstValid']

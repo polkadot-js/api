@@ -225,6 +225,33 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    assetRate: {
+      /**
+       * Initialize a conversion rate to native balance for the given asset.
+       * 
+       * ## Complexity
+       * - O(1)
+       **/
+      create: AugmentedSubmittable<(assetId: u32 | AnyNumber | Uint8Array, rate: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u128]>;
+      /**
+       * Remove an existing conversion rate to native balance for the given asset.
+       * 
+       * ## Complexity
+       * - O(1)
+       **/
+      remove: AugmentedSubmittable<(assetId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Update the conversion rate to native balance for the given asset.
+       * 
+       * ## Complexity
+       * - O(1)
+       **/
+      update: AugmentedSubmittable<(assetId: u32 | AnyNumber | Uint8Array, rate: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u128]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     assets: {
       /**
        * Approve an amount of asset for transfer by a delegated third-party account.

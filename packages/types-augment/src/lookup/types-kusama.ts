@@ -108,7 +108,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingPalletCall (369) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingPalletCall (368) */
   interface PolkadotRuntimeParachainsDisputesSlashingPalletCall extends Enum {
     readonly isReportDisputeLostUnsigned: boolean;
     readonly asReportDisputeLostUnsigned: {
@@ -118,7 +118,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'ReportDisputeLostUnsigned';
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputeProof (370) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputeProof (369) */
   interface PolkadotRuntimeParachainsDisputesSlashingDisputeProof extends Struct {
     readonly timeSlot: PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot;
     readonly kind: PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind;
@@ -126,13 +126,13 @@ declare module '@polkadot/types/lookup' {
     readonly validatorId: PolkadotPrimitivesV4ValidatorAppPublic;
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot (371) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot (370) */
   interface PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot extends Struct {
     readonly sessionIndex: u32;
     readonly candidateHash: H256;
   }
 
-  /** @name PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind (372) */
+  /** @name PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind (371) */
   interface PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind extends Enum {
     readonly isForInvalid: boolean;
     readonly isAgainstValid: boolean;
