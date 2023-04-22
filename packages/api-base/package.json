@@ -23,7 +23,7 @@
   "dependencies": {
     "@polkadot/rpc-core": "10.3.5-1-x",
     "@polkadot/types": "10.3.5-1-x",
-    "@polkadot/util": "^11.1.3",
+    "@polkadot/util": "^12.0.1",
     "rxjs": "^7.8.0",
     "tslib": "^2.5.0"
   }
