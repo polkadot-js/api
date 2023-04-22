@@ -1,4 +1,4 @@
-    3438	Jaco                          	Adjust AccountId20 detection with partial match (#5605)
+    3439	Jaco                          	Bump static metadata (#5606)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
