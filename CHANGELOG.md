@@ -10,6 +10,7 @@ Changes:
 
 - Adjust `AccountId20` detection with partial match
 - Cleanup block author extraction derives
+- Update to latest Polkadot, Kusama & Substrate metadata
 - Drop support for Node 14 (EOL 30 Apr 2023)
 
 

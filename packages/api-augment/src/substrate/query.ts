@@ -85,6 +85,18 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
+    assetRate: {
+      /**
+       * Maps an asset to its fixed point representation in the native balance.
+       * 
+       * E.g. `native_amount = asset_amount * ConversionRateToNative::<T>::get(asset_id)`
+       **/
+      conversionRateToNative: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<u128>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     assets: {
       /**
        * The holdings of a specific account for a specific asset.
