@@ -8,6 +8,7 @@ Contributed:
 
 Changes:
 
+- Adjust `AccountId20` detection with partial match
 - Cleanup block author extraction derives
 - Drop support for Node 14 (EOL 30 Apr 2023)
 

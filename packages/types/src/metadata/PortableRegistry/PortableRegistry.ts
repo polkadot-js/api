@@ -418,11 +418,10 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
     }
 
     lookup.registry.register({
-      AccountId: ['sp_core::crypto::AccountId32'].includes(nsAccountId)
-        ? 'AccountId32'
-        : ['account::AccountId20', 'primitive_types::H160'].includes(nsAccountId)
-          ? 'AccountId20'
-          : 'AccountId32', // other, default to AccountId32
+      // known: account::AccountId20, fp_account::AccountId20, primitive_types::H160
+      AccountId: nsAccountId.endsWith('::AccountId20') || nsAccountId.endsWith('::H160')
+        ? 'AccountId20'
+        : 'AccountId32',
       Address: isMultiAddress
         ? 'MultiAddress'
         : 'AccountId',
