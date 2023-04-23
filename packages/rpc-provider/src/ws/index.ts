@@ -1,8 +1,7 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable camelcase */
-
+import type { Constructor } from '@polkadot/util/types';
 import type { EndpointStats, JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types.js';
 
 import { EventEmitter } from 'eventemitter3';
@@ -209,8 +208,8 @@ export class WsProvider implements ProviderInterface {
     try {
       this.#endpointIndex = this.selectEndpointIndex(this.#endpoints);
 
-      // the as typeof WebSocket here is Deno-specific - not available on the globalThis
-      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as typeof WebSocket, WebSocket)
+      // the as here is Deno-specific - not available on the globalThis
+      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as unknown as Constructor, WebSocket)
         ? new WebSocket(this.endpoint)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of ws, which supports options
