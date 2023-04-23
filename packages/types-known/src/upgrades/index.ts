@@ -37,6 +37,4 @@ function mapRaw ([network, versions]: [string, ChainUpgradesExpanded]): ChainUpg
 }
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
-const upgrades = Object.entries<ChainUpgradesExpanded>(allKnown).map(mapRaw);
-
-export default upgrades;
+export const upgrades = Object.entries<ChainUpgradesExpanded>(allKnown).map(mapRaw);

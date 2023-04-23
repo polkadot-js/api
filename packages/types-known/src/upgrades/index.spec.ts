@@ -9,7 +9,7 @@ import { stringify, u8aEq } from '@polkadot/util';
 
 import * as allGen from './e2e/index.js';
 import * as allMan from './manual/index.js';
-import all from './index.js';
+import { upgrades } from './index.js';
 
 interface TestDef {
   genesisHash: string;
@@ -92,7 +92,7 @@ describe('generated', (): void => {
 describe('upgrades', (): void => {
   TESTS.forEach(({ genesisHash, network, versions }): void => {
     describe(network, (): void => {
-      const chain = all.find((n) => n.network === network);
+      const chain = upgrades.find((n) => n.network === network);
 
       if (!chain) {
         throw new Error(`Unable to find the entry for ${network}`);

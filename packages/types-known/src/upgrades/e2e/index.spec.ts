@@ -39,9 +39,7 @@ for (const chain of keys) {
 
   import type { ChainUpgradesExpanded } from '../types.js';
 
-  const upgrades: ChainUpgradesExpanded = ${JSON.stringify(final, null, 2)};
-
-  export default upgrades;
+  export const upgrades: ChainUpgradesExpanded = ${JSON.stringify(final, null, 2)};
   `);
       await api.disconnect();
     });
