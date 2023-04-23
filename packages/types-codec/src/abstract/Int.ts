@@ -221,9 +221,9 @@ export abstract class AbstractInt extends BN implements INumber {
   public override toJSON (onlyHex = false): any {
     // FIXME this return type should by string | number, however BN returns string
     // Options here are
-    //   - super.bitLength() - the actual used bits
-    //   - this.#bitLength - the type bits (this should be used, however contracts RPC is problematic)
-    return onlyHex || (super.bitLength() > MAX_NUMBER_BITS)
+    //   - super.bitLength() - the actual used bits, use hex when close to MAX_SAFE_INTEGER
+    //   - this.#bitLength - the max used bits, use hex when larger than native Rust type
+    return onlyHex || (this.#bitLength > 128) || (super.bitLength() > MAX_NUMBER_BITS)
       ? this.toHex()
       : this.toNumber();
   }
