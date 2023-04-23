@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Default to hex-only in `Int/Uint.toJSON` for > 128-bit values
+
+
 ## 10.4.1 Apr 22, 2023
 
 Contributed:
