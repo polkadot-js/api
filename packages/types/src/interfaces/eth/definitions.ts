@@ -8,8 +8,6 @@
 
 import type { DefinitionsTypes } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 import { rpc } from './rpc.js';
 import { runtime } from './runtime.js';
 
@@ -87,7 +85,10 @@ const V2: DefinitionsTypes = {
   }
 };
 
-const types: DefinitionsTypes = objectSpread({}, V0, V1, V2, {
+const types: DefinitionsTypes = {
+  ...V0,
+  ...V1,
+  ...V2,
   EthereumAccountId: 'GenericEthereumAccountId',
   EthereumAddress: 'GenericEthereumAccountId',
   EthereumLookupSource: 'GenericEthereumLookupSource',
@@ -361,6 +362,6 @@ const types: DefinitionsTypes = objectSpread({}, V0, V1, V2, {
     target: 'H256',
     number: 'Option<u64>'
   }
-});
+};
 
 export default { rpc, runtime, types };

@@ -6,8 +6,6 @@
 
 import type { Definitions } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 import { runtime } from './runtime.js';
 
 const deprecated = {
@@ -177,7 +175,9 @@ const phragmen = {
 export default {
   rpc: {},
   runtime,
-  types: objectSpread({}, deprecated, phragmen, {
+  types: {
+    ...deprecated,
+    ...phragmen,
     ActiveEraInfo: {
       index: 'EraIndex',
       start: 'Option<Moment>'
@@ -302,5 +302,5 @@ export default {
       unstakeThreshold: 'Compact<u32>',
       validatorPayment: 'Compact<Balance>'
     }
-  })
+  }
 } as Definitions;

@@ -3,8 +3,6 @@
 
 import type { DefinitionCall, DefinitionsCall } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 const V1_TO_V4_SHARED_PAY: Record<string, DefinitionCall> = {
   query_fee_details: {
     description: 'The transaction fee details',
@@ -100,33 +98,30 @@ export const runtime: DefinitionsCall = {
   TransactionPaymentApi: [
     {
       // V4 is equivalent to V3 (V4 just dropped all V1 references)
-      methods: objectSpread(
-        {},
-        V3_SHARED_PAY_CALL,
-        V2_TO_V4_SHARED_PAY,
-        V1_TO_V4_SHARED_PAY
-      ),
+      methods: {
+        ...V3_SHARED_PAY_CALL,
+        ...V2_TO_V4_SHARED_PAY,
+        ...V1_TO_V4_SHARED_PAY
+      },
       version: 4
     },
     {
-      methods: objectSpread(
-        {},
-        V3_SHARED_PAY_CALL,
-        V2_TO_V4_SHARED_PAY,
-        V1_TO_V4_SHARED_PAY
-      ),
+      methods: {
+        ...V3_SHARED_PAY_CALL,
+        ...V2_TO_V4_SHARED_PAY,
+        ...V1_TO_V4_SHARED_PAY
+      },
       version: 3
     },
     {
-      methods: objectSpread(
-        {},
-        V2_TO_V4_SHARED_PAY,
-        V1_TO_V4_SHARED_PAY
-      ),
+      methods: {
+        ...V2_TO_V4_SHARED_PAY,
+        ...V1_TO_V4_SHARED_PAY
+      },
       version: 2
     },
     {
-      methods: objectSpread({
+      methods: {
         query_info: {
           description: 'The transaction info',
           params: [
@@ -143,31 +138,30 @@ export const runtime: DefinitionsCall = {
           // changed mid-flight between versions. So we have some of each depending on
           // runtime. (We do detect the weight type, so correct)
           type: 'RuntimeDispatchInfo'
-        }
-      }, V1_TO_V4_SHARED_PAY),
+        },
+        ...V1_TO_V4_SHARED_PAY
+      },
       version: 1
     }
   ],
   TransactionPaymentCallApi: [
     {
-      methods: objectSpread(
-        {},
-        V3_SHARED_PAY_CALL,
-        V2_V3_SHARED_CALL,
-        V1_TO_V3_SHARED_CALL
-      ),
+      methods: {
+        ...V3_SHARED_PAY_CALL,
+        ...V2_V3_SHARED_CALL,
+        ...V1_TO_V3_SHARED_CALL
+      },
       version: 3
     },
     {
-      methods: objectSpread(
-        {},
-        V2_V3_SHARED_CALL,
-        V1_TO_V3_SHARED_CALL
-      ),
+      methods: {
+        ...V2_V3_SHARED_CALL,
+        ...V1_TO_V3_SHARED_CALL
+      },
       version: 2
     },
     {
-      methods: objectSpread({
+      methods: {
         CALL: {
           description: 'The call info',
           params: [
@@ -183,8 +177,9 @@ export const runtime: DefinitionsCall = {
           // NOTE: As per the above comment, the below is correct according to Substrate, but
           // _may_ yield fallback decoding on some versions of the runtime
           type: 'RuntimeDispatchInfo'
-        }
-      }, V1_TO_V3_SHARED_CALL),
+        },
+        ...V1_TO_V3_SHARED_CALL
+      },
       version: 1
     }
   ]

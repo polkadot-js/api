@@ -3,8 +3,6 @@
 
 import type { DefinitionsCall, DefinitionsCallEntry } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 const CORE_V1_TO_V4: DefinitionsCallEntry['methods'] = {
   execute_block: {
     description: 'Execute the given block.',
@@ -42,31 +40,39 @@ const CORE_V2_TO_V4: DefinitionsCallEntry['methods'] = {
 export const runtime: DefinitionsCall = {
   Core: [
     {
-      methods: objectSpread({
+      methods: {
         version: {
           description: 'Returns the version of the runtime.',
           params: [],
           type: 'RuntimeVersion'
-        }
-      }, CORE_V1_TO_V4, CORE_V2_TO_V4),
+        },
+        ...CORE_V1_TO_V4,
+        ...CORE_V2_TO_V4
+      },
       version: 4
     },
     {
-      methods: objectSpread({
+      methods: {
         version: {
           description: 'Returns the version of the runtime.',
           params: [],
           type: 'RuntimeVersionPre4'
-        }
-      }, CORE_V1_TO_V4, CORE_V2_TO_V4),
+        },
+        ...CORE_V1_TO_V4,
+        ...CORE_V2_TO_V4
+      },
       version: 3
     },
     {
-      methods: objectSpread({}, CORE_V1_TO_V2, CORE_V1_TO_V4, CORE_V2_TO_V4),
+      methods: {
+        ...CORE_V1_TO_V2,
+        ...CORE_V1_TO_V4,
+        ...CORE_V2_TO_V4
+      },
       version: 2
     },
     {
-      methods: objectSpread({
+      methods: {
         initialise_block: {
           description: 'Initialize a block with the given header.',
           params: [
@@ -76,8 +82,10 @@ export const runtime: DefinitionsCall = {
             }
           ],
           type: 'Null'
-        }
-      }, CORE_V1_TO_V2, CORE_V1_TO_V4),
+        },
+        ...CORE_V1_TO_V2,
+        ...CORE_V1_TO_V4
+      },
       version: 1
     }
   ]

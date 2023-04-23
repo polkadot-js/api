@@ -3,8 +3,6 @@
 
 import type { OverrideModuleType, Registry } from '../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 // type overrides for modules (where duplication between modules exist)
 const typesAlias: Record<string, OverrideModuleType> = {
   assets: {
@@ -111,8 +109,8 @@ const typesAlias: Record<string, OverrideModuleType> = {
  * @description Get types for specific modules (metadata override)
  */
 export function getAliasTypes ({ knownTypes }: Registry, section: string): OverrideModuleType {
-  return objectSpread({},
-    typesAlias[section],
-    knownTypes.typesAlias?.[section]
-  );
+  return {
+    ...(typesAlias[section] ?? {}),
+    ...(knownTypes.typesAlias?.[section] ?? {})
+  };
 }

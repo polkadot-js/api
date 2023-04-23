@@ -6,8 +6,6 @@
 
 import type { Definitions } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 import { AllHashers } from './hashers.js';
 import { runtime } from './runtime.js';
 import { v9 } from './v9.js';
@@ -22,7 +20,13 @@ export { AllHashers };
 export default {
   rpc: {},
   runtime,
-  types: objectSpread({}, v9, v10, v11, v12, v13, v14, {
+  types: {
+    ...v9,
+    ...v10,
+    ...v11,
+    ...v12,
+    ...v13,
+    ...v14,
     // latest mappings
     ErrorMetadataLatest: 'ErrorMetadataV14',
     EventMetadataLatest: 'EventMetadataV14',
@@ -67,5 +71,5 @@ export default {
         V14: 'MetadataV14'
       }
     }
-  })
+  }
 } as Definitions;
