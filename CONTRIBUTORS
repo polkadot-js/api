@@ -1,4 +1,4 @@
-    3440	Jaco                          	10.4.1 (#5607)
+    3441	Jaco                          	Adjust Deno WebSocket check (#5608)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
