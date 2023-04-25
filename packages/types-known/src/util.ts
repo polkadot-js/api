@@ -7,11 +7,11 @@ import type { ChainUpgradeVersion, CodecHasher, DefinitionRpc, DefinitionRpcSub,
 import type { Text } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 
-import { bnToBn, objectSpread } from '@polkadot/util';
+import { bnToBn } from '@polkadot/util';
 
-import typesChain from './chain/index.js';
-import typesSpec from './spec/index.js';
-import upgrades from './upgrades/index.js';
+import { typesChain } from './chain/index.js';
+import { typesSpec } from './spec/index.js';
+import { upgrades } from './upgrades/index.js';
 
 /**
  * @description Perform the callback function using the stringified spec/chain
@@ -31,21 +31,17 @@ function filterVersions (versions: OverrideVersionedType[] = [], specVersion: nu
       (min === undefined || min === null || specVersion >= min) &&
       (max === undefined || max === null || specVersion <= max)
     )
-    .reduce((result: RegistryTypes, { types }) =>
-      objectSpread<RegistryTypes>(result, types), {}
-    );
+    .reduce((result: RegistryTypes, { types }) => ({ ...result, ...types }), {});
 }
 
 /**
  * @description Based on the chain and runtimeVersion, get the applicable signed extensions (ready for registration)
  */
 export function getSpecExtensions ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): ExtDef {
-  return withNames(chainName, specName, (c, s) =>
-    objectSpread({},
-      knownTypes.typesBundle?.spec?.[s]?.signedExtensions,
-      knownTypes.typesBundle?.chain?.[c]?.signedExtensions
-    )
-  );
+  return withNames(chainName, specName, (c, s) => ({
+    ...(knownTypes.typesBundle?.spec?.[s]?.signedExtensions ?? {}),
+    ...(knownTypes.typesBundle?.chain?.[c]?.signedExtensions ?? {})
+  }));
 }
 
 /**
@@ -54,21 +50,19 @@ export function getSpecExtensions ({ knownTypes }: Registry, chainName: Text | s
 export function getSpecTypes ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string, specVersion: bigint | BN | number): RegistryTypes {
   const _specVersion = bnToBn(specVersion).toNumber();
 
-  return withNames(chainName, specName, (c, s) =>
+  return withNames(chainName, specName, (c, s) => ({
     // The order here is always, based on -
     //   - spec then chain
     //   - typesBundle takes higher precedence
     //   - types is the final catch-all override
-    objectSpread({},
-      filterVersions(typesSpec[s], _specVersion),
-      filterVersions(typesChain[c], _specVersion),
-      filterVersions(knownTypes.typesBundle?.spec?.[s]?.types, _specVersion),
-      filterVersions(knownTypes.typesBundle?.chain?.[c]?.types, _specVersion),
-      knownTypes.typesSpec?.[s],
-      knownTypes.typesChain?.[c],
-      knownTypes.types
-    )
-  );
+    ...filterVersions(typesSpec[s], _specVersion),
+    ...filterVersions(typesChain[c], _specVersion),
+    ...filterVersions(knownTypes.typesBundle?.spec?.[s]?.types, _specVersion),
+    ...filterVersions(knownTypes.typesBundle?.chain?.[c]?.types, _specVersion),
+    ...(knownTypes.typesSpec?.[s] ?? {}),
+    ...(knownTypes.typesChain?.[c] ?? {}),
+    ...(knownTypes.types ?? {})
+  }));
 }
 
 /**
@@ -87,38 +81,32 @@ export function getSpecHasher ({ knownTypes }: Registry, chainName: Text | strin
  * @description Based on the chain and runtimeVersion, get the applicable rpc definitions (ready for registration)
  */
 export function getSpecRpc ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> {
-  return withNames(chainName, specName, (c, s) =>
-    objectSpread({},
-      knownTypes.typesBundle?.spec?.[s]?.rpc,
-      knownTypes.typesBundle?.chain?.[c]?.rpc
-    )
-  );
+  return withNames(chainName, specName, (c, s) => ({
+    ...(knownTypes.typesBundle?.spec?.[s]?.rpc ?? {}),
+    ...(knownTypes.typesBundle?.chain?.[c]?.rpc ?? {})
+  }));
 }
 
 /**
  * @description Based on the chain and runtimeVersion, get the applicable runtime definitions (ready for registration)
  */
 export function getSpecRuntime ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): DefinitionsCall {
-  return withNames(chainName, specName, (c, s) =>
-    objectSpread({},
-      knownTypes.typesBundle?.spec?.[s]?.runtime,
-      knownTypes.typesBundle?.chain?.[c]?.runtime
-    )
-  );
+  return withNames(chainName, specName, (c, s) => ({
+    ...(knownTypes.typesBundle?.spec?.[s]?.runtime ?? {}),
+    ...(knownTypes.typesBundle?.chain?.[c]?.runtime ?? {})
+  }));
 }
 
 /**
  * @description Based on the chain and runtimeVersion, get the applicable alias definitions (ready for registration)
  */
 export function getSpecAlias ({ knownTypes }: Registry, chainName: Text | string, specName: Text | string): Record<string, OverrideModuleType> {
-  return withNames(chainName, specName, (c, s) =>
+  return withNames(chainName, specName, (c, s) => ({
     // as per versions, first spec, then chain then finally non-versioned
-    objectSpread({},
-      knownTypes.typesBundle?.spec?.[s]?.alias,
-      knownTypes.typesBundle?.chain?.[c]?.alias,
-      knownTypes.typesAlias
-    )
-  );
+    ...(knownTypes.typesBundle?.spec?.[s]?.alias ?? {}),
+    ...(knownTypes.typesBundle?.chain?.[c]?.alias ?? {}),
+    ...(knownTypes.typesAlias ?? {})
+  }));
 }
 
 /**

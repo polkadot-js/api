@@ -6,7 +6,7 @@
 
 import type { ChainUpgradesExpanded } from '../types.js';
 
-const upgrades: ChainUpgradesExpanded = [
+export const upgrades: ChainUpgradesExpanded = [
   [
     214356,
     4,
@@ -4018,5 +4018,3 @@ const upgrades: ChainUpgradesExpanded = [
     ]
   ]
 ];
-
-export default upgrades;

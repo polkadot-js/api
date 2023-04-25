@@ -6,7 +6,6 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 import { mapXcmTypes } from '@polkadot/types-create';
-import { objectSpread } from '@polkadot/util';
 
 const sharedTypes = {
   CompactAssignments: 'CompactAssignmentsWith24',
@@ -41,11 +40,12 @@ const addrAccountIdTypes = {
   ValidatorPrefs: 'ValidatorPrefsWithCommission'
 };
 
-const versioned: OverrideVersionedType[] = [
+export const versioned: OverrideVersionedType[] = [
   {
     // 1020 is first CC3
     minmax: [1019, 1031],
-    types: objectSpread({}, addrIndicesTypes, {
+    types: {
+      ...addrIndicesTypes,
       BalanceLock: 'BalanceLockTo212',
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchError: 'DispatchErrorTo198',
@@ -61,11 +61,12 @@ const versioned: OverrideVersionedType[] = [
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
       Weight: 'u32'
-    })
+    }
   },
   {
     minmax: [1032, 1042],
-    types: objectSpread({}, addrIndicesTypes, {
+    types: {
+      ...addrIndicesTypes,
       BalanceLock: 'BalanceLockTo212',
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
@@ -79,12 +80,13 @@ const versioned: OverrideVersionedType[] = [
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
       Weight: 'u32'
-    })
+    }
   },
   {
     // actual at 1045 (1043-1044 is dev)
     minmax: [1043, 1045],
-    types: objectSpread({}, addrIndicesTypes, {
+    types: {
+      ...addrIndicesTypes,
       BalanceLock: 'BalanceLockTo212',
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
@@ -97,11 +99,13 @@ const versioned: OverrideVersionedType[] = [
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
       Weight: 'u32'
-    })
+    }
   },
   {
     minmax: [1046, 1049],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
@@ -111,11 +115,13 @@ const versioned: OverrideVersionedType[] = [
       ReferendumInfo: 'ReferendumInfoTo239',
       StakingLedger: 'StakingLedgerTo223',
       Weight: 'u32'
-    })
+    }
   },
   {
     minmax: [1050, 1054],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
@@ -125,11 +131,13 @@ const versioned: OverrideVersionedType[] = [
       ReferendumInfo: 'ReferendumInfoTo239',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
-    })
+    }
   },
   {
     minmax: [1055, 1056],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
@@ -138,66 +146,85 @@ const versioned: OverrideVersionedType[] = [
       RefCount: 'RefCountTo259',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
-    })
+    }
   },
   {
     minmax: [1057, 1061],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259'
-    })
+    }
   },
   {
     minmax: [1062, 2012],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259'
-    })
+    }
   },
   {
     minmax: [2013, 2022],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       RefCount: 'RefCountTo259'
-    })
+    }
   },
   {
     minmax: [2023, 2024],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       RefCount: 'RefCountTo259'
-    })
+    }
   },
   {
     minmax: [2025, 2027],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes)
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes
+    }
   },
   {
     minmax: [2028, 2029],
-    types: objectSpread({}, sharedTypes, {
+    types: {
+      ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount',
       CompactAssignments: 'CompactAssignmentsWith16',
       RawSolution: 'RawSolutionWith16'
-    })
+    }
   },
   {
     minmax: [2030, 9000],
-    types: objectSpread({}, sharedTypes, {
+    types: {
+      ...sharedTypes,
       CompactAssignments: 'CompactAssignmentsWith16',
       RawSolution: 'RawSolutionWith16'
-    })
+    }
   },
   {
     minmax: [9010, 9099],
-    types: objectSpread({}, sharedTypes, mapXcmTypes('V0'))
+    types: {
+      ...sharedTypes,
+      ...mapXcmTypes('V0')
+    }
   },
   {
     // jump from 9100 to 9110, however align with Rococo
     minmax: [9100, 9105],
-    types: objectSpread({}, sharedTypes, mapXcmTypes('V1'))
+    types: {
+      ...sharedTypes,
+      ...mapXcmTypes('V1')
+    }
   },
   {
     // metadata v14
@@ -215,5 +242,3 @@ const versioned: OverrideVersionedType[] = [
   //   }
   // }
 ];
-
-export default versioned;

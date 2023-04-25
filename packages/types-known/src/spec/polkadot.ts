@@ -5,8 +5,6 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
-import { objectSpread } from '@polkadot/util';
-
 const sharedTypes = {
   CompactAssignments: 'CompactAssignmentsWith16',
   DispatchErrorModule: 'DispatchErrorModuleU8',
@@ -37,41 +35,51 @@ const addrAccountIdTypes = {
 };
 
 // these are override types for Polkadot
-const versioned: OverrideVersionedType[] = [
+export const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, 12],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259'
-    })
+    }
   },
   {
     minmax: [13, 22],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       CompactAssignments: 'CompactAssignmentsTo257',
       RefCount: 'RefCountTo259'
-    })
+    }
   },
   {
     minmax: [23, 24],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes, {
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes,
       RefCount: 'RefCountTo259'
-    })
+    }
   },
   {
     minmax: [25, 27],
-    types: objectSpread({}, sharedTypes, addrAccountIdTypes)
+    types: {
+      ...sharedTypes,
+      ...addrAccountIdTypes
+    }
   },
   {
     minmax: [28, 29],
-    types: objectSpread({}, sharedTypes, {
+    types: {
+      ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount'
-    })
+    }
   },
   {
     minmax: [30, 9109],
-    types: objectSpread({}, sharedTypes)
+    types: { ...sharedTypes }
   },
   {
     // metadata v14
@@ -89,5 +97,3 @@ const versioned: OverrideVersionedType[] = [
   //   }
   // }
 ];
-
-export default versioned;

@@ -5,7 +5,7 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
-const versioned: OverrideVersionedType[] = [
+export const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, undefined],
     types: {
@@ -13,5 +13,3 @@ const versioned: OverrideVersionedType[] = [
     }
   }
 ];
-
-export default versioned;
