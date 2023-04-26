@@ -3,13 +3,13 @@
 
 export * from './account.js';
 export * from './currentPoints.js';
+export * from './electedInfo.js';
 export * from './erasExposure.js';
 export * from './erasHistoric.js';
 export * from './erasPoints.js';
 export * from './erasPrefs.js';
 export * from './erasRewards.js';
 export * from './erasSlashes.js';
-export * from './electedInfo.js';
 export * from './keys.js';
 export * from './overview.js';
 export * from './ownExposure.js';
