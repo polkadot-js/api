@@ -18,17 +18,20 @@ import type { ApiBase } from '../base/index.js';
 import type { SubmittableExtrinsic } from '../types/submittable.js';
 import type { AllDerives } from '../util/decorate.js';
 
-export * from '@polkadot/api-base/types';
+// types
+export type { Signer, SignerResult } from '@polkadot/types/types';
+
+// all named
+export { ApiBase } from '../base/index.js';
+
+// all starred
 export * from '@polkadot/api/types/calls';
 export * from '@polkadot/api/types/consts';
 export * from '@polkadot/api/types/errors';
 export * from '@polkadot/api/types/events';
 export * from '@polkadot/api/types/storage';
 export * from '@polkadot/api/types/submittable';
-
-export type { Signer, SignerResult } from '@polkadot/types/types';
-
-export { ApiBase } from '../base/index.js';
+export * from '@polkadot/api-base/types';
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx extends ApiInterfaceBase {

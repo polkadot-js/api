@@ -9,8 +9,8 @@ import type { BN } from '@polkadot/util';
 import type { ExactDerive } from './derive.js';
 
 export * from './accounts/types.js';
-export * from './balances/types.js';
 export * from './bagsList/types.js';
+export * from './balances/types.js';
 export * from './council/types.js';
 export * from './crowdloan/types.js';
 export * from './democracy/types.js';
