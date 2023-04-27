@@ -17,12 +17,12 @@ interface Options {
  * Rust `Range<T>` representation
  */
 export class Range<T extends INumber> extends Tuple {
-  #rangeName: RangeType;
+  private __$$_rangeName: RangeType;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value?: AnyTuple, { rangeName = 'Range' }: Options = {}) {
     super(registry, [Type, Type], value);
 
-    this.#rangeName = rangeName;
+    this.__$$_rangeName = rangeName;
   }
 
   public static override with <T extends INumber> (Type: CodecClass<T> | string): CodecClass<Range<T>> {
@@ -51,6 +51,6 @@ export class Range<T extends INumber> extends Tuple {
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {
-    return `${this.#rangeName}<${this.start.toRawType()}>`;
+    return `${this.__$$_rangeName}<${this.start.toRawType()}>`;
   }
 }

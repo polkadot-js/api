@@ -51,28 +51,28 @@ interface ActiveSubs {
 }
 
 export class ScProvider implements ProviderInterface {
-  readonly #Sc: SubstrateConnect;
-  readonly #coder: RpcCoder = new RpcCoder();
-  readonly #spec: string | ScType.WellKnownChain;
-  readonly #sharedSandbox?: ScProvider | undefined;
-  readonly #subscriptions: Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]> = new Map();
-  readonly #resubscribeMethods: Map<string, ActiveSubs> = new Map();
-  readonly #requests: Map<number, ResponseCallback> = new Map();
-  readonly #wellKnownChains: Set<ScType.WellKnownChain>;
-  readonly #eventemitter: EventEmitter = new EventEmitter();
+  private readonly __$$_Sc: SubstrateConnect;
+  private readonly __$$_coder: RpcCoder = new RpcCoder();
+  private readonly __$$_spec: string | ScType.WellKnownChain;
+  private readonly __$$_sharedSandbox?: ScProvider | undefined;
+  private readonly __$$_subscriptions: Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]> = new Map();
+  private readonly __$$_resubscribeMethods: Map<string, ActiveSubs> = new Map();
+  private readonly __$$_requests: Map<number, ResponseCallback> = new Map();
+  private readonly __$$_wellKnownChains: Set<ScType.WellKnownChain>;
+  private readonly __$$_eventemitter: EventEmitter = new EventEmitter();
 
-  #chain: Promise<ScType.Chain> | null = null;
-  #isChainReady = false;
+  private __$$_chain: Promise<ScType.Chain> | null = null;
+  private __$$_isChainReady = false;
 
   public constructor (Sc: SubstrateConnect, spec: string | ScType.WellKnownChain, sharedSandbox?: ScProvider) {
     if (!isObject(Sc) || !isObject(Sc.WellKnownChain) || !isFunction(Sc.createScClient)) {
       throw new Error('Expected an @substrate/connect interface as first parameter to ScProvider');
     }
 
-    this.#Sc = Sc;
-    this.#spec = spec;
-    this.#sharedSandbox = sharedSandbox;
-    this.#wellKnownChains = new Set(Object.values(Sc.WellKnownChain));
+    this.__$$_Sc = Sc;
+    this.__$$_spec = spec;
+    this.__$$_sharedSandbox = sharedSandbox;
+    this.__$$_wellKnownChains = new Set(Object.values(Sc.WellKnownChain));
   }
 
   public get hasSubscriptions (): boolean {
@@ -85,7 +85,7 @@ export class ScProvider implements ProviderInterface {
   }
 
   public get isConnected (): boolean {
-    return !!this.#chain && this.#isChainReady;
+    return !!this.__$$_chain && this.__$$_isChainReady;
   }
 
   public clone (): ProviderInterface {
@@ -103,19 +103,19 @@ export class ScProvider implements ProviderInterface {
     // smoldot is syncing, the consumer tries to reconnect after a certain amount
     // of time... In which case we want to make sure that we don't create a new
     // chain.
-    if (this.#chain) {
-      await this.#chain;
+    if (this.__$$_chain) {
+      await this.__$$_chain;
 
       return;
     }
 
-    if (this.#sharedSandbox && !this.#sharedSandbox.isConnected) {
-      await this.#sharedSandbox.connect();
+    if (this.__$$_sharedSandbox && !this.__$$_sharedSandbox.isConnected) {
+      await this.__$$_sharedSandbox.connect();
     }
 
-    const client = this.#sharedSandbox
-      ? scClients.get(this.#sharedSandbox)
-      : this.#Sc.createScClient(config);
+    const client = this.__$$_sharedSandbox
+      ? scClients.get(this.__$$_sharedSandbox)
+      : this.__$$_Sc.createScClient(config);
 
     if (!client) {
       throw new Error('Unkown ScProvider!');
@@ -136,41 +136,41 @@ export class ScProvider implements ProviderInterface {
       let decodedResponse: string | Error;
 
       try {
-        decodedResponse = this.#coder.decodeResponse(response) as string;
+        decodedResponse = this.__$$_coder.decodeResponse(response) as string;
       } catch (e) {
         decodedResponse = e as Error;
       }
 
       // It's not a subscription message, but rather a standar RPC response
       if (response.params?.subscription === undefined || !response.method) {
-        return this.#requests.get(response.id)?.(decodedResponse);
+        return this.__$$_requests.get(response.id)?.(decodedResponse);
       }
 
       // We are dealing with a subscription message
       const subscriptionId = `${response.method}::${response.params.subscription}`;
 
-      const callback = this.#subscriptions.get(subscriptionId)?.[0];
+      const callback = this.__$$_subscriptions.get(subscriptionId)?.[0];
 
       callback?.(decodedResponse);
     };
 
-    const addChain = this.#wellKnownChains.has(this.#spec as ScType.WellKnownChain)
+    const addChain = this.__$$_wellKnownChains.has(this.__$$_spec as ScType.WellKnownChain)
       ? client.addWellKnownChain
       : client.addChain;
 
-    this.#chain = addChain(this.#spec as ScType.WellKnownChain, onResponse).then((chain) => {
+    this.__$$_chain = addChain(this.__$$_spec as ScType.WellKnownChain, onResponse).then((chain) => {
       hc.setSendJsonRpc(chain.sendJsonRpc);
 
-      this.#isChainReady = false;
+      this.__$$_isChainReady = false;
 
       const cleanup = () => {
         // If there are any callbacks left, we have to reject/error them.
         // Otherwise, that would cause a memory leak.
         const disconnectionError = new Error('Disconnected');
 
-        this.#requests.forEach((cb) => cb(disconnectionError));
-        this.#subscriptions.forEach(([cb]) => cb(disconnectionError));
-        this.#subscriptions.clear();
+        this.__$$_requests.forEach((cb) => cb(disconnectionError));
+        this.__$$_subscriptions.forEach(([cb]) => cb(disconnectionError));
+        this.__$$_subscriptions.clear();
       };
 
       const staleSubscriptions: {
@@ -205,11 +205,11 @@ export class ScProvider implements ProviderInterface {
           !health.isSyncing && (health.peers > 0 || !health.shouldHavePeers);
 
         // if it's the same as before, then nothing has changed and we are done
-        if (this.#isChainReady === isReady) {
+        if (this.__$$_isChainReady === isReady) {
           return;
         }
 
-        this.#isChainReady = isReady;
+        this.__$$_isChainReady = isReady;
 
         if (!isReady) {
           // If we've reached this point, that means that the chain used to be "ready"
@@ -225,22 +225,22 @@ export class ScProvider implements ProviderInterface {
           // should wait until is no longer syncing to send the unsubscription
           // messages from the stale subscriptions of the previous connection.
           //
-          // That's why -before we perform the cleanup of `this.#subscriptions`-
+          // That's why -before we perform the cleanup of `this.__$$_subscriptions`-
           // we keep the necessary information that we will need later on to
           // kill the stale subscriptions.
-          [...this.#subscriptions.values()].forEach((s) => {
+          [...this.__$$_subscriptions.values()].forEach((s) => {
             staleSubscriptions.push(s[1]);
           });
           cleanup();
 
-          this.#eventemitter.emit('disconnected');
+          this.__$$_eventemitter.emit('disconnected');
         } else {
           killStaleSubscriptions();
 
-          this.#eventemitter.emit('connected');
+          this.__$$_eventemitter.emit('connected');
 
-          if (this.#resubscribeMethods.size) {
-            this.#resubscribe();
+          if (this.__$$_resubscribeMethods.size) {
+            this.__$$_resubscribe();
           }
         }
       });
@@ -256,18 +256,18 @@ export class ScProvider implements ProviderInterface {
     });
 
     try {
-      await this.#chain;
+      await this.__$$_chain;
     } catch (e) {
-      this.#chain = null;
-      this.#eventemitter.emit('error', e);
+      this.__$$_chain = null;
+      this.__$$_eventemitter.emit('error', e);
       throw e;
     }
   }
 
-  #resubscribe = (): void => {
+  private __$$_resubscribe = (): void => {
     const promises: any[] = [];
 
-    this.#resubscribeMethods.forEach((subDetails: ActiveSubs): void => {
+    this.__$$_resubscribeMethods.forEach((subDetails: ActiveSubs): void => {
       // only re-create subscriptions which are not in author (only area where
       // transactions are created, i.e. submissions such as 'author_submitAndWatchExtrinsic'
       // are not included (and will not be re-broadcast)
@@ -291,20 +291,20 @@ export class ScProvider implements ProviderInterface {
   };
 
   async disconnect (): Promise<void> {
-    if (!this.#chain) {
+    if (!this.__$$_chain) {
       return;
     }
 
-    const chain = await this.#chain;
+    const chain = await this.__$$_chain;
 
-    this.#chain = null;
-    this.#isChainReady = false;
+    this.__$$_chain = null;
+    this.__$$_isChainReady = false;
 
     try {
       chain.remove();
     } catch (_) {}
 
-    this.#eventemitter.emit('disconnected');
+    this.__$$_eventemitter.emit('disconnected');
   }
 
   public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
@@ -315,36 +315,36 @@ export class ScProvider implements ProviderInterface {
       sub();
     }
 
-    this.#eventemitter.on(type, sub);
+    this.__$$_eventemitter.on(type, sub);
 
     return (): void => {
-      this.#eventemitter.removeListener(type, sub);
+      this.__$$_eventemitter.removeListener(type, sub);
     };
   }
 
   public async send<T = any> (method: string, params: unknown[]): Promise<T> {
-    if (!this.isConnected || !this.#chain) {
+    if (!this.isConnected || !this.__$$_chain) {
       throw new Error('Provider is not connected');
     }
 
-    const chain = await this.#chain;
-    const [id, json] = this.#coder.encodeJson(method, params);
+    const chain = await this.__$$_chain;
+    const [id, json] = this.__$$_coder.encodeJson(method, params);
 
     const result = new Promise<T>((resolve, reject): void => {
-      this.#requests.set(id, (response) => {
+      this.__$$_requests.set(id, (response) => {
         (isError(response) ? reject : resolve)(response as unknown as T);
       });
 
       try {
         chain.sendJsonRpc(json);
       } catch (e) {
-        this.#chain = null;
+        this.__$$_chain = null;
 
         try {
           chain.remove();
         } catch (_) {}
 
-        this.#eventemitter.emit('error', e);
+        this.__$$_eventemitter.emit('error', e);
       }
     });
 
@@ -353,7 +353,7 @@ export class ScProvider implements ProviderInterface {
     } finally {
       // let's ensure that once the Promise is resolved/rejected, then we remove
       // remove its entry from the internal #requests
-      this.#requests.delete(id);
+      this.__$$_requests.delete(id);
     }
   }
 
@@ -379,9 +379,9 @@ export class ScProvider implements ProviderInterface {
       throw new Error('Invalid unsubscribe method found');
     }
 
-    this.#resubscribeMethods.set(subscriptionId, { callback, method, params, type });
+    this.__$$_resubscribeMethods.set(subscriptionId, { callback, method, params, type });
 
-    this.#subscriptions.set(subscriptionId, [cb, { id, unsubscribeMethod }]);
+    this.__$$_subscriptions.set(subscriptionId, [cb, { id, unsubscribeMethod }]);
 
     return id;
   }
@@ -393,14 +393,14 @@ export class ScProvider implements ProviderInterface {
 
     const subscriptionId = `${type}::${id}`;
 
-    if (!this.#subscriptions.has(subscriptionId)) {
+    if (!this.__$$_subscriptions.has(subscriptionId)) {
       return Promise.reject(
         new Error(`Unable to find active subscription=${subscriptionId}`)
       );
     }
 
-    this.#resubscribeMethods.delete(subscriptionId);
-    this.#subscriptions.delete(subscriptionId);
+    this.__$$_resubscribeMethods.delete(subscriptionId);
+    this.__$$_subscriptions.delete(subscriptionId);
 
     return this.send(method, [id]);
   }

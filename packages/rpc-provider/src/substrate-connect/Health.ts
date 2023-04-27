@@ -93,18 +93,18 @@ export function healthChecker (): HealthChecker {
 }
 
 class InnerChecker {
-  #healthCallback: (health: SmoldotHealth) => void;
-  #currentHealthCheckId: string | null = null;
-  #currentHealthTimeout: ReturnType<typeof setTimeout> | null = null;
-  #currentSubunsubRequestId: string | null = null;
-  #currentSubscriptionId: string | null = null;
-  #requestToSmoldot: (request: JSONRequest) => void;
-  #isSyncing = false;
-  #nextRequestId = 0;
+  private __$$_healthCallback: (health: SmoldotHealth) => void;
+  private __$$_currentHealthCheckId: string | null = null;
+  private __$$_currentHealthTimeout: ReturnType<typeof setTimeout> | null = null;
+  private __$$_currentSubunsubRequestId: string | null = null;
+  private __$$_currentSubscriptionId: string | null = null;
+  private __$$_requestToSmoldot: (request: JSONRequest) => void;
+  private __$$_isSyncing = false;
+  private __$$_nextRequestId = 0;
 
   constructor (healthCallback: (health: SmoldotHealth) => void, requestToSmoldot: (request: string) => void) {
-    this.#healthCallback = healthCallback;
-    this.#requestToSmoldot = (request: JSONRequest) => requestToSmoldot(stringify(request));
+    this.__$$_healthCallback = healthCallback;
+    this.__$$_requestToSmoldot = (request: JSONRequest) => requestToSmoldot(stringify(request));
   }
 
   sendJsonRpc = (request: string): void => {
@@ -123,7 +123,7 @@ class InnerChecker {
       parsedRequest.id = newId;
     }
 
-    this.#requestToSmoldot(parsedRequest);
+    this.__$$_requestToSmoldot(parsedRequest);
   };
 
   responsePassThrough = (jsonRpcResponse: string): string | null => {
@@ -136,8 +136,8 @@ class InnerChecker {
     }
 
     // Check whether response is a response to `system_health`.
-    if (parsedResponse.id && this.#currentHealthCheckId === parsedResponse.id) {
-      this.#currentHealthCheckId = null;
+    if (parsedResponse.id && this.__$$_currentHealthCheckId === parsedResponse.id) {
+      this.__$$_currentHealthCheckId = null;
 
       // Check whether query was successful. It is possible for queries to fail for
       // various reasons, such as the client being overloaded.
@@ -147,8 +147,8 @@ class InnerChecker {
         return null;
       }
 
-      this.#healthCallback(parsedResponse.result);
-      this.#isSyncing = parsedResponse.result.isSyncing;
+      this.__$$_healthCallback(parsedResponse.result);
+      this.__$$_isSyncing = parsedResponse.result.isSyncing;
       this.update(false);
 
       return null;
@@ -157,9 +157,9 @@ class InnerChecker {
     // Check whether response is a response to the subscription or unsubscription.
     if (
       parsedResponse.id &&
-      this.#currentSubunsubRequestId === parsedResponse.id
+      this.__$$_currentSubunsubRequestId === parsedResponse.id
     ) {
-      this.#currentSubunsubRequestId = null;
+      this.__$$_currentSubunsubRequestId = null;
 
       // Check whether query was successful. It is possible for queries to fail for
       // various reasons, such as the client being overloaded.
@@ -169,10 +169,10 @@ class InnerChecker {
         return null;
       }
 
-      if (this.#currentSubscriptionId) {
-        this.#currentSubscriptionId = null;
+      if (this.__$$_currentSubscriptionId) {
+        this.__$$_currentSubscriptionId = null;
       } else {
-        this.#currentSubscriptionId = parsedResponse.result as unknown as string;
+        this.__$$_currentSubscriptionId = parsedResponse.result as unknown as string;
       }
 
       this.update(false);
@@ -183,8 +183,8 @@ class InnerChecker {
     // Check whether response is a notification to a subscription.
     if (
       parsedResponse.params &&
-      this.#currentSubscriptionId &&
-      parsedResponse.params.subscription === this.#currentSubscriptionId
+      this.__$$_currentSubscriptionId &&
+      parsedResponse.params.subscription === this.__$$_currentSubscriptionId
     ) {
       // Note that after a successful subscription, a notification containing
       // the current best block is always returned. Considering that a
@@ -219,27 +219,27 @@ class InnerChecker {
 
   update = (startNow: boolean): void => {
     // If `startNow`, clear `#currentHealthTimeout` so that it is set below.
-    if (startNow && this.#currentHealthTimeout) {
-      clearTimeout(this.#currentHealthTimeout);
-      this.#currentHealthTimeout = null;
+    if (startNow && this.__$$_currentHealthTimeout) {
+      clearTimeout(this.__$$_currentHealthTimeout);
+      this.__$$_currentHealthTimeout = null;
     }
 
-    if (!this.#currentHealthTimeout) {
+    if (!this.__$$_currentHealthTimeout) {
       const startHealthRequest = () => {
-        this.#currentHealthTimeout = null;
+        this.__$$_currentHealthTimeout = null;
 
         // No matter what, don't start a health request if there is already one in progress.
         // This is sane to do because receiving a response to a health request calls `update()`.
-        if (this.#currentHealthCheckId) {
+        if (this.__$$_currentHealthCheckId) {
           return;
         }
 
         // Actual request starting.
-        this.#currentHealthCheckId = `health-checker:${this.#nextRequestId}`;
-        this.#nextRequestId += 1;
+        this.__$$_currentHealthCheckId = `health-checker:${this.__$$_nextRequestId}`;
+        this.__$$_nextRequestId += 1;
 
-        this.#requestToSmoldot({
-          id: this.#currentHealthCheckId,
+        this.__$$_requestToSmoldot({
+          id: this.__$$_currentHealthCheckId,
           jsonrpc: '2.0',
           method: 'system_health',
           params: []
@@ -249,37 +249,37 @@ class InnerChecker {
       if (startNow) {
         startHealthRequest();
       } else {
-        this.#currentHealthTimeout = setTimeout(startHealthRequest, 1000);
+        this.__$$_currentHealthTimeout = setTimeout(startHealthRequest, 1000);
       }
     }
 
     if (
-      this.#isSyncing &&
-      !this.#currentSubscriptionId &&
-      !this.#currentSubunsubRequestId
+      this.__$$_isSyncing &&
+      !this.__$$_currentSubscriptionId &&
+      !this.__$$_currentSubunsubRequestId
     ) {
       this.startSubscription();
     }
 
     if (
-      !this.#isSyncing &&
-      this.#currentSubscriptionId &&
-      !this.#currentSubunsubRequestId
+      !this.__$$_isSyncing &&
+      this.__$$_currentSubscriptionId &&
+      !this.__$$_currentSubunsubRequestId
     ) {
       this.endSubscription();
     }
   };
 
   startSubscription = (): void => {
-    if (this.#currentSubunsubRequestId || this.#currentSubscriptionId) {
+    if (this.__$$_currentSubunsubRequestId || this.__$$_currentSubscriptionId) {
       throw new Error('Internal error in health checker');
     }
 
-    this.#currentSubunsubRequestId = `health-checker:${this.#nextRequestId}`;
-    this.#nextRequestId += 1;
+    this.__$$_currentSubunsubRequestId = `health-checker:${this.__$$_nextRequestId}`;
+    this.__$$_nextRequestId += 1;
 
-    this.#requestToSmoldot({
-      id: this.#currentSubunsubRequestId,
+    this.__$$_requestToSmoldot({
+      id: this.__$$_currentSubunsubRequestId,
       jsonrpc: '2.0',
       method: 'chain_subscribeNewHeads',
       params: []
@@ -287,39 +287,39 @@ class InnerChecker {
   };
 
   endSubscription = (): void => {
-    if (this.#currentSubunsubRequestId || !this.#currentSubscriptionId) {
+    if (this.__$$_currentSubunsubRequestId || !this.__$$_currentSubscriptionId) {
       throw new Error('Internal error in health checker');
     }
 
-    this.#currentSubunsubRequestId = `health-checker:${this.#nextRequestId}`;
-    this.#nextRequestId += 1;
+    this.__$$_currentSubunsubRequestId = `health-checker:${this.__$$_nextRequestId}`;
+    this.__$$_nextRequestId += 1;
 
-    this.#requestToSmoldot({
-      id: this.#currentSubunsubRequestId,
+    this.__$$_requestToSmoldot({
+      id: this.__$$_currentSubunsubRequestId,
       jsonrpc: '2.0',
       method: 'chain_unsubscribeNewHeads',
-      params: [this.#currentSubscriptionId]
+      params: [this.__$$_currentSubscriptionId]
     });
   };
 
   destroy = (): void => {
-    if (this.#currentHealthTimeout) {
-      clearTimeout(this.#currentHealthTimeout);
-      this.#currentHealthTimeout = null;
+    if (this.__$$_currentHealthTimeout) {
+      clearTimeout(this.__$$_currentHealthTimeout);
+      this.__$$_currentHealthTimeout = null;
     }
   };
 }
 
 export class HealthCheckError extends Error {
-  readonly #cause: unknown;
+  private readonly __$$_cause: unknown;
 
   getCause (): unknown {
-    return this.#cause;
+    return this.__$$_cause;
   }
 
   constructor (response: unknown, message = 'Got error response asking for system health') {
     super(message);
 
-    this.#cause = response;
+    this.__$$_cause = response;
   }
 }

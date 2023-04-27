@@ -157,18 +157,18 @@ function getType (registry: Registry, value: StorageKey | StorageEntry | [Storag
 export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements IStorageKey<A> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore This is assigned via this.decodeArgsFromMeta()
-  #args: A;
-  #meta?: StorageEntryMetadataLatest | undefined;
-  #outputType: string;
-  #method?: string | undefined;
-  #section?: string | undefined;
+  private __$$_args: A;
+  private __$$_meta?: StorageEntryMetadataLatest | undefined;
+  private __$$_outputType: string;
+  private __$$_method?: string | undefined;
+  private __$$_section?: string | undefined;
 
   constructor (registry: Registry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = decodeStorageKey(value);
 
     super(registry, key);
 
-    this.#outputType = getType(registry, value as StorageKey);
+    this.__$$_outputType = getType(registry, value as StorageKey);
 
     // decode the args (as applicable based on the key and the hashers, after all init)
     this.setMeta(getMeta(value as StorageKey), override.section || section, override.method || method);
@@ -178,35 +178,35 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
    * @description Return the decoded arguments (applicable to map with decodable values)
    */
   public get args (): A {
-    return this.#args;
+    return this.__$$_args;
   }
 
   /**
    * @description The metadata or `undefined` when not available
    */
   public get meta (): StorageEntryMetadataLatest | undefined {
-    return this.#meta;
+    return this.__$$_meta;
   }
 
   /**
    * @description The key method or `undefined` when not specified
    */
   public get method (): string | undefined {
-    return this.#method;
+    return this.__$$_method;
   }
 
   /**
    * @description The output type
    */
   public get outputType (): string {
-    return this.#outputType;
+    return this.__$$_outputType;
   }
 
   /**
    * @description The key section or `undefined` when not specified
    */
   public get section (): string | undefined {
-    return this.#section;
+    return this.__$$_section;
   }
 
   public is (key: IStorageKey<AnyTuple>): key is IStorageKey<A> {
@@ -217,16 +217,16 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
    * @description Sets the meta for this key
    */
   public setMeta (meta?: StorageEntryMetadataLatest, section?: string, method?: string): this {
-    this.#meta = meta;
-    this.#method = method || this.#method;
-    this.#section = section || this.#section;
+    this.__$$_meta = meta;
+    this.__$$_method = method || this.__$$_method;
+    this.__$$_section = section || this.__$$_section;
 
     if (meta) {
-      this.#outputType = unwrapStorageType(this.registry, meta.type);
+      this.__$$_outputType = unwrapStorageType(this.registry, meta.type);
     }
 
     try {
-      this.#args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta);
+      this.__$$_args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta);
     } catch {
       // ignore...
     }
@@ -238,8 +238,8 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
    * @description Returns the Human representation for this type
    */
   public override toHuman (): AnyJson {
-    return this.#args.length
-      ? this.#args.map((a) => a.toHuman())
+    return this.__$$_args.length
+      ? this.__$$_args.map((a) => a.toHuman())
       : super.toHuman();
   }
 

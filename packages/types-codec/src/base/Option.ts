@@ -67,8 +67,8 @@ export class Option<T extends Codec> implements IOption<T> {
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #Type: CodecClass<T>;
-  readonly #raw: T;
+  private readonly __$$_Type: CodecClass<T>;
+  private readonly __$$_raw: T;
 
   constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { definition, setDefinition = noopSetDefinition }: DefinitionSetter<CodecClass<T>> = {}) {
     const Type = definition || setDefinition(typeToConstructor(registry, typeName));
@@ -79,8 +79,8 @@ export class Option<T extends Codec> implements IOption<T> {
       : decodeOption(registry, Type, value);
 
     this.registry = registry;
-    this.#Type = Type;
-    this.#raw = decoded as T;
+    this.__$$_Type = Type;
+    this.__$$_raw = decoded as T;
 
     if (decoded?.initialU8aLength) {
       this.initialU8aLength = 1 + decoded.initialU8aLength;
@@ -108,7 +108,7 @@ export class Option<T extends Codec> implements IOption<T> {
    */
   public get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
-    return 1 + this.#raw.encodedLength;
+    return 1 + this.__$$_raw.encodedLength;
   }
 
   /**
@@ -129,7 +129,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Checks if the Option has no value
    */
   public get isNone (): boolean {
-    return this.#raw instanceof None;
+    return this.__$$_raw instanceof None;
   }
 
   /**
@@ -143,7 +143,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description The actual value for the Option
    */
   public get value (): T {
-    return this.#raw;
+    return this.__$$_raw;
   }
 
   /**
@@ -165,7 +165,7 @@ export class Option<T extends Codec> implements IOption<T> {
       return { outer: [new Uint8Array([0])] };
     }
 
-    const { inner, outer = [] } = this.#raw.inspect();
+    const { inner, outer = [] } = this.__$$_raw.inspect();
 
     return {
       inner,
@@ -188,7 +188,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.#raw.toHuman(isExtended);
+    return this.__$$_raw.toHuman(isExtended);
   }
 
   /**
@@ -197,7 +197,7 @@ export class Option<T extends Codec> implements IOption<T> {
   public toJSON (): AnyJson {
     return this.isNone
       ? null
-      : this.#raw.toJSON();
+      : this.__$$_raw.toJSON();
   }
 
   /**
@@ -206,14 +206,14 @@ export class Option<T extends Codec> implements IOption<T> {
   public toPrimitive (): AnyJson {
     return this.isNone
       ? null
-      : this.#raw.toPrimitive();
+      : this.__$$_raw.toPrimitive();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (isBare?: boolean): string {
-    const wrapped = this.registry.getClassName(this.#Type) || new this.#Type(this.registry).toRawType();
+    const wrapped = this.registry.getClassName(this.__$$_Type) || new this.__$$_Type(this.registry).toRawType();
 
     return isBare
       ? wrapped
@@ -224,7 +224,7 @@ export class Option<T extends Codec> implements IOption<T> {
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this.#raw.toString();
+    return this.__$$_raw.toString();
   }
 
   /**
@@ -233,14 +233,14 @@ export class Option<T extends Codec> implements IOption<T> {
    */
   public toU8a (isBare?: boolean): Uint8Array {
     if (isBare) {
-      return this.#raw.toU8a(true);
+      return this.__$$_raw.toU8a(true);
     }
 
     const u8a = new Uint8Array(this.encodedLength);
 
     if (this.isSome) {
       u8a.set([1]);
-      u8a.set(this.#raw.toU8a(), 1);
+      u8a.set(this.__$$_raw.toU8a(), 1);
     }
 
     return u8a;
@@ -254,7 +254,7 @@ export class Option<T extends Codec> implements IOption<T> {
       throw new Error('Option: unwrapping a None value');
     }
 
-    return this.#raw;
+    return this.__$$_raw;
   }
 
   /**
@@ -274,6 +274,6 @@ export class Option<T extends Codec> implements IOption<T> {
   public unwrapOrDefault (): T {
     return this.isSome
       ? this.unwrap()
-      : new this.#Type(this.registry);
+      : new this.__$$_Type(this.registry);
   }
 }

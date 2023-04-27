@@ -60,12 +60,12 @@ function getAtQueryFn<ApiType extends ApiTypes> (api: ApiDecoration<ApiType>, { 
 }
 
 export abstract class Decorate<ApiType extends ApiTypes> extends Events {
-  readonly #instanceId: string;
-  readonly #runtimeLog: Record<string, boolean> = {};
+  private readonly __$$_instanceId: string;
+  private readonly __$$_runtimeLog: Record<string, boolean> = {};
 
-  #registry: Registry;
-  #storageGetQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
-  #storageSubQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
+  private __$$_registry: Registry;
+  private __$$_storageGetQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
+  private __$$_storageSubQ: [Observable<Codec[]>, [StorageEntry, unknown[]][]][] = [];
 
   // HACK Use BN import so decorateDerive works... yes, wtf.
   protected __phantom = new BN(0);
@@ -132,13 +132,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super();
 
-    this.#instanceId = `${++instanceCounter}`;
-    this.#registry = options.source?.registry || options.registry || new TypeRegistry();
+    this.__$$_instanceId = `${++instanceCounter}`;
+    this.__$$_registry = options.source?.registry || options.registry || new TypeRegistry();
     this._rx.callAt = (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) =>
       from(this.at(blockHash, knownVersion)).pipe(map((a) => a.rx.call));
     this._rx.queryAt = (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) =>
       from(this.at(blockHash, knownVersion)).pipe(map((a) => a.rx.query));
-    this._rx.registry = this.#registry;
+    this._rx.registry = this.__$$_registry;
 
     const thisProvider = options.source
       ? options.source._rpcCore.provider.isClonable
@@ -151,7 +151,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._type = type;
 
     // The RPC interface decorates the known interfaces on init
-    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc) as (RpcCore & RpcInterface);
+    this._rpcCore = new RpcCore(this.__$$_instanceId, this.__$$_registry, thisProvider, this._options.rpc) as (RpcCore & RpcInterface);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected);
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
   }
@@ -162,21 +162,21 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
    * @description Return the current used registry
    */
   public get registry (): Registry {
-    return this.#registry;
+    return this.__$$_registry;
   }
 
   /**
    * @description Creates an instance of a type as registered
    */
   public createType <T extends Codec = Codec, K extends string = string> (type: K, ...params: unknown[]): DetectCodec<T, K> {
-    return this.#registry.createType(type, ...params);
+    return this.__$$_registry.createType(type, ...params);
   }
 
   /**
    * @description Register additional user-defined of chain-specific types in the type registry
    */
   public registerTypes (types?: RegistryTypes): void {
-    types && this.#registry.register(types);
+    types && this.__$$_registry.register(types);
   }
 
   /**
@@ -285,7 +285,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
    * backwards compatible endpoint for metadata injection, may be removed in the future (However, it is still useful for testing injection)
    */
   public injectMetadata (metadata: Metadata, fromEmpty?: boolean, registry?: Registry): void {
-    this._injectMetadata({ counter: 0, metadata, registry: registry || this.#registry, runtimeVersion: this.#registry.createType('RuntimeVersionPartial') }, fromEmpty);
+    this._injectMetadata({ counter: 0, metadata, registry: registry || this.__$$_registry, runtimeVersion: this.__$$_registry.createType('RuntimeVersionPartial') }, fromEmpty);
   }
 
   private _decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
@@ -493,9 +493,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const sections = this._getRuntimeDefs(registry, specName, this._runtimeChain);
     const older: string[] = [];
     const implName = `${specName.toString()}/${specVersion.toString()}`;
-    const hasLogged = this.#runtimeLog[implName] || false;
+    const hasLogged = this.__$$_runtimeLog[implName] || false;
 
-    this.#runtimeLog[implName] = true;
+    this.__$$_runtimeLog[implName] = true;
 
     for (let i = 0; i < sections.length; i++) {
       const [_section, secs] = sections[i];
@@ -682,7 +682,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
   private _decorateStorageEntry<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): QueryableStorageEntry<ApiType> {
     const getArgs = (args: unknown[], registry?: Registry) =>
-      extractStorageArgs(registry || this.#registry, creator, args);
+      extractStorageArgs(registry || this.__$$_registry, creator, args);
 
     const getQueryAt = (blockHash: Hash | Uint8Array | string): Observable<AugmentedQuery<'rxjs', GenericStorageEntryFunction, AnyTuple>> =>
       from(this.at(blockHash)).pipe(
@@ -725,31 +725,31 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // .keys() & .entries() only available on map types
     if (creator.iterKey && creator.meta.type.isMap) {
       decorated.entries = decorateMethod(
-        memo(this.#instanceId, (...args: unknown[]): Observable<[StorageKey, Codec][]> =>
+        memo(this.__$$_instanceId, (...args: unknown[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, null, args)));
 
       // eslint-disable-next-line deprecation/deprecation
       decorated.entriesAt = decorateMethod(
-        memo(this.#instanceId, (blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<[StorageKey, Codec][]> =>
+        memo(this.__$$_instanceId, (blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<[StorageKey, Codec][]> =>
           getQueryAt(blockHash).pipe(
             switchMap((q) => this._retrieveMapEntries(q.creator, blockHash, args)))));
 
       decorated.entriesPaged = decorateMethod(
-        memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
+        memo(this.__$$_instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntriesPaged(creator, undefined, opts)));
 
       decorated.keys = decorateMethod(
-        memo(this.#instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
+        memo(this.__$$_instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, null, args)));
 
       // eslint-disable-next-line deprecation/deprecation
       decorated.keysAt = decorateMethod(
-        memo(this.#instanceId, (blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<StorageKey[]> =>
+        memo(this.__$$_instanceId, (blockHash: Hash | Uint8Array | string, ...args: unknown[]): Observable<StorageKey[]> =>
           getQueryAt(blockHash).pipe(
             switchMap((q) => this._retrieveMapKeys(q.creator, blockHash, args)))));
 
       decorated.keysPaged = decorateMethod(
-        memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
+        memo(this.__$$_instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
           this._retrieveMapKeysPaged(creator, undefined, opts)));
     }
 
@@ -797,19 +797,19 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // .keys() & .entries() only available on map types
     if (creator.iterKey && creator.meta.type.isMap) {
       decorated.entries = decorateMethod(
-        memo(this.#instanceId, (...args: unknown[]): Observable<[StorageKey, Codec][]> =>
+        memo(this.__$$_instanceId, (...args: unknown[]): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntries(creator, blockHash, args)));
 
       decorated.entriesPaged = decorateMethod(
-        memo(this.#instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
+        memo(this.__$$_instanceId, (opts: PaginationOptions): Observable<[StorageKey, Codec][]> =>
           this._retrieveMapEntriesPaged(creator, blockHash, opts)));
 
       decorated.keys = decorateMethod(
-        memo(this.#instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
+        memo(this.__$$_instanceId, (...args: unknown[]): Observable<StorageKey[]> =>
           this._retrieveMapKeys(creator, blockHash, args)));
 
       decorated.keysPaged = decorateMethod(
-        memo(this.#instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
+        memo(this.__$$_instanceId, (opts: PaginationOptions): Observable<StorageKey[]> =>
           this._retrieveMapKeysPaged(creator, blockHash, opts)));
     }
 
@@ -828,7 +828,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   private _queueStorage (call: [StorageEntry, unknown[]], queue: [Observable<Codec[]>, [StorageEntry, unknown[]][]][]): Observable<Codec> {
-    const query = queue === this.#storageSubQ
+    const query = queue === this.__$$_storageSubQ
       ? this._rpcCore.state.subscribeStorage
       : this._rpcCore.state.queryStorageAt;
     let queueIdx = queue.length - 1;
@@ -879,20 +879,20 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   // Decorate the base storage call. In the case or rxjs or promise-without-callback (await)
   // we make a subscription, alternatively we push this through a single-shot query
   private _decorateStorageCall<ApiType extends ApiTypes> (creator: StorageEntry, decorateMethod: DecorateMethod<ApiType>): ReturnType<DecorateMethod<ApiType>> {
-    const memoed = memo(this.#instanceId, (...args: unknown[]): Observable<Codec> => {
-      const call = extractStorageArgs(this.#registry, creator, args);
+    const memoed = memo(this.__$$_instanceId, (...args: unknown[]): Observable<Codec> => {
+      const call = extractStorageArgs(this.__$$_registry, creator, args);
 
       if (!this.hasSubscriptions) {
         return this._rpcCore.state.getStorage(call);
       }
 
-      return this._queueStorage(call, this.#storageSubQ);
+      return this._queueStorage(call, this.__$$_storageSubQ);
     });
 
     return decorateMethod(memoed, {
       methodName: creator.method,
       overrideNoSub: (...args: unknown[]) =>
-        this._queueStorage(extractStorageArgs(this.#registry, creator, args), this.#storageGetQ)
+        this._queueStorage(extractStorageArgs(this.__$$_registry, creator, args), this.__$$_storageGetQ)
     });
   }
 
@@ -1013,7 +1013,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const specName = this._runtimeVersion?.specName.toString();
 
     // Pull in derive from api-derive
-    const available = getAvailableDerives(this.#instanceId, this._rx, objectSpread<DeriveCustom>({}, this._options.derives, this._options.typesBundle?.spec?.[specName || '']?.derives));
+    const available = getAvailableDerives(this.__$$_instanceId, this._rx, objectSpread<DeriveCustom>({}, this._options.derives, this._options.typesBundle?.spec?.[specName || '']?.derives));
 
     return decorateDeriveSections<'rxjs'>(decorateMethod, available);
   }

@@ -95,8 +95,8 @@ import { promiseTracker, toPromiseMethod } from './decorateMethod.js';
  * ```
  */
 export class ApiPromise extends ApiBase<'promise'> {
-  #isReadyPromise: Promise<ApiPromise>;
-  #isReadyOrErrorPromise: Promise<ApiPromise>;
+  private __$$_isReadyPromise: Promise<ApiPromise>;
+  private __$$_isReadyOrErrorPromise: Promise<ApiPromise>;
 
   /**
    * @description Creates an instance of the ApiPromise class
@@ -118,11 +118,11 @@ export class ApiPromise extends ApiBase<'promise'> {
   constructor (options?: ApiOptions) {
     super(options, 'promise', toPromiseMethod);
 
-    this.#isReadyPromise = new Promise((resolve): void => {
+    this.__$$_isReadyPromise = new Promise((resolve): void => {
       super.once('ready', () => resolve(this));
     });
 
-    this.#isReadyOrErrorPromise = new Promise((resolve, reject): void => {
+    this.__$$_isReadyOrErrorPromise = new Promise((resolve, reject): void => {
       const tracker = promiseTracker(resolve, reject);
 
       super.once('ready', () => tracker.resolve(this));
@@ -167,14 +167,14 @@ export class ApiPromise extends ApiBase<'promise'> {
    * @description Promise that resolves the first time we are connected and loaded
    */
   public get isReady (): Promise<ApiPromise> {
-    return this.#isReadyPromise;
+    return this.__$$_isReadyPromise;
   }
 
   /**
    * @description Promise that resolves if we can connect, or reject if there is an error
    */
   public get isReadyOrError (): Promise<ApiPromise> {
-    return this.#isReadyOrErrorPromise;
+    return this.__$$_isReadyOrErrorPromise;
   }
 
   /**

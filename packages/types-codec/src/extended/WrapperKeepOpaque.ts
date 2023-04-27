@@ -38,18 +38,18 @@ function decodeRaw<T extends Codec> (registry: Registry, typeName: CodecClass<T>
 }
 
 export class WrapperKeepOpaque<T extends Codec> extends Bytes {
-  readonly #Type: CodecClass<T>;
-  readonly #decoded: T | null;
-  readonly #opaqueName: OpaqueName;
+  private readonly __$$_Type: CodecClass<T>;
+  private readonly __$$_decoded: T | null;
+  private readonly __$$_opaqueName: OpaqueName;
 
   constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { opaqueName = 'WrapperKeepOpaque' }: Options = {}) {
     const [Type, decoded, u8a] = decodeRaw(registry, typeName, value);
 
     super(registry, u8a);
 
-    this.#Type = Type;
-    this.#decoded = decoded;
-    this.#opaqueName = opaqueName;
+    this.__$$_Type = Type;
+    this.__$$_decoded = decoded;
+    this.__$$_opaqueName = opaqueName;
   }
 
   public static with<T extends Codec> (Type: CodecClass<T> | string): CodecClass<WrapperKeepOpaque<T>> {
@@ -64,16 +64,16 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Checks if the wrapper is decodable
    */
   public get isDecoded (): boolean {
-    return !!this.#decoded;
+    return !!this.__$$_decoded;
   }
 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public override inspect (): Inspect {
-    return this.#decoded
+    return this.__$$_decoded
       ? {
-        inner: [this.#decoded.inspect()],
+        inner: [this.__$$_decoded.inspect()],
         outer: [compactToU8a(this.length)]
       }
       : {
@@ -85,8 +85,8 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public override toHuman (isExtended?: boolean): AnyJson {
-    return this.#decoded
-      ? this.#decoded.toHuman(isExtended)
+    return this.__$$_decoded
+      ? this.__$$_decoded.toHuman(isExtended)
       : super.toHuman();
   }
 
@@ -94,8 +94,8 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Converts the value in a best-fit primitive form
    */
   public override toPrimitive (): any {
-    return this.#decoded
-      ? this.#decoded.toPrimitive()
+    return this.__$$_decoded
+      ? this.__$$_decoded.toPrimitive()
       : super.toPrimitive();
   }
 
@@ -103,15 +103,15 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Returns the base runtime type name for this instance
    */
   public override toRawType (): string {
-    return `${this.#opaqueName}<${this.registry.getClassName(this.#Type) || (this.#decoded ? this.#decoded.toRawType() : new this.#Type(this.registry).toRawType())}>`;
+    return `${this.__$$_opaqueName}<${this.registry.getClassName(this.__$$_Type) || (this.__$$_decoded ? this.__$$_decoded.toRawType() : new this.__$$_Type(this.registry).toRawType())}>`;
   }
 
   /**
    * @description Converts the Object to to a string (either decoded or bytes)
    */
   public override toString (): string {
-    return this.#decoded
-      ? this.#decoded.toString()
+    return this.__$$_decoded
+      ? this.__$$_decoded.toString()
       : super.toString();
   }
 
@@ -119,10 +119,10 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
    * @description Returns the decoded that the WrapperKeepOpaque represents (if available), throws if non-decodable
    */
   public unwrap (): T {
-    if (!this.#decoded) {
-      throw new Error(`${this.#opaqueName}: unwrapping an undecodable value`);
+    if (!this.__$$_decoded) {
+      throw new Error(`${this.__$$_opaqueName}: unwrapping an undecodable value`);
     }
 
-    return this.#decoded;
+    return this.__$$_decoded;
   }
 }

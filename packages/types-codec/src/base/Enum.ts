@@ -184,12 +184,12 @@ export class Enum implements IEnum {
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #def: TypesDef;
-  readonly #entryIndex: number;
-  readonly #indexes: number[];
-  readonly #isBasic: boolean;
-  readonly #isIndexed: boolean;
-  readonly #raw: Codec;
+  private readonly __$$_def: TypesDef;
+  private readonly __$$_entryIndex: number;
+  private readonly __$$_indexes: number[];
+  private readonly __$$_isBasic: boolean;
+  private readonly __$$_isIndexed: boolean;
+  private readonly __$$_raw: Codec;
 
   constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number, { definition, setDefinition = noopSetDefinition }: DefinitionSetter<Definition> = {}) {
     const { def, isBasic, isIndexed } = definition || setDefinition(extractDef(registry, Types));
@@ -200,15 +200,15 @@ export class Enum implements IEnum {
       : decodeEnum(registry, def, value, index);
 
     this.registry = registry;
-    this.#def = def;
-    this.#isBasic = isBasic;
-    this.#isIndexed = isIndexed;
-    this.#indexes = Object.values(def).map(({ index }) => index);
-    this.#entryIndex = this.#indexes.indexOf(decoded.index);
-    this.#raw = decoded.value;
+    this.__$$_def = def;
+    this.__$$_isBasic = isBasic;
+    this.__$$_isIndexed = isIndexed;
+    this.__$$_indexes = Object.values(def).map(({ index }) => index);
+    this.__$$_entryIndex = this.__$$_indexes.indexOf(decoded.index);
+    this.__$$_raw = decoded.value;
 
-    if (this.#raw.initialU8aLength) {
-      this.initialU8aLength = 1 + this.#raw.initialU8aLength;
+    if (this.__$$_raw.initialU8aLength) {
+      this.initialU8aLength = 1 + this.__$$_raw.initialU8aLength;
     }
   }
 
@@ -257,7 +257,7 @@ export class Enum implements IEnum {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return 1 + this.#raw.encodedLength;
+    return 1 + this.__$$_raw.encodedLength;
   }
 
   /**
@@ -271,63 +271,63 @@ export class Enum implements IEnum {
    * @description The index of the enum value
    */
   public get index (): number {
-    return this.#indexes[this.#entryIndex];
+    return this.__$$_indexes[this.__$$_entryIndex];
   }
 
   /**
    * @description The value of the enum
    */
   public get inner (): Codec {
-    return this.#raw;
+    return this.__$$_raw;
   }
 
   /**
    * @description true if this is a basic enum (no values)
    */
   public get isBasic (): boolean {
-    return this.#isBasic;
+    return this.__$$_isBasic;
   }
 
   /**
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    return this.#raw.isEmpty;
+    return this.__$$_raw.isEmpty;
   }
 
   /**
    * @description Checks if the Enum points to a [[Null]] type
    */
   public get isNone (): boolean {
-    return this.#raw instanceof Null;
+    return this.__$$_raw instanceof Null;
   }
 
   /**
    * @description The available keys for this enum
    */
   public get defIndexes (): number[] {
-    return this.#indexes;
+    return this.__$$_indexes;
   }
 
   /**
    * @description The available keys for this enum
    */
   public get defKeys (): string[] {
-    return Object.keys(this.#def);
+    return Object.keys(this.__$$_def);
   }
 
   /**
    * @description The name of the type this enum value represents
    */
   public get type (): string {
-    return this.defKeys[this.#entryIndex];
+    return this.defKeys[this.__$$_entryIndex];
   }
 
   /**
    * @description The value of the enum
    */
   public get value (): Codec {
-    return this.#raw;
+    return this.__$$_raw;
   }
 
   /**
@@ -339,7 +339,7 @@ export class Enum implements IEnum {
       return !this.toU8a().some((entry, index) => entry !== other[index]);
     } else if (isNumber(other)) {
       return this.toNumber() === other;
-    } else if (this.#isBasic && isString(other)) {
+    } else if (this.__$$_isBasic && isString(other)) {
       return this.type === other;
     } else if (isHex(other)) {
       return this.toHex() === other;
@@ -357,11 +357,11 @@ export class Enum implements IEnum {
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public inspect (): Inspect {
-    if (this.#isBasic) {
+    if (this.__$$_isBasic) {
       return { outer: [new Uint8Array([this.index])] };
     }
 
-    const { inner, outer = [] } = this.#raw.inspect();
+    const { inner, outer = [] } = this.__$$_raw.inspect();
 
     return {
       inner,
@@ -380,18 +380,18 @@ export class Enum implements IEnum {
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.#isBasic || this.isNone
+    return this.__$$_isBasic || this.isNone
       ? this.type
-      : { [this.type]: this.#raw.toHuman(isExtended) };
+      : { [this.type]: this.__$$_raw.toHuman(isExtended) };
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.#isBasic
+    return this.__$$_isBasic
       ? this.type
-      : { [stringCamelCase(this.type)]: this.#raw.toJSON() };
+      : { [stringCamelCase(this.type)]: this.__$$_raw.toJSON() };
   }
 
   /**
@@ -405,26 +405,26 @@ export class Enum implements IEnum {
    * @description Converts the value in a best-fit primitive form
    */
   public toPrimitive (): AnyJson {
-    return this.#isBasic
+    return this.__$$_isBasic
       ? this.type
-      : { [stringCamelCase(this.type)]: this.#raw.toPrimitive() };
+      : { [stringCamelCase(this.type)]: this.__$$_raw.toPrimitive() };
   }
 
   /**
    * @description Returns a raw struct representation of the enum types
    */
   protected _toRawStruct (): string[] | Record<string, string | number> {
-    if (this.#isBasic) {
-      return this.#isIndexed
+    if (this.__$$_isBasic) {
+      return this.__$$_isIndexed
         ? this.defKeys.reduce((out: Record<string, number>, key, index): Record<string, number> => {
-          out[key] = this.#indexes[index];
+          out[key] = this.__$$_indexes[index];
 
           return out;
         }, {})
         : this.defKeys;
     }
 
-    const entries = Object.entries(this.#def);
+    const entries = Object.entries(this.__$$_def);
 
     return typesToMap(this.registry, entries.reduce<[CodecClass[], string[]]>((out, [key, { Type }], i) => {
       out[0][i] = Type;
@@ -456,10 +456,10 @@ export class Enum implements IEnum {
    */
   public toU8a (isBare?: boolean): Uint8Array {
     return isBare
-      ? this.#raw.toU8a(isBare)
+      ? this.__$$_raw.toU8a(isBare)
       : u8aConcatStrict([
         new Uint8Array([this.index]),
-        this.#raw.toU8a(isBare)
+        this.__$$_raw.toU8a(isBare)
       ]);
   }
 }

@@ -14,7 +14,7 @@ import { toRxMethod } from './decorateMethod.js';
 /**
  * # @polkadot/api/rx
  *
- *  ## Overview
+ * ## Overview
  *
  * @name ApiRx
  *
@@ -111,7 +111,7 @@ import { toRxMethod } from './decorateMethod.js';
  * ```
  */
 export class ApiRx extends ApiBase<'rxjs'> {
-  #isReadyRx: Observable<ApiRx>;
+  private __$$_isReadyRx: Observable<ApiRx>;
 
   /**
    * @description Create an instance of the ApiRx class
@@ -136,7 +136,7 @@ export class ApiRx extends ApiBase<'rxjs'> {
   constructor (options?: ApiOptions) {
     super(options, 'rxjs', toRxMethod);
 
-    this.#isReadyRx = from<Promise<ApiRx>>(
+    this.__$$_isReadyRx = from<Promise<ApiRx>>(
       // You can create an observable from an event, however my mind groks this form better
       new Promise((resolve): void => {
         super.on('ready', () => resolve(this));
@@ -172,7 +172,7 @@ export class ApiRx extends ApiBase<'rxjs'> {
    * @description Observable that returns the first time we are connected and loaded
    */
   public get isReady (): Observable<ApiRx> {
-    return this.#isReadyRx;
+    return this.__$$_isReadyRx;
   }
 
   /**

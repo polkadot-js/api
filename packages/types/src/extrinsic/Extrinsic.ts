@@ -234,7 +234,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
  * - left as is, to create an inherent
  */
 export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBase<A> implements IExtrinsic<A> {
-  #hashCache?: CodecHash | undefined;
+  private __$$_hashCache?: CodecHash | undefined;
 
   static LATEST_EXTRINSIC_VERSION = LATEST_EXTRINSIC_VERSION;
 
@@ -246,11 +246,11 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    * @description returns a hash of the contents
    */
   public override get hash (): CodecHash {
-    if (!this.#hashCache) {
-      this.#hashCache = super.hash;
+    if (!this.__$$_hashCache) {
+      this.__$$_hashCache = super.hash;
     }
 
-    return this.#hashCache;
+    return this.__$$_hashCache;
   }
 
   /**
@@ -258,7 +258,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsic<A> {
     this.inner.addSignature(signer, signature, payload);
-    this.#hashCache = undefined;
+    this.__$$_hashCache = undefined;
 
     return this;
   }
@@ -282,7 +282,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    */
   public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsic<A> {
     this.inner.sign(account, options);
-    this.#hashCache = undefined;
+    this.__$$_hashCache = undefined;
 
     return this;
   }
@@ -292,7 +292,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
    */
   public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsic<A> {
     this.inner.signFake(signer, options);
-    this.#hashCache = undefined;
+    this.__$$_hashCache = undefined;
 
     return this;
   }

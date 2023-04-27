@@ -33,7 +33,7 @@ function checkError (error?: JsonRpcResponseBaseError): void {
 
 /** @internal */
 export class RpcCoder {
-  #id = 0;
+  private __$$_id = 0;
 
   public decodeResponse (response?: JsonRpcResponse): unknown {
     if (!response || response.jsonrpc !== '2.0') {
@@ -76,7 +76,7 @@ export class RpcCoder {
   }
 
   public encodeObject (method: string, params: unknown[]): [number, JsonRpcRequest] {
-    const id = ++this.#id;
+    const id = ++this.__$$_id;
 
     return [id, {
       id,

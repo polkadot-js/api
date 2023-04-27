@@ -497,12 +497,12 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): T
 }
 
 export class PortableRegistry extends Struct implements ILookup {
-  #alias: Record<number, string>;
-  #lookups: Record<string, LookupString>;
-  #names: Record<number, string>;
-  #params: Record<string, SiTypeParameter[]>;
-  #typeDefs: Record<number, TypeDef> = {};
-  #types: Record<number, PortableType>;
+  private __$$_alias: Record<number, string>;
+  private __$$_lookups: Record<string, LookupString>;
+  private __$$_names: Record<number, string>;
+  private __$$_params: Record<string, SiTypeParameter[]>;
+  private __$$_typeDefs: Record<number, TypeDef> = {};
+  private __$$_types: Record<number, PortableType>;
 
   constructor (registry: Registry, value?: Uint8Array, isContract?: boolean) {
     // const timeStart = performance.now()
@@ -513,11 +513,11 @@ export class PortableRegistry extends Struct implements ILookup {
 
     const { lookups, names, params, types } = extractTypeInfo(this, this.types);
 
-    this.#alias = extractAliases(params, isContract);
-    this.#lookups = lookups;
-    this.#names = names;
-    this.#params = params;
-    this.#types = types;
+    this.__$$_alias = extractAliases(params, isContract);
+    this.__$$_lookups = lookups;
+    this.__$$_names = names;
+    this.__$$_params = params;
+    this.__$$_types = types;
 
     // console.log('PortableRegistry', `${(performance.now() - timeStart).toFixed(2)}ms`)
   }
@@ -526,7 +526,7 @@ export class PortableRegistry extends Struct implements ILookup {
    * @description Returns all the available type names for this chain
    **/
   public get names (): string[] {
-    return Object.values(this.#names).sort();
+    return Object.values(this.__$$_names).sort();
   }
 
   /**
@@ -540,14 +540,14 @@ export class PortableRegistry extends Struct implements ILookup {
    * @description Register all available types into the registry (generally for internal usage)
    */
   public register (): void {
-    registerTypes(this, this.#lookups, this.#names, this.#params);
+    registerTypes(this, this.__$$_lookups, this.__$$_names, this.__$$_params);
   }
 
   /**
    * @description Returns the name for a specific lookup
    */
   public getName (lookupId: SiLookupTypeId | LookupString | number): string | undefined {
-    return this.#names[this.#getLookupId(lookupId)];
+    return this.__$$_names[this.__$$_getLookupId(lookupId)];
   }
 
   /**
@@ -556,7 +556,7 @@ export class PortableRegistry extends Struct implements ILookup {
   public getSiType (lookupId: SiLookupTypeId | LookupString | number): SiType {
     // NOTE catch-22 - this may already be used as part of the constructor, so
     // ensure that we have actually initialized it correctly
-    const found = (this.#types || this.types)[this.#getLookupId(lookupId)];
+    const found = (this.__$$_types || this.types)[this.__$$_getLookupId(lookupId)];
 
     if (!found) {
       throw new Error(`PortableRegistry: Unable to find type with lookupId ${lookupId.toString()}`);
@@ -569,10 +569,10 @@ export class PortableRegistry extends Struct implements ILookup {
    * @description Lookup the type definition for the index
    */
   public getTypeDef (lookupId: SiLookupTypeId | LookupString | number): TypeDef {
-    const lookupIndex = this.#getLookupId(lookupId);
+    const lookupIndex = this.__$$_getLookupId(lookupId);
 
-    if (!this.#typeDefs[lookupIndex]) {
-      const lookupName = this.#names[lookupIndex];
+    if (!this.__$$_typeDefs[lookupIndex]) {
+      const lookupName = this.__$$_names[lookupIndex];
       const empty = {
         info: TypeDefInfo.DoNotConstruct,
         lookupIndex,
@@ -582,31 +582,31 @@ export class PortableRegistry extends Struct implements ILookup {
 
       // Set named items since we will get into circular lookups along the way
       if (lookupName) {
-        this.#typeDefs[lookupIndex] = empty;
+        this.__$$_typeDefs[lookupIndex] = empty;
       }
 
-      const extracted = this.#extract(this.getSiType(lookupId), lookupIndex);
+      const extracted = this.__$$_extract(this.getSiType(lookupId), lookupIndex);
 
       // For non-named items, we only set this right at the end
       if (!lookupName) {
-        this.#typeDefs[lookupIndex] = empty;
+        this.__$$_typeDefs[lookupIndex] = empty;
       }
 
       Object.keys(extracted).forEach((k): void => {
         if (k !== 'lookupName' || extracted[k]) {
           // these are safe since we are looking through the keys as set
-          this.#typeDefs[lookupIndex][k as 'info'] = extracted[k as 'info'];
+          this.__$$_typeDefs[lookupIndex][k as 'info'] = extracted[k as 'info'];
         }
       });
 
       // don't set lookupName on lower-level, we want to always direct to the type
       if (extracted.info === TypeDefInfo.Plain) {
-        this.#typeDefs[lookupIndex].lookupNameRoot = this.#typeDefs[lookupIndex].lookupName;
-        delete this.#typeDefs[lookupIndex].lookupName;
+        this.__$$_typeDefs[lookupIndex].lookupNameRoot = this.__$$_typeDefs[lookupIndex].lookupName;
+        delete this.__$$_typeDefs[lookupIndex].lookupName;
       }
     }
 
-    return this.#typeDefs[lookupIndex];
+    return this.__$$_typeDefs[lookupIndex];
   }
 
   /**
@@ -632,7 +632,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Creates a TypeDef based on an internal lookupId */
-  #createSiDef (lookupId: SiLookupTypeId): TypeDef {
+  private __$$_createSiDef (lookupId: SiLookupTypeId): TypeDef {
     const typeDef = this.getTypeDef(lookupId);
     const lookupIndex = lookupId.toNumber();
 
@@ -642,14 +642,14 @@ export class PortableRegistry extends Struct implements ILookup {
         docs: typeDef.docs,
         info: TypeDefInfo.Si,
         lookupIndex,
-        lookupName: this.#names[lookupIndex],
+        lookupName: this.__$$_names[lookupIndex],
         type: this.registry.createLookupType(lookupId)
       }
       : typeDef;
   }
 
   /** @internal Converts a lookupId input to the actual lookup index */
-  #getLookupId (lookupId: SiLookupTypeId | LookupString | number): number {
+  private __$$_getLookupId (lookupId: SiLookupTypeId | LookupString | number): number {
     if (isString(lookupId)) {
       if (!this.registry.isLookupType(lookupId)) {
         throw new Error(`PortableRegistry: Expected a lookup string type, found ${lookupId as string}`);
@@ -664,25 +664,25 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Converts a type into a TypeDef for Codec usage */
-  #extract (type: SiType, lookupIndex: number): TypeDef {
+  private __$$_extract (type: SiType, lookupIndex: number): TypeDef {
     const namespace = type.path.join('::');
     let typeDef: TypeDef;
-    const aliasType = this.#alias[lookupIndex] || getAliasPath(type);
+    const aliasType = this.__$$_alias[lookupIndex] || getAliasPath(type);
 
     try {
       if (aliasType) {
-        typeDef = this.#extractAliasPath(lookupIndex, aliasType);
+        typeDef = this.__$$_extractAliasPath(lookupIndex, aliasType);
       } else {
         switch (type.def.type) {
-          case 'Array': typeDef = this.#extractArray(lookupIndex, type.def.asArray); break;
-          case 'BitSequence': typeDef = this.#extractBitSequence(lookupIndex, type.def.asBitSequence); break;
-          case 'Compact': typeDef = this.#extractCompact(lookupIndex, type.def.asCompact); break;
-          case 'Composite': typeDef = this.#extractComposite(lookupIndex, type, type.def.asComposite); break;
-          case 'HistoricMetaCompat': typeDef = this.#extractHistoric(lookupIndex, type.def.asHistoricMetaCompat); break;
-          case 'Primitive': typeDef = this.#extractPrimitive(lookupIndex, type); break;
-          case 'Sequence': typeDef = this.#extractSequence(lookupIndex, type.def.asSequence); break;
-          case 'Tuple': typeDef = this.#extractTuple(lookupIndex, type.def.asTuple); break;
-          case 'Variant': typeDef = this.#extractVariant(lookupIndex, type, type.def.asVariant); break;
+          case 'Array': typeDef = this.__$$_extractArray(lookupIndex, type.def.asArray); break;
+          case 'BitSequence': typeDef = this.__$$_extractBitSequence(lookupIndex, type.def.asBitSequence); break;
+          case 'Compact': typeDef = this.__$$_extractCompact(lookupIndex, type.def.asCompact); break;
+          case 'Composite': typeDef = this.__$$_extractComposite(lookupIndex, type, type.def.asComposite); break;
+          case 'HistoricMetaCompat': typeDef = this.__$$_extractHistoric(lookupIndex, type.def.asHistoricMetaCompat); break;
+          case 'Primitive': typeDef = this.__$$_extractPrimitive(lookupIndex, type); break;
+          case 'Sequence': typeDef = this.__$$_extractSequence(lookupIndex, type.def.asSequence); break;
+          case 'Tuple': typeDef = this.__$$_extractTuple(lookupIndex, type.def.asTuple); break;
+          case 'Variant': typeDef = this.__$$_extractVariant(lookupIndex, type, type.def.asVariant); break;
           default: assertUnreachable(type.def.type);
         }
       }
@@ -697,7 +697,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Extracts a ScaleInfo Array into TypeDef.VecFixed */
-  #extractArray (_: number, { len, type }: SiTypeDefArray): TypeDef {
+  private __$$_extractArray (_: number, { len, type }: SiTypeDefArray): TypeDef {
     const length = len.toNumber();
 
     if (length > 2048) {
@@ -707,16 +707,16 @@ export class PortableRegistry extends Struct implements ILookup {
     return withTypeString(this.registry, {
       info: TypeDefInfo.VecFixed,
       length,
-      sub: this.#createSiDef(type)
+      sub: this.__$$_createSiDef(type)
     });
   }
 
   /** @internal Extracts a ScaleInfo BitSequence into TypeDef.Plain */
-  #extractBitSequence (_: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
+  private __$$_extractBitSequence (_: number, { bitOrderType, bitStoreType }: SiTypeDefBitSequence): TypeDef {
     // With the v3 of scale-info this swapped around, but obviously the decoder cannot determine
     // the order. With that in-mind, we apply a detection for LSb0/Msb and set accordingly
-    const a = this.#createSiDef(bitOrderType);
-    const b = this.#createSiDef(bitStoreType);
+    const a = this.__$$_createSiDef(bitOrderType);
+    const b = this.__$$_createSiDef(bitStoreType);
     const [bitOrder, bitStore] = BITVEC_NS.includes(a.namespace || '')
       ? [a, b]
       : [b, a];
@@ -746,15 +746,15 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Extracts a ScaleInfo Compact into TypeDef.Compact */
-  #extractCompact (_: number, { type }: SiTypeDefCompact): TypeDef {
+  private __$$_extractCompact (_: number, { type }: SiTypeDefCompact): TypeDef {
     return withTypeString(this.registry, {
       info: TypeDefInfo.Compact,
-      sub: this.#createSiDef(type)
+      sub: this.__$$_createSiDef(type)
     });
   }
 
   /** @internal Extracts a ScaleInfo Composite into TypeDef.{BTree*, Range*, Wrapper*} */
-  #extractComposite (lookupIndex: number, { params, path }: SiType, { fields }: SiTypeDefComposite): TypeDef {
+  private __$$_extractComposite (lookupIndex: number, { params, path }: SiType, { fields }: SiTypeDefComposite): TypeDef {
     if (path.length) {
       const pathFirst = path[0].toString();
       const pathLast = path[path.length - 1].toString();
@@ -766,7 +766,7 @@ export class PortableRegistry extends Struct implements ILookup {
 
         return withTypeString(this.registry, {
           info: TypeDefInfo.BTreeMap,
-          sub: params.map(({ type }) => this.#createSiDef(type.unwrap()))
+          sub: params.map(({ type }) => this.__$$_createSiDef(type.unwrap()))
         });
       } else if (path.length === 1 && pathFirst === 'BTreeSet') {
         if (params.length !== 1) {
@@ -775,7 +775,7 @@ export class PortableRegistry extends Struct implements ILookup {
 
         return withTypeString(this.registry, {
           info: TypeDefInfo.BTreeSet,
-          sub: this.#createSiDef(params[0].type.unwrap())
+          sub: this.__$$_createSiDef(params[0].type.unwrap())
         });
       } else if (['Range', 'RangeInclusive'].includes(pathFirst)) {
         if (params.length !== 1) {
@@ -786,7 +786,7 @@ export class PortableRegistry extends Struct implements ILookup {
           info: pathFirst === 'Range'
             ? TypeDefInfo.Range
             : TypeDefInfo.RangeInclusive,
-          sub: this.#createSiDef(params[0].type.unwrap()),
+          sub: this.__$$_createSiDef(params[0].type.unwrap()),
           type: pathFirst
         });
       } else if (['WrapperKeepOpaque', 'WrapperOpaque'].includes(pathLast)) {
@@ -798,19 +798,19 @@ export class PortableRegistry extends Struct implements ILookup {
           info: pathLast === 'WrapperKeepOpaque'
             ? TypeDefInfo.WrapperKeepOpaque
             : TypeDefInfo.WrapperOpaque,
-          sub: this.#createSiDef(params[0].type.unwrap()),
+          sub: this.__$$_createSiDef(params[0].type.unwrap()),
           type: pathLast
         });
       }
     }
 
     return PATHS_SET.some((p) => matchParts(p, path))
-      ? this.#extractCompositeSet(lookupIndex, params, fields)
-      : this.#extractFields(lookupIndex, fields);
+      ? this.__$$_extractCompositeSet(lookupIndex, params, fields)
+      : this.__$$_extractFields(lookupIndex, fields);
   }
 
   /** @internal Extracts a ScaleInfo CompositeSet into TypeDef.Set */
-  #extractCompositeSet (_: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
+  private __$$_extractCompositeSet (_: number, params: SiTypeParameter[], fields: SiField[]): TypeDef {
     if (params.length !== 1 || fields.length !== 1) {
       throw new Error('Set handling expects param/field as single entries');
     }
@@ -829,7 +829,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Extracts ScaleInfo enum/struct fields into TypeDef.{Struct, Tuple} */
-  #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
+  private __$$_extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
     let isStruct = true;
     let isTuple = true;
 
@@ -850,7 +850,7 @@ export class PortableRegistry extends Struct implements ILookup {
         type: 'Null'
       };
     } else if (isTuple && fields.length === 1) {
-      const typeDef = this.#createSiDef(fields[0].type);
+      const typeDef = this.__$$_createSiDef(fields[0].type);
 
       return objectSpread(
         {},
@@ -859,7 +859,7 @@ export class PortableRegistry extends Struct implements ILookup {
           ? null
           : {
             lookupIndex,
-            lookupName: this.#names[lookupIndex],
+            lookupName: this.__$$_names[lookupIndex],
             lookupNameRoot: typeDef.lookupName
           },
         fields[0].typeName.isSome
@@ -868,7 +868,7 @@ export class PortableRegistry extends Struct implements ILookup {
       );
     }
 
-    const [sub, alias] = this.#extractFieldsAlias(fields);
+    const [sub, alias] = this.__$$_extractFieldsAlias(fields);
 
     return withTypeString(this.registry, objectSpread(
       {
@@ -884,19 +884,19 @@ export class PortableRegistry extends Struct implements ILookup {
         ? null
         : {
           lookupIndex,
-          lookupName: this.#names[lookupIndex]
+          lookupName: this.__$$_names[lookupIndex]
         }
     ));
   }
 
   /** @internal Apply field aliassed (with no JS conflicts) */
-  #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
+  private __$$_extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
     const sub = new Array<TypeDef>(fields.length);
 
     for (let i = 0; i < fields.length; i++) {
       const { docs, name, type, typeName } = fields[i];
-      const typeDef = this.#createSiDef(type);
+      const typeDef = this.__$$_createSiDef(type);
 
       if (name.isNone) {
         sub[i] = typeDef;
@@ -924,7 +924,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Extracts an internal Historic (pre V14) type  */
-  #extractHistoric (_: number, type: Type): TypeDef {
+  private __$$_extractHistoric (_: number, type: Type): TypeDef {
     return objectSpread({
       displayName: type.toString(),
       isFromSi: true
@@ -932,7 +932,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Extracts a ScaleInfo Primitive into TypeDef.Plain */
-  #extractPrimitive (_: number, type: SiType): TypeDef {
+  private __$$_extractPrimitive (_: number, type: SiType): TypeDef {
     const typeStr = type.def.asPrimitive.type.toString();
 
     return {
@@ -942,7 +942,7 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Applies an alias path onto the TypeDef */
-  #extractAliasPath (_: number, type: string): TypeDef {
+  private __$$_extractAliasPath (_: number, type: string): TypeDef {
     return {
       info: TypeDefInfo.Plain,
       type
@@ -950,8 +950,8 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /** @internal Extracts a ScaleInfo Sequence into TypeDef.Vec (with Bytes shortcut) */
-  #extractSequence (lookupIndex: number, { type }: SiTypeDefSequence): TypeDef {
-    const sub = this.#createSiDef(type);
+  private __$$_extractSequence (lookupIndex: number, { type }: SiTypeDefSequence): TypeDef {
+    const sub = this.__$$_createSiDef(type);
 
     if (sub.type === 'u8') {
       return {
@@ -963,13 +963,13 @@ export class PortableRegistry extends Struct implements ILookup {
     return withTypeString(this.registry, {
       info: TypeDefInfo.Vec,
       lookupIndex,
-      lookupName: this.#names[lookupIndex],
+      lookupName: this.__$$_names[lookupIndex],
       sub
     });
   }
 
   /** @internal Extracts a ScaleInfo Tuple into TypeDef.Tuple */
-  #extractTuple (lookupIndex: number, ids: SiTypeDefTuple): TypeDef {
+  private __$$_extractTuple (lookupIndex: number, ids: SiTypeDefTuple): TypeDef {
     if (ids.length === 0) {
       return {
         info: TypeDefInfo.Null,
@@ -979,18 +979,18 @@ export class PortableRegistry extends Struct implements ILookup {
       return this.getTypeDef(ids[0]);
     }
 
-    const sub = ids.map((t) => this.#createSiDef(t));
+    const sub = ids.map((t) => this.__$$_createSiDef(t));
 
     return withTypeString(this.registry, {
       info: TypeDefInfo.Tuple,
       lookupIndex,
-      lookupName: this.#names[lookupIndex],
+      lookupName: this.__$$_names[lookupIndex],
       sub
     });
   }
 
   /** @internal Extracts a ScaleInfo Variant into TypeDef.{Option, Result, Enum} */
-  #extractVariant (lookupIndex: number, { params, path }: SiType, { variants }: SiTypeDefVariant): TypeDef {
+  private __$$_extractVariant (lookupIndex: number, { params, path }: SiType, { variants }: SiTypeDefVariant): TypeDef {
     if (path.length) {
       const specialVariant = path[0].toString();
 
@@ -1009,7 +1009,7 @@ export class PortableRegistry extends Struct implements ILookup {
 
         return withTypeString(this.registry, {
           info: TypeDefInfo.Option,
-          sub: this.#createSiDef(params[0].type.unwrap())
+          sub: this.__$$_createSiDef(params[0].type.unwrap())
         });
       } else if (specialVariant === 'Result') {
         if (params.length !== 2) {
@@ -1021,7 +1021,7 @@ export class PortableRegistry extends Struct implements ILookup {
           sub: params.map(({ type }, index) =>
             objectSpread({
               name: ['Ok', 'Error'][index]
-            }, this.#createSiDef(type.unwrap()))
+            }, this.__$$_createSiDef(type.unwrap()))
           )
         });
       }
@@ -1034,11 +1034,11 @@ export class PortableRegistry extends Struct implements ILookup {
       };
     }
 
-    return this.#extractVariantEnum(lookupIndex, variants);
+    return this.__$$_extractVariantEnum(lookupIndex, variants);
   }
 
   /** @internal Extracts a ScaleInfo Variant into TypeDef.Enum */
-  #extractVariantEnum (lookupIndex: number, variants: SiVariant[]): TypeDef {
+  private __$$_extractVariantEnum (lookupIndex: number, variants: SiVariant[]): TypeDef {
     const sub: (TypeDef & { name: string })[] = [];
 
     // we may get entries out of order, arrange them first before creating with gaps filled
@@ -1059,7 +1059,7 @@ export class PortableRegistry extends Struct implements ILookup {
         }
 
         sub.push(
-          objectSpread(this.#extractFields(-1, fields), {
+          objectSpread(this.__$$_extractFields(-1, fields), {
             index,
             name: name.toString()
           })
@@ -1069,7 +1069,7 @@ export class PortableRegistry extends Struct implements ILookup {
     return withTypeString(this.registry, {
       info: TypeDefInfo.Enum,
       lookupIndex,
-      lookupName: this.#names[lookupIndex],
+      lookupName: this.__$$_names[lookupIndex],
       sub
     });
   }

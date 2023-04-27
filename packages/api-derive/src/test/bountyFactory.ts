@@ -8,32 +8,32 @@ import type { Codec, Constructor, InterfaceTypes, Registry } from '@polkadot/typ
 import { Option, StorageKey } from '@polkadot/types';
 
 export class BountyFactory {
-  readonly #api: ApiPromise;
-  readonly #registry: Registry;
+  private readonly __$$_api: ApiPromise;
+  private readonly __$$_registry: Registry;
 
   constructor (api: ApiPromise) {
-    this.#api = api;
-    this.#registry = this.#api.registry;
+    this.__$$_api = api;
+    this.__$$_registry = this.__$$_api.registry;
   }
 
   public storageKey = (index: number): StorageKey => {
-    const key = new StorageKey(this.#registry, this.#api.query.bounties.bounties.key(this.bountyIndex(index)));
+    const key = new StorageKey(this.__$$_registry, this.__$$_api.query.bounties.bounties.key(this.bountyIndex(index)));
 
-    return key.setMeta(this.#api.query.bounties.bounties.creator.meta);
+    return key.setMeta(this.__$$_api.query.bounties.bounties.creator.meta);
   };
 
   public bountyIndex = (index: number): BountyIndex =>
-    this.#registry.createType('BountyIndex', index);
+    this.__$$_registry.createType('BountyIndex', index);
 
   public defaultBounty = (): Bounty =>
-    this.#registry.createType('Bounty');
+    this.__$$_registry.createType('Bounty');
 
   public optionOf = <T extends Codec>(value: T): Option<T> => {
-    const typeName = this.#registry.getClassName(value.constructor as Constructor<T>);
+    const typeName = this.__$$_registry.getClassName(value.constructor as Constructor<T>);
 
-    return new Option<T>(this.#registry, typeName as keyof InterfaceTypes, value);
+    return new Option<T>(this.__$$_registry, typeName as keyof InterfaceTypes, value);
   };
 
   public emptyOption = <T extends Codec>(typeName: keyof InterfaceTypes): Option<T> =>
-    new Option<T>(this.#registry, typeName);
+    new Option<T>(this.__$$_registry, typeName);
 }

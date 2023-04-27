@@ -5,11 +5,11 @@ import type { Bytes } from '@polkadot/types';
 import type { Registry } from '@polkadot/types/types';
 
 export class BytesFactory {
-  #registry: Registry;
+  private __$$_registry: Registry;
 
   constructor (registry: Registry) {
-    this.#registry = registry;
+    this.__$$_registry = registry;
   }
 
-  public bytes = (value: string): Bytes => this.#registry.createType('Bytes', value);
+  public bytes = (value: string): Bytes => this.__$$_registry.createType('Bytes', value);
 }

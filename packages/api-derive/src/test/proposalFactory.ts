@@ -7,19 +7,19 @@ import type { Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 
 export class ProposalFactory {
-  readonly #api: ApiPromise;
-  readonly #registry: Registry;
+  private readonly __$$_api: ApiPromise;
+  private readonly __$$_registry: Registry;
 
   constructor (api: ApiPromise) {
-    this.#api = api;
-    this.#registry = this.#api.registry;
+    this.__$$_api = api;
+    this.__$$_registry = this.__$$_api.registry;
   }
 
   public createProposal = (method: SubmittableExtrinsic<'promise'>): Proposal => {
-    return this.#registry.createType('Proposal', method);
+    return this.__$$_registry.createType('Proposal', method);
   };
 
   public proposalIndex = (index: number): ProposalIndex => {
-    return this.#registry.createType('ProposalIndex', index);
+    return this.__$$_registry.createType('ProposalIndex', index);
   };
 }

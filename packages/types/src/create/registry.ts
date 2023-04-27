@@ -166,33 +166,33 @@ function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainPr
 }
 
 export class TypeRegistry implements Registry {
-  #chainProperties?: ChainProperties;
-  #classes = new Map<string, CodecClass>();
-  #definitions = new Map<string, string>();
-  #firstCallIndex: Uint8Array | null = null;
-  #hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
-  #knownTypes: RegisteredTypes = {};
-  #lookup?: PortableRegistry;
-  #metadata?: MetadataLatest;
-  #metadataVersion = 0;
-  #signedExtensions: string[] = fallbackExtensions;
-  #unknownTypes = new Map<string, boolean>();
-  #userExtensions?: ExtDef | undefined;
+  private __$$_chainProperties?: ChainProperties;
+  private __$$_classes = new Map<string, CodecClass>();
+  private __$$_definitions = new Map<string, string>();
+  private __$$_firstCallIndex: Uint8Array | null = null;
+  private __$$_hasher: (data: Uint8Array) => Uint8Array = blake2AsU8a;
+  private __$$_knownTypes: RegisteredTypes = {};
+  private __$$_lookup?: PortableRegistry;
+  private __$$_metadata?: MetadataLatest;
+  private __$$_metadataVersion = 0;
+  private __$$_signedExtensions: string[] = fallbackExtensions;
+  private __$$_unknownTypes = new Map<string, boolean>();
+  private __$$_userExtensions?: ExtDef | undefined;
 
-  readonly #knownDefaults: Record<string, CodecClass>;
-  readonly #knownDefinitions: Record<string, Definitions>;
-  readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
-  readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
-  readonly #metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
-  readonly #moduleMap: Record<string, string[]> = {};
+  private readonly __$$_knownDefaults: Record<string, CodecClass>;
+  private readonly __$$_knownDefinitions: Record<string, Definitions>;
+  private readonly __$$_metadataCalls: Record<string, Record<string, CallFunction>> = {};
+  private readonly __$$_metadataErrors: Record<string, Record<string, RegistryError>> = {};
+  private readonly __$$_metadataEvents: Record<string, Record<string, CodecClass<GenericEventData>>> = {};
+  private readonly __$$_moduleMap: Record<string, string[]> = {};
 
   public createdAtHash?: Hash;
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
-    this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
-    this.#knownDefinitions = definitions;
+    this.__$$_knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
+    this.__$$_knownDefinitions = definitions;
 
-    const allKnown = Object.values(this.#knownDefinitions);
+    const allKnown = Object.values(this.__$$_knownDefinitions);
 
     for (let i = 0; i < allKnown.length; i++) {
       this.register(allKnown[i].types as unknown as RegistryTypes);
@@ -204,8 +204,8 @@ export class TypeRegistry implements Registry {
   }
 
   public get chainDecimals (): number[] {
-    if (this.#chainProperties?.tokenDecimals.isSome) {
-      const allDecimals = this.#chainProperties.tokenDecimals.unwrap();
+    if (this.__$$_chainProperties?.tokenDecimals.isSome) {
+      const allDecimals = this.__$$_chainProperties.tokenDecimals.unwrap();
 
       if (allDecimals.length) {
         return allDecimals.map((b) => b.toNumber());
@@ -216,14 +216,14 @@ export class TypeRegistry implements Registry {
   }
 
   public get chainSS58 (): number | undefined {
-    return this.#chainProperties?.ss58Format.isSome
-      ? this.#chainProperties.ss58Format.unwrap().toNumber()
+    return this.__$$_chainProperties?.ss58Format.isSome
+      ? this.__$$_chainProperties.ss58Format.unwrap().toNumber()
       : undefined;
   }
 
   public get chainTokens (): string[] {
-    if (this.#chainProperties?.tokenSymbol.isSome) {
-      const allTokens = this.#chainProperties.tokenSymbol.unwrap();
+    if (this.__$$_chainProperties?.tokenSymbol.isSome) {
+      const allTokens = this.__$$_chainProperties.tokenSymbol.unwrap();
 
       if (allTokens.length) {
         return allTokens.map(valueToString);
@@ -234,7 +234,7 @@ export class TypeRegistry implements Registry {
   }
 
   public get firstCallIndex (): Uint8Array {
-    return this.#firstCallIndex || DEFAULT_FIRST_CALL_IDX;
+    return this.__$$_firstCallIndex || DEFAULT_FIRST_CALL_IDX;
   }
 
   /**
@@ -252,27 +252,27 @@ export class TypeRegistry implements Registry {
   }
 
   public get knownTypes (): RegisteredTypes {
-    return this.#knownTypes;
+    return this.__$$_knownTypes;
   }
 
   public get lookup (): PortableRegistry {
-    return assertReturn(this.#lookup, 'PortableRegistry has not been set on this registry');
+    return assertReturn(this.__$$_lookup, 'PortableRegistry has not been set on this registry');
   }
 
   public get metadata (): MetadataLatest {
-    return assertReturn(this.#metadata, 'Metadata has not been set on this registry');
+    return assertReturn(this.__$$_metadata, 'Metadata has not been set on this registry');
   }
 
   public get unknownTypes (): string[] {
-    return [...this.#unknownTypes.keys()];
+    return [...this.__$$_unknownTypes.keys()];
   }
 
   public get signedExtensions (): string[] {
-    return this.#signedExtensions;
+    return this.__$$_signedExtensions;
   }
 
   public clearCache (): void {
-    this.#classes = new Map();
+    this.__$$_classes = new Map();
   }
 
   /**
@@ -308,7 +308,7 @@ export class TypeRegistry implements Registry {
     const [section, method] = [callIndex[0], callIndex[1]];
 
     return assertReturn(
-      this.#metadataCalls[`${section}`] && this.#metadataCalls[`${section}`][`${method}`],
+      this.__$$_metadataCalls[`${section}`] && this.__$$_metadataCalls[`${section}`][`${method}`],
       () => `findMetaCall: Unable to find Call with index [${section}, ${method}]/[${callIndex.toString()}]`
     );
   }
@@ -325,7 +325,7 @@ export class TypeRegistry implements Registry {
       ];
 
     return assertReturn(
-      this.#metadataErrors[`${section}`] && this.#metadataErrors[`${section}`][`${method}`],
+      this.__$$_metadataErrors[`${section}`] && this.__$$_metadataErrors[`${section}`][`${method}`],
       () => `findMetaError: Unable to find Error with index [${section}, ${method}]/[${errorIndex.toString()}]`
     );
   }
@@ -334,7 +334,7 @@ export class TypeRegistry implements Registry {
     const [section, method] = [eventIndex[0], eventIndex[1]];
 
     return assertReturn(
-      this.#metadataEvents[`${section}`] && this.#metadataEvents[`${section}`][`${method}`],
+      this.__$$_metadataEvents[`${section}`] && this.__$$_metadataEvents[`${section}`][`${method}`],
       () => `findMetaEvent: Unable to find Event with index [${section}, ${method}]/[${eventIndex.toString()}]`
     );
   }
@@ -344,11 +344,11 @@ export class TypeRegistry implements Registry {
   }
 
   public getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
-    let Type = this.#classes.get(name) || this.#knownDefaults[name];
+    let Type = this.__$$_classes.get(name) || this.__$$_knownDefaults[name];
 
     // we have not already created the type, attempt it
     if (!Type) {
-      const definition = this.#definitions.get(name);
+      const definition = this.__$$_definitions.get(name);
       let BaseType: CodecClass | undefined;
 
       // we have a definition, so create the class now (lazily)
@@ -359,7 +359,7 @@ export class TypeRegistry implements Registry {
       } else if (withUnknown) {
         l.warn(`Unable to resolve type ${name}, it will fail on construction`);
 
-        this.#unknownTypes.set(name, true);
+        this.__$$_unknownTypes.set(name, true);
 
         BaseType = DoNotConstruct.with(name);
       }
@@ -370,12 +370,12 @@ export class TypeRegistry implements Registry {
         // Additionally, we now pass through the registry, which is a link to ourselves
         Type = class extends BaseType {};
 
-        this.#classes.set(name, Type);
+        this.__$$_classes.set(name, Type);
 
         // In the case of lookups, we also want to store the actual class against
         // the lookup name, instad of having to traverse again
         if (knownTypeDef && isNumber(knownTypeDef.lookupIndex)) {
-          this.#classes.set(this.createLookupType(knownTypeDef.lookupIndex), Type);
+          this.__$$_classes.set(this.createLookupType(knownTypeDef.lookupIndex), Type);
         }
       }
     }
@@ -384,7 +384,7 @@ export class TypeRegistry implements Registry {
   }
 
   public getChainProperties (): ChainProperties | undefined {
-    return this.#chainProperties;
+    return this.__$$_chainProperties;
   }
 
   public getClassName (Type: CodecClass): string | undefined {
@@ -393,13 +393,13 @@ export class TypeRegistry implements Registry {
     // (previously this used to be a simple find & return)
     const names: string[] = [];
 
-    for (const [name, Clazz] of Object.entries(this.#knownDefaults)) {
+    for (const [name, Clazz] of Object.entries(this.__$$_knownDefaults)) {
       if (Type === Clazz) {
         names.push(name);
       }
     }
 
-    for (const [name, Clazz] of this.#classes.entries()) {
+    for (const [name, Clazz] of this.__$$_classes.entries()) {
       if (Type === Clazz) {
         names.push(name);
       }
@@ -414,11 +414,11 @@ export class TypeRegistry implements Registry {
   }
 
   public getDefinition (typeName: string): string | undefined {
-    return this.#definitions.get(typeName);
+    return this.__$$_definitions.get(typeName);
   }
 
   public getModuleInstances (specName: AnyString, moduleName: string): string[] | undefined {
-    return this.#knownTypes?.typesBundle?.spec?.[specName.toString()]?.instances?.[moduleName] || this.#moduleMap[moduleName];
+    return this.__$$_knownTypes?.typesBundle?.spec?.[specName.toString()]?.instances?.[moduleName] || this.__$$_moduleMap[moduleName];
   }
 
   public getOrThrow <T extends Codec = Codec, K extends string = string, R = DetectCodec<T, K>> (name: K): CodecClass<R> {
@@ -436,27 +436,27 @@ export class TypeRegistry implements Registry {
   }
 
   public getSignedExtensionExtra (): Record<string, string> {
-    return expandExtensionTypes(this.#signedExtensions, 'payload', this.#userExtensions);
+    return expandExtensionTypes(this.__$$_signedExtensions, 'payload', this.__$$_userExtensions);
   }
 
   public getSignedExtensionTypes (): Record<string, string> {
-    return expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
+    return expandExtensionTypes(this.__$$_signedExtensions, 'extrinsic', this.__$$_userExtensions);
   }
 
   public hasClass (name: string): boolean {
-    return this.#classes.has(name) || !!this.#knownDefaults[name];
+    return this.__$$_classes.has(name) || !!this.__$$_knownDefaults[name];
   }
 
   public hasDef (name: string): boolean {
-    return this.#definitions.has(name);
+    return this.__$$_definitions.has(name);
   }
 
   public hasType (name: string): boolean {
-    return !this.#unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
+    return !this.__$$_unknownTypes.get(name) && (this.hasClass(name) || this.hasDef(name));
   }
 
   public hash (data: Uint8Array): IU8a {
-    return this.createType('CodecHash', this.#hasher(data));
+    return this.createType('CodecHash', this.__$$_hasher(data));
   }
 
   public register (type: CodecClass | RegistryTypes): void;
@@ -468,7 +468,7 @@ export class TypeRegistry implements Registry {
   public register (arg1: string | CodecClass | RegistryTypes, arg2?: CodecClass): void {
     // NOTE Constructors appear as functions here
     if (isFunction(arg1)) {
-      this.#classes.set(arg1.name, arg1);
+      this.__$$_classes.set(arg1.name, arg1);
     } else if (isString(arg1)) {
       if (!isFunction(arg2)) {
         throw new Error(`Expected class definition passed to '${arg1}' registration`);
@@ -476,13 +476,13 @@ export class TypeRegistry implements Registry {
         throw new Error(`Unable to register circular ${arg1} === ${arg1}`);
       }
 
-      this.#classes.set(arg1, arg2);
+      this.__$$_classes.set(arg1, arg2);
     } else {
-      this.#registerObject(arg1);
+      this.__$$_registerObject(arg1);
     }
   }
 
-  #registerObject = (obj: RegistryTypes): void => {
+  private __$$_registerObject = (obj: RegistryTypes): void => {
     const entries = Object.entries(obj);
 
     for (let e = 0; e < entries.length; e++) {
@@ -490,7 +490,7 @@ export class TypeRegistry implements Registry {
 
       if (isFunction(type)) {
         // This _looks_ a bit funny, but `typeof Clazz === 'function'
-        this.#classes.set(name, type);
+        this.__$$_classes.set(name, type);
       } else {
         const def = isString(type)
           ? type
@@ -501,11 +501,11 @@ export class TypeRegistry implements Registry {
         }
 
         // we already have this type, remove the classes registered for it
-        if (this.#classes.has(name)) {
-          this.#classes.delete(name);
+        if (this.__$$_classes.has(name)) {
+          this.__$$_classes.delete(name);
         }
 
-        this.#definitions.set(name, def);
+        this.__$$_definitions.set(name, def);
       }
     }
   };
@@ -513,20 +513,20 @@ export class TypeRegistry implements Registry {
   // sets the chain properties
   public setChainProperties (properties?: ChainProperties): void {
     if (properties) {
-      this.#chainProperties = properties;
+      this.__$$_chainProperties = properties;
     }
   }
 
   setHasher (hasher?: CodecHasher | null): void {
-    this.#hasher = hasher || blake2AsU8a;
+    this.__$$_hasher = hasher || blake2AsU8a;
   }
 
   setKnownTypes (knownTypes: RegisteredTypes): void {
-    this.#knownTypes = knownTypes;
+    this.__$$_knownTypes = knownTypes;
   }
 
   setLookup (lookup: PortableRegistry): void {
-    this.#lookup = lookup;
+    this.__$$_lookup = lookup;
 
     // register all applicable types found
     lookup.register();
@@ -536,7 +536,7 @@ export class TypeRegistry implements Registry {
   // (we don't combine this into setLookup since that would/could
   // affect stand-along lookups, such as ABIs which don't have
   // actual on-chain metadata)
-  #registerLookup = (lookup: PortableRegistry): void => {
+  private __$$_registerLookup = (lookup: PortableRegistry): void => {
     // attach the lookup before we register any types
     this.setLookup(lookup);
 
@@ -567,39 +567,39 @@ export class TypeRegistry implements Registry {
 
   // sets the metadata
   public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef, noInitWarn?: boolean): void {
-    this.#metadata = metadata.asLatest;
-    this.#metadataVersion = metadata.version;
-    this.#firstCallIndex = null;
+    this.__$$_metadata = metadata.asLatest;
+    this.__$$_metadataVersion = metadata.version;
+    this.__$$_firstCallIndex = null;
 
     // attach the lookup at this point and register relevant types (before injecting)
-    this.#registerLookup(this.#metadata.lookup);
+    this.__$$_registerLookup(this.__$$_metadata.lookup);
 
-    injectExtrinsics(this, this.#metadata, this.#metadataVersion, this.#metadataCalls, this.#moduleMap);
-    injectErrors(this, this.#metadata, this.#metadataVersion, this.#metadataErrors);
-    injectEvents(this, this.#metadata, this.#metadataVersion, this.#metadataEvents);
+    injectExtrinsics(this, this.__$$_metadata, this.__$$_metadataVersion, this.__$$_metadataCalls, this.__$$_moduleMap);
+    injectErrors(this, this.__$$_metadata, this.__$$_metadataVersion, this.__$$_metadataErrors);
+    injectEvents(this, this.__$$_metadata, this.__$$_metadataVersion, this.__$$_metadataEvents);
 
     // set the default call index (the lowest section, the lowest method)
     // in most chains this should be 0,0
     const [defSection] = Object
-      .keys(this.#metadataCalls)
+      .keys(this.__$$_metadataCalls)
       .sort(sortDecimalStrings);
 
     if (defSection) {
       const [defMethod] = Object
-        .keys(this.#metadataCalls[defSection])
+        .keys(this.__$$_metadataCalls[defSection])
         .sort(sortDecimalStrings);
 
       if (defMethod) {
-        this.#firstCallIndex = new Uint8Array([parseInt(defSection, 10), parseInt(defMethod, 10)]);
+        this.__$$_firstCallIndex = new Uint8Array([parseInt(defSection, 10), parseInt(defMethod, 10)]);
       }
     }
 
     // setup the available extensions
     this.setSignedExtensions(
       signedExtensions || (
-        this.#metadata.extrinsic.version.gt(BN_ZERO)
+        this.__$$_metadata.extrinsic.version.gt(BN_ZERO)
           // FIXME Use the extension and their injected types
-          ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
+          ? this.__$$_metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
           : fallbackExtensions
       ),
       userExtensions,
@@ -614,11 +614,11 @@ export class TypeRegistry implements Registry {
 
   // sets the available signed extensions
   setSignedExtensions (signedExtensions: string[] = fallbackExtensions, userExtensions?: ExtDef, noInitWarn?: boolean): void {
-    this.#signedExtensions = signedExtensions;
-    this.#userExtensions = userExtensions;
+    this.__$$_signedExtensions = signedExtensions;
+    this.__$$_userExtensions = userExtensions;
 
     if (!noInitWarn) {
-      const unknown = findUnknownExtensions(this.#signedExtensions, this.#userExtensions);
+      const unknown = findUnknownExtensions(this.__$$_signedExtensions, this.__$$_userExtensions);
 
       if (unknown.length) {
         l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);

@@ -33,7 +33,7 @@ type MetaVersions = MetaAll | 'latest';
  * The versioned runtime metadata as a decoded structure
  */
 export class MetadataVersioned extends Struct {
-  readonly #converted = new Map<MetaVersions, MetaMapped>();
+  private readonly __$$_converted = new Map<MetaVersions, MetaMapped>();
 
   constructor (registry: Registry, value?: Uint8Array | HexString | Map<string, unknown> | Record<string, unknown>) {
     // const timeStart = performance.now()
@@ -46,7 +46,7 @@ export class MetadataVersioned extends Struct {
     // console.log('MetadataVersioned', `${(performance.now() - timeStart).toFixed(2)}ms`)
   }
 
-  #assertVersion = (version: number): boolean => {
+  private __$$_assertVersion = (version: number): boolean => {
     if (this.version > version) {
       throw new Error(`Cannot convert metadata from version ${this.version} to ${version}`);
     }
@@ -54,27 +54,27 @@ export class MetadataVersioned extends Struct {
     return this.version === version;
   };
 
-  #getVersion = <T extends MetaMapped, F extends MetaMapped>(version: MetaVersions, fromPrev: (registry: Registry, input: F, metaVersion: number) => T): T => {
+  private __$$_getVersion = <T extends MetaMapped, F extends MetaMapped>(version: MetaVersions, fromPrev: (registry: Registry, input: F, metaVersion: number) => T): T => {
     const asCurr = `asV${version}` as MetaAsX;
     const asPrev = version === 'latest'
       ? `asV${LATEST_VERSION}` as MetaAsX
       : `asV${version - 1}` as MetaAsX;
 
-    if (version !== 'latest' && this.#assertVersion(version)) {
-      return this.#metadata()[asCurr] as T;
+    if (version !== 'latest' && this.__$$_assertVersion(version)) {
+      return this.__$$_metadata()[asCurr] as T;
     }
 
-    if (!this.#converted.has(version)) {
-      this.#converted.set(version, fromPrev(this.registry, this[asPrev] as F, this.version));
+    if (!this.__$$_converted.has(version)) {
+      this.__$$_converted.set(version, fromPrev(this.registry, this[asPrev] as F, this.version));
     }
 
-    return this.#converted.get(version) as T;
+    return this.__$$_converted.get(version) as T;
   };
 
   /**
    * @description the metadata wrapped
    */
-  #metadata = (): MetadataAll => {
+  private __$$_metadata = (): MetadataAll => {
     return this.getT('metadata');
   };
 
@@ -92,51 +92,51 @@ export class MetadataVersioned extends Struct {
    * @description Returns the wrapped metadata as a V9 object
    */
   public get asV9 (): MetadataV9 {
-    this.#assertVersion(9);
+    this.__$$_assertVersion(9);
 
-    return this.#metadata().asV9;
+    return this.__$$_metadata().asV9;
   }
 
   /**
    * @description Returns the wrapped values as a V10 object
    */
   public get asV10 (): MetadataV10 {
-    return this.#getVersion(10, toV10);
+    return this.__$$_getVersion(10, toV10);
   }
 
   /**
    * @description Returns the wrapped values as a V11 object
    */
   public get asV11 (): MetadataV11 {
-    return this.#getVersion(11, toV11);
+    return this.__$$_getVersion(11, toV11);
   }
 
   /**
    * @description Returns the wrapped values as a V12 object
    */
   public get asV12 (): MetadataV12 {
-    return this.#getVersion(12, toV12);
+    return this.__$$_getVersion(12, toV12);
   }
 
   /**
    * @description Returns the wrapped values as a V13 object
    */
   public get asV13 (): MetadataV13 {
-    return this.#getVersion(13, toV13);
+    return this.__$$_getVersion(13, toV13);
   }
 
   /**
    * @description Returns the wrapped values as a V14 object
    */
   public get asV14 (): MetadataV14 {
-    return this.#getVersion(14, toV14);
+    return this.__$$_getVersion(14, toV14);
   }
 
   /**
    * @description Returns the wrapped values as a latest version object
    */
   public get asLatest (): MetadataLatest {
-    return this.#getVersion('latest', toLatest);
+    return this.__$$_getVersion('latest', toLatest);
   }
 
   /**
@@ -150,7 +150,7 @@ export class MetadataVersioned extends Struct {
    * @description the metadata version this structure represents
    */
   public get version (): number {
-    return this.#metadata().index;
+    return this.__$$_metadata().index;
   }
 
   public getUniqTypes (throwError: boolean): string[] {

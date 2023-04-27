@@ -57,8 +57,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
    */
   readonly address: AccountId;
 
-  readonly #query: MapMessageQuery<ApiType> = {};
-  readonly #tx: MapMessageTx<ApiType> = {};
+  private readonly __$$_query: MapMessageQuery<ApiType> = {};
+  private readonly __$$_tx: MapMessageTx<ApiType> = {};
 
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
@@ -66,25 +66,25 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     this.address = this.registry.createType('AccountId', address);
 
     this.abi.messages.forEach((m): void => {
-      if (isUndefined(this.#tx[m.method])) {
-        this.#tx[m.method] = createTx(m, (o, p) => this.#exec(m, o, p));
+      if (isUndefined(this.__$$_tx[m.method])) {
+        this.__$$_tx[m.method] = createTx(m, (o, p) => this.__$$_exec(m, o, p));
       }
 
-      if (isUndefined(this.#query[m.method])) {
-        this.#query[m.method] = createQuery(m, (f, o, p) => this.#read(m, o, p).send(f));
+      if (isUndefined(this.__$$_query[m.method])) {
+        this.__$$_query[m.method] = createQuery(m, (f, o, p) => this.__$$_read(m, o, p).send(f));
       }
     });
   }
 
   public get query (): MapMessageQuery<ApiType> {
-    return this.#query;
+    return this.__$$_query;
   }
 
   public get tx (): MapMessageTx<ApiType> {
-    return this.#tx;
+    return this.__$$_tx;
   }
 
-  #getGas = (_gasLimit: bigint | BN | string | number | WeightV2, isCall = false): WeightAll => {
+  private __$$_getGas = (_gasLimit: bigint | BN | string | number | WeightV2, isCall = false): WeightAll => {
     const weight = convertWeight(_gasLimit);
 
     if (weight.v1Weight.gt(BN_ZERO)) {
@@ -102,7 +102,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     );
   };
 
-  #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
+  private __$$_exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     return this.api.tx.contracts.call(
       this.address,
       value,
@@ -131,7 +131,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     );
   };
 
-  #read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
+  private __$$_read = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): ContractCallSend<ApiType> => {
     const message = this.abi.findMessage(messageOrId);
 
     return {
@@ -144,8 +144,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore jiggle v1 weights, metadata points to latest
           this._isWeightV1
-            ? this.#getGas(gasLimit, true).v1Weight
-            : this.#getGas(gasLimit, true).v2Weight,
+            ? this.__$$_getGas(gasLimit, true).v1Weight
+            : this.__$$_getGas(gasLimit, true).v2Weight,
           storageDepositLimit,
           message.toU8a(params)
         ).pipe(

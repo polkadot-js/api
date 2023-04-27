@@ -90,14 +90,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
   const ExtrinsicBase = api.registry.createClass('Extrinsic');
 
   class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
-    readonly #ignoreStatusCb: boolean;
+    private readonly __$$_ignoreStatusCb: boolean;
 
-    #transformResult: (input: ISubmittableResult) => ISubmittableResult = identity;
+    private __$$_transformResult: (input: ISubmittableResult) => ISubmittableResult = identity;
 
     constructor (registry: Registry, extrinsic: Call | Extrinsic | Uint8Array | string) {
       super(registry, extrinsic, { version: api.extrinsicType });
 
-      this.#ignoreStatusCb = apiType === 'rxjs';
+      this.__$$_ignoreStatusCb = apiType === 'rxjs';
     }
 
     public get hasDryRun (): boolean {
@@ -124,7 +124,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<ApplyExtrinsicResult> =>
-          this.#observeSign(account, optionsOrHash).pipe(
+          this.__$$_observeSign(account, optionsOrHash).pipe(
             switchMap(() => api.rpc.system.dryRun(this.toHex()))
           )
       )();
@@ -180,13 +180,13 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
     // send implementation for both immediate Hash and statusCb variants
     public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
-      const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
+      const isSubscription = api.hasSubscriptions && (this.__$$_ignoreStatusCb || !!statusCb);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         isSubscription
-          ? this.#observeSubscribe
-          : this.#observeSend
+          ? this.__$$_observeSubscribe
+          : this.__$$_observeSend
       )(statusCb);
     }
 
@@ -197,7 +197,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
-          this.#observeSign(account, partialOptions).pipe(
+          this.__$$_observeSign(account, partialOptions).pipe(
             map(() => this)
           )
       )();
@@ -215,16 +215,16 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     // signAndSend implementation for all 3 cases above
     public signAndSend (account: AddressOrPair, partialOptions?: Partial<SignerOptions> | Callback<ISubmittableResult>, optionalStatusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const [options, statusCb] = makeSignAndSendOptions(partialOptions, optionalStatusCb);
-      const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
+      const isSubscription = api.hasSubscriptions && (this.__$$_ignoreStatusCb || !!statusCb);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<Codec> => (
-          this.#observeSign(account, options).pipe(
+          this.__$$_observeSign(account, options).pipe(
             switchMap((info): Observable<ISubmittableResult> | Observable<Hash> =>
               isSubscription
-                ? this.#observeSubscribe(info)
-                : this.#observeSend(info)
+                ? this.__$$_observeSubscribe(info)
+                : this.__$$_observeSend(info)
             )
           ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
       )(statusCb);
@@ -232,12 +232,12 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
     // adds a transform to the result, applied before result is returned
     withResultTransform (transform: (input: ISubmittableResult) => ISubmittableResult): this {
-      this.#transformResult = transform;
+      this.__$$_transformResult = transform;
 
       return this;
     }
 
-    #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<UpdateInfo> => {
+    private __$$_observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<UpdateInfo> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
       const options = optionsOrNonce(partialOptions);
 
@@ -250,7 +250,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
           if (isKeyringPair(account)) {
             this.sign(account, eraOptions);
           } else {
-            updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
+            updateId = await this.__$$_signViaSigner(address, eraOptions, signingInfo.header);
           }
 
           return { options: eraOptions, updateId };
@@ -258,9 +258,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       );
     };
 
-    #observeStatus = (txHash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
+    private __$$_observeStatus = (txHash: Hash, status: ExtrinsicStatus): Observable<ISubmittableResult> => {
       if (!status.isFinalized && !status.isInBlock) {
-        return of(this.#transformResult(new SubmittableResult({
+        return of(this.__$$_transformResult(new SubmittableResult({
           status,
           txHash
         })));
@@ -272,14 +272,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
       return api.derive.tx.events(blockHash).pipe(
         map(({ block, events }): ISubmittableResult =>
-          this.#transformResult(new SubmittableResult({
+          this.__$$_transformResult(new SubmittableResult({
             ...filterEvents(txHash, block, events, status),
             status,
             txHash
           }))
         ),
         catchError((internalError: Error) =>
-          of(this.#transformResult(new SubmittableResult({
+          of(this.__$$_transformResult(new SubmittableResult({
             internalError,
             status,
             txHash
@@ -288,28 +288,28 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       );
     };
 
-    #observeSend = (info: UpdateInfo): Observable<Hash> => {
+    private __$$_observeSend = (info: UpdateInfo): Observable<Hash> => {
       return api.rpc.author.submitExtrinsic(this).pipe(
         tap((hash): void => {
-          this.#updateSigner(hash, info);
+          this.__$$_updateSigner(hash, info);
         })
       );
     };
 
-    #observeSubscribe = (info: UpdateInfo): Observable<ISubmittableResult> => {
+    private __$$_observeSubscribe = (info: UpdateInfo): Observable<ISubmittableResult> => {
       const txHash = this.hash;
 
       return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
         switchMap((status): Observable<ISubmittableResult> =>
-          this.#observeStatus(txHash, status)
+          this.__$$_observeStatus(txHash, status)
         ),
         tap((status): void => {
-          this.#updateSigner(status, info);
+          this.__$$_updateSigner(status, info);
         })
       );
     };
 
-    #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
+    private __$$_signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
       const signer = options.signer || api.signer;
 
       if (!signer) {
@@ -339,7 +339,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       return result.id;
     };
 
-    #updateSigner = (status: Hash | ISubmittableResult, info?: UpdateInfo): void => {
+    private __$$_updateSigner = (status: Hash | ISubmittableResult, info?: UpdateInfo): void => {
       if (info && (info.updateId !== -1)) {
         const { options, updateId } = info;
         const signer = options.signer || api.signer;

@@ -36,16 +36,16 @@ export function createSignedBlockExtended (registry: Registry, block?: SignedBlo
   const SignedBlockBase = registry.createClass('SignedBlock');
 
   class Implementation extends SignedBlockBase implements SignedBlockExtended {
-    readonly #author?: AccountId | undefined;
-    readonly #events: EventRecord[];
-    readonly #extrinsics: TxWithEvent[];
+    private readonly __$$_author?: AccountId | undefined;
+    private readonly __$$_events: EventRecord[];
+    private readonly __$$_extrinsics: TxWithEvent[];
 
     constructor (registry: Registry, block?: SignedBlock, events?: EventRecord[], validators?: AccountId[] | null, author?: AccountId | null) {
       super(registry, block);
 
-      this.#author = author || extractAuthor(this.block.header.digest, validators || []);
-      this.#events = events || ([] as EventRecord[]);
-      this.#extrinsics = mapExtrinsics(this.block.extrinsics, this.#events);
+      this.__$$_author = author || extractAuthor(this.block.header.digest, validators || []);
+      this.__$$_events = events || ([] as EventRecord[]);
+      this.__$$_extrinsics = mapExtrinsics(this.block.extrinsics, this.__$$_events);
       this.createdAtHash = block?.createdAtHash;
     }
 
@@ -53,21 +53,21 @@ export function createSignedBlockExtended (registry: Registry, block?: SignedBlo
      * @description Convenience method, returns the author for the block
      */
     public get author (): AccountId | undefined {
-      return this.#author;
+      return this.__$$_author;
     }
 
     /**
      * @description Convenience method, returns the events associated with the block
      */
     public get events (): EventRecord[] {
-      return this.#events;
+      return this.__$$_events;
     }
 
     /**
      * @description Returns the extrinsics and their events, mapped
      */
     public get extrinsics (): TxWithEvent[] {
-      return this.#extrinsics;
+      return this.__$$_extrinsics;
     }
   }
 

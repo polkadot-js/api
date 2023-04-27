@@ -15,13 +15,13 @@ export class DoNotConstruct implements Codec {
   public createdAtHash?: IU8a;
   public isStorageFallback?: boolean;
 
-  #neverError: Error;
+  private __$$_neverError: Error;
 
   constructor (registry: Registry, typeName = 'DoNotConstruct') {
     this.registry = registry;
-    this.#neverError = new Error(`DoNotConstruct: Cannot construct unknown type ${typeName}`);
+    this.__$$_neverError = new Error(`DoNotConstruct: Cannot construct unknown type ${typeName}`);
 
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   public static with (typeName?: string): CodecClass {
@@ -36,83 +36,83 @@ export class DoNotConstruct implements Codec {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description returns a hash of the contents
    */
   public get hash (): IU8a {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Checks if the value is an empty value (always true)
    */
   public get isEmpty (): boolean {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Unimplemented
    */
   eq (): boolean {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Unimplemented
    */
   public inspect (): Inspect {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Unimplemented
    */
   toHex (): HexString {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Unimplemented
    */
   toHuman (): AnyJson {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Unimplemented
    */
   toJSON (): AnyJson {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Unimplemented
    */
   toPrimitive (): AnyJson {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Unimplemented
    */
   toRawType (): string {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Unimplemented
    */
   toString (): string {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 
   /**
    * @description Unimplemented
    */
   toU8a (): Uint8Array {
-    throw this.#neverError;
+    throw this.__$$_neverError;
   }
 }

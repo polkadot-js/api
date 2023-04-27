@@ -41,28 +41,28 @@ function decodeEvent (registry: Registry, value?: Uint8Array): Decoded {
  * Wrapper for the actual data that forms part of an [[Event]]
  */
 export class GenericEventData extends Tuple implements IEventData {
-  readonly #meta: EventMetadataLatest;
-  readonly #method: string;
-  readonly #names: string[] | null = null;
-  readonly #section: string;
-  readonly #typeDef: TypeDef[];
+  private readonly __$$_meta: EventMetadataLatest;
+  private readonly __$$_method: string;
+  private readonly __$$_names: string[] | null = null;
+  private readonly __$$_section: string;
+  private readonly __$$_typeDef: TypeDef[];
 
   constructor (registry: Registry, value: Uint8Array, meta: EventMetadataLatest, section = '<unknown>', method = '<unknown>') {
     const fields = meta?.fields || [];
 
     super(registry, fields.map(({ type }) => registry.createLookupType(type) as keyof InterfaceTypes), value);
 
-    this.#meta = meta;
-    this.#method = method;
-    this.#section = section;
-    this.#typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
+    this.__$$_meta = meta;
+    this.__$$_method = method;
+    this.__$$_section = section;
+    this.__$$_typeDef = fields.map(({ type }) => registry.lookup.getTypeDef(type));
 
     const names = fields
       .map(({ name }) => registry.lookup.sanitizeField(name)[0])
       .filter((n): n is string => !!n);
 
     if (names.length === fields.length) {
-      this.#names = names;
+      this.__$$_names = names;
 
       objectProperties(this, names, (_, i) => this[i]);
     }
@@ -72,46 +72,46 @@ export class GenericEventData extends Tuple implements IEventData {
    * @description The wrapped [[EventMetadata]]
    */
   public get meta (): EventMetadataLatest {
-    return this.#meta;
+    return this.__$$_meta;
   }
 
   /**
    * @description The method as a string
    */
   public get method (): string {
-    return this.#method;
+    return this.__$$_method;
   }
 
   /**
    * @description The field names (as available)
    */
   public get names (): string[] | null {
-    return this.#names;
+    return this.__$$_names;
   }
 
   /**
    * @description The section as a string
    */
   public get section (): string {
-    return this.#section;
+    return this.__$$_section;
   }
 
   /**
    * @description The [[TypeDef]] for this event
    */
   public get typeDef (): TypeDef[] {
-    return this.#typeDef;
+    return this.__$$_typeDef;
   }
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public override toHuman (isExtended?: boolean): AnyJson {
-    if (this.#names !== null) {
+    if (this.__$$_names !== null) {
       const json: Record<string, AnyJson> = {};
 
-      for (let i = 0; i < this.#names.length; i++) {
-        json[this.#names[i]] = this[i].toHuman(isExtended);
+      for (let i = 0; i < this.__$$_names.length; i++) {
+        json[this.__$$_names[i]] = this[i].toHuman(isExtended);
       }
 
       return json;

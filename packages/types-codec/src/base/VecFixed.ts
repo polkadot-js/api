@@ -20,17 +20,17 @@ function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
  * This manages codec arrays of a fixed length
  */
 export class VecFixed<T extends Codec> extends AbstractArray<T> {
-  #Type: CodecClass<T>;
+  private __$$_Type: CodecClass<T>;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, length: number, value: Uint8Array | HexString | unknown[] = [] as unknown[], { definition, setDefinition = noopSetDefinition }: DefinitionSetter<CodecClass<T>> = {}) {
     super(registry, length);
 
-    this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
+    this.__$$_Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
     this.initialU8aLength = (
       isU8a(value)
-        ? decodeU8aVec(registry, this, value, 0, this.#Type)
-        : decodeVec(registry, this, value, 0, this.#Type)
+        ? decodeU8aVec(registry, this, value, 0, this.__$$_Type)
+        : decodeVec(registry, this, value, 0, this.__$$_Type)
     )[1];
   }
 
@@ -52,7 +52,7 @@ export class VecFixed<T extends Codec> extends AbstractArray<T> {
    * @description The type for the items
    */
   public get Type (): string {
-    return new this.#Type(this.registry).toRawType();
+    return new this.__$$_Type(this.registry).toRawType();
   }
 
   /**

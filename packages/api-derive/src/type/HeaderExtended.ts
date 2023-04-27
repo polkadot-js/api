@@ -12,12 +12,12 @@ export function createHeaderExtended (registry: Registry, header?: Header, valid
   const HeaderBase = registry.createClass('Header');
 
   class Implementation extends HeaderBase implements HeaderExtended {
-    readonly #author?: AccountId | undefined;
+    private readonly __$$_author?: AccountId | undefined;
 
     constructor (registry: Registry, header?: Header, validators?: AccountId[] | null, author?: AccountId | null) {
       super(registry, header);
 
-      this.#author = author || extractAuthor(this.digest, validators || []);
+      this.__$$_author = author || extractAuthor(this.digest, validators || []);
       this.createdAtHash = header?.createdAtHash;
     }
 
@@ -25,7 +25,7 @@ export function createHeaderExtended (registry: Registry, header?: Header, valid
      * @description Convenience method, returns the author for the block
      */
     public get author (): AccountId | undefined {
-      return this.#author;
+      return this.__$$_author;
     }
   }
 

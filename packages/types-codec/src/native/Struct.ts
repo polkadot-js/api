@@ -104,8 +104,8 @@ export class Struct<
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #jsonMap: Map<keyof S, string>;
-  readonly #Types: Definition;
+  private readonly __$$_jsonMap: Map<keyof S, string>;
+  private readonly __$$_Types: Definition;
 
   constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: DefinitionSetter<Definition> = {}) {
     const typeMap = definition || setDefinition(mapToTypeMap(registry, Types));
@@ -119,8 +119,8 @@ export class Struct<
 
     this.initialU8aLength = decodedLength;
     this.registry = registry;
-    this.#jsonMap = jsonMap;
-    this.#Types = typeMap;
+    this.__$$_jsonMap = jsonMap;
+    this.__$$_Types = typeMap;
   }
 
   public static with<S extends TypesDef> (Types: S, jsonMap?: Map<string, string>): CodecClass<Struct<S>> {
@@ -149,7 +149,7 @@ export class Struct<
    * @description The available keys for this struct
    */
   public get defKeys (): string[] {
-    return this.#Types[1];
+    return this.__$$_Types[1];
   }
 
   /**
@@ -190,7 +190,7 @@ export class Struct<
    */
   public get Type (): E {
     const result: Record<string, string> = {};
-    const [Types, keys] = this.#Types;
+    const [Types, keys] = this.__$$_Types;
 
     for (let i = 0; i < keys.length; i++) {
       result[keys[i]] = new Types[i](this.registry).toRawType();
@@ -286,7 +286,7 @@ export class Struct<
     for (const [k, v] of this.entries()) {
       // Here we pull out the entry against the JSON mapping (if supplied)
       // since this representation goes over RPC and needs to be correct
-      json[(this.#jsonMap.get(k) || k) as string] = v.toJSON();
+      json[(this.__$$_jsonMap.get(k) || k) as string] = v.toJSON();
     }
 
     return json;
@@ -309,7 +309,7 @@ export class Struct<
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return stringify(typesToMap(this.registry, this.#Types));
+    return stringify(typesToMap(this.registry, this.__$$_Types));
   }
 
   /**

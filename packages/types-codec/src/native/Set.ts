@@ -98,15 +98,15 @@ export class CodecSet extends Set<string> implements ISet<string> {
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #allowed: SetValues;
-  readonly #byteLength: number;
+  private readonly __$$_allowed: SetValues;
+  private readonly __$$_byteLength: number;
 
   constructor (registry: Registry, setValues: SetValues, value?: string[] | Set<string> | Uint8Array | BN | number | string, bitLength = 8) {
     super(decodeSet(setValues, value, bitLength));
 
     this.registry = registry;
-    this.#allowed = setValues;
-    this.#byteLength = bitLength / 8;
+    this.__$$_allowed = setValues;
+    this.__$$_byteLength = bitLength / 8;
   }
 
   public static with (values: SetValues, bitLength?: number): CodecClass<CodecSet> {
@@ -134,7 +134,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return this.#byteLength;
+    return this.__$$_byteLength;
   }
 
   /**
@@ -162,7 +162,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
    * @description The encoded value for the set members
    */
   public get valueEncoded (): BN {
-    return encodeSet(this.#allowed, this.strings);
+    return encodeSet(this.__$$_allowed, this.strings);
   }
 
   /**
@@ -172,7 +172,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
     // ^^^ add = () property done to assign this instance's this, otherwise Set.add creates "some" chaos
     // we have the isUndefined(this._setValues) in here as well, add is used internally
     // in the Set constructor (so it is undefined at this point, and should allow)
-    if (this.#allowed && isUndefined(this.#allowed[key])) {
+    if (this.__$$_allowed && isUndefined(this.__$$_allowed[key])) {
       throw new Error(`Set: Invalid key '${key}' on add`);
     }
 
@@ -245,7 +245,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return stringify({ _set: this.#allowed });
+    return stringify({ _set: this.__$$_allowed });
   }
 
   /**
@@ -260,7 +260,7 @@ export class CodecSet extends Set<string> implements ISet<string> {
    */
   public toU8a (_isBare?: boolean): Uint8Array {
     return bnToU8a(this.valueEncoded, {
-      bitLength: this.#byteLength * 8,
+      bitLength: this.__$$_byteLength * 8,
       isLe: true
     });
   }

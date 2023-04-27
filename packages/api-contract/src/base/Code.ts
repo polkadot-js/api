@@ -39,7 +39,7 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
 export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   readonly code: Uint8Array;
 
-  readonly #tx: MapConstructorExec<ApiType> = {};
+  private readonly __$$_tx: MapConstructorExec<ApiType> = {};
 
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
@@ -53,17 +53,17 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     }
 
     this.abi.constructors.forEach((c): void => {
-      if (isUndefined(this.#tx[c.method])) {
-        this.#tx[c.method] = createBluePrintTx(c, (o, p) => this.#instantiate(c, o, p));
+      if (isUndefined(this.__$$_tx[c.method])) {
+        this.__$$_tx[c.method] = createBluePrintTx(c, (o, p) => this.__$$_instantiate(c, o, p));
       }
     });
   }
 
   public get tx (): MapConstructorExec<ApiType> {
-    return this.#tx;
+    return this.__$$_tx;
   }
 
-  #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
+  private __$$_instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     return this.api.tx.contracts.instantiateWithCode(
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

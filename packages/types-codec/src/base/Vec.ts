@@ -73,19 +73,19 @@ export function decodeVec<T extends Codec> (registry: Registry, result: T[], val
  * specific encoding/decoding on top of the base type.
  */
 export class Vec<T extends Codec> extends AbstractArray<T> {
-  #Type: CodecClass<T>;
+  private __$$_Type: CodecClass<T>;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = [], { definition, setDefinition = noopSetDefinition }: DefinitionSetter<CodecClass<T>> = {}) {
     const [decodeFrom, length, startAt] = decodeVecLength(value);
 
     super(registry, length);
 
-    this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
+    this.__$$_Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
     this.initialU8aLength = (
       isU8a(decodeFrom)
-        ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
-        : decodeVec(registry, this, decodeFrom, startAt, this.#Type)
+        ? decodeU8aVec(registry, this, decodeFrom, startAt, this.__$$_Type)
+        : decodeVec(registry, this, decodeFrom, startAt, this.__$$_Type)
     )[0];
   }
 
@@ -107,7 +107,7 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
    * @description The type for the items
    */
   public get Type (): string {
-    return this.#Type.name;
+    return this.__$$_Type.name;
   }
 
   /**
@@ -115,9 +115,9 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
    */
   public override indexOf (other?: unknown): number {
     // convert type first, this removes overhead from the eq
-    const check = other instanceof this.#Type
+    const check = other instanceof this.__$$_Type
       ? other
-      : new this.#Type(this.registry, other);
+      : new this.__$$_Type(this.registry, other);
 
     for (let i = 0; i < this.length; i++) {
       if (check.eq(this[i])) {
@@ -132,6 +132,6 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Vec<${this.registry.getClassName(this.#Type) || new this.#Type(this.registry).toRawType()}>`;
+    return `Vec<${this.registry.getClassName(this.__$$_Type) || new this.__$$_Type(this.registry).toRawType()}>`;
   }
 }

@@ -26,7 +26,7 @@ export class Float extends Number implements IFloat {
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #bitLength: 32 | 64;
+  private readonly __$$_bitLength: 32 | 64;
 
   constructor (registry: Registry, value?: AnyFloat, { bitLength = 32 }: Options = {}) {
     super(
@@ -37,7 +37,7 @@ export class Float extends Number implements IFloat {
         : (value || 0)
     );
 
-    this.#bitLength = bitLength;
+    this.__$$_bitLength = bitLength;
     this.encodedLength = bitLength / 8;
     this.initialU8aLength = this.encodedLength;
     this.registry = registry;
@@ -122,7 +122,7 @@ export class Float extends Number implements IFloat {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `f${this.#bitLength}`;
+    return `f${this.__$$_bitLength}`;
   }
 
   /**
@@ -130,7 +130,7 @@ export class Float extends Number implements IFloat {
    */
   public toU8a (_isBare?: boolean): Uint8Array {
     return floatToU8a(this, {
-      bitLength: this.#bitLength
+      bitLength: this.__$$_bitLength
     });
   }
 }

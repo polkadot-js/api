@@ -48,17 +48,17 @@ export class Compact<T extends INumber> implements ICompact<T> {
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #Type: CodecClass<T>;
-  readonly #raw: T;
+  private readonly __$$_Type: CodecClass<T>;
+  private readonly __$$_raw: T;
 
   constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: DefinitionSetter<CodecClass<T>> = {}) {
     this.registry = registry;
-    this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
+    this.__$$_Type = definition || setDefinition(typeToConstructor(registry, Type));
 
-    const [raw, decodedLength] = decodeCompact<T>(registry, this.#Type, value);
+    const [raw, decodedLength] = decodeCompact<T>(registry, this.__$$_Type, value);
 
     this.initialU8aLength = decodedLength;
-    this.#raw = raw;
+    this.__$$_raw = raw;
   }
 
   public static with<O extends INumber> (Type: CodecClass<O> | string): CodecClass<Compact<O>> {
@@ -93,23 +93,23 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    return this.#raw.isEmpty;
+    return this.__$$_raw.isEmpty;
   }
 
   /**
    * @description Returns the number of bits in the value
    */
   public bitLength (): number {
-    return this.#raw.bitLength();
+    return this.__$$_raw.bitLength();
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: unknown): boolean {
-    return this.#raw.eq(
+    return this.__$$_raw.eq(
       other instanceof Compact
-        ? other.#raw
+        ? other.__$$_raw
         : other
     );
   }
@@ -127,76 +127,76 @@ export class Compact<T extends INumber> implements ICompact<T> {
    * @description Returns a BigInt representation of the number
    */
   public toBigInt (): bigint {
-    return this.#raw.toBigInt();
+    return this.__$$_raw.toBigInt();
   }
 
   /**
    * @description Returns the BN representation of the number
    */
   public toBn (): BN {
-    return this.#raw.toBn();
+    return this.__$$_raw.toBn();
   }
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
   public toHex (isLe?: boolean): HexString {
-    return this.#raw.toHex(isLe);
+    return this.__$$_raw.toHex(isLe);
   }
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.#raw.toHuman(isExtended);
+    return this.__$$_raw.toHuman(isExtended);
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.#raw.toJSON();
+    return this.__$$_raw.toJSON();
   }
 
   /**
    * @description Returns the number representation for the value
    */
   public toNumber (): number {
-    return this.#raw.toNumber();
+    return this.__$$_raw.toNumber();
   }
 
   /**
    * @description Converts the value in a best-fit primitive form
    */
   public toPrimitive (): string | number {
-    return this.#raw.toPrimitive();
+    return this.__$$_raw.toPrimitive();
   }
 
   /**
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `Compact<${this.registry.getClassName(this.#Type) || this.#raw.toRawType()}>`;
+    return `Compact<${this.registry.getClassName(this.__$$_Type) || this.__$$_raw.toRawType()}>`;
   }
 
   /**
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this.#raw.toString();
+    return this.__$$_raw.toString();
   }
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    */
   public toU8a (_isBare?: boolean): Uint8Array {
-    return compactToU8a(this.#raw.toBn());
+    return compactToU8a(this.__$$_raw.toBn());
   }
 
   /**
    * @description Returns the embedded [[UInt]] or [[Moment]] value
    */
   public unwrap (): T {
-    return this.#raw;
+    return this.__$$_raw;
   }
 }

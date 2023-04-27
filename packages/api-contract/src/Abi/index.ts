@@ -91,18 +91,18 @@ export class Abi {
       chainProperties
     );
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
-      this.#createMessage(spec, index, {
+      this.__$$_createMessage(spec, index, {
         isConstructor: true,
         isPayable: spec.payable.isTrue
       })
     );
     this.events = this.metadata.spec.events.map((spec: ContractEventSpecLatest, index) =>
-      this.#createEvent(spec, index)
+      this.__$$_createEvent(spec, index)
     );
     this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage => {
       const typeSpec = spec.returnType.unwrapOr(null);
 
-      return this.#createMessage(spec, index, {
+      return this.__$$_createMessage(spec, index, {
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
@@ -130,14 +130,14 @@ export class Abi {
    * Warning: Unstable API, bound to change
    */
   public decodeConstructor (data: Uint8Array): DecodedMessage {
-    return this.#decodeMessage('message', this.constructors, data);
+    return this.__$$_decodeMessage('message', this.constructors, data);
   }
 
   /**
    * Warning: Unstable API, bound to change
    */
   public decodeMessage (data: Uint8Array): DecodedMessage {
-    return this.#decodeMessage('message', this.messages, data);
+    return this.__$$_decodeMessage('message', this.messages, data);
   }
 
   public findConstructor (constructorOrId: AbiConstructor | string | number): AbiConstructor {
@@ -148,7 +148,7 @@ export class Abi {
     return findMessage(this.messages, messageOrId);
   }
 
-  #createArgs = (args: ContractMessageParamSpecLatest[], spec: unknown): AbiParam[] => {
+  private __$$_createArgs = (args: ContractMessageParamSpecLatest[], spec: unknown): AbiParam[] => {
     return args.map(({ label, type }, index): AbiParam => {
       try {
         if (!isObject(type)) {
@@ -186,13 +186,13 @@ export class Abi {
     });
   };
 
-  #createEvent = (spec: ContractEventSpecLatest, index: number): AbiEvent => {
-    const args = this.#createArgs(spec.args, spec);
+  private __$$_createEvent = (spec: ContractEventSpecLatest, index: number): AbiEvent => {
+    const args = this.__$$_createArgs(spec.args, spec);
     const event = {
       args,
       docs: spec.docs.map((d) => d.toString()),
       fromU8a: (data: Uint8Array): DecodedEvent => ({
-        args: this.#decodeArgs(args, data),
+        args: this.__$$_decodeArgs(args, data),
         event
       }),
       identifier: spec.label.toString(),
@@ -202,15 +202,15 @@ export class Abi {
     return event;
   };
 
-  #createMessage = (spec: ContractMessageSpecLatest | ContractConstructorSpecLatest, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
-    const args = this.#createArgs(spec.args, spec);
+  private __$$_createMessage = (spec: ContractMessageSpecLatest | ContractConstructorSpecLatest, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
+    const args = this.__$$_createArgs(spec.args, spec);
     const identifier = spec.label.toString();
     const message = {
       ...add,
       args,
       docs: spec.docs.map((d) => d.toString()),
       fromU8a: (data: Uint8Array): DecodedMessage => ({
-        args: this.#decodeArgs(args, data),
+        args: this.__$$_decodeArgs(args, data),
         message
       }),
       identifier,
@@ -219,13 +219,13 @@ export class Abi {
       path: identifier.split('::').map((s) => stringCamelCase(s)),
       selector: spec.selector,
       toU8a: (params: unknown[]) =>
-        this.#encodeArgs(spec, args, params)
+        this.__$$_encodeArgs(spec, args, params)
     };
 
     return message;
   };
 
-  #decodeArgs = (args: AbiParam[], data: Uint8Array): Codec[] => {
+  private __$$_decodeArgs = (args: AbiParam[], data: Uint8Array): Codec[] => {
     // for decoding we expect the input to be just the arg data, no selectors
     // no length added (this allows use with events as well)
     let offset = 0;
@@ -239,7 +239,7 @@ export class Abi {
     });
   };
 
-  #decodeMessage = (type: 'constructor' | 'message', list: AbiMessage[], data: Uint8Array): DecodedMessage => {
+  private __$$_decodeMessage = (type: 'constructor' | 'message', list: AbiMessage[], data: Uint8Array): DecodedMessage => {
     const [, trimmed] = compactStripLength(data);
     const selector = trimmed.subarray(0, 4);
     const message = list.find((m) => m.selector.eq(selector));
@@ -251,7 +251,7 @@ export class Abi {
     return message.fromU8a(trimmed.subarray(4));
   };
 
-  #encodeArgs = ({ label, selector }: ContractMessageSpecLatest | ContractConstructorSpecLatest, args: AbiParam[], data: unknown[]): Uint8Array => {
+  private __$$_encodeArgs = ({ label, selector }: ContractMessageSpecLatest | ContractConstructorSpecLatest, args: AbiParam[], data: unknown[]): Uint8Array => {
     if (data.length !== args.length) {
       throw new Error(`Expected ${args.length} arguments to contract message '${label.toString()}', found ${data.length}`);
     }

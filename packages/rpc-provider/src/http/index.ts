@@ -35,11 +35,11 @@ const l = logger('api-http');
  * @see [[WsProvider]]
  */
 export class HttpProvider implements ProviderInterface {
-  readonly #callCache = new LRUCache();
-  readonly #coder: RpcCoder;
-  readonly #endpoint: string;
-  readonly #headers: Record<string, string>;
-  readonly #stats: ProviderStats;
+  private readonly __$$_callCache = new LRUCache();
+  private readonly __$$_coder: RpcCoder;
+  private readonly __$$_endpoint: string;
+  private readonly __$$_headers: Record<string, string>;
+  private readonly __$$_stats: ProviderStats;
 
   /**
    * @param {string} endpoint The endpoint url starting with http://
@@ -49,10 +49,10 @@ export class HttpProvider implements ProviderInterface {
       throw new Error(`Endpoint should start with 'http://' or 'https://', received '${endpoint}'`);
     }
 
-    this.#coder = new RpcCoder();
-    this.#endpoint = endpoint;
-    this.#headers = headers;
-    this.#stats = {
+    this.__$$_coder = new RpcCoder();
+    this.__$$_endpoint = endpoint;
+    this.__$$_headers = headers;
+    this.__$$_stats = {
       active: { requests: 0, subscriptions: 0 },
       total: { bytesRecv: 0, bytesSent: 0, cached: 0, errors: 0, requests: 0, subscriptions: 0, timeout: 0 }
     };
@@ -69,7 +69,7 @@ export class HttpProvider implements ProviderInterface {
    * @description Returns a clone of the object
    */
   public clone (): HttpProvider {
-    return new HttpProvider(this.#endpoint, this.#headers);
+    return new HttpProvider(this.__$$_endpoint, this.__$$_headers);
   }
 
   /**
@@ -90,7 +90,7 @@ export class HttpProvider implements ProviderInterface {
    * @description Returns the connection stats
    */
   public get stats (): ProviderStats {
-    return this.#stats;
+    return this.__$$_stats;
   }
 
   /**
@@ -124,38 +124,38 @@ export class HttpProvider implements ProviderInterface {
    * @summary Send HTTP POST Request with Body to configured HTTP Endpoint.
    */
   public async send <T> (method: string, params: unknown[], isCacheable?: boolean): Promise<T> {
-    this.#stats.total.requests++;
+    this.__$$_stats.total.requests++;
 
-    const [, body] = this.#coder.encodeJson(method, params);
+    const [, body] = this.__$$_coder.encodeJson(method, params);
     let resultPromise: Promise<T> | null = isCacheable
-      ? this.#callCache.get(body) as Promise<T>
+      ? this.__$$_callCache.get(body) as Promise<T>
       : null;
 
     if (!resultPromise) {
-      resultPromise = this.#send(body);
+      resultPromise = this.__$$_send(body);
 
       if (isCacheable) {
-        this.#callCache.set(body, resultPromise);
+        this.__$$_callCache.set(body, resultPromise);
       }
     } else {
-      this.#stats.total.cached++;
+      this.__$$_stats.total.cached++;
     }
 
     return resultPromise;
   }
 
-  async #send <T> (body: string): Promise<T> {
-    this.#stats.active.requests++;
-    this.#stats.total.bytesSent += body.length;
+  private async __$$_send <T> (body: string): Promise<T> {
+    this.__$$_stats.active.requests++;
+    this.__$$_stats.total.bytesSent += body.length;
 
     try {
-      const response = await fetch(this.#endpoint, {
+      const response = await fetch(this.__$$_endpoint, {
         body,
         headers: {
           Accept: 'application/json',
           'Content-Length': `${body.length}`,
           'Content-Type': 'application/json',
-          ...this.#headers
+          ...this.__$$_headers
         },
         method: 'POST'
       });
@@ -166,16 +166,16 @@ export class HttpProvider implements ProviderInterface {
 
       const result = await response.text();
 
-      this.#stats.total.bytesRecv += result.length;
+      this.__$$_stats.total.bytesRecv += result.length;
 
-      const decoded = this.#coder.decodeResponse(JSON.parse(result) as JsonRpcResponse) as T;
+      const decoded = this.__$$_coder.decodeResponse(JSON.parse(result) as JsonRpcResponse) as T;
 
-      this.#stats.active.requests--;
+      this.__$$_stats.active.requests--;
 
       return decoded;
     } catch (e) {
-      this.#stats.active.requests--;
-      this.#stats.total.errors++;
+      this.__$$_stats.active.requests--;
+      this.__$$_stats.total.errors++;
 
       throw e;
     }

@@ -100,9 +100,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #KeyClass: CodecClass<K>;
-  readonly #ValClass: CodecClass<V>;
-  readonly #type: string;
+  private readonly __$$_KeyClass: CodecClass<K>;
+  private readonly __$$_ValClass: CodecClass<V>;
+  private readonly __$$_type: string;
 
   constructor (registry: Registry, keyType: CodecClass<K> | string, valType: CodecClass<V> | string, rawValue: Uint8Array | string | Map<any, any> | undefined, type: 'BTreeMap' | 'HashMap' = 'HashMap') {
     const [KeyClass, ValClass, decoded, decodedLength] = decodeMap(registry, keyType, valType, rawValue);
@@ -111,9 +111,9 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
     this.registry = registry;
     this.initialU8aLength = decodedLength;
-    this.#KeyClass = KeyClass;
-    this.#ValClass = ValClass;
-    this.#type = type;
+    this.__$$_KeyClass = KeyClass;
+    this.__$$_ValClass = ValClass;
+    this.__$$_type = type;
   }
 
   /**
@@ -225,7 +225,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `${this.#type}<${this.registry.getClassName(this.#KeyClass) || new this.#KeyClass(this.registry).toRawType()},${this.registry.getClassName(this.#ValClass) || new this.#ValClass(this.registry).toRawType()}>`;
+    return `${this.__$$_type}<${this.registry.getClassName(this.__$$_KeyClass) || new this.__$$_KeyClass(this.registry).toRawType()},${this.registry.getClassName(this.__$$_ValClass) || new this.__$$_ValClass(this.registry).toRawType()}>`;
   }
 
   /**

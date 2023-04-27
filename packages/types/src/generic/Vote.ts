@@ -68,8 +68,8 @@ function decodeVote (registry: Registry, value?: InputTypes): Uint8Array {
  * A number of lock periods, plus a vote, one way or the other.
  */
 export class GenericVote extends U8aFixed {
-  #aye: boolean;
-  #conviction: Conviction;
+  private __$$_aye: boolean;
+  private __$$_conviction: Conviction;
 
   constructor (registry: Registry, value?: InputTypes) {
     // decoded is just 1 byte
@@ -79,22 +79,22 @@ export class GenericVote extends U8aFixed {
 
     super(registry, decoded, 8);
 
-    this.#aye = (decoded[0] & AYE_BITS) === AYE_BITS;
-    this.#conviction = this.registry.createTypeUnsafe('Conviction', [decoded[0] & CON_MASK]);
+    this.__$$_aye = (decoded[0] & AYE_BITS) === AYE_BITS;
+    this.__$$_conviction = this.registry.createTypeUnsafe('Conviction', [decoded[0] & CON_MASK]);
   }
 
   /**
    * @description returns a V2 conviction
    */
   public get conviction (): Conviction {
-    return this.#conviction;
+    return this.__$$_conviction;
   }
 
   /**
    * @description true if the wrapped value is a positive vote
    */
   public get isAye (): boolean {
-    return this.#aye;
+    return this.__$$_aye;
   }
 
   /**

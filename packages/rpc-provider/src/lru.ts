@@ -22,28 +22,28 @@ class LRUNode {
 export class LRUCache {
   readonly capacity: number;
 
-  readonly #data: Map<string, unknown> = new Map();
-  readonly #refs: Map<string, LRUNode> = new Map();
+  private readonly __$$_data: Map<string, unknown> = new Map();
+  private readonly __$$_refs: Map<string, LRUNode> = new Map();
 
-  #length = 0;
-  #head: LRUNode;
-  #tail: LRUNode;
+  private __$$_length = 0;
+  private __$$_head: LRUNode;
+  private __$$_tail: LRUNode;
 
   constructor (capacity = DEFAULT_CAPACITY) {
     this.capacity = capacity;
-    this.#head = this.#tail = new LRUNode('<empty>');
+    this.__$$_head = this.__$$_tail = new LRUNode('<empty>');
   }
 
   get length (): number {
-    return this.#length;
+    return this.__$$_length;
   }
 
   get lengthData (): number {
-    return this.#data.size;
+    return this.__$$_data.size;
   }
 
   get lengthRefs (): number {
-    return this.#refs.size;
+    return this.__$$_refs.size;
   }
 
   entries (): [string, unknown][] {
@@ -53,7 +53,7 @@ export class LRUCache {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
 
-      entries[i] = [key, this.#data.get(key)];
+      entries[i] = [key, this.__$$_data.get(key)];
     }
 
     return entries;
@@ -62,10 +62,10 @@ export class LRUCache {
   keys (): string[] {
     const keys: string[] = [];
 
-    if (this.#length) {
-      let curr = this.#head;
+    if (this.__$$_length) {
+      let curr = this.__$$_head;
 
-      while (curr !== this.#tail) {
+      while (curr !== this.__$$_tail) {
         keys.push(curr.key);
         curr = curr.next;
       }
@@ -77,10 +77,10 @@ export class LRUCache {
   }
 
   get <T> (key: string): T | null {
-    const data = this.#data.get(key);
+    const data = this.__$$_data.get(key);
 
     if (data) {
-      this.#toHead(key);
+      this.__$$_toHead(key);
 
       return data as T;
     }
@@ -89,45 +89,45 @@ export class LRUCache {
   }
 
   set <T> (key: string, value: T): void {
-    if (this.#data.has(key)) {
-      this.#toHead(key);
+    if (this.__$$_data.has(key)) {
+      this.__$$_toHead(key);
     } else {
       const node = new LRUNode(key);
 
-      this.#refs.set(node.key, node);
+      this.__$$_refs.set(node.key, node);
 
       if (this.length === 0) {
-        this.#head = this.#tail = node;
+        this.__$$_head = this.__$$_tail = node;
       } else {
-        this.#head.prev = node;
-        node.next = this.#head;
-        this.#head = node;
+        this.__$$_head.prev = node;
+        node.next = this.__$$_head;
+        this.__$$_head = node;
       }
 
-      if (this.#length === this.capacity) {
-        this.#data.delete(this.#tail.key);
-        this.#refs.delete(this.#tail.key);
+      if (this.__$$_length === this.capacity) {
+        this.__$$_data.delete(this.__$$_tail.key);
+        this.__$$_refs.delete(this.__$$_tail.key);
 
-        this.#tail = this.#tail.prev;
-        this.#tail.next = this.#head;
+        this.__$$_tail = this.__$$_tail.prev;
+        this.__$$_tail.next = this.__$$_head;
       } else {
-        this.#length += 1;
+        this.__$$_length += 1;
       }
     }
 
-    this.#data.set(key, value);
+    this.__$$_data.set(key, value);
   }
 
-  #toHead (key: string): void {
-    const ref = this.#refs.get(key);
+  private __$$_toHead (key: string): void {
+    const ref = this.__$$_refs.get(key);
 
-    if (ref && ref !== this.#head) {
+    if (ref && ref !== this.__$$_head) {
       ref.prev.next = ref.next;
       ref.next.prev = ref.prev;
-      ref.next = this.#head;
+      ref.next = this.__$$_head;
 
-      this.#head.prev = ref;
-      this.#head = ref;
+      this.__$$_head.prev = ref;
+      this.__$$_head = ref;
     }
   }
 }

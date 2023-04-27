@@ -60,7 +60,7 @@ function decodeTuple (registry: Registry, result: Codec[], value: Exclude<AnyTup
  * own type. It extends the base JS `Array` object.
  */
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
-  #Types: Definition;
+  private __$$_Types: Definition;
 
   constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: DefinitionSetter<Definition> = {}) {
     const Classes = definition || setDefinition(
@@ -78,7 +78,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
         ? decodeU8a(registry, this, value, Classes)
         : decodeTuple(registry, this, value, Classes)
     )[1];
-    this.#Types = Classes;
+    this.__$$_Types = Classes;
   }
 
   public static with (Types: TupleTypes | TupleType): CodecClass<Tuple> {
@@ -112,9 +112,9 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description The types definition of the tuple
    */
   public get Types (): string[] {
-    return this.#Types[1].length
-      ? this.#Types[1]
-      : this.#Types[0].map((T) => new T(this.registry).toRawType());
+    return this.__$$_Types[1].length
+      ? this.__$$_Types[1]
+      : this.__$$_Types[0].map((T) => new T(this.registry).toRawType());
   }
 
   /**
@@ -130,7 +130,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    const types = this.#Types[0].map((T) =>
+    const types = this.__$$_Types[0].map((T) =>
       this.registry.getClassName(T) || new T(this.registry).toRawType()
     );
 

@@ -15,11 +15,11 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   public initialU8aLength?: number | undefined;
   public isStorageFallback?: boolean;
 
-  readonly #raw: T;
+  private readonly __$$_raw: T;
 
   protected constructor (registry: Registry, value: T, initialU8aLength?: number) {
     this.initialU8aLength = initialU8aLength;
-    this.#raw = value;
+    this.__$$_raw = value;
     this.registry = registry;
   }
 
@@ -41,63 +41,63 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    * @description returns the inner (wrapped value)
    */
   public get inner (): T {
-    return this.#raw;
+    return this.__$$_raw;
   }
 
   /**
    * @description Checks if the value is an empty value
    */
   public get isEmpty (): boolean {
-    return this.#raw.isEmpty;
+    return this.__$$_raw.isEmpty;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
   public eq (other?: unknown): boolean {
-    return this.#raw.eq(other);
+    return this.__$$_raw.eq(other);
   }
 
   /**
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public inspect (): Inspect {
-    return this.#raw.inspect();
+    return this.__$$_raw.inspect();
   }
 
   /**
    * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
   public toHex (isLe?: boolean): HexString {
-    return this.#raw.toHex(isLe);
+    return this.__$$_raw.toHex(isLe);
   }
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    return this.#raw.toHuman(isExtended);
+    return this.__$$_raw.toHuman(isExtended);
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    return this.#raw.toJSON();
+    return this.__$$_raw.toJSON();
   }
 
   /**
    * @description Converts the value in a best-fit primitive form
    */
   public toPrimitive (): AnyJson {
-    return this.#raw.toPrimitive();
+    return this.__$$_raw.toPrimitive();
   }
 
   /**
    * @description Returns the string representation of the value
    */
   public toString (): string {
-    return this.#raw.toString();
+    return this.__$$_raw.toString();
   }
 
   /**
@@ -105,7 +105,7 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: BareOpts): Uint8Array {
-    return this.#raw.toU8a(isBare);
+    return this.__$$_raw.toU8a(isBare);
   }
 
   /**
@@ -117,13 +117,13 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
    * @description Returns the inner wrapped value (equivalent to valueOf)
    */
   public unwrap (): T {
-    return this.#raw;
+    return this.__$$_raw;
   }
 
   /**
    * @description Returns the inner wrapped value
    */
   public valueOf (): T {
-    return this.#raw;
+    return this.__$$_raw;
   }
 }

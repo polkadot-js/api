@@ -6,10 +6,10 @@ import type { ApiInterfaceEvents } from '../types/index.js';
 import { EventEmitter } from 'eventemitter3';
 
 export class Events {
-  #eventemitter = new EventEmitter();
+  private __$$_eventemitter = new EventEmitter();
 
   protected emit (type: ApiInterfaceEvents, ...args: unknown[]): boolean {
-    return this.#eventemitter.emit(type, ...args);
+    return this.__$$_eventemitter.emit(type, ...args);
   }
 
   /**
@@ -32,7 +32,7 @@ export class Events {
    * ```
    */
   public on (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
-    this.#eventemitter.on(type, handler);
+    this.__$$_eventemitter.on(type, handler);
 
     return this;
   }
@@ -59,7 +59,7 @@ export class Events {
    * ```
    */
   public off (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
-    this.#eventemitter.removeListener(type, handler);
+    this.__$$_eventemitter.removeListener(type, handler);
 
     return this;
   }
@@ -84,7 +84,7 @@ export class Events {
    * ```
    */
   public once (type: ApiInterfaceEvents, handler: (...args: any[]) => any): this {
-    this.#eventemitter.once(type, handler);
+    this.__$$_eventemitter.once(type, handler);
 
     return this;
   }

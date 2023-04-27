@@ -55,7 +55,7 @@ export class Text extends String implements IText {
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  #override: string | null = null;
+  private __$$_override: string | null = null;
 
   constructor (registry: Registry, value?: null | AnyString | AnyU8a | { toString: () => string }) {
     const [str, decodedLength] = decodeText(value);
@@ -121,7 +121,7 @@ export class Text extends String implements IText {
    * @description Set an override value for this
    */
   public setOverride (override: string): void {
-    this.#override = override;
+    this.__$$_override = override;
   }
 
   /**
@@ -165,7 +165,7 @@ export class Text extends String implements IText {
    * @description Returns the string representation of the value
    */
   public override toString (): string {
-    return this.#override || super.toString();
+    return this.__$$_override || super.toString();
   }
 
   /**

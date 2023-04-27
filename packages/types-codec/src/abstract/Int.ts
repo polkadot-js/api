@@ -84,7 +84,7 @@ export abstract class AbstractInt extends BN implements INumber {
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #bitLength: UIntBitLength;
+  private readonly __$$_bitLength: UIntBitLength;
 
   constructor (registry: Registry, value: AnyNumber | null = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
     // Construct via a string/number, which will be passed in the BN constructor.
@@ -100,9 +100,9 @@ export abstract class AbstractInt extends BN implements INumber {
     );
 
     this.registry = registry;
-    this.#bitLength = bitLength;
-    this.encodedLength = this.#bitLength / 8;
-    this.initialU8aLength = this.#bitLength / 8;
+    this.__$$_bitLength = bitLength;
+    this.encodedLength = this.__$$_bitLength / 8;
+    this.initialU8aLength = this.__$$_bitLength / 8;
     this.isUnsigned = !isSigned;
 
     const isNegative = this.isNeg();
@@ -133,7 +133,7 @@ export abstract class AbstractInt extends BN implements INumber {
    * @description Returns the number of bits in the value
    */
   public override bitLength (): number {
-    return this.#bitLength;
+    return this.__$$_bitLength;
   }
 
   /**
@@ -165,7 +165,7 @@ export abstract class AbstractInt extends BN implements INumber {
   public isMax (): boolean {
     const u8a = this.toU8a().filter((b) => b === 0xff);
 
-    return u8a.length === (this.#bitLength / 8);
+    return u8a.length === (this.__$$_bitLength / 8);
   }
 
   /**
@@ -222,8 +222,8 @@ export abstract class AbstractInt extends BN implements INumber {
     // FIXME this return type should by string | number, however BN returns string
     // Options here are
     //   - super.bitLength() - the actual used bits, use hex when close to MAX_SAFE_INTEGER
-    //   - this.#bitLength - the max used bits, use hex when larger than native Rust type
-    return onlyHex || (this.#bitLength > 128) || (super.bitLength() > MAX_NUMBER_BITS)
+    //   - this.__$$_bitLength - the max used bits, use hex when larger than native Rust type
+    return onlyHex || (this.__$$_bitLength > 128) || (super.bitLength() > MAX_NUMBER_BITS)
       ? this.toHex()
       : this.toNumber();
   }

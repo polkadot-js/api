@@ -30,11 +30,11 @@ function textToString (t: Text): string {
 }
 
 export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
-  #atLast: [string, ApiDecoration<ApiType>] | null = null;
-  #healthTimer: ReturnType<typeof setInterval> | null = null;
-  #registries: VersionedRegistry<ApiType>[] = [];
-  #updateSub?: Subscription | null = null;
-  #waitingRegistries: Record<HexString, Promise<VersionedRegistry<ApiType>>> = {};
+  private __$$_atLast: [string, ApiDecoration<ApiType>] | null = null;
+  private __$$_healthTimer: ReturnType<typeof setInterval> | null = null;
+  private __$$_registries: VersionedRegistry<ApiType>[] = [];
+  private __$$_updateSub?: Subscription | null = null;
+  private __$$_waitingRegistries: Record<HexString, Promise<VersionedRegistry<ApiType>>> = {};
 
   constructor (options: ApiOptions, type: ApiTypes, decorateMethod: DecorateMethod<ApiType>) {
     super(options, type, decorateMethod);
@@ -48,7 +48,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (!options.source) {
       this.registerTypes(options.types);
     } else {
-      this.#registries = options.source.#registries as VersionedRegistry<ApiType>[];
+      this.__$$_registries = options.source.__$$_registries as VersionedRegistry<ApiType>[];
     }
 
     this._rpc = this._decorateRpc(this._rpcCore, this._decorateMethod);
@@ -66,9 +66,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._rpcCore.setResolveBlockHash((blockNumber) => firstValueFrom(this._rpcCore.chain.getBlockHash(blockNumber)));
 
     if (this.hasSubscriptions) {
-      this._rpcCore.provider.on('disconnected', () => this.#onProviderDisconnect());
-      this._rpcCore.provider.on('error', (e: Error) => this.#onProviderError(e));
-      this._rpcCore.provider.on('connected', () => this.#onProviderConnect());
+      this._rpcCore.provider.on('disconnected', () => this.__$$_onProviderDisconnect());
+      this._rpcCore.provider.on('error', (e: Error) => this.__$$_onProviderError(e));
+      this._rpcCore.provider.on('connected', () => this.__$$_onProviderConnect());
     } else if (!this._options.noInitWarn) {
       l.warn('Api will be available in a limited mode since the provider does not support subscriptions');
     }
@@ -78,7 +78,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // cater for this case, we call manually `this._onProviderConnect`.
     if (this._rpcCore.provider.isConnected) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.#onProviderConnect();
+      this.__$$_onProviderConnect();
     }
   }
 
@@ -104,7 +104,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
    * @description Returns the default versioned registry
    */
   private _getDefaultRegistry (): VersionedRegistry<ApiType> {
-    return assertReturn(this.#registries.find(({ isDefault }) => isDefault), 'Initialization error, cannot find the default registry');
+    return assertReturn(this.__$$_registries.find(({ isDefault }) => isDefault), 'Initialization error, cannot find the default registry');
   }
 
   /**
@@ -115,13 +115,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const u8aHex = u8aToHex(u8aHash);
     const registry = await this.getBlockRegistry(u8aHash, knownVersion);
 
-    if (!this.#atLast || this.#atLast[0] !== u8aHex) {
+    if (!this.__$$_atLast || this.__$$_atLast[0] !== u8aHex) {
       // always create a new decoration - since we are pointing to a specific hash, this
       // means that all queries needs to use that hash (not a previous one already existing)
-      this.#atLast = [u8aHex, this._createDecorated(registry, true, null, u8aHash).decoratedApi];
+      this.__$$_atLast = [u8aHex, this._createDecorated(registry, true, null, u8aHash).decoratedApi];
     }
 
-    return this.#atLast[1];
+    return this.__$$_atLast[1];
   }
 
   private async _createBlockRegistry (blockHash: Uint8Array, header: HeaderPartial, version: RuntimeVersionPartial): Promise<VersionedRegistry<ApiType>> {
@@ -135,25 +135,25 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // add our new registry
     const result = { counter: 0, lastBlockHash: blockHash, metadata, registry, runtimeVersion: version };
 
-    this.#registries.push(result);
+    this.__$$_registries.push(result);
 
     return result;
   }
 
   private _cacheBlockRegistryProgress (key: HexString, creator: () => Promise<VersionedRegistry<ApiType>>): Promise<VersionedRegistry<ApiType>> {
     // look for waiting resolves
-    let waiting = this.#waitingRegistries[key];
+    let waiting = this.__$$_waitingRegistries[key];
 
     if (isUndefined(waiting)) {
       // nothing waiting, construct new
-      waiting = this.#waitingRegistries[key] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
+      waiting = this.__$$_waitingRegistries[key] = new Promise<VersionedRegistry<ApiType>>((resolve, reject): void => {
         creator()
           .then((registry): void => {
-            delete this.#waitingRegistries[key];
+            delete this.__$$_waitingRegistries[key];
             resolve(registry);
           })
           .catch((error): void => {
-            delete this.#waitingRegistries[key];
+            delete this.__$$_waitingRegistries[key];
             reject(error);
           });
       });
@@ -166,7 +166,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (version) {
       // check for pre-existing registries. We also check specName, e.g. it
       // could be changed like in Westmint with upgrade from shell -> westmint
-      const existingViaVersion = this.#registries.find(({ runtimeVersion: { specName, specVersion } }) =>
+      const existingViaVersion = this.__$$_registries.find(({ runtimeVersion: { specName, specVersion } }) =>
         specName.eq(version.specName) &&
         specVersion.eq(version.specVersion)
       );
@@ -227,7 +227,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   public async getBlockRegistry (blockHash: Uint8Array, knownVersion?: RuntimeVersion): Promise<VersionedRegistry<ApiType>> {
     return (
       // try to find via blockHash
-      this.#registries.find(({ lastBlockHash }) =>
+      this.__$$_registries.find(({ lastBlockHash }) =>
         lastBlockHash && u8aEq(lastBlockHash, blockHash)
       ) ||
       // try to find via version
@@ -281,11 +281,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   // subscribe to metadata updates, inject the types on changes
   private _subscribeUpdates (): void {
-    if (this.#updateSub || !this.hasSubscriptions) {
+    if (this.__$$_updateSub || !this.hasSubscriptions) {
       return;
     }
 
-    this.#updateSub = this._rpcCore.state.subscribeRuntimeVersion().pipe(
+    this.__$$_updateSub = this._rpcCore.state.subscribeRuntimeVersion().pipe(
       switchMap((version: RuntimeVersion): Observable<boolean> =>
         // only retrieve the metadata when the on-chain version has been changed
         this._runtimeVersion?.specVersion.eq(version.specVersion)
@@ -346,8 +346,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._subscribeUpdates();
 
     // setup the initial registry, when we have none
-    if (!this.#registries.length) {
-      this.#registries.push({ counter: 0, isDefault: true, metadata, registry: this.registry, runtimeVersion });
+    if (!this.__$$_registries.length) {
+      this.__$$_registries.push({ counter: 0, isDefault: true, metadata, registry: this.registry, runtimeVersion });
     }
 
     // get unique types & validate
@@ -376,7 +376,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._unsubscribeHealth();
 
     // Only enable the health keepalive on WS, not needed on HTTP
-    this.#healthTimer = this.hasSubscriptions
+    this.__$$_healthTimer = this.hasSubscriptions
       ? setInterval((): void => {
         firstValueFrom(this._rpcCore.system.health.raw()).catch(() => undefined);
       }, KEEPALIVE_INTERVAL)
@@ -384,16 +384,16 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private _unsubscribeHealth (): void {
-    if (this.#healthTimer) {
-      clearInterval(this.#healthTimer);
-      this.#healthTimer = null;
+    if (this.__$$_healthTimer) {
+      clearInterval(this.__$$_healthTimer);
+      this.__$$_healthTimer = null;
     }
   }
 
   private _unsubscribeUpdates (): void {
-    if (this.#updateSub) {
-      this.#updateSub.unsubscribe();
-      this.#updateSub = null;
+    if (this.__$$_updateSub) {
+      this.__$$_updateSub.unsubscribe();
+      this.__$$_updateSub = null;
     }
   }
 
@@ -402,7 +402,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._unsubscribeUpdates();
   }
 
-  async #onProviderConnect (): Promise<void> {
+  private async __$$_onProviderConnect (): Promise<void> {
     this._isConnected.next(true);
     this.emit('connected');
 
@@ -428,13 +428,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
   }
 
-  #onProviderDisconnect (): void {
+  private __$$_onProviderDisconnect (): void {
     this._isConnected.next(false);
     this._unsubscribe();
     this.emit('disconnected');
   }
 
-  #onProviderError (error: Error): void {
+  private __$$_onProviderError (error: Error): void {
     this.emit('error', error);
   }
 }

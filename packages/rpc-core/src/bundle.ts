@@ -84,13 +84,13 @@ function isTreatAsHex (key: StorageKey): boolean {
  * ```
  */
 export class RpcCore {
-  #instanceId: string;
-  #registryDefault: Registry;
+  private __$$_instanceId: string;
+  private __$$_registryDefault: Registry;
 
-  #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
-  #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
+  private __$$_getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
+  private __$$_getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
 
-  readonly #storageCache = new Map<string, Codec>();
+  private readonly __$$_storageCache = new Map<string, Codec>();
 
   readonly mapping = new Map<string, DefinitionRpcExt>();
   readonly provider: ProviderInterface;
@@ -107,8 +107,8 @@ export class RpcCore {
       throw new Error('Expected Provider to API create');
     }
 
-    this.#instanceId = instanceId;
-    this.#registryDefault = registry;
+    this.__$$_instanceId = instanceId;
+    this.__$$_registryDefault = registry;
     this.provider = provider;
 
     const sectionNames = Object.keys(rpcDefinitions);
@@ -145,8 +145,8 @@ export class RpcCore {
    * @description Sets a registry swap (typically from Api)
    */
   public setRegistrySwap (registrySwap: (blockHash: Uint8Array) => Promise<{ registry: Registry }>): void {
-    this.#getBlockRegistry = memoize(registrySwap, {
-      getInstanceId: () => this.#instanceId
+    this.__$$_getBlockRegistry = memoize(registrySwap, {
+      getInstanceId: () => this.__$$_instanceId
     });
   }
 
@@ -154,8 +154,8 @@ export class RpcCore {
    * @description Sets a function to resolve block hash from block number
    */
   public setResolveBlockHash (resolveBlockHash: (blockNumber: AnyNumber) => Promise<Uint8Array>): void {
-    this.#getBlockHash = memoize(resolveBlockHash, {
-      getInstanceId: () => this.#instanceId
+    this.__$$_getBlockHash = memoize(resolveBlockHash, {
+      getInstanceId: () => this.__$$_instanceId
     });
   }
 
@@ -193,7 +193,7 @@ export class RpcCore {
   }
 
   private _memomize (creator: <T> (isScale: boolean) => (...values: unknown[]) => Observable<T>, def: DefinitionRpc): MemoizedRpcInterfaceMethod {
-    const memoOpts = { getInstanceId: () => this.#instanceId };
+    const memoOpts = { getInstanceId: () => this.__$$_instanceId };
     const memoized = memoize(creator(true) as RpcInterfaceMethod, memoOpts);
 
     memoized.raw = memoize(creator(false), memoOpts);
@@ -220,12 +220,12 @@ export class RpcCore {
         : values[hashIndex];
 
       const blockHash = blockId && def.params[hashIndex].type === 'BlockNumber'
-        ? await this.#getBlockHash?.(blockId as AnyNumber)
+        ? await this.__$$_getBlockHash?.(blockId as AnyNumber)
         : blockId as (Uint8Array | string | null | undefined);
 
-      const { registry } = isScale && blockHash && this.#getBlockRegistry
-        ? await this.#getBlockRegistry(u8aToU8a(blockHash))
-        : { registry: this.#registryDefault };
+      const { registry } = isScale && blockHash && this.__$$_getBlockRegistry
+        ? await this.__$$_getBlockRegistry(u8aToU8a(blockHash))
+        : { registry: this.__$$_registryDefault };
 
       const params = this._formatInputs(registry, null, def, values);
 
@@ -298,7 +298,7 @@ export class RpcCore {
       return new Observable((observer: Observer<T>): () => void => {
         // Have at least an empty promise, as used in the unsubscribe
         let subscriptionPromise: Promise<number | string | null> = Promise.resolve(null);
-        const registry = this.#registryDefault;
+        const registry = this.__$$_registryDefault;
 
         const errorHandler = (error: Error): void => {
           logErrorMessage(method, def, error);
@@ -435,7 +435,7 @@ export class RpcCore {
     //   - if a single result value, don't fill - it is not an update hole
     //   - fallback to an empty option in all cases
     if (isNotFound && withCache) {
-      const cached = this.#storageCache.get(hexKey);
+      const cached = this.__$$_storageCache.get(hexKey);
 
       if (cached) {
         return cached;
@@ -454,7 +454,7 @@ export class RpcCore {
     // store the retrieved result - the only issue with this cache is that there is no
     // clearing of it, so very long running processes (not just a couple of hours, longer)
     // will increase memory beyond what is allowed.
-    this.#storageCache.set(hexKey, codec);
+    this.__$$_storageCache.set(hexKey, codec);
 
     return codec;
   }

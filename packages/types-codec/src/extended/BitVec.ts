@@ -42,8 +42,8 @@ function decodeBitVec (value?: AnyU8a): [number, Uint8Array] {
  * and a normal Bytes would be that the length prefix indicates the number of bits encoded, not the bytes
  */
 export class BitVec extends Raw {
-  readonly #decodedLength: number;
-  readonly #isMsb?: boolean;
+  private readonly __$$_decodedLength: number;
+  private readonly __$$_isMsb?: boolean;
 
   // In lieu of having the Msb/Lsb identifiers passed through, we default to assuming
   // we are dealing with Lsb, which is the default (as of writing) BitVec format used
@@ -53,15 +53,15 @@ export class BitVec extends Raw {
 
     super(registry, u8a);
 
-    this.#decodedLength = decodedLength;
-    this.#isMsb = isMsb;
+    this.__$$_decodedLength = decodedLength;
+    this.__$$_isMsb = isMsb;
   }
 
   /**
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.length + compactToU8a(this.#decodedLength).length;
+    return this.length + compactToU8a(this.__$$_decodedLength).length;
   }
 
   /**
@@ -69,7 +69,7 @@ export class BitVec extends Raw {
    */
   public override inspect (): Inspect {
     return {
-      outer: [compactToU8a(this.#decodedLength), super.toU8a()]
+      outer: [compactToU8a(this.__$$_decodedLength), super.toU8a()]
     };
   }
 
@@ -94,7 +94,7 @@ export class BitVec extends Raw {
       const v = map[i];
 
       for (let j = 0; j < 8; j++) {
-        result[off + j] = this.#isMsb
+        result[off + j] = this.__$$_isMsb
           ? v[j]
           : v[7 - j];
       }
@@ -110,7 +110,7 @@ export class BitVec extends Raw {
     return `0b${
       [...this.toU8a(true)]
         .map((d) => `00000000${d.toString(2)}`.slice(-8))
-        .map((s) => this.#isMsb ? s : s.split('').reverse().join(''))
+        .map((s) => this.__$$_isMsb ? s : s.split('').reverse().join(''))
         .join('_')
     }`;
   }
@@ -131,6 +131,6 @@ export class BitVec extends Raw {
 
     return isBare
       ? bitVec
-      : u8aConcatStrict([compactToU8a(this.#decodedLength), bitVec]);
+      : u8aConcatStrict([compactToU8a(this.__$$_decodedLength), bitVec]);
   }
 }

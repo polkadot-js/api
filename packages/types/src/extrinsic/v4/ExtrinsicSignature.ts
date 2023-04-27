@@ -26,7 +26,7 @@ function toAddress (registry: Registry, address: Address | Uint8Array | string):
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
 export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSignature {
-  #signKeys: string[];
+  private __$$_signKeys: string[];
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV4 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     const signTypes = registry.getSignedExtensionTypes();
@@ -41,9 +41,9 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
       GenericExtrinsicSignatureV4.decodeExtrinsicSignature(value, isSigned)
     );
 
-    this.#signKeys = Object.keys(signTypes);
+    this.__$$_signKeys = Object.keys(signTypes);
 
-    objectProperties(this, this.#signKeys, (k) => this.get(k));
+    objectProperties(this, this.__$$_signKeys, (k) => this.get(k));
   }
 
   /** @internal */
@@ -120,8 +120,8 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
 
   protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV4): IExtrinsicSignature {
     // use the fields exposed to guide the getters
-    for (let i = 0; i < this.#signKeys.length; i++) {
-      const k = this.#signKeys[i];
+    for (let i = 0; i < this.__$$_signKeys.length; i++) {
+      const k = this.__$$_signKeys[i];
       const v = payload.get(k);
 
       if (!isUndefined(v)) {

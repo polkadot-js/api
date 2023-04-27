@@ -76,7 +76,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
-  readonly #ValClass: CodecClass<V>;
+  private readonly __$$_ValClass: CodecClass<V>;
 
   constructor (registry: Registry, valType: CodecClass<V> | string, rawValue?: Uint8Array | string | string[] | Set<any>) {
     const [ValClass, values, decodedLength] = decodeSet(registry, valType, rawValue);
@@ -85,7 +85,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
 
     this.registry = registry;
     this.initialU8aLength = decodedLength;
-    this.#ValClass = ValClass;
+    this.__$$_ValClass = ValClass;
   }
 
   public static with<V extends Codec> (valType: CodecClass<V> | string): CodecClass<BTreeSet<V>> {
@@ -190,7 +190,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns the base runtime type name for this instance
    */
   public toRawType (): string {
-    return `BTreeSet<${this.registry.getClassName(this.#ValClass) || new this.#ValClass(this.registry).toRawType()}>`;
+    return `BTreeSet<${this.registry.getClassName(this.__$$_ValClass) || new this.__$$_ValClass(this.registry).toRawType()}>`;
   }
 
   /**
