@@ -38,7 +38,7 @@ describe('methodSend', (): void => {
       )
     } as unknown as ProviderInterface;
 
-    rpc = new RpcCore('987', registry, provider);
+    rpc = new RpcCore('987', registry, { provider });
   });
 
   it('checks for mismatched parameters', async (): Promise<void> => {

@@ -139,19 +139,22 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this._rx.queryAt = (blockHash: Uint8Array | string, knownVersion?: RuntimeVersion) =>
       from(this.at(blockHash, knownVersion)).pipe(map((a) => a.rx.query));
     this._rx.registry = this.#registry;
+    this._decorateMethod = decorateMethod;
+    this._options = options;
+    this._type = type;
 
-    const thisProvider = options.source
+    const provider = options.source
       ? options.source._rpcCore.provider.isClonable
         ? options.source._rpcCore.provider.clone()
         : options.source._rpcCore.provider
       : (options.provider || new WsProvider());
 
-    this._decorateMethod = decorateMethod;
-    this._options = options;
-    this._type = type;
-
     // The RPC interface decorates the known interfaces on init
-    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, thisProvider, this._options.rpc) as (RpcCore & RpcInterface);
+    this._rpcCore = new RpcCore(this.#instanceId, this.#registry, {
+      isPedantic: this._options.isPedantic,
+      provider,
+      userRpc: this._options.rpc
+    }) as (RpcCore & RpcInterface);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected);
     this._rx.hasSubscriptions = this._rpcCore.provider.hasSubscriptions;
   }
