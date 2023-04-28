@@ -14,7 +14,7 @@ import { toRxMethod } from './decorateMethod.js';
 /**
  * # @polkadot/api/rx
  *
- *  ## Overview
+ * ## Overview
  *
  * @name ApiRx
  *

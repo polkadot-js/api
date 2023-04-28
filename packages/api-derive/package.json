@@ -29,7 +29,7 @@
     "@polkadot/types-codec": "10.4.2-3-x",
     "@polkadot/util": "^12.0.1",
     "@polkadot/util-crypto": "^12.0.1",
-    "rxjs": "^7.8.0",
+    "rxjs": "^7.8.1",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
