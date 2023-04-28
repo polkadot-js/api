@@ -53,11 +53,11 @@ function logErrorMessage (method: string, { noErrorLog, params, type }: Definiti
     return;
   }
 
-  const inputs = params.map(({ isOptional, name, type }): string =>
-    `${name}${isOptional ? '?' : ''}: ${type}`
-  ).join(', ');
-
-  l.error(`${method}(${inputs}): ${type}:: ${error.message}`);
+  l.error(`${method}(${
+    params.map(({ isOptional, name, type }): string =>
+      `${name}${isOptional ? '?' : ''}: ${type}`
+    ).join(', ')
+  }): ${type}:: ${error.message}`);
 }
 
 function isTreatAsHex (key: StorageKey): boolean {
@@ -104,8 +104,8 @@ export class RpcCore {
 
   /**
    * @constructor
-   * Default constructor for the Api Object
-   * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
+   * Default constructor for the core RPC handler
+   * @param  {ProviderInterface} provider An API provider using any of the supported providers (HTTP, SC or WebSocket)
    */
   constructor (instanceId: string, registry: Registry, { isPedantic = true, provider, userRpc = {} }: Options) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -234,7 +234,7 @@ export class RpcCore {
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
 
-      const params = this._formatInputs(registry, null, def, values);
+      const params = this._formatParams(registry, null, def, values);
 
       // only cache .at(<blockHash>) queries, e.g. where valid blockHash was supplied
       const result = await this.provider.send<AnyJson>(rpcName, params.map((p) => p.toJSON()), !!blockHash);
@@ -314,8 +314,7 @@ export class RpcCore {
         };
 
         try {
-          const params = this._formatInputs(registry, null, def, values);
-          const paramsJson = params.map((p) => p.toJSON());
+          const params = this._formatParams(registry, null, def, values);
 
           const update = (error?: Error | null, result?: unknown): void => {
             if (error) {
@@ -331,7 +330,7 @@ export class RpcCore {
             }
           };
 
-          subscriptionPromise = this._createSubscriber({ paramsJson, subName, subType, update }, errorHandler);
+          subscriptionPromise = this._createSubscriber({ paramsJson: params.map((p) => p.toJSON()), subName, subType, update }, errorHandler);
         } catch (error) {
           errorHandler(error as Error);
         }
@@ -362,19 +361,20 @@ export class RpcCore {
     return memoized;
   }
 
-  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
-    const reqArgCount = def.params.filter(({ isOptional }) => !isOptional).length;
-    const optText = reqArgCount === def.params.length
-      ? ''
-      : ` (${def.params.length - reqArgCount} optional)`;
+  private _formatParams (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
+    const reqCount = def.params.filter(({ isOptional }) => !isOptional).length;
 
-    if (inputs.length < reqArgCount || inputs.length > def.params.length) {
-      throw new Error(`Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
+    if (inputs.length < reqCount || inputs.length > def.params.length) {
+      throw new Error(`Expected ${def.params.length} parameters${reqCount === def.params.length ? '' : ` (${def.params.length - reqCount} optional)`}, ${inputs.length} found instead`);
     }
 
-    return inputs.map((input, index): Codec =>
-      registry.createTypeUnsafe(def.params[index].type, [input], { blockHash })
-    );
+    const params = new Array<Codec>(inputs.length);
+
+    for (let i = 0; i < inputs.length; i++) {
+      params[i] = registry.createTypeUnsafe(def.params[i].type, [inputs[i]], { blockHash });
+    }
+
+    return params;
   }
 
   private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null | undefined, method: string, rpc: DefinitionRpc, params: Codec[], result?: unknown): Codec | Codec[] {
@@ -389,10 +389,17 @@ export class RpcCore {
         ? this._formatStorageSet(registry, (result as StorageChangeSetJSON).block, keys, (result as StorageChangeSetJSON).changes)
         : registry.createType('StorageChangeSet', result);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
-      const mapped = (result as StorageChangeSetJSON[]).map(({ block, changes }): [Hash, Codec[]] => [
-        registry.createType('Hash', block),
-        this._formatStorageSet(registry, block, params[0] as Vec<StorageKey>, changes)
-      ]);
+      const jsonSet = (result as StorageChangeSetJSON[]);
+      const mapped = new Array<[Hash, Codec[]]>(jsonSet.length);
+
+      for (let i = 0; i < jsonSet.length; i++) {
+        const { block, changes } = jsonSet[i];
+
+        mapped[i] = [
+          registry.createType('BlockHash', block),
+          this._formatStorageSet(registry, block, params[0] as Vec<StorageKey>, changes)
+        ];
+      }
 
       // we only query at a specific block, not a range - flatten
       return method === 'queryStorageAt'
@@ -420,16 +427,15 @@ export class RpcCore {
   private _formatStorageSet (registry: Registry, blockHash: string, keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
     // For StorageChangeSet, the changes has the [key, value] mappings
     const withCache = keys.length !== 1;
+    const values = new Array<Codec>(keys.length);
 
-    // multiple return values (via state.storage subscription), decode the values
-    // one at a time, all based on the query types. Three values can be returned -
-    //   - Codec - There is a valid value, non-empty
-    //   - null - The storage key is empty
-    return keys.reduce((results: Codec[], key: StorageKey, index): Codec[] => {
-      results.push(this._formatStorageSetEntry(registry, blockHash, key, changes, withCache, index));
+    // multiple return values (via state.storage subscription), decode the
+    // values one at a time, all based on the supplied query types
+    for (let i = 0; i < keys.length; i++) {
+      values[i] = this._formatStorageSetEntry(registry, blockHash, keys[i], changes, withCache, i);
+    }
 
-      return results;
-    }, []);
+    return values;
   }
 
   private _formatStorageSetEntry (registry: Registry, blockHash: string, key: StorageKey, changes: [string, string | null][], withCache: boolean, entryIndex: number): Codec {
