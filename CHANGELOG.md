@@ -4,7 +4,8 @@
 
 Changes:
 
-- Default to hex-only in `Int/Uint.toJSON` for > 128-bit values
+- Default to hex-only in `Int/UInt.toJSON` for > 128-bit values
+- Adjust compilation output for `__internal__` class fields
 
 
 ## 10.4.1 Apr 22, 2023
