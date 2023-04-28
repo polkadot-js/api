@@ -5,7 +5,7 @@
 Changes:
 
 - Default to hex-only in `Int/UInt.toJSON` for > 128-bit values
-- Allow for disabling of `isPendatic` storage checks in API options
+- Allow for disabling of `isPedantic` storage checks in API options
 - Adjust usage of `objectSpread`, default to runtime as required
 - Adjust compilation output for `__internal__` class fields
 
