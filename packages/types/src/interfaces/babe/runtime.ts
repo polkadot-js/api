@@ -3,8 +3,6 @@
 
 import type { DefinitionCall, DefinitionsCall } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 const V1_V2_SHARED: Record<string, DefinitionCall> = {
   current_epoch: {
     description: 'Returns information regarding the current epoch.',
@@ -54,23 +52,25 @@ const V1_V2_SHARED: Record<string, DefinitionCall> = {
 export const runtime: DefinitionsCall = {
   BabeApi: [
     {
-      methods: objectSpread({
+      methods: {
         configuration: {
           description: 'Return the genesis configuration for BABE. The configuration is only read on genesis.',
           params: [],
           type: 'BabeGenesisConfiguration'
-        }
-      }, V1_V2_SHARED),
+        },
+        ...V1_V2_SHARED
+      },
       version: 2
     },
     {
-      methods: objectSpread({
+      methods: {
         configuration: {
           description: 'Return the configuration for BABE. Version 1.',
           params: [],
           type: 'BabeGenesisConfigurationV1'
-        }
-      }, V1_V2_SHARED),
+        },
+        ...V1_V2_SHARED
+      },
       version: 1
     }
   ]

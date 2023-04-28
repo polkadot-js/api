@@ -6,8 +6,6 @@
 
 import type { Definitions } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 import hrmpTypes from './hrmp.js';
 import { runtime } from './runtime.js';
 import slotTypes from './slots.js';
@@ -98,7 +96,12 @@ const disputeTypes = {
 export default {
   rpc: {},
   runtime,
-  types: objectSpread({}, cumulusTypes, disputeTypes, hrmpTypes, proposeTypes, slotTypes, {
+  types: {
+    ...cumulusTypes,
+    ...disputeTypes,
+    ...hrmpTypes,
+    ...proposeTypes,
+    ...slotTypes,
     AbridgedCandidateReceipt: {
       parachainIndex: 'ParaId',
       relayParent: 'Hash',
@@ -509,5 +512,5 @@ export default {
     MessagingStateSnapshotEgressEntry: '(ParaId, AbridgedHrmpChannel)',
     SystemInherentData: 'ParachainInherentData',
     VecInboundHrmpMessage: 'Vec<InboundHrmpMessage>'
-  })
+  }
 } as Definitions;

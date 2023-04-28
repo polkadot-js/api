@@ -5,8 +5,6 @@
 
 import type { DefinitionsRpc } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 // We use aliasSection here to override since these are in another namespace
 const netRpc: DefinitionsRpc = {
   listening: {
@@ -43,7 +41,9 @@ const web3Rpc: DefinitionsRpc = {
   }
 };
 
-export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
+export const rpc: DefinitionsRpc = {
+  ...netRpc,
+  ...web3Rpc,
   accounts: {
     description: 'Returns accounts list.',
     params: [],
@@ -505,4 +505,4 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
     ],
     type: 'bool'
   }
-});
+};

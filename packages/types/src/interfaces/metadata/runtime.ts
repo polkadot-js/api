@@ -3,8 +3,6 @@
 
 import type { DefinitionsCall, DefinitionsCallEntry } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 const META_V1_TO_V2: DefinitionsCallEntry['methods'] = {
   metadata: {
     description: 'Returns the metadata of a runtime',
@@ -16,7 +14,7 @@ const META_V1_TO_V2: DefinitionsCallEntry['methods'] = {
 export const runtime: DefinitionsCall = {
   Metadata: [
     {
-      methods: objectSpread({
+      methods: {
         metadata_at_version: {
           description: 'Returns the metadata at a given version.',
           params: [
@@ -31,12 +29,15 @@ export const runtime: DefinitionsCall = {
           description: 'Returns the supported metadata versions.',
           params: [],
           type: 'Vec<u32>'
-        }
-      }, META_V1_TO_V2),
+        },
+        ...META_V1_TO_V2
+      },
       version: 2
     },
     {
-      methods: objectSpread({}, META_V1_TO_V2),
+      methods: {
+        ...META_V1_TO_V2
+      },
       version: 1
     }
   ]

@@ -3,8 +3,6 @@
 
 import type { Definitions } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
@@ -177,34 +175,6 @@ const spec = {
   }
 };
 
-const ContractMetadataV0 = {
-  metadataVersion: 'Text',
-  types: 'Vec<Si0Type>',
-  spec: 'ContractContractSpecV0'
-};
-
-const ContractMetadataV1 = {
-  types: 'Vec<PortableType>',
-  spec: 'ContractContractSpecV1'
-};
-
-const ContractMetadataV2 = {
-  types: 'Vec<PortableType>',
-  spec: 'ContractContractSpecV2'
-};
-
-const ContractMetadataV3 = {
-  types: 'Vec<PortableType>',
-  spec: 'ContractContractSpecV3'
-};
-
-const ContractMetadataV4 = ContractMetadataV3;
-
-const ContractProjectInfo = {
-  source: 'ContractProjectSource',
-  contract: 'ContractProjectContract'
-};
-
 const latest = {
   ContractConstructorSpecLatest: 'ContractConstructorSpecV3',
   ContractEventSpecLatest: 'ContractEventSpecV2',
@@ -216,13 +186,32 @@ const latest = {
 
 export default {
   rpc: {},
-  types: objectSpread({}, layout, spec, latest, {
-    ContractProjectInfo,
-    ContractMetadataV0,
-    ContractMetadataV1,
-    ContractMetadataV2,
-    ContractMetadataV3,
-    ContractMetadataV4,
+  types: {
+    ...layout,
+    ...spec,
+    ...latest,
+    ContractProjectInfo: {
+      source: 'ContractProjectSource',
+      contract: 'ContractProjectContract'
+    },
+    ContractMetadataV0: {
+      metadataVersion: 'Text',
+      types: 'Vec<Si0Type>',
+      spec: 'ContractContractSpecV0'
+    },
+    ContractMetadataV1: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV1'
+    },
+    ContractMetadataV2: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV2'
+    },
+    ContractMetadataV3: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV3'
+    },
+    ContractMetadataV4: 'ContractMetadataV3',
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
@@ -232,7 +221,13 @@ export default {
         V4: 'ContractMetadataV4'
       }
     },
-    ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),
+    ContractProjectV0: {
+      metadataVersion: 'Text',
+      source: 'ContractProjectSource',
+      contract: 'ContractProjectContract',
+      types: 'Vec<Si0Type>',
+      spec: 'ContractContractSpecV0'
+    },
     ContractProject: '(ContractProjectInfo, ContractMetadata)',
     ContractProjectContract: {
       _alias: {
@@ -256,5 +251,5 @@ export default {
       compiler: 'Text',
       wasm: 'Raw'
     }
-  })
+  }
 } as Definitions;
