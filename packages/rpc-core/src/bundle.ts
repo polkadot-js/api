@@ -29,6 +29,12 @@ type MemoizedRpcInterfaceMethod = Memoized<RpcInterfaceMethod> & {
   meta: DefinitionRpc;
 }
 
+interface Options {
+  isPedantic?: boolean;
+  provider: ProviderInterface;
+  userRpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
+}
+
 const l = logger('rpc-core');
 
 const EMPTY_META = {
@@ -84,13 +90,13 @@ function isTreatAsHex (key: StorageKey): boolean {
  * ```
  */
 export class RpcCore {
-  #instanceId: string;
-  #registryDefault: Registry;
+  readonly #instanceId: string;
+  readonly #isPedantic: boolean;
+  readonly #registryDefault: Registry;
+  readonly #storageCache = new Map<string, Codec>();
 
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
   #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
-
-  readonly #storageCache = new Map<string, Codec>();
 
   readonly mapping = new Map<string, DefinitionRpcExt>();
   readonly provider: ProviderInterface;
@@ -101,13 +107,14 @@ export class RpcCore {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (instanceId: string, registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
+  constructor (instanceId: string, registry: Registry, { isPedantic = true, provider, userRpc = {} }: Options) {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     if (!provider || !isFunction(provider.send)) {
       throw new Error('Expected Provider to API create');
     }
 
     this.#instanceId = instanceId;
+    this.#isPedantic = isPedantic;
     this.#registryDefault = registry;
     this.provider = provider;
 
@@ -478,9 +485,9 @@ export class RpcCore {
               : hexToU8a(meta.fallback.toHex())
             : undefined
           : meta.modifier.isOptional
-            ? registry.createTypeUnsafe(type, [input], { blockHash, isPedantic: true })
+            ? registry.createTypeUnsafe(type, [input], { blockHash, isPedantic: this.#isPedantic })
             : input
-      ], { blockHash, isFallback: isEmpty && !!meta.fallback, isOptional: meta.modifier.isOptional, isPedantic: !meta.modifier.isOptional });
+      ], { blockHash, isFallback: isEmpty && !!meta.fallback, isOptional: meta.modifier.isOptional, isPedantic: this.#isPedantic && !meta.modifier.isOptional });
     } catch (error) {
       throw new Error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}: ${(error as Error).message}`);
     }

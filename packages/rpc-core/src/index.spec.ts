@@ -16,18 +16,21 @@ describe('Api', (): void => {
 
   it('requires a provider with a send method', (): void => {
     expect(
-      () => new RpcCore('234', registry, {} as unknown as ProviderInterface)
+      () => new RpcCore('234', registry, { provider: {} as unknown as ProviderInterface })
     ).toThrow(/Expected Provider/);
   });
 
   it('allows for the definition of user RPCs', async () => {
     const provider = new MockProvider(registry);
-    const rpc = new RpcCore('567', registry, provider, {
-      testing: {
-        foo: {
-          description: 'foo',
-          params: [{ name: 'bar', type: 'u32' }],
-          type: 'Balance'
+    const rpc = new RpcCore('567', registry, {
+      provider,
+      userRpc: {
+        testing: {
+          foo: {
+            description: 'foo',
+            params: [{ name: 'bar', type: 'u32' }],
+            type: 'Balance'
+          }
         }
       }
     });

@@ -48,6 +48,10 @@ export interface ApiOptions extends RegisteredTypes {
    */
   initWasm?: boolean;
   /**
+   * @description Controls the checking of storage values once they have been contructed. When not specified this defaults to `true`. Set to `false` to forgo any checking on storage results.
+   */
+  isPedantic?: boolean;
+  /**
    * @description pre-bundles is a map of 'genesis hash and runtime spec version' as key to a metadata hex string
    * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
    */

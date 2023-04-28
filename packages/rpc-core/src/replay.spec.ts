@@ -17,7 +17,7 @@ describe('replay', (): void => {
 
   beforeEach((): void => {
     provider = new MockProvider(registry);
-    rpc = new RpcCore('653', registry, provider) as (RpcCore & RpcInterface);
+    rpc = new RpcCore('653', registry, { provider }) as (RpcCore & RpcInterface);
   });
 
   afterEach(async () => {
