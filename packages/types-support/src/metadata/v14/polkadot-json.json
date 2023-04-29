@@ -1833,28 +1833,6 @@
                 "docs": [
                   " A vector of reports of the same kind that happened at the same time slot."
                 ]
-              },
-              {
-                "name": "ReportsByKindIndex",
-                "modifier": "Default",
-                "type": {
-                  "map": {
-                    "hashers": [
-                      "Twox64Concat"
-                    ],
-                    "key": 47,
-                    "value": 13
-                  }
-                },
-                "fallback": "0x00",
-                "docs": [
-                  " Enumerates all reports of a kind along with the time they happened.",
-                  "",
-                  " All reports are sorted by the time of offence.",
-                  "",
-                  " Note that the actual type of this mapping is `Vec<u8>`, this is because values of",
-                  " different types are not supported at the moment so we are doing the manual serialization."
-                ]
               }
             ]
           },
@@ -7075,6 +7053,17 @@
                 "fallback": "0x00",
                 "docs": [
                   " Fungible assets which we know are locked on this chain."
+                ]
+              },
+              {
+                "name": "XcmExecutionSuspended",
+                "modifier": "Default",
+                "type": {
+                  "plain": 44
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Global suspension state of the XCM executor."
                 ]
               }
             ]

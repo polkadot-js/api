@@ -41459,6 +41459,12 @@
               "type": 4,
               "typeName": "u32",
               "docs": []
+            },
+            {
+              "name": "runtime_memory",
+              "type": 4,
+              "typeName": "u32",
+              "docs": []
             }
           ]
         }

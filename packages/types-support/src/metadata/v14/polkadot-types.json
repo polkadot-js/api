@@ -24085,7 +24085,7 @@
                 "Extoll that a particular destination can be communicated with through a particular",
                 "version of XCM.",
                 "",
-                "- `origin`: Must be Root.",
+                "- `origin`: Must be an origin specified by AdminOrigin.",
                 "- `location`: The destination that is being described.",
                 "- `xcm_version`: The latest version of XCM that `location` supports."
               ]
@@ -24105,7 +24105,7 @@
                 "Set a safe XCM version (the version that XCM should be encoded with if the most recent",
                 "version a destination can accept is unknown).",
                 "",
-                "- `origin`: Must be Root.",
+                "- `origin`: Must be an origin specified by AdminOrigin.",
                 "- `maybe_xcm_version`: The default XCM encoding version, or `None` to disable."
               ]
             },
@@ -24123,7 +24123,7 @@
               "docs": [
                 "Ask a location to notify us regarding their XCM version and any changes to it.",
                 "",
-                "- `origin`: Must be Root.",
+                "- `origin`: Must be an origin specified by AdminOrigin.",
                 "- `location`: The location to which we should subscribe for XCM version notifications."
               ]
             },
@@ -24142,7 +24142,7 @@
                 "Require that a particular destination should no longer notify us regarding any XCM",
                 "version changes.",
                 "",
-                "- `origin`: Must be Root.",
+                "- `origin`: Must be an origin specified by AdminOrigin.",
                 "- `location`: The location to which we are currently subscribed for XCM version",
                 "  notifications which we no longer desire."
               ]
@@ -24256,6 +24256,24 @@
                 "- `fee_asset_item`: The index into `assets` of the item which should be used to pay",
                 "  fees.",
                 "- `weight_limit`: The remote-side weight limit, if any, for the XCM fee purchase."
+              ]
+            },
+            {
+              "name": "force_suspension",
+              "fields": [
+                {
+                  "name": "suspended",
+                  "type": 44,
+                  "typeName": "bool",
+                  "docs": []
+                }
+              ],
+              "index": 10,
+              "docs": [
+                "Set or unset the global suspension state of the XCM executor.",
+                "",
+                "- `origin`: Must be an origin specified by AdminOrigin.",
+                "- `suspended`: `true` to suspend, `false` to resume."
               ]
             }
           ]

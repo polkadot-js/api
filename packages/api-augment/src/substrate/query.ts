@@ -586,6 +586,8 @@ declare module '@polkadot/api-base/types/storage' {
       minimumUntrustedScore: AugmentedQuery<ApiType, () => Observable<Option<SpNposElectionsElectionScore>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Current best solution, signed or unsigned, queued to be returned upon `elect`.
+       * 
+       * Always sorted by score.
        **/
       queuedSolution: AugmentedQuery<ApiType, () => Observable<Option<PalletElectionProviderMultiPhaseReadySolution>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -1150,15 +1152,6 @@ declare module '@polkadot/api-base/types/storage' {
        * The primary structure that holds all offence records keyed by report identifiers.
        **/
       reports: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<SpStakingOffenceOffenceDetails>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
-      /**
-       * Enumerates all reports of a kind along with the time they happened.
-       * 
-       * All reports are sorted by the time of offence.
-       * 
-       * Note that the actual type of this mapping is `Vec<u8>`, this is because values of
-       * different types are not supported at the moment so we are doing the manual serialization.
-       **/
-      reportsByKindIndex: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Bytes>, [U8aFixed]> & QueryableStorageEntry<ApiType, [U8aFixed]>;
       /**
        * Generic query
        **/

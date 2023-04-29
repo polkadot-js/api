@@ -1025,7 +1025,9 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " Current best solution, signed or unsigned, queued to be returned upon `elect`."
+                  " Current best solution, signed or unsigned, queued to be returned upon `elect`.",
+                  "",
+                  " Always sorted by score."
                 ]
               },
               {
@@ -3346,7 +3348,7 @@
             {
               "name": "Schedule",
               "type": 550,
-              "value": "0x0400000000010000000400008000000010000000001000000001000020000000004000000400000000000000bc050000490d0000050c0000f1070000e1170000350600007f090000be1200002a0000006f3e0000594f0000db040000d40300005d0800008b030000f31a0000bf1c0000e7080000bb20c900760300001e0300001d030000d40200009603000068030000fe02000012060000fc0500001d0600001c060000a10500008a060000220600007a0600000606000026060000a50500009f06000049050000111d000044180000c81e0000c0180000dc04000040050000c0050000a2050000aa060000a805000032060000a705000026bf140018163cc1066d2ab210f2067d2a0e05190018fe1e0a000c0e481400180e13140018fe79580018de2214001856d1130018a206150018ae08140018d6a45100289e270800009a501000182d0900f6c86900b4c502004a96e7fc9579861c6c00282ad1d300282e72511e31271d0900360e0e001c6d0b000eec3b1f95046906006c04c2bfad464930c2bf321f85042901047ac6130785048d0104d6e12307a504350b0422cf451fa5046d0a04eac62e266127feb6886db12ad6f0ca54312892f3e24389503d0900b6f65fec55516a1347392929e511008d140022ee220020d13c00deca2c0020dd30007e3a190020310e0006091900203d0e00c209c2083501a2a93002a8f2dc540bc101554904aec109000c96de0f00a03a7208000c",
+              "value": "0x040000000001000000040000800000001000000000100000000100002000000000400000000000080400000000000000bc050000490d0000050c0000f1070000e1170000350600007f090000be1200002a0000006f3e0000594f0000db040000d40300005d0800008b030000f31a0000bf1c0000e7080000bb20c900760300001e0300001d030000d40200009603000068030000fe02000012060000fc0500001d0600001c060000a10500008a060000220600007a0600000606000026060000a50500009f06000049050000111d000044180000c81e0000c0180000dc04000040050000c0050000a2050000aa060000a805000032060000a705000026bf140018163cc1066d2ab210f2067d2a0e05190018fe1e0a000c0e481400180e13140018fe79580018de2214001856d1130018a206150018ae08140018d6a45100289e270800009a501000182d0900f6c86900b4c502004a96e7fc9579861c6c00282ad1d300282e72511e31271d0900360e0e001c6d0b000eec3b1f95046906006c04c2bfad464930c2bf321f85042901047ac6130785048d0104d6e12307a504350b0422cf451fa5046d0a04eac62e266127feb6886db12ad6f0ca54312892f3e24389503d0900b6f65fec55516a1347392929e511008d140022ee220020d13c00deca2c0020dd30007e3a190020310e0006091900203d0e00c209c2083501a2a93002a8f2dc540bc101554904aec109000c96de0f00a03a7208000c",
               "docs": [
                 " Cost schedule and limits."
               ]
@@ -3361,6 +3363,14 @@
                 " # Note",
                 "",
                 " Changing this value for an existing chain might need a storage migration."
+              ]
+            },
+            {
+              "name": "DefaultDepositLimit",
+              "type": 6,
+              "value": "0x0000c0afbc4f86570000000000000000",
+              "docs": [
+                " Fallback value to limit the storage deposit if it's not being set by the caller."
               ]
             },
             {
@@ -3631,28 +3641,6 @@
                 "fallback": "0x00",
                 "docs": [
                   " A vector of reports of the same kind that happened at the same time slot."
-                ]
-              },
-              {
-                "name": "ReportsByKindIndex",
-                "modifier": "Default",
-                "type": {
-                  "map": {
-                    "hashers": [
-                      "Twox64Concat"
-                    ],
-                    "key": 83,
-                    "value": 13
-                  }
-                },
-                "fallback": "0x00",
-                "docs": [
-                  " Enumerates all reports of a kind along with the time they happened.",
-                  "",
-                  " All reports are sorted by the time of offence.",
-                  "",
-                  " Note that the actual type of this mapping is `Vec<u8>`, this is because values of",
-                  " different types are not supported at the moment so we are doing the manual serialization."
                 ]
               }
             ]

@@ -6056,6 +6056,7 @@ declare module '@polkadot/types/lookup' {
     readonly brTableSize: u32;
     readonly subjectLen: u32;
     readonly payloadLen: u32;
+    readonly runtimeMemory: u32;
   }
 
   /** @name PalletContractsScheduleInstructionWeights (552) */
