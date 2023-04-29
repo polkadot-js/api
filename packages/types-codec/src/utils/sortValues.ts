@@ -16,7 +16,7 @@ function isArrayLike (arg: SortArg): arg is Uint8Array | Codec[] | number[] {
 
 /** @internal **/
 function isEnum (arg: SortArg): arg is Enum {
-  return isCodec(arg) && isNumber((arg as Enum).index) && isCodec((arg as Enum).value);
+  return isCodec<Codec>(arg) && isNumber((arg as Enum).index) && isCodec((arg as Enum).value);
 }
 
 /** @internal */
@@ -55,7 +55,7 @@ export function sortAsc<V extends SortArg = Codec> (a: V, b: V): number {
     return sortAsc(a.index, b.index) || sortAsc(a.value, b.value);
   } else if (isArrayLike(a) && isArrayLike(b)) {
     return sortArray(a, b);
-  } else if (isCodec(a) && isCodec(b)) {
+  } else if (isCodec<Codec>(a) && isCodec<Codec>(b)) {
     // Text, Bool etc.
     return sortAsc(a.toU8a(true), b.toU8a(true));
   }
