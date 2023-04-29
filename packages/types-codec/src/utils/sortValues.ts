@@ -5,18 +5,13 @@ import type { BN } from '@polkadot/util';
 import type { Enum } from '../base/Enum.js';
 import type { Codec } from '../types/index.js';
 
-import { bnToBn, isBigInt, isBn, isFunction, isNumber, stringify } from '@polkadot/util';
+import { bnToBn, isBigInt, isBn, isCodec, isNumber, stringify } from '@polkadot/util';
 
 type SortArg = Codec | Codec[] | number[] | BN | bigint | number | Uint8Array;
 
 /** @internal **/
 function isArrayLike (arg: SortArg): arg is Uint8Array | Codec[] | number[] {
   return arg instanceof Uint8Array || Array.isArray(arg);
-}
-
-/** @internal **/
-function isCodec (arg: SortArg): arg is Codec {
-  return isFunction(arg && (arg as Codec).toU8a);
 }
 
 /** @internal **/

@@ -62,9 +62,10 @@ function assertArgs ({ method, section }: CreateItemFn, { args, keys }: RawArgs)
 
 /** @internal */
 export function createKeyRawParts (registry: Registry, itemFn: CreateItemBase, { args, hashers, keys }: RawArgs): [Uint8Array[], Uint8Array[]] {
-  const extra = new Array<Uint8Array>(keys.length);
+  const count = keys.length;
+  const extra = new Array<Uint8Array>(count);
 
-  for (let i = 0; i < keys.length; i++) {
+  for (let i = 0; i < count; i++) {
     extra[i] = getHasher(hashers[i])(
       registry.createTypeUnsafe(registry.createLookupType(keys[i]), [args[i]]).toU8a()
     );

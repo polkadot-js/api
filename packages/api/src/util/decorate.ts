@@ -35,7 +35,7 @@ export function decorateDeriveSections<ApiType extends ApiTypes> (decorateMethod
   const result: AnyDerive = {};
   const names = Object.keys(derives);
 
-  for (let i = 0; i < names.length; i++) {
+  for (let i = 0, count = names.length; i < count; i++) {
     lazyDeriveSection(result, names[i], getKeys, creator);
   }
 

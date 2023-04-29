@@ -20,7 +20,7 @@ const VERSION_DOCS = { docs: 'Returns the current pallet version from storage', 
 export function decorateStorage (registry: Registry, { pallets }: MetadataLatest, _metaVersion: number): Storage {
   const result: Storage = getStorage(registry);
 
-  for (let i = 0; i < pallets.length; i++) {
+  for (let i = 0, count = pallets.length; i < count; i++) {
     const { name, storage } = pallets[i];
 
     if (storage.isSome) {

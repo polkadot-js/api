@@ -53,7 +53,7 @@ function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, e
 
   const inner: Record<string, string> = objectSpread({}, extra);
 
-  for (let i = 0; i < sub.length; i++) {
+  for (let i = 0, count = sub.length; i < count; i++) {
     const def = sub[i];
 
     inner[def.name as string] = encodeTypeDef(registry, def);

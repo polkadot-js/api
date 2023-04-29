@@ -41,7 +41,7 @@ function splitAlternatives (type: string): string[] {
   let level = 0;
 
   // we assume that the string starts with '['
-  for (let i = 1; i < type.length; i++) {
+  for (let i = 1, count = type.length; i < count; i++) {
     if (level === 0) {
       switch (type[i]) {
         case ']':

@@ -116,7 +116,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     const keys = Object.keys(this.#extraTypes);
 
     // add any explicit overrides we may have
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0, count = keys.length; i < count; i++) {
       const key = keys[i];
       const value = this.get(key) as Codec;
       const isOption = value instanceof Option;

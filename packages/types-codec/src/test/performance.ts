@@ -13,12 +13,13 @@ const PRE_PAD = 32;
 
 function loop (count: number, inputs: unknown[][], exec: ExecFn): [number, unknown[]] {
   const start = performance.now();
-  const results = new Array<unknown>(inputs.length);
+  const inputsCount = inputs.length;
+  const results = new Array<unknown>(inputsCount);
 
   for (let i = 0; i < count; i++) {
-    const result = exec(...inputs[i % inputs.length]);
+    const result = exec(...inputs[i % inputsCount]);
 
-    if (i < inputs.length) {
+    if (i < inputsCount) {
       results[i] = result;
     }
   }

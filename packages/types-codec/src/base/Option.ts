@@ -4,14 +4,10 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, DefinitionSetter, Inspect, IOption, IU8a, Registry } from '../types/index.js';
 
-import { isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { identity, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import { typeToConstructor } from '../utils/index.js';
 import { Null } from './Null.js';
-
-function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
-  return d;
-}
 
 class None extends Null {
   /**
@@ -70,7 +66,7 @@ export class Option<T extends Codec> implements IOption<T> {
   readonly #Type: CodecClass<T>;
   readonly #raw: T;
 
-  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { definition, setDefinition = noopSetDefinition }: DefinitionSetter<CodecClass<T>> = {}) {
+  constructor (registry: Registry, typeName: CodecClass<T> | string, value?: unknown, { definition, setDefinition = identity }: DefinitionSetter<CodecClass<T>> = {}) {
     const Type = definition || setDefinition(typeToConstructor(registry, typeName));
     const decoded = isU8a(value) && value.length && !isCodec(value)
       ? value[0] === 0

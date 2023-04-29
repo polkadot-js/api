@@ -14,7 +14,7 @@ export function lazyVariants <T> (lookup: PortableRegistry, { type }: TypeHolder
   const result: Record<string, T> = {};
   const variants = lookup.getSiType(type).def.asVariant.variants;
 
-  for (let i = 0; i < variants.length; i++) {
+  for (let i = 0, count = variants.length; i < count; i++) {
     lazyMethod(result, variants[i], creator, getName, i);
   }
 

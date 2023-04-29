@@ -322,7 +322,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // we try and create mappings to runtime names via a hash mapping)
     const sectionMap: Record<string, boolean> = {};
 
-    for (let i = 0; i < methods.length; i++) {
+    for (let i = 0, count = methods.length; i < count; i++) {
       const [section] = methods[i].split('_');
 
       sectionMap[section] = true;
@@ -331,7 +331,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     // convert the actual section names into an easy name lookup
     const sections = Object.keys(sectionMap);
 
-    for (let i = 0; i < sections.length; i++) {
+    for (let i = 0, count = sections.length; i < count; i++) {
       const nameA = stringUpperFirst(sections[i]);
       const nameB = `${nameA}Api`;
 
@@ -347,8 +347,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     const hasResults = exposed.length !== 0;
     const allKnown = [...this._rpcCore.mapping.entries()];
     const allKeys: string[] = [];
+    const count = allKnown.length;
 
-    for (let i = 0; i < allKnown.length; i++) {
+    for (let i = 0; i < count; i++) {
       const [, { alias, endpoint, method, pubsub, section }] = allKnown[i];
 
       allKeys.push(`${section}_${method}`);
@@ -378,7 +379,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     // loop through all entries we have (populated in decorate) and filter as required
     // only remove when we have results and method missing, or with no results if optional
-    for (let i = 0; i < allKnown.length; i++) {
+    for (let i = 0; i < count; i++) {
       const [k, { method, section }] = allKnown[i];
 
       if (hasResults && !exposed.includes(k) && k !== 'rpc_methods') {
@@ -411,7 +412,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       return fn;
     };
 
-    for (let s = 0; s < rpc.sections.length; s++) {
+    for (let s = 0, scount = rpc.sections.length; s < scount; s++) {
       const section = rpc.sections[s];
 
       if (!Object.prototype.hasOwnProperty.call(out, section)) {
@@ -420,7 +421,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         const decorateInternal = (method: string) =>
           decorateFn(section, method);
 
-        for (let m = 0; m < methods.length; m++) {
+        for (let m = 0, mcount = methods.length; m < mcount; m++) {
           const method = methods[m];
 
           //  skip subscriptions where we have a non-subscribe interface
@@ -446,13 +447,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const entries = Object.entries(additional);
 
-    for (let j = 0; j < entries.length; j++) {
+    for (let j = 0, ecount = entries.length; j < ecount; j++) {
       const [key, defs] = entries[j];
 
       if (result[key]) {
         // we have this one already, step through for new versions or
         // new methods and add those as applicable
-        for (let k = 0; k < defs.length; k++) {
+        for (let k = 0, dcount = defs.length; k < dcount; k++) {
           const def = defs[k];
           const prev = result[key].find(({ version }) => def.version === version);
 
@@ -478,7 +479,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     // options > chain/spec > built-in, apply in reverse order with
     // methods overriding previous definitions (or interleave missing)
-    for (let i = 0; i < defValues.length; i++) {
+    for (let i = 0, count = defValues.length; i < count; i++) {
       this._addRuntimeDef(result, defValues[i].runtime);
     }
 
@@ -500,7 +501,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     this.#runtimeLog[implName] = true;
 
-    for (let i = 0; i < sections.length; i++) {
+    for (let i = 0, scount = sections.length; i < scount; i++) {
       const [_section, secs] = sections[i];
       const sectionHash = blake2AsHex(_section, 64);
       const rtApi = apis.find(([a]) => a.eq(sectionHash));
@@ -520,7 +521,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
               named[section] = {};
             }
 
-            for (let m = 0; m < methods.length; m++) {
+            for (let m = 0, mcount = methods.length; m < mcount; m++) {
               const [_method, def] = methods[m];
               const method = stringCamelCase(_method);
 
@@ -560,7 +561,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const modules = Object.keys(named);
 
-    for (let i = 0; i < modules.length; i++) {
+    for (let i = 0, count = modules.length; i < count; i++) {
       lazyMethod(result, modules[i], lazySection);
     }
 
@@ -645,7 +646,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const sections = Object.keys(tx);
 
-    for (let i = 0; i < sections.length; i++) {
+    for (let i = 0, count = sections.length; i < count; i++) {
       lazyMethod(result, sections[i], lazySection);
     }
 
@@ -676,7 +677,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const sections = Object.keys(query);
 
-    for (let i = 0; i < sections.length; i++) {
+    for (let i = 0, count = sections.length; i < count; i++) {
       lazyMethod(result, sections[i], lazySection);
     }
 

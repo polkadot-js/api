@@ -103,9 +103,10 @@ const PATH_RM_INDEX_1 = ['generic', 'misc', 'pallet', 'traits', 'types'];
 
 /** @internal Converts a Text[] into string[] (used as part of definitions) */
 function sanitizeDocs (docs: Text[]): string[] {
-  const result = new Array<string>(docs.length);
+  const count = docs.length;
+  const result = new Array<string>(count);
 
-  for (let i = 0; i < docs.length; i++) {
+  for (let i = 0; i < count; i++) {
     result[i] = docs[i].toString();
   }
 
@@ -114,9 +115,10 @@ function sanitizeDocs (docs: Text[]): string[] {
 
 /** @internal Split a namespace with :: into individual parts */
 function splitNamespace (values: string[]): string[][] {
-  const result = new Array<string[]>(values.length);
+  const count = values.length;
+  const result = new Array<string[]>(count);
 
-  for (let i = 0; i < values.length; i++) {
+  for (let i = 0; i < count; i++) {
     result[i] = values[i].split('::');
   }
 
@@ -237,7 +239,7 @@ function extractName (portable: PortableType[], lookupIndex: number, { type: { p
 function nextDupeMatches (name: string, startAt: number, names: Extract[]): Extract[] {
   const result = [names[startAt]];
 
-  for (let i = startAt + 1; i < names.length; i++) {
+  for (let i = startAt + 1, count = names.length; i < count; i++) {
     const v = names[i];
 
     if (v.name === name) {
@@ -331,11 +333,12 @@ function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], na
       }
 
       // see if using the param type helps
-      const adjusted = new Array<ExtractBase>(allSame.length);
+      const sameCount = allSame.length;
+      const adjusted = new Array<ExtractBase>(sameCount);
 
       // loop through all, specifically checking that index where the
       // first param yields differences
-      for (let i = 0; i < allSame.length; i++) {
+      for (let i = 0; i < sameCount; i++) {
         const { lookupIndex, name, params } = allSame[i];
         const { def, path } = lookup.getSiType(params[paramIdx].type.unwrap());
 
@@ -364,7 +367,7 @@ function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], na
       // Last-ditch effort to use the full type path - ugly
       // loop through all, specifically checking that index where the
       // first param yields differences
-      for (let i = 0; i < allSame.length; i++) {
+      for (let i = 0; i < sameCount; i++) {
         const { lookupIndex, name, params } = allSame[i];
         const { def, path } = lookup.getSiType(params[paramIdx].type.unwrap());
         const flat = extractNameFlat(portable, lookupIndex, params, path, true);
@@ -465,9 +468,8 @@ function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?:
 function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): TypeInfo {
   const nameInfo: Extract[] = [];
   const types: Record<number, PortableType> = {};
-  const porCount = portable.length;
 
-  for (let i = 0; i < porCount; i++) {
+  for (let i = 0, count = portable.length; i < count; i++) {
     const type = portable[i];
     const lookupIndex = type.id.toNumber();
     const extracted = extractName(portable, lookupIndex, portable[i]);
@@ -483,9 +485,8 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): T
   const names: Record<number, string> = {};
   const params: Record<string, SiTypeParameter[]> = {};
   const dedup = removeDupeNames(lookup, portable, nameInfo);
-  const dedupCount = dedup.length;
 
-  for (let i = 0; i < dedupCount; i++) {
+  for (let i = 0, count = dedup.length; i < count; i++) {
     const { lookupIndex, name, params: p } = dedup[i];
 
     names[lookupIndex] = name;
@@ -832,8 +833,9 @@ export class PortableRegistry extends Struct implements ILookup {
   #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
     let isStruct = true;
     let isTuple = true;
+    const count = fields.length;
 
-    for (let f = 0; f < fields.length; f++) {
+    for (let f = 0; f < count; f++) {
       const { name } = fields[f];
 
       isStruct = isStruct && name.isSome;
@@ -844,12 +846,12 @@ export class PortableRegistry extends Struct implements ILookup {
       throw new Error('Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
     }
 
-    if (fields.length === 0) {
+    if (count === 0) {
       return {
         info: TypeDefInfo.Null,
         type: 'Null'
       };
-    } else if (isTuple && fields.length === 1) {
+    } else if (isTuple && count === 1) {
       const typeDef = this.#createSiDef(fields[0].type);
 
       return objectSpread(
@@ -892,9 +894,10 @@ export class PortableRegistry extends Struct implements ILookup {
   /** @internal Apply field aliassed (with no JS conflicts) */
   #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
-    const sub = new Array<TypeDef>(fields.length);
+    const count = fields.length;
+    const sub = new Array<TypeDef>(count);
 
-    for (let i = 0; i < fields.length; i++) {
+    for (let i = 0; i < count; i++) {
       const { docs, name, type, typeName } = fields[i];
       const typeDef = this.#createSiDef(type);
 

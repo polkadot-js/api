@@ -21,7 +21,7 @@ export function decorateEvents (registry: Registry, { lookup, pallets }: Metadat
   const result: Events = {};
   const filtered = pallets.filter(filterEventsSome);
 
-  for (let i = 0; i < filtered.length; i++) {
+  for (let i = 0, count = filtered.length; i < count; i++) {
     const { events, index, name } = filtered[i];
     const sectionIndex = version >= 12 ? index.toNumber() : i;
 

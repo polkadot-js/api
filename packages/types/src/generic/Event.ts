@@ -110,7 +110,7 @@ export class GenericEventData extends Tuple implements IEventData {
     if (this.#names !== null) {
       const json: Record<string, AnyJson> = {};
 
-      for (let i = 0; i < this.#names.length; i++) {
+      for (let i = 0, count = this.#names.length; i < count; i++) {
         json[this.#names[i]] = this[i].toHuman(isExtended);
       }
 

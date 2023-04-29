@@ -39,7 +39,7 @@ function getTypeClassMap (value: TypeDef): Record<string, string> {
   const subs = getSubDefArray(value);
   const map: Record<string, string> = {};
 
-  for (let i = 0; i < subs.length; i++) {
+  for (let i = 0, count = subs.length; i < count; i++) {
     map[subs[i].name as string] = getTypeDefType(subs[i]);
   }
 
