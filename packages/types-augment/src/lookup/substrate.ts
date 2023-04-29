@@ -5590,7 +5590,8 @@ export default {
     tableSize: 'u32',
     brTableSize: 'u32',
     subjectLen: 'u32',
-    payloadLen: 'u32'
+    payloadLen: 'u32',
+    runtimeMemory: 'u32'
   },
   /**
    * Lookup552: pallet_contracts::schedule::InstructionWeights<T>

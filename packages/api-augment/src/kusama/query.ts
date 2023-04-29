@@ -999,15 +999,6 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       reports: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<SpStakingOffenceOffenceDetails>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
-       * Enumerates all reports of a kind along with the time they happened.
-       * 
-       * All reports are sorted by the time of offence.
-       * 
-       * Note that the actual type of this mapping is `Vec<u8>`, this is because values of
-       * different types are not supported at the moment so we are doing the manual serialization.
-       **/
-      reportsByKindIndex: AugmentedQuery<ApiType, (arg: U8aFixed | string | Uint8Array) => Observable<Bytes>, [U8aFixed]> & QueryableStorageEntry<ApiType, [U8aFixed]>;
-      /**
        * Generic query
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
@@ -2115,6 +2106,10 @@ declare module '@polkadot/api-base/types/storage' {
        * of our versions we informed them of.
        **/
       versionNotifyTargets: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: XcmVersionedMultiLocation | { V2: any } | { V3: any } | string | Uint8Array) => Observable<Option<ITuple<[u64, SpWeightsWeightV2Weight, u32]>>>, [u32, XcmVersionedMultiLocation]> & QueryableStorageEntry<ApiType, [u32, XcmVersionedMultiLocation]>;
+      /**
+       * Global suspension state of the XCM executor.
+       **/
+      xcmExecutionSuspended: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/

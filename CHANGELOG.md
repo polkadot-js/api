@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 10.5.1 Apr 29, 2023
 
 Changes:
 
@@ -8,6 +8,7 @@ Changes:
 - Allow for disabling of `isPedantic` storage checks in API options
 - Adjust usage of `objectSpread`, default to runtime as required
 - Adjust compilation output for `__internal__` class fields
+- Update to latest Polkadot, Kusama & Substrate metadata
 
 
 ## 10.4.1 Apr 22, 2023

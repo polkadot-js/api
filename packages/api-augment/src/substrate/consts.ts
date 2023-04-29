@@ -210,6 +210,10 @@ declare module '@polkadot/api-base/types/consts' {
     };
     contracts: {
       /**
+       * Fallback value to limit the storage deposit if it's not being set by the caller.
+       **/
+      defaultDepositLimit: u128 & AugmentedConst<ApiType>;
+      /**
        * The amount of balance a caller has to pay for each byte of storage.
        * 
        * # Note

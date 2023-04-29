@@ -3987,22 +3987,29 @@ declare module '@polkadot/api-base/types/submittable' {
        * Set a safe XCM version (the version that XCM should be encoded with if the most recent
        * version a destination can accept is unknown).
        * 
-       * - `origin`: Must be Root.
+       * - `origin`: Must be an origin specified by AdminOrigin.
        * - `maybe_xcm_version`: The default XCM encoding version, or `None` to disable.
        **/
       forceDefaultXcmVersion: AugmentedSubmittable<(maybeXcmVersion: Option<u32> | null | Uint8Array | u32 | AnyNumber) => SubmittableExtrinsic<ApiType>, [Option<u32>]>;
       /**
        * Ask a location to notify us regarding their XCM version and any changes to it.
        * 
-       * - `origin`: Must be Root.
+       * - `origin`: Must be an origin specified by AdminOrigin.
        * - `location`: The location to which we should subscribe for XCM version notifications.
        **/
       forceSubscribeVersionNotify: AugmentedSubmittable<(location: XcmVersionedMultiLocation | { V2: any } | { V3: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [XcmVersionedMultiLocation]>;
       /**
+       * Set or unset the global suspension state of the XCM executor.
+       * 
+       * - `origin`: Must be an origin specified by AdminOrigin.
+       * - `suspended`: `true` to suspend, `false` to resume.
+       **/
+      forceSuspension: AugmentedSubmittable<(suspended: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [bool]>;
+      /**
        * Require that a particular destination should no longer notify us regarding any XCM
        * version changes.
        * 
-       * - `origin`: Must be Root.
+       * - `origin`: Must be an origin specified by AdminOrigin.
        * - `location`: The location to which we are currently subscribed for XCM version
        * notifications which we no longer desire.
        **/
@@ -4011,7 +4018,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Extoll that a particular destination can be communicated with through a particular
        * version of XCM.
        * 
-       * - `origin`: Must be Root.
+       * - `origin`: Must be an origin specified by AdminOrigin.
        * - `location`: The destination that is being described.
        * - `xcm_version`: The latest version of XCM that `location` supports.
        **/
