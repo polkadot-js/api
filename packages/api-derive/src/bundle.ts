@@ -119,7 +119,7 @@ function injectFunctions (instanceId: string, api: DeriveApi, derives: DeriveCus
     )
   ));
 
-  for (let i = 0; i < names.length; i++) {
+  for (let i = 0, count = names.length; i < count; i++) {
     const name = names[i];
 
     isIncluded(name) &&

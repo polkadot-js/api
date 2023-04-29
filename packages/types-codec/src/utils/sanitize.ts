@@ -58,14 +58,14 @@ export function trim (): Mapper {
 export function findClosing (value: string, start: number): number {
   let depth = 0;
 
-  for (let index = start; index < value.length; index++) {
-    if (value[index] === '>') {
+  for (let i = start, count = value.length; i < count; i++) {
+    if (value[i] === '>') {
       if (!depth) {
-        return index;
+        return i;
       }
 
       depth--;
-    } else if (value[index] === '<') {
+    } else if (value[i] === '<') {
       depth++;
     }
   }
@@ -91,12 +91,12 @@ export function alias (src: string, dest: string, withChecks = true): Mapper {
 export function cleanupCompact (): Mapper {
   return (value: string): string => {
     if (value.includes(' as HasCompact')) {
-      for (let index = 0; index < value.length; index++) {
-        if (value[index] === '<') {
-          const end = findClosing(value, index + 1) - 14;
+      for (let i = 0, count = value.length; i < count; i++) {
+        if (value[i] === '<') {
+          const end = findClosing(value, i + 1) - 14;
 
           if (value.substring(end, end + 14) === ' as HasCompact') {
-            value = `Compact<${value.substring(index + 1, end)}>`;
+            value = `Compact<${value.substring(i + 1, end)}>`;
           }
         }
       }
@@ -141,7 +141,7 @@ function replaceTagWith (value: string, matcher: string, replacer: (inner: strin
 // remove the Bounded* or Weak* wrappers
 export function removeExtensions (type: string, isSized: boolean): Mapper {
   return (value: string): string => {
-    for (let i = 0; i < BOUNDED.length; i++) {
+    for (let i = 0, count = BOUNDED.length; i < count; i++) {
       const tag = BOUNDED[i];
 
       value = replaceTagWith(value, `${type}${tag}<`, (v: string): string => {
@@ -188,16 +188,16 @@ export function removeColons (): Mapper {
 
 export function removeGenerics (): Mapper {
   return (value: string): string => {
-    for (let index = 0; index < value.length; index++) {
-      if (value[index] === '<') {
+    for (let i = 0, count = value.length; i < count; i++) {
+      if (value[i] === '<') {
         // check against the allowed wrappers, be it Vec<..>, Option<...> ...
         const box = ALLOWED_BOXES.find((box): boolean => {
-          const start = index - box.length;
+          const start = i - box.length;
 
           return (
             (
               start >= 0 &&
-              value.substring(start, index) === box
+              value.substring(start, i) === box
             ) && (
               // make sure it is stand-alone, i.e. don't catch ElectionResult<...> as Result<...>
               start === 0 ||
@@ -208,9 +208,9 @@ export function removeGenerics (): Mapper {
 
         // we have not found anything, unwrap generic innards
         if (!box) {
-          const end = findClosing(value, index + 1);
+          const end = findClosing(value, i + 1);
 
-          value = `${value.substring(0, index)}${value.substring(end + 1)}`;
+          value = `${value.substring(0, i)}${value.substring(end + 1)}`;
         }
       }
     }
@@ -280,7 +280,7 @@ export function sanitize (value: AnyString): string {
 
   let result = startValue;
 
-  for (let i = 0; i < mappings.length; i++) {
+  for (let i = 0, count = mappings.length; i < count; i++) {
     result = mappings[i](result);
   }
 

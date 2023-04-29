@@ -87,9 +87,10 @@ export class BitVec extends Raw {
       !!(v & 0b0000_0010),
       !!(v & 0b0000_0001)
     ]);
-    const result = new Array<boolean>(8 * map.length);
+    const count = map.length;
+    const result = new Array<boolean>(8 * count);
 
-    for (let i = 0; i < map.length; i++) {
+    for (let i = 0; i < count; i++) {
       const off = i * 8;
       const v = map[i];
 

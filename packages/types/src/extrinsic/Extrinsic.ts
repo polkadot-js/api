@@ -88,7 +88,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
 
     // This is on the abstract class, ensuring that hasOwnProperty operates
     // correctly, i.e. it needs to be on the base class exposing it
-    for (let i = 0; i < signKeys.length; i++) {
+    for (let i = 0, count = signKeys.length; i < count; i++) {
       objectProperty(this, signKeys[i], getter);
     }
   }

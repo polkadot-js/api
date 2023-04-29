@@ -12,7 +12,7 @@ export function getStorage (registry: Registry): Storage {
   const storage: Record<string, StorageEntry> = {};
   const entries = Object.entries(substrate);
 
-  for (let e = 0; e < entries.length; e++) {
+  for (let e = 0, count = entries.length; e < count; e++) {
     storage[entries[e][0]] = entries[e][1](registry);
   }
 

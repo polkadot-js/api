@@ -31,7 +31,7 @@ export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): It
 export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Errors {
   const result: Errors = {};
 
-  for (let i = 0; i < pallets.length; i++) {
+  for (let i = 0, count = pallets.length; i < count; i++) {
     const { errors, index, name } = pallets[i];
 
     if (errors.isSome) {

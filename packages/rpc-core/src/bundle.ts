@@ -170,12 +170,12 @@ export class RpcCore {
     // add any extra user-defined sections
     this.sections.push(...Object.keys(userRpc).filter((k) => !this.sections.includes(k)));
 
-    for (let s = 0; s < this.sections.length; s++) {
+    for (let s = 0, scount = this.sections.length; s < scount; s++) {
       const section = this.sections[s];
       const defs = objectSpread<Record<string, DefinitionRpc | DefinitionRpcSub>>({}, rpcDefinitions[section as 'babe'], userRpc[section]);
       const methods = Object.keys(defs);
 
-      for (let m = 0; m < methods.length; m++) {
+      for (let m = 0, mcount = methods.length; m < mcount; m++) {
         const method = methods[m];
         const def = defs[method];
         const jsonrpc = def.endpoint || `${section}_${method}`;
@@ -362,15 +362,16 @@ export class RpcCore {
   }
 
   private _formatParams (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
+    const count = inputs.length;
     const reqCount = def.params.filter(({ isOptional }) => !isOptional).length;
 
-    if (inputs.length < reqCount || inputs.length > def.params.length) {
-      throw new Error(`Expected ${def.params.length} parameters${reqCount === def.params.length ? '' : ` (${def.params.length - reqCount} optional)`}, ${inputs.length} found instead`);
+    if (count < reqCount || count > def.params.length) {
+      throw new Error(`Expected ${def.params.length} parameters${reqCount === def.params.length ? '' : ` (${def.params.length - reqCount} optional)`}, ${count} found instead`);
     }
 
-    const params = new Array<Codec>(inputs.length);
+    const params = new Array<Codec>(count);
 
-    for (let i = 0; i < inputs.length; i++) {
+    for (let i = 0; i < count; i++) {
       params[i] = registry.createTypeUnsafe(def.params[i].type, [inputs[i]], { blockHash });
     }
 
@@ -390,9 +391,10 @@ export class RpcCore {
         : registry.createType('StorageChangeSet', result);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
       const jsonSet = (result as StorageChangeSetJSON[]);
-      const mapped = new Array<[Hash, Codec[]]>(jsonSet.length);
+      const count = jsonSet.length;
+      const mapped = new Array<[Hash, Codec[]]>(count);
 
-      for (let i = 0; i < jsonSet.length; i++) {
+      for (let i = 0; i < count; i++) {
         const { block, changes } = jsonSet[i];
 
         mapped[i] = [
@@ -426,12 +428,13 @@ export class RpcCore {
 
   private _formatStorageSet (registry: Registry, blockHash: string, keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
     // For StorageChangeSet, the changes has the [key, value] mappings
-    const withCache = keys.length !== 1;
-    const values = new Array<Codec>(keys.length);
+    const count = keys.length;
+    const withCache = count !== 1;
+    const values = new Array<Codec>(count);
 
     // multiple return values (via state.storage subscription), decode the
     // values one at a time, all based on the supplied query types
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0; i < count; i++) {
       values[i] = this._formatStorageSetEntry(registry, blockHash, keys[i], changes, withCache, i);
     }
 

@@ -55,7 +55,7 @@ export function _flags (instanceId: string, api: DeriveApi): () => Observable<Fl
       map((values: Codec[]): FlagsIntermediate => {
         let resultIndex = -1;
 
-        for (let i = 0; i < calls.length; i++) {
+        for (let i = 0, count = calls.length; i < count; i++) {
           if (isFunction(calls[i])) {
             results[i] = values[++resultIndex];
           }

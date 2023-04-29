@@ -3,7 +3,7 @@
 
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types.js';
 
-import { logger } from '@polkadot/util';
+import { logger, noop } from '@polkadot/util';
 import { fetch } from '@polkadot/x-fetch';
 
 import { RpcCoder } from '../coder/index.js';
@@ -115,9 +115,7 @@ export class HttpProvider implements ProviderInterface {
   public on (_type: ProviderInterfaceEmitted, _sub: ProviderInterfaceEmitCb): () => void {
     l.error('HTTP Provider does not have \'on\' emitters, use WebSockets instead');
 
-    return (): void => {
-      // noop
-    };
+    return noop;
   }
 
   /**

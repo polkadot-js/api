@@ -21,16 +21,17 @@ function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, 
   let jsonObj: Record<string, unknown> | undefined;
   const typeofArray = Array.isArray(value);
   const typeofMap = value instanceof Map;
+  const count = keys.length;
 
   if (!typeofArray && !typeofMap && !isObject(value)) {
     throw new Error(`Struct: Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object, map or array`);
-  } else if (typeofArray && value.length !== keys.length) {
+  } else if (typeofArray && value.length !== count) {
     throw new Error(`Struct: Unable to map ${stringify(value)} array to object with known keys ${keys.join(', ')}`);
   }
 
-  const raw = new Array<[string, Codec]>(keys.length);
+  const raw = new Array<[string, Codec]>(count);
 
-  for (let i = 0; i < keys.length; i++) {
+  for (let i = 0; i < count; i++) {
     const key = keys[i];
     const jsonKey = jsonMap.get(key) || key;
     const Type = Types[i];
@@ -50,7 +51,7 @@ function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, 
 
             jsonObj = {};
 
-            for (let e = 0; e < entries.length; e++) {
+            for (let e = 0, ecount = entries.length; e < ecount; e++) {
               jsonObj[stringCamelCase(entries[e][0])] = entries[e][1];
             }
           }
@@ -192,7 +193,7 @@ export class Struct<
     const result: Record<string, string> = {};
     const [Types, keys] = this.#Types;
 
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0, count = keys.length; i < count; i++) {
       result[keys[i]] = new Types[i](this.registry).toRawType();
     }
 

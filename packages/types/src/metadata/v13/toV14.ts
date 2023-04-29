@@ -54,7 +54,7 @@ function compatType (specs: TypeSpec[], _type: Text | string): number {
 }
 
 function compatTypes (specs: TypeSpec[], ...types: (Text | string)[]): void {
-  for (let i = 0; i < types.length; i++) {
+  for (let i = 0, count = types.length; i < count; i++) {
     compatType(specs, types[i]);
   }
 }

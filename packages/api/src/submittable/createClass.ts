@@ -13,7 +13,7 @@ import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, Submittable
 
 import { catchError, first, map, mergeMap, of, switchMap, tap } from 'rxjs';
 
-import { isBn, isFunction, isNumber, isString, isU8a, objectSpread } from '@polkadot/util';
+import { identity, isBn, isFunction, isNumber, isString, isU8a, objectSpread } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util/index.js';
 import { SubmittableResult } from './Result.js';
@@ -29,8 +29,6 @@ interface UpdateInfo {
   options: SignatureOptions;
   updateId: number;
 }
-
-const identity = <T> (input: T): T => input;
 
 function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
   if (!header) {
@@ -92,7 +90,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
   class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
 
-    #transformResult: (input: ISubmittableResult) => ISubmittableResult = identity;
+    #transformResult = identity<ISubmittableResult>;
 
     constructor (registry: Registry, extrinsic: Call | Extrinsic | Uint8Array | string) {
       super(registry, extrinsic, { version: api.extrinsicType });

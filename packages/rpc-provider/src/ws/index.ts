@@ -356,8 +356,12 @@ export class WsProvider implements ProviderInterface {
           start: Date.now(),
           subscription
         };
-        this.#endpointStats.bytesSent += body.length;
-        this.#stats.total.bytesSent += body.length;
+
+        const bytesSent = body.length;
+
+        this.#endpointStats.bytesSent += bytesSent;
+        this.#stats.total.bytesSent += bytesSent;
+
         this.#websocket.send(body);
       } catch (error) {
         this.#endpointStats.errors++;
@@ -480,8 +484,10 @@ export class WsProvider implements ProviderInterface {
   #onSocketMessage = (message: MessageEvent<string>): void => {
     l.debug(() => ['received', message.data]);
 
-    this.#endpointStats.bytesRecv += message.data.length;
-    this.#stats.total.bytesRecv += message.data.length;
+    const bytesRecv = message.data.length;
+
+    this.#endpointStats.bytesRecv += bytesRecv;
+    this.#stats.total.bytesRecv += bytesRecv;
 
     const response = JSON.parse(message.data) as JsonRpcResponse;
 
@@ -602,7 +608,7 @@ export class WsProvider implements ProviderInterface {
     const now = Date.now();
     const ids = Object.keys(this.#handlers);
 
-    for (let i = 0; i < ids.length; i++) {
+    for (let i = 0, count = ids.length; i < count; i++) {
       const handler = this.#handlers[ids[i]];
 
       if ((now - handler.start) > this.#timeout) {

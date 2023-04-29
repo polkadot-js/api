@@ -265,11 +265,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const sections = Object.keys(source.rpc);
     const rpcs: string[] = [];
 
-    for (let s = 0; s < sections.length; s++) {
+    for (let s = 0, scount = sections.length; s < scount; s++) {
       const section = sections[s];
       const methods = Object.keys((source.rpc as unknown as Record<string, Record<string, unknown>>)[section]);
 
-      for (let m = 0; m < methods.length; m++) {
+      for (let m = 0, mcount = methods.length; m < mcount; m++) {
         rpcs.push(`${section}_${methods[m]}`);
       }
     }

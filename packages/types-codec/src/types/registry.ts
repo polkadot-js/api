@@ -64,6 +64,9 @@ export interface Registry {
   createClassUnsafe <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<T>;
   createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CodecCreateOptions): T;
 
+  // get is for Compat, overridden in derived classes
+  get (...params: never[]): any;
+
   getClassName (clazz: CodecClass): string | undefined;
   getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): CodecClass<T>;
   getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): CodecClass<T>;

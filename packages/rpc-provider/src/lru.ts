@@ -48,9 +48,10 @@ export class LRUCache {
 
   entries (): [string, unknown][] {
     const keys = this.keys();
-    const entries = new Array<[string, unknown]>(keys.length);
+    const count = keys.length;
+    const entries = new Array<[string, unknown]>(count);
 
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0; i < count; i++) {
       const key = keys[i];
 
       entries[i] = [key, this.#data.get(key)];

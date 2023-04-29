@@ -42,9 +42,10 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   public get encodedLength (): number {
     // We need to loop through all entries since they may have a variable length themselves,
     // e.g. when a Vec or Compact is contained withing, it has a variable length based on data
-    let total = compactToU8a(this.length).length;
+    const count = this.length;
+    let total = compactToU8a(count).length;
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < count; i++) {
       total += this[i].encodedLength;
     }
 
@@ -95,9 +96,10 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Internal per-item inspection of internal values
    */
   public inspectInner (): Inspect[] {
-    const inner = new Array<Inspect>(this.length);
+    const count = this.length;
+    const inner = new Array<Inspect>(count);
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < count; i++) {
       inner[i] = this[i].inspect();
     }
 
@@ -122,9 +124,10 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (isExtended?: boolean): AnyJson {
-    const result = new Array<AnyJson>(this.length);
+    const count = this.length;
+    const result = new Array<AnyJson>(count);
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < count; i++) {
       result[i] = this[i] && this[i].toHuman(isExtended);
     }
 
@@ -135,9 +138,10 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   public toJSON (): AnyJson {
-    const result = new Array<AnyJson>(this.length);
+    const count = this.length;
+    const result = new Array<AnyJson>(count);
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < count; i++) {
       // We actually log inside the U8a decoding and use JSON.stringify(...), which
       // means that the Vec may be partially populated (same applies to toHuman, same check)
       result[i] = this[i] && this[i].toJSON();
@@ -150,9 +154,10 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Converts the value in a best-fit primitive form
    */
   public toPrimitive (): AnyJson {
-    const result = new Array<AnyJson>(this.length);
+    const count = this.length;
+    const result = new Array<AnyJson>(count);
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < count; i++) {
       result[i] = this[i] && this[i].toPrimitive();
     }
 
@@ -168,9 +173,10 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description Returns the string representation of the value
    */
   public override toString (): string {
-    const result = new Array<string>(this.length);
+    const count = this.length;
+    const result = new Array<string>(count);
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < count; i++) {
       result[i] = this[i].toString();
     }
 
@@ -195,9 +201,10 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8aInner (isBare?: boolean): Uint8Array[] {
-    const encoded = new Array<Uint8Array>(this.length);
+    const count = this.length;
+    const encoded = new Array<Uint8Array>(count);
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0; i < count; i++) {
       encoded[i] = this[i].toU8a(isBare);
     }
 

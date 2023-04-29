@@ -120,7 +120,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
 
   protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV4): IExtrinsicSignature {
     // use the fields exposed to guide the getters
-    for (let i = 0; i < this.#signKeys.length; i++) {
+    for (let i = 0, count = this.#signKeys.length; i < count; i++) {
       const k = this.#signKeys[i];
       const v = payload.get(k);
 

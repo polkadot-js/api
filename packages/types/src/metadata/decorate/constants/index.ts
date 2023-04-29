@@ -13,7 +13,7 @@ import { objectNameToCamel } from '../util.js';
 export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _version: number): Constants {
   const result: Constants = {};
 
-  for (let i = 0; i < pallets.length; i++) {
+  for (let i = 0, count = pallets.length; i < count; i++) {
     const { constants, name } = pallets[i];
 
     if (!constants.isEmpty) {

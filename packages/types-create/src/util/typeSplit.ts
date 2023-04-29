@@ -14,7 +14,7 @@ export function typeSplit (type: string): string[] {
   // current start position
   let start = 0;
 
-  for (let i = 0; i < type.length; i++) {
+  for (let i = 0, count = type.length; i < count; i++) {
     switch (type[i]) {
       // if we are not nested, add the type
       case ',': {
