@@ -29,7 +29,7 @@
     "@polkadot/x-fetch": "^12.1.1",
     "@polkadot/x-global": "^12.1.1",
     "@polkadot/x-ws": "^12.1.1",
-    "eventemitter3": "^5.0.0",
+    "eventemitter3": "^5.0.1",
     "mock-socket": "^9.2.1",
     "nock": "^13.3.1",
     "tslib": "^2.5.0"
