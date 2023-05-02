@@ -23,7 +23,7 @@ import substrateMeta from '@polkadot/types-support/metadata/static-substrate';
 import { isHex, stringCamelCase, stringLowerFirst } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-import { assertFile, getMetadataViaWs } from './util/index.js';
+import { assertFile, getMetadataViaWs, getRpcMethodsViaWs, getRuntimeVersionViaWs } from './util/index.js';
 
 interface SectionItem {
   link?: string;
@@ -477,6 +477,8 @@ async function mainPromise (): Promise<void> {
   if (endpoint) {
     if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
       metaHex = await getMetadataViaWs(endpoint);
+      rpcMethods = await getRpcMethodsViaWs(endpoint);
+      runtimeApis = await getRuntimeVersionViaWs(endpoint);
     } else {
       metaHex = (
         JSON.parse(
@@ -505,12 +507,8 @@ async function mainPromise (): Promise<void> {
   const runtimeDesc = `default ${chainName} runtime`;
   const docRoot = `docs/${chainName.toLowerCase()}`;
 
-  // TODO Pass the result from `rpc_methods` (done via util/wsMeta.ts -> getRpcMethodsViaWs)
-  // into here if we want to have a per-chain overview (via args)
   writeFile(`${docRoot}/rpc.md`, addRpc(runtimeDesc, rpcMethods));
 
-  // TODO Pass the result from `state_getRuntimeVersion` (done via util/wsMeta.ts -> getRuntimeVersionViaWs)
-  // into here if we want to have a per-chain overview (via args)
   writeFile(`${docRoot}/runtime.md`, addRuntime(runtimeDesc, runtimeApis));
 
   writeFile(`${docRoot}/constants.md`, addConstants(runtimeDesc, latest));
