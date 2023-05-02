@@ -207,7 +207,9 @@ export class WsProvider implements ProviderInterface {
 
     try {
       this.#endpointIndex = this.selectEndpointIndex(this.#endpoints);
-      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass<Constructor<WebSocket>>(xglobal.WebSocket, WebSocket)
+
+      // the as here is Deno-specific - not available on the globalThis
+      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass(xglobal.WebSocket as unknown as Constructor<WebSocket>, WebSocket)
         ? new WebSocket(this.endpoint)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of ws, which supports options
