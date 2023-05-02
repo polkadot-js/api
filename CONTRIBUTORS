@@ -64,6 +64,7 @@
        1	Drew Stone                    	Update evm definitions to include vicinity (#2279)
        1	Dylan Galea                   	Updated users of the polkadot-js/api (#2027)
        1	flex                          	Change BeefySignedCommitment signatures type to EcdsaSignature (#4204)
+       1	Florian Franzen               	metadataMd: use endpoint for rpc and runtime details too (#5628)
        1	Furqan A                      	fix: fixed 404 to the docs from the api readme (#3985)
        1	Gérard Dethier                	Fix LRUCache memory leak. (#4520)
        1	Gerben van de Wiel            	Adding some extra notes on changes in the specname (#2329)
