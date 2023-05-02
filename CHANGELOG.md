@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Apply historic `Scheduled` types for Kusama (as reported, non-comprehensive)
+
+
 ## 10.5.1 Apr 29, 2023
 
 Changes:

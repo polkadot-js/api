@@ -57,6 +57,7 @@ export const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
+      Scheduled: 'ScheduledTo254',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
@@ -76,6 +77,7 @@ export const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
+      Scheduled: 'ScheduledTo254',
       SlashingSpans: 'SlashingSpansTo204',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
@@ -96,6 +98,7 @@ export const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
+      Scheduled: 'ScheduledTo254',
       StakingLedger: 'StakingLedgerTo223',
       Votes: 'VotesTo230',
       Weight: 'u32'
@@ -113,6 +116,7 @@ export const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
+      Scheduled: 'ScheduledTo254',
       StakingLedger: 'StakingLedgerTo223',
       Weight: 'u32'
     }
@@ -129,6 +133,7 @@ export const versioned: OverrideVersionedType[] = [
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
       ReferendumInfo: 'ReferendumInfoTo239',
+      Scheduled: 'ScheduledTo254',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
     }
@@ -144,6 +149,7 @@ export const versioned: OverrideVersionedType[] = [
       Multiplier: 'Fixed64',
       OpenTip: 'OpenTipTo225',
       RefCount: 'RefCountTo259',
+      Scheduled: 'ScheduledTo254',
       StakingLedger: 'StakingLedgerTo240',
       Weight: 'u32'
     }
@@ -157,7 +163,15 @@ export const versioned: OverrideVersionedType[] = [
       DispatchInfo: 'DispatchInfoTo244',
       Heartbeat: 'HeartbeatTo244',
       OpenTip: 'OpenTipTo225',
-      RefCount: 'RefCountTo259'
+      RefCount: 'RefCountTo259',
+      // Last 100% known problematic runtime range - this quite possibly need to
+      // apply to more runtime ranges that follow, we just don't know how far this
+      // should be applied to
+      //
+      // TL;DR whack-a-mole since this was not histrically checked
+      //
+      // See https://github.com/polkadot-js/api/issues/5618#issuecomment-1530970316
+      Scheduled: 'ScheduledTo254'
     }
   },
   {
