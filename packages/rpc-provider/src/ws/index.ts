@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Constructor } from '@polkadot/util/types';
 import type { EndpointStats, JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types.js';
 
 import { EventEmitter } from 'eventemitter3';
@@ -206,7 +207,7 @@ export class WsProvider implements ProviderInterface {
 
     try {
       this.#endpointIndex = this.selectEndpointIndex(this.#endpoints);
-      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass<typeof WebSocket>(xglobal.WebSocket, WebSocket)
+      this.#websocket = typeof xglobal.WebSocket !== 'undefined' && isChildClass<Constructor<WebSocket>>(xglobal.WebSocket, WebSocket)
         ? new WebSocket(this.endpoint)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore - WS may be an instance of ws, which supports options
