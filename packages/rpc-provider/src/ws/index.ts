@@ -91,7 +91,7 @@ export class WsProvider implements ProviderInterface {
   readonly #handlers: Record<string, WsStateAwaiting> = {};
   readonly #isReadyPromise: Promise<WsProvider>;
   readonly #stats: ProviderStats;
-  readonly #waitingForId: Record<string, JsonRpcResponse> = {};
+  readonly #waitingForId: Record<string, JsonRpcResponse<unknown>> = {};
 
   #autoConnectMs: number;
   #endpointIndex: number;
@@ -489,14 +489,14 @@ export class WsProvider implements ProviderInterface {
     this.#endpointStats.bytesRecv += bytesRecv;
     this.#stats.total.bytesRecv += bytesRecv;
 
-    const response = JSON.parse(message.data) as JsonRpcResponse;
+    const response = JSON.parse(message.data) as JsonRpcResponse<string>;
 
     return isUndefined(response.method)
       ? this.#onSocketMessageResult(response)
       : this.#onSocketMessageSubscribe(response);
   };
 
-  #onSocketMessageResult = (response: JsonRpcResponse): void => {
+  #onSocketMessageResult = (response: JsonRpcResponse<string>): void => {
     const handler = this.#handlers[response.id];
 
     if (!handler) {
@@ -507,7 +507,7 @@ export class WsProvider implements ProviderInterface {
 
     try {
       const { method, params, subscription } = handler;
-      const result = this.#coder.decodeResponse(response) as string;
+      const result = this.#coder.decodeResponse<string>(response);
 
       // first send the result - in case of subs, we may have an update
       // immediately if we have some queued results already
@@ -536,7 +536,7 @@ export class WsProvider implements ProviderInterface {
     delete this.#handlers[response.id];
   };
 
-  #onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
+  #onSocketMessageSubscribe = (response: JsonRpcResponse<unknown>): void => {
     const method = ALIASES[response.method as string] || response.method || 'invalid';
     const subId = `${method}::${response.params.subscription}`;
     const handler = this.#subscriptions[subId];

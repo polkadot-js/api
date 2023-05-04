@@ -132,11 +132,11 @@ export class ScProvider implements ProviderInterface {
         return;
       }
 
-      const response = JSON.parse(hcRes) as JsonRpcResponse;
+      const response = JSON.parse(hcRes) as JsonRpcResponse<string>;
       let decodedResponse: string | Error;
 
       try {
-        decodedResponse = this.#coder.decodeResponse(response) as string;
+        decodedResponse = this.#coder.decodeResponse(response);
       } catch (e) {
         decodedResponse = e as Error;
       }
