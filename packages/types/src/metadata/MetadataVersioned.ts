@@ -33,7 +33,7 @@ const TO_CALLS_VERSION = 14; // LATEST_VERSION;
 type MetaAll = typeof KNOWN_VERSIONS[number];
 type MetaAsX = `asV${MetaAll}`;
 type MetaMapped = MetadataAll[MetaAsX];
-type MetaVersions = MetaAll | 'latest';
+type MetaVersions = Exclude<MetaAll, 9> | 'latest';
 
 /**
  * @name MetadataVersioned
@@ -63,16 +63,17 @@ export class MetadataVersioned extends Struct {
   };
 
   #getVersion = <T extends MetaMapped, F extends MetaMapped>(version: MetaVersions, fromPrev: (registry: Registry, input: F, metaVersion: number) => T): T => {
-    const asCurr = `asV${version}` as MetaAsX;
-    const asPrev = version === 'latest'
-      ? `asV${LATEST_VERSION}` as MetaAsX
-      : `asV${version - 1}` as MetaAsX;
-
     if (version !== 'latest' && this.#assertVersion(version)) {
+      const asCurr: MetaAsX = `asV${version}`;
+
       return this.#metadata()[asCurr] as T;
     }
 
     if (!this.#converted.has(version)) {
+      const asPrev: MetaAsX = version === 'latest'
+        ? `asV${LATEST_VERSION}`
+        : `asV${(version - 1) as MetaAll}`;
+
       this.#converted.set(version, fromPrev(this.registry, this[asPrev] as F, this.version));
     }
 
