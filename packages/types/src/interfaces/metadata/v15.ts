@@ -7,7 +7,7 @@
 import type { DefinitionsTypes } from '../../types/index.js';
 
 export const v15: DefinitionsTypes = {
-  // new in v15
+  // new/adjusted in v15
   PalletMetadataV15: {
     name: 'Text',
     storage: 'Option<PalletStorageMetadataV14>',
@@ -34,7 +34,7 @@ export const v15: DefinitionsTypes = {
     type: 'SiLookupTypeId'
   },
 
-  // actual v15 defintion
+  // actual v15 definition
   MetadataV15: {
     lookup: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV15>',
