@@ -3,7 +3,7 @@
 
 import type { AnyJson } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata/index.js';
+import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV15 } from '../interfaces/metadata/index.js';
 import type { Registry } from '../types/index.js';
 
 import { Struct } from '@polkadot/types-codec';
@@ -14,12 +14,13 @@ import { toV11 } from './v10/toV11.js';
 import { toV12 } from './v11/toV12.js';
 import { toV13 } from './v12/toV13.js';
 import { toV14 } from './v13/toV14.js';
-import { toLatest } from './v14/toLatest.js';
+import { toV15 } from './v14/toV15.js';
+import { toLatest } from './v15/toLatest.js';
 import { MagicNumber } from './MagicNumber.js';
 
 // Use these to generate all the Meta* types below via template keys
 // NOTE: Keep from latest -> earliest, see the LATEST_VERSION 0 index
-const KNOWN_VERSIONS = [14, 13, 12, 11, 10, 9] as const;
+const KNOWN_VERSIONS = [15, 14, 13, 12, 11, 10, 9] as const;
 const LATEST_VERSION = KNOWN_VERSIONS[0];
 
 type MetaAll = typeof KNOWN_VERSIONS[number];
@@ -130,6 +131,13 @@ export class MetadataVersioned extends Struct {
    */
   public get asV14 (): MetadataV14 {
     return this.#getVersion(14, toV14);
+  }
+
+  /**
+   * @description Returns the wrapped values as a V14 object
+   */
+  public get asV15 (): MetadataV15 {
+    return this.#getVersion(15, toV15);
   }
 
   /**
