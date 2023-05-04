@@ -29,9 +29,17 @@ for (const type of ['kusama', 'polkadot', 'substrate'] as const) {
     });
 
     it('has a sane toCallsOnly', (): void => {
+      const test = metadata.asCallsOnly;
+
+      // it has a useful length
       expect(
-        metadata.asCallsOnly.toU8a().length > 65536
+        test.toU8a().length > 65536
       ).toBe(true);
+
+      // it sets it to the correct version
+      expect(
+        test.version
+      ).toEqual(14);
     });
   });
 }

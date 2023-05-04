@@ -23,6 +23,13 @@ import { MagicNumber } from './MagicNumber.js';
 const KNOWN_VERSIONS = [15, 14, 13, 12, 11, 10, 9] as const;
 const LATEST_VERSION = KNOWN_VERSIONS[0];
 
+// This is part of migration. The toCallsOnly would be usede for esxtensions,
+// i.e. they need to be updated. To ensure that they are passed a known version
+// we actually set this to a known-working version
+//
+// NOTE: This would only work on compatible types, i.e. v14 & v15 comply
+const TO_CALLS_VERSION = 14; // LATEST_VERSION;
+
 type MetaAll = typeof KNOWN_VERSIONS[number];
 type MetaAsX = `asV${MetaAll}`;
 type MetaMapped = MetadataAll[MetaAsX];
@@ -85,7 +92,7 @@ export class MetadataVersioned extends Struct {
   public get asCallsOnly (): MetadataVersioned {
     return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
-      metadata: this.registry.createTypeUnsafe('MetadataAll', [toCallsOnly(this.registry, this.asLatest), LATEST_VERSION])
+      metadata: this.registry.createTypeUnsafe('MetadataAll', [toCallsOnly(this.registry, this.asLatest), TO_CALLS_VERSION])
     });
   }
 
