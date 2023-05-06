@@ -8,9 +8,9 @@ Contributed:
 
 Changes:
 
-- Cater for metadata v15
 - Apply historic `Scheduled` types for Kusama (as reported, non-comprehensive)
 - Adjust Deno types inside `WsProvider`
+- Allow parsing of (experimental) metadata v15
 
 
 ## 10.5.1 Apr 29, 2023
