@@ -166,7 +166,7 @@ export class HttpProvider implements ProviderInterface {
 
       this.#stats.total.bytesRecv += result.length;
 
-      const decoded = this.#coder.decodeResponse(JSON.parse(result) as JsonRpcResponse) as T;
+      const decoded = this.#coder.decodeResponse(JSON.parse(result) as JsonRpcResponse<T>);
 
       this.#stats.active.requests--;
 
