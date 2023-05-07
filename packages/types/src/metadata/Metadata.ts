@@ -26,8 +26,6 @@ function decodeU8a (registry: Registry, u8a: Uint8Array): MetadataVersioned | Ui
       return new MetadataVersioned(registry, u8a);
     } catch {
       u8a[VERSION_IDX] = 10;
-
-      return u8a;
     }
   }
 

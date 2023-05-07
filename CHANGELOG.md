@@ -2,9 +2,15 @@
 
 ## master
 
+Contributed:
+
+- Extract runtime details for custom documentation (Thanks to https://github.com/FlorianFranzen)
+
 Changes:
 
 - Apply historic `Scheduled` types for Kusama (as reported, non-comprehensive)
+- Adjust Deno types inside `WsProvider`
+- Allow parsing of (experimental) metadata v15
 
 
 ## 10.5.1 Apr 29, 2023

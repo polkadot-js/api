@@ -14,6 +14,7 @@ import { v11 } from './v11.js';
 import { v12 } from './v12.js';
 import { v13 } from './v13.js';
 import { v14 } from './v14.js';
+import { v15 } from './v15.js';
 
 export { AllHashers };
 
@@ -21,26 +22,32 @@ export default {
   rpc: {},
   runtime,
   types: {
+    // all known
     ...v9,
     ...v10,
     ...v11,
     ...v12,
     ...v13,
     ...v14,
+    ...v15,
+
     // latest mappings
+    // NOTE: For v15, we only added the runtime defintions,
+    // hence latest for most pointing to the previous V14
     ErrorMetadataLatest: 'ErrorMetadataV14',
     EventMetadataLatest: 'EventMetadataV14',
     ExtrinsicMetadataLatest: 'ExtrinsicMetadataV14',
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV14',
     FunctionMetadataLatest: 'FunctionMetadataV14',
-    MetadataLatest: 'MetadataV14',
+    MetadataLatest: 'MetadataV15',
     PalletCallMetadataLatest: 'PalletCallMetadataV14',
     PalletConstantMetadataLatest: 'PalletConstantMetadataV14',
     PalletErrorMetadataLatest: 'PalletErrorMetadataV14',
     PalletEventMetadataLatest: 'PalletEventMetadataV14',
-    PalletMetadataLatest: 'PalletMetadataV14',
+    PalletMetadataLatest: 'PalletMetadataV15',
     PalletStorageMetadataLatest: 'PalletStorageMetadataV14',
     PortableType: 'PortableTypeV14',
+    RuntimeApiMetadataLatest: 'RuntimeApiMetadataV15',
     SignedExtensionMetadataLatest: 'SignedExtensionMetadataV14',
     StorageEntryMetadataLatest: 'StorageEntryMetadataV14',
     StorageEntryModifierLatest: 'StorageEntryModifierV14',
@@ -68,7 +75,8 @@ export default {
         V11: 'MetadataV11',
         V12: 'MetadataV12',
         V13: 'MetadataV13',
-        V14: 'MetadataV14'
+        V14: 'MetadataV14',
+        V15: 'MetadataV15'
       }
     }
   }
