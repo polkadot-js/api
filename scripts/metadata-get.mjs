@@ -16,7 +16,7 @@ const CMD = {
 let requestId = 0;
 
 async function get (method) {
-  const res = await fetch('http://127.0.0.1:9933', {
+  const res = await fetch('http://127.0.0.1:9944', {
     body: JSON.stringify({
       id: ++requestId,
       jsonrpc: '2.0',

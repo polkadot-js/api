@@ -29,6 +29,10 @@ export default {
       3
     ],
     [
+      "0xbe9fb0c91a8046cf",
+      1
+    ],
+    [
       "0xf78b278be53f454c",
       2
     ],

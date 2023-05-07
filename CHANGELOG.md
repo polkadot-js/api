@@ -11,6 +11,7 @@ Changes:
 - Apply historic `Scheduled` types for Kusama (as reported, non-comprehensive)
 - Adjust Deno types inside `WsProvider`
 - Allow parsing of (experimental) metadata v15
+- Update to latest Polkadot, Kusama & Substrate metadata
 
 
 ## 10.5.1 Apr 29, 2023
