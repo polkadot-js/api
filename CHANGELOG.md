@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 10.6.1 May 7, 2023
 
 Contributed:
 
