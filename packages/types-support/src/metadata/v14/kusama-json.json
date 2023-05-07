@@ -236,7 +236,7 @@
             {
               "name": "BlockWeights",
               "type": 502,
-              "value": "0x070826719601000b00204aa9d10113ffffffffffffffff2285461900010bb82e8e90580113a3703d0ad7a370bd010b0098f73e5d0113ffffffffffffffbf0100002285461900010bb8b6e0facc0113a3703d0ad7a370fd010b00204aa9d10113ffffffffffffffff01070088526a741300000000000000402285461900000000",
+              "value": "0x036042a7ce000b00204aa9d10113ffffffffffffffffa214721a00010bd84a4390580113a3703d0ad7a370bd010b0098f73e5d0113ffffffffffffffbf010000a214721a00010bd8d295facc0113a3703d0ad7a370fd010b00204aa9d10113ffffffffffffffff01070088526a74130000000000000040a214721a00000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
               ]
@@ -4139,7 +4139,9 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " Current best solution, signed or unsigned, queued to be returned upon `elect`."
+                  " Current best solution, signed or unsigned, queued to be returned upon `elect`.",
+                  "",
+                  " Always sorted by score."
                 ]
               },
               {
@@ -4332,7 +4334,7 @@
             {
               "name": "SignedMaxWeight",
               "type": 9,
-              "value": "0x0bb0081dfa560113a3703d0ad7a370bd",
+              "value": "0x0b78089cc1570113a3703d0ad7a370bd",
               "docs": [
                 " Maximum weight of a signed solution.",
                 "",
@@ -4419,7 +4421,7 @@
             {
               "name": "MinerMaxWeight",
               "type": 9,
-              "value": "0x0bb0081dfa560113a3703d0ad7a370bd",
+              "value": "0x0b78089cc1570113a3703d0ad7a370bd",
               "docs": []
             },
             {
@@ -7341,7 +7343,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 842
+                    "value": 845
                   }
                 },
                 "fallback": "0x00",
@@ -7370,58 +7372,58 @@
           },
           "constants": [],
           "errors": {
-            "type": 845
+            "type": 848
           },
           "index": 99
         }
       ],
       "extrinsic": {
-        "type": 846,
+        "type": 849,
         "version": 4,
         "signedExtensions": [
           {
             "identifier": "CheckNonZeroSender",
-            "type": 848,
+            "type": 851,
             "additionalSigned": 81
           },
           {
             "identifier": "CheckSpecVersion",
-            "type": 849,
+            "type": 852,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckTxVersion",
-            "type": 850,
+            "type": 853,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckGenesis",
-            "type": 851,
+            "type": 854,
             "additionalSigned": 12
           },
           {
             "identifier": "CheckMortality",
-            "type": 852,
+            "type": 855,
             "additionalSigned": 12
           },
           {
             "identifier": "CheckNonce",
-            "type": 854,
+            "type": 857,
             "additionalSigned": 81
           },
           {
             "identifier": "CheckWeight",
-            "type": 855,
+            "type": 858,
             "additionalSigned": 81
           },
           {
             "identifier": "ChargeTransactionPayment",
-            "type": 856,
+            "type": 859,
             "additionalSigned": 81
           }
         ]
       },
-      "type": 857
+      "type": 860
     }
   }
 }

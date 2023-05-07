@@ -1446,6 +1446,12 @@
               "fields": [],
               "index": 12,
               "docs": []
+            },
+            {
+              "name": "RootNotAllowed",
+              "fields": [],
+              "index": 13,
+              "docs": []
             }
           ]
         }
@@ -34354,6 +34360,25 @@
               ],
               "index": 2,
               "docs": []
+            },
+            {
+              "name": "Swapped",
+              "fields": [
+                {
+                  "name": "para_id",
+                  "type": 131,
+                  "typeName": "ParaId",
+                  "docs": []
+                },
+                {
+                  "name": "other_id",
+                  "type": 131,
+                  "typeName": "ParaId",
+                  "docs": []
+                }
+              ],
+              "index": 3,
+              "docs": []
             }
           ]
         }
@@ -50334,7 +50359,16 @@
         "pallet",
         "RemoteLockedFungibleRecord"
       ],
-      "params": [],
+      "params": [
+        {
+          "name": "ConsumerIdentifier",
+          "type": 81
+        },
+        {
+          "name": "MaxConsumers",
+          "type": null
+        }
+      ],
       "def": {
         "composite": {
           "fields": [
@@ -50357,9 +50391,9 @@
               "docs": []
             },
             {
-              "name": "users",
-              "type": 4,
-              "typeName": "u32",
+              "name": "consumers",
+              "type": 842,
+              "typeName": "BoundedVec<(ConsumerIdentifier, u128), MaxConsumers>",
               "docs": []
             }
           ]
@@ -50408,8 +50442,8 @@
       "params": [],
       "def": {
         "tuple": [
-          6,
-          385
+          81,
+          6
         ]
       },
       "docs": []
@@ -50430,6 +50464,66 @@
   },
   {
     "id": 845,
+    "type": {
+      "path": [
+        "bounded_collections",
+        "bounded_vec",
+        "BoundedVec"
+      ],
+      "params": [
+        {
+          "name": "T",
+          "type": 846
+        },
+        {
+          "name": "S",
+          "type": null
+        }
+      ],
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "name": null,
+              "type": 847,
+              "typeName": "Vec<T>",
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 846,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "tuple": [
+          6,
+          385
+        ]
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 847,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 846
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 848,
     "type": {
       "path": [
         "pallet_xcm",
@@ -50605,7 +50699,7 @@
               "fields": [],
               "index": 19,
               "docs": [
-                "The unlock operation cannot succeed because there are still users of the lock."
+                "The unlock operation cannot succeed because there are still consumers of the lock."
               ]
             }
           ]
@@ -50617,7 +50711,7 @@
     }
   },
   {
-    "id": 846,
+    "id": 849,
     "type": {
       "path": [
         "sp_runtime",
@@ -50640,7 +50734,7 @@
         },
         {
           "name": "Extra",
-          "type": 847
+          "type": 850
         }
       ],
       "def": {
@@ -50659,27 +50753,27 @@
     }
   },
   {
-    "id": 847,
+    "id": 850,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          848,
-          849,
-          850,
           851,
           852,
+          853,
           854,
           855,
-          856
+          857,
+          858,
+          859
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 848,
+    "id": 851,
     "type": {
       "path": [
         "frame_system",
@@ -50702,7 +50796,7 @@
     }
   },
   {
-    "id": 849,
+    "id": 852,
     "type": {
       "path": [
         "frame_system",
@@ -50725,7 +50819,7 @@
     }
   },
   {
-    "id": 850,
+    "id": 853,
     "type": {
       "path": [
         "frame_system",
@@ -50748,7 +50842,7 @@
     }
   },
   {
-    "id": 851,
+    "id": 854,
     "type": {
       "path": [
         "frame_system",
@@ -50771,7 +50865,7 @@
     }
   },
   {
-    "id": 852,
+    "id": 855,
     "type": {
       "path": [
         "frame_system",
@@ -50790,7 +50884,7 @@
           "fields": [
             {
               "name": null,
-              "type": 853,
+              "type": 856,
               "typeName": "Era",
               "docs": []
             }
@@ -50801,7 +50895,7 @@
     }
   },
   {
-    "id": 853,
+    "id": 856,
     "type": {
       "path": [
         "sp_runtime",
@@ -54141,7 +54235,7 @@
     }
   },
   {
-    "id": 854,
+    "id": 857,
     "type": {
       "path": [
         "frame_system",
@@ -54171,7 +54265,7 @@
     }
   },
   {
-    "id": 855,
+    "id": 858,
     "type": {
       "path": [
         "frame_system",
@@ -54194,7 +54288,7 @@
     }
   },
   {
-    "id": 856,
+    "id": 859,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -54222,7 +54316,7 @@
     }
   },
   {
-    "id": 857,
+    "id": 860,
     "type": {
       "path": [
         "kusama_runtime",

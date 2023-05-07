@@ -934,6 +934,7 @@ declare module '@polkadot/api-base/types/events' {
       Deregistered: AugmentedEvent<ApiType, [paraId: u32], { paraId: u32 }>;
       Registered: AugmentedEvent<ApiType, [paraId: u32, manager: AccountId32], { paraId: u32, manager: AccountId32 }>;
       Reserved: AugmentedEvent<ApiType, [paraId: u32, who: AccountId32], { paraId: u32, who: AccountId32 }>;
+      Swapped: AugmentedEvent<ApiType, [paraId: u32, otherId: u32], { paraId: u32, otherId: u32 }>;
       /**
        * Generic event
        **/

@@ -164,39 +164,6 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup368: polkadot_runtime_parachains::disputes::slashing::pallet::Call<T>
-   **/
-  PolkadotRuntimeParachainsDisputesSlashingPalletCall: {
-    _enum: {
-      report_dispute_lost_unsigned: {
-        disputeProof: 'PolkadotRuntimeParachainsDisputesSlashingDisputeProof',
-        keyOwnerProof: 'SpSessionMembershipProof'
-      }
-    }
-  },
-  /**
-   * Lookup369: polkadot_runtime_parachains::disputes::slashing::DisputeProof
-   **/
-  PolkadotRuntimeParachainsDisputesSlashingDisputeProof: {
-    timeSlot: 'PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot',
-    kind: 'PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind',
-    validatorIndex: 'u32',
-    validatorId: 'PolkadotPrimitivesV4ValidatorAppPublic'
-  },
-  /**
-   * Lookup370: polkadot_runtime_parachains::disputes::slashing::DisputesTimeSlot
-   **/
-  PolkadotRuntimeParachainsDisputesSlashingDisputesTimeSlot: {
-    sessionIndex: 'u32',
-    candidateHash: 'H256'
-  },
-  /**
-   * Lookup371: polkadot_runtime_parachains::disputes::slashing::SlashingOffenceKind
-   **/
-  PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind: {
-    _enum: ['ForInvalid', 'AgainstValid']
-  },
-  /**
    * Lookup540: kusama_runtime::RuntimeHoldReason
    **/
   KusamaRuntimeRuntimeHoldReason: {
@@ -249,23 +216,7 @@ export default {
     _enum: ['NftReceipt']
   },
   /**
-   * Lookup810: polkadot_runtime_parachains::disputes::slashing::PendingSlashes
-   **/
-  PolkadotRuntimeParachainsDisputesSlashingPendingSlashes: {
-    _alias: {
-      keys_: 'keys'
-    },
-    keys_: 'BTreeMap<u32, PolkadotPrimitivesV4ValidatorAppPublic>',
-    kind: 'PolkadotRuntimeParachainsDisputesSlashingSlashingOffenceKind'
-  },
-  /**
-   * Lookup814: polkadot_runtime_parachains::disputes::slashing::pallet::Error<T>
-   **/
-  PolkadotRuntimeParachainsDisputesSlashingPalletError: {
-    _enum: ['InvalidKeyOwnershipProof', 'InvalidSessionIndex', 'InvalidCandidateHash', 'InvalidValidatorIndex', 'ValidatorIndexIdMismatch', 'DuplicateSlashingReport']
-  },
-  /**
-   * Lookup857: kusama_runtime::Runtime
+   * Lookup860: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };

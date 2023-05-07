@@ -1145,6 +1145,36 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    statement: {
+      /**
+       * Cost of data byte used for priority calculation.
+       **/
+      byteCost: u128 & AugmentedConst<ApiType>;
+      /**
+       * Maximum data bytes allowed per account.
+       **/
+      maxAllowedBytes: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of statements allowed per account.
+       **/
+      maxAllowedStatements: u32 & AugmentedConst<ApiType>;
+      /**
+       * Minimum data bytes allowed per account.
+       **/
+      minAllowedBytes: u32 & AugmentedConst<ApiType>;
+      /**
+       * Minimum number of statements allowed per account.
+       **/
+      minAllowedStatements: u32 & AugmentedConst<ApiType>;
+      /**
+       * Min balance for priority statements.
+       **/
+      statementCost: u128 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     stateTrieMigration: {
       /**
        * Maximal number of bytes that a key can have.

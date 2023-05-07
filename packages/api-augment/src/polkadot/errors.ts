@@ -1308,6 +1308,37 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    parasSlashing: {
+      /**
+       * The given slashing report is valid but already previously reported.
+       **/
+      DuplicateSlashingReport: AugmentedError<ApiType>;
+      /**
+       * The candidate hash is invalid.
+       **/
+      InvalidCandidateHash: AugmentedError<ApiType>;
+      /**
+       * The key ownership proof is invalid.
+       **/
+      InvalidKeyOwnershipProof: AugmentedError<ApiType>;
+      /**
+       * The session index is too old or invalid.
+       **/
+      InvalidSessionIndex: AugmentedError<ApiType>;
+      /**
+       * There is no pending slash for the given validator index and time
+       * slot.
+       **/
+      InvalidValidatorIndex: AugmentedError<ApiType>;
+      /**
+       * The validator index does not match the validator id.
+       **/
+      ValidatorIndexIdMismatch: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     phragmenElection: {
       /**
        * Duplicated candidate submission.
@@ -2028,7 +2059,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       Filtered: AugmentedError<ApiType>;
       /**
-       * The unlock operation cannot succeed because there are still users of the lock.
+       * The unlock operation cannot succeed because there are still consumers of the lock.
        **/
       InUse: AugmentedError<ApiType>;
       /**
