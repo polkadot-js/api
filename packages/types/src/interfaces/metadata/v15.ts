@@ -8,6 +8,15 @@ import type { DefinitionsTypes } from '../../types/index.js';
 
 export const v15: DefinitionsTypes = {
   // new/adjusted in v15
+  ExtrinsicMetadataV15: {
+    type: 'SiLookupTypeId',
+    version: 'u8',
+    addressType: 'SiLookupTypeId',
+    callType: 'SiLookupTypeId',
+    signatureType: 'SiLookupTypeId',
+    extraType: 'SiLookupTypeId',
+    signedExtensions: 'Vec<SignedExtensionMetadataV14>'
+  },
   PalletMetadataV15: {
     name: 'Text',
     storage: 'Option<PalletStorageMetadataV14>',
@@ -38,7 +47,7 @@ export const v15: DefinitionsTypes = {
   MetadataV15: {
     lookup: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV15>',
-    extrinsic: 'ExtrinsicMetadataV14',
+    extrinsic: 'ExtrinsicMetadataV15',
     type: 'SiLookupTypeId',
     apis: 'Vec<RuntimeApiMetadataV15>'
   }
