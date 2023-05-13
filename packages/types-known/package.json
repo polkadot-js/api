@@ -21,11 +21,11 @@
   "version": "10.6.2-0-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/networks": "^12.1.2",
+    "@polkadot/networks": "^12.2.1",
     "@polkadot/types": "10.6.2-0-x",
     "@polkadot/types-codec": "10.6.2-0-x",
     "@polkadot/types-create": "10.6.2-0-x",
-    "@polkadot/util": "^12.1.2",
+    "@polkadot/util": "^12.2.1",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
