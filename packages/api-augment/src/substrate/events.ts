@@ -152,6 +152,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       AssetThawed: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
       /**
+       * Some account `who` was blocked.
+       **/
+      Blocked: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32], { assetId: u32, who: AccountId32 }>;
+      /**
        * Some assets were destroyed.
        **/
       Burned: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, balance: u128], { assetId: u32, owner: AccountId32, balance: u128 }>;
@@ -199,6 +203,10 @@ declare module '@polkadot/api-base/types/events' {
        * Some account `who` was thawed.
        **/
       Thawed: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32], { assetId: u32, who: AccountId32 }>;
+      /**
+       * Some account `who` was created with a deposit from `depositor`.
+       **/
+      Touched: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32, depositor: AccountId32], { assetId: u32, who: AccountId32, depositor: AccountId32 }>;
       /**
        * Some assets were transferred.
        **/

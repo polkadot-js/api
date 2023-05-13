@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Add `module` to `package.json` export map (ESM-only)
+
+
 ## 10.6.1 May 7, 2023
 
 Contributed:
