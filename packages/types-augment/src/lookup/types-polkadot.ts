@@ -2383,9 +2383,8 @@ declare module '@polkadot/types/lookup' {
     readonly isPvfCheckInvalidSignature: boolean;
     readonly isPvfCheckDoubleVote: boolean;
     readonly isPvfCheckSubjectInvalid: boolean;
-    readonly isPvfCheckDisabled: boolean;
     readonly isCannotUpgradeCode: boolean;
-    readonly type: 'NotRegistered' | 'CannotOnboard' | 'CannotOffboard' | 'CannotUpgrade' | 'CannotDowngrade' | 'PvfCheckStatementStale' | 'PvfCheckStatementFuture' | 'PvfCheckValidatorIndexOutOfBounds' | 'PvfCheckInvalidSignature' | 'PvfCheckDoubleVote' | 'PvfCheckSubjectInvalid' | 'PvfCheckDisabled' | 'CannotUpgradeCode';
+    readonly type: 'NotRegistered' | 'CannotOnboard' | 'CannotOffboard' | 'CannotUpgrade' | 'CannotDowngrade' | 'PvfCheckStatementStale' | 'PvfCheckStatementFuture' | 'PvfCheckValidatorIndexOutOfBounds' | 'PvfCheckInvalidSignature' | 'PvfCheckDoubleVote' | 'PvfCheckSubjectInvalid' | 'CannotUpgradeCode';
   }
 
   /** @name PolkadotRuntimeParachainsInitializerBufferedSessionChange (759) */

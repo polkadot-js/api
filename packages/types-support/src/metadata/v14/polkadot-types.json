@@ -1552,6 +1552,12 @@
               "fields": [],
               "index": 8,
               "docs": []
+            },
+            {
+              "name": "Blocked",
+              "fields": [],
+              "index": 9,
+              "docs": []
             }
           ]
         }
@@ -6152,7 +6158,6 @@
               "docs": [
                 "Make some on-chain remark.",
                 "",
-                "## Complexity",
                 "- `O(1)`"
               ]
             },
@@ -6183,10 +6188,7 @@
               ],
               "index": 2,
               "docs": [
-                "Set the new runtime code.",
-                "",
-                "## Complexity",
-                "- `O(C + S)` where `C` length of `code` and `S` complexity of `can_set_code`"
+                "Set the new runtime code."
               ]
             },
             {
@@ -6201,10 +6203,7 @@
               ],
               "index": 3,
               "docs": [
-                "Set the new runtime code without doing any checks of the given `code`.",
-                "",
-                "## Complexity",
-                "- `O(C)` where `C` length of `code`"
+                "Set the new runtime code without doing any checks of the given `code`."
               ]
             },
             {
@@ -46834,18 +46833,9 @@
               ]
             },
             {
-              "name": "PvfCheckDisabled",
-              "fields": [],
-              "index": 11,
-              "docs": [
-                "The PVF pre-checking statement cannot be included since the PVF pre-checking mechanism",
-                "is disabled."
-              ]
-            },
-            {
               "name": "CannotUpgradeCode",
               "fields": [],
-              "index": 12,
+              "index": 11,
               "docs": [
                 "Parachain cannot currently schedule a code upgrade."
               ]

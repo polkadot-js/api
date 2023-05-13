@@ -1297,11 +1297,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotRegistered: AugmentedError<ApiType>;
       /**
-       * The PVF pre-checking statement cannot be included since the PVF pre-checking mechanism
-       * is disabled.
-       **/
-      PvfCheckDisabled: AugmentedError<ApiType>;
-      /**
        * The given validator already has cast a vote.
        **/
       PvfCheckDoubleVote: AugmentedError<ApiType>;
