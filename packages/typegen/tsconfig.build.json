@@ -5,6 +5,9 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
+  "exclude": [
+    "**/scripts/*"
+  ],
   "references": [
     { "path": "../api/tsconfig.build.json" },
     { "path": "../api-augment/tsconfig.build.json" },
