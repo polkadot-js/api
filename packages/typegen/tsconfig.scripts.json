@@ -7,6 +7,12 @@
     "emitDeclarationOnly": false,
     "noEmit": true
   },
+  "include": [
+    "scripts/**/*"
+  ],
+  "exclude": [
+    "src/**/*"
+  ],
   "references": [
     { "path": "../typegen/tsconfig.build.json" }
   ]
