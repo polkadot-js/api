@@ -9,7 +9,9 @@
     "src/**/*"
   ],
   "exclude": [
-    "scripts/**/*"
+    "scripts/**/*",
+    "**/*.spec.ts",
+    "**/mod.ts"
   ],
   "references": [
     { "path": "../api/tsconfig.build.json" },

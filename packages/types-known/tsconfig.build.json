@@ -6,7 +6,8 @@
     "rootDir": "./src"
   },
   "exclude": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/mod.ts"
   ],
   "references": [
     { "path": "../types/tsconfig.build.json" },

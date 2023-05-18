@@ -3,13 +3,15 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "noEmit": true
   },
-  "exclude": [
-    "**/mod.ts"
+  "include": [
+    "**/*.spec.ts"
   ],
   "references": [
-    { "path": "../rpc-core/tsconfig.build.json" },
+    { "path": "../typegen/tsconfig.build.json" },
     { "path": "../types/tsconfig.build.json" }
   ]
 }

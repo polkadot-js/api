@@ -8,6 +8,7 @@
   "exclude": [
     "**/*.data.ts",
     "**/checkTypes.manual.ts",
+    "**/mod.ts",
     "**/*.spec.ts",
     "**/test/*"
   ],
