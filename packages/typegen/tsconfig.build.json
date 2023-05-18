@@ -5,6 +5,12 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "scripts/**/*"
+  ],
   "references": [
     { "path": "../api/tsconfig.build.json" },
     { "path": "../api-augment/tsconfig.build.json" },

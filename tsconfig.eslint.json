@@ -7,7 +7,7 @@
   "include": [
     "packages/**/src/**/*",
     "packages/**/scripts/**/*",
-    "packages/**/test/**/*"
+    "scripts/*"
   ],
   "exclude": [
     "**/node_modules/**/*"
