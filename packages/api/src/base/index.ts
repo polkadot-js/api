@@ -58,7 +58,7 @@ export abstract class ApiBase<ApiType extends ApiTypes> extends Getters<ApiType>
   /**
    * @description Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
-  public setSigner (signer: Signer): void {
+  public setSigner (signer: Signer | undefined): void {
     this._rx.signer = signer;
   }
 
