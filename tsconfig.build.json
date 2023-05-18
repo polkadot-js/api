@@ -21,6 +21,7 @@
     { "path": "./packages/rpc-provider/tsconfig.spec.json" },
     { "path": "./packages/typegen/tsconfig.build.json" },
     { "path": "./packages/typegen/tsconfig.scripts.json" },
+    { "path": "./packages/typegen/tsconfig.spec.json" },
     { "path": "./packages/types/tsconfig.build.json" },
     { "path": "./packages/types/tsconfig.spec.json" },
     { "path": "./packages/types-augment/tsconfig.build.json" },

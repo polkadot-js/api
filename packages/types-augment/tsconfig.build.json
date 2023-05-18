@@ -5,6 +5,9 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
+  "exclude": [
+    "**/mod.ts"
+  ],
   "references": [
     { "path": "../types/tsconfig.build.json" },
     { "path": "../types-codec/tsconfig.build.json" }

@@ -6,11 +6,10 @@
     "rootDir": "./src"
   },
   "exclude": [
-    "**/test/**/*.json",
-    "**/test/**/*.ts",
-    "**/test/**/*.wasm",
-    "**/checkTypes.manual.ts",
+    "**/test/**/*",
     "**/*.spec.ts",
+    "**/checkTypes.manual.ts",
+    "**/mod.ts",
     "mock.ts"
   ],
   "references": [

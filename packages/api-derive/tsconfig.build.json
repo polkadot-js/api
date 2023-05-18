@@ -8,6 +8,7 @@
   "exclude": [
     "**/test/*",
     "**/checkTypes.manual.ts",
+    "**/mod.ts",
     "**/*.spec.ts"
   ],
   "references": [

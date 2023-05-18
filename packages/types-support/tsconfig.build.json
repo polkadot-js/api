@@ -10,5 +10,8 @@
     "src/**/*.json",
     "src/**/*.ts"
   ],
+  "exclude": [
+    "**/mod.ts"
+  ],
   "references": []
 }
