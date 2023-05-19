@@ -181,7 +181,7 @@ const latest = {
   ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
   ContractMessageSpecLatest: 'ContractMessageSpecV2',
-  ContractMetadataLatest: 'ContractMetadataV4'
+  ContractMetadataLatest: 'ContractMetadataV5'
 };
 
 export default {
@@ -212,13 +212,15 @@ export default {
       spec: 'ContractContractSpecV3'
     },
     ContractMetadataV4: 'ContractMetadataV3',
+    ContractMetadataV5: 'ContractMetadataV4',
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
         V1: 'ContractMetadataV1',
         V2: 'ContractMetadataV2',
         V3: 'ContractMetadataV3',
-        V4: 'ContractMetadataV4'
+        V4: 'ContractMetadataV4',
+        V5: 'ContractMetadataV5'
       }
     },
     ContractProjectV0: {

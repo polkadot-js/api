@@ -245,11 +245,13 @@ export interface ContractMetadata extends Enum {
   readonly asV3: ContractMetadataV3;
   readonly isV4: boolean;
   readonly asV4: ContractMetadataV4;
-  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4';
+  readonly isV5: boolean;
+  readonly asV5: ContractMetadataV5;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5';
 }
 
 /** @name ContractMetadataLatest */
-export interface ContractMetadataLatest extends ContractMetadataV4 {}
+export interface ContractMetadataLatest extends ContractMetadataV5 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
@@ -278,6 +280,9 @@ export interface ContractMetadataV3 extends Struct {
 
 /** @name ContractMetadataV4 */
 export interface ContractMetadataV4 extends ContractMetadataV3 {}
+
+/** @name ContractMetadataV5 */
+export interface ContractMetadataV5 extends ContractMetadataV4 {}
 
 /** @name ContractProject */
 export interface ContractProject extends ITuple<[ContractProjectInfo, ContractMetadata]> {}
