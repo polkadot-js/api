@@ -77,6 +77,15 @@ export interface ContractContractSpecV3 extends Struct {
 /** @name ContractContractSpecV4 */
 export interface ContractContractSpecV4 extends ContractContractSpecV3 {}
 
+/** @name ContractContractSpecV5 */
+export interface ContractContractSpecV5 extends Struct {
+  readonly constructors: Vec<ContractConstructorSpecV3>;
+  readonly messages: Vec<ContractMessageSpecV2>;
+  readonly events: Vec<ContractEventSpecV2>;
+  readonly docs: Vec<Text>;
+  readonly environment: ContractEnvironmentSpecV0;
+}
+
 /** @name ContractCryptoHasher */
 export interface ContractCryptoHasher extends Enum {
   readonly isBlake2x256: boolean;
@@ -90,6 +99,16 @@ export interface ContractDiscriminant extends u32 {}
 
 /** @name ContractDisplayName */
 export interface ContractDisplayName extends SiPath {}
+
+/** @name ContractEnvironmentSpecV0 */
+export interface ContractEnvironmentSpecV0 extends Struct {
+  readonly accountId: ContractTypeSpec;
+  readonly balance: ContractTypeSpec;
+  readonly blockNumber: ContractTypeSpec;
+  readonly hashType: ContractTypeSpec;
+  readonly maxEventTopics: ContractTypeSpec;
+  readonly timestamp: ContractTypeSpec;
+}
 
 /** @name ContractEventParamSpecLatest */
 export interface ContractEventParamSpecLatest extends ContractEventParamSpecV2 {}

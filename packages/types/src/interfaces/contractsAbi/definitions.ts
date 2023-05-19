@@ -105,6 +105,21 @@ const spec = {
     docs: 'Vec<Text>'
   },
   ContractContractSpecV4: 'ContractContractSpecV3',
+  ContractContractSpecV5: {
+    constructors: 'Vec<ContractConstructorSpecV3>',
+    messages: 'Vec<ContractMessageSpecV2>',
+    events: 'Vec<ContractEventSpecV2>',
+    docs: 'Vec<Text>',
+    environment: 'ContractEnvironmentSpecV0'
+  },
+  ContractEnvironmentSpecV0: {
+    accountId: 'ContractTypeSpec',
+    balance: 'ContractTypeSpec',
+    blockNumber: 'ContractTypeSpec',
+    hashType: 'ContractTypeSpec',
+    maxEventTopics: 'ContractTypeSpec',
+    timestamp: 'ContractTypeSpec'
+  },
   ContractDisplayName: 'SiPath',
   ContractEventParamSpecV0: {
     name: 'Text',
