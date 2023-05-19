@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
-import type { Codec, Registry } from '@polkadot/types/types';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec } from '@polkadot/types/interfaces';
+import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
 import { TypeRegistry } from '@polkadot/types';
@@ -82,6 +82,7 @@ export class Abi {
   readonly messages: AbiMessage[];
   readonly metadata: ContractMetadataLatest;
   readonly registry: Registry;
+  readonly environment?: TypeDef[];
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
     [this.json, this.registry, this.metadata, this.info] = parseJson(
@@ -91,12 +92,15 @@ export class Abi {
       chainProperties
     );
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) => {
+      const isDefault = 'default' in spec ? spec.default.isTrue : undefined;
+      const typeSpec = spec.returnType.unwrapOr(null);
+
       return this.#createMessage(spec, index, {
         isConstructor: true,
-        isDefault: spec.default.isTrue,
+        isDefault,
         isPayable: spec.payable.isTrue,
-        returnType: spec.returnType.type
-          ? this.registry.lookup.getTypeDef(spec.returnType.type)
+        returnType: typeSpec
+          ? this.registry.lookup.getTypeDef(typeSpec.type)
           : null
       });
     }
@@ -106,15 +110,19 @@ export class Abi {
     );
     this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage => {
       const typeSpec = spec.returnType.unwrapOr(null);
+      const isDefault = 'default' in spec ? spec.default.isTrue : undefined;
 
       return this.#createMessage(spec, index, {
-        isDefault: spec.default.isTrue,
+        isDefault,
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
           ? this.registry.lookup.getTypeDef(typeSpec.type)
           : null
       });
+    });
+    Object.entries(this.metadata.spec.environment).forEach(([, value]: [string, ContractTypeSpec]) => {
+      console.log(value);
     });
   }
 
@@ -211,6 +219,8 @@ export class Abi {
   #createMessage = (spec: ContractMessageSpecLatest | ContractConstructorSpecLatest, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
     const args = this.#createArgs(spec.args, spec);
     const identifier = spec.label.toString();
+    const isDefault = 'default' in spec ? spec.default.isTrue : undefined;
+
     const message = {
       ...add,
       args,
@@ -221,7 +231,7 @@ export class Abi {
       }),
       identifier,
       index,
-      isDefault: spec.default.isTrue,
+      isDefault,
       method: stringCamelCase(identifier),
       path: identifier.split('::').map((s) => stringCamelCase(s)),
       selector: spec.selector,

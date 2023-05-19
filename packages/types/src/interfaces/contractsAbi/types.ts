@@ -50,7 +50,7 @@ export interface ContractConstructorSpecV4 extends Struct {
   readonly args: Vec<ContractMessageParamSpecV2>;
   readonly docs: Vec<Text>;
   readonly default: bool;
-  readonly returnType: ContractTypeSpec;
+  readonly returnType: Option<ContractTypeSpec>;
 }
 
 /** @name ContractContractSpecV0 */
@@ -86,15 +86,12 @@ export interface ContractContractSpecV3 extends Struct {
 }
 
 /** @name ContractContractSpecV4 */
-export interface ContractContractSpecV4 extends ContractContractSpecV3 {}
-
-/** @name ContractContractSpecV5 */
-export interface ContractContractSpecV5 extends Struct {
+export interface ContractContractSpecV4 extends Struct {
   readonly constructors: Vec<ContractConstructorSpecV4>;
   readonly messages: Vec<ContractMessageSpecV3>;
   readonly events: Vec<ContractEventSpecV2>;
   readonly docs: Vec<Text>;
-  readonly environment: ContractEnvironmentSpecV0;
+  readonly environment: ContractEnvironment;
 }
 
 /** @name ContractCryptoHasher */
@@ -111,13 +108,12 @@ export interface ContractDiscriminant extends u32 {}
 /** @name ContractDisplayName */
 export interface ContractDisplayName extends SiPath {}
 
-/** @name ContractEnvironmentSpecV0 */
-export interface ContractEnvironmentSpecV0 extends Struct {
+/** @name ContractEnvironment */
+export interface ContractEnvironment extends Struct {
   readonly accountId: ContractTypeSpec;
   readonly balance: ContractTypeSpec;
   readonly blockNumber: ContractTypeSpec;
   readonly hashType: ContractTypeSpec;
-  readonly maxEventTopics: ContractTypeSpec;
   readonly timestamp: ContractTypeSpec;
 }
 
@@ -287,13 +283,11 @@ export interface ContractMetadata extends Enum {
   readonly asV3: ContractMetadataV3;
   readonly isV4: boolean;
   readonly asV4: ContractMetadataV4;
-  readonly isV5: boolean;
-  readonly asV5: ContractMetadataV5;
-  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5';
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4';
 }
 
 /** @name ContractMetadataLatest */
-export interface ContractMetadataLatest extends ContractMetadataV5 {}
+export interface ContractMetadataLatest extends ContractMetadataV4 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
@@ -321,12 +315,9 @@ export interface ContractMetadataV3 extends Struct {
 }
 
 /** @name ContractMetadataV4 */
-export interface ContractMetadataV4 extends ContractMetadataV3 {}
-
-/** @name ContractMetadataV5 */
-export interface ContractMetadataV5 extends Struct {
+export interface ContractMetadataV4 extends Struct {
   readonly types: Vec<PortableType>;
-  readonly spec: ContractContractSpecV5;
+  readonly spec: ContractContractSpecV4;
 }
 
 /** @name ContractProject */
