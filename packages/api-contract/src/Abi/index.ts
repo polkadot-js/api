@@ -90,11 +90,16 @@ export class Abi {
         : abiJson,
       chainProperties
     );
-    this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
-      this.#createMessage(spec, index, {
+    this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) => {
+      return this.#createMessage(spec, index, {
         isConstructor: true,
-        isPayable: spec.payable.isTrue
-      })
+        isDefault: spec.default.isTrue,
+        isPayable: spec.payable.isTrue,
+        returnType: spec.returnType.type
+          ? this.registry.lookup.getTypeDef(spec.returnType.type)
+          : null
+      });
+    }
     );
     this.events = this.metadata.spec.events.map((spec: ContractEventSpecLatest, index) =>
       this.#createEvent(spec, index)
@@ -103,6 +108,7 @@ export class Abi {
       const typeSpec = spec.returnType.unwrapOr(null);
 
       return this.#createMessage(spec, index, {
+        isDefault: spec.default.isTrue,
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
@@ -215,6 +221,7 @@ export class Abi {
       }),
       identifier,
       index,
+      isDefault: spec.default.isTrue,
       method: stringCamelCase(identifier),
       path: identifier.split('::').map((s) => stringCamelCase(s)),
       selector: spec.selector,

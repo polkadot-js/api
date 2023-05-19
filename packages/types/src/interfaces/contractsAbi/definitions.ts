@@ -80,6 +80,15 @@ const spec = {
     args: 'Vec<ContractMessageParamSpecV2>',
     docs: 'Vec<Text>'
   },
+  ContractConstructorSpecV4: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    docs: 'Vec<Text>',
+    default: 'bool',
+    returnType: 'ContractTypeSpec'
+  },
   ContractContractSpecV0: {
     constructors: 'Vec<ContractConstructorSpecV0>',
     messages: 'Vec<ContractMessageSpecV0>',
@@ -106,8 +115,8 @@ const spec = {
   },
   ContractContractSpecV4: 'ContractContractSpecV3',
   ContractContractSpecV5: {
-    constructors: 'Vec<ContractConstructorSpecV3>',
-    messages: 'Vec<ContractMessageSpecV2>',
+    constructors: 'Vec<ContractConstructorSpecV4>',
+    messages: 'Vec<ContractMessageSpecV3>',
     events: 'Vec<ContractEventSpecV2>',
     docs: 'Vec<Text>',
     environment: 'ContractEnvironmentSpecV0'
@@ -183,6 +192,16 @@ const spec = {
     returnType: 'Option<ContractTypeSpec>',
     docs: 'Vec<Text>'
   },
+  ContractMessageSpecV3: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    mutates: 'bool',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    returnType: 'Option<ContractTypeSpec>',
+    docs: 'Vec<Text>',
+    default: 'bool'
+  },
   ContractSelector: '[u8; 4]',
   ContractTypeSpec: {
     type: 'SiLookupTypeId',
@@ -191,11 +210,11 @@ const spec = {
 };
 
 const latest = {
-  ContractConstructorSpecLatest: 'ContractConstructorSpecV3',
+  ContractConstructorSpecLatest: 'ContractConstructorSpecV4',
   ContractEventSpecLatest: 'ContractEventSpecV2',
   ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
-  ContractMessageSpecLatest: 'ContractMessageSpecV2',
+  ContractMessageSpecLatest: 'ContractMessageSpecV3',
   ContractMetadataLatest: 'ContractMetadataV5'
 };
 
@@ -227,7 +246,10 @@ export default {
       spec: 'ContractContractSpecV3'
     },
     ContractMetadataV4: 'ContractMetadataV3',
-    ContractMetadataV5: 'ContractMetadataV4',
+    ContractMetadataV5: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV5'
+    },
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
