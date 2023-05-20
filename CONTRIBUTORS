@@ -98,6 +98,7 @@
        1	Paul M Fox                    	Basic BTreeMaps codec support (#1474)
        1	philipstanislaus              	Update types for centrifuge chain v1.2.0 (#2424)
        1	Pierre Krieger                	Update substrate/connect to 0.7.6 (#4940)
+       1	polymath-eric                 	Allow unset external signer (#5649)
        1	Qinxuan Chen                  	Add fp_account::AccountId20 mapping (#5551)
        1	qiuhao                        	update DeriveCustom type (#2581)
        1	r0t0r-r0t0r                   	Fix memory leak on raw rpc call (#4505)
