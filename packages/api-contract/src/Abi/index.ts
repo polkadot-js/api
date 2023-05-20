@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec } from '@polkadot/types/interfaces';
-import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
+import type { Bytes, PortableRegistry } from '@polkadot/types';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEnvironment, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
+import type { Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
 import { TypeRegistry } from '@polkadot/types';
@@ -53,9 +53,22 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
   return converter[1](registry, metadata[`as${converter[0]}`]);
 }
 
-function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
+function getEnvTypes (env: ContractEnvironment, lookup: PortableRegistry) {
+  const keys = Object.keys(env);
+
+  return Object.values(env).map((t: unknown, i) => {
+    if (typeof t === 'object' && t !== null && 'type' in t) {
+      return { [keys[i]]: lookup.getTypeDef(t.type as number) };
+    }
+
+    return { [keys[i]]: t };
+  });
+}
+
+function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo, { [x: string]: unknown }[]] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
+  const { spec: { environment } } = json as {spec: {environment?: ContractEnvironment}};
   const latest = getLatestMeta(registry, json);
   const lookup = registry.createType('PortableRegistry', { types: latest.types }, true);
 
@@ -71,7 +84,11 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
     lookup.getTypeDef(id)
   );
 
-  return [json, registry, latest, info];
+  const env = environment
+    ? getEnvTypes(environment, lookup)
+    : [];
+
+  return [json, registry, latest, info, env];
 }
 
 export class Abi {
@@ -82,10 +99,10 @@ export class Abi {
   readonly messages: AbiMessage[];
   readonly metadata: ContractMetadataLatest;
   readonly registry: Registry;
-  readonly environment?: TypeDef[];
+  readonly environment?: { [x: string]: unknown }[];
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
-    [this.json, this.registry, this.metadata, this.info] = parseJson(
+    [this.json, this.registry, this.metadata, this.info, this.environment] = parseJson(
       isString(abiJson)
         ? JSON.parse(abiJson) as Record<string, unknown>
         : abiJson,
@@ -120,9 +137,6 @@ export class Abi {
           ? this.registry.lookup.getTypeDef(typeSpec.type)
           : null
       });
-    });
-    Object.entries(this.metadata.spec.environment).forEach(([, value]: [string, ContractTypeSpec]) => {
-      console.log(value);
     });
   }
 
