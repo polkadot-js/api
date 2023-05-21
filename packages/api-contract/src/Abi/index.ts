@@ -53,22 +53,25 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
   return converter[1](registry, metadata[`as${converter[0]}`]);
 }
 
-function getEnvTypes (env: ContractEnvironment, lookup: PortableRegistry) {
-  const keys = Object.keys(env);
+function getEnvTypes (env: ContractEnvironment | undefined, lookup: PortableRegistry) {
+  if (env) {
+    const keys = Object.keys(env);
 
-  return Object.values(env).map((t: unknown, i) => {
-    if (typeof t === 'object' && t !== null && 'type' in t) {
-      return { [keys[i]]: lookup.getTypeDef(t.type as number) };
-    }
+    return Object.values(env).map((t: unknown, i) => {
+      if (typeof t === 'object' && t !== null && 'type' in t) {
+        return { [keys[i]]: lookup.getTypeDef(t.type as number) };
+      }
 
-    return { [keys[i]]: t };
-  });
+      return { [keys[i]]: t };
+    });
+  }
+
+  return [];
 }
 
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo, { [x: string]: unknown }[]] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
-  const { spec: { environment } } = json as {spec: {environment?: ContractEnvironment}};
   const latest = getLatestMeta(registry, json);
   const lookup = registry.createType('PortableRegistry', { types: latest.types }, true);
 
@@ -84,9 +87,15 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
     lookup.getTypeDef(id)
   );
 
-  const env = environment
-    ? getEnvTypes(environment, lookup)
-    : [];
+  let env: { [x: string]: unknown }[] = [];
+
+  try {
+    const { spec: { environment } } = json as unknown as ContractMetadataLatest;
+
+    env = getEnvTypes(environment, lookup);
+  } catch (e) {
+    console.error(e);
+  }
 
   return [json, registry, latest, info, env];
 }
@@ -110,7 +119,7 @@ export class Abi {
     );
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) => {
       const isDefault = 'default' in spec ? spec.default.isTrue : undefined;
-      const typeSpec = spec.returnType.unwrapOr(null);
+      const typeSpec = 'returnType' in spec ? spec.returnType.unwrapOr(null) : null;
 
       return this.#createMessage(spec, index, {
         isConstructor: true,
