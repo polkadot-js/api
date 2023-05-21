@@ -14,7 +14,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "10.7.2-3-x",
+  "version": "10.7.2",
   "versions": {
     "git": "10.7.2-3-x",
     "npm": "10.7.1"
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@polkadot/dev": "^0.75.4",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/node": "^20.2.0"
+    "@types/node": "^20.2.1"
   },
   "resolutions": {
     "typescript": "^5.0.4"
