@@ -3,6 +3,8 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
+/* global describe, it, expect */
+
 import type { Registry } from '@polkadot/types-codec/types';
 import type { Check } from './types.js';
 

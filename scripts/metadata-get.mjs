@@ -5,12 +5,12 @@ import fs from 'node:fs';
 
 import { fetch } from '@polkadot/x-fetch';
 
-const PREAMBLE = `// Copyright 2017-2023 @polkadot/types-support authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n/* eslint-disable */\n\n`;
+const PREAMBLE = '// Copyright 2017-2023 @polkadot/types-support authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n/* eslint-disable */\n\n';
 const CMD = {
   kusama: `${PREAMBLE}// cargo run --release -- purge-chain -y --chain kusama-dev  && cargo run --release -- --chain kusama-dev --alice --force-authoring\n\nexport default`,
   polkadot: `${PREAMBLE}// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`,
   substrate: `${PREAMBLE}// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`
-}
+};
 
 let requestId = 0;
 
@@ -28,7 +28,7 @@ async function get (method) {
       params: []
     }),
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json'
     },
     method: 'post'

@@ -31,7 +31,7 @@ describe('TypeRegistry', (): void => {
 
     expect(Type).toBeDefined();
     // eslint-disable-next-line no-prototype-builtins
-    expect(isChildClass(DoNotConstruct, Type));
+    expect(isChildClass(DoNotConstruct, Type)).toBe(true);
   });
 
   it('can register single type', (): void => {

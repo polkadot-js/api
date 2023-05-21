@@ -46,7 +46,7 @@ describe('extractStorageArgs', (): void => {
     ).toThrow('staking.payee(AccountId32) is a map, requiring 1 arguments, 0 found');
   });
 
-  it('validates map, 1 arg (failing with no args)', (): void => {
+  it('validates map, 1 arg (failing with more args)', (): void => {
     expect(
       () => extractStorageArgs(registry, storage.staking.payee, ['abc', 'def'])
     ).toThrow('staking.payee(AccountId32) is a map, requiring 1 arguments, 2 found');

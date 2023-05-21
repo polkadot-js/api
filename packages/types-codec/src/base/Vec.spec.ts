@@ -39,7 +39,7 @@ describe('Vec', (): void => {
       expect(new Vec(registry, Text, null)).toHaveLength(0);
     });
 
-    it('decodes a complex type via construction', (): void => {
+    it('decodes a complex type via construction (1)', (): void => {
       const test = createTypeUnsafe<Vec<ITuple<[PropIndex, AccountId]>>>(registry, 'Vec<(PropIndex, AccountId)>', [new Uint8Array([
         4, 10, 0, 0, 0, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
       ])]);
@@ -48,7 +48,7 @@ describe('Vec', (): void => {
       expect(test[0][1].toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaQua');
     });
 
-    it('decodes a complex type via construction', (): void => {
+    it('decodes a complex type via construction (2)', (): void => {
       const INPUT = '0x08cc0200000000ce0200000001';
       const test = createTypeUnsafe<Vec<Codec>>(registry, 'Vec<(u32, [u32; 0], u16)>', [INPUT]);
 

@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Allow `api.setSigner(...)` to clear existing (Thanks to https://github.com/polymath-eric)
+
+Changes:
+
+- Adjust `@polkadot/types-create` exports with no duplicates
+
+
 ## 10.7.1 May 13, 2023
 
 Changes:

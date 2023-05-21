@@ -45,14 +45,17 @@ describe('Http', (): void => {
 
   it('does not (yet) support subscribe', async (): Promise<void> => {
     await http.subscribe('', '', [], (cb): void => {
+      // eslint-disable-next-line jest/no-conditional-expect
       expect(cb).toEqual(expect.anything());
     }).catch((error): void => {
+      // eslint-disable-next-line jest/no-conditional-expect
       expect((error as Error).message).toMatch(/does not have subscriptions/);
     });
   });
 
   it('does not (yet) support unsubscribe', async (): Promise<void> => {
     await http.unsubscribe('', '', 0).catch((error): void => {
+      // eslint-disable-next-line jest/no-conditional-expect
       expect((error as Error).message).toMatch(/does not have subscriptions/);
     });
   });

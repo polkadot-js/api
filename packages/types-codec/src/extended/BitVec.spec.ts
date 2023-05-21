@@ -15,7 +15,7 @@ const registry = new TypeRegistry();
 describe('BitVec', (): void => {
   describe('decoding known', (): void => {
     TESTS.forEach((test): void => {
-      describe(test, (): void => {
+      describe(`${test}`, (): void => {
         const input = hexToU8a(test);
         const bitvec = new BitVec(registry, input);
 

@@ -60,6 +60,7 @@
       "@polkadot/types-codec/types": ["types-codec/src/types/index.ts"],
       "@polkadot/types-codec/types/*": ["types-codec/src/types/*.ts"],
       "@polkadot/types-create": ["types-create/src/index.ts"],
+      "@polkadot/types-create/exports": ["types-create/src/exports.ts"],
       "@polkadot/types-create/packageInfo": ["types-create/src/packageInfo.ts"],
       "@polkadot/types-create/types": ["types-create/src/types/index.ts"],
       "@polkadot/types-create/types/*": ["types-create/src/types/*.ts"],

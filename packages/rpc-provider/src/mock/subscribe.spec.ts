@@ -23,6 +23,7 @@ describe('subscribe', (): void => {
     await mock
       .subscribe('test', 'test_notFound')
       .catch((error): void => {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect((error as Error).message).toMatch(/Invalid method 'test_notFound'/);
       });
   });
@@ -41,12 +42,14 @@ describe('subscribe', (): void => {
 
     await new Promise<boolean>((resolve) => {
       mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, value: string): void => {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect(value).toEqual('testValue');
         resolve(true);
       }).catch(console.error);
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('calls back with new headers', async (): Promise<void> => {
     await new Promise<boolean>((resolve) => {
       mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: { number: number }): void => {
@@ -57,6 +60,7 @@ describe('subscribe', (): void => {
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('handles errors within callbacks gracefully', async (): Promise<void> => {
     let hasThrown = false;
 

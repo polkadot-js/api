@@ -64,7 +64,8 @@ describe('generated', (): void => {
   });
 
   for (const chain of Object.keys(allMan)) {
-    describe(chain, (): void => {
+    describe(`${chain}`, (): void => {
+      // eslint-disable-next-line jest/expect-expect
       it('should have all generated', (): void => {
         const missing = allMan[chain as keyof typeof allMan].filter(([na, sa]) =>
           !allGen[chain as keyof typeof allGen].some(([nb, sb]) =>
@@ -78,10 +79,12 @@ describe('generated', (): void => {
         }
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('manual should be correctly ordered', (): void => {
         checkOrder(chain, (allGen as Record<string, ChainUpgradesExpanded>)[chain]);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('generated should be correctly ordered', (): void => {
         checkOrder(chain, (allMan as Record<string, ChainUpgradesRaw>)[chain]);
       });
@@ -91,7 +94,7 @@ describe('generated', (): void => {
 
 describe('upgrades', (): void => {
   TESTS.forEach(({ genesisHash, network, versions }): void => {
-    describe(network, (): void => {
+    describe(`${network}`, (): void => {
       const chain = upgrades.find((n) => n.network === network);
 
       if (!chain) {
