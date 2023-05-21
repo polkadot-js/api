@@ -30,7 +30,7 @@ const metadata = new Metadata(registry, metadataStatic);
 registry.setMetadata(metadata);
 
 function testTypes (type: string, typeNames: string[]): void {
-  describe(type, (): void => {
+  describe(`${type}`, (): void => {
     describe(`${type}:: default creation`, (): void => {
       typeNames.forEach((name): void => {
         it(`creates an empty ${name}`, (): void => {
@@ -38,8 +38,10 @@ function testTypes (type: string, typeNames: string[]): void {
             registry.createType(name);
 
           if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
+            // eslint-disable-next-line jest/no-conditional-expect
             expect(constructFn).toThrow();
           } else {
+            // eslint-disable-next-line jest/no-conditional-expect
             expect(constructFn).not.toThrow();
           }
         });
@@ -53,8 +55,10 @@ function testTypes (type: string, typeNames: string[]): void {
             registry.createType(name, registry.createType('Bytes'));
 
           if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
+            // eslint-disable-next-line jest/no-conditional-expect
             expect(constructFn).toThrow();
           } else {
+            // eslint-disable-next-line jest/no-conditional-expect
             expect(constructFn).not.toThrow();
           }
         });

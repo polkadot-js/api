@@ -233,7 +233,7 @@ export class Struct<
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public inspect (isBare?: BareOpts): Inspect {
-    const inner = new Array<Inspect>();
+    const inner: Inspect[] = [];
 
     for (const [k, v] of this.entries()) {
       inner.push({

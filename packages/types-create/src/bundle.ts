@@ -6,5 +6,4 @@ export { packageInfo } from './packageInfo.js';
 export { TypeDefInfo } from './types/index.js';
 
 // all starred
-export * from './create/index.js';
-export * from './util/index.js';
+export * from './exports.js';

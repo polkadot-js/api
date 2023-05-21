@@ -141,7 +141,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public inspect (): Inspect {
-    const inner = new Array<Inspect>();
+    const inner: Inspect[] = [];
 
     for (const v of this.values()) {
       inner.push(v.inspect());
@@ -218,7 +218,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = new Array<Uint8Array>();
+    const encoded: Uint8Array[] = [];
 
     if (!isBare) {
       encoded.push(compactToU8a(this.size));

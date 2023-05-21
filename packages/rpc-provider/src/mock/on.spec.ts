@@ -21,7 +21,8 @@ describe('on', (): void => {
     await mock.disconnect();
   });
 
-  it('it emits both connected and disconnected events', async (): Promise<void> => {
+  // eslint-disable-next-line jest/expect-expect
+  it('emits both connected and disconnected events', async (): Promise<void> => {
     const events: Record<string, boolean> = { connected: false, disconnected: false };
 
     await new Promise<boolean>((resolve) => {

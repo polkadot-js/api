@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* eslint-disable jest/expect-expect */
+
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { BN } from '@polkadot/util';

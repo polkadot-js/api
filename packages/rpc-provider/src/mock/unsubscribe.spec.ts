@@ -30,12 +30,14 @@ describe('unsubscribe', (): void => {
     await mock
       .unsubscribe('chain_newHead', 'chain_subscribeNewHead', 5)
       .catch((error): boolean => {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect((error as Error).message).toMatch(/Unable to find/);
 
         return false;
       });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('unsubscribes successfully', async (): Promise<void> => {
     await mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id);
   });
@@ -46,6 +48,7 @@ describe('unsubscribe', (): void => {
         mock.unsubscribe('chain_newHead', 'chain_subscribeNewHead', id)
       )
       .catch((error): boolean => {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect((error as Error).message).toMatch(/Unable to find/);
 
         return false;

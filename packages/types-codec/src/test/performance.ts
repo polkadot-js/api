@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* global it */
+
 // Shamelessly copied from @polkadot/util/test
 
 import { formatDecimal, formatNumber } from '@polkadot/util';

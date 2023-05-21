@@ -53,7 +53,7 @@ describe('type definitions', (): void => {
   );
 
   for (const [key, { types }] of allTypes) {
-    describe(key, (): void => {
+    describe(`${key}`, (): void => {
       const typesKeys = Object.keys(types).filter((type) =>
         // meant to fail
         type !== 'ExtrinsicUnknown' &&
@@ -80,11 +80,11 @@ describe('rpc definitions', (): void => {
   );
 
   for (const [section, { rpc }] of rpcs) {
-    describe(section, (): void => {
+    describe(`${section}`, (): void => {
       const methodsEntries = Object.entries<DefinitionRpc>(rpc);
 
       for (const [method, { params, type }] of methodsEntries) {
-        describe(method, (): void => {
+        describe(`${method}`, (): void => {
           // We cannot constuct V0, so just ignore
           if (section !== 'state' || method !== 'getMetadata') {
             it(`output ${type} is known`, (): void => {
@@ -114,17 +114,17 @@ describe('runtime definitions', (): void => {
   );
 
   for (const [key, { runtime }] of runtimes) {
-    describe(key, (): void => {
+    describe(`${key}`, (): void => {
       const versionsEntries = Object.entries<DefinitionsCallEntry[]>(runtime);
 
       for (const [key, versions] of versionsEntries) {
-        describe(key, (): void => {
+        describe(`${key}`, (): void => {
           for (const { methods, version } of versions) {
             describe(`version ${version}`, (): void => {
               const methodsEntries = Object.entries<DefinitionCall>(methods);
 
               for (const [key, { params, type }] of methodsEntries) {
-                describe(key, (): void => {
+                describe(`${key}`, (): void => {
                   // Applied from runtime, used in Funglibles
                   if (type !== 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>') {
                     it(`output ${type} is known`, (): void => {

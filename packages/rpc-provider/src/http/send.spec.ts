@@ -10,6 +10,7 @@ import { HttpProvider } from './index.js';
 
 // Does not work with Node 18 (native fetch)
 // See https://github.com/nock/nock/issues/2397
+// eslint-disable-next-line jest/no-disabled-tests
 describe.skip('send', (): void => {
   let http: HttpProvider;
   let mock: Mock;
@@ -53,6 +54,7 @@ describe.skip('send', (): void => {
     return http
       .send('test_error', [])
       .catch((error): void => {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect((error as Error).message).toMatch(/\[500\]/);
       });
   });

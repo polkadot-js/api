@@ -59,6 +59,7 @@ describe('send', (): void => {
       ws
         .send('test_encoding', [{ error: 'send error' }])
         .catch((error): void => {
+          // eslint-disable-next-line jest/no-conditional-expect
           expect((error as Error).message).toEqual('send error');
         })
     );
@@ -99,6 +100,7 @@ describe('send', (): void => {
       ws
         .send('test_error', [])
         .catch((error): void => {
+          // eslint-disable-next-line jest/no-conditional-expect
           expect((error as Error).message).toMatch(/666: error/);
         })
     );

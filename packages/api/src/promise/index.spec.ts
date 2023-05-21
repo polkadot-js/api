@@ -87,6 +87,7 @@ describe('ApiPromise', (): void => {
       await api.disconnect();
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('Create API instance will error on failure to await ready', async (): Promise<void> => {
       class ErrorApiPromise extends ApiPromise {
         constructor () {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // all external
-export * from '@polkadot/types-create';
+export * from '@polkadot/types-create/exports';
 
 // all local
 export * from './createClass.js';

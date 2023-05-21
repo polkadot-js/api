@@ -30,11 +30,12 @@ const entries = [
   ...all,
   [`@polkadot/${p}`]: path.resolve(process.cwd(), `packages/${p}/build/bundle.js`)
 }), {
+  // re-exported in @polkadot/util-crypto, map directly
+  '@polkadot/networks': '@polkadot/util-crypto',
   // we point to a specific file for these (default augmentations)
   '@polkadot/rpc-core/types/jsonrpc': path.resolve(process.cwd(), 'packages/rpc-core/build/types/jsonrpc.js'),
   '@polkadot/types-codec/types/registry': path.resolve(process.cwd(), 'packages/types-codec/build/types/registry.js'),
-  // re-exported in @polkadot/util-crypto, map directly
-  '@polkadot/networks': '@polkadot/util-crypto'
+  '@polkadot/types-create/exports': path.resolve(process.cwd(), 'packages/types-create/build/exports.js')
 });
 
 const overrides = {};

@@ -21,7 +21,7 @@ describe('Combinator', (): void => {
     fns = [];
   });
 
-  it('it triggers on all values', async (): Promise<void> => {
+  it('triggers on all values', async (): Promise<void> => {
     await new Promise<boolean>((resolve) => {
       let count = 0;
       const combinator = new Combinator(
@@ -90,6 +90,7 @@ describe('Combinator', (): void => {
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('unsubscribes as required', async (): Promise<void> => {
     await new Promise<void>((resolve) => {
       // eslint-disable-next-line @typescript-eslint/require-await

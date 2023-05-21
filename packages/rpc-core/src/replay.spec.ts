@@ -28,7 +28,7 @@ describe('replay', (): void => {
     await new Promise<boolean>((resolve) => {
       rpc.system.chain().subscribe((value: any): void => {
         if (value) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access, jest/no-conditional-expect
           expect(value.toString()).toEqual('mockChain'); // Defined in MockProvider
           resolve(true);
         }

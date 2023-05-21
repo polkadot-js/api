@@ -25,12 +25,19 @@ export type { Signer, SignerResult } from '@polkadot/types/types';
 export { ApiBase } from '../base/index.js';
 
 // all starred
+// eslint-disable-next-line import/export
 export * from '@polkadot/api/types/calls';
+// eslint-disable-next-line import/export
 export * from '@polkadot/api/types/consts';
+// eslint-disable-next-line import/export
 export * from '@polkadot/api/types/errors';
+// eslint-disable-next-line import/export
 export * from '@polkadot/api/types/events';
+// eslint-disable-next-line import/export
 export * from '@polkadot/api/types/storage';
+// eslint-disable-next-line import/export
 export * from '@polkadot/api/types/submittable';
+// eslint-disable-next-line import/export
 export * from '@polkadot/api-base/types';
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic

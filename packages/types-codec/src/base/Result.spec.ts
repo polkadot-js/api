@@ -18,7 +18,7 @@ describe('Result', (): void => {
   it('decodes from a u8a (success)', (): void => {
     const result = new Type(registry, new Uint8Array([0, 1, 2, 3, 4]));
 
-    expect(result.isOk);
+    expect(result.isOk).toBe(true);
     expect(result.asOk.toU8a()).toEqual(new Uint8Array([1, 2, 3, 4]));
     expect(result.toHex()).toEqual('0x0001020304');
     expect(result.toJSON()).toEqual({
@@ -29,7 +29,7 @@ describe('Result', (): void => {
   it('decodes from a u8a (error)', (): void => {
     const result = new Type(registry, new Uint8Array([1, 4 << 2, 100, 101, 102, 103]));
 
-    expect(result.isErr);
+    expect(result.isErr).toBe(true);
     expect(result.asErr.toU8a()).toEqual(new Uint8Array([4 << 2, 100, 101, 102, 103]));
     expect(result.toHex()).toEqual('0x011064656667');
     expect(result.toJSON()).toEqual({

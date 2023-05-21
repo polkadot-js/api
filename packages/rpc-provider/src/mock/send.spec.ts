@@ -23,6 +23,7 @@ describe('send', (): void => {
     return mock
       .send('something_invalid', [])
       .catch((error): void => {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect((error as Error).message).toMatch(/Invalid method/);
       });
   });

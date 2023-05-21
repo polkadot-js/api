@@ -45,6 +45,7 @@ for (const chain of keys) {
     });
 
     for (const [blockNumber, specVersion] of allMan[chain]) {
+      // eslint-disable-next-line jest/expect-expect
       it(`blockNumber=${blockNumber}, specVersion=${specVersion}`, async (): Promise<void> => {
         const found = avail.find(([n, s]) => n === blockNumber && s === specVersion);
 

@@ -55,7 +55,7 @@ describe('ChainProperties', (): void => {
     expect(tokenSymbol.unwrap().eq(['KSM'])).toBe(true);
   });
 
-  it('has a sane toHuman', (): void => {
+  it('has a sane toHuman (single tokenDecimals)', (): void => {
     expect(
       registry.createType('ChainProperties', {
         ss58Format: 42,
@@ -69,7 +69,7 @@ describe('ChainProperties', (): void => {
     });
   });
 
-  it('has a sane toHuman', (): void => {
+  it('has a sane toHuman (multiple tokenDecimals)', (): void => {
     expect(
       registry.createType('ChainProperties', {
         ss58Format: 2,

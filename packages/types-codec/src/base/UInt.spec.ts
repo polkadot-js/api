@@ -13,9 +13,9 @@ describe('UInt', (): void => {
   const registry = new TypeRegistry();
 
   it('fails on > MAX_SAFE_INTEGER and float', (): void => {
-    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision, no-loss-of-precision
     expect(() => new UInt(registry, 9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
-    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision, no-loss-of-precision
     expect(() => new UInt(registry, -9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
     expect(() => new UInt(registry, 9.123)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
   });

@@ -321,6 +321,7 @@ describe('ScProvider', () => {
       expect(chain._isTerminated()).toBe(true);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('does not throw when disconnecting on an already disconnected Provider', async () => {
       const provider = new ScProvider(mockSc, '');
 
