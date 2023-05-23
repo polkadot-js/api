@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes, PortableRegistry } from '@polkadot/types';
+import type { Bytes } from '@polkadot/types';
 import type { ChainProperties, ContractConstructorSpecLatest, ContractEnvironment, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
 import type { Codec, Registry } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
@@ -53,23 +53,7 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
   return converter[1](registry, metadata[`as${converter[0]}`]);
 }
 
-function getEnvTypes (env: ContractEnvironment | undefined, lookup: PortableRegistry) {
-  if (env) {
-    const keys = Object.keys(env);
-
-    return Object.values(env).map((t: unknown, i) => {
-      if (typeof t === 'object' && t !== null && 'type' in t) {
-        return { [keys[i]]: lookup.getTypeDef(t.type as number) };
-      }
-
-      return { [keys[i]]: t };
-    });
-  }
-
-  return [];
-}
-
-function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo, { [x: string]: unknown }[]] {
+function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
   const latest = getLatestMeta(registry, json);
@@ -87,17 +71,7 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
     lookup.getTypeDef(id)
   );
 
-  let env: { [x: string]: unknown }[] = [];
-
-  try {
-    const { spec: { environment } } = json as unknown as ContractMetadataLatest;
-
-    env = getEnvTypes(environment, lookup);
-  } catch (e) {
-    console.error(e);
-  }
-
-  return [json, registry, latest, info, env];
+  return [json, registry, latest, info];
 }
 
 export class Abi {
@@ -108,22 +82,21 @@ export class Abi {
   readonly messages: AbiMessage[];
   readonly metadata: ContractMetadataLatest;
   readonly registry: Registry;
-  readonly environment?: { [x: string]: unknown }[];
+  readonly environment: ContractEnvironment;
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
-    [this.json, this.registry, this.metadata, this.info, this.environment] = parseJson(
+    [this.json, this.registry, this.metadata, this.info] = parseJson(
       isString(abiJson)
         ? JSON.parse(abiJson) as Record<string, unknown>
         : abiJson,
       chainProperties
     );
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) => {
-      const isDefault = 'default' in spec ? spec.default.isTrue : undefined;
-      const typeSpec = 'returnType' in spec ? spec.returnType.unwrapOr(null) : null;
+      const typeSpec = spec.returnType.unwrapOr(null);
 
       return this.#createMessage(spec, index, {
         isConstructor: true,
-        isDefault,
+        isDefault: spec.default.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
           ? this.registry.lookup.getTypeDef(typeSpec.type)
@@ -136,10 +109,9 @@ export class Abi {
     );
     this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage => {
       const typeSpec = spec.returnType.unwrapOr(null);
-      const isDefault = 'default' in spec ? spec.default.isTrue : undefined;
 
       return this.#createMessage(spec, index, {
-        isDefault,
+        isDefault: spec.default.isTrue,
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
@@ -147,6 +119,7 @@ export class Abi {
           : null
       });
     });
+    this.environment = this.metadata.spec.environment;
   }
 
   /**
@@ -242,8 +215,6 @@ export class Abi {
   #createMessage = (spec: ContractMessageSpecLatest | ContractConstructorSpecLatest, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
     const args = this.#createArgs(spec.args, spec);
     const identifier = spec.label.toString();
-    const isDefault = 'default' in spec ? spec.default.isTrue : undefined;
-
     const message = {
       ...add,
       args,
@@ -254,7 +225,7 @@ export class Abi {
       }),
       identifier,
       index,
-      isDefault,
+      isDefault: spec.default.isTrue,
       method: stringCamelCase(identifier),
       path: identifier.split('::').map((s) => stringCamelCase(s)),
       selector: spec.selector,
