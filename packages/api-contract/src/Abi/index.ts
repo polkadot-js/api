@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEnvironment, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
-import type { Codec, Registry } from '@polkadot/types/types';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
+import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
 import { TypeRegistry } from '@polkadot/types';
@@ -82,7 +82,7 @@ export class Abi {
   readonly messages: AbiMessage[];
   readonly metadata: ContractMetadataLatest;
   readonly registry: Registry;
-  readonly environment: ContractEnvironment;
+  readonly environment: Map<string, TypeDef | number> = new Map();
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
     [this.json, this.registry, this.metadata, this.info] = parseJson(
@@ -119,7 +119,16 @@ export class Abi {
           : null
       });
     });
-    this.environment = this.metadata.spec.environment;
+
+    for (const [key, value] of this.metadata.spec.environment.entries()) {
+      const typeSpec = value.toPrimitive();
+
+      if (typeof typeSpec === 'object' && typeSpec !== null && 'type' in typeSpec) {
+        this.environment.set(key, this.registry.lookup.getTypeDef(typeSpec.type as number));
+      } else {
+        this.environment.set(key, typeSpec as number);
+      }
+    }
   }
 
   /**
