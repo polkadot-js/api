@@ -115,6 +115,7 @@ export interface ContractEnvironment extends Struct {
   readonly blockNumber: ContractTypeSpec;
   readonly hashType: ContractTypeSpec;
   readonly timestamp: ContractTypeSpec;
+  readonly maxEventTopics: u32;
 }
 
 /** @name ContractEventParamSpecLatest */

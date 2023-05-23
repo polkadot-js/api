@@ -288,7 +288,8 @@ export default {
       balance: 'ContractTypeSpec',
       blockNumber: 'ContractTypeSpec',
       hashType: 'ContractTypeSpec',
-      timestamp: 'ContractTypeSpec'
+      timestamp: 'ContractTypeSpec',
+      maxEventTopics: 'u32'
     }
   }
 } as Definitions;
