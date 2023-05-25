@@ -119,14 +119,17 @@ export class Abi {
           : null
       });
     });
+    const rawEnv = this.metadata.spec.environment.unwrapOr(null);
 
-    for (const [key, value] of this.metadata.spec.environment.entries()) {
-      const typeSpec = value.toPrimitive();
+    if (rawEnv) {
+      for (const [key, value] of rawEnv.entries()) {
+        const typeSpec = value.toPrimitive();
 
-      if (typeof typeSpec === 'object' && typeSpec !== null && 'type' in typeSpec) {
-        this.environment.set(key, this.registry.lookup.getTypeDef(typeSpec.type as number));
-      } else {
-        this.environment.set(key, typeSpec as number);
+        if (typeof typeSpec === 'object' && typeSpec !== null && 'type' in typeSpec) {
+          this.environment.set(key, this.registry.lookup.getTypeDef(typeSpec.type as number));
+        } else {
+          this.environment.set(key, typeSpec as number);
+        }
       }
     }
   }

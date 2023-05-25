@@ -91,7 +91,7 @@ export interface ContractContractSpecV4 extends Struct {
   readonly messages: Vec<ContractMessageSpecV3>;
   readonly events: Vec<ContractEventSpecV2>;
   readonly docs: Vec<Text>;
-  readonly environment: ContractEnvironment;
+  readonly environment: Option<ContractEnvironment>;
 }
 
 /** @name ContractCryptoHasher */

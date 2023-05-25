@@ -118,7 +118,7 @@ const spec = {
     messages: 'Vec<ContractMessageSpecV3>',
     events: 'Vec<ContractEventSpecV2>',
     docs: 'Vec<Text>',
-    environment: 'ContractEnvironment'
+    environment: 'Option<ContractEnvironment>'
   },
 
   ContractDisplayName: 'SiPath',
