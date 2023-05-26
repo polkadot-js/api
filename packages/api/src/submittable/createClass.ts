@@ -160,9 +160,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
               // setup our options (same way as in signAndSend)
               const eraOptions = makeEraOptions(api, this.registry, allOptions, signingInfo);
               const signOptions = makeSignOptions(api, eraOptions, {});
-              const u8a = this.isSigned
-                ? api.tx(this).signFake(address, signOptions).toU8a()
-                : this.signFake(address, signOptions).toU8a();
+
+              // 1. Don't use the internal objects inside the new tx (hence toU8a)
+              // 2. Don't override the data from existing signed extrinsics
+              // 3. Ensure that this object stays intact, with no new sign after operation
+              const u8a = api.tx(this.toU8a()).signFake(address, signOptions).toU8a();
 
               return api.call.transactionPaymentApi.queryInfo(u8a, u8a.length);
             })
