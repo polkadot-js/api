@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Ensure that `.paymentInfo` never mutates the underlying/existing signature
+
+
 ## 10.7.2 May 21, 2023
 
 Contributed:
