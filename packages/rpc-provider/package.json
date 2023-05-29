@@ -18,12 +18,12 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "10.7.3",
+  "version": "10.7.4-0-x",
   "main": "index.js",
   "dependencies": {
     "@polkadot/keyring": "^12.2.1",
-    "@polkadot/types": "10.7.3",
-    "@polkadot/types-support": "10.7.3",
+    "@polkadot/types": "10.7.4-0-x",
+    "@polkadot/types-support": "10.7.4-0-x",
     "@polkadot/util": "^12.2.1",
     "@polkadot/util-crypto": "^12.2.1",
     "@polkadot/x-fetch": "^12.2.1",
