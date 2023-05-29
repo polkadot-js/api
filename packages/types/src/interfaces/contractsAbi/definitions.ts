@@ -80,6 +80,15 @@ const spec = {
     args: 'Vec<ContractMessageParamSpecV2>',
     docs: 'Vec<Text>'
   },
+  ContractConstructorSpecV4: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    docs: 'Vec<Text>',
+    default: 'bool',
+    returnType: 'Option<ContractTypeSpec>'
+  },
   ContractContractSpecV0: {
     constructors: 'Vec<ContractConstructorSpecV0>',
     messages: 'Vec<ContractMessageSpecV0>',
@@ -104,7 +113,14 @@ const spec = {
     events: 'Vec<ContractEventSpecV2>',
     docs: 'Vec<Text>'
   },
-  ContractContractSpecV4: 'ContractContractSpecV3',
+  ContractContractSpecV4: {
+    constructors: 'Vec<ContractConstructorSpecV4>',
+    messages: 'Vec<ContractMessageSpecV3>',
+    events: 'Vec<ContractEventSpecV2>',
+    docs: 'Vec<Text>',
+    environment: 'Option<ContractEnvironment>'
+  },
+
   ContractDisplayName: 'SiPath',
   ContractEventParamSpecV0: {
     name: 'Text',
@@ -168,6 +184,16 @@ const spec = {
     returnType: 'Option<ContractTypeSpec>',
     docs: 'Vec<Text>'
   },
+  ContractMessageSpecV3: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    mutates: 'bool',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    returnType: 'Option<ContractTypeSpec>',
+    docs: 'Vec<Text>',
+    default: 'bool'
+  },
   ContractSelector: '[u8; 4]',
   ContractTypeSpec: {
     type: 'SiLookupTypeId',
@@ -176,11 +202,11 @@ const spec = {
 };
 
 const latest = {
-  ContractConstructorSpecLatest: 'ContractConstructorSpecV3',
+  ContractConstructorSpecLatest: 'ContractConstructorSpecV4',
   ContractEventSpecLatest: 'ContractEventSpecV2',
   ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
-  ContractMessageSpecLatest: 'ContractMessageSpecV2',
+  ContractMessageSpecLatest: 'ContractMessageSpecV3',
   ContractMetadataLatest: 'ContractMetadataV4'
 };
 
@@ -211,7 +237,10 @@ export default {
       types: 'Vec<PortableType>',
       spec: 'ContractContractSpecV3'
     },
-    ContractMetadataV4: 'ContractMetadataV3',
+    ContractMetadataV4: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV4'
+    },
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
@@ -250,6 +279,17 @@ export default {
       language: 'Text',
       compiler: 'Text',
       wasm: 'Raw'
+    },
+    ContractEnvironment: {
+      _alias: {
+        hashType: 'hash'
+      },
+      accountId: 'ContractTypeSpec',
+      balance: 'ContractTypeSpec',
+      blockNumber: 'ContractTypeSpec',
+      hashType: 'ContractTypeSpec',
+      timestamp: 'ContractTypeSpec',
+      maxEventTopics: 'u32'
     }
   }
 } as Definitions;

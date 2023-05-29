@@ -3,7 +3,7 @@
 
 import type { Bytes } from '@polkadot/types';
 import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
-import type { Codec, Registry } from '@polkadot/types/types';
+import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
 import { TypeRegistry } from '@polkadot/types';
@@ -82,6 +82,7 @@ export class Abi {
   readonly messages: AbiMessage[];
   readonly metadata: ContractMetadataLatest;
   readonly registry: Registry;
+  readonly environment: Map<string, TypeDef | number> = new Map();
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
     [this.json, this.registry, this.metadata, this.info] = parseJson(
@@ -90,11 +91,18 @@ export class Abi {
         : abiJson,
       chainProperties
     );
-    this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
-      this.#createMessage(spec, index, {
+    this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) => {
+      const typeSpec = spec.returnType.unwrapOr(null);
+
+      return this.#createMessage(spec, index, {
         isConstructor: true,
-        isPayable: spec.payable.isTrue
-      })
+        isDefault: spec.default.isTrue,
+        isPayable: spec.payable.isTrue,
+        returnType: typeSpec
+          ? this.registry.lookup.getTypeDef(typeSpec.type)
+          : null
+      });
+    }
     );
     this.events = this.metadata.spec.events.map((spec: ContractEventSpecLatest, index) =>
       this.#createEvent(spec, index)
@@ -103,6 +111,7 @@ export class Abi {
       const typeSpec = spec.returnType.unwrapOr(null);
 
       return this.#createMessage(spec, index, {
+        isDefault: spec.default.isTrue,
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
         returnType: typeSpec
@@ -110,6 +119,19 @@ export class Abi {
           : null
       });
     });
+    const rawEnv = this.metadata.spec.environment.unwrapOr(null);
+
+    if (rawEnv) {
+      for (const [key, value] of rawEnv.entries()) {
+        const typeSpec = value.toPrimitive();
+
+        if (typeof typeSpec === 'object' && typeSpec !== null && 'type' in typeSpec) {
+          this.environment.set(key, this.registry.lookup.getTypeDef(typeSpec.type as number));
+        } else {
+          this.environment.set(key, typeSpec as number);
+        }
+      }
+    }
   }
 
   /**
@@ -215,6 +237,7 @@ export class Abi {
       }),
       identifier,
       index,
+      isDefault: spec.default.isTrue,
       method: stringCamelCase(identifier),
       path: identifier.split('::').map((s) => stringCamelCase(s)),
       selector: spec.selector,
