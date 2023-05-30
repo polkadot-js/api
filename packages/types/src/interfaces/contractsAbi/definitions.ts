@@ -118,7 +118,7 @@ const spec = {
     messages: 'Vec<ContractMessageSpecV3>',
     events: 'Vec<ContractEventSpecV2>',
     docs: 'Vec<Text>',
-    environment: 'Option<ContractEnvironment>'
+    environment: 'ContractEnvironmentV4'
   },
 
   ContractDisplayName: 'SiPath',
@@ -280,16 +280,24 @@ export default {
       compiler: 'Text',
       wasm: 'Raw'
     },
-    ContractEnvironment: {
+    ContractEnvironmentV4: {
       _alias: {
         hashType: 'hash'
       },
-      accountId: 'ContractTypeSpec',
-      balance: 'ContractTypeSpec',
-      blockNumber: 'ContractTypeSpec',
-      hashType: 'ContractTypeSpec',
-      timestamp: 'ContractTypeSpec',
-      maxEventTopics: 'u32'
+      // NOTE These are not marked optional in the Rust code, however since we
+      // convert from older versions to newer, we may not have these fields.
+      // The Option<...> works since our inputs are always JSON, so it will
+      // be None when not specified.
+      //
+      // Additionally we don't mark the full structure as Option, rather we
+      // do it on a per-field basis since fields may be added as the versions
+      // progress.
+      accountId: 'Option<ContractTypeSpec>',
+      balance: 'Option<ContractTypeSpec>',
+      blockNumber: 'Option<ContractTypeSpec>',
+      hashType: 'Option<ContractTypeSpec>',
+      timestamp: 'Option<ContractTypeSpec>',
+      maxEventTopics: 'Option<u32>'
     }
   }
 } as Definitions;

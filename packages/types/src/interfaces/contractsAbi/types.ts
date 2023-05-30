@@ -91,7 +91,7 @@ export interface ContractContractSpecV4 extends Struct {
   readonly messages: Vec<ContractMessageSpecV3>;
   readonly events: Vec<ContractEventSpecV2>;
   readonly docs: Vec<Text>;
-  readonly environment: Option<ContractEnvironment>;
+  readonly environment: ContractEnvironmentV4;
 }
 
 /** @name ContractCryptoHasher */
@@ -108,14 +108,14 @@ export interface ContractDiscriminant extends u32 {}
 /** @name ContractDisplayName */
 export interface ContractDisplayName extends SiPath {}
 
-/** @name ContractEnvironment */
-export interface ContractEnvironment extends Struct {
-  readonly accountId: ContractTypeSpec;
-  readonly balance: ContractTypeSpec;
-  readonly blockNumber: ContractTypeSpec;
-  readonly hashType: ContractTypeSpec;
-  readonly timestamp: ContractTypeSpec;
-  readonly maxEventTopics: u32;
+/** @name ContractEnvironmentV4 */
+export interface ContractEnvironmentV4 extends Struct {
+  readonly accountId: Option<ContractTypeSpec>;
+  readonly balance: Option<ContractTypeSpec>;
+  readonly blockNumber: Option<ContractTypeSpec>;
+  readonly hashType: Option<ContractTypeSpec>;
+  readonly timestamp: Option<ContractTypeSpec>;
+  readonly maxEventTopics: Option<u32>;
 }
 
 /** @name ContractEventParamSpecLatest */
