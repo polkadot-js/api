@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec } from '@polkadot/types/interfaces';
 import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
-import { TypeRegistry } from '@polkadot/types';
+import { Option, TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
-import { assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { convertVersions, enumVersions } from './toLatest.js';
 
@@ -74,6 +74,22 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
   return [json, registry, latest, info];
 }
 
+/**
+ * @internal
+ * Determines if the given input value is a ContractTypeSpec
+ */
+function isTypeSpec (value: Codec): value is ContractTypeSpec {
+  return !!value && value instanceof Map && !isUndefined((value as ContractTypeSpec).type) && !isUndefined((value as ContractTypeSpec).displayName);
+}
+
+/**
+ * @internal
+ * Determines if the given input value is an Option
+ */
+function isOption (value: Codec): value is Option<Codec> {
+  return !!value && value instanceof Option;
+}
+
 export class Abi {
   readonly events: AbiEvent[];
   readonly constructors: AbiConstructor[];
@@ -82,7 +98,7 @@ export class Abi {
   readonly messages: AbiMessage[];
   readonly metadata: ContractMetadataLatest;
   readonly registry: Registry;
-  readonly environment: Map<string, TypeDef | number> = new Map();
+  readonly environment: Map<string, TypeDef | Codec> = new Map();
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
     [this.json, this.registry, this.metadata, this.info] = parseJson(
@@ -91,45 +107,48 @@ export class Abi {
         : abiJson,
       chainProperties
     );
-    this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) => {
-      const typeSpec = spec.returnType.unwrapOr(null);
-
-      return this.#createMessage(spec, index, {
+    this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
+      this.#createMessage(spec, index, {
         isConstructor: true,
         isDefault: spec.default.isTrue,
         isPayable: spec.payable.isTrue,
-        returnType: typeSpec
-          ? this.registry.lookup.getTypeDef(typeSpec.type)
+        returnType: spec.returnType.isSome
+          ? this.registry.lookup.getTypeDef(spec.returnType.unwrap().type)
           : null
-      });
-    }
+      })
     );
     this.events = this.metadata.spec.events.map((spec: ContractEventSpecLatest, index) =>
       this.#createEvent(spec, index)
     );
-    this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage => {
-      const typeSpec = spec.returnType.unwrapOr(null);
-
-      return this.#createMessage(spec, index, {
+    this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage =>
+      this.#createMessage(spec, index, {
         isDefault: spec.default.isTrue,
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
-        returnType: typeSpec
-          ? this.registry.lookup.getTypeDef(typeSpec.type)
+        returnType: spec.returnType.isSome
+          ? this.registry.lookup.getTypeDef(spec.returnType.unwrap().type)
           : null
-      });
-    });
-    const rawEnv = this.metadata.spec.environment.unwrapOr(null);
+      })
+    );
 
-    if (rawEnv) {
-      for (const [key, value] of rawEnv.entries()) {
-        const typeSpec = value.toPrimitive();
+    // NOTE See the rationale for having Option<...> values in the actual
+    // ContractEnvironmentV4 structure definition in interfaces/contractsAbi
+    // (Due to conversions, the fields may not exist)
+    for (const [key, opt] of this.metadata.spec.environment.entries()) {
+      if (isOption(opt)) {
+        if (opt.isSome) {
+          const value = opt.unwrap();
 
-        if (typeof typeSpec === 'object' && typeSpec !== null && 'type' in typeSpec) {
-          this.environment.set(key, this.registry.lookup.getTypeDef(typeSpec.type as number));
-        } else {
-          this.environment.set(key, typeSpec as number);
+          if (isBn(value)) {
+            this.environment.set(key, value);
+          } else if (isTypeSpec(value)) {
+            this.environment.set(key, this.registry.lookup.getTypeDef(value.type));
+          } else {
+            throw new Error(`Invalid environment definition for ${key}:: Expected either Number or ContractTypeSpec`);
+          }
         }
+      } else {
+        throw new Error(`Expected Option<*> definition for ${key} in ContractEnvironment`);
       }
     }
   }
