@@ -12,9 +12,10 @@ export function firstObservable <T> (obs: Observable<T[]>): Observable<T> {
   return obs.pipe(map(([a]) => a));
 }
 
-export function firstMemo <T, A extends any[]> (fn: (api: DeriveApi, ...args: A) => Observable<T[]>): (instanceId: string, api: DeriveApi) => (...args: A) => Observable<T> {
+export function firstMemo <T, F extends (...args: any[]) => Observable<T>> (fn: (api: DeriveApi, ...args: any[]) => Observable<T[]>): (instanceId: string, api: DeriveApi) => F {
   return (instanceId: string, api: DeriveApi) =>
-    memo(instanceId, (...args: A) =>
+    memo(instanceId, (...args: any[]) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       firstObservable<T>(fn(api, ...args))
-    );
+    ) as unknown as F;
 }

@@ -44,7 +44,7 @@ export function _eraExposure (instanceId: string, api: DeriveApi): (era: EraInde
     return cached
       ? of(cached)
       : api.query.staking.erasStakersClipped.entries(era).pipe(
-        map((r) => setEraCache(cacheKey, withActive, mapStakers(era, r)))
+        map((r) => setEraCache(cacheKey, mapStakers(era, r), withActive))
       );
   });
 }
