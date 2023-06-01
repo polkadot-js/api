@@ -25,6 +25,7 @@ import { getSpecRuntime } from '@polkadot/types-known';
 import { arrayChunk, arrayFlatten, assertReturn, BN, compactStripLength, lazyMethod, lazyMethods, logger, nextTick, objectSpread, stringCamelCase, stringUpperFirst, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
+import { toRxMethod } from '../rx/decorateMethod.js';
 import { createSubmittable } from '../submittable/index.js';
 import { augmentObject } from '../util/augmentObject.js';
 import { decorateDeriveSections } from '../util/decorate.js';
@@ -90,6 +91,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _runtimeMetadata?: Metadata;
   protected _runtimeVersion?: RuntimeVersion;
   protected _rx: ApiInterfaceRx = { call: {} as QueryableCalls<'rxjs'>, consts: {} as QueryableConsts<'rxjs'>, query: {} as QueryableStorage<'rxjs'>, tx: {} as SubmittableExtrinsics<'rxjs'> } as ApiInterfaceRx;
+  protected _rxDecorateMethod = toRxMethod;
 
   protected readonly _options: ApiOptions;
 
@@ -1015,13 +1017,4 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _decorateDerive (decorateMethod: DecorateMethod<ApiType>): AllDerives<ApiType> {
     return decorateDeriveSections<ApiType>(decorateMethod, this._rx.derive);
   }
-
-  /**
-   * Put the `this.onCall` function of ApiRx here, because it is needed by
-   * `api._rx`.
-   */
-  protected _rxDecorateMethod: DecorateMethod<'rxjs'> = (method: (...args: any[]) => Observable<any>) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return method as any;
-  };
 }

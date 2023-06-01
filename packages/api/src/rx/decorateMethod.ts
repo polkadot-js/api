@@ -1,9 +1,8 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec } from '@polkadot/types/types';
-import type { DecorateFn } from '../types/index.js';
+import type { DecorateFn, ObsInnerType, PromiseOrObs } from '../types/index.js';
 
-export function toRxMethod <M extends DecorateFn<Codec>> (method: M): M {
+export function toRxMethod <M extends DecorateFn<any>> (method: M): (...args: any[]) => PromiseOrObs<'rxjs', ObsInnerType<ReturnType<M>>> {
   return method;
 }

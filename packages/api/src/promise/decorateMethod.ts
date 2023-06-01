@@ -14,9 +14,9 @@ interface Tracker<T> {
   resolve: (value: T) => void;
 }
 
-type CodecReturnType<T extends (...args: unknown[]) => Observable<Codec>> =
+type CodecReturnType<T extends (...args: unknown[]) => Observable<any>> =
   T extends (...args: any) => infer R
-    ? R extends Observable<Codec>
+    ? R extends Observable<any>
       ? ObsInnerType<R>
       : never
     : never;
@@ -105,7 +105,7 @@ function decorateSubscribe<M extends DecorateFn<CodecReturnType<M>>> (method: M,
 /**
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
-export function toPromiseMethod<M extends DecorateFn<CodecReturnType<M>>> (method: M, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
+export function toPromiseMethod<M extends DecorateFn<any>> (method: M, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
   const needsCallback = !!(options && options.methodName && options.methodName.includes('subscribe'));
 
   return function (...args: unknown[]): Promise<CodecReturnType<M>> | UnsubscribePromise {

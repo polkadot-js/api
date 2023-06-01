@@ -54,7 +54,7 @@ export interface DecorateMethodOptions {
   overrideNoSub?: (...args: unknown[]) => Observable<Codec>;
 }
 
-export type DecorateFn <T extends Codec> = (...args: any[]) => Observable<T>;
+export type DecorateFn <T> = (...args: any[]) => Observable<T>;
 
 export interface PaginationOptions<A = unknown> {
   args: A[];
