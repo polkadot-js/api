@@ -21,8 +21,8 @@ function mapRewards (eras: EraIndex[], optRewards: Option<Balance>[]): DeriveEra
   }));
 }
 
-export function _erasRewards (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive: boolean) => Observable<DeriveEraRewards[]> {
-  return memo(instanceId, (eras: EraIndex[], withActive: boolean): Observable<DeriveEraRewards[]> => {
+export function _erasRewards (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive?: boolean) => Observable<DeriveEraRewards[]> {
+  return memo(instanceId, (eras: EraIndex[], withActive?: boolean): Observable<DeriveEraRewards[]> => {
     if (!eras.length) {
       return of([]);
     }
@@ -35,7 +35,7 @@ export function _erasRewards (instanceId: string, api: DeriveApi): (eras: EraInd
     }
 
     return api.query.staking.erasValidatorReward.multi(remaining).pipe(
-      map((r) => filterCachedEras(eras, cached, setEraMultiCache(CACHE_KEY, withActive, mapRewards(remaining, r))))
+      map((r) => filterCachedEras(eras, cached, setEraMultiCache(CACHE_KEY, mapRewards(remaining, r), withActive)))
     );
   });
 }

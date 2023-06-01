@@ -62,8 +62,9 @@ export interface PaginationOptions<A = unknown> {
   startKey?: string;
 }
 
-export type DecorateMethod<_ApiType extends ApiTypes, T = any> =
-  <M extends (...args: any[]) => Observable<any>>(method: M, options?: DecorateMethodOptions) => T;
+// FIXME We want to be able to pass arguments through, where one may be a result callback
+export type DecorateMethod<ApiType extends ApiTypes> =
+  <T, M extends (...args: any[]) => Observable<T> = (...args: any[]) => Observable<T>>(method: M, options?: DecorateMethodOptions) => (...args: any[]) => PromiseOrObs<ApiType, ObsInnerType<ReturnType<M>>>;
 
 type AsCodec<R extends Codec | any> = R extends Codec
   ? R

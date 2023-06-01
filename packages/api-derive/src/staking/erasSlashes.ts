@@ -30,8 +30,8 @@ function mapSlashes (era: EraIndex, noms: [StorageKey, Option<BalanceOf>][], val
   return { era, nominators, validators };
 }
 
-export function _eraSlashes (instanceId: string, api: DeriveApi): (era: EraIndex, withActive: boolean) => Observable<DeriveEraSlashes> {
-  return memo(instanceId, (era: EraIndex, withActive: boolean): Observable<DeriveEraSlashes> => {
+export function _eraSlashes (instanceId: string, api: DeriveApi): (era: EraIndex, withActive?: boolean) => Observable<DeriveEraSlashes> {
+  return memo(instanceId, (era: EraIndex, withActive?: boolean): Observable<DeriveEraSlashes> => {
     const [cacheKey, cached] = getEraCache<DeriveEraSlashes>(CACHE_KEY, era, withActive);
 
     return cached
@@ -40,7 +40,7 @@ export function _eraSlashes (instanceId: string, api: DeriveApi): (era: EraIndex
         api.query.staking.nominatorSlashInEra.entries(era),
         api.query.staking.validatorSlashInEra.entries(era)
       ]).pipe(
-        map(([n, v]) => setEraCache(cacheKey, withActive, mapSlashes(era, n, v)))
+        map(([n, v]) => setEraCache(cacheKey, mapSlashes(era, n, v), withActive))
       );
   });
 }

@@ -10,27 +10,28 @@ import { memoize } from '@polkadot/util';
 
 import { drr } from './drr.js';
 
-type ObsFn <T> = (...params: unknown[]) => Observable<T>;
-
-// Wraps a derive, doing 2 things to optimize calls -
-//   1. creates a memo of the inner fn -> Observable, removing when unsubscribed
-//   2. wraps the observable in a drr() (which includes an unsub delay)
-/** @internal */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function memo <T> (instanceId: string, inner: Function): Memoized<ObsFn<T>> {
+/**
+ * @internal
+ *
+ * Wraps a derive, doing 2 things to optimize calls -
+ *
+ *   1. creates a memo of the inner fn -> Observable, removing when unsubscribed
+ *   2. wraps the observable in a drr() (which includes an unsub delay)
+ **/
+export function memo <T, F extends (...args: any[]) => Observable<T>> (instanceId: string, inner: F): Memoized<F> {
   const options = { getInstanceId: () => instanceId };
   const cached = memoize(
-    (...params: unknown[]): Observable<T> =>
+    (...args: Parameters<F>): Observable<T> =>
       new Observable((observer: Observer<T>): TeardownLogic => {
-        const subscription = (inner as ObsFn<T>)(...params).subscribe(observer);
+        const subscription = inner(...args).subscribe(observer);
 
         return (): void => {
-          cached.unmemoize(...params);
+          cached.unmemoize(...args);
           subscription.unsubscribe();
         };
       }).pipe(drr()),
     options
   );
 
-  return cached;
+  return cached as unknown as Memoized<F>;
 }

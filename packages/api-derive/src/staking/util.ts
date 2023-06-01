@@ -49,7 +49,7 @@ export function erasHistoricApply <F extends '_erasExposure' | '_erasPoints' | '
   return (instanceId: string, api: DeriveApi) =>
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    memo(instanceId, (withActive = false) =>
+    memo(instanceId, (withActive?: boolean) =>
       api.derive.staking.erasHistoric(withActive).pipe(
         switchMap((e) => api.derive.staking[fn](e, withActive))
       )
@@ -60,7 +60,7 @@ export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlash
   return (instanceId: string, api: DeriveApi) =>
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    memo(instanceId, (accountId: string | Uint8Array, withActive = false) =>
+    memo(instanceId, (accountId: string | Uint8Array, withActive?: boolean) =>
       api.derive.staking.erasHistoric(withActive).pipe(
         switchMap((e) => api.derive.staking[fn](accountId, e, withActive))
       )
@@ -76,11 +76,11 @@ export function singleEra <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes
     ) as any;
 }
 
-export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (eras: EraIndex[], withActive: boolean) => Observable<ObsInnerType<ApplyReturn<F>>[]> {
+export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (eras: EraIndex[], withActive?: boolean) => Observable<ObsInnerType<ApplyReturn<F>>[]> {
   return (instanceId: string, api: DeriveApi) =>
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    memo(instanceId, (eras: EraIndex[], withActive: boolean) =>
+    memo(instanceId, (eras: EraIndex[], withActive?: boolean) =>
       !eras.length
         ? of([])
         : chunkEras(eras, (eras) =>

@@ -10,8 +10,8 @@ import { map } from 'rxjs';
 import { memo } from '../util/index.js';
 import { erasHistoricApplyAccount } from './util.js';
 
-export function _stakerPoints (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerPoints[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerPoints[]> => {
+export function _stakerPoints (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerPoints[]> {
+  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive?: boolean): Observable<DeriveStakerPoints[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
 
     return api.derive.staking._erasPoints(eras, withActive).pipe(

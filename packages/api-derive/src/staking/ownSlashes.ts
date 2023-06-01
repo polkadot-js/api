@@ -11,8 +11,8 @@ import { combineLatest, map, of } from 'rxjs';
 import { firstMemo, memo } from '../util/index.js';
 import { erasHistoricApplyAccount } from './util.js';
 
-export function _ownSlashes (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveStakerSlashes[]> =>
+export function _ownSlashes (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerSlashes[]> {
+  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive?: boolean): Observable<DeriveStakerSlashes[]> =>
     eras.length
       ? combineLatest([
         combineLatest(eras.map((e) => api.query.staking.validatorSlashInEra(e, accountId))),

@@ -5,7 +5,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
-import type { Callback, Codec, Constructor, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import type { Callback, Constructor, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { ApiBase } from '../base/index.js';
 import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types/index.js';
@@ -113,13 +113,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       }
 
       if (blockHash || isString(optionsOrHash) || isU8a(optionsOrHash)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
           () => api.rpc.system.dryRun(this.toHex(), blockHash || optionsOrHash as string)
-        );
+        )();
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<ApplyExtrinsicResult> =>
           this.#observeSign(account, optionsOrHash).pipe(
@@ -135,7 +133,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       }
 
       if (blockHash || isString(optionsOrHash) || isU8a(optionsOrHash)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return decorateMethod(
           (): Observable<RuntimeDispatchInfo> =>
             api.callAt(blockHash || optionsOrHash as string).pipe(
@@ -145,13 +142,12 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
                 return callAt.transactionPaymentApi.queryInfo(u8a, u8a.length);
               })
             )
-        );
+        )();
       }
 
       const [allOptions] = makeSignAndSendOptions(optionsOrHash);
       const address = isKeyringPair(account) ? account.address : account.toString();
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<RuntimeDispatchInfo> =>
           api.derive.tx.signingInfo(address, allOptions.nonce, allOptions.era).pipe(
@@ -180,21 +176,17 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
     // send implementation for both immediate Hash and statusCb variants
     public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
-      const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
+      if (api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb)) {
+        return decorateMethod(this.#observeSubscribe)(statusCb) as unknown as SubmittableResultSubscription<ApiType>;
+      }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
-      return decorateMethod(
-        isSubscription
-          ? this.#observeSubscribe
-          : this.#observeSend
-      )(statusCb);
+      return decorateMethod(this.#observeSend)() as unknown as SubmittableResultResult<ApiType>;
     }
 
     /**
      * @description Signs a transaction, returning `this` to allow chaining. E.g.: `signAsync(...).send()`. Like `.signAndSend` this will retrieve the nonce and blockHash to send the tx with.
      */
     public signAsync (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): PromiseOrObs<ApiType, this> {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
           this.#observeSign(account, partialOptions).pipe(
@@ -217,17 +209,15 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       const [options, statusCb] = makeSignAndSendOptions(partialOptions, optionalStatusCb);
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
-        (): Observable<Codec> => (
-          this.#observeSign(account, options).pipe(
-            switchMap((info): Observable<ISubmittableResult> | Observable<Hash> =>
-              isSubscription
-                ? this.#observeSubscribe(info)
-                : this.#observeSend(info)
-            )
-          ) as Observable<Codec>) // FIXME This is wrong, SubmittableResult is _not_ a codec
-      )(statusCb);
+        () => this.#observeSign(account, options).pipe(
+          switchMap((info): Observable<ISubmittableResult> | Observable<Hash> =>
+            isSubscription
+              ? this.#observeSubscribe(info)
+              : this.#observeSend(info)
+          )
+        )
+      )(statusCb) as SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType>;
     }
 
     // adds a transform to the result, applied before result is returned

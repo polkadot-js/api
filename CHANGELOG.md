@@ -6,6 +6,10 @@ Contributed:
 
 - Added support for extended Contracts ABI V4 definitions (Thanks to https://github.com/statictype)
 
+Changes:
+
+- Cleanup internal `decorateMethod` typings
+
 
 ## 10.7.3 May 28, 2023
 

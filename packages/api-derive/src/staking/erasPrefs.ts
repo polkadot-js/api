@@ -25,14 +25,14 @@ function mapPrefs (era: EraIndex, all: [StorageKey, PalletStakingValidatorPrefs]
   return { era, validators };
 }
 
-export function _eraPrefs (instanceId: string, api: DeriveApi): (era: EraIndex, withActive: boolean) => Observable<DeriveEraPrefs> {
-  return memo(instanceId, (era: EraIndex, withActive: boolean): Observable<DeriveEraPrefs> => {
+export function _eraPrefs (instanceId: string, api: DeriveApi): (era: EraIndex, withActive?: boolean) => Observable<DeriveEraPrefs> {
+  return memo(instanceId, (era: EraIndex, withActive?: boolean): Observable<DeriveEraPrefs> => {
     const [cacheKey, cached] = getEraCache<DeriveEraPrefs>(CACHE_KEY, era, withActive);
 
     return cached
       ? of(cached)
       : api.query.staking.erasValidatorPrefs.entries(era).pipe(
-        map((r) => setEraCache(cacheKey, withActive, mapPrefs(era, r)))
+        map((r) => setEraCache(cacheKey, mapPrefs(era, r), withActive))
       );
   });
 }
