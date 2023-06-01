@@ -468,40 +468,40 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.75.11":
-  version: 0.75.11
-  resolution: "@polkadot/dev-test@npm:0.75.11"
+"@polkadot/dev-test@npm:^0.75.13":
+  version: 0.75.13
+  resolution: "@polkadot/dev-test@npm:0.75.13"
   dependencies:
     jsdom: ^22.1.0
     tslib: ^2.5.2
-  checksum: 2342e72802c761eecb0ba26435070b2bfd14d05fa28c5b8e35962a160a0b4ab2a55955bf03f3e0449ea08a102fb82b424e0a24b3ee87ebc05a6ea72e41c37d08
+  checksum: 817e3f60b227a5c77fcc5e5472478e2460ea21f895e92f78db423245b08b5c60d96d592c96b3bfd58f03087eb891390b5558fd60a346fd9194f7736301ff674b
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.75.11":
-  version: 0.75.11
-  resolution: "@polkadot/dev-ts@npm:0.75.11"
+"@polkadot/dev-ts@npm:^0.75.13":
+  version: 0.75.13
+  resolution: "@polkadot/dev-ts@npm:0.75.13"
   dependencies:
     json5: ^2.2.3
     tslib: ^2.5.2
     typescript: ^5.0.4
-  checksum: f15d902adb68c473d3306f9caf4e0dd5472b56ae0dc4dbc119cb681168b0b0aa113f43e888b9ccea926cc5df836a410e474f3f7bc87cb53514a7af3c6dfa9a9f
+  checksum: cfe6a123055d70fd50f73540d0d5fe11adeacf37aad120aa9a12cb9a09c4181bfe32c33c943b55fb46ceb083849c414bad755b9b808059e5c9d342232b114f55
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.75.11":
-  version: 0.75.11
-  resolution: "@polkadot/dev@npm:0.75.11"
+"@polkadot/dev@npm:^0.75.13":
+  version: 0.75.13
+  resolution: "@polkadot/dev@npm:0.75.13"
   dependencies:
     "@eslint/js": ^8.41.0
-    "@polkadot/dev-test": ^0.75.11
-    "@polkadot/dev-ts": ^0.75.11
+    "@polkadot/dev-test": ^0.75.13
+    "@polkadot/dev-ts": ^0.75.13
     "@rollup/plugin-alias": ^5.0.0
     "@rollup/plugin-commonjs": ^25.0.0
     "@rollup/plugin-dynamic-import-vars": ^2.0.3
     "@rollup/plugin-inject": ^5.0.3
     "@rollup/plugin-json": ^6.0.0
-    "@rollup/plugin-node-resolve": ^15.0.2
+    "@rollup/plugin-node-resolve": ^15.1.0
     "@tsconfig/strictest": ^2.0.1
     "@typescript-eslint/eslint-plugin": ^5.59.8
     "@typescript-eslint/parser": ^5.59.8
@@ -530,7 +530,7 @@ __metadata:
     rollup-plugin-cleanup: ^3.2.1
     tslib: ^2.5.2
     typescript: ^5.0.4
-    webpack: ^5.84.1
+    webpack: ^5.85.0
     webpack-cli: ^5.1.1
     webpack-dev-server: ^4.15.0
     webpack-merge: ^5.9.0
@@ -560,7 +560,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: fcdc8fe4f3d2e8837a69344ed360e7289e92d54be6f12e5f70fbc97df85e6d888d70055a4483613b66451a18357f0624acc10400906b84f0a7791acd41a0e880
+  checksum: 62e0e6ddfc1b92e66554e23f1092a23b6df6bda3d71c2e2922dbf8cdc00f84de079cd2ec0d23854544e3660f9f1ca7f275ae2b63c66df0a9e6a9cfc9010b2cfc
   languageName: node
   linkType: hard
 
@@ -1012,9 +1012,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-node-resolve@npm:^15.0.2":
-  version: 15.0.2
-  resolution: "@rollup/plugin-node-resolve@npm:15.0.2"
+"@rollup/plugin-node-resolve@npm:^15.1.0":
+  version: 15.1.0
+  resolution: "@rollup/plugin-node-resolve@npm:15.1.0"
   dependencies:
     "@rollup/pluginutils": ^5.0.1
     "@types/resolve": 1.20.2
@@ -1027,7 +1027,7 @@ __metadata:
   peerDependenciesMeta:
     rollup:
       optional: true
-  checksum: 328eafee06ff967a36441b55e77fbd0d4f599d256e5d1977800ee71915846c46bc1b6185df35c7b512ad2b4023b05b65a332be77b8b00b9d8a20f87d056b8166
+  checksum: 83617cdbb90cb780251e8b16dc1671e35bde90b8d4d30e008aefe706b5b643057f6299bdd3226b2a30bf5e4f807a880169de3faa47b9f2ba38d39f294f85f951
   languageName: node
   linkType: hard
 
@@ -7515,7 +7515,7 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@polkadot/dev": ^0.75.11
+    "@polkadot/dev": ^0.75.13
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/node": ^20.2.5
   languageName: unknown
@@ -8971,9 +8971,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.84.1":
-  version: 5.84.1
-  resolution: "webpack@npm:5.84.1"
+"webpack@npm:^5.85.0":
+  version: 5.85.0
+  resolution: "webpack@npm:5.85.0"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^1.0.0
@@ -9004,7 +9004,7 @@ fsevents@~2.3.2:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 646b645df5badf2dac2ddd0193c9e9a177d51283d18f918eead36a0cdf7b750c4111d9ac11d9825c1334cbd0a6fb8f82628fbfb90d0066f927265dd11b47b192
+  checksum: b013be9fbc7f6810d1f229f570c70710ddbc7290f817411acffe4214b2b6c783a041ab1f2005d9e1109f4ab21c136f0f8d8c067a5fb64f20a82dcbc1ee0d3f42
   languageName: node
   linkType: hard
 

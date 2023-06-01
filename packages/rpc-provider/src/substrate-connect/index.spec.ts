@@ -3,42 +3,29 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-/* eslint-disable sort-keys */
-/* eslint-disable promise/param-names */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/ban-types */
-
-// FIXME A number of tests here, that were passing, is not skipped since
-// Jest has "some" issues with `await import` - we don't transform these
-
 import type * as Sc from '@substrate/connect';
 import type { HealthChecker, SmoldotHealth } from './types.js';
 
 import { ScProvider } from './index.js';
 
-type MockChain = Sc.Chain & {
-  _spec: () => string
-  _recevedRequests: () => string[]
-  _isTerminated: () => boolean
-  _triggerCallback: (response: string | {}) => void
-  _setTerminateInterceptor: (fn: () => void) => void
-  _setSendJsonRpcInterceptor: (fn: (rpc: string) => void) => void
-  _getLatestRequest: () => string
+interface MockChain extends Sc.Chain {
+  _spec: () => string;
+  _recevedRequests: () => string[];
+  _isTerminated: () => boolean;
+  _triggerCallback: (response: string | object) => void;
+  _setTerminateInterceptor: (fn: () => void) => void;
+  _setSendJsonRpcInterceptor: (fn: (rpc: string) => void) => void;
+  _getLatestRequest: () => string;
 }
 
-type MockedHealthChecker = HealthChecker & {
-  _isActive: () => boolean
-  _triggerHealthUpdate: (update: SmoldotHealth) => void
+interface MockedHealthChecker extends HealthChecker {
+  _isActive: () => boolean;
+  _triggerHealthUpdate: (update: SmoldotHealth) => void;
 }
+
+type MockSc = typeof Sc & {
+  latestChain: () => MockChain;
+};
 
 enum WellKnownChain {
   polkadot = 'polkadot',
@@ -47,16 +34,23 @@ enum WellKnownChain {
   westend2 = 'westend2'
 }
 
-const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
+const wait = (ms: number) =>
+  new Promise((resolve) =>
+    setTimeout(resolve, ms)
+  );
 
 function healthCheckerMock (): MockedHealthChecker {
-  let cb: (health: SmoldotHealth) => void = () => {};
-
-  let sendJsonRpc: (request: string) => void = () => {};
-
+  let cb: (health: SmoldotHealth) => void = () => undefined;
+  let sendJsonRpc: (request: string) => void = () => undefined;
   let isActive = false;
 
   return {
+    _isActive: () => isActive,
+    _triggerHealthUpdate: (update: SmoldotHealth) => {
+      cb(update);
+    },
+    responsePassThrough: (response) => response,
+    sendJsonRpc: (...args) => sendJsonRpc(...args),
     setSendJsonRpc: (cb) => {
       sendJsonRpc = cb;
     },
@@ -66,12 +60,6 @@ function healthCheckerMock (): MockedHealthChecker {
     },
     stop: () => {
       isActive = false;
-    },
-    sendJsonRpc: (...args) => sendJsonRpc(...args),
-    responsePassThrough: (response) => response,
-    _isActive: () => isActive,
-    _triggerHealthUpdate: (update: SmoldotHealth) => {
-      cb(update);
     }
   };
 }
@@ -80,15 +68,15 @@ function healthCheckerFactory () {
   const _healthCheckers: MockedHealthChecker[] = [];
 
   return {
+    _healthCheckers,
+    _latestHealthChecker: () => _healthCheckers.slice(-1)[0],
     healthChecker: () => {
       const result = healthCheckerMock();
 
       _healthCheckers.push(result);
 
       return result;
-    },
-    _healthCheckers,
-    _latestHealthChecker: () => _healthCheckers.slice(-1)[0]
+    }
   };
 }
 
@@ -96,33 +84,33 @@ function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
   const _receivedRequests: string[] = [];
   let _isTerminated = false;
 
-  let terminateInterceptor: Function = Function.prototype;
-  let sendJsonRpcInterceptor: Function = Function.prototype;
+  let terminateInterceptor = Function.prototype;
+  let sendJsonRpcInterceptor = Function.prototype;
 
   return {
-    _spec: () => spec,
-    _recevedRequests: () => _receivedRequests,
+    _getLatestRequest: () => _receivedRequests[_receivedRequests.length - 1],
     _isTerminated: () => _isTerminated,
-    _triggerCallback: (response) => {
-      callback(
-        typeof response === 'string' ? response : JSON.stringify(response)
-      );
-    },
+    _recevedRequests: () => _receivedRequests,
     _setSendJsonRpcInterceptor: (fn) => {
       sendJsonRpcInterceptor = fn;
     },
     _setTerminateInterceptor: (fn) => {
       terminateInterceptor = fn;
     },
-    sendJsonRpc: (rpc) => {
-      sendJsonRpcInterceptor(rpc);
-      _receivedRequests.push(rpc);
+    _spec: () => spec,
+    _triggerCallback: (response) => {
+      callback(
+        typeof response === 'string' ? response : JSON.stringify(response)
+      );
     },
     remove: () => {
       terminateInterceptor();
       _isTerminated = true;
     },
-    _getLatestRequest: () => _receivedRequests[_receivedRequests.length - 1]
+    sendJsonRpc: (rpc) => {
+      sendJsonRpcInterceptor(rpc);
+      _receivedRequests.push(rpc);
+    }
   };
 }
 
@@ -161,12 +149,13 @@ function getFakeClient () {
   };
 }
 
-function connectorFactory () {
+function connectorFactory (): MockSc {
   const clients: ReturnType<typeof getFakeClient>[] = [];
   const latestClient = () => clients[clients.length - 1];
 
   return {
     WellKnownChain,
+    _clients: () => clients,
     createScClient: () => {
       const result = getFakeClient();
 
@@ -174,14 +163,13 @@ function connectorFactory () {
 
       return result;
     },
-    _clients: () => clients,
-    latestClient,
     latestChain: () =>
-      latestClient()._chains()[latestClient()._chains().length - 1]
-  };
+      latestClient()._chains()[latestClient()._chains().length - 1],
+    latestClient
+  } as unknown as MockSc;
 }
 
-function setChainSyncyingStatus (isSyncing: boolean) {
+function setChainSyncyingStatus (isSyncing: boolean): void {
   getCurrentHealthChecker()._triggerHealthUpdate({
     isSyncing,
     peers: 1,
@@ -189,13 +177,13 @@ function setChainSyncyingStatus (isSyncing: boolean) {
   });
 }
 
-let mockSc: typeof Sc & { latestChain: () => MockChain };
+let mockSc: MockSc;
 let mockedHealthChecker: ReturnType<typeof healthCheckerFactory>;
 const getCurrentHealthChecker = () => mockedHealthChecker._latestHealthChecker();
 
 describe('ScProvider', () => {
   beforeAll(() => {
-    mockSc = connectorFactory() as unknown as typeof Sc & { latestChain: () => MockChain };
+    mockSc = connectorFactory();
     mockedHealthChecker = healthCheckerFactory();
   });
 
@@ -348,7 +336,7 @@ describe('ScProvider', () => {
 
       setChainSyncyingStatus(false);
 
-      const responsePromise = provider.send('getData', ['foo']);
+      const responsePromise = provider.send<unknown>('getData', ['foo']);
 
       await wait(0);
       expect(chain._getLatestRequest()).toEqual(
@@ -358,8 +346,8 @@ describe('ScProvider', () => {
       const result = { foo: 'foo' };
 
       chain._triggerCallback({
-        jsonrpc: '2.0',
         id: 1,
+        jsonrpc: '2.0',
         result
       });
 
@@ -378,8 +366,8 @@ describe('ScProvider', () => {
 
       setTimeout(() => {
         chain._triggerCallback({
-          jsonrpc: '2.0',
-          id: 1
+          id: 1,
+          jsonrpc: '2.0'
         });
       }, 0);
 
@@ -419,8 +407,8 @@ describe('ScProvider', () => {
 
       setTimeout(() => {
         chain._triggerCallback({
-          jsonrpc: '2.0',
           id: 1,
+          jsonrpc: '2.0',
           result: unsubscribeToken
         });
       }, 0);
@@ -458,7 +446,9 @@ describe('ScProvider', () => {
       expect(cb).toHaveBeenCalledTimes(2);
       expect(cb).toHaveBeenLastCalledWith(null, 2);
 
-      provider.unsubscribe('foo', 'chain_unsubscribeNewHeads', unsubscribeToken);
+      provider
+        .unsubscribe('foo', 'chain_unsubscribeNewHeads', unsubscribeToken)
+        .catch(console.error);
 
       chain._triggerCallback({
         jsonrpc: '2.0',
@@ -492,8 +482,8 @@ describe('ScProvider', () => {
       });
       setTimeout(() => {
         chain._triggerCallback({
-          jsonrpc: '2.0',
           id: 1,
+          jsonrpc: '2.0',
           result: unsubscribeToken
         });
       }, 0);
@@ -523,8 +513,8 @@ describe('ScProvider', () => {
 
       setTimeout(() => {
         chain._triggerCallback({
-          jsonrpc: '2.0',
           id: 1,
+          jsonrpc: '2.0',
           result: unsubscribeToken
         });
       }, 0);
@@ -560,7 +550,7 @@ describe('ScProvider', () => {
 
       await wait(0);
       await expect(
-        provider.subscribe('foo', 'bar', ['baz'], () => {})
+        provider.subscribe('foo', 'bar', ['baz'], () => undefined)
       ).rejects.toThrow(/Unsupported subscribe method: bar/);
     });
   });
@@ -594,8 +584,8 @@ describe('ScProvider', () => {
 
     setTimeout(() => {
       chain._triggerCallback({
-        jsonrpc: '2.0',
         id: 1,
+        jsonrpc: '2.0',
         result: unsubscribeToken
       });
     }, 0);
