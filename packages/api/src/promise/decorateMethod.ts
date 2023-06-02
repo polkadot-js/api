@@ -3,7 +3,7 @@
 
 import type { Observable, Subscription } from 'rxjs';
 import type { Callback, Codec } from '@polkadot/types/types';
-import type { DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types/index.js';
+import type { DecorateMethodOptions, ObsFn, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types/index.js';
 
 import { catchError, EMPTY, tap } from 'rxjs';
 
@@ -14,7 +14,7 @@ interface Tracker<T> {
   resolve: (value: T) => void;
 }
 
-type CodecReturnType<T extends (...args: unknown[]) => Observable<any>> =
+type CodecReturnType<T extends ObsFn> =
   T extends (...args: any) => infer R
     ? R extends Observable<any>
       ? ObsInnerType<R>
@@ -65,7 +65,7 @@ function extractArgs (args: unknown[], needsCallback: boolean): [unknown[], Call
 }
 
 // Decorate a call for a single-shot result - retrieve and then immediate unsubscribe
-function decorateCall<M extends DecorateFn<CodecReturnType<M>>> (method: M, args: unknown[]): Promise<CodecReturnType<M>> {
+function decorateCall<F extends ObsFn<CodecReturnType<F>>> (method: F, args: unknown[]): Promise<CodecReturnType<F>> {
   return new Promise((resolve, reject): void => {
     // single result tracker - either reject with Error or resolve with Codec result
     const tracker = promiseTracker(resolve, reject);
@@ -84,7 +84,7 @@ function decorateCall<M extends DecorateFn<CodecReturnType<M>>> (method: M, args
 }
 
 // Decorate a subscription where we have a result callback specified
-function decorateSubscribe<M extends DecorateFn<CodecReturnType<M>>> (method: M, args: unknown[], resultCb: Callback<Codec>): UnsubscribePromise {
+function decorateSubscribe<F extends ObsFn<CodecReturnType<F>>> (method: F, args: unknown[], resultCb: Callback<Codec>): UnsubscribePromise {
   return new Promise<VoidFn>((resolve, reject): void => {
     // either reject with error or resolve with unsubscribe callback
     const tracker = promiseTracker(resolve, reject);
@@ -105,14 +105,14 @@ function decorateSubscribe<M extends DecorateFn<CodecReturnType<M>>> (method: M,
 /**
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
-export function toPromiseMethod<M extends DecorateFn<any>> (method: M, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
+export function toPromiseMethod<F extends ObsFn> (method: F, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
   const needsCallback = !!(options && options.methodName && options.methodName.includes('subscribe'));
 
-  return function (...args: unknown[]): Promise<CodecReturnType<M>> | UnsubscribePromise {
+  return function (...args: unknown[]): Promise<CodecReturnType<F>> | UnsubscribePromise {
     const [actualArgs, resultCb] = extractArgs(args, needsCallback);
 
     return resultCb
       ? decorateSubscribe(method, actualArgs, resultCb)
-      : decorateCall((options?.overrideNoSub as M) || method, actualArgs);
+      : decorateCall((options?.overrideNoSub as F) || method, actualArgs);
   } as StorageEntryPromiseOverloads;
 }

@@ -10,6 +10,8 @@ export type DropLast<T extends readonly unknown[]> = T extends readonly [...infe
 
 export type ApiTypes = 'promise' | 'rxjs';
 
+export type ObsFn <T = any> = (...args: any[]) => Observable<T>;
+
 // Returns the inner type of an Observable
 export type ObsInnerType<O extends Observable<any>> = O extends Observable<infer U> ? U : never;
 
@@ -54,8 +56,6 @@ export interface DecorateMethodOptions {
   overrideNoSub?: (...args: unknown[]) => Observable<Codec>;
 }
 
-export type DecorateFn <T> = (...args: any[]) => Observable<T>;
-
 export interface PaginationOptions<A = unknown> {
   args: A[];
   pageSize: number;
@@ -64,7 +64,7 @@ export interface PaginationOptions<A = unknown> {
 
 // FIXME We want to be able to pass arguments through, where one may be a result callback
 export type DecorateMethod<ApiType extends ApiTypes> =
-  <T, M extends (...args: any[]) => Observable<T> = (...args: any[]) => Observable<T>>(method: M, options?: DecorateMethodOptions) => (...args: any[]) => PromiseOrObs<ApiType, ObsInnerType<ReturnType<M>>>;
+  <T, F extends ObsFn<T> = ObsFn<T>>(method: F, options?: DecorateMethodOptions) => (...args: any[]) => PromiseOrObs<ApiType, ObsInnerType<ReturnType<F>>>;
 
 type AsCodec<R extends Codec | any> = R extends Codec
   ? R
