@@ -20,6 +20,7 @@ type ApplyReturn<T extends keyof ExactDerive['staking']> = ReturnType<ExactDeriv
 // time due to the serial nature, large sizes may tie up the RPCs)
 const ERA_CHUNK_SIZE = 14;
 
+/** @internal */
 function chunkEras <T> (eras: EraIndex[], fn: (eras: EraIndex[]) => Observable<T[]>): Observable<T[]> {
   const chunked = arrayChunk(eras, ERA_CHUNK_SIZE);
   let index = 0;
@@ -47,46 +48,39 @@ export function filterEras <T extends { era: EraIndex }> (eras: EraIndex[], list
 
 export function erasHistoricApply <F extends '_erasExposure' | '_erasPoints' | '_erasPrefs' | '_erasRewards' | '_erasSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (withActive?: boolean) => ApplyReturn<F> {
   return (instanceId: string, api: DeriveApi) =>
-    // Cannot quite get the typing right, but it is right in the code
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (withActive?: boolean) =>
       api.derive.staking.erasHistoric(withActive).pipe(
-        switchMap((e) => api.derive.staking[fn](e, withActive))
-      )
-    ) as any;
+        switchMap((eras) => api.derive.staking[fn](eras, withActive))
+      ) as ApplyReturn<F>
+    );
 }
 
 export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlashes' | '_stakerPoints' | '_stakerPrefs' | '_stakerSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (accountId: string | Uint8Array, withActive?: boolean) => ApplyReturn<F> {
   return (instanceId: string, api: DeriveApi) =>
-    // Cannot quite get the typing right, but it is right in the code
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (accountId: string | Uint8Array, withActive?: boolean) =>
       api.derive.staking.erasHistoric(withActive).pipe(
-        switchMap((e) => api.derive.staking[fn](accountId, e, withActive))
-      )
-    ) as any;
+        switchMap((eras) => api.derive.staking[fn](accountId, eras, withActive))
+      ) as ApplyReturn<F>
+    );
 }
 
 export function singleEra <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (era: EraIndex) => ApplyReturn<F> {
   return (instanceId: string, api: DeriveApi) =>
-    // Cannot quite get the typing right, but it is right in the code
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (era: EraIndex) =>
-      api.derive.staking[fn](era, true)
-    ) as any;
+      api.derive.staking[fn](era, true) as ApplyReturn<F>
+    );
 }
 
 export function combineEras <F extends '_eraExposure' | '_eraPrefs' | '_eraSlashes'> (fn: F): (instanceId: string, api: DeriveApi) => (eras: EraIndex[], withActive?: boolean) => Observable<ObsInnerType<ApplyReturn<F>>[]> {
   return (instanceId: string, api: DeriveApi) =>
-    // Cannot quite get the typing right, but it is right in the code
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     memo(instanceId, (eras: EraIndex[], withActive?: boolean) =>
-      !eras.length
+      (!eras.length
         ? of([])
         : chunkEras(eras, (eras) =>
           combineLatest(
-            eras.map((e) => api.derive.staking[fn](e, withActive))
+            eras.map((era) => api.derive.staking[fn](era, withActive))
           )
         )
-    ) as any;
+      ) as Observable<ObsInnerType<ApplyReturn<F>>[]>
+    );
 }
