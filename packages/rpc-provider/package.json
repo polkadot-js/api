@@ -21,18 +21,18 @@
   "version": "10.7.4-3-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/keyring": "^12.2.1",
+    "@polkadot/keyring": "^12.2.2",
     "@polkadot/types": "10.7.4-3-x",
     "@polkadot/types-support": "10.7.4-3-x",
-    "@polkadot/util": "^12.2.1",
-    "@polkadot/util-crypto": "^12.2.1",
-    "@polkadot/x-fetch": "^12.2.1",
-    "@polkadot/x-global": "^12.2.1",
-    "@polkadot/x-ws": "^12.2.1",
+    "@polkadot/util": "^12.2.2",
+    "@polkadot/util-crypto": "^12.2.2",
+    "@polkadot/x-fetch": "^12.2.2",
+    "@polkadot/x-global": "^12.2.2",
+    "@polkadot/x-ws": "^12.2.2",
     "eventemitter3": "^5.0.1",
     "mock-socket": "^9.2.1",
     "nock": "^13.3.1",
-    "tslib": "^2.5.2"
+    "tslib": "^2.5.3"
   },
   "devDependencies": {
     "@substrate/connect": "0.7.26"
