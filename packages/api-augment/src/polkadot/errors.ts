@@ -855,6 +855,44 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    messageQueue: {
+      /**
+       * The message was already processed and cannot be processed again.
+       **/
+      AlreadyProcessed: AugmentedError<ApiType>;
+      /**
+       * There is temporarily not enough weight to continue servicing messages.
+       **/
+      InsufficientWeight: AugmentedError<ApiType>;
+      /**
+       * The referenced message could not be found.
+       **/
+      NoMessage: AugmentedError<ApiType>;
+      /**
+       * Page to be reaped does not exist.
+       **/
+      NoPage: AugmentedError<ApiType>;
+      /**
+       * Page is not reapable because it has items remaining to be processed and is not old
+       * enough.
+       **/
+      NotReapable: AugmentedError<ApiType>;
+      /**
+       * The message is queued for future execution.
+       **/
+      Queued: AugmentedError<ApiType>;
+      /**
+       * This message is temporarily unprocessable.
+       * 
+       * Such errors are expected, but not guaranteed, to resolve themselves eventually through
+       * retrying.
+       **/
+      TemporarilyUnprocessable: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     multisig: {
       /**
        * Call is already approved by this signatory.
@@ -1923,20 +1961,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Too many approvals in the queue.
        **/
       TooManyApprovals: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    ump: {
-      /**
-       * The message index given is unknown.
-       **/
-      UnknownMessageIndex: AugmentedError<ApiType>;
-      /**
-       * The amount of weight given is possibly not enough for executing the message.
-       **/
-      WeightOverLimit: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

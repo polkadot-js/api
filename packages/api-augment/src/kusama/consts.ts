@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Bytes, Option, Vec, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec, ITuple } from '@polkadot/types-codec/types';
 import type { Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, KusamaRuntimeRuntimeHoldReason, PalletReferendaTrackInfo, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletReferendaTrackInfo, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
@@ -408,6 +408,34 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    messageQueue: {
+      /**
+       * The size of the page; this implies the maximum message size which can be sent.
+       * 
+       * A good value depends on the expected message sizes, their weights, the weight that is
+       * available for processing them and the maximal needed message size. The maximal message
+       * size is slightly lower than this as defined by [`MaxMessageLenOf`].
+       **/
+      heapSize: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of stale pages (i.e. of overweight messages) allowed before culling
+       * can happen. Once there are more stale pages than this, then historical pages may be
+       * dropped, even if they contain unprocessed overweight messages.
+       **/
+      maxStale: u32 & AugmentedConst<ApiType>;
+      /**
+       * The amount of weight (if any) which should be provided to the message queue for
+       * servicing enqueued items.
+       * 
+       * This may be legitimately `None` in the case that you will call
+       * `ServiceQueues::service_queues` manually.
+       **/
+      serviceWeight: Option<SpWeightsWeightV2Weight> & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     multisig: {
       /**
        * The base amount of currency needed to reserve for creating a multisig execution or to
@@ -445,10 +473,6 @@ declare module '@polkadot/api-base/types/consts' {
        * Must be no greater than `MaxQueueLen`.
        **/
       fifoQueueLen: u32 & AugmentedConst<ApiType>;
-      /**
-       * The identifier of the hold reason.
-       **/
-      holdReason: KusamaRuntimeRuntimeHoldReason & AugmentedConst<ApiType>;
       /**
        * The number of blocks between consecutive attempts to dequeue bids and create receipts.
        * 

@@ -6,6 +6,11 @@ Contributed:
 
 - Added support for extended Contracts ABI V4 definitions (Thanks to https://github.com/statictype)
 
+Changes:
+
+- Update to latest Polkadot, Kusama & Substrate metadata
+- Cleanup (some) linting overrides
+
 
 ## 10.7.3 May 28, 2023
 

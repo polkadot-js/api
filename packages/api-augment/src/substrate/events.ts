@@ -8,7 +8,7 @@ import '@polkadot/api-base/types/events';
 import type { ApiTypes, AugmentedEvent } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, H256, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, H256, Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, KitchensinkRuntimeProxyType, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletContractsOrigin, PalletConvictionVotingTally, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsPalletAttributes, PalletNftsPriceWithDirection, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpStatementStoreStatement, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
@@ -104,6 +104,33 @@ declare module '@polkadot/api-base/types/events' {
        * a tally (yes votes and no votes given respectively as `MemberCount`).
        **/
       Voted: AugmentedEvent<ApiType, [account: AccountId32, proposalHash: H256, voted: bool, yes: u32, no: u32], { account: AccountId32, proposalHash: H256, voted: bool, yes: u32, no: u32 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    assetConversion: {
+      /**
+       * A successful call of the `AddLiquidity` extrinsic will create this event.
+       **/
+      LiquidityAdded: AugmentedEvent<ApiType, [who: AccountId32, mintTo: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, amount1Provided: u128, amount2Provided: u128, lpToken: u32, lpTokenMinted: u128], { who: AccountId32, mintTo: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, amount1Provided: u128, amount2Provided: u128, lpToken: u32, lpTokenMinted: u128 }>;
+      /**
+       * A successful call of the `RemoveLiquidity` extrinsic will create this event.
+       **/
+      LiquidityRemoved: AugmentedEvent<ApiType, [who: AccountId32, withdrawTo: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, amount1: u128, amount2: u128, lpToken: u32, lpTokenBurned: u128, withdrawalFee: Permill], { who: AccountId32, withdrawTo: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, amount1: u128, amount2: u128, lpToken: u32, lpTokenBurned: u128, withdrawalFee: Permill }>;
+      /**
+       * A successful call of the `CretaPool` extrinsic will create this event.
+       **/
+      PoolCreated: AugmentedEvent<ApiType, [creator: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, lpToken: u32], { creator: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, lpToken: u32 }>;
+      /**
+       * Assets have been converted from one to another. Both `SwapExactTokenForToken`
+       * and `SwapTokenForExactToken` will generate this event.
+       **/
+      SwapExecuted: AugmentedEvent<ApiType, [who: AccountId32, sendTo: AccountId32, path: Vec<PalletAssetConversionNativeOrAssetId>, amountIn: u128, amountOut: u128], { who: AccountId32, sendTo: AccountId32, path: Vec<PalletAssetConversionNativeOrAssetId>, amountIn: u128, amountOut: u128 }>;
+      /**
+       * An amount has been transferred from one account to another.
+       **/
+      Transfer: AugmentedEvent<ApiType, [from: AccountId32, to: AccountId32, asset: PalletAssetConversionNativeOrAssetId, amount: u128], { from: AccountId32, to: AccountId32, asset: PalletAssetConversionNativeOrAssetId, amount: u128 }>;
       /**
        * Generic event
        **/
@@ -719,15 +746,15 @@ declare module '@polkadot/api-base/types/events' {
     };
     glutton: {
       /**
-       * The computation limit has been updated by root.
+       * The computation limit has been updated.
        **/
       ComputationLimitSet: AugmentedEvent<ApiType, [compute: Perbill], { compute: Perbill }>;
       /**
-       * The pallet has been (re)initialized by root.
+       * The pallet has been (re)initialized.
        **/
       PalletInitialized: AugmentedEvent<ApiType, [reinit: bool], { reinit: bool }>;
       /**
-       * The storage limit has been updated by root.
+       * The storage limit has been updated.
        **/
       StorageLimitSet: AugmentedEvent<ApiType, [storage: Perbill], { storage: Perbill }>;
       /**
@@ -860,14 +887,9 @@ declare module '@polkadot/api-base/types/events' {
     };
     messageQueue: {
       /**
-       * Message discarded due to an inability to decode the item. Usually caused by state
-       * corruption.
-       **/
-      Discarded: AugmentedEvent<ApiType, [hash_: H256], { hash_: H256 }>;
-      /**
        * Message placed in overweight queue.
        **/
-      OverweightEnqueued: AugmentedEvent<ApiType, [hash_: H256, origin: u32, pageIndex: u32, messageIndex: u32], { hash_: H256, origin: u32, pageIndex: u32, messageIndex: u32 }>;
+      OverweightEnqueued: AugmentedEvent<ApiType, [id: U8aFixed, origin: u32, pageIndex: u32, messageIndex: u32], { id: U8aFixed, origin: u32, pageIndex: u32, messageIndex: u32 }>;
       /**
        * This page was reaped.
        **/
@@ -875,11 +897,11 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Message is processed.
        **/
-      Processed: AugmentedEvent<ApiType, [hash_: H256, origin: u32, weightUsed: SpWeightsWeightV2Weight, success: bool], { hash_: H256, origin: u32, weightUsed: SpWeightsWeightV2Weight, success: bool }>;
+      Processed: AugmentedEvent<ApiType, [id: U8aFixed, origin: u32, weightUsed: SpWeightsWeightV2Weight, success: bool], { id: U8aFixed, origin: u32, weightUsed: SpWeightsWeightV2Weight, success: bool }>;
       /**
        * Message discarded due to an error in the `MessageProcessor` (usually a format error).
        **/
-      ProcessingFailed: AugmentedEvent<ApiType, [hash_: H256, origin: u32, error: FrameSupportMessagesProcessMessageError], { hash_: H256, origin: u32, error: FrameSupportMessagesProcessMessageError }>;
+      ProcessingFailed: AugmentedEvent<ApiType, [id: U8aFixed, origin: u32, error: FrameSupportMessagesProcessMessageError], { id: U8aFixed, origin: u32, error: FrameSupportMessagesProcessMessageError }>;
       /**
        * Generic event
        **/
@@ -902,6 +924,20 @@ declare module '@polkadot/api-base/types/events' {
        * A new multisig operation has begun.
        **/
       NewMultisig: AugmentedEvent<ApiType, [approving: AccountId32, multisig: AccountId32, callHash: U8aFixed], { approving: AccountId32, multisig: AccountId32, callHash: U8aFixed }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    nftFractionalization: {
+      /**
+       * An NFT was successfully fractionalized.
+       **/
+      NftFractionalized: AugmentedEvent<ApiType, [nftCollection: u32, nft: u32, fractions: u128, asset: u32, beneficiary: AccountId32], { nftCollection: u32, nft: u32, fractions: u128, asset: u32, beneficiary: AccountId32 }>;
+      /**
+       * An NFT was successfully returned back.
+       **/
+      NftUnified: AugmentedEvent<ApiType, [nftCollection: u32, nft: u32, asset: u32, beneficiary: AccountId32], { nftCollection: u32, nft: u32, asset: u32, beneficiary: AccountId32 }>;
       /**
        * Generic event
        **/
@@ -1193,6 +1229,109 @@ declare module '@polkadot/api-base/types/events' {
        * \[kind, timeslot\].
        **/
       Offence: AugmentedEvent<ApiType, [kind: U8aFixed, timeslot: Bytes], { kind: U8aFixed, timeslot: Bytes }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    poolAssets: {
+      /**
+       * Accounts were destroyed for given asset.
+       **/
+      AccountsDestroyed: AugmentedEvent<ApiType, [assetId: u32, accountsDestroyed: u32, accountsRemaining: u32], { assetId: u32, accountsDestroyed: u32, accountsRemaining: u32 }>;
+      /**
+       * An approval for account `delegate` was cancelled by `owner`.
+       **/
+      ApprovalCancelled: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, delegate: AccountId32], { assetId: u32, owner: AccountId32, delegate: AccountId32 }>;
+      /**
+       * Approvals were destroyed for given asset.
+       **/
+      ApprovalsDestroyed: AugmentedEvent<ApiType, [assetId: u32, approvalsDestroyed: u32, approvalsRemaining: u32], { assetId: u32, approvalsDestroyed: u32, approvalsRemaining: u32 }>;
+      /**
+       * (Additional) funds have been approved for transfer to a destination account.
+       **/
+      ApprovedTransfer: AugmentedEvent<ApiType, [assetId: u32, source: AccountId32, delegate: AccountId32, amount: u128], { assetId: u32, source: AccountId32, delegate: AccountId32, amount: u128 }>;
+      /**
+       * Some asset `asset_id` was frozen.
+       **/
+      AssetFrozen: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      /**
+       * The min_balance of an asset has been updated by the asset owner.
+       **/
+      AssetMinBalanceChanged: AugmentedEvent<ApiType, [assetId: u32, newMinBalance: u128], { assetId: u32, newMinBalance: u128 }>;
+      /**
+       * An asset has had its attributes changed by the `Force` origin.
+       **/
+      AssetStatusChanged: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      /**
+       * Some asset `asset_id` was thawed.
+       **/
+      AssetThawed: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      /**
+       * Some account `who` was blocked.
+       **/
+      Blocked: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32], { assetId: u32, who: AccountId32 }>;
+      /**
+       * Some assets were destroyed.
+       **/
+      Burned: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, balance: u128], { assetId: u32, owner: AccountId32, balance: u128 }>;
+      /**
+       * Some asset class was created.
+       **/
+      Created: AugmentedEvent<ApiType, [assetId: u32, creator: AccountId32, owner: AccountId32], { assetId: u32, creator: AccountId32, owner: AccountId32 }>;
+      /**
+       * An asset class was destroyed.
+       **/
+      Destroyed: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      /**
+       * An asset class is in the process of being destroyed.
+       **/
+      DestructionStarted: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      /**
+       * Some asset class was force-created.
+       **/
+      ForceCreated: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32], { assetId: u32, owner: AccountId32 }>;
+      /**
+       * Some account `who` was frozen.
+       **/
+      Frozen: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32], { assetId: u32, who: AccountId32 }>;
+      /**
+       * Some assets were issued.
+       **/
+      Issued: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, amount: u128], { assetId: u32, owner: AccountId32, amount: u128 }>;
+      /**
+       * Metadata has been cleared for an asset.
+       **/
+      MetadataCleared: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      /**
+       * New metadata has been set for an asset.
+       **/
+      MetadataSet: AugmentedEvent<ApiType, [assetId: u32, name: Bytes, symbol_: Bytes, decimals: u8, isFrozen: bool], { assetId: u32, name: Bytes, symbol: Bytes, decimals: u8, isFrozen: bool }>;
+      /**
+       * The owner changed.
+       **/
+      OwnerChanged: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32], { assetId: u32, owner: AccountId32 }>;
+      /**
+       * The management team changed.
+       **/
+      TeamChanged: AugmentedEvent<ApiType, [assetId: u32, issuer: AccountId32, admin: AccountId32, freezer: AccountId32], { assetId: u32, issuer: AccountId32, admin: AccountId32, freezer: AccountId32 }>;
+      /**
+       * Some account `who` was thawed.
+       **/
+      Thawed: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32], { assetId: u32, who: AccountId32 }>;
+      /**
+       * Some account `who` was created with a deposit from `depositor`.
+       **/
+      Touched: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32, depositor: AccountId32], { assetId: u32, who: AccountId32, depositor: AccountId32 }>;
+      /**
+       * Some assets were transferred.
+       **/
+      Transferred: AugmentedEvent<ApiType, [assetId: u32, from: AccountId32, to: AccountId32, amount: u128], { assetId: u32, from: AccountId32, to: AccountId32, amount: u128 }>;
+      /**
+       * An `amount` was transferred in its entirety from `owner` to `destination` by
+       * the approved `delegate`.
+       **/
+      TransferredApproved: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, delegate: AccountId32, destination: AccountId32, amount: u128], { assetId: u32, owner: AccountId32, delegate: AccountId32, destination: AccountId32, amount: u128 }>;
       /**
        * Generic event
        **/

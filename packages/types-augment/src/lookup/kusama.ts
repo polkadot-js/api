@@ -164,7 +164,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup540: kusama_runtime::RuntimeHoldReason
+   * Lookup543: kusama_runtime::RuntimeHoldReason
    **/
   KusamaRuntimeRuntimeHoldReason: {
     _enum: {
@@ -210,13 +210,7 @@ export default {
     }
   },
   /**
-   * Lookup541: pallet_nis::pallet::HoldReason
-   **/
-  PalletNisHoldReason: {
-    _enum: ['NftReceipt']
-  },
-  /**
-   * Lookup860: kusama_runtime::Runtime
+   * Lookup869: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };
