@@ -39,11 +39,7 @@ export function _flags (instanceId: string, api: DeriveApi): () => Observable<Fl
   return memo(instanceId, (): Observable<FlagsIntermediate> => {
     const results: unknown[] = [undefined, [], [], [], undefined];
     const calls = [
-      (
-        api.query.elections ||
-        api.query['phragmenElection'] ||
-        api.query['electionsPhragmen']
-      )?.members,
+      (api.query.elections || api.query['phragmenElection'] || api.query['electionsPhragmen'])?.members,
       api.query.council?.members,
       api.query.technicalCommittee?.members,
       api.query.society?.members,
