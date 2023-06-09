@@ -41,7 +41,6 @@ export function _flags (instanceId: string, api: DeriveApi): () => Observable<Fl
     const calls = [
       (
         api.query.elections ||
-        // eslint-disable-next-line @typescript-eslint/dot-notation
         api.query['phragmenElection'] ||
         api.query['electionsPhragmen']
       )?.members,

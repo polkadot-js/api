@@ -4,6 +4,14 @@
 import baseConfig from '@polkadot/dev/config/eslint';
 
 export default [
+  {
+    ignores: [
+      ...baseConfig[0].ignores || [],
+      // see the tsconfig.eslint.json for explanation
+      'packages/api-augment/src/kusama/*.ts',
+      'packages/api-augment/src/polkadot/*.ts'
+    ]
+  },
   ...baseConfig,
   {
     rules: {

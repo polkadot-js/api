@@ -33,17 +33,13 @@ function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes]: 
 
 export function overview (instanceId: string, api: DeriveApi): () => Observable<DeriveParachain[]> {
   return memo(instanceId, (): Observable<DeriveParachain[]> =>
-    // eslint-disable-next-line @typescript-eslint/dot-notation
     api.query['registrar']?.['parachains'] && api.query['parachains']
-      // eslint-disable-next-line @typescript-eslint/dot-notation
       ? api.query['registrar']['parachains']<ParaId[]>().pipe(
         switchMap((paraIds) =>
           combineLatest([
             of(paraIds),
             api.query['parachains']['didUpdate']<DidUpdate>(),
-            // eslint-disable-next-line @typescript-eslint/dot-notation
             api.query['registrar']['paras'].multi<ParaInfoResult>(paraIds),
-            // eslint-disable-next-line @typescript-eslint/dot-notation
             api.query['registrar']['pendingSwap'].multi<PendingSwap>(paraIds),
             api.query['parachains']['relayDispatchQueueSize'].multi<RelayDispatchQueueSize>(paraIds)
           ])
