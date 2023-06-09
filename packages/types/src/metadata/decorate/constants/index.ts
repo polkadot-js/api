@@ -22,11 +22,12 @@ export function decorateConstants (registry: Registry, { pallets }: MetadataLate
           {},
           constants,
           (constant: PalletConstantMetadataLatest): ConstantCodec => {
-            const codec = registry.createTypeUnsafe(registry.createLookupType(constant.type), [hexToU8a(constant.value.toHex())]);
+            const codec = registry.createTypeUnsafe<ConstantCodec>(registry.createLookupType(constant.type), [hexToU8a(constant.value.toHex())]);
 
-            (codec as unknown as Record<string, unknown>).meta = constant;
+            // We are casting here since we are assigning to a read-only property
+            (codec as { meta: PalletConstantMetadataLatest }).meta = constant;
 
-            return codec as ConstantCodec;
+            return codec;
           },
           objectNameToCamel
         )

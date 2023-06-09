@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Constructor, Registry } from '@polkadot/types/types';
+import type { CodecClass, Registry } from '@polkadot/types/types';
 import type { UInt } from '@polkadot/types-codec';
 import type { TypeDef } from '@polkadot/types-create/types';
 import type { ModuleTypes, TypeImports } from './imports.js';
@@ -69,7 +69,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
       }
     }
   } else if (isChildClass(Enum, Clazz)) {
-    const { defKeys, isBasic } = new (Clazz as Constructor)(registry) as Enum;
+    const { defKeys, isBasic } = new (Clazz as CodecClass)(registry) as Enum;
     const keys = defKeys.filter((v) => !v.startsWith('__Unused'));
 
     if (isBasic) {
@@ -80,7 +80,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
     }
 
     possibleTypes.push('Uint8Array');
-  } else if (isChildClass(AbstractInt as unknown as Constructor<UInt>, Clazz) || isChildClass(Compact, Clazz)) {
+  } else if (isChildClass(AbstractInt as unknown as CodecClass<UInt>, Clazz) || isChildClass(Compact, Clazz)) {
     possibleTypes.push('AnyNumber', 'Uint8Array');
   } else if (isChildClass(GenericLookupSource, Clazz)) {
     possibleTypes.push('Address', 'AccountId', 'AccountIndex', 'LookupSource', 'string', 'Uint8Array');
@@ -93,7 +93,7 @@ export function getSimilarTypes (registry: Registry, definitions: Record<string,
   } else if (isChildClass(Null, Clazz)) {
     possibleTypes.push('null');
   } else if (isChildClass(Struct, Clazz)) {
-    const s = new (Clazz as Constructor)(registry) as Struct;
+    const s = new (Clazz as CodecClass)(registry) as Struct;
     const obj = s.defKeys.map((key): string => `${key}?: any`).join('; ');
 
     possibleTypes.push(`{ ${obj} }`, 'string', 'Uint8Array');

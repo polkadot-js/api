@@ -141,7 +141,7 @@ export function generateCallTypes (registry: Registry, meta: Metadata, dest: str
     }).filter(({ items }) => items.length).sort((a, b) => a.name.localeCompare(b.name));
 
     if (modules.length) {
-      imports.typesTypes.Observable = true;
+      imports.typesTypes['Observable'] = true;
     }
 
     return generateCallsTypesTemplate({

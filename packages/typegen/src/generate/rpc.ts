@@ -126,7 +126,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
       };
     }).concat(...Object.values(additional)).sort((a, b) => a.name.localeCompare(b.name));
 
-    imports.typesTypes.Observable = true;
+    imports.typesTypes['Observable'] = true;
 
     return generateRpcTypesTemplate({
       headerType: 'chain',

@@ -202,11 +202,11 @@ export class MockProvider implements ProviderInterface {
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
-        this.setStateBn(query.system.account(publicKey), newHead.number.toBn().addn(index));
+        this.setStateBn(query['system']['account'](publicKey), newHead.number.toBn().addn(index));
       });
 
       // set the timestamp for the current block
-      this.setStateBn(query.timestamp.now(), Math.floor(Date.now() / 1000));
+      this.setStateBn(query['timestamp']['now'](), Math.floor(Date.now() / 1000));
       this.updateSubs('chain_subscribeNewHead', newHead);
 
       // We emit connected/disconnected at intervals

@@ -15,18 +15,18 @@ type ResultV2 = [BN, BN, BN, BN, BN, BN, BN, BN, BN, BN];
 function queryConstants (api: DeriveApi): Observable<ResultV2> {
   return of([
     // deprecated
-    api.consts.contracts.callBaseFee || api.registry.createType('Balance'),
-    api.consts.contracts.contractFee || api.registry.createType('Balance'),
-    api.consts.contracts.creationFee || api.registry.createType('Balance'),
-    api.consts.contracts.transactionBaseFee || api.registry.createType('Balance'),
-    api.consts.contracts.transactionByteFee || api.registry.createType('Balance'),
-    api.consts.contracts.transferFee || api.registry.createType('Balance'),
+    api.consts.contracts['callBaseFee'] || api.registry.createType('Balance'),
+    api.consts.contracts['contractFee'] || api.registry.createType('Balance'),
+    api.consts.contracts['creationFee'] || api.registry.createType('Balance'),
+    api.consts.contracts['transactionBaseFee'] || api.registry.createType('Balance'),
+    api.consts.contracts['transactionByteFee'] || api.registry.createType('Balance'),
+    api.consts.contracts['transferFee'] || api.registry.createType('Balance'),
 
     // current
-    api.consts.contracts.rentByteFee,
-    api.consts.contracts.rentDepositOffset,
-    api.consts.contracts.surchargeReward,
-    api.consts.contracts.tombstoneDeposit
+    api.consts.contracts['rentByteFee'] || api.registry.createType('Balance'),
+    api.consts.contracts['rentDepositOffset'] || api.registry.createType('Balance'),
+    api.consts.contracts['surchargeReward'] || api.registry.createType('Balance'),
+    api.consts.contracts['tombstoneDeposit'] || api.registry.createType('Balance')
   ]) as unknown as Observable<ResultV2>;
 }
 

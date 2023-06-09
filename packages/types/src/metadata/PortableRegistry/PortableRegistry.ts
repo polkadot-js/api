@@ -27,8 +27,17 @@ interface Extract extends ExtractBase {
 interface TypeInfo {
   lookups: Record<string, LookupString>;
   names: Record<number, string>;
-  params: Record<string, SiTypeParameter[]>;
+  params: TypeInfoParams;
   types: Record<number, PortableType>;
+}
+
+interface TypeInfoParams {
+  // known param definitions
+  FrameSystemEventRecord: [event: SiTypeParameter, topic: SiTypeParameter]
+  SpRuntimeUncheckedExtrinsic: [address: SiTypeParameter, call: SiTypeParameter, signature: SiTypeParameter, extra: SiTypeParameter];
+
+  // other type definitions
+  [key: string]: SiTypeParameter[];
 }
 
 // Just a placeholder for a type.unrwapOr()
@@ -398,7 +407,7 @@ function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], na
 }
 
 /** @internal Detect on-chain types (AccountId/Signature) as set as the default */
-function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: Record<string, SiTypeParameter[]>): void {
+function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: TypeInfoParams): void {
   // Register the types we extracted
   lookup.registry.register(lookups);
 
@@ -439,7 +448,7 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
  * @internal Extracts aliases based on what we know the runtime config looks like in a
  * Substrate chain. Specifically we want to have access to the Call and Event params
  **/
-function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?: boolean): Record<number, string> {
+function extractAliases (params: TypeInfoParams, isContract?: boolean): Record<number, string> {
   const hasParams = Object.keys(params).some((k) => !k.startsWith('Pallet'));
   const alias: Record<number, string> = {};
 
@@ -483,7 +492,7 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): T
 
   const lookups: Record<string, LookupString> = {};
   const names: Record<number, string> = {};
-  const params: Record<string, SiTypeParameter[]> = {};
+  const params = {} as TypeInfoParams;
   const dedup = removeDupeNames(lookup, portable, nameInfo);
 
   for (let i = 0, count = dedup.length; i < count; i++) {
@@ -501,7 +510,7 @@ export class PortableRegistry extends Struct implements ILookup {
   #alias: Record<number, string>;
   #lookups: Record<string, LookupString>;
   #names: Record<number, string>;
-  #params: Record<string, SiTypeParameter[]>;
+  #params: TypeInfoParams;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
 

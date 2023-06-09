@@ -13,7 +13,7 @@ import { RpcCore } from './index.js';
 describe('methodSend', (): void => {
   const registry = new TypeRegistry();
   let rpc: RpcCore;
-  let methods: Record<string, DefinitionRpc>;
+  let methods: { blah: DefinitionRpc; bleh: DefinitionRpc };
   let provider: ProviderInterface;
 
   beforeEach((): void => {

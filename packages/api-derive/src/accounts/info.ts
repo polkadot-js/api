@@ -15,13 +15,13 @@ import { memo } from '../util/index.js';
 
 function retrieveNick (api: DeriveApi, accountId?: AccountId): Observable<string | undefined> {
   return ((
-    accountId && api.query.nicks?.nameOf
-      ? api.query.nicks.nameOf(accountId)
+    accountId && api.query['nicks']?.['nameOf']
+      ? api.query['nicks']['nameOf'](accountId)
       : of(undefined)
   ) as Observable<Option<ITuple<[Bytes, Balance]>> | undefined>).pipe(
     map((nameOf): string | undefined =>
       nameOf?.isSome
-        ? u8aToString(nameOf.unwrap()[0]).substring(0, (api.consts.nicks.maxLength as u32).toNumber())
+        ? u8aToString(nameOf.unwrap()[0]).substring(0, (api.consts['nicks']['maxLength'] as u32).toNumber())
         : undefined
     )
   );

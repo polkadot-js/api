@@ -18,7 +18,7 @@ export function nextElected (instanceId: string, api: DeriveApi): () => Observab
         switchMap(({ currentEra }) => api.query.staking.erasStakers.keys(currentEra)),
         map((keys) => keys.map(({ args: [, accountId] }) => accountId))
       )
-      : api.query.staking.currentElected<AccountId[]>()
+      : api.query.staking['currentElected']<AccountId[]>()
   );
 }
 

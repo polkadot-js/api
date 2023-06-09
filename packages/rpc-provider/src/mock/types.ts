@@ -17,10 +17,19 @@ export interface Mock {
 
 export type MockStateSubscriptionCallback = (error: Error | null, value: any) => void;
 
-export type MockStateSubscriptions = Record<string, {
+export interface MockStateSubscription {
   callbacks: Record<number, MockStateSubscriptionCallback>;
   lastValue: any;
-}>;
+}
+
+export interface MockStateSubscriptions {
+  // known
+  chain_subscribeNewHead: MockStateSubscription;
+  state_subscribeStorage: MockStateSubscription;
+
+  // others
+  [key: string]: MockStateSubscription;
+}
 
 export type MockStateDb = Record<string, Uint8Array>;
 

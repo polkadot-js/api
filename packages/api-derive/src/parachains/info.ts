@@ -75,16 +75,22 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
 
 export function info (instanceId: string, api: DeriveApi): (id: ParaId | number) => Observable<DeriveParachainFull | null> {
   return memo(instanceId, (id: ParaId | number): Observable<DeriveParachainFull | null> =>
-    api.query.registrar && api.query.parachains
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    api.query['registrar'] && api.query['parachains']
       ? api.queryMulti<Result>([
-        api.query.registrar.active,
-        api.query.registrar.retryQueue,
-        api.query.registrar.selectedThreads,
-        api.query.parachains.didUpdate,
-        [api.query.registrar.paras, id],
-        [api.query.registrar.pendingSwap, id],
-        [api.query.parachains.heads, id],
-        [api.query.parachains.relayDispatchQueue, id]
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        api.query['registrar']['active'],
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        api.query['registrar']['retryQueue'],
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        api.query['registrar']['selectedThreads'],
+        api.query['parachains']['didUpdate'],
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        [api.query['registrar']['paras'], id],
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        [api.query['registrar']['pendingSwap'], id],
+        [api.query['parachains']['heads'], id],
+        [api.query['parachains']['relayDispatchQueue'], id]
       ])
         .pipe(
           map((result: Result): DeriveParachainFull | null =>

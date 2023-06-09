@@ -35,7 +35,8 @@ function createChildKey (info: AllInfo): string {
 
 export function childKey (instanceId: string, api: DeriveApi): (paraId: string | number | BN) => Observable<string | null> {
   return memo(instanceId, (paraId: string | number | BN): Observable<string | null> =>
-    api.query.crowdloan.funds<Option<PolkadotRuntimeCommonCrowdloanFundInfo>>(paraId).pipe(
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    api.query['crowdloan']['funds']<Option<PolkadotRuntimeCommonCrowdloanFundInfo>>(paraId).pipe(
       map((optInfo) =>
         optInfo.isSome
           ? createChildKey(optInfo.unwrap())

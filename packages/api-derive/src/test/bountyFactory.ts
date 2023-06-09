@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { Bounty, BountyIndex } from '@polkadot/types/interfaces';
-import type { Codec, Constructor, InterfaceTypes, Registry } from '@polkadot/types/types';
+import type { Codec, CodecClass, InterfaceTypes, Registry } from '@polkadot/types/types';
 
 import { Option, StorageKey } from '@polkadot/types';
 
@@ -29,7 +29,7 @@ export class BountyFactory {
     this.#registry.createType('Bounty');
 
   public optionOf = <T extends Codec>(value: T): Option<T> => {
-    const typeName = this.#registry.getClassName(value.constructor as Constructor<T>);
+    const typeName = this.#registry.getClassName(value.constructor as CodecClass<T>);
 
     return new Option<T>(this.#registry, typeName as keyof InterfaceTypes, value);
   };

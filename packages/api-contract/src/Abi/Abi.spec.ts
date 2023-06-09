@@ -101,7 +101,7 @@ describe('Abi', (): void => {
             JSON.parse(fs.readFileSync(cmpFile, 'utf-8'))
           );
         } catch (error) {
-          if (process.env.GITHUB_REPOSITORY) {
+          if (process.env['GITHUB_REPOSITORY']) {
             console.error(registryJson);
 
             throw error;
@@ -114,8 +114,8 @@ describe('Abi', (): void => {
   });
 
   it('has the correct hash for the source', (): void => {
-    const abi = new Abi(abis.ink_v0_flipperBundle);
-    const bundle = abis.ink_v0_flipperBundle as unknown as JSONAbi;
+    const abi = new Abi(abis['ink_v0_flipperBundle']);
+    const bundle = abis['ink_v0_flipperBundle'] as unknown as JSONAbi;
 
     // manual
     expect(bundle.source.hash).toEqual(blake2AsHex(bundle.source.wasm));

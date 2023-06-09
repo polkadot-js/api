@@ -53,7 +53,7 @@ function isBounded (call: FrameSupportPreimagesBounded | FrameSupportScheduleMay
 }
 
 function queryQueue (api: DeriveApi): Observable<DeriveDispatch[]> {
-  return api.query.democracy.dispatchQueue<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>().pipe(
+  return api.query.democracy['dispatchQueue']<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>().pipe(
     switchMap((dispatches) =>
       combineLatest([
         of(dispatches),
@@ -142,7 +142,7 @@ export function dispatchQueue (instanceId: string, api: DeriveApi): () => Observ
   return memo(instanceId, (): Observable<DeriveDispatch[]> =>
     isFunction(api.query.scheduler?.agenda)
       ? queryScheduler(api)
-      : api.query.democracy.dispatchQueue
+      : api.query.democracy['dispatchQueue']
         ? queryQueue(api)
         : of([])
   );

@@ -12,6 +12,12 @@ import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isO
 
 import { convertVersions, enumVersions } from './toLatest.js';
 
+interface AbiJson {
+  version?: string;
+
+  [key: string]: unknown;
+}
+
 const l = logger('Abi');
 
 const PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
@@ -26,12 +32,12 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-function getLatestMeta (registry: Registry, json: Record<string, unknown>): ContractMetadataLatest {
+function getLatestMeta (registry: Registry, json: AbiJson): ContractMetadataLatest {
   // this is for V1, V2, V3
   const vx = enumVersions.find((v) => isObject(json[v]));
 
   // this was added in V4
-  const jsonVersion = json.version as string;
+  const jsonVersion = json.version;
 
   if (!vx && jsonVersion && !enumVersions.find((v) => v === `V${jsonVersion}`)) {
     throw new Error(`Unable to handle version ${jsonVersion}`);
@@ -56,7 +62,7 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
-  const latest = getLatestMeta(registry, json);
+  const latest = getLatestMeta(registry, json as unknown as AbiJson);
   const lookup = registry.createType('PortableRegistry', { types: latest.types }, true);
 
   // attach the lookup to the registry - now the types are known

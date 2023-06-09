@@ -19,13 +19,13 @@ describe('getSorage', (): void => {
   const storage = getStorage(registry);
 
   it('should return well known keys', (): void => {
-    expect(typeof storage.substrate).toBe('object');
+    expect(typeof storage['substrate']).toBe('object');
 
-    expect(storage.substrate.code()).toEqual(compactAddLength(u8aToU8a(':code')));
+    expect(storage['substrate']['code']()).toEqual(compactAddLength(u8aToU8a(':code')));
 
-    expect(storage.substrate.changesTrieConfig).toBeTruthy();
-    expect(storage.substrate.childStorageKeyPrefix).toBeTruthy();
-    expect(storage.substrate.extrinsicIndex).toBeTruthy();
-    expect(storage.substrate.heapPages).toBeTruthy();
+    expect(storage['substrate']['changesTrieConfig']).toBeTruthy();
+    expect(storage['substrate']['childStorageKeyPrefix']).toBeTruthy();
+    expect(storage['substrate']['extrinsicIndex']).toBeTruthy();
+    expect(storage['substrate']['heapPages']).toBeTruthy();
   });
 });

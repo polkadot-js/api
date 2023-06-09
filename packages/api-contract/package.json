@@ -22,6 +22,7 @@
   "main": "index.js",
   "dependencies": {
     "@polkadot/api": "10.8.1",
+    "@polkadot/api-augment": "10.8.1",
     "@polkadot/types": "10.8.1",
     "@polkadot/types-codec": "10.8.1",
     "@polkadot/types-create": "10.8.1",

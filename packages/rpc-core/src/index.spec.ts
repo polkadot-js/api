@@ -35,7 +35,7 @@ describe('Api', (): void => {
       }
     });
 
-    expect(isFunction((rpc as unknown as Record<string, Record<string, boolean>>).testing.foo)).toBe(true);
+    expect(isFunction((rpc as unknown as { testing: { foo: boolean } }).testing.foo)).toBe(true);
     expect(rpc.sections.includes('testing')).toBe(true);
     expect(rpc.mapping.get('testing_foo')).toEqual({
       description: 'foo',
