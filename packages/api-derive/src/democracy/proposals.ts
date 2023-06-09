@@ -23,7 +23,6 @@ type Result = [Proposals, (DeriveProposalImage | undefined)[], Depositors[]];
 
 function isNewDepositors (depositors: ITuple<[Vec<AccountId>, Balance]> | ITuple<[Balance, Vec<AccountId>]>): depositors is ITuple<[Vec<AccountId>, Balance]> {
   // Detect balance...
-  // eslint-disable-next-line @typescript-eslint/unbound-method
   return isFunction((depositors[1] as Balance).mul);
 }
 
