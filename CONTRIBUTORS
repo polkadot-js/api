@@ -1,4 +1,4 @@
-    3473	Jaco                          	10.8.1 (#5669)
+    3474	Jaco                          	Adjust object index typings (#5671)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
