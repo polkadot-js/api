@@ -19,6 +19,13 @@ import { isString, stringify } from '@polkadot/util';
 import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util/index.js';
 import { typeEncoders } from './tsDef.js';
 
+// Record<string, >
+interface ParsedDef {
+  _set: Record<string, number>;
+
+  [key: string]: string | Record<string, string> | Record<string, number>;
+}
+
 const WITH_TYPEDEF = false;
 
 const generateLookupDefsTmpl = Handlebars.compile(readTemplate('lookup/defs'));
@@ -67,9 +74,9 @@ function expandSet (parsed: Record<string, number>): string[] {
   );
 }
 
-function expandObject (parsed: Record<string, string | Record<string, string>>): string[] {
+function expandObject (parsed: ParsedDef): string[] {
   if (parsed._set) {
-    return expandSet(parsed._set as unknown as Record<string, number>);
+    return expandSet(parsed._set);
   }
 
   return formatObject(
@@ -78,7 +85,7 @@ function expandObject (parsed: Record<string, string | Record<string, string>>):
         ? expandType(v)
         : Array.isArray(v)
           ? [`[${(v as string[]).map((e) => `'${e}'`).join(', ')}]`]
-          : expandObject(v);
+          : expandObject(v as ParsedDef);
 
       inner.forEach((l, index): void => {
         all.push(`${
@@ -98,7 +105,7 @@ function expandType (encoded: string): string[] {
     return [`'${encoded}'`];
   }
 
-  return expandObject(JSON.parse(encoded) as Record<string, string | Record<string, string>>);
+  return expandObject(JSON.parse(encoded) as ParsedDef);
 }
 
 function expandDefToString ({ lookupNameRoot, type }: TypeDef, indent: number): string {

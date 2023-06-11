@@ -20,12 +20,12 @@ type VotingDirect = PalletDemocracyVoteVoting['asDirect'];
 type VotingDirectVote = VotingDirect['votes'][0];
 
 function votesPrev (api: DeriveApi, referendumId: BN): Observable<DeriveReferendumVote[]> {
-  return api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
+  return api.query.democracy['votersFor']<Vec<AccountId>>(referendumId).pipe(
     switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DeriveBalancesAccount[]]> =>
       combineLatest([
         of(votersFor),
         votersFor.length
-          ? api.query.democracy.voteOf.multi<Vote>(
+          ? api.query.democracy['voteOf'].multi<Vote>(
             votersFor.map((accountId): [BN | number, AccountId] =>
               [referendumId, accountId]
             )

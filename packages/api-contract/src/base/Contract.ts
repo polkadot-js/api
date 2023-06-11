@@ -97,7 +97,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
         : convertWeight(
           this.api.consts.system.blockWeights
             ? (this.api.consts.system.blockWeights as unknown as { maxBlock: WeightV2 }).maxBlock
-            : this.api.consts.system.maximumBlockWeight as Weight
+            : this.api.consts.system['maximumBlockWeight'] as Weight
         ).v1Weight.muln(64).div(BN_HUNDRED)
     );
   };

@@ -404,7 +404,10 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     const decorateFn = (section: string, method: string): unknown => {
       const source = rpc[section as 'chain'][method as 'getHeader'];
-      const fn = decorateMethod(source, { methodName: method }) as Record<string, unknown>;
+      const fn = decorateMethod(source, { methodName: method }) as {
+        meta: unknown;
+        raw: unknown;
+      };
 
       fn.meta = source.meta;
       fn.raw = decorateMethod(source.raw, { methodName: method }) as unknown;

@@ -18,13 +18,13 @@ const errors = decorateErrors(registry, metadata.asLatest, metadata.version);
 
 describe('decorateErrors', (): void => {
   it('should return known errors', (): void => {
-    expect(errors.balances.InsufficientBalance).toBeDefined();
-    expect(errors.system.FailedToExtractRuntimeVersion).toBeDefined();
+    expect(errors['balances']['InsufficientBalance']).toBeDefined();
+    expect(errors['system']['FailedToExtractRuntimeVersion']).toBeDefined();
   });
 
   it('has the correct metadata for known errors', (): void => {
     expect(
-      errors.proxy.NotProxy.meta.toJSON()
+      errors['proxy']['NotProxy'].meta.toJSON()
     ).toEqual({
       args: [],
       docs: ['Sender is not a proxy of the account to be proxied.'],
@@ -36,7 +36,7 @@ describe('decorateErrors', (): void => {
 
   it('should check against a specific error', (): void => {
     expect(
-      errors.system.InvalidSpecName.is(
+      errors['system']['InvalidSpecName'].is(
         registry.createType('DispatchErrorModule', {
           error: 0,
           index: 0

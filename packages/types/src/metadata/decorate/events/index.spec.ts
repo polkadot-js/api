@@ -18,13 +18,13 @@ const events = decorateEvents(registry, metadata.asLatest, metadata.version);
 
 describe('decorateEvents', (): void => {
   it('should return known errors', (): void => {
-    expect(events.balances.Transfer).toBeDefined();
-    expect(events.system.CodeUpdated).toBeDefined();
+    expect(events['balances']['Transfer']).toBeDefined();
+    expect(events['system']['CodeUpdated']).toBeDefined();
   });
 
   it('has the correct metadata for known errors', (): void => {
     expect(
-      events.staking.Rewarded.meta.toJSON()
+      events['staking']['Rewarded'].meta.toJSON()
     ).toEqual({
       args: ['AccountId32', 'u128'],
       docs: [
@@ -41,7 +41,7 @@ describe('decorateEvents', (): void => {
 
   it('should check against a specific error', (): void => {
     expect(
-      events.system.ExtrinsicSuccess.is(registry.createType('Event', { index: [0, 0] }))
+      events['system']['ExtrinsicSuccess'].is(registry.createType('Event', { index: [0, 0] }))
     ).toBe(true);
   });
 });

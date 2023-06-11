@@ -12,6 +12,7 @@
     "**/test/**/*"
   ],
   "references": [
+    { "path": "../api-augment/tsconfig.build.json" },
     { "path": "../api-base/tsconfig.build.json" },
     { "path": "../api-derive/tsconfig.build.json" },
     { "path": "../rpc-augment/tsconfig.build.json" },

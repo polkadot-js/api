@@ -15,6 +15,22 @@ interface TypeDefOptions {
   displayName?: string;
 }
 
+interface SetDetails {
+  _bitLength: number;
+  index: number;
+
+  [key: string]: number;
+}
+
+interface ParsedDef {
+  _alias: string;
+  _enum?: string[];
+  _fallback?: string;
+  _set?: SetDetails;
+
+  [key: string]: unknown;
+}
+
 const KNOWN_INTERNALS = ['_alias', '_fallback'];
 
 function getTypeString (typeOrObj: any): string {
@@ -71,7 +87,7 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
 
 // decode a set of the form
 //   { _set: { A: 0b0001, B: 0b0010, C: 0b0100 } }
-function _decodeSet (value: TypeDef, details: Record<string, number>, fallbackType: string | undefined): TypeDef {
+function _decodeSet (value: TypeDef, details: SetDetails, fallbackType: string | undefined): TypeDef {
   value.info = TypeDefInfo.Set;
   value.fallbackType = fallbackType;
   value.length = details._bitLength;
@@ -90,13 +106,13 @@ function _decodeSet (value: TypeDef, details: Record<string, number>, fallbackTy
 
 // decode a struct, set or enum
 function _decodeStruct (value: TypeDef, type: string, _: string, count: number): TypeDef {
-  const parsed = JSON.parse(type) as Record<string, unknown> & { _alias: string, _fallback?: string };
+  const parsed = JSON.parse(type) as ParsedDef;
   const keys = Object.keys(parsed);
 
-  if (keys.includes('_enum')) {
-    return _decodeEnum(value, parsed._enum as string[], count, parsed._fallback);
-  } else if (keys.includes('_set')) {
-    return _decodeSet(value, parsed._set as Record<string, number>, parsed._fallback);
+  if (parsed._enum) {
+    return _decodeEnum(value, parsed._enum, count, parsed._fallback);
+  } else if (parsed._set) {
+    return _decodeSet(value, parsed._set, parsed._fallback);
   }
 
   value.alias = parsed._alias

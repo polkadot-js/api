@@ -23,28 +23,28 @@ describe('decorateStorage', (): void => {
   const query = decorateStorage(registry, metadata.asLatest, metadata.version);
 
   it('should throw if the storage function expects an argument', (): void => {
-    expect(() => query.balances.account()).toThrow('Call to balances.account needs 1 arguments, found []');
+    expect(() => query['balances']['account']()).toThrow('Call to balances.account needs 1 arguments, found []');
   });
 
   it('should throw if the storage function expects multiple arguments', (): void => {
-    expect(() => query.staking.erasStakers([1])).toThrow('Call to staking.erasStakers needs 2 arguments, found [1]');
+    expect(() => query['staking']['erasStakers']([1])).toThrow('Call to staking.erasStakers needs 2 arguments, found [1]');
   });
 
   it('should throw if the storage function expects tuple arguments', (): void => {
-    expect(() => query.staking.erasStakers(1)).toThrow('Call to staking.erasStakers needs 2 arguments, found [1]');
+    expect(() => query['staking']['erasStakers'](1)).toThrow('Call to staking.erasStakers needs 2 arguments, found [1]');
   });
 
   it('should return a value if the storage function does not expect an argument', (): void => {
-    expect(() => query.timestamp.now()).not.toThrow();
+    expect(() => query['timestamp']['now']()).not.toThrow();
   });
 
   it('should return a value if the storage function has the correct arguments', (): void => {
-    expect(() => query.staking.erasStakers(1, keyring.alice.address)).not.toThrow();
+    expect(() => query['staking']['erasStakers'](1, keyring.alice.address)).not.toThrow();
   });
 
   it('should return the correct length-prefixed storage key', (): void => {
     expect(
-      u8aToHex(query.system.account(keyring.alice.address))
+      u8aToHex(query['system']['account'](keyring.alice.address))
     ).toEqual(
       '0x' +
       '4101' + // length
@@ -56,7 +56,7 @@ describe('decorateStorage', (): void => {
 
   it('should decorate the palletVersion entry', (): void => {
     expect(
-      u8aToHex(query.system.palletVersion())
+      u8aToHex(query['system']['palletVersion']())
     ).toEqual(
       '0x' +
       '80' + // length

@@ -117,15 +117,13 @@ export interface Codec {
   toU8a (isBare?: BareOpts): Uint8Array;
 }
 
-export interface CodecClass<T = Codec> {
+export interface CodecClass<T = Codec, A extends unknown[] = any[]> {
   /**
    * @description An internal fallback type (previous generation) if encoding fails
    */
   readonly __fallbackType?: string;
 
-  // NOTE: We need the any[] here, unknown[] does not work as expected
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(registry: Registry, ...args: any[]): T;
+  new(registry: Registry, ...args: A): T;
 }
 
 export interface CodecObject<T extends ToString> extends Codec {

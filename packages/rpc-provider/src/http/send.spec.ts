@@ -36,7 +36,7 @@ describe.skip('send', (): void => {
     return http
       .send('test_body', ['param'])
       .then((): void => {
-        expect(mock.body.test_body).toEqual({
+        expect(mock.body['test_body']).toEqual({
           id: 1,
           jsonrpc: '2.0',
           method: 'test_body',

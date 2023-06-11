@@ -22,16 +22,17 @@
   "main": "index.js",
   "dependencies": {
     "@polkadot/api": "10.8.1",
+    "@polkadot/api-augment": "10.8.1",
     "@polkadot/types": "10.8.1",
     "@polkadot/types-codec": "10.8.1",
     "@polkadot/types-create": "10.8.1",
-    "@polkadot/util": "^12.2.2",
-    "@polkadot/util-crypto": "^12.2.2",
+    "@polkadot/util": "^12.3.1",
+    "@polkadot/util-crypto": "^12.3.1",
     "rxjs": "^7.8.1",
     "tslib": "^2.5.3"
   },
   "devDependencies": {
     "@polkadot/api-augment": "10.8.1",
-    "@polkadot/keyring": "^12.2.2"
+    "@polkadot/keyring": "^12.3.1"
   }
 }

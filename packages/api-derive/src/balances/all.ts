@@ -116,7 +116,7 @@ function calcBalances (api: DeriveApi, result: Result): DeriveBalancesAll {
 function queryOld (api: DeriveApi, accountId: AccountId | string): Observable<ResultBalance> {
   return combineLatest([
     api.query.balances.locks(accountId),
-    api.query.balances.vesting<Option<VestingSchedule>>(accountId)
+    api.query.balances['vesting']<Option<VestingSchedule>>(accountId)
   ]).pipe(
     map(([locks, optVesting]): ResultBalance => {
       let vestingNew = null;

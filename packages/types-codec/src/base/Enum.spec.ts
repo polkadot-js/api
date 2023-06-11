@@ -379,8 +379,8 @@ describe('Enum', (): void => {
       const type = new Enum(registry, { A: Text, B: U32, C: U32 }).toRawType();
       const value = registry.createType(type, { B: 123 });
 
-      expect((value as unknown as Record<string, unknown>).isB).toEqual(true);
-      expect((value as unknown as Record<string, U32>).asB.toNumber()).toEqual(123);
+      expect((value as unknown as { isB: boolean }).isB).toEqual(true);
+      expect((value as unknown as { asB: U32 }).asB.toNumber()).toEqual(123);
     });
   });
 

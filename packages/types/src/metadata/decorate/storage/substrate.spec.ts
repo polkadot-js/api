@@ -18,7 +18,7 @@ registry.setMetadata(metadata);
 // console.log(JSON.stringify(registry.lookup.types));
 
 describe('substrate', (): void => {
-  const code = substrate.code(registry);
+  const code = substrate['code'](registry);
 
   it('creates a well-known :code key', (): void => {
     expect(

@@ -42,11 +42,11 @@ function getAuthorDetailsWithAt (header: Header, queryAt: QueryableStorage<'rxjs
 
   if (loggedAuthor) {
     // use the author mapping pallet, if available (ie: moonbeam, moonriver), to map session (nimbus) key to author (collator/validator) key
-    if (queryAt.authorMapping?.mappingWithDeposit) {
+    if (queryAt['authorMapping']?.['mappingWithDeposit']) {
       return combineLatest([
         of(header),
         validators,
-        queryAt.authorMapping.mappingWithDeposit<OptionMapping>(loggedAuthor).pipe(
+        queryAt['authorMapping']['mappingWithDeposit']<OptionMapping>(loggedAuthor).pipe(
           map((o) =>
             o.unwrapOr({ account: null }).account
           )
@@ -55,13 +55,13 @@ function getAuthorDetailsWithAt (header: Header, queryAt: QueryableStorage<'rxjs
     }
 
     // fall back to session and parachain staking pallets, if available (ie: manta, calamari), to map session (nimbus) key to author (collator) key
-    if (queryAt.parachainStaking?.selectedCandidates && queryAt.session?.nextKeys) {
+    if (queryAt['parachainStaking']?.['selectedCandidates'] && queryAt.session?.nextKeys) {
       const loggedHex = loggedAuthor.toHex();
 
       return combineLatest([
         of(header),
         validators,
-        queryAt.parachainStaking.selectedCandidates<Vec<AccountId>>().pipe(
+        queryAt['parachainStaking']['selectedCandidates']<Vec<AccountId>>().pipe(
           mergeMap((selectedCandidates) =>
             combineLatest([
               of(selectedCandidates),

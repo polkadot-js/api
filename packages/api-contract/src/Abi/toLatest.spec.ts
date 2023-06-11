@@ -10,7 +10,7 @@ import { v0ToLatest, v1ToLatest, v2ToLatest, v3ToLatest, v4ToLatest } from './to
 
 describe('v0ToLatest', (): void => {
   const registry = new TypeRegistry();
-  const contract = registry.createType('ContractMetadata', { V0: abis.ink_v0_erc20 });
+  const contract = registry.createType('ContractMetadata', { V0: abis['ink_v0_erc20'] });
   const latest = v0ToLatest(registry, contract.asV0);
 
   it('has the correct constructors', (): void => {
@@ -52,7 +52,7 @@ describe('v0ToLatest', (): void => {
 
 describe('v1ToLatest', (): void => {
   const registry = new TypeRegistry();
-  const contract = registry.createType('ContractMetadata', { V1: abis.ink_v1_flipper.V1 });
+  const contract = registry.createType('ContractMetadata', { V1: abis['ink_v1_flipper']['V1'] });
   const latest = v1ToLatest(registry, contract.asV1);
 
   it('has the correct constructors', (): void => {
@@ -68,7 +68,7 @@ describe('v1ToLatest', (): void => {
   });
 
   it('has the correct messages with namespaced method name', (): void => {
-    const contract = registry.createType('ContractMetadata', { V1: abis.ink_v1_psp22.V1 });
+    const contract = registry.createType('ContractMetadata', { V1: abis['ink_v1_psp22']['V1'] });
     const latest = v1ToLatest(registry, contract.asV1);
 
     expect(
@@ -87,7 +87,7 @@ describe('v1ToLatest', (): void => {
 
 describe('v2ToLatest', (): void => {
   const registry = new TypeRegistry();
-  const contract = registry.createType('ContractMetadata', { V2: abis.ink_v2_flipper.V2 });
+  const contract = registry.createType('ContractMetadata', { V2: abis['ink_v2_flipper']['V2'] });
   const latest = v2ToLatest(registry, contract.asV2);
 
   it('has the correct constructor flag', (): void => {
@@ -99,7 +99,7 @@ describe('v2ToLatest', (): void => {
 
 describe('v3ToLatest', (): void => {
   const registry = new TypeRegistry();
-  const contract = registry.createType('ContractMetadata', { V3: abis.ink_v3_flipper.V3 });
+  const contract = registry.createType('ContractMetadata', { V3: abis['ink_v3_flipper']['V3'] });
   const latest = v3ToLatest(registry, contract.asV3);
 
   it('has the correct constructor flags', (): void => {
@@ -112,7 +112,7 @@ describe('v3ToLatest', (): void => {
   });
 
   it('has the correct messages', (): void => {
-    const contract = registry.createType('ContractMetadata', { V3: abis.ink_v3_traitErc20.V3 });
+    const contract = registry.createType('ContractMetadata', { V3: abis['ink_v3_traitErc20']['V3'] });
     const latest = v3ToLatest(registry, contract.asV3);
 
     expect(
@@ -125,7 +125,7 @@ describe('v3ToLatest', (): void => {
 
 describe('v4ToLatest', (): void => {
   const registry = new TypeRegistry();
-  const contract = registry.createType('ContractMetadata', { V4: abis.ink_v4_flipperContract });
+  const contract = registry.createType('ContractMetadata', { V4: abis['ink_v4_flipperContract'] });
   const latest = v4ToLatest(registry, contract.asV4);
 
   it('has the correct constructor flags', (): void => {

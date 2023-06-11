@@ -19,7 +19,7 @@ export function erasHistoric (instanceId: string, api: DeriveApi): (withActive?:
       api.query.staking.activeEra(),
       api.consts.staking.historyDepth
         ? of(api.consts.staking.historyDepth)
-        : api.query.staking.historyDepth<u32>()
+        : api.query.staking['historyDepth']<u32>()
     ]).pipe(
       map(([activeEraOpt, historyDepth]): EraIndex[] => {
         const result: EraIndex[] = [];

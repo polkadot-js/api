@@ -114,7 +114,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       })
       .sort(compareName);
 
-    imports.typesTypes.Observable = true;
+    imports.typesTypes['Observable'] = true;
 
     return generateForMetaTemplate({
       headerType: 'chain',

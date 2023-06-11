@@ -75,16 +75,16 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
 
 export function info (instanceId: string, api: DeriveApi): (id: ParaId | number) => Observable<DeriveParachainFull | null> {
   return memo(instanceId, (id: ParaId | number): Observable<DeriveParachainFull | null> =>
-    api.query.registrar && api.query.parachains
+    api.query['registrar'] && api.query['parachains']
       ? api.queryMulti<Result>([
-        api.query.registrar.active,
-        api.query.registrar.retryQueue,
-        api.query.registrar.selectedThreads,
-        api.query.parachains.didUpdate,
-        [api.query.registrar.paras, id],
-        [api.query.registrar.pendingSwap, id],
-        [api.query.parachains.heads, id],
-        [api.query.parachains.relayDispatchQueue, id]
+        api.query['registrar']['active'],
+        api.query['registrar']['retryQueue'],
+        api.query['registrar']['selectedThreads'],
+        api.query['parachains']['didUpdate'],
+        [api.query['registrar']['paras'], id],
+        [api.query['registrar']['pendingSwap'], id],
+        [api.query['parachains']['heads'], id],
+        [api.query['parachains']['relayDispatchQueue'], id]
       ])
         .pipe(
           map((result: Result): DeriveParachainFull | null =>

@@ -14,7 +14,7 @@ import { TypeRegistry } from '../../../create/index.js';
 import { Metadata } from '../../Metadata.js';
 import { decorateConstants } from '../index.js';
 
-function init (meta: HexString): [Constants, TypeRegistry] {
+function init (meta: HexString): [consts: Constants, registry: TypeRegistry] {
   const registry = new TypeRegistry();
   const metadata = new Metadata(registry, meta);
 
@@ -27,9 +27,9 @@ describe('decorateConstants', (): void => {
   it('should return constants with the correct type and value', (): void => {
     const [consts] = init(rpcMetadata);
 
-    expect((consts.democracy.cooloffPeriod as unknown as BlockNumber).bitLength()).toBe(32);
+    expect((consts['democracy']['cooloffPeriod'] as unknown as BlockNumber).bitLength()).toBe(32);
     // 3 second blocks, 28 days
-    expect((consts.democracy.cooloffPeriod as unknown as BlockNumber).toNumber()).toEqual(28 * 24 * 60 * (60 / 3));
+    expect((consts['democracy']['cooloffPeriod'] as unknown as BlockNumber).toNumber()).toEqual(28 * 24 * 60 * (60 / 3));
   });
 
   // removed from session
@@ -38,7 +38,7 @@ describe('decorateConstants', (): void => {
 
     // 0x34 removes as the length prefix removed
     expect(
-      consts.session.dedupKeyPrefix.toHex()
+      consts['session']['dedupKeyPrefix'].toHex()
     ).toEqual('0x3a73657373696f6e3a6b657973');
   });
 });

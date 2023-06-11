@@ -16,12 +16,12 @@ import { didUpdateToBool } from './util.js';
 type Result = [
   ParaId[],
   DidUpdate,
+  RelayDispatchQueueSize[],
   ParaInfoResult[],
-  PendingSwap[],
-  RelayDispatchQueueSize[]
+  PendingSwap[]
 ];
 
-function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes]: Result): DeriveParachain[] {
+function parse ([ids, didUpdate, relayDispatchQueueSizes, infos, pendingSwaps]: Result): DeriveParachain[] {
   return ids.map((id, index): DeriveParachain => ({
     didUpdate: didUpdateToBool(didUpdate, id),
     id,
@@ -33,15 +33,15 @@ function parse ([ids, didUpdate, infos, pendingSwaps, relayDispatchQueueSizes]: 
 
 export function overview (instanceId: string, api: DeriveApi): () => Observable<DeriveParachain[]> {
   return memo(instanceId, (): Observable<DeriveParachain[]> =>
-    api.query.registrar?.parachains && api.query.parachains
-      ? api.query.registrar.parachains<ParaId[]>().pipe(
+    api.query['registrar']?.['parachains'] && api.query['parachains']
+      ? api.query['registrar']['parachains']<ParaId[]>().pipe(
         switchMap((paraIds) =>
           combineLatest([
             of(paraIds),
-            api.query.parachains.didUpdate<DidUpdate>(),
-            api.query.registrar.paras.multi<ParaInfoResult>(paraIds),
-            api.query.registrar.pendingSwap.multi<PendingSwap>(paraIds),
-            api.query.parachains.relayDispatchQueueSize.multi<RelayDispatchQueueSize>(paraIds)
+            api.query['parachains']['didUpdate']<DidUpdate>(),
+            api.query['parachains']['relayDispatchQueueSize'].multi<RelayDispatchQueueSize>(paraIds),
+            api.query['registrar']['paras'].multi<ParaInfoResult>(paraIds),
+            api.query['registrar']['pendingSwap'].multi<PendingSwap>(paraIds)
           ])
         ),
         map(parse)
