@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## master
+## 10.9.1 Jun 12, 2023
 
 Changes:
 
 - Adjust object index access for stricter tsconfig settings
+- Update to latest Polkadot, Kusama & Substrate metadata
 
 
 ## 10.8.1 Jun 5, 2023
