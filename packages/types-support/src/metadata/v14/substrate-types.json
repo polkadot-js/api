@@ -31600,25 +31600,25 @@
                 {
                   "name": "amount1_desired",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
                   "name": "amount2_desired",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
                   "name": "amount1_min",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
                   "name": "amount2_min",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
@@ -31651,19 +31651,19 @@
                 {
                   "name": "lp_token_burn",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
                   "name": "amount1_min_receive",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
                   "name": "amount2_min_receive",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
@@ -31690,13 +31690,13 @@
                 {
                   "name": "amount_in",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
                   "name": "amount_out_min",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
@@ -31729,13 +31729,13 @@
                 {
                   "name": "amount_out",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
                   "name": "amount_in_max",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": []
                 },
                 {
@@ -34064,7 +34064,7 @@
                 {
                   "name": "amount1_provided",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": [
                     "The amount of the first asset that was added to the pool."
                   ]
@@ -34072,7 +34072,7 @@
                 {
                   "name": "amount2_provided",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": [
                     "The amount of the second asset that was added to the pool."
                   ]
@@ -34088,7 +34088,7 @@
                 {
                   "name": "lp_token_minted",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": [
                     "The amount of lp tokens that were minted of that id."
                   ]
@@ -34129,7 +34129,7 @@
                 {
                   "name": "amount1",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": [
                     "The amount of the first asset that was removed from the pool."
                   ]
@@ -34137,7 +34137,7 @@
                 {
                   "name": "amount2",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": [
                     "The amount of the second asset that was removed from the pool."
                   ]
@@ -34153,7 +34153,7 @@
                 {
                   "name": "lp_token_burned",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": [
                     "The amount of lp tokens that were burned of that id."
                   ]
@@ -34203,7 +34203,7 @@
                 {
                   "name": "amount_in",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": [
                     "The amount of the first asset that was swapped."
                   ]
@@ -34211,7 +34211,7 @@
                 {
                   "name": "amount_out",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": [
                     "The amount of the second asset that was received."
                   ]
@@ -34253,7 +34253,7 @@
                 {
                   "name": "amount",
                   "type": 6,
-                  "typeName": "AssetBalanceOf<T>",
+                  "typeName": "T::AssetBalance",
                   "docs": [
                     "The amount of the asset that was transferred."
                   ]
