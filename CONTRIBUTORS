@@ -1,4 +1,4 @@
-    3476	Jaco                          	Bump util (#5673)
+    3477	Jaco                          	Use import.meta.url instead of process.cwd() (#5675)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
