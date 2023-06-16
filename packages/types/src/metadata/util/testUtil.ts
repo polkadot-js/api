@@ -10,7 +10,6 @@ import type { MetaVersionAll } from '../versions.js';
 import type { Check } from './types.js';
 
 import fs from 'node:fs';
-import path from 'node:path';
 
 import { hexToU8a, stringCamelCase, stringify, u8aToHex } from '@polkadot/util';
 
@@ -37,8 +36,8 @@ interface MetadataJson {
   }
 }
 
-function getJsonName (version: number, type: string, sub: 'json' | 'types'): string {
-  return path.join(process.cwd(), `packages/types-support/src/metadata/v${version}/${type}-${sub}.json`);
+function getJsonName (version: number, type: string, sub: 'json' | 'types'): URL {
+  return new URL(`../../../../types-support/src/metadata/v${version}/${type}-${sub}.json`, import.meta.url);
 }
 
 function writeJson (json: unknown, version: number, type: string, sub: 'json' | 'types'): void {

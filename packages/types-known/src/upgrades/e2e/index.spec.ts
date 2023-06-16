@@ -9,6 +9,7 @@ import type { ChainUpgradesExpanded } from '../types.js';
 import fs from 'node:fs';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import { stringify } from '@polkadot/util';
 
 import * as allMan from '../manual/index.js';
 import * as allGen from './index.js';
@@ -39,7 +40,7 @@ for (const chain of keys) {
 
   import type { ChainUpgradesExpanded } from '../types.js';
 
-  export const upgrades: ChainUpgradesExpanded = ${JSON.stringify(final, null, 2)};
+  export const upgrades: ChainUpgradesExpanded = ${stringify(final, 2)};
   `);
       await api.disconnect();
     });

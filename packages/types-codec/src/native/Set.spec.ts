@@ -7,6 +7,7 @@
 
 import { TypeRegistry } from '@polkadot/types';
 import { CodecSet } from '@polkadot/types-codec';
+import { stringify } from '@polkadot/util';
 
 // TODO actually import these from definitions, don't re-define here
 const SET_FIELDS = {
@@ -108,7 +109,7 @@ describe('Set', (): void => {
   it('has a sane toRawType representation', (): void => {
     expect(
       new CodecSet(registry, { a: 1, b: 2, c: 345 }).toRawType()
-    ).toEqual(JSON.stringify({
+    ).toEqual(stringify({
       _set: { a: 1, b: 2, c: 345 }
     }));
   });

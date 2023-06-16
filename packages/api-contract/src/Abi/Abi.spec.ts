@@ -6,7 +6,6 @@
 import type { Registry } from '@polkadot/types/types';
 
 import fs from 'node:fs';
-import path from 'node:path';
 import process from 'node:process';
 
 import { TypeDefInfo } from '@polkadot/types/types';
@@ -44,12 +43,9 @@ interface JSONAbi {
   }
 }
 
-// FIXME When Jest is removed with ESM tests, this should be converted to use import.meta.url
-const cmpPath = path.join(process.cwd(), 'packages/api-contract/src/test/compare');
-
 function stringifyInfo (key: string, value: unknown): unknown {
-  return key === 'info'
-    ? TypeDefInfo[value as number]
+  return key === 'info' && typeof value === 'number'
+    ? TypeDefInfo[value]
     : value;
 }
 
@@ -92,7 +88,7 @@ describe('Abi', (): void => {
       it(`initializes from a contract ABI: ${abiName}`, (): void => {
         const abi = new Abi(abiJson);
         const registryJson = stringifyJson(abi.registry);
-        const cmpFile = path.join(cmpPath, `${abiName}.test.json`);
+        const cmpFile = new URL(`../test/compare/${abiName}.test.json`, import.meta.url);
 
         try {
           expect(

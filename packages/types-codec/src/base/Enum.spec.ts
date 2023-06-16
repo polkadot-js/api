@@ -7,7 +7,7 @@ import type { Registry } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
 import { Enum, Null, Text, U32 } from '@polkadot/types-codec';
-import { u8aToHex } from '@polkadot/util';
+import { stringify, u8aToHex } from '@polkadot/util';
 
 import { perf } from '../test/performance.js';
 
@@ -358,7 +358,7 @@ describe('Enum', (): void => {
     it('has a sane output for basic enums', (): void => {
       expect(
         new Enum(registry, ['foo', 'bar']).toRawType()
-      ).toEqual(JSON.stringify({ _enum: ['foo', 'bar'] }));
+      ).toEqual(stringify({ _enum: ['foo', 'bar'] }));
     });
 
     it('has a sane output for typed enums', (): void => {
@@ -366,7 +366,7 @@ describe('Enum', (): void => {
         // eslint-disable-next-line sort-keys
         new Enum(registry, { foo: Text, bar: U32 }).toRawType()
       // eslint-disable-next-line sort-keys
-      ).toEqual(JSON.stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
+      ).toEqual(stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
     });
 
     it('re-creates via rawType (c-like)', (): void => {
@@ -401,7 +401,7 @@ describe('Enum', (): void => {
     });
 
     it('creates proper raw structure', (): void => {
-      expect(new Test(registry).toRawType()).toEqual(JSON.stringify({
+      expect(new Test(registry).toRawType()).toEqual(stringify({
         _enum: {
           A: 5,
           B: 42,

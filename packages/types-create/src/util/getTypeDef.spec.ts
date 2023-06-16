@@ -5,6 +5,7 @@
 
 import { TypeRegistry } from '@polkadot/types';
 import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
+import { stringify } from '@polkadot/util';
 
 describe('getTypeDef', (): void => {
   it('maps empty tuples to empty tuple', (): void => {
@@ -439,7 +440,7 @@ describe('getTypeDef', (): void => {
 
   it('creates a nested enum with tuple/struct', (): void => {
     expect(
-      getTypeDef(JSON.stringify({
+      getTypeDef(stringify({
         _enum: {
           A: 'u32',
           B: '(u32, bool)',
@@ -513,7 +514,7 @@ describe('getTypeDef', (): void => {
 
   it('creates a nested struct with struct/tuple', (): void => {
     expect(
-      getTypeDef(JSON.stringify({
+      getTypeDef(stringify({
         a: 'u32',
         b: '(u32, bool)',
         c: {

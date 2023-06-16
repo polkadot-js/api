@@ -5,7 +5,7 @@ import type { AnyString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
 import { sanitize } from '@polkadot/types-codec';
-import { isNumber, isString, objectSpread } from '@polkadot/util';
+import { isNumber, isString, objectSpread, stringify } from '@polkadot/util';
 
 import { TypeDefInfo } from '../types/index.js';
 import { typeSplit } from './typeSplit.js';
@@ -36,7 +36,7 @@ const KNOWN_INTERNALS = ['_alias', '_fallback'];
 function getTypeString (typeOrObj: any): string {
   return isString(typeOrObj)
     ? typeOrObj.toString()
-    : JSON.stringify(typeOrObj);
+    : stringify(typeOrObj);
 }
 
 function isRustEnum (details: Record<string, string> | Record<string, number>): details is Record<string, string> {

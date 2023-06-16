@@ -10,6 +10,7 @@ import type { BlockValue } from './Block.js';
 
 import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json' assert { type: 'json' };
 import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
+import { stringify } from '@polkadot/util';
 
 import { TypeRegistry } from '../create/index.js';
 import { Metadata } from '../metadata/index.js';
@@ -32,7 +33,7 @@ describe('Block', (): void => {
       new Block(registry).toRawType()
     ).toEqual(
       // each of the containing structures have been stringified on their own
-      JSON.stringify({
+      stringify({
         header: 'Header',
         extrinsics: 'Vec<Extrinsic>'
       })
