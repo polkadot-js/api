@@ -6,6 +6,8 @@
 import type * as Sc from '@substrate/connect';
 import type { HealthChecker, SmoldotHealth } from './types.js';
 
+import { stringify } from '@polkadot/util';
+
 import { ScProvider } from './index.js';
 
 interface MockChain extends Sc.Chain {
@@ -100,7 +102,9 @@ function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
     _spec: () => spec,
     _triggerCallback: (response) => {
       callback(
-        typeof response === 'string' ? response : JSON.stringify(response)
+        typeof response === 'string'
+          ? response
+          : stringify(response)
       );
     },
     remove: () => {

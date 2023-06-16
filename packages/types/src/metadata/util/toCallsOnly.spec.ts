@@ -5,6 +5,7 @@
 
 import staticLatest from '@polkadot/types-support/metadata/static-substrate';
 import staticV13 from '@polkadot/types-support/metadata/v13/substrate-hex';
+import { stringify } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create/index.js';
 import { Metadata } from '../Metadata.js';
@@ -18,7 +19,7 @@ describe('toCallsOnly', (): void => {
     try {
       expect(stripped).toBeDefined();
     } catch (error) {
-      console.error(JSON.stringify(stripped));
+      console.error(stringify(stripped));
 
       throw error;
     }
@@ -30,7 +31,7 @@ describe('toCallsOnly', (): void => {
     try {
       expect(stripped).toBeDefined();
     } catch (error) {
-      console.error(JSON.stringify(stripped));
+      console.error(stringify(stripped));
 
       throw error;
     }

@@ -4,6 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 
 import { promiseTracker } from '@polkadot/api/promise/decorateMethod';
+import { stringify } from '@polkadot/util';
 import { WebSocket } from '@polkadot/x-ws';
 
 async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_getMetadata' | 'state_getRuntimeVersion'): Promise<T> {
@@ -20,7 +21,7 @@ async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_g
       };
 
       websocket.onerror = (event: unknown): void => {
-        tracker.reject(new Error(`WebSocket error:: ${JSON.stringify(event)}`));
+        tracker.reject(new Error(`WebSocket error:: ${stringify(event)}`));
       };
 
       websocket.onopen = (): void => {

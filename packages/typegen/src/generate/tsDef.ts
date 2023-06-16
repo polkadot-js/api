@@ -153,7 +153,7 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
 /** @internal */
 function tsSi (_registry: Registry, _definitions: Record<string, ModuleTypes>, typeDef: TypeDef, _imports: TypeImports): string {
   // FIXME
-  return `// SI: ${JSON.stringify(typeDef)}`;
+  return `// SI: ${stringify(typeDef)}`;
 }
 
 /** @internal */

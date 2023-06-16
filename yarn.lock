@@ -468,36 +468,36 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.75.19":
-  version: 0.75.19
-  resolution: "@polkadot/dev-test@npm:0.75.19"
+"@polkadot/dev-test@npm:^0.75.20":
+  version: 0.75.20
+  resolution: "@polkadot/dev-test@npm:0.75.20"
   dependencies:
     jsdom: ^22.1.0
     tslib: ^2.5.3
-  checksum: a3c187fde1b9512e11c3917df54912fdb01adb2e9e9eb8893f6916ea2c33bf4883dad253388dcaa606171f5047fedb0a5ed6ff3b9fa256c6ff94dcc1398c6f1c
+  checksum: 5ef1b9ad5bff04b7f109c86383f9d09bb5889b8be83fe2630a2a7a8ed20e96c205b4dff2e2b0532ae3287733b3d0ab699b4ffaa16c12b567430ed1defec70224
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.75.19":
-  version: 0.75.19
-  resolution: "@polkadot/dev-ts@npm:0.75.19"
+"@polkadot/dev-ts@npm:^0.75.20":
+  version: 0.75.20
+  resolution: "@polkadot/dev-ts@npm:0.75.20"
   dependencies:
     json5: ^2.2.3
     tslib: ^2.5.3
     typescript: ^5.1.3
-  checksum: efc93f826c5dd1c54b472a61e8cdaeb83f167eaa94194b391d22b8adf2bcf578ed2b9251c863c45907b43ce45c12cde441872f43b1bc69c03983c1a4ee7c2e87
+  checksum: 33934ef687c7769f89514e8fa09d92a685cd905c346fc5f3a4d692a53ad617add51b8fe90d7e584191c5aa7f761d0a30bc2c45bcec792cb64e5c76e145c36029
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.75.19":
-  version: 0.75.19
-  resolution: "@polkadot/dev@npm:0.75.19"
+"@polkadot/dev@npm:^0.75.20":
+  version: 0.75.20
+  resolution: "@polkadot/dev@npm:0.75.20"
   dependencies:
     "@eslint/js": ^8.42.0
-    "@polkadot/dev-test": ^0.75.19
-    "@polkadot/dev-ts": ^0.75.19
+    "@polkadot/dev-test": ^0.75.20
+    "@polkadot/dev-ts": ^0.75.20
     "@rollup/plugin-alias": ^5.0.0
-    "@rollup/plugin-commonjs": ^25.0.0
+    "@rollup/plugin-commonjs": ^25.0.1
     "@rollup/plugin-dynamic-import-vars": ^2.0.3
     "@rollup/plugin-inject": ^5.0.3
     "@rollup/plugin-json": ^6.0.0
@@ -526,13 +526,13 @@ __metadata:
     globals: ^13.20.0
     json5: ^2.2.3
     madge: ^6.1.0
-    rollup: ^3.24.0
+    rollup: ^3.25.1
     rollup-plugin-cleanup: ^3.2.1
     tslib: ^2.5.3
     typescript: ^5.1.3
     webpack: ^5.86.0
     webpack-cli: ^5.1.4
-    webpack-dev-server: ^4.15.0
+    webpack-dev-server: ^4.15.1
     webpack-merge: ^5.9.0
     webpack-subresource-integrity: ^5.2.0-rc.1
     yargs: ^17.7.2
@@ -560,7 +560,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: ab5e3c64f125508c068ca2e3f784947b1ddd1196f71cfc820b9bd11fae28548926865f18dadbb8321a646dba4d80f44122890a54efb97bef370b92a2e5f0fc46
+  checksum: 2648d064600b59015a935e3301e0457d6e283121dc7bfe1c2aaa798060534f454bfa3e74f04715a91329bcca8fdbe03aa06042c4b2d50fb66fd6705c87a86338
   languageName: node
   linkType: hard
 
@@ -627,7 +627,7 @@ __metadata:
     "@polkadot/x-fetch": ^12.3.2
     "@polkadot/x-global": ^12.3.2
     "@polkadot/x-ws": ^12.3.2
-    "@substrate/connect": 0.7.26
+    "@substrate/connect": 0.7.29
     eventemitter3: ^5.0.1
     mock-socket: ^9.2.1
     nock: ^13.3.1
@@ -946,9 +946,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:^25.0.0":
-  version: 25.0.0
-  resolution: "@rollup/plugin-commonjs@npm:25.0.0"
+"@rollup/plugin-commonjs@npm:^25.0.1":
+  version: 25.0.1
+  resolution: "@rollup/plugin-commonjs@npm:25.0.1"
   dependencies:
     "@rollup/pluginutils": ^5.0.1
     commondir: ^1.0.1
@@ -961,7 +961,7 @@ __metadata:
   peerDependenciesMeta:
     rollup:
       optional: true
-  checksum: f014f98f161ba4573e5101cf262c152bdcd8cfebf9cf4872f8bb657d20e20d8e2dc51af5339fe10772d19007e63044bd79881af0db4fe9babe9e96d0c0eeb328
+  checksum: 886340bac6ba8c20bb16e3b7fa4d0357019708043697153e7b18cecb7e1fdbe7ec6f26974079f32091c6168c67300960f023ad3d167d2d0d9a9e3bd713cd22a4
   languageName: node
   linkType: hard
 
@@ -1068,14 +1068,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:0.7.26":
-  version: 0.7.26
-  resolution: "@substrate/connect@npm:0.7.26"
+"@substrate/connect@npm:0.7.29":
+  version: 0.7.29
+  resolution: "@substrate/connect@npm:0.7.29"
   dependencies:
     "@substrate/connect-extension-protocol": ^1.0.1
     eventemitter3: ^4.0.7
-    smoldot: 1.0.4
-  checksum: 3179d241f073318d5973deb61c9c8d9b89ae28909a594b6b9fbcdfffd030a70ba58e8428eaa9d72484810bad10c93de1ad9c440b878d0fcfaaf4559d2e6f4502
+    smoldot: 1.0.9
+  checksum: 60511199ef96c84b193ad9d3e166c6689135bffbb384a376a75bcc7ba26f28e1b3b5e3ff06bbeb2a73a5e237d17aacb2f3d0bb2d19f8c2253c01ccaeac1d7aee
   languageName: node
   linkType: hard
 
@@ -1245,10 +1245,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.2.5":
-  version: 20.2.5
-  resolution: "@types/node@npm:20.2.5"
-  checksum: 38ce7c7e9d76880dc632f71d71e0d5914fcda9d5e9a7095d6c339abda55ca4affb0f2a882aeb29398f8e09d2c5151f0b6586c81c8ccdfe529c34b1ea3337425e
+"@types/node@npm:*, @types/node@npm:^20.3.1":
+  version: 20.3.1
+  resolution: "@types/node@npm:20.3.1"
+  checksum: 63a393ab6d947be17320817b35d7277ef03728e231558166ed07ee30b09fd7c08861be4d746f10fdc63ca7912e8cd023939d4eab887ff6580ff704ff24ed810c
   languageName: node
   linkType: hard
 
@@ -1333,12 +1333,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:^8.5.1":
-  version: 8.5.3
-  resolution: "@types/ws@npm:8.5.3"
+"@types/ws@npm:^8.5.5":
+  version: 8.5.5
+  resolution: "@types/ws@npm:8.5.5"
   dependencies:
     "@types/node": "*"
-  checksum: 0ce46f850d41383fcdc2149bcacc86d7232fa7a233f903d2246dff86e31701a02f8566f40af5f8b56d1834779255c04ec6ec78660fe0f9b2a69cf3d71937e4ae
+  checksum: d00bf8070e6938e3ccf933010921c6ce78ac3606696ce37a393b27a9a603f7bd93ea64f3c5fa295a2f743575ba9c9a9fdb904af0f5fe2229bf2adf0630386e4a
   languageName: node
   linkType: hard
 
@@ -6742,13 +6742,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"pako@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "pako@npm:2.0.4"
-  checksum: 82b9b0b99dd830c9103856a6dbd10f0cb2c8c32b9768184727ea381a99666de9a47a069d2e6efe6acf09336f363956b50835c196ef9311b34b7274d420eb0d88
-  languageName: node
-  linkType: hard
-
 "parent-module@npm:^1.0.0":
   version: 1.0.1
   resolution: "parent-module@npm:1.0.1"
@@ -7501,9 +7494,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.24.0":
-  version: 3.24.0
-  resolution: "rollup@npm:3.24.0"
+"rollup@npm:^3.25.1":
+  version: 3.25.1
+  resolution: "rollup@npm:3.25.1"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -7511,7 +7504,7 @@ fsevents@~2.3.2:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 373d0062a79cfce3583d4f6b7ab8ac9aa3201a9af1fa20b24f61a4ddea95a45974c4a8baed3087cb4e7bfc34a9dcd6774b7a635eb071ba52f97f51a59e860d6e
+  checksum: f483b28a0605097a725b080c088262b0fa21f7bce66f741df73d9ff0be6a3baaf2927916b094ce95412f4f15cc59bb5eae020f59cae3d3a6993d123faceb5b41
   languageName: node
   linkType: hard
 
@@ -7519,9 +7512,9 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@polkadot/dev": ^0.75.19
+    "@polkadot/dev": ^0.75.20
     "@polkadot/typegen": "workspace:packages/typegen"
-    "@types/node": ^20.2.5
+    "@types/node": ^20.3.1
   languageName: unknown
   linkType: soft
 
@@ -7873,13 +7866,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"smoldot@npm:1.0.4":
-  version: 1.0.4
-  resolution: "smoldot@npm:1.0.4"
+"smoldot@npm:1.0.9":
+  version: 1.0.9
+  resolution: "smoldot@npm:1.0.9"
   dependencies:
-    pako: ^2.0.4
     ws: ^8.8.1
-  checksum: 81ecc38b98f7ac4dd093753e85956262608dca3c8a288c20a25fe1762a6afcdbe6f3622ea30a346df3f4145e0900ef0595e56e96e9e0de83c59f0649d1ab4786
+  checksum: 7dff98c8d5e7ea14b60a1eaaa1dcb68d47e6bcf01fe004e387676041a0f1c65b079ee94aebd068c81a7899329d9c69c6b442a86c8e6acd0801996a4af5facff0
   languageName: node
   linkType: hard
 
@@ -8898,9 +8890,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:^4.15.0":
-  version: 4.15.0
-  resolution: "webpack-dev-server@npm:4.15.0"
+"webpack-dev-server@npm:^4.15.1":
+  version: 4.15.1
+  resolution: "webpack-dev-server@npm:4.15.1"
   dependencies:
     "@types/bonjour": ^3.5.9
     "@types/connect-history-api-fallback": ^1.3.5
@@ -8908,7 +8900,7 @@ fsevents@~2.3.2:
     "@types/serve-index": ^1.9.1
     "@types/serve-static": ^1.13.10
     "@types/sockjs": ^0.3.33
-    "@types/ws": ^8.5.1
+    "@types/ws": ^8.5.5
     ansi-html-community: ^0.0.8
     bonjour-service: ^1.0.11
     chokidar: ^3.5.3
@@ -8941,7 +8933,7 @@ fsevents@~2.3.2:
       optional: true
   bin:
     webpack-dev-server: bin/webpack-dev-server.js
-  checksum: 6fe375089b061be2e4ed6d6a8b20743734d304cd0c34757271c6685f97642b028f253c627f899b629c97c067c294484f906e394fd1c104ee795237b8725f2701
+  checksum: cd0063b068d2b938fd76c412d555374186ac2fa84bbae098265212ed50a5c15d6f03aa12a5a310c544a242943eb58c0bfde4c296d5c36765c182f53799e1bc71
   languageName: node
   linkType: hard
 
