@@ -193,11 +193,15 @@ export class ScProvider implements ProviderInterface {
 
         Promise
           .race([
-            this.send(unsubscribeMethod, [id]).catch(() => undefined),
+            this.send(unsubscribeMethod, [id]).catch(() => {
+              // swallow
+            }),
             new Promise((resolve) => setTimeout(resolve, 500))
           ])
           .then(killStaleSubscriptions)
-          .catch(() => undefined);
+          .catch(() => {
+            // swallow
+          });
       };
 
       hc.start((health) => {

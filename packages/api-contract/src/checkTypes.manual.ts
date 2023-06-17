@@ -36,12 +36,10 @@ async function main (): Promise<void> {
   });
   const pairs = createTestPairs();
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  Promise.all([
+  await Promise.all([
     checkBlueprint(api, pairs),
     checkContract(api, pairs)
   ]);
 }
 
-// eslint-disable-next-line @typescript-eslint/unbound-method
 main().catch(console.error);

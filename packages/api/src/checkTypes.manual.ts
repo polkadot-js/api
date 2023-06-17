@@ -276,7 +276,6 @@ async function tx (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<voi
   // it allows for query & then using the submittable
   const second = api.tx.democracy.second(123);
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   await second.signAndSend('123', (result) => console.log(result));
 
   // it handles enum inputs correctly
@@ -305,8 +304,7 @@ async function main (): Promise<void> {
   const api = await ApiPromise.create();
   const pairs = createTestPairs();
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  Promise.all([
+  await Promise.all([
     calls(api),
     consts(api),
     derive(api),
@@ -322,5 +320,4 @@ async function main (): Promise<void> {
   ]);
 }
 
-// eslint-disable-next-line @typescript-eslint/unbound-method
 main().catch(console.error);
