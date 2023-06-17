@@ -108,7 +108,6 @@ export class RpcCore {
    * @param  {ProviderInterface} provider An API provider using any of the supported providers (HTTP, SC or WebSocket)
    */
   constructor (instanceId: string, registry: Registry, { isPedantic = true, provider, userRpc = {} }: Options) {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     if (!provider || !isFunction(provider.send)) {
       throw new Error('Expected Provider to API create');
     }

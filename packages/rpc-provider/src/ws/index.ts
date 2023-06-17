@@ -6,7 +6,7 @@ import type { EndpointStats, JsonRpcResponse, ProviderInterface, ProviderInterfa
 
 import { EventEmitter } from 'eventemitter3';
 
-import { isChildClass, isNull, isUndefined, logger, objectSpread } from '@polkadot/util';
+import { isChildClass, isNull, isUndefined, logger, noop, objectSpread } from '@polkadot/util';
 import { xglobal } from '@polkadot/x-global';
 import { WebSocket } from '@polkadot/x-ws';
 
@@ -138,9 +138,7 @@ export class WsProvider implements ProviderInterface {
     this.#timeout = timeout || DEFAULT_TIMEOUT_MS;
 
     if (autoConnectMs && autoConnectMs > 0) {
-      this.connectWithRetry().catch((): void => {
-        // does not throw
-      });
+      this.connectWithRetry().catch(noop);
     }
 
     this.#isReadyPromise = new Promise((resolve): void => {
@@ -244,9 +242,7 @@ export class WsProvider implements ProviderInterface {
         await this.connect();
       } catch {
         setTimeout((): void => {
-          this.connectWithRetry().catch((): void => {
-            // does not throw
-          });
+          this.connectWithRetry().catch(noop);
         }, this.#autoConnectMs);
       }
     }
@@ -469,9 +465,7 @@ export class WsProvider implements ProviderInterface {
 
     if (this.#autoConnectMs > 0) {
       setTimeout((): void => {
-        this.connectWithRetry().catch(() => {
-          // does not throw
-        });
+        this.connectWithRetry().catch(noop);
       }, this.#autoConnectMs);
     }
   };

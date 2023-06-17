@@ -6,7 +6,7 @@ import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, Pro
 
 import { EventEmitter } from 'eventemitter3';
 
-import { isError, isFunction, isObject, logger, objectSpread } from '@polkadot/util';
+import { isError, isFunction, isObject, logger, noop, objectSpread } from '@polkadot/util';
 
 import { RpcCoder } from '../coder/index.js';
 import { healthChecker } from './Health.js';
@@ -193,11 +193,11 @@ export class ScProvider implements ProviderInterface {
 
         Promise
           .race([
-            this.send(unsubscribeMethod, [id]).catch(() => undefined),
+            this.send(unsubscribeMethod, [id]).catch(noop),
             new Promise((resolve) => setTimeout(resolve, 500))
           ])
           .then(killStaleSubscriptions)
-          .catch(() => undefined);
+          .catch(noop);
       };
 
       hc.start((health) => {

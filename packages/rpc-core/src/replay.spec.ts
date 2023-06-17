@@ -26,9 +26,9 @@ describe('replay', (): void => {
 
   it('returns the observable value', async (): Promise<void> => {
     await new Promise<boolean>((resolve) => {
-      rpc.system.chain().subscribe((value: any): void => {
+      rpc.system.chain().subscribe((value?: { toString: () => string }): void => {
         if (value) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access, jest/no-conditional-expect
+          // eslint-disable-next-line jest/no-conditional-expect
           expect(value.toString()).toEqual('mockChain'); // Defined in MockProvider
           resolve(true);
         }
@@ -56,7 +56,6 @@ describe('replay', (): void => {
   });
 
   it('unsubscribes as required', async (): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     rpc.provider.unsubscribe = jest.fn();
 
     await new Promise<boolean>((resolve) => {
@@ -65,7 +64,6 @@ describe('replay', (): void => {
 
         // There's a promise inside .unsubscribe(), wait a bit (> 2s)
         setTimeout((): void => {
-          // eslint-disable-next-line @typescript-eslint/unbound-method
           expect(rpc.provider.unsubscribe).toHaveBeenCalled();
           resolve(true);
         }, 3500);

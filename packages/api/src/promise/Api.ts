@@ -4,7 +4,7 @@
 import type { ApiOptions, UnsubscribePromise } from '../types/index.js';
 import type { CombinatorCallback, CombinatorFunction } from './Combinator.js';
 
-import { objectSpread } from '@polkadot/util';
+import { noop, objectSpread } from '@polkadot/util';
 
 import { ApiBase } from '../base/index.js';
 import { Combinator } from './Combinator.js';
@@ -156,9 +156,7 @@ export class ApiPromise extends ApiBase<'promise'> {
 
     // Swallow any rejections on isReadyOrError
     // (in Node 15.x this creates issues, when not being looked at)
-    instance.isReadyOrError.catch(() => {
-      // ignore
-    });
+    instance.isReadyOrError.catch(noop);
 
     return instance.isReady;
   }
