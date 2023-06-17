@@ -4,7 +4,7 @@
 import type { Callback } from '@polkadot/types/types';
 import type { UnsubscribePromise } from '../types/index.js';
 
-import { isFunction } from '@polkadot/util';
+import { isFunction, noop } from '@polkadot/util';
 
 export type CombinatorCallback <T extends unknown[]> = Callback<T>;
 
@@ -62,9 +62,7 @@ export class Combinator<T extends unknown[] = unknown[]> {
     try {
       Promise
         .resolve(this.#callback(this.#results as T))
-        .catch(() => {
-          // swallow
-        });
+        .catch(noop);
     } catch {
       // swallow, we don't want the handler to trip us up
     }
