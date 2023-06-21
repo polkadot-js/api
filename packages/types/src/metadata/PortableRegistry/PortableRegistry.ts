@@ -83,7 +83,10 @@ const PATHS_ALIAS = splitNamespace([
   'ink::env::types::*',
   'ink::primitives::types::*',
   'ink_env::types::*',
-  'ink_primitives::types::*'
+  'ink_primitives::types::*',
+  // noir
+  'np_runtime::accountname::AccountName',
+  'np_runtime::universaladdress::UniversalAddress'
 ]);
 
 // Mappings for types that should be converted to set via BitVec
