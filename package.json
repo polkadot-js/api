@@ -40,9 +40,9 @@
     "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.75.21",
+    "@polkadot/dev": "^0.75.24",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/node": "^20.3.1"
+    "@types/node": "^20.3.2"
   },
   "resolutions": {
     "typescript": "^5.0.4"

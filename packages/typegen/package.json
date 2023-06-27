@@ -41,7 +41,7 @@
     "@polkadot/util-crypto": "^12.3.2",
     "@polkadot/x-ws": "^12.3.2",
     "handlebars": "^4.7.7",
-    "tslib": "^2.5.3",
+    "tslib": "^2.6.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
