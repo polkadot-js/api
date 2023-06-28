@@ -23,7 +23,7 @@
   "dependencies": {
     "@polkadot/util": "^12.3.2",
     "@polkadot/x-bigint": "^12.3.2",
-    "tslib": "^2.5.3"
+    "tslib": "^2.6.0"
   },
   "devDependencies": {
     "@polkadot/types": "10.9.2-3-x",
