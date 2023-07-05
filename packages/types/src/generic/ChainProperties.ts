@@ -64,7 +64,7 @@ export class GenericChainProperties extends Json {
   }
 
   /**
-   * @description The symbols for the tokens
+   * @description The chain uses Ethereum addresses
    */
   public get isEthereum (): Option<Bool> {
     return this.getT('isEthereum');
