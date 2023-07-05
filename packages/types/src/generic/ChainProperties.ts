@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, Text, u32, Vec } from '@polkadot/types-codec';
+import type { Option, Text, u32, Vec, bool as Bool } from '@polkadot/types-codec';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { Codec } from '../types/index.js';
 
@@ -35,7 +35,9 @@ function decodeValue (registry: Registry, key: string, value: unknown): unknown 
       ? createValue(registry, 'Option<Vec<u32>>' as 'Vec<u32>', value)
       : key === 'tokenSymbol'
         ? createValue(registry, 'Option<Vec<Text>>' as 'Vec<Text>', value)
-        : value;
+        :  key === 'isEthereum'
+          ? createValue(registry, 'Option<Bool>', value, false)
+          : value;
 }
 
 function decode (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
@@ -49,15 +51,23 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
 
     return all;
   }, {
+    isEthereum: registry.createTypeUnsafe('Option<Bool>', []),
     ss58Format: registry.createTypeUnsafe('Option<u32>', []),
     tokenDecimals: registry.createTypeUnsafe('Option<Vec<u32>>', []),
-    tokenSymbol: registry.createTypeUnsafe('Option<Vec<Text>>', [])
+    tokenSymbol: registry.createTypeUnsafe('Option<Vec<Text>>', []),
   });
 }
 
 export class GenericChainProperties extends Json {
   constructor (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null) {
     super(registry, decode(registry, value));
+  }
+
+  /**
+   * @description The symbols for the tokens
+   */
+  public get isEthereum (): Option<Bool> {
+    return this.getT('isEthereum');
   }
 
   /**
