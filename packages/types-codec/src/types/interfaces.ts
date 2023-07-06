@@ -66,6 +66,7 @@ export interface IStruct<K = string, V extends Codec = Codec> extends Map<K, V>,
   toArray (): Codec[];
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export interface IText extends String, Codec {
   // nothing additional
 }
