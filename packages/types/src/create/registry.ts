@@ -161,9 +161,9 @@ function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainPr
     return original;
   }
 
-  const { tokenDecimals, tokenSymbol } = original || {};
+  const { isEthereum, tokenDecimals, tokenSymbol } = original || {};
 
-  return registry.createTypeUnsafe<ChainProperties>('ChainProperties', [{ ss58Format, tokenDecimals, tokenSymbol }]);
+  return registry.createTypeUnsafe<ChainProperties>('ChainProperties', [{ isEthereum, ss58Format, tokenDecimals, tokenSymbol }]);
 }
 
 export class TypeRegistry implements Registry {
