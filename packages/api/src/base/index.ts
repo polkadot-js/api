@@ -69,7 +69,7 @@ export abstract class ApiBase<ApiType extends ApiTypes> extends Getters<ApiType>
     if (isString(address)) {
       const _signer = signer || this._rx.signer;
 
-      if (!_signer || !_signer.signRaw) {
+      if (!_signer?.signRaw) {
         throw new Error('No signer exists with a signRaw interface. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
       }
 

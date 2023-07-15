@@ -6,7 +6,7 @@ import { Server, WebSocket } from 'mock-socket';
 import { stringify } from '@polkadot/util';
 
 interface Scope {
-  body: { [index: string]: Record<string, unknown> };
+  body: Record<string, Record<string, unknown>>;
   requests: number;
   server: Server;
   done: any;

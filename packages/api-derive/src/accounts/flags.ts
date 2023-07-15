@@ -23,7 +23,7 @@ type FlagsIntermediate = [
 ];
 
 function parseFlags (address: AccountId | Address | string | null | undefined, [electionsMembers, councilMembers, technicalCommitteeMembers, societyMembers, sudoKey]: FlagsIntermediate): DeriveAccountFlags {
-  const addrStr = address && address.toString();
+  const addrStr = address?.toString();
   const isIncluded = (id: AccountId | Address | string) =>
     id.toString() === addrStr;
 

@@ -8,9 +8,7 @@ import { isFunction, noop } from '@polkadot/util';
 
 export type CombinatorCallback <T extends unknown[]> = Callback<T>;
 
-export interface CombinatorFunction {
-  (cb: Callback<any>): UnsubscribePromise;
-}
+export type CombinatorFunction = (cb: Callback<any>) => UnsubscribePromise;
 
 export class Combinator<T extends unknown[] = unknown[]> {
   #allHasFired = false;

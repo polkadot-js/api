@@ -165,7 +165,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    * @description Generate a payload and applies the signature from a keypair
    */
   public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    if (!account || !account.addressRaw) {
+    if (!account?.addressRaw) {
       throw new Error(`Expected a valid keypair for signing, found ${stringify(account)}`);
     }
 

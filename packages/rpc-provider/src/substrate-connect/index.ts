@@ -55,9 +55,9 @@ export class ScProvider implements ProviderInterface {
   readonly #coder: RpcCoder = new RpcCoder();
   readonly #spec: string | ScType.WellKnownChain;
   readonly #sharedSandbox?: ScProvider | undefined;
-  readonly #subscriptions: Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]> = new Map();
-  readonly #resubscribeMethods: Map<string, ActiveSubs> = new Map();
-  readonly #requests: Map<number, ResponseCallback> = new Map();
+  readonly #subscriptions = new Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]>();
+  readonly #resubscribeMethods = new Map<string, ActiveSubs>();
+  readonly #requests = new Map<number, ResponseCallback>();
   readonly #wellKnownChains: Set<ScType.WellKnownChain>;
   readonly #eventemitter: EventEmitter = new EventEmitter();
 
@@ -77,11 +77,11 @@ export class ScProvider implements ProviderInterface {
 
   public get hasSubscriptions (): boolean {
     // Indicates that subscriptions are supported
-    return true;
+    return !!true;
   }
 
   public get isClonable (): boolean {
-    return false;
+    return !!false;
   }
 
   public get isConnected (): boolean {
@@ -276,7 +276,7 @@ export class ScProvider implements ProviderInterface {
       }
 
       try {
-        const promise: Promise<void> = new Promise((resolve) => {
+        const promise = new Promise<void>((resolve) => {
           this.subscribe(subDetails.type, subDetails.method, subDetails.params, subDetails.callback).catch((error) => console.log(error));
           resolve();
         });

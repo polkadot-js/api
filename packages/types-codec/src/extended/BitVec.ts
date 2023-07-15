@@ -9,7 +9,7 @@ import { Raw } from '../native/Raw.js';
 
 /** @internal */
 function decodeBitVecU8a (value?: Uint8Array): [number, Uint8Array] {
-  if (!value || !value.length) {
+  if (!value?.length) {
     return [0, new Uint8Array()];
   }
 

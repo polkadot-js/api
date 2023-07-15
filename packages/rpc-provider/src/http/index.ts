@@ -62,7 +62,7 @@ export class HttpProvider implements ProviderInterface {
    * @summary `true` when this provider supports subscriptions
    */
   public get hasSubscriptions (): boolean {
-    return false;
+    return !!false;
   }
 
   /**
@@ -97,7 +97,7 @@ export class HttpProvider implements ProviderInterface {
    * @summary `true` when this provider supports clone()
    */
   public get isClonable (): boolean {
-    return true;
+    return !!true;
   }
 
   /**
@@ -105,7 +105,7 @@ export class HttpProvider implements ProviderInterface {
    * @return {boolean} true if connected
    */
   public get isConnected (): boolean {
-    return true;
+    return !!true;
   }
 
   /**
@@ -126,7 +126,7 @@ export class HttpProvider implements ProviderInterface {
 
     const [, body] = this.#coder.encodeJson(method, params);
     let resultPromise: Promise<T> | null = isCacheable
-      ? this.#callCache.get(body) as Promise<T>
+      ? this.#callCache.get(body)
       : null;
 
     if (!resultPromise) {

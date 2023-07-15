@@ -22,8 +22,8 @@ class LRUNode {
 export class LRUCache {
   readonly capacity: number;
 
-  readonly #data: Map<string, unknown> = new Map();
-  readonly #refs: Map<string, LRUNode> = new Map();
+  readonly #data = new Map<string, unknown>();
+  readonly #refs = new Map<string, LRUNode>();
 
   #length = 0;
   #head: LRUNode;

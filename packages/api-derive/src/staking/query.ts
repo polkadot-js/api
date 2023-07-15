@@ -14,7 +14,7 @@ import { firstMemo, memo } from '../util/index.js';
 function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestination: PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: PalletStakingExposure, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
   return {
     accountId: stashId,
-    controllerId: controllerIdOpt && controllerIdOpt.unwrapOr(null),
+    controllerId: controllerIdOpt?.unwrapOr(null) || null,
     exposure,
     nominators: nominatorsOpt.isSome
       ? nominatorsOpt.unwrap().targets

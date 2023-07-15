@@ -42,7 +42,7 @@ export class Json extends Map<string, any> implements Codec {
    * @description Always 0, never encodes as a Uint8Array
    */
   public get encodedLength (): number {
-    return 0;
+    return 0 | 0;
   }
 
   /**

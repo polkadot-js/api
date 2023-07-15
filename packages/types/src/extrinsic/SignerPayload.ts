@@ -46,7 +46,7 @@ const knownTypes: Record<string, string> = {
 export class GenericSignerPayload extends Struct implements ISignerPayload, SignerPayloadType {
   readonly #extraTypes: Record<string, string>;
 
-  constructor (registry: Registry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
+  constructor (registry: Registry, value?: HexString | Record<string, unknown> | Map<unknown, unknown> | unknown[]) {
     const extensionTypes = objectSpread<Record<string, string>>({}, registry.getSignedExtensionTypes(), registry.getSignedExtensionExtra());
 
     super(registry, objectSpread<Record<string, string>>({}, extensionTypes, knownTypes), value);
@@ -118,7 +118,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     // add any explicit overrides we may have
     for (let i = 0, count = keys.length; i < count; i++) {
       const key = keys[i];
-      const value = this.get(key) as Codec;
+      const value = this.getT(key);
       const isOption = value instanceof Option;
 
       // Don't include Option.isNone

@@ -11,7 +11,7 @@ import { memo } from '../util/index.js';
 
 export function votingBalances (instanceId: string, api: DeriveApi): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DeriveBalancesAccount[]> {
   return memo(instanceId, (addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DeriveBalancesAccount[]> =>
-    !addresses || !addresses.length
+    !addresses?.length
       ? of([] as DeriveBalancesAccount[])
       : combineLatest(
         addresses.map((accountId): Observable<DeriveBalancesAccount> =>

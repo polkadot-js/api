@@ -20,7 +20,7 @@ interface Decoded {
 
 /** @internal */
 function decodeEvent (registry: Registry, value?: Uint8Array): Decoded {
-  if (!value || !value.length) {
+  if (!value?.length) {
     return { DataType: Null };
   }
 
