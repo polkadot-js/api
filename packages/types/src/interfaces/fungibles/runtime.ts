@@ -19,6 +19,21 @@ export const runtime: DefinitionsCall = {
         }
       },
       version: 1
+    },
+    {
+      methods: {
+        query_account_balances: {
+          description: 'Returns the list of all `MultiAsset` that an `AccountId` has',
+          params: [
+            {
+              name: 'account',
+              type: 'AccountId'
+            }
+          ],
+          type: 'Result<XcmVersionedMultiAssets, FungiblesAccessError>'
+        }
+      },
+      version: 2
     }
   ]
 };
