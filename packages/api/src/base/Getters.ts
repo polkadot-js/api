@@ -200,7 +200,7 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
   /**
    * @description Returns the underlying provider stats
    */
-  public get stats (): RpcCoreStats {
+  public get stats (): RpcCoreStats | undefined {
     return this._rpcCore.stats;
   }
 
