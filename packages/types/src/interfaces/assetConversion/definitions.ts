@@ -15,7 +15,7 @@ export default {
     MultiAssetId: {
       _enum: {
         Native: null,
-        Asset: 'AssetId',
+        Asset: 'AssetId'
       }
     }
   }

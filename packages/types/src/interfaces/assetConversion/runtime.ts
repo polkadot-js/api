@@ -12,61 +12,61 @@ export const runtime: DefinitionsCall = {
           params: [
             {
               name: 'asset1',
-              type: 'MultiAssetId',
+              type: 'MultiAssetId'
             },
             {
               name: 'asset2',
-              type: 'MultiAssetId',
-            },
+              type: 'MultiAssetId'
+            }
           ],
-          type: 'Option<(Balance,Balance)>',
+          type: 'Option<(Balance,Balance)>'
         },
         quote_price_exact_tokens_for_tokens: {
           description: 'Quote price: exact tokens for tokens',
           params: [
             {
               name: 'asset1',
-              type: 'MultiAssetId',
+              type: 'MultiAssetId'
             },
             {
               name: 'asset2',
-              type: 'MultiAssetId',
+              type: 'MultiAssetId'
             },
             {
               name: 'amount',
-              type: 'u128',
+              type: 'u128'
             },
             {
               name: 'include_fee',
-              type: 'bool',
-            },
+              type: 'bool'
+            }
           ],
-          type: 'Option<(Balance)>',
+          type: 'Option<(Balance)>'
         },
         quote_price_tokens_for_exact_tokens: {
           description: 'Quote price: tokens for exact tokens',
           params: [
             {
               name: 'asset1',
-              type: 'MultiAssetId',
+              type: 'MultiAssetId'
             },
             {
               name: 'asset2',
-              type: 'MultiAssetId',
+              type: 'MultiAssetId'
             },
             {
               name: 'amount',
-              type: 'u128',
+              type: 'u128'
             },
             {
               name: 'include_fee',
-              type: 'bool',
-            },
+              type: 'bool'
+            }
           ],
-          type: 'Option<(Balance)>',
-        },
+          type: 'Option<(Balance)>'
+        }
       },
-      version: 1,
-    },
+      version: 1
+    }
   ]
 };
