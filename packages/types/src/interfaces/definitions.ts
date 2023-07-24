@@ -4,6 +4,7 @@
 export * from './essentials.js';
 
 // substrate types
+export { default as assetConversion } from './assetConversion/definitions.js';
 export { default as assets } from './assets/definitions.js';
 export { default as aura } from './aura/definitions.js';
 export { default as authorship } from './authorship/definitions.js';
