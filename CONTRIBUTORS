@@ -74,6 +74,7 @@
        1	Hyungsuk Kang                 	Update fees.ts (#1014)
        1	icodezjb                      	Update SessionKeys (#3035)
        1	iiiiiiii                      	Make unknownTypes externally accessible (#3263)
+       1	Jegor Sidorenko               	Add AssetConversionApi (#5694)
        1	JesseAbram                    	added 07 Example showing how to make a transfer with allowed block permissions folder in docs (#1062)
        1	Joey                          	don't throw error at `onSocketClose` (#4363)
        1	Jordan                        	Allow typegen for custom RPCs (#2876)
