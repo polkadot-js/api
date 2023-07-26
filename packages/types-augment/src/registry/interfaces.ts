@@ -7,6 +7,7 @@ import '@polkadot/types/types/registry';
 
 import type { Data, StorageKey } from '@polkadot/types';
 import type { BitVec, Bool, Bytes, F32, F64, I128, I16, I256, I32, I64, I8, ISize, Json, Null, OptionBool, Raw, Text, Type, U128, U16, U256, U32, U64, U8, USize, bool, f32, f64, i128, i16, i256, i32, i64, i8, isize, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types-codec';
+import type { MultiAssetId } from '@polkadot/types/interfaces/assetConversion';
 import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -32,7 +33,7 @@ import type { BlockStats } from '@polkadot/types/interfaces/dev';
 import type { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex, VoteThreshold, VoterInfo } from '@polkadot/types/interfaces/elections';
 import type { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
 import type { BlockV0, BlockV1, BlockV2, EIP1559Transaction, EIP2930Transaction, EthAccessList, EthAccessListItem, EthAccount, EthAddress, EthBlock, EthBloom, EthCallRequest, EthFeeHistory, EthFilter, EthFilterAddress, EthFilterChanges, EthFilterTopic, EthFilterTopicEntry, EthFilterTopicInner, EthHeader, EthLog, EthReceipt, EthReceiptV0, EthReceiptV3, EthRichBlock, EthRichHeader, EthStorageProof, EthSubKind, EthSubParams, EthSubResult, EthSyncInfo, EthSyncStatus, EthTransaction, EthTransactionAction, EthTransactionCondition, EthTransactionRequest, EthTransactionSignature, EthTransactionStatus, EthWork, EthereumAccountId, EthereumAddress, EthereumLookupSource, EthereumSignature, LegacyTransaction, TransactionV0, TransactionV1, TransactionV2 } from '@polkadot/types/interfaces/eth';
-import type { EvmAccount, EvmCallInfo, EvmCreateInfo, EvmLog, EvmVicinity, ExitError, ExitFatal, ExitReason, ExitRevert, ExitSucceed } from '@polkadot/types/interfaces/evm';
+import type { EvmAccount, EvmCallInfo, EvmCallInfoV2, EvmCreateInfo, EvmCreateInfoV2, EvmLog, EvmVicinity, EvmWeightInfo, ExitError, ExitFatal, ExitReason, ExitRevert, ExitSucceed } from '@polkadot/types/interfaces/evm';
 import type { AnySignature, EcdsaSignature, Ed25519Signature, Era, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicSignature, ExtrinsicSignatureV4, ExtrinsicUnknown, ExtrinsicV4, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { FungiblesAccessError } from '@polkadot/types/interfaces/fungibles';
 import type { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
@@ -441,9 +442,12 @@ declare module '@polkadot/types/types/registry' {
     EventRecord: EventRecord;
     EvmAccount: EvmAccount;
     EvmCallInfo: EvmCallInfo;
+    EvmCallInfoV2: EvmCallInfoV2;
     EvmCreateInfo: EvmCreateInfo;
+    EvmCreateInfoV2: EvmCreateInfoV2;
     EvmLog: EvmLog;
     EvmVicinity: EvmVicinity;
+    EvmWeightInfo: EvmWeightInfo;
     ExecReturnValue: ExecReturnValue;
     ExecutorParam: ExecutorParam;
     ExecutorParams: ExecutorParams;
@@ -684,6 +688,7 @@ declare module '@polkadot/types/types/registry' {
     MultiAssetFilter: MultiAssetFilter;
     MultiAssetFilterV1: MultiAssetFilterV1;
     MultiAssetFilterV2: MultiAssetFilterV2;
+    MultiAssetId: MultiAssetId;
     MultiAssets: MultiAssets;
     MultiAssetsV1: MultiAssetsV1;
     MultiAssetsV2: MultiAssetsV2;

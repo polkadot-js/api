@@ -6,8 +6,9 @@
 import '@polkadot/api-base/types/calls';
 
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
-import type { Bytes, Null, Option, Result, Vec, u32 } from '@polkadot/types-codec';
+import type { Bytes, Null, Option, Result, Vec, bool, u128, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
+import type { MultiAssetId } from '@polkadot/types/interfaces/assetConversion';
 import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
@@ -38,6 +39,25 @@ declare module '@polkadot/api-base/types/calls' {
        * The API to query account nonce (aka transaction index)
        **/
       accountNonce: AugmentedCall<ApiType, (accountId: AccountId | string | Uint8Array) => Observable<Index>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x8a8047a53a8277ec/1 */
+    assetConversionApi: {
+      /**
+       * Get pool reserves
+       **/
+      getReserves: AugmentedCall<ApiType, (asset1: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, asset2: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array) => Observable<Option<ITuple<[Balance, Balance]>>>>;
+      /**
+       * Quote price: exact tokens for tokens
+       **/
+      quotePriceExactTokensForTokens: AugmentedCall<ApiType, (asset1: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, asset2: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
+      /**
+       * Quote price: tokens for exact tokens
+       **/
+      quotePriceTokensForExactTokens: AugmentedCall<ApiType, (asset1: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, asset2: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
       /**
        * Generic call
        **/
