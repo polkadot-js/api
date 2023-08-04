@@ -126,7 +126,7 @@ describe('runtime definitions', (): void => {
               for (const [key, { params, type }] of methodsEntries) {
                 describe(`${key}`, (): void => {
                   // Applied from runtime, used in Funglibles
-                  const skipInspectType = type === 'Box<XcmV3MultiLocation>' || type === 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>' || type === 'Result<XcmVersionedMultiAssets, FungiblesAccessError>';
+                  const skipInspectType = type === 'XcmV3MultiLocation' || type === 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>' || type === 'Result<XcmVersionedMultiAssets, FungiblesAccessError>';
 
                   if (!skipInspectType) {
                     it(`output ${type} is known`, (): void => {
