@@ -19,6 +19,7 @@ NOTES.md
 !.yarn/plugins
 .pnp.*
 .vscode/
+.idea/
 cc-test-reporter
 lerna-debug.log*
 npm-debug.log*
