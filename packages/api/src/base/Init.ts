@@ -128,8 +128,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const metadata = new Metadata(registry,
       await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
     );
+    const runtimeChain = this._runtimeChain;
 
-    this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
+    if (!runtimeChain) {
+      throw new Error('Invalid initializion order, runtimeChain is not available');
+    }
+
+    this._initRegistry(registry, runtimeChain, version, metadata);
 
     // add our new registry
     const result = { counter: 0, lastBlockHash: blockHash, metadata, registry, runtimeVersion: version };
@@ -299,12 +304,17 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
               // update the default registry version
               const thisRegistry = this._getDefaultRegistry();
+              const runtimeChain = this._runtimeChain;
+
+              if (!runtimeChain) {
+                throw new Error('Invalid initializion order, runtimeChain is not available');
+              }
 
               // setup the data as per the current versions
               thisRegistry.metadata = metadata;
               thisRegistry.runtimeVersion = version;
 
-              this._initRegistry(this.registry, this._runtimeChain as Text, version, metadata);
+              this._initRegistry(this.registry, runtimeChain, version, metadata);
               this._injectMetadata(thisRegistry, true);
 
               return true;
@@ -334,7 +344,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${genesisHash.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
     const metadata = chainMetadata || (
-      optMetadata && optMetadata[metadataKey]
+      optMetadata?.[metadataKey]
         ? new Metadata(this.registry, optMetadata[metadataKey])
         : await firstValueFrom(this._rpcCore.state.getMetadata())
     );
@@ -356,10 +366,16 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private _initFromMeta (metadata: Metadata): boolean {
+    const runtimeVersion = this._runtimeVersion;
+
+    if (!runtimeVersion) {
+      throw new Error('Invalid initializion order, runtimeVersion is not available');
+    }
+
     this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
-    this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here
+    this._rx.runtimeVersion = runtimeVersion;
 
     // inject metadata and adjust the types as detected
     this._injectMetadata(this._getDefaultRegistry(), true);

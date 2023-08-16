@@ -21,7 +21,7 @@ const primitiveClasses = {
 const generateInterfaceTypesTemplate = Handlebars.compile(readTemplate('interfaceRegistry'));
 
 /** @internal */
-export function generateInterfaceTypes (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, dest: string): void {
+export function generateInterfaceTypes (importDefinitions: Record<string, Record<string, ModuleTypes>>, dest: string): void {
   const registry = new TypeRegistry();
 
   writeFile(dest, (): string => {

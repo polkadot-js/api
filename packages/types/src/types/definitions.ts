@@ -7,7 +7,7 @@ export type DefinitionTypeType = string;
 
 export type DefinitionTypeEnum = { _fallback?: DefinitionTypeType } & ({ _enum: DefinitionTypeType[] } | { _enum: Record<string, DefinitionTypeType | null> });
 
-export type DefinitionTypeSet = { _fallback?: DefinitionTypeType, _set: Record<string, number> };
+export interface DefinitionTypeSet { _fallback?: DefinitionTypeType, _set: Record<string, number> }
 
 type DefinitionTypeStructExtra = {
   _alias?: Record<string, DefinitionTypeType>;

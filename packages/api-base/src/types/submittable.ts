@@ -92,7 +92,4 @@ export interface SubmittableExtrinsics<ApiType extends ApiTypes> extends Augment
   [key: string]: SubmittableModuleExtrinsics<ApiType>;
 }
 
-export interface SubmittableModuleExtrinsics<ApiType extends ApiTypes> {
-  // only with is<Type> augmentation
-  [key: string]: SubmittableExtrinsicFunction<ApiType>;
-}
+export type SubmittableModuleExtrinsics<ApiType extends ApiTypes> = Record<string, SubmittableExtrinsicFunction<ApiType>>;

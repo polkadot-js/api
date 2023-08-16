@@ -49,10 +49,8 @@ export interface AbiMessage {
 
 export type AbiConstructor = AbiMessage;
 
-export interface InterfaceContractCalls {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  [index: string]: Function;
-}
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type InterfaceContractCalls = Record<string, Function>;
 
 export interface ContractCallOutcome {
   debugMessage: Text;

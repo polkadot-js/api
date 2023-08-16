@@ -11,7 +11,7 @@ export * from './initMeta.js';
 export * from './register.js';
 export * from './wsMeta.js';
 
-type Cmp = { name: { toString(): string } };
+interface Cmp { name: { toString(): string } }
 
 export function compareName (a: Cmp, b: Cmp): number {
   return a.name.toString().localeCompare(b.name.toString());

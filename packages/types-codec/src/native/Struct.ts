@@ -225,7 +225,7 @@ export class Struct<
   /**
    * @description Returns the a types value by name
    */
-  public getT <T> (key: string): T {
+  public getT <T = Codec> (key: string): T {
     return super.get(key) as unknown as T;
   }
 

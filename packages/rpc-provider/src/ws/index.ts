@@ -33,7 +33,7 @@ interface WsStateSubscription extends SubscriptionHandler {
   params: unknown[];
 }
 
-const ALIASES: { [index: string]: string } = {
+const ALIASES: Record<string, string> = {
   chain_finalisedHead: 'chain_finalizedHead',
   chain_subscribeFinalisedHeads: 'chain_subscribeFinalizedHeads',
   chain_unsubscribeFinalisedHeads: 'chain_unsubscribeFinalizedHeads'
@@ -152,14 +152,14 @@ export class WsProvider implements ProviderInterface {
    * @summary `true` when this provider supports subscriptions
    */
   public get hasSubscriptions (): boolean {
-    return true;
+    return !!true;
   }
 
   /**
    * @summary `true` when this provider supports clone()
    */
   public get isClonable (): boolean {
-    return true;
+    return !!true;
   }
 
   /**
@@ -531,7 +531,11 @@ export class WsProvider implements ProviderInterface {
   };
 
   #onSocketMessageSubscribe = (response: JsonRpcResponse<unknown>): void => {
-    const method = ALIASES[response.method as string] || response.method || 'invalid';
+    if (!response.method) {
+      throw new Error('No method found in JSONRPC response');
+    }
+
+    const method = ALIASES[response.method] || response.method;
     const subId = `${method}::${response.params.subscription}`;
     const handler = this.#subscriptions[subId];
 

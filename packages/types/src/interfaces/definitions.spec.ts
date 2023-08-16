@@ -34,7 +34,7 @@ function inspectType (type: string): void {
 
     // inspect the subs
     if (Array.isArray(sub)) {
-      for (let i = 0; i < sub.length; i++) {
+      for (let i = 0, count = sub.length; i < count; i++) {
         inspectType(sub[i].type);
       }
     } else if (sub) {

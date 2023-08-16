@@ -6,7 +6,7 @@ import type { Codec } from '@polkadot/types-codec/types';
 export type { AnyFunction, AnyJson, AnyNumber, AnyString, AnyTuple, AnyU8a, ArgsDef, BareOpts, Codec, CodecClass, CodecTo, Inspect } from '@polkadot/types-codec/types';
 
 // helper to extract keys from an array
-export type ArrayElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType>
+export type ArrayElementType<T extends readonly unknown[]> = T extends readonly (infer ElementType)[]
   ? ElementType
   : never;
 

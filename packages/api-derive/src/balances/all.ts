@@ -23,11 +23,9 @@ interface AllLocked {
   vestingLocked: Balance
 }
 
-type DeriveCustomLocks = DeriveApi['derive'] & {
-  [custom: string]: {
-    customLocks?: DeriveApi['query']['balances']['locks']
-  }
-}
+type DeriveCustomLocks = DeriveApi['derive'] & Record<string, {
+  customLocks?: DeriveApi['query']['balances']['locks']
+}>
 
 const VESTING_ID = '0x76657374696e6720';
 

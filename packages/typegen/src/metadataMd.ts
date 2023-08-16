@@ -92,7 +92,7 @@ function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
     .replace(/#### Weight:/g, 'Weight:');
 
   // prefix each line with indentation
-  return md && md.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
+  return md?.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
 
 function renderPage (page: Page): string {
@@ -169,7 +169,12 @@ function addRpc (_runtimeDesc: string, rpcMethods?: string[]): string {
           .keys(section.rpc || {})
           .sort()
           .forEach((methodName) => {
-            const method = (section.rpc || {})[methodName];
+            const method = section.rpc?.[methodName];
+
+            if (!method) {
+              throw new Error(`No ${methodName} RPC found in ${_sectionName}`);
+            }
+
             const sectionName = method.aliasSection || _sectionName;
             const jsonrpc = (method.endpoint || `${sectionName}_${methodName}`);
 
@@ -455,7 +460,7 @@ function writeFile (name: string, ...chunks: any[]): void {
   writeStream.end();
 }
 
-type ArgV = { chain?: string; endpoint?: string; };
+interface ArgV { chain?: string; endpoint?: string; }
 
 async function mainPromise (): Promise<void> {
   const { chain, endpoint } = yargs(hideBin(process.argv)).strict().options({

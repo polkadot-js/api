@@ -20,9 +20,7 @@ import { Blueprint } from './Blueprint.js';
 import { Contract } from './Contract.js';
 import { convertWeight, createBluePrintTx, encodeSalt } from './util.js';
 
-export interface CodeConstructor<ApiType extends ApiTypes> {
-  new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined): Code<ApiType>;
-}
+export type CodeConstructor<ApiType extends ApiTypes> = new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined) => Code<ApiType>;
 
 export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
   readonly blueprint?: Blueprint<ApiType> | undefined;

@@ -48,7 +48,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
       };
     }
 
-    return (value as ExtrinsicValueV4) || {};
+    return value || {};
   }
 
   /**

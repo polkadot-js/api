@@ -104,7 +104,7 @@ export class Abi {
   readonly messages: AbiMessage[];
   readonly metadata: ContractMetadataLatest;
   readonly registry: Registry;
-  readonly environment: Map<string, TypeDef | Codec> = new Map();
+  readonly environment = new Map<string, TypeDef | Codec>();
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
     [this.json, this.registry, this.metadata, this.info] = parseJson(

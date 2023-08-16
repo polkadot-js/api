@@ -10,9 +10,7 @@ import { decodeU8a, mapToTypeMap, typesToConstructors, typeToConstructor } from 
 
 type TupleType = (CodecClass | string);
 
-type TupleTypes = TupleType[] | {
-  [index: string]: CodecClass | string;
-};
+type TupleTypes = TupleType[] | Record<string, CodecClass | string>;
 
 type Definition = [CodecClass[], string[]];
 

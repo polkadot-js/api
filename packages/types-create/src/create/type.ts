@@ -80,7 +80,7 @@ export function createTypeUnsafe<T extends Codec = Codec, K extends string = str
     firstError = new Error(`createType(${type}):: ${(error as Error).message}`);
   }
 
-  if (Clazz && Clazz.__fallbackType) {
+  if (Clazz?.__fallbackType) {
     try {
       Clazz = createClassUnsafe(registry, Clazz.__fallbackType as unknown as K);
 

@@ -35,7 +35,7 @@ export function createBluePrintWithId <T> (fn: (constructorOrId: AbiConstructor 
 export function encodeSalt (salt: Uint8Array | string | null = randomAsU8a()): Uint8Array {
   return salt instanceof Bytes
     ? salt
-    : salt && salt.length
+    : salt?.length
       ? compactAddLength(u8aToU8a(salt))
       : EMPTY_SALT;
 }
