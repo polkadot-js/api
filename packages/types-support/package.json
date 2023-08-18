@@ -21,7 +21,7 @@
   "version": "10.9.2-9-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^12.3.2",
+    "@polkadot/util": "^12.4.1",
     "tslib": "^2.6.0"
   }
 }
