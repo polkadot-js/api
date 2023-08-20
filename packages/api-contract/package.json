@@ -29,7 +29,7 @@
     "@polkadot/util": "^12.4.1",
     "@polkadot/util-crypto": "^12.4.1",
     "rxjs": "^7.8.1",
-    "tslib": "^2.6.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@polkadot/api-augment": "10.9.2-10-x",
