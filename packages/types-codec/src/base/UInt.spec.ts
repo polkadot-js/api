@@ -70,30 +70,6 @@ describe('UInt', (): void => {
     ).toEqual('123,456,789,123,456,789,123,456,789');
   });
 
-  it('provides a toBigInt interface', (): void => {
-    expect(
-      new UInt(registry, 9876543210123456789n).toBigInt()
-    ).toEqual(9876543210123456789n);
-  });
-
-  it('provides a toBn interface', (): void => {
-    expect(
-      new UInt(registry, 987).toBn().toNumber()
-    ).toEqual(987);
-  });
-
-  it('provides a toNumber interface', (): void => {
-    expect(
-      new UInt(registry, 4567).toNumber()
-    ).toEqual(4567);
-  });
-
-  it('has a working toBigInt', (): void => {
-    expect(
-      new UInt(registry, 4567).toBigInt() + BigInt(1)
-    ).toEqual(BigInt(4568));
-  });
-
   it('converts to Little Endian from the provided value', (): void => {
     expect(
       new UInt(registry, 1234567).toU8a()
@@ -128,40 +104,66 @@ describe('UInt', (): void => {
     expect(new UInt(registry, 1, 256).toJSON()).toEqual('0x0000000000000000000000000000000000000000000000000000000000000001');
   });
 
-  it('has a sane inspect', (): void => {
-    expect(
-      new UInt(registry, '0x12', 16).inspect()
-    ).toEqual({
-      outer: [new Uint8Array([0x12, 0x00])]
-    });
-  });
-
-  describe('eq', (): void => {
-    const test = new UInt(registry, 12345);
-
-    it('compares against other BN values', (): void => {
-      expect(test.eq(new BN(12345))).toBe(true);
+  describe('utilities', (): void => {
+    it('provides a toBigInt interface', (): void => {
+      expect(
+        new UInt(registry, 9876543210123456789n).toBigInt()
+      ).toEqual(9876543210123456789n);
     });
 
-    it('compares against other number values', (): void => {
-      expect(test.eq(12345)).toBe(true);
+    it('provides a toBn interface', (): void => {
+      expect(
+        new UInt(registry, 987).toBn().toNumber()
+      ).toEqual(987);
     });
 
-    it('compares against hex values', (): void => {
-      expect(test.eq('0x3039')).toBe(true);
-    });
-  });
-
-  describe('isMax()', (): void => {
-    it('is false where not full', (): void => {
-      expect(new UInt(registry, '0x1234', 32).isMax()).toEqual(false);
-      expect(new UInt(registry, '0xffffff', 32).isMax()).toEqual(false);
-      expect(new UInt(registry, '0x12345678', 32).isMax()).toEqual(false);
-      expect(new UInt(registry, '0xfffffff0', 32).isMax()).toEqual(false);
+    it('provides a toNumber interface', (): void => {
+      expect(
+        new UInt(registry, 4567).toNumber()
+      ).toEqual(4567);
     });
 
-    it('is true when full', (): void => {
-      expect(new UInt(registry, '0xffffffff', 32).isMax()).toEqual(true);
+    it('has a working toBigInt', (): void => {
+      expect(
+        new UInt(registry, 4567).toBigInt() + BigInt(1)
+      ).toEqual(BigInt(4568));
+    });
+
+    it('has a sane inspect', (): void => {
+      expect(
+        new UInt(registry, '0x12', 16).inspect()
+      ).toEqual({
+        outer: [new Uint8Array([0x12, 0x00])]
+      });
+    });
+
+    describe('eq', (): void => {
+      const test = new UInt(registry, 12345);
+
+      it('compares against other BN values', (): void => {
+        expect(test.eq(new BN(12345))).toBe(true);
+      });
+
+      it('compares against other number values', (): void => {
+        expect(test.eq(12345)).toBe(true);
+      });
+
+      it('compares against hex values', (): void => {
+        expect(test.eq('0x3039')).toBe(true);
+      });
+    });
+
+    describe('isMax()', (): void => {
+      it('is false where not full', (): void => {
+        expect(new UInt(registry, '0x1234', 32).isMax()).toEqual(false);
+        expect(new UInt(registry, '0xffffff', 32).isMax()).toEqual(false);
+        expect(new UInt(registry, '0x12345678', 32).isMax()).toEqual(false);
+        expect(new UInt(registry, '0xfffffff0', 32).isMax()).toEqual(false);
+      });
+
+      it('is true when full', (): void => {
+        expect(new UInt(registry, '0xffffffff', 32).isMax()).toEqual(true);
+      });
     });
   });
 
