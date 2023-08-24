@@ -9,10 +9,13 @@ import { TypeRegistry } from '@polkadot/types';
 import { Int } from '@polkadot/types-codec';
 import { BN } from '@polkadot/util';
 
-const TESTS: [bitLength: UIntBitLength, value: number | string][] = [
+const TESTS: [bitLength: UIntBitLength, value: string | number | Uint8Array, expected?: string][] = [
   [8, 0],
   [8, 127],
   [8, -128],
+  [8, new Uint8Array([0])],
+  [8, new Uint8Array([127])],
+  [8, new Uint8Array([128]), '-128'],
   [32, 0],
   [32, 2147483647],
   [32, -2147483648]
@@ -111,11 +114,11 @@ describe('Int', (): void => {
   });
 
   describe('conversion tests', (): void => {
-    TESTS.forEach(([bitLength, input], i): void => {
-      it(`#${i}: converts ${input}`, (): void => {
+    TESTS.forEach(([bitLength, input, expected], i): void => {
+      it(`#${i}: converts ${input as string}`, (): void => {
         expect(
-          new Int(registry, input, bitLength).toString()
-        ).toEqual(new BN(input).toString());
+          new Int(registry, Array.isArray(input) ? new Uint8Array(input) : input, bitLength).toString()
+        ).toEqual(expected || new BN(input).toString());
       });
     });
   });
