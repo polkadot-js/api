@@ -66,7 +66,7 @@ describe('Int', (): void => {
     // One
     expect(
       new Int(registry, 0, 8).toU8a()
-    ).toEqual(new Uint8Array([1]));
+    ).toEqual(new Uint8Array([0]));
 
     expect(
       new Int(registry, 1, 16).toU8a()
@@ -130,7 +130,7 @@ describe('Int', (): void => {
     ).toEqual(-128);
 
     expect(
-      new Int(registry, new Uint8Array([0, 128]), 16).toNumber()
+      new Int(registry, new Uint8Array([128, 255]), 16).toNumber()
     ).toEqual(-128);
 
     // MAX
