@@ -11,7 +11,7 @@ export interface DeriveSociety {
   hasDefender: boolean;
   head?: AccountId | undefined;
   founder?: AccountId | undefined;
-  maxMembers: u32;
+  maxMembers?: u32 | undefined;
   pot: BalanceOf;
 }
 

@@ -3,7 +3,7 @@
 
 import type { DefinitionCall, DefinitionsCall } from '../../types/index.js';
 
-const BEEFY_V1_V2: Record<string, DefinitionCall> = {
+const BEEFY_V1_V3: Record<string, DefinitionCall> = {
   beefy_genesis: {
     description: 'Return the block number where BEEFY consensus is enabled/started',
     params: [],
@@ -60,11 +60,15 @@ const BEEFY_MMR_V1: Record<string, DefinitionCall> = {
 export const runtime: DefinitionsCall = {
   BeefyApi: [
     {
-      methods: BEEFY_V1_V2,
+      methods: BEEFY_V1_V3,
+      version: 3
+    },
+    {
+      methods: BEEFY_V1_V3,
       version: 2
     },
     {
-      methods: BEEFY_V1_V2,
+      methods: BEEFY_V1_V3,
       version: 1
     }
   ],

@@ -60,6 +60,29 @@ describe('SignerPayload', (): void => {
     });
   });
 
+  it('handles Option<AssetId> correctly', (): void => {
+    const test = new SignerPayload(registry, { assetId: 123 });
+
+    expect(
+      [...test.keys()].includes('assetId')
+    ).toEqual(true);
+
+    expect(
+      // @ts-expect-error We don't have getters for this field
+      test.toPayload().assetId
+    ).toEqual(123);
+
+    expect(
+      // @ts-expect-error We don't have getters for this field
+      new SignerPayload(registry, { assetId: 0 }).toPayload().assetId
+    ).toEqual(0);
+
+    expect(
+      // @ts-expect-error We don't have getters for this field
+      new SignerPayload(registry, TEST).toPayload().assetId
+    ).toBeUndefined();
+  });
+
   it('re-constructs from JSON', (): void => {
     expect(
       new SignerPayload(registry, {
@@ -82,7 +105,7 @@ describe('SignerPayload', (): void => {
   });
 
   it('can be used as a feed to ExtrinsicPayload', (): void => {
-    const signer = new SignerPayload(registry, TEST).toPayload();
+    const signer = new SignerPayload(registry, { ...TEST, assetId: 123 }).toPayload();
     const payload = registry.createType('ExtrinsicPayload', signer, { version: signer.version });
 
     expect(payload.era.toHex()).toEqual(TEST.era);
@@ -90,5 +113,7 @@ describe('SignerPayload', (): void => {
     expect(payload.blockHash.toHex()).toEqual(TEST.blockHash);
     expect(payload.nonce.eq(TEST.nonce)).toBe(true);
     expect(payload.tip.eq(TEST.tip)).toBe(true);
+    // @ts-expect-error assetId is of unknown type, so we don't know about "isSome"
+    expect(payload.inner?.get('assetId')?.isSome && payload.inner?.get('assetId')?.eq(123)).toBe(true);
   });
 });

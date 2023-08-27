@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, KusamaRuntimeProxyType, PalletConvictionVotingTally, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV4CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, XcmV3MultiLocation, XcmV3MultiassetMultiAssets, XcmV3Response, XcmV3TraitsError, XcmV3TraitsOutcome, XcmV3Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, KusamaRuntimeProxyType, PalletConvictionVotingTally, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletSocietyGroupParams, PalletStakingExposure, PalletStakingForcing, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, PolkadotParachainPrimitivesHrmpChannelId, PolkadotPrimitivesV5CandidateReceipt, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, XcmV3MultiLocation, XcmV3MultiassetMultiAssets, XcmV3Response, XcmV3TraitsError, XcmV3TraitsOutcome, XcmV3Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -31,8 +31,8 @@ declare module '@polkadot/api-base/types/events' {
        **/
       BidAccepted: AugmentedEvent<ApiType, [bidder: AccountId32, paraId: u32, amount: u128, firstSlot: u32, lastSlot: u32], { bidder: AccountId32, paraId: u32, amount: u128, firstSlot: u32, lastSlot: u32 }>;
       /**
-       * Someone attempted to lease the same slot twice for a parachain. The amount is held in reserve
-       * but no parachain slot has been leased.
+       * Someone attempted to lease the same slot twice for a parachain. The amount is held in
+       * reserve but no parachain slot has been leased.
        **/
       ReserveConfiscated: AugmentedEvent<ApiType, [paraId: u32, leaser: AccountId32, amount: u128], { paraId: u32, leaser: AccountId32, amount: u128 }>;
       /**
@@ -45,7 +45,8 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Unreserved: AugmentedEvent<ApiType, [bidder: AccountId32, amount: u128], { bidder: AccountId32, amount: u128 }>;
       /**
-       * The winning offset was chosen for an auction. This will map into the `Winning` storage map.
+       * The winning offset was chosen for an auction. This will map into the `Winning` storage
+       * map.
        **/
       WinningOffset: AugmentedEvent<ApiType, [auctionIndex: u32, blockNumber: u32], { auctionIndex: u32, blockNumber: u32 }>;
       /**
@@ -826,15 +827,15 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A candidate was backed. `[candidate, head_data]`
        **/
-      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesV4CandidateReceipt, Bytes, u32, u32]>;
+      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesV5CandidateReceipt, Bytes, u32, u32]>;
       /**
        * A candidate was included. `[candidate, head_data]`
        **/
-      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesV4CandidateReceipt, Bytes, u32, u32]>;
+      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesV5CandidateReceipt, Bytes, u32, u32]>;
       /**
        * A candidate timed out. `[candidate, head_data]`
        **/
-      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesV4CandidateReceipt, Bytes, u32]>;
+      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesV5CandidateReceipt, Bytes, u32]>;
       /**
        * Some upward messages have been received and will be processed.
        **/
@@ -1140,6 +1141,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Deposit: AugmentedEvent<ApiType, [value: u128], { value: u128 }>;
       /**
+       * A \[member\] got elevated to \[rank\].
+       **/
+      Elevated: AugmentedEvent<ApiType, [member: AccountId32, rank: u32], { member: AccountId32, rank: u32 }>;
+      /**
        * The society is founded by the given identity.
        **/
       Founded: AugmentedEvent<ApiType, [founder: AccountId32], { founder: AccountId32 }>;
@@ -1153,13 +1158,9 @@ declare module '@polkadot/api-base/types/events' {
        **/
       MemberSuspended: AugmentedEvent<ApiType, [member: AccountId32], { member: AccountId32 }>;
       /**
-       * A new \[max\] member count has been set
+       * A new set of \[params\] has been set for the group.
        **/
-      NewMaxMembers: AugmentedEvent<ApiType, [max: u32], { max: u32 }>;
-      /**
-       * A group of members has been choosen as Skeptics
-       **/
-      SkepticsChosen: AugmentedEvent<ApiType, [skeptics: Vec<AccountId32>], { skeptics: Vec<AccountId32> }>;
+      NewParams: AugmentedEvent<ApiType, [params: PalletSocietyGroupParams], { params: PalletSocietyGroupParams }>;
       /**
        * A suspended member has been judged.
        **/
@@ -1238,6 +1239,14 @@ declare module '@polkadot/api-base/types/events' {
        **/
       SlashReported: AugmentedEvent<ApiType, [validator: AccountId32, fraction: Perbill, slashEra: u32], { validator: AccountId32, fraction: Perbill, slashEra: u32 }>;
       /**
+       * Targets size limit reached.
+       **/
+      SnapshotTargetsSizeExceeded: AugmentedEvent<ApiType, [size_: u32], { size_: u32 }>;
+      /**
+       * Voters size limit reached.
+       **/
+      SnapshotVotersSizeExceeded: AugmentedEvent<ApiType, [size_: u32], { size_: u32 }>;
+      /**
        * A new set of stakers was elected.
        **/
       StakersElected: AugmentedEvent<ApiType, []>;
@@ -1258,6 +1267,29 @@ declare module '@polkadot/api-base/types/events' {
        * from the unlocking queue.
        **/
       Withdrawn: AugmentedEvent<ApiType, [stash: AccountId32, amount: u128], { stash: AccountId32, amount: u128 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    stateTrieMigration: {
+      /**
+       * The auto migration task finished.
+       **/
+      AutoMigrationFinished: AugmentedEvent<ApiType, []>;
+      /**
+       * Migration got halted due to an error or miss-configuration.
+       **/
+      Halted: AugmentedEvent<ApiType, [error: PalletStateTrieMigrationError], { error: PalletStateTrieMigrationError }>;
+      /**
+       * Given number of `(top, child)` keys were migrated respectively, with the given
+       * `compute`.
+       **/
+      Migrated: AugmentedEvent<ApiType, [top: u32, child: u32, compute: PalletStateTrieMigrationMigrationCompute], { top: u32, child: u32, compute: PalletStateTrieMigrationMigrationCompute }>;
+      /**
+       * Some account got slashed by the given amount.
+       **/
+      Slashed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
        * Generic event
        **/
@@ -1481,8 +1513,8 @@ declare module '@polkadot/api-base/types/events' {
        **/
       NotifyDispatchError: AugmentedEvent<ApiType, [queryId: u64, palletIndex: u8, callIndex: u8], { queryId: u64, palletIndex: u8, callIndex: u8 }>;
       /**
-       * Query response has been received and query is removed. The registered notification could
-       * not be dispatched because the dispatch weight is greater than the maximum weight
+       * Query response has been received and query is removed. The registered notification
+       * could not be dispatched because the dispatch weight is greater than the maximum weight
        * originally budgeted by this runtime for the query result.
        **/
       NotifyOverweight: AugmentedEvent<ApiType, [queryId: u64, palletIndex: u8, callIndex: u8, actualWeight: SpWeightsWeightV2Weight, maxBudgetedWeight: SpWeightsWeightV2Weight], { queryId: u64, palletIndex: u8, callIndex: u8, actualWeight: SpWeightsWeightV2Weight, maxBudgetedWeight: SpWeightsWeightV2Weight }>;
@@ -1536,7 +1568,8 @@ declare module '@polkadot/api-base/types/events' {
        **/
       VersionNotifyStarted: AugmentedEvent<ApiType, [destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed], { destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed }>;
       /**
-       * We have requested that a remote chain stops sending us XCM version change notifications.
+       * We have requested that a remote chain stops sending us XCM version change
+       * notifications.
        **/
       VersionNotifyUnrequested: AugmentedEvent<ApiType, [destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed], { destination: XcmV3MultiLocation, cost: XcmV3MultiassetMultiAssets, messageId: U8aFixed }>;
       /**

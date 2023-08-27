@@ -65,7 +65,7 @@ export interface PaginationOptions<A = unknown> {
 export type DecorateMethod<_ApiType extends ApiTypes, T = any> =
   <M extends (...args: any[]) => Observable<any>>(method: M, options?: DecorateMethodOptions) => T;
 
-type AsCodec<R extends Codec | any> = R extends Codec
+type AsCodec<R> = R extends Codec
   ? R
   : Codec;
 

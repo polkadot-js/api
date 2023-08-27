@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-b
 import type { Bytes, Null, Option, Result, Vec, bool, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
-import type { BeefyEquivocationProof, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
+import type { BeefyAuthoritySet, BeefyEquivocationProof, BeefyNextAuthoritySet, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -18,7 +18,7 @@ import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/t
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError } from '@polkadot/types/interfaces/mmr';
 import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
-import type { CandidateCommitments, CandidateEvent, CandidateHash, CommittedCandidateReceipt, CoreState, DisputeState, ExecutorParams, GroupRotationInfo, InboundDownwardMessage, InboundHrmpMessage, OccupiedCoreAssumption, ParaId, ParaValidatorIndex, PersistedValidationData, PvfCheckStatement, ScrapedOnChainVotes, SessionInfo, ValidationCode, ValidationCodeHash, ValidatorSignature } from '@polkadot/types/interfaces/parachains';
+import type { CandidateCommitments, CandidateEvent, CandidateHash, CommittedCandidateReceipt, CoreState, DisputeProof, DisputeState, ExecutorParams, GroupRotationInfo, InboundDownwardMessage, InboundHrmpMessage, OccupiedCoreAssumption, ParaId, ParaValidatorIndex, PendingSlashes, PersistedValidationData, PvfCheckStatement, ScrapedOnChainVotes, SessionInfo, ValidationCode, ValidationCodeHash, ValidatorSignature } from '@polkadot/types/interfaces/parachains';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { AccountId, Balance, Block, BlockNumber, Call, Hash, Header, Index, KeyTypeId, Slot, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
@@ -85,7 +85,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x49eaaf1b548a0cb0/2 */
+    /** 0x49eaaf1b548a0cb0/3 */
     beefyApi: {
       /**
        * Return the block number where BEEFY consensus is enabled/started
@@ -103,6 +103,21 @@ declare module '@polkadot/api-base/types/calls' {
        * Return the current active BEEFY validator set
        **/
       validatorSet: AugmentedCall<ApiType, () => Observable<Option<ValidatorSet>>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x2a5e924655399e60/1 */
+    beefyMmrApi: {
+      /**
+       * Return the currently active BEEFY authority set proof.
+       **/
+      authoritySetProof: AugmentedCall<ApiType, () => Observable<BeefyAuthoritySet>>;
+      /**
+       * Return the next/queued BEEFY authority set proof.
+       **/
+      nextAuthoritySetProof: AugmentedCall<ApiType, () => Observable<BeefyNextAuthoritySet>>;
       /**
        * Generic call
        **/
@@ -245,7 +260,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0xaf2c0297a23e6d3d/4 */
+    /** 0xaf2c0297a23e6d3d/5 */
     parachainHost: {
       /**
        * Returns the persisted validation data for the given `ParaId` along with the corresponding validation code hash.
@@ -280,6 +295,10 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       inboundHrmpChannelsContents: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array) => Observable<Vec<InboundHrmpMessage>>>;
       /**
+       * Returns a merkle proof of a validator session key
+       **/
+      keyOwnershipProof: AugmentedCall<ApiType, (validatorId: ValidatorId | string | Uint8Array) => Observable<Option<OpaqueKeyOwnershipProof>>>;
+      /**
        * Scrape dispute relevant from on-chain, backing votes and resolved disputes.
        **/
       onChainVotes: AugmentedCall<ApiType, () => Observable<Option<ScrapedOnChainVotes>>>;
@@ -307,6 +326,14 @@ declare module '@polkadot/api-base/types/calls' {
        * Submits a PVF pre-checking statement into the transaction pool.
        **/
       submitPvfCheckStatement: AugmentedCall<ApiType, (stmt: PvfCheckStatement | { accept?: any; subject?: any; sessionIndex?: any; validatorIndex?: any } | string | Uint8Array, signature: ValidatorSignature | string | Uint8Array) => Observable<Null>>;
+      /**
+       * Submit an unsigned extrinsic to slash validators who lost a dispute about a candidate of a past session
+       **/
+      submitReportDisputeLost: AugmentedCall<ApiType, (disputeProof: DisputeProof | { timeSlot?: any; kind?: any; validatorIndex?: any; validatorId?: any } | string | Uint8Array, keyOwnershipProof: OpaqueKeyOwnershipProof | string | Uint8Array) => Observable<Option<Null>>>;
+      /**
+       * Returns a list of validators that lost a past session dispute and need to be slashed
+       **/
+      unappliedSlashes: AugmentedCall<ApiType, () => Observable<Vec<ITuple<[SessionIndex, CandidateHash, PendingSlashes]>>>>;
       /**
        * Fetch the validation code used by a para, making the given `OccupiedCoreAssumption`.
        **/

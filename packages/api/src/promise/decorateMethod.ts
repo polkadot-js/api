@@ -106,7 +106,7 @@ function decorateSubscribe<M extends DecorateFn<CodecReturnType<M>>> (method: M,
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
 export function toPromiseMethod<M extends DecorateFn<CodecReturnType<M>>> (method: M, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
-  const needsCallback = !!(options && options.methodName && options.methodName.includes('subscribe'));
+  const needsCallback = !!(options?.methodName && options.methodName.includes('subscribe'));
 
   return function (...args: unknown[]): Promise<CodecReturnType<M>> | UnsubscribePromise {
     const [actualArgs, resultCb] = extractArgs(args, needsCallback);

@@ -208,6 +208,14 @@ export interface DisputeLocation extends Enum {
   readonly type: 'Local' | 'Remote';
 }
 
+/** @name DisputeProof */
+export interface DisputeProof extends Struct {
+  readonly timeSlot: DisputesTimeSlot;
+  readonly kind: SlashingOffenceKind;
+  readonly validatorIndex: ValidatorIndex;
+  readonly validatorId: ValidatorId;
+}
+
 /** @name DisputeResult */
 export interface DisputeResult extends Enum {
   readonly isValid: boolean;
@@ -237,6 +245,12 @@ export interface DisputeStatementSet extends Struct {
   readonly candidateHash: CandidateHash;
   readonly session: SessionIndex;
   readonly statements: Vec<ITuple<[DisputeStatement, ParaValidatorIndex, ValidatorSignature]>>;
+}
+
+/** @name DisputesTimeSlot */
+export interface DisputesTimeSlot extends Struct {
+  readonly sessionIndex: SessionIndex;
+  readonly candidateHash: CandidateHash;
 }
 
 /** @name DoubleVoteReport */
@@ -599,6 +613,12 @@ export interface ParathreadEntry extends Struct {
 /** @name ParaValidatorIndex */
 export interface ParaValidatorIndex extends u32 {}
 
+/** @name PendingSlashes */
+export interface PendingSlashes extends Struct {
+  readonly slashKeys: BTreeMap<ValidatorIndex, ValidatorId>;
+  readonly kind: SlashingOffenceKind;
+}
+
 /** @name PersistedValidationData */
 export interface PersistedValidationData extends Struct {
   readonly parentHead: HeadData;
@@ -731,6 +751,13 @@ export interface SignedAvailabilityBitfields extends Vec<SignedAvailabilityBitfi
 export interface SigningContext extends Struct {
   readonly sessionIndex: SessionIndex;
   readonly parentHash: Hash;
+}
+
+/** @name SlashingOffenceKind */
+export interface SlashingOffenceKind extends Enum {
+  readonly isForInvalid: boolean;
+  readonly isAgainstValid: boolean;
+  readonly type: 'ForInvalid' | 'AgainstValid';
 }
 
 /** @name SlotRange */

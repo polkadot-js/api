@@ -16,7 +16,7 @@ import { generateInterfaceTypes } from './generate/interfaceRegistry.js';
 import { generateTsDef } from './generate/tsDef.js';
 import { assertDir, assertFile, getMetadataViaWs } from './util/index.js';
 
-type ArgV = { input: string; package: string; endpoint?: string; };
+interface ArgV { input: string; package: string; endpoint?: string; }
 
 async function mainPromise (): Promise<void> {
   const { endpoint, input, package: pkg } = yargs(hideBin(process.argv)).strict().options({

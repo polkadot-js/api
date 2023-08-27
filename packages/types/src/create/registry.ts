@@ -343,7 +343,7 @@ export class TypeRegistry implements Registry {
   }
 
   public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
-    return this.getUnsafe(name, withUnknown, knownTypeDef) as CodecClass<T>;
+    return this.getUnsafe(name, withUnknown, knownTypeDef);
   }
 
   public getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {

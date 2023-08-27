@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Add aliases for Noir type paths (Thanks to https://github.com/conr2d)
+- Add runtime `FungliblesApi` version 2 (Thanks to https://github.com/bkontur)
+- Add runtime `EthereumApi` version 5 (Thanks to https://github.com/timbrinded)
+- Add runtime `AssetConversionApi` (Thanks to https://github.com/jsidorenko)
+
+Changes:
+
+- Add runtime `BeefyApi` version 3
+- Add runtime `ParachainHost` version 5
+- Consistently use `import.meta.url` inside tests
+- Group `Uint/Int` tests for maintainability
+- Serialize any additional payload fields via `toJSON()`
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
 ## 10.9.1 Jun 12, 2023
 
 Changes:

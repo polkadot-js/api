@@ -17,11 +17,9 @@ type BalanceResult = [Balance, Balance, Balance, Balance];
 
 type Result = [Index, BalanceResult[]];
 
-type DeriveCustomAccount = DeriveApi['derive'] & {
-  [custom: string]: {
-    customAccount?: DeriveApi['query']['balances']['account']
-  }
-}
+type DeriveCustomAccount = DeriveApi['derive'] & Record<string, {
+  customAccount?: DeriveApi['query']['balances']['account']
+}>
 
 function zeroBalance (api: DeriveApi) {
   return api.registry.createType('Balance');

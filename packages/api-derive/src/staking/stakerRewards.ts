@@ -167,10 +167,12 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
             queries.map(({ stakingLedger }, index): DeriveStakerReward[] =>
               filterRewards(
                 eras,
-                stashValidators[index].map((validatorId): [string, DeriveStakingQuery] => [
-                  validatorId,
-                  queriedVals.find((q) => q.accountId.eq(validatorId)) as DeriveStakingQuery
-                ]),
+                stashValidators[index]
+                  .map((validatorId): [string, DeriveStakingQuery | undefined] => [
+                    validatorId,
+                    queriedVals.find((q) => q.accountId.eq(validatorId))
+                  ])
+                  .filter((v): v is [string, DeriveStakingQuery] => !!v[1]),
                 {
                   rewards: allRewards[index],
                   stakingLedger

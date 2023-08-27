@@ -20,9 +20,7 @@ import { applyOnEvent } from '../util.js';
 import { Base } from './Base.js';
 import { convertWeight, withMeta } from './util.js';
 
-export interface ContractConstructor<ApiType extends ApiTypes> {
-  new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId): Contract<ApiType>;
-}
+export type ContractConstructor<ApiType extends ApiTypes> = new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId) => Contract<ApiType>;
 
 // As per Rust, 5 * GAS_PER_SEC
 const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);

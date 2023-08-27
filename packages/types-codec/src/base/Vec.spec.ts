@@ -118,7 +118,7 @@ describe('Vec', (): void => {
     });
 
     it('exposes a working forEach', (): void => {
-      const result: { [index: number]: string } = {};
+      const result: Record<number, string> = {};
 
       vector.forEach((e, i): void => {
         result[i] = e.toString();

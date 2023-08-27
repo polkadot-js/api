@@ -13,7 +13,7 @@ import { memo } from '../util/index.js';
 
 export function getInstance (api: DeriveApi, section: string): DeriveApi['query']['council'] {
   const instances = api.registry.getModuleInstances(api.runtimeVersion.specName, section);
-  const name = instances && instances.length
+  const name = instances?.length
     ? instances[0]
     : section;
 

@@ -113,6 +113,24 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    beefy: {
+      /**
+       * A given equivocation report is valid but already previously reported.
+       **/
+      DuplicateOffenceReport: AugmentedError<ApiType>;
+      /**
+       * An equivocation proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidEquivocationProof: AugmentedError<ApiType>;
+      /**
+       * A key ownership proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidKeyOwnershipProof: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     bounties: {
       /**
        * The bounty cannot be closed because it has active child bounties.
@@ -192,8 +210,8 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidStatement: AugmentedError<ApiType>;
       /**
-       * There's not enough in the pot to pay out some unvested amount. Generally implies a logic
-       * error.
+       * There's not enough in the pot to pay out some unvested amount. Generally implies a
+       * logic error.
        **/
       PotUnderflow: AugmentedError<ApiType>;
       /**
@@ -360,7 +378,8 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotParachain: AugmentedError<ApiType>;
       /**
-       * The crowdloan is not ready to dissolve. Potentially still has a slot or in retirement period.
+       * The crowdloan is not ready to dissolve. Potentially still has a slot or in retirement
+       * period.
        **/
       NotReadyToDissolve: AugmentedError<ApiType>;
       /**
@@ -833,6 +852,12 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       Queued: AugmentedError<ApiType>;
       /**
+       * The queue is paused and no message can be executed from it.
+       * 
+       * This can change at any time and may resolve in the future by re-trying.
+       **/
+      QueuePaused: AugmentedError<ApiType>;
+      /**
        * This message is temporarily unprocessable.
        * 
        * Such errors are expected, but not guaranteed, to resolve themselves eventually through
@@ -1046,6 +1071,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CommissionChangeThrottled: AugmentedError<ApiType>;
       /**
+       * The supplied commission exceeds global maximum commission.
+       **/
+      CommissionExceedsGlobalMaximum: AugmentedError<ApiType>;
+      /**
        * The supplied commission exceeds the max allowed commission.
        **/
       CommissionExceedsMaximum: AugmentedError<ApiType>;
@@ -1169,13 +1198,14 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BitfieldReferencesFreedCore: AugmentedError<ApiType>;
       /**
-       * Candidate not in parent context.
-       **/
-      CandidateNotInParentContext: AugmentedError<ApiType>;
-      /**
        * Candidate scheduled despite pending candidate already existing for the para.
        **/
       CandidateScheduledBeforeParaFree: AugmentedError<ApiType>;
+      /**
+       * The candidate's relay-parent was not allowed. Either it was
+       * not recent enough or it didn't advance based on the last parachain block.
+       **/
+      DisallowedRelayParent: AugmentedError<ApiType>;
       /**
        * Head data exceeds the configured maximum.
        **/
@@ -1192,6 +1222,11 @@ declare module '@polkadot/api-base/types/errors' {
        * Insufficient (non-majority) backing.
        **/
       InsufficientBacking: AugmentedError<ApiType>;
+      /**
+       * Failed to compute group index for the core: either it's out of bounds
+       * or the relay parent doesn't belong to the current session.
+       **/
+      InvalidAssignment: AugmentedError<ApiType>;
       /**
        * Invalid (bad signature, unknown validator, etc.) backing.
        **/
@@ -1225,8 +1260,8 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotCollatorSigned: AugmentedError<ApiType>;
       /**
-       * The `para_head` hash in the candidate descriptor doesn't match the hash of the actual para head in the
-       * commitments.
+       * The `para_head` hash in the candidate descriptor doesn't match the hash of the actual
+       * para head in the commitments.
        **/
       ParaHeadMismatch: AugmentedError<ApiType>;
       /**
@@ -1270,10 +1305,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       WrongBitfieldSize: AugmentedError<ApiType>;
       /**
-       * Candidate included with the wrong collator.
-       **/
-      WrongCollator: AugmentedError<ApiType>;
-      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -1311,7 +1342,7 @@ declare module '@polkadot/api-base/types/errors' {
     };
     paras: {
       /**
-       * Para cannot be downgraded to a parathread.
+       * Para cannot be downgraded to an on-demand parachain.
        **/
       CannotDowngrade: AugmentedError<ApiType>;
       /**
@@ -1323,7 +1354,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CannotOnboard: AugmentedError<ApiType>;
       /**
-       * Para cannot be upgraded to a parachain.
+       * Para cannot be upgraded to a lease holding parachain.
        **/
       CannotUpgrade: AugmentedError<ApiType>;
       /**
@@ -1642,16 +1673,16 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CannotDeregister: AugmentedError<ApiType>;
       /**
-       * Cannot schedule downgrade of parachain to parathread
+       * Cannot schedule downgrade of lease holding parachain to on-demand parachain
        **/
       CannotDowngrade: AugmentedError<ApiType>;
       /**
-       * Cannot perform a parachain slot / lifecycle swap. Check that the state of both paras are
-       * correct for the swap to work.
+       * Cannot perform a parachain slot / lifecycle swap. Check that the state of both paras
+       * are correct for the swap to work.
        **/
       CannotSwap: AugmentedError<ApiType>;
       /**
-       * Cannot schedule upgrade of parathread to parachain
+       * Cannot schedule upgrade of on-demand parachain to lease holding parachain
        **/
       CannotUpgrade: AugmentedError<ApiType>;
       /**
@@ -1675,7 +1706,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotParachain: AugmentedError<ApiType>;
       /**
-       * Para is not a Parathread.
+       * Para is not a Parathread (on-demand parachain).
        **/
       NotParathread: AugmentedError<ApiType>;
       /**
@@ -1687,7 +1718,8 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotReserved: AugmentedError<ApiType>;
       /**
-       * Para is locked from manipulation by the manager. Must use parachain or relay chain governance.
+       * Para is locked from manipulation by the manager. Must use parachain or relay chain
+       * governance.
        **/
       ParaLocked: AugmentedError<ApiType>;
       /**
@@ -1771,6 +1803,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyCandidate: AugmentedError<ApiType>;
       /**
+       * The member is already elevated to this rank.
+       **/
+      AlreadyElevated: AugmentedError<ApiType>;
+      /**
        * Society already founded.
        **/
       AlreadyFounded: AugmentedError<ApiType>;
@@ -1779,13 +1815,21 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyMember: AugmentedError<ApiType>;
       /**
+       * The skeptic has already been punished for this offence.
+       **/
+      AlreadyPunished: AugmentedError<ApiType>;
+      /**
        * Member is already vouching or banned from vouching again.
        **/
       AlreadyVouching: AugmentedError<ApiType>;
       /**
-       * An incorrect position was provided.
+       * The candidacy cannot be dropped as the candidate was clearly approved.
        **/
-      BadPosition: AugmentedError<ApiType>;
+      Approved: AugmentedError<ApiType>;
+      /**
+       * The skeptic need not vote on candidates from expired rounds.
+       **/
+      Expired: AugmentedError<ApiType>;
       /**
        * Cannot remove the founder.
        **/
@@ -1795,6 +1839,14 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       Head: AugmentedError<ApiType>;
       /**
+       * The candidacy cannot be concluded as the voting is still in progress.
+       **/
+      InProgress: AugmentedError<ApiType>;
+      /**
+       * Funds are insufficient to pay off society debts.
+       **/
+      InsufficientFunds: AugmentedError<ApiType>;
+      /**
        * Not enough in pot to accept candidate.
        **/
       InsufficientPot: AugmentedError<ApiType>;
@@ -1803,9 +1855,21 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       MaxMembers: AugmentedError<ApiType>;
       /**
+       * There is no defender currently.
+       **/
+      NoDefender: AugmentedError<ApiType>;
+      /**
        * Nothing to payout.
        **/
       NoPayout: AugmentedError<ApiType>;
+      /**
+       * The membership cannot be claimed as the candidate was not clearly approved.
+       **/
+      NotApproved: AugmentedError<ApiType>;
+      /**
+       * User is not a bidder.
+       **/
+      NotBidder: AugmentedError<ApiType>;
       /**
        * User is not a candidate.
        **/
@@ -1815,6 +1879,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotFounder: AugmentedError<ApiType>;
       /**
+       * Group doesn't exist.
+       **/
+      NotGroup: AugmentedError<ApiType>;
+      /**
        * The caller is not the head.
        **/
       NotHead: AugmentedError<ApiType>;
@@ -1823,17 +1891,37 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotMember: AugmentedError<ApiType>;
       /**
+       * The candidate cannot be kicked as the candidate was not clearly rejected.
+       **/
+      NotRejected: AugmentedError<ApiType>;
+      /**
        * User is not suspended.
        **/
       NotSuspended: AugmentedError<ApiType>;
       /**
        * Member is not vouching.
        **/
-      NotVouching: AugmentedError<ApiType>;
+      NotVouchingOnBidder: AugmentedError<ApiType>;
+      /**
+       * The candidate/defender has no stale votes to remove.
+       **/
+      NoVotes: AugmentedError<ApiType>;
+      /**
+       * The candidacy cannot be bestowed as the candidate was clearly rejected.
+       **/
+      Rejected: AugmentedError<ApiType>;
       /**
        * User is suspended.
        **/
       Suspended: AugmentedError<ApiType>;
+      /**
+       * The candidacy cannot be pruned until a full additional intake period has passed.
+       **/
+      TooEarly: AugmentedError<ApiType>;
+      /**
+       * The skeptic already voted.
+       **/
+      Voted: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1944,6 +2032,42 @@ declare module '@polkadot/api-base/types/errors' {
        * staking settings to keep things safe for the runtime.
        **/
       TooManyValidators: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    stateTrieMigration: {
+      /**
+       * Bad child root provided.
+       **/
+      BadChildRoot: AugmentedError<ApiType>;
+      /**
+       * Bad witness data provided.
+       **/
+      BadWitness: AugmentedError<ApiType>;
+      /**
+       * A key was longer than the configured maximum.
+       * 
+       * This means that the migration halted at the current [`Progress`] and
+       * can be resumed with a larger [`crate::Config::MaxKeyLen`] value.
+       * Retrying with the same [`crate::Config::MaxKeyLen`] value will not work.
+       * The value should only be increased to avoid a storage migration for the currently
+       * stored [`crate::Progress::LastKey`].
+       **/
+      KeyTooLong: AugmentedError<ApiType>;
+      /**
+       * Max signed limits not respected.
+       **/
+      MaxSignedLimits: AugmentedError<ApiType>;
+      /**
+       * submitter does not have enough funds.
+       **/
+      NotEnoughFunds: AugmentedError<ApiType>;
+      /**
+       * Signed migration is not allowed because the maximum limit is not set yet.
+       **/
+      SignedMigrationNotAllowed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -2146,8 +2270,8 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoSubscription: AugmentedError<ApiType>;
       /**
-       * There was some other issue (i.e. not to do with routing) in sending the message. Perhaps
-       * a lack of space for buffering the message.
+       * There was some other issue (i.e. not to do with routing) in sending the message.
+       * Perhaps a lack of space for buffering the message.
        **/
       SendFailure: AugmentedError<ApiType>;
       /**

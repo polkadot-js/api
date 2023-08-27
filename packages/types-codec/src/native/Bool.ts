@@ -35,7 +35,7 @@ export class bool extends Boolean implements Codec {
    * @description The length of the value when encoded as a Uint8Array
    */
   public get encodedLength (): number {
-    return 1;
+    return 1 | 0;
   }
 
   /**

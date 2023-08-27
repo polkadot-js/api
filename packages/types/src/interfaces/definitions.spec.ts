@@ -34,7 +34,7 @@ function inspectType (type: string): void {
 
     // inspect the subs
     if (Array.isArray(sub)) {
-      for (let i = 0; i < sub.length; i++) {
+      for (let i = 0, count = sub.length; i < count; i++) {
         inspectType(sub[i].type);
       }
     } else if (sub) {
@@ -122,11 +122,14 @@ describe('runtime definitions', (): void => {
           for (const { methods, version } of versions) {
             describe(`version ${version}`, (): void => {
               const methodsEntries = Object.entries<DefinitionCall>(methods);
+              const skipInspectTypes = ['XcmV3MultiLocation', 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>', 'Result<XcmVersionedMultiAssets, FungiblesAccessError>'];
 
               for (const [key, { params, type }] of methodsEntries) {
                 describe(`${key}`, (): void => {
-                  // Applied from runtime, used in Funglibles
-                  if (type !== 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>') {
+                  // Applied from runtime, used in Fungibles
+                  const skipInspectType = skipInspectTypes.includes(type);
+
+                  if (!skipInspectType) {
                     it(`output ${type} is known`, (): void => {
                       expect(() => inspectType(type)).not.toThrow();
                     });
@@ -135,6 +138,10 @@ describe('runtime definitions', (): void => {
                   if (params.length) {
                     describe('params', (): void => {
                       for (const { name, type } of params) {
+                        if (skipInspectTypes.includes(type)) {
+                          continue;
+                        }
+
                         it(`${name}: ${type} is known`, (): void => {
                           expect(() => inspectType(type)).not.toThrow();
                         });

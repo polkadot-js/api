@@ -70,7 +70,7 @@ async function generate (metaHex: HexString, pkg: string | undefined, output: st
   process.exit(0);
 }
 
-type ArgV = { endpoint: string; output: string; package?: string; strict?: boolean };
+interface ArgV { endpoint: string; output: string; package?: string; strict?: boolean }
 
 async function mainPromise (): Promise<void> {
   const { endpoint, output, package: pkg, strict: isStrict } = yargs(hideBin(process.argv)).strict().options({

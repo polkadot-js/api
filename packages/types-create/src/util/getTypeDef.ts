@@ -218,7 +218,7 @@ function _decodeDoNotConstruct (value: TypeDef, type: string, _: string): TypeDe
 }
 
 function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any?]): boolean {
-  return (type.substring(0, start.length) === start) && (type.slice(-1 * end.length) === end);
+  return (type.startsWith(start)) && (type.slice(-1 * end.length) === end);
 }
 
 const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: string, subType: string, count: number) => TypeDef][] = [

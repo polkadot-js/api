@@ -56,7 +56,7 @@ function extractIdentity (identityOfOpt?: Option<PalletIdentityRegistration>, su
     judgements,
     legal: dataAsString(info.legal),
     other: extractOther(info.additional),
-    parent: superOf && superOf[0],
+    parent: superOf?.[0],
     pgp: info.pgpFingerprint.unwrapOr(UNDEF_HEX).toHex(),
     riot: dataAsString(info.riot),
     twitter: dataAsString(info.twitter),
