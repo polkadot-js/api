@@ -60,6 +60,19 @@ describe('SignerPayload', (): void => {
     });
   });
 
+  it('handles Option<AssetId> correctly', (): void => {
+    const test = new SignerPayload(registry, { assetId: 123 });
+
+    expect(
+      [...test.keys()].includes('assetId')
+    ).toEqual(true);
+
+    expect(
+      // @ts-expect-error We don't have getters for this field
+      test.toPayload().assetId
+    ).toEqual(123);
+  });
+
   it('re-constructs from JSON', (): void => {
     expect(
       new SignerPayload(registry, {
