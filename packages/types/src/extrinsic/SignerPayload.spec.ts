@@ -113,6 +113,7 @@ describe('SignerPayload', (): void => {
     expect(payload.blockHash.toHex()).toEqual(TEST.blockHash);
     expect(payload.nonce.eq(TEST.nonce)).toBe(true);
     expect(payload.tip.eq(TEST.tip)).toBe(true);
-    expect(payload.inner?.get('assetId')?.eq(123)).toBe(true);
+    // @ts-expect-error assetId is of unknown type, so we don't know about "isSome"
+    expect(payload.inner?.get('assetId')?.isSome && payload.inner?.get('assetId')?.eq(123)).toBe(true);
   });
 });
