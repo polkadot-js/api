@@ -29,14 +29,14 @@ export function toV15 (registry: Registry, v14: MetadataV14, _: number): Metadat
   return registry.createTypeUnsafe('MetadataV15', [
     unchecked
       ? objectSpread({}, v14, {
-        extrinsic: registry.createTypeUnsafe('ExtrinsicMetadataV15', [
-          objectSpread({}, v14.extrinsic, {
-            addressType: unchecked.type.params[0],
-            callType: unchecked.type.params[1],
-            extraType: unchecked.type.params[3],
-            signatureType: unchecked.type.params[2]
-          })
-        ])
+        extrinsic: registry.createTypeUnsafe('ExtrinsicMetadataV15', [{
+          addressType: unchecked.type.params[0].type.unwrapOr(0),
+          callType: unchecked.type.params[1].type.unwrapOr(0),
+          extraType: unchecked.type.params[3].type.unwrapOr(0),
+          signatureType: unchecked.type.params[2].type.unwrapOr(0),
+          signedExtensions: v14.extrinsic.signedExtensions,
+          version: v14.extrinsic.version
+        }])
       })
       : v14
   ]);
