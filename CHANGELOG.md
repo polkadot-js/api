@@ -15,6 +15,7 @@ Changes:
 - Add runtime `ParachainHost` version 5
 - Consistently use `import.meta.url` inside tests
 - Group `Uint/Int` tests for maintainability
+- Serialize any additional payload fields via `toJSON()`
 - Update to latest Polkadot, Kusama & Substrate metadata
 
 
