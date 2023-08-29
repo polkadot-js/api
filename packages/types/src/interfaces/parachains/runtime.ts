@@ -208,7 +208,7 @@ const PH_V5: DefinitionsCallEntry['methods'] = {
         type: 'ValidatorId'
       }
     ],
-    type: 'Option<OpaqueKeyOwnershipProof'
+    type: 'Option<OpaqueKeyOwnershipProof>'
   },
   submit_report_dispute_lost: {
     description: 'Submit an unsigned extrinsic to slash validators who lost a dispute about a candidate of a past session',
