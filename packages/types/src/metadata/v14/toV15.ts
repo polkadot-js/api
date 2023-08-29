@@ -27,20 +27,20 @@ export function toV15 (registry: Registry, v14: MetadataV14, _: number): Metadat
       path.join('::') === 'sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic'
     )
     ?.type.params.map(({ type }) =>
-      type.unwrapOr(null)
+      type.unwrapOr(0)
     );
 
   return registry.createTypeUnsafe('MetadataV15', [
-    unchecked?.every((type) => !!type)
+    unchecked
       ? objectSpread({}, v14, {
-        extrinsic: registry.createTypeUnsafe('ExtrinsicMetadataV15', [{
-          addressType: unchecked[0],
-          callType: unchecked[1],
-          extraType: unchecked[3],
-          signatureType: unchecked[2],
-          signedExtensions: v14.extrinsic.signedExtensions,
-          version: v14.extrinsic.version
-        }])
+        extrinsic: registry.createTypeUnsafe('ExtrinsicMetadataV15', [
+          objectSpread({}, v14.extrinsic, {
+            addressType: unchecked[0],
+            callType: unchecked[1],
+            extraType: unchecked[3],
+            signatureType: unchecked[2]
+          })
+        ])
       })
       : v14
   ]);
