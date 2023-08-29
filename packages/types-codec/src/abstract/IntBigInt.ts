@@ -3,12 +3,12 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, Inspect, INumber, Registry, ToBigInt, UIntBitLength } from '../types';
+import type { AnyNumber, Inspect, INumber, Registry, ToBigInt, UIntBitLength } from '../types/index.js';
 
 import { _0n, _1Bn, _1Mn, _1Qn, _100n, bnToBn, formatBalance, formatNumber, hexToBigInt, isBigInt, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, nToBigInt, nToHex, nToU8a, u8aToBigInt } from '@polkadot/util';
 import { BigInt } from '@polkadot/x-bigint';
 
-import { AbstractObject } from './Object';
+import { AbstractObject } from './Object.js';
 
 export const DEFAULT_UINT_BITS = 64;
 
@@ -217,7 +217,7 @@ export abstract class AbstractBigInt extends AbstractObject<bigint> implements I
     // Options here are
     //   - this.#bitLengthInitial - the actual used bits
     //   - this.#bitLength - the type bits (this should be used, however contracts RPC is problematic)
-    return onlyHex || (this.#bitLengthInitial > MAX_NUMBER_BITS)
+    return onlyHex || (this.#bitLength > 128) || (this.#bitLengthInitial > MAX_NUMBER_BITS)
       ? this.toHex()
       : this.toNumber();
   }
