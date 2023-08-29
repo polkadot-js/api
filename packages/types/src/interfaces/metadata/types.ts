@@ -78,7 +78,7 @@ export interface EventMetadataV9 extends Struct {
 }
 
 /** @name ExtrinsicMetadataLatest */
-export interface ExtrinsicMetadataLatest extends ExtrinsicMetadataV14 {}
+export interface ExtrinsicMetadataLatest extends ExtrinsicMetadataV15 {}
 
 /** @name ExtrinsicMetadataV11 */
 export interface ExtrinsicMetadataV11 extends Struct {
@@ -96,6 +96,16 @@ export interface ExtrinsicMetadataV13 extends ExtrinsicMetadataV12 {}
 export interface ExtrinsicMetadataV14 extends Struct {
   readonly type: SiLookupTypeId;
   readonly version: u8;
+  readonly signedExtensions: Vec<SignedExtensionMetadataV14>;
+}
+
+/** @name ExtrinsicMetadataV15 */
+export interface ExtrinsicMetadataV15 extends Struct {
+  readonly version: u8;
+  readonly addressType: SiLookupTypeId;
+  readonly callType: SiLookupTypeId;
+  readonly signatureType: SiLookupTypeId;
+  readonly extraType: SiLookupTypeId;
   readonly signedExtensions: Vec<SignedExtensionMetadataV14>;
 }
 
@@ -215,7 +225,7 @@ export interface MetadataV14 extends Struct {
 export interface MetadataV15 extends Struct {
   readonly lookup: PortableRegistry;
   readonly pallets: Vec<PalletMetadataV15>;
-  readonly extrinsic: ExtrinsicMetadataV14;
+  readonly extrinsic: ExtrinsicMetadataV15;
   readonly type: SiLookupTypeId;
   readonly apis: Vec<RuntimeApiMetadataV15>;
   readonly outerEnums: OuterEnums15;
