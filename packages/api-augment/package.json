@@ -18,14 +18,14 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "10.9.2-17-x",
+  "version": "10.9.2-18-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api-base": "10.9.2-17-x",
-    "@polkadot/rpc-augment": "10.9.2-17-x",
-    "@polkadot/types": "10.9.2-17-x",
-    "@polkadot/types-augment": "10.9.2-17-x",
-    "@polkadot/types-codec": "10.9.2-17-x",
+    "@polkadot/api-base": "10.9.2-18-x",
+    "@polkadot/rpc-augment": "10.9.2-18-x",
+    "@polkadot/types": "10.9.2-18-x",
+    "@polkadot/types-augment": "10.9.2-18-x",
+    "@polkadot/types-codec": "10.9.2-18-x",
     "@polkadot/util": "^12.4.2",
     "tslib": "^2.6.2"
   }

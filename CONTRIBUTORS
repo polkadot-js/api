@@ -97,6 +97,7 @@
        1	Noah Corona                   	Add rpc error fields (#4637)
        1	Oleksandr Mykhailenko         	Add more complex namespaced contracts & test cases for them (#4472)
        1	Paul M Fox                    	Basic BTreeMaps codec support (#1474)
+       1	peetzweg/                     	Adds tests cases for issue #5702 (#5703)
        1	philipstanislaus              	Update types for centrifuge chain v1.2.0 (#2424)
        1	Pierre Krieger                	Update substrate/connect to 0.7.6 (#4940)
        1	polymath-eric                 	Allow unset external signer (#5649)
