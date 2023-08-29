@@ -1,4 +1,4 @@
-    3488	Jaco                          	Latest CHANGELOG (w/ deps bump) (#5719)
+    3489	Jaco                          	Seraliaze "unknown" payload fields via toJSON (#5716)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
