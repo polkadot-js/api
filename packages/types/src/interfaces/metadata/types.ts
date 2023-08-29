@@ -314,9 +314,9 @@ export interface OpaqueMetadata extends WrapperOpaque<Bytes> {}
 
 /** @name OuterEnums15 */
 export interface OuterEnums15 extends Struct {
-  readonly callEnumType: SiLookupTypeId;
-  readonly eventEnumType: SiLookupTypeId;
-  readonly errorEnumType: SiLookupTypeId;
+  readonly callType: SiLookupTypeId;
+  readonly eventType: SiLookupTypeId;
+  readonly errorType: SiLookupTypeId;
 }
 
 /** @name PalletCallMetadataLatest */

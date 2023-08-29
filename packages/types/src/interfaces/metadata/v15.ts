@@ -24,9 +24,9 @@ export const v15: DefinitionsTypes = {
     signedExtensions: 'Vec<SignedExtensionMetadataV14>'
   },
   OuterEnums15: {
-    callEnumType: 'SiLookupTypeId',
-    eventEnumType: 'SiLookupTypeId',
-    errorEnumType: 'SiLookupTypeId'
+    callType: 'SiLookupTypeId',
+    eventType: 'SiLookupTypeId',
+    errorType: 'SiLookupTypeId'
   },
   PalletMetadataV15: {
     name: 'Text',

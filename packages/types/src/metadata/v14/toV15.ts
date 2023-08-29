@@ -22,25 +22,25 @@ export function toV15 (registry: Registry, v14: MetadataV14, _: number): Metadat
 
   // We need the UncheckedExtrinsic to extract the types, at least for v14
   // which does have these details embedded (previous-gen won't populate)
-  const unchecked = v14.lookup.types
-    .find(({ type: { path } }) =>
-      path.join('::') === 'sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic'
-    )
-    ?.type.params.map(({ type }) =>
-      type.unwrapOr(0)
-    );
+  const unchecked = v14.lookup.types.find(({ type: { path } }) =>
+    path.join('::') === 'sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic'
+  );
 
   return registry.createTypeUnsafe('MetadataV15', [
     unchecked
       ? objectSpread({}, v14, {
         extrinsic: registry.createTypeUnsafe('ExtrinsicMetadataV15', [
           objectSpread({}, v14.extrinsic, {
-            addressType: unchecked[0],
-            callType: unchecked[1],
-            extraType: unchecked[3],
-            signatureType: unchecked[2]
+            addressType: unchecked.type.params[0].type.unwrapOr(0),
+            callType: unchecked.type.params[1].type.unwrapOr(0),
+            extraType: unchecked.type.params[3].type.unwrapOr(0),
+            signatureType: unchecked.type.params[2].type.unwrapOr(0)
           })
-        ])
+        ]),
+        outerEnums: registry.createTypeUnsafe('OuterEnums15', [{
+          callType: unchecked.type.params[1].type.unwrapOr(0)
+          // FIXME We need to add the eventType & errorType in here
+        }])
       })
       : v14
   ]);
