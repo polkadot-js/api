@@ -227,7 +227,7 @@ const PH_V5: DefinitionsCallEntry['methods'] = {
   unapplied_slashes: {
     description: 'Returns a list of validators that lost a past session dispute and need to be slashed',
     params: [],
-    type: 'Vec<(SessionIndex, CandidateHash, PendingSlashes)'
+    type: 'Vec<(SessionIndex, CandidateHash, PendingSlashes)>'
   }
 };
 
