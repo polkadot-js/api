@@ -45,7 +45,6 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@types/websocket": "^1.0.5",
     "@types/yargs": "^17.0.24"
   }
 }
