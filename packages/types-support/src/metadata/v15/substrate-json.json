@@ -10369,9 +10369,9 @@
         }
       ],
       "outerEnums": {
-        "callEnumType": 141,
-        "eventEnumType": 20,
-        "errorEnumType": 925
+        "callType": 141,
+        "eventType": 20,
+        "errorType": 925
       },
       "custom": {
         "map": {}
