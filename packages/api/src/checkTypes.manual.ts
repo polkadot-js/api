@@ -6,16 +6,16 @@
 import '@polkadot/api-augment';
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
+import type { TestKeyringMapSubstrate } from '@polkadot/keyring/testingPairs';
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
 import type { FrameSystemAccountInfo } from '@polkadot/types/lookup';
 import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
+import type { SubmittableResult } from './index.js';
 
 import { ApiPromise } from '@polkadot/api';
-import { createTestPairs, TestKeyringMap } from '@polkadot/keyring/testingPairs';
+import { createTestPairs } from '@polkadot/keyring/testingPairs';
 import { createTypeUnsafe, TypeRegistry } from '@polkadot/types/create';
-
-import { SubmittableResult } from './';
 
 const registry = new TypeRegistry();
 
@@ -35,7 +35,7 @@ async function calls (api: ApiPromise): Promise<void> {
 function consts (api: ApiPromise): void {
   // constants has actual value & metadata
   console.log(
-    api.consts.foo.bar,
+    api.consts['notIn']['augmentation'],
     api.consts.balances.existentialDeposit.toNumber(),
     api.consts.balances.existentialDeposit.meta.docs.map((s) => s.toString()).join(''),
     api.consts.system.blockWeights.maxBlock.refTime.toNumber()
@@ -59,10 +59,10 @@ function errors (api: ApiPromise): void {
   console.log(api.errors.vesting.AmountLow.is(someError));
 
   // non-existing error, existing module
-  console.log(api.errors.vesting.Something.is(someError));
+  console.log(api.errors.vesting['NonAugmented'].is(someError));
 
   // something random
-  console.log(api.errors.something.Random.is(someError));
+  console.log(api.errors['thisIsNot']['Augmented'].is(someError));
 }
 
 function events (api: ApiPromise): void {
@@ -97,20 +97,20 @@ function events (api: ApiPromise): void {
   }
 
   // something random, just codec[]
-  if (api.events.something.Random.is(event)) {
+  if (api.events['not']['Augmented'].is(event)) {
     const [a, b] = event.data;
 
     console.log(a.toHuman(), b.toHuman());
   }
 }
 
-async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
+async function query (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<void> {
   const intentions = await api.query.staking.bonded();
 
   console.log('intentions:', intentions);
 
   // api.query.*.* is well-typed
-  const bar = await api.query.foo.bar(); // bar is Codec (unknown module)
+  const bar = await api.query['notIn']['augmentation'](); // bar is Codec (unknown module)
   const bal = await api.query.balances.totalIssuance(); // bal is Balance
   const bal2 = await api.query.balances.totalIssuance('WRONG_ARG'); // bal2 is Codec (wrong args)
   const override = await api.query.balances.totalIssuance<Header>(); // override is still available
@@ -119,7 +119,7 @@ async function query (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   const oldBal = await api.query.balances.totalIssuance.at('abcd');
 
   // For older queries we can cast with `<Balance>` (newer chain have multi typed)
-  const multia = await api.query.balances.freeBalance.multi<Balance>([pairs.alice.address, pairs.bob.address]);
+  const multia = await api.query.balances['freeBalance'].multi<Balance>([pairs.alice.address, pairs.bob.address]);
   const multib = await api.query.system.account.multi([pairs.alice.address, pairs.bob.address]);
 
   await api.query.system.account(pairs.alice.address);
@@ -157,7 +157,7 @@ async function queryExtra (api: ApiPromise): Promise<void> {
   await api.query.assets.approvals.keys(123, 'blah');
   await api.query.assets.account.keys(123);
   await api.query.assets.account.entries(123);
-  await api.query.assets.blah.keys();
+  await api.query.assets['notAugmented'].keys();
 
   // is
   const key = {} as StorageKey;
@@ -170,7 +170,7 @@ async function queryExtra (api: ApiPromise): Promise<void> {
   }
 }
 
-async function queryMulti (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
+async function queryMulti (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<void> {
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
     [api.query.staking.validators],
@@ -185,7 +185,7 @@ async function queryMulti (api: ApiPromise, pairs: TestKeyringMap): Promise<void
   const multiRes = await api.queryMulti([
     [api.query.system.account, pairs.eve.address],
     // older chains only
-    [api.query.system.accountNonce, pairs.eve.address]
+    [api.query.system['accountNonce'], pairs.eve.address]
   ]);
 
   console.log(multiRes);
@@ -241,7 +241,7 @@ function types (api: ApiPromise): void {
   console.log(balance, gas, compact, gasUnsafe, overriddenUnsafe, u32.toNumber(), f32.toNumber(), api.createType('AccountData'), raw.subarray(0, 10));
 }
 
-async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
+async function tx (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<void> {
   // transfer, also allows for bigint inputs here
   const transfer = api.tx.balances.transfer(pairs.bob.address, BigInt(123456789));
 
@@ -251,7 +251,7 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   console.log('hash:', (await transfer.signAndSend(pairs.alice)).toHex());
 
   // passing options, but waiting for hash
-  const nonce = await api.query.system.accountNonce<Index>(pairs.alice.address);
+  const nonce = await api.query.system['accountNonce']<Index>(pairs.alice.address);
 
   (await api.tx.balances
     .transfer(pairs.bob.address, 12345)
@@ -264,7 +264,7 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
     .signAndSend(pairs.alice, ({ status }: SubmittableResult) => console.log(status.type));
 
   // with options and the callback
-  const nonce2 = await api.query.system.accountNonce(pairs.alice.address);
+  const nonce2 = await api.query.system['accountNonce'](pairs.alice.address);
   const unsub2 = await api.tx.balances
     .transfer(pairs.bob.address, 12345)
     .signAndSend(pairs.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
@@ -276,11 +276,10 @@ async function tx (api: ApiPromise, pairs: TestKeyringMap): Promise<void> {
   // it allows for query & then using the submittable
   const second = api.tx.democracy.second(123);
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   await second.signAndSend('123', (result) => console.log(result));
 
   // it handles enum inputs correctly
-  await api.tx.democracy.proxyVote(123, { Split: { nay: 456, yay: 123 } }).signAndSend(pairs.alice);
+  await api.tx.democracy['proxyVote'](123, { Split: { nay: 456, yay: 123 } }).signAndSend(pairs.alice);
 
   // is
   if (api.tx.balances.transfer.is(second)) {
@@ -295,7 +294,7 @@ async function at (api: ApiPromise): Promise<void> {
   const apiAt = await api.at('0x1234');
 
   // get old balances
-  console.log(await apiAt.query.balances.freeBalance('0x1234'));
+  console.log(await apiAt.query.balances['freeBalance']('0x1234'));
 
   // get some constants
   console.log(apiAt.consts.balances.existentialDeposit);
@@ -305,8 +304,7 @@ async function main (): Promise<void> {
   const api = await ApiPromise.create();
   const pairs = createTestPairs();
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  Promise.all([
+  await Promise.all([
     calls(api),
     consts(api),
     derive(api),
@@ -322,5 +320,4 @@ async function main (): Promise<void> {
   ]);
 }
 
-// eslint-disable-next-line @typescript-eslint/unbound-method
 main().catch(console.error);

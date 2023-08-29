@@ -2,25 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { Codec, CodecClass, Registry } from '../types';
+import type { Codec, CodecClass, DefinitionSetter, Registry } from '../types/index.js';
 
-import { compactFromU8aLim, isHex, isU8a, logger, stringify, u8aToU8a } from '@polkadot/util';
+import { compactFromU8aLim, identity, isHex, isU8a, logger, stringify, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/Array';
-import { decodeU8aVec, typeToConstructor } from '../utils';
+import { AbstractArray } from '../abstract/Array.js';
+import { decodeU8aVec, typeToConstructor } from '../utils/index.js';
 
 const MAX_LENGTH = 64 * 1024;
 
 const l = logger('Vec');
-
-interface Options<T> {
-  definition?: CodecClass<T>;
-  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
-}
-
-function noopSetDefinition <T extends Codec> (d: CodecClass<T>): CodecClass<T> {
-  return d;
-}
 
 function decodeVecLength (value: Uint8Array | HexString | unknown[]): [Uint8Array | unknown[] | null, number, number] {
   if (Array.isArray(value)) {
@@ -80,24 +71,18 @@ export function decodeVec<T extends Codec> (registry: Registry, result: T[], val
 export class Vec<T extends Codec> extends AbstractArray<T> {
   #Type: CodecClass<T>;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = [], { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value: Uint8Array | HexString | unknown[] = [], { definition, setDefinition = identity }: DefinitionSetter<CodecClass<T>> = {}) {
     const [decodeFrom, length, startAt] = decodeVecLength(value);
 
     super(registry, length);
 
     this.#Type = definition || setDefinition(typeToConstructor<T>(registry, Type));
 
-    try {
-      this.initialU8aLength = (
-        isU8a(decodeFrom)
-          ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
-          : decodeVec(registry, this, decodeFrom, startAt, this.#Type)
-      )[0];
-    } catch (e) {
-      console.error(decodeFrom, length, startAt);
-
-      throw e;
-    }
+    this.initialU8aLength = (
+      isU8a(decodeFrom)
+        ? decodeU8aVec(registry, this, decodeFrom, startAt, this.#Type)
+        : decodeVec(registry, this, decodeFrom, startAt, this.#Type)
+    )[0];
   }
 
   public static with<O extends Codec> (Type: CodecClass<O> | string): CodecClass<Vec<O>> {
@@ -124,14 +109,14 @@ export class Vec<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Finds the index of the value in the array
    */
-  public override indexOf (_other?: unknown): number {
+  public override indexOf (other?: unknown): number {
     // convert type first, this removes overhead from the eq
-    const other = _other instanceof this.#Type
-      ? _other
-      : new this.#Type(this.registry, _other);
+    const check = other instanceof this.#Type
+      ? other
+      : new this.#Type(this.registry, other);
 
-    for (let i = 0; i < this.length; i++) {
-      if (other.eq(this[i])) {
+    for (let i = 0, count = this.length; i < count; i++) {
+      if (check.eq(this[i])) {
         return i;
       }
     }

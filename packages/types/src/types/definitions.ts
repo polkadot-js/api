@@ -7,7 +7,7 @@ export type DefinitionTypeType = string;
 
 export type DefinitionTypeEnum = { _fallback?: DefinitionTypeType } & ({ _enum: DefinitionTypeType[] } | { _enum: Record<string, DefinitionTypeType | null> });
 
-export type DefinitionTypeSet = { _fallback?: DefinitionTypeType, _set: Record<string, number> };
+export interface DefinitionTypeSet { _fallback?: DefinitionTypeType, _set: Record<string, number> }
 
 type DefinitionTypeStructExtra = {
   _alias?: Record<string, DefinitionTypeType>;
@@ -42,6 +42,8 @@ export interface DefinitionRpc {
   endpoint?: string;
   /** true if this needs a signed submission, e.g. when submitting extrinsics */
   isSigned?: boolean;
+  /** true if this is an RPC call that has been marked unsafe */
+  isUnsafe?: boolean;
   /** Don't log any errors if they occur (should be used sparingly for exceptions only) */
   noErrorLog?: boolean;
   /** The applicable parameters for the call */

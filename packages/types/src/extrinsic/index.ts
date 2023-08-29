@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export { GenericExtrinsic } from './Extrinsic';
-export { GenericExtrinsicEra, MortalEra as GenericMortalEra, ImmortalEra as GenericImmortalEra } from './ExtrinsicEra';
-export { GenericExtrinsicPayload } from './ExtrinsicPayload';
-export { GenericExtrinsicPayloadUnknown } from './ExtrinsicPayloadUnknown';
-export { GenericExtrinsicUnknown } from './ExtrinsicUnknown';
-export { GenericSignerPayload } from './SignerPayload';
+// all named
+export { GenericExtrinsic } from './Extrinsic.js';
+export { GenericExtrinsicEra, ImmortalEra as GenericImmortalEra, MortalEra as GenericMortalEra } from './ExtrinsicEra.js';
+export { GenericExtrinsicPayload } from './ExtrinsicPayload.js';
+export { GenericExtrinsicPayloadUnknown } from './ExtrinsicPayloadUnknown.js';
+export { GenericExtrinsicUnknown } from './ExtrinsicUnknown.js';
+export { GenericSignerPayload } from './SignerPayload.js';
 
-export * from './v4';
+// all starred
+export * from './v4/index.js';

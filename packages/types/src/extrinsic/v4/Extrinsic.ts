@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics';
-import type { Address, Call } from '../../interfaces/runtime';
-import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types';
-import type { ExtrinsicOptions } from '../types';
+import type { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics/index.js';
+import type { Address, Call } from '../../interfaces/runtime/index.js';
+import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types/index.js';
+import type { ExtrinsicOptions } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
@@ -35,8 +35,8 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
   public static decodeExtrinsic (registry: Registry, value?: Call | Uint8Array | ExtrinsicValueV4, isSigned = false): ExtrinsicValueV4 {
     if (value instanceof GenericExtrinsicV4) {
       return value;
-    } else if (value instanceof registry.createClassUnsafe('Call')) {
-      return { method: value as Call };
+    } else if (value instanceof registry.createClassUnsafe<Call>('Call')) {
+      return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = registry.createTypeUnsafe<ExtrinsicSignatureV4>('ExtrinsicSignatureV4', [value, { isSigned }]);
@@ -48,7 +48,7 @@ export class GenericExtrinsicV4 extends Struct implements IExtrinsicImpl {
       };
     }
 
-    return (value as ExtrinsicValueV4) || {};
+    return value || {};
   }
 
   /**

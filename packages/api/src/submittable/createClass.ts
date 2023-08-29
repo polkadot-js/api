@@ -5,23 +5,23 @@
 
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
-import type { Callback, Codec, Constructor, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import type { Callback, Codec, CodecClass, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
-import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types';
-import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types';
+import type { ApiBase } from '../base/index.js';
+import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types/index.js';
+import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types.js';
 
 import { catchError, first, map, mergeMap, of, switchMap, tap } from 'rxjs';
 
-import { isBn, isFunction, isNumber, isString, isU8a, objectSpread } from '@polkadot/util';
+import { identity, isBn, isFunction, isNumber, isString, isU8a, objectSpread } from '@polkadot/util';
 
-import { ApiBase } from '../base';
-import { filterEvents, isKeyringPair } from '../util';
-import { SubmittableResult } from './Result';
+import { filterEvents, isKeyringPair } from '../util/index.js';
+import { SubmittableResult } from './Result.js';
 
 interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
   apiType: ApiTypes;
-  blockHash?: Uint8Array;
+  blockHash?: Uint8Array | undefined;
   decorateMethod: ApiBase<ApiType>['_decorateMethod'];
 }
 
@@ -29,8 +29,6 @@ interface UpdateInfo {
   options: SignatureOptions;
   updateId: number;
 }
-
-const identity = <T> (input: T): T => input;
 
 function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
   if (!header) {
@@ -58,7 +56,7 @@ function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions
   });
 }
 
-function makeSignAndSendOptions (partialOptions?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult>?] {
+function makeSignAndSendOptions (partialOptions?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): [Partial<SignerOptions>, Callback<ISubmittableResult> | undefined] {
   let options: Partial<SignerOptions> = {};
 
   if (isFunction(partialOptions)) {
@@ -85,14 +83,14 @@ function optionsOrNonce (partialOptions: Partial<SignerOptions> = {}): Partial<S
     : partialOptions;
 }
 
-export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHash, decorateMethod }: SubmittableOptions<ApiType>): Constructor<SubmittableExtrinsic<ApiType>> {
+export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHash, decorateMethod }: SubmittableOptions<ApiType>): CodecClass<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
   const ExtrinsicBase = api.registry.createClass('Extrinsic');
 
   class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
 
-    #transformResult: (input: ISubmittableResult) => ISubmittableResult = identity;
+    #transformResult = identity<ISubmittableResult>;
 
     constructor (registry: Registry, extrinsic: Call | Extrinsic | Uint8Array | string) {
       super(registry, extrinsic, { version: api.extrinsicType });
@@ -162,9 +160,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
               // setup our options (same way as in signAndSend)
               const eraOptions = makeEraOptions(api, this.registry, allOptions, signingInfo);
               const signOptions = makeSignOptions(api, eraOptions, {});
-              const u8a = this.isSigned
-                ? api.tx(this).signFake(address, signOptions).toU8a()
-                : this.signFake(address, signOptions).toU8a();
+
+              // 1. Don't use the internal objects inside the new tx (hence toU8a)
+              // 2. Don't override the data from existing signed extrinsics
+              // 3. Ensure that this object stays intact, with no new sign after operation
+              const u8a = api.tx(this.toU8a()).signFake(address, signOptions).toU8a();
 
               return api.call.transactionPaymentApi.queryInfo(u8a, u8a.length);
             })

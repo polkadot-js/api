@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types';
+import type { JsonRpcRequest, JsonRpcResponse, JsonRpcResponseBaseError } from '../types.js';
 
 import { isNumber, isString, isUndefined, stringify } from '@polkadot/util';
 
-import RpcError from './error';
+import RpcError from './error.js';
 
 function formatErrorData (data?: string | number): string {
   if (isUndefined(data)) {
@@ -35,7 +35,7 @@ function checkError (error?: JsonRpcResponseBaseError): void {
 export class RpcCoder {
   #id = 0;
 
-  public decodeResponse (response?: JsonRpcResponse): unknown {
+  public decodeResponse <T> (response?: JsonRpcResponse<T>): T {
     if (!response || response.jsonrpc !== '2.0') {
       throw new Error('Invalid jsonrpc field in decoded object');
     }

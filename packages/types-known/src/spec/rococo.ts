@@ -6,7 +6,6 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 import { mapXcmTypes } from '@polkadot/types-create';
-import { objectSpread } from '@polkadot/util';
 
 // structs need to be in order
 /* eslint-disable sort-keys */
@@ -18,34 +17,43 @@ const sharedTypes = {
   Weight: 'WeightV1'
 };
 
-const versioned: OverrideVersionedType[] = [
+export const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, 200],
-    types: objectSpread({}, sharedTypes, {
+    types: {
+      ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount',
       Address: 'AccountId',
       LookupSource: 'AccountId'
-    })
+    }
   },
   {
     minmax: [201, 214],
-    types: objectSpread({}, sharedTypes, {
+    types: {
+      ...sharedTypes,
       AccountInfo: 'AccountInfoWithDualRefCount'
-    })
+    }
   },
   {
     minmax: [215, 228],
-    types: objectSpread({}, sharedTypes, {
+    types: {
+      ...sharedTypes,
       Keys: 'SessionKeys6'
-    })
+    }
   },
   {
     minmax: [229, 9099],
-    types: objectSpread({}, sharedTypes, mapXcmTypes('V0'))
+    types: {
+      ...sharedTypes,
+      ...mapXcmTypes('V0')
+    }
   },
   {
     minmax: [9100, 9105],
-    types: objectSpread({}, sharedTypes, mapXcmTypes('V1'))
+    types: {
+      ...sharedTypes,
+      ...mapXcmTypes('V1')
+    }
   },
   {
     // metadata v14
@@ -63,5 +71,3 @@ const versioned: OverrideVersionedType[] = [
   //   }
   // }
 ];
-
-export default versioned;

@@ -5,14 +5,14 @@ import type { Observable } from 'rxjs';
 import type { Option, u32 } from '@polkadot/types';
 import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { map } from 'rxjs';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 interface AllInfo extends PolkadotRuntimeCommonCrowdloanFundInfo {
   // previously it was named trieIndex
@@ -35,7 +35,7 @@ function createChildKey (info: AllInfo): string {
 
 export function childKey (instanceId: string, api: DeriveApi): (paraId: string | number | BN) => Observable<string | null> {
   return memo(instanceId, (paraId: string | number | BN): Observable<string | null> =>
-    api.query.crowdloan.funds<Option<PolkadotRuntimeCommonCrowdloanFundInfo>>(paraId).pipe(
+    api.query['crowdloan']['funds']<Option<PolkadotRuntimeCommonCrowdloanFundInfo>>(paraId).pipe(
       map((optInfo) =>
         optInfo.isSome
           ? createChildKey(optInfo.unwrap())

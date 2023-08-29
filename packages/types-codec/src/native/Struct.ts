@@ -2,20 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, CodecClass, Inspect, IStruct, IU8a, Registry } from '../types';
+import type { AnyJson, BareOpts, Codec, CodecClass, DefinitionSetter, Inspect, IStruct, IU8a, Registry } from '../types/index.js';
 
 import { isBoolean, isHex, isObject, isU8a, isUndefined, objectProperties, stringCamelCase, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils';
+import { compareMap, decodeU8aStruct, mapToTypeMap, typesToMap } from '../utils/index.js';
 
 type TypesDef<T = Codec> = Record<string, string | CodecClass<T>>;
 
 type Definition = [CodecClass[], string[]];
-
-interface Options {
-  definition?: Definition;
-  setDefinition?: (d: Definition) => Definition;
-}
 
 function noopSetDefinition (d: Definition): Definition {
   return d;
@@ -26,16 +21,17 @@ function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, 
   let jsonObj: Record<string, unknown> | undefined;
   const typeofArray = Array.isArray(value);
   const typeofMap = value instanceof Map;
+  const count = keys.length;
 
   if (!typeofArray && !typeofMap && !isObject(value)) {
     throw new Error(`Struct: Cannot decode value ${stringify(value)} (typeof ${typeof value}), expected an input object, map or array`);
-  } else if (typeofArray && value.length !== keys.length) {
+  } else if (typeofArray && value.length !== count) {
     throw new Error(`Struct: Unable to map ${stringify(value)} array to object with known keys ${keys.join(', ')}`);
   }
 
-  const raw = new Array<[string, Codec]>(keys.length);
+  const raw = new Array<[string, Codec]>(count);
 
-  for (let i = 0; i < keys.length; i++) {
+  for (let i = 0; i < count; i++) {
     const key = keys[i];
     const jsonKey = jsonMap.get(key) || key;
     const Type = Types[i];
@@ -55,7 +51,7 @@ function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, 
 
             jsonObj = {};
 
-            for (let e = 0; e < entries.length; e++) {
+            for (let e = 0, ecount = entries.length; e < ecount; e++) {
               jsonObj[stringCamelCase(entries[e][0])] = entries[e][1];
             }
           }
@@ -75,7 +71,7 @@ function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, 
 
       try {
         type = new Type(registry).toRawType();
-      } catch (error) {
+      } catch {
         // ignore
       }
 
@@ -105,14 +101,14 @@ export class Struct<
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }> extends Map<keyof S, Codec> implements IStruct<keyof S> {
   readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
+  public createdAtHash?: IU8a | undefined;
   public initialU8aLength?: number;
   public isStorageFallback?: boolean;
 
   readonly #jsonMap: Map<keyof S, string>;
   readonly #Types: Definition;
 
-  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: Options = {}) {
+  constructor (registry: Registry, Types: S, value?: V | Map<unknown, unknown> | unknown[] | HexString | null, jsonMap = new Map<string, string>(), { definition, setDefinition = noopSetDefinition }: DefinitionSetter<Definition> = {}) {
     const typeMap = definition || setDefinition(mapToTypeMap(registry, Types));
     const [decoded, decodedLength] = isU8a(value) || isHex(value)
       ? decodeU8aStruct(registry, new Array<[string, Codec]>(typeMap[0].length), u8aToU8a(value), typeMap)
@@ -197,7 +193,7 @@ export class Struct<
     const result: Record<string, string> = {};
     const [Types, keys] = this.#Types;
 
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0, count = keys.length; i < count; i++) {
       result[keys[i]] = new Types[i](this.registry).toRawType();
     }
 
@@ -229,7 +225,7 @@ export class Struct<
   /**
    * @description Returns the a types value by name
    */
-  public getT <T> (key: string): T {
+  public getT <T = Codec> (key: string): T {
     return super.get(key) as unknown as T;
   }
 
@@ -237,7 +233,7 @@ export class Struct<
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public inspect (isBare?: BareOpts): Inspect {
-    const inner = new Array<Inspect>();
+    const inner: Inspect[] = [];
 
     for (const [k, v] of this.entries()) {
       inner.push({

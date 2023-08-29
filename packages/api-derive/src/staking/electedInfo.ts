@@ -3,13 +3,13 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveStakingElected, StakingQueryFlags } from '../types';
+import type { DeriveApi, DeriveStakingElected, StakingQueryFlags } from '../types.js';
 
 import { map, switchMap } from 'rxjs';
 
 import { arrayFlatten } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 const DEFAULT_FLAGS = { withController: true, withExposure: true, withPrefs: true };
 

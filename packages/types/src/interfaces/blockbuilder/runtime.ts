@@ -1,9 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionsCall, DefinitionsCallEntry } from '../../types';
-
-import { objectSpread } from '@polkadot/util';
+import type { DefinitionsCall, DefinitionsCallEntry } from '../../types/index.js';
 
 const BB_V2_TO_V4: DefinitionsCallEntry['methods'] = {
   // this was removed after V4
@@ -66,7 +64,7 @@ const BB_V3_TO_V6: DefinitionsCallEntry['methods'] = {
 export const runtime: DefinitionsCall = {
   BlockBuilder: [
     {
-      methods: objectSpread({
+      methods: {
         apply_extrinsic: {
           description: 'Apply the given extrinsic.',
           params: [
@@ -76,36 +74,50 @@ export const runtime: DefinitionsCall = {
             }
           ],
           type: 'ApplyExtrinsicResult'
-        }
-      }, BB_V2_TO_V6, BB_V3_TO_V6),
+        },
+        ...BB_V2_TO_V6,
+        ...BB_V3_TO_V6
+      },
       version: 6
     },
     {
-      methods: objectSpread({
+      methods: {
         // apply_extrinsic result changed in 6
-      }, BB_V2_TO_V5, BB_V2_TO_V6, BB_V3_TO_V6),
+        ...BB_V2_TO_V5,
+        ...BB_V2_TO_V6,
+        ...BB_V3_TO_V6
+      },
       version: 5
     },
     {
-      methods: objectSpread({
+      methods: {
         // random_seed removed
-      }, BB_V2_TO_V4, BB_V2_TO_V5, BB_V2_TO_V6, BB_V3_TO_V6),
+        ...BB_V2_TO_V4,
+        ...BB_V2_TO_V5,
+        ...BB_V2_TO_V6,
+        ...BB_V3_TO_V6
+      },
       version: 4
     },
     {
-      methods: objectSpread({
+      methods: {
         // finalize_block renamed
-      }, BB_V2_TO_V4, BB_V2_TO_V6, BB_V3_TO_V6),
+        ...BB_V2_TO_V4,
+        ...BB_V2_TO_V6,
+        ...BB_V3_TO_V6
+      },
       version: 3
     },
     {
-      methods: objectSpread({
+      methods: {
         finalise_block: {
           description: 'Finish the current block.',
           params: [],
           type: 'Header'
-        }
-      }, BB_V2_TO_V4, BB_V2_TO_V6),
+        },
+        ...BB_V2_TO_V4,
+        ...BB_V2_TO_V6
+      },
       version: 2
     }
   ]

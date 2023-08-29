@@ -3,9 +3,9 @@
 
 import { isUndefined } from '@polkadot/util';
 
-import { hasEq } from './util';
+import { hasEq } from './util.js';
 
-// NOTE These are used internally and when comparing objects, expects that
+// NOTE These are used internally and when comparing objects, we expect that
 // when the second is an Codec[] that the first has to be as well
 export function compareArray (a: unknown[], b?: unknown): boolean {
   if (Array.isArray(b)) {

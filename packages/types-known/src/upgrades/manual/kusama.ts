@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainUpgradesRaw } from '../types';
+import type { ChainUpgradesRaw } from '../types.js';
 
-const upgrades: ChainUpgradesRaw = [
+export const upgrades: ChainUpgradesRaw = [
   [0, 1020], [26669, 1021], [38245, 1022], [54248, 1023], [59659, 1024],
   [67651, 1025], [82191, 1027], [83238, 1028], [101503, 1029], [203466, 1030],
   [295787, 1031], [461692, 1032], [504329, 1033], [569327, 1038], [587687, 1039],
@@ -21,5 +21,3 @@ const upgrades: ChainUpgradesRaw = [
   // we have 9340 via system.setStorage (whitelist.WhitelistedCallDispatched event)
   [15680713, 9340], [15756296, 9350]
 ];
-
-export default upgrades;

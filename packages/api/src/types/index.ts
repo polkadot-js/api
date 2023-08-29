@@ -14,21 +14,31 @@ import type { Call, Extrinsic, Hash, RuntimeVersionPartial } from '@polkadot/typ
 import type { CallFunction, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, RegisteredTypes, Registry, RegistryError, SignatureOptions, Signer } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { ApiBase } from '../base';
-import type { SubmittableExtrinsic } from '../types/submittable';
-import type { AllDerives } from '../util/decorate';
+import type { ApiBase } from '../base/index.js';
+import type { SubmittableExtrinsic } from '../types/submittable.js';
+import type { AllDerives } from '../util/decorate.js';
 
-export * from '@polkadot/api-base/types';
-export * from '@polkadot/api/types/calls';
-export * from '@polkadot/api/types/consts';
-export * from '@polkadot/api/types/errors';
-export * from '@polkadot/api/types/events';
-export * from '@polkadot/api/types/storage';
-export * from '@polkadot/api/types/submittable';
-
+// types
 export type { Signer, SignerResult } from '@polkadot/types/types';
 
-export { ApiBase } from '../base';
+// all named
+export { ApiBase } from '../base/index.js';
+
+// all starred
+// eslint-disable-next-line import/export
+export * from '@polkadot/api/types/calls';
+// eslint-disable-next-line import/export
+export * from '@polkadot/api/types/consts';
+// eslint-disable-next-line import/export
+export * from '@polkadot/api/types/errors';
+// eslint-disable-next-line import/export
+export * from '@polkadot/api/types/events';
+// eslint-disable-next-line import/export
+export * from '@polkadot/api/types/storage';
+// eslint-disable-next-line import/export
+export * from '@polkadot/api/types/submittable';
+// eslint-disable-next-line import/export
+export * from '@polkadot/api-base/types';
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx extends ApiInterfaceBase {
@@ -44,6 +54,10 @@ export interface ApiOptions extends RegisteredTypes {
    * @description Control the initialization of the wasm libraries. When not specified, it defaults to `true`, initializing the wasm libraries, set to `false` to not initialize wasm. (No sr25519 support)
    */
   initWasm?: boolean;
+  /**
+   * @description Controls the checking of storage values once they have been contructed. When not specified this defaults to `true`. Set to `false` to forgo any checking on storage results.
+   */
+  isPedantic?: boolean;
   /**
    * @description pre-bundles is a map of 'genesis hash and runtime spec version' as key to a metadata hex string
    * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain

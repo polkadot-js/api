@@ -1,19 +1,21 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types';
 import { UInt } from '@polkadot/types-codec';
 import { BN, BN_TWO, isBn } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 describe('UInt', (): void => {
   const registry = new TypeRegistry();
 
   it('fails on > MAX_SAFE_INTEGER and float', (): void => {
-    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision, no-loss-of-precision
     expect(() => new UInt(registry, 9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
-    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+    // eslint-disable-next-line @typescript-eslint/no-loss-of-precision, no-loss-of-precision
     expect(() => new UInt(registry, -9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
     expect(() => new UInt(registry, 9.123)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
   });
@@ -68,30 +70,6 @@ describe('UInt', (): void => {
     ).toEqual('123,456,789,123,456,789,123,456,789');
   });
 
-  it('provides a toBigInt interface', (): void => {
-    expect(
-      new UInt(registry, 9876543210123456789n).toBigInt()
-    ).toEqual(9876543210123456789n);
-  });
-
-  it('provides a toBn interface', (): void => {
-    expect(
-      new UInt(registry, 987).toBn().toNumber()
-    ).toEqual(987);
-  });
-
-  it('provides a toNumber interface', (): void => {
-    expect(
-      new UInt(registry, 4567).toNumber()
-    ).toEqual(4567);
-  });
-
-  it('has a working toBigInt', (): void => {
-    expect(
-      new UInt(registry, 4567).toBigInt() + BigInt(1)
-    ).toEqual(BigInt(4568));
-  });
-
   it('converts to Little Endian from the provided value', (): void => {
     expect(
       new UInt(registry, 1234567).toU8a()
@@ -121,44 +99,71 @@ describe('UInt', (): void => {
 
   it('converts to JSON representation based on size', (): void => {
     expect(new UInt(registry, '0x12345678', 32).toJSON()).toEqual(0x12345678);
-    expect(new UInt(registry, '0x1234567890', 64).toJSON()).toEqual(78187493520); // '0x0000001234567890');
+    expect(new UInt(registry, '0x1234567890', 64).toJSON()).toEqual(78187493520);
     expect(new UInt(registry, '0x1234567890abcdef', 64).toJSON()).toEqual('0x1234567890abcdef');
+    expect(new UInt(registry, 1, 256).toJSON()).toEqual('0x0000000000000000000000000000000000000000000000000000000000000001');
   });
 
-  it('has a sane inspect', (): void => {
-    expect(
-      new UInt(registry, '0x12', 16).inspect()
-    ).toEqual({
-      outer: [new Uint8Array([0x12, 0x00])]
-    });
-  });
-
-  describe('eq', (): void => {
-    const test = new UInt(registry, 12345);
-
-    it('compares against other BN values', (): void => {
-      expect(test.eq(new BN(12345))).toBe(true);
+  describe('utilities', (): void => {
+    it('provides a toBigInt interface', (): void => {
+      expect(
+        new UInt(registry, 9876543210123456789n).toBigInt()
+      ).toEqual(9876543210123456789n);
     });
 
-    it('compares against other number values', (): void => {
-      expect(test.eq(12345)).toBe(true);
+    it('provides a toBn interface', (): void => {
+      expect(
+        new UInt(registry, 987).toBn().toNumber()
+      ).toEqual(987);
     });
 
-    it('compares against hex values', (): void => {
-      expect(test.eq('0x3039')).toBe(true);
-    });
-  });
-
-  describe('isMax()', (): void => {
-    it('is false where not full', (): void => {
-      expect(new UInt(registry, '0x1234', 32).isMax()).toEqual(false);
-      expect(new UInt(registry, '0xffffff', 32).isMax()).toEqual(false);
-      expect(new UInt(registry, '0x12345678', 32).isMax()).toEqual(false);
-      expect(new UInt(registry, '0xfffffff0', 32).isMax()).toEqual(false);
+    it('provides a toNumber interface', (): void => {
+      expect(
+        new UInt(registry, 4567).toNumber()
+      ).toEqual(4567);
     });
 
-    it('is true when full', (): void => {
-      expect(new UInt(registry, '0xffffffff', 32).isMax()).toEqual(true);
+    it('has a working toBigInt', (): void => {
+      expect(
+        new UInt(registry, 4567).toBigInt() + BigInt(1)
+      ).toEqual(BigInt(4568));
+    });
+
+    it('has a sane inspect', (): void => {
+      expect(
+        new UInt(registry, '0x12', 16).inspect()
+      ).toEqual({
+        outer: [new Uint8Array([0x12, 0x00])]
+      });
+    });
+
+    describe('eq', (): void => {
+      const test = new UInt(registry, 12345);
+
+      it('compares against other BN values', (): void => {
+        expect(test.eq(new BN(12345))).toBe(true);
+      });
+
+      it('compares against other number values', (): void => {
+        expect(test.eq(12345)).toBe(true);
+      });
+
+      it('compares against hex values', (): void => {
+        expect(test.eq('0x3039')).toBe(true);
+      });
+    });
+
+    describe('isMax()', (): void => {
+      it('is false where not full', (): void => {
+        expect(new UInt(registry, '0x1234', 32).isMax()).toEqual(false);
+        expect(new UInt(registry, '0xffffff', 32).isMax()).toEqual(false);
+        expect(new UInt(registry, '0x12345678', 32).isMax()).toEqual(false);
+        expect(new UInt(registry, '0xfffffff0', 32).isMax()).toEqual(false);
+      });
+
+      it('is true when full', (): void => {
+        expect(new UInt(registry, '0xffffffff', 32).isMax()).toEqual(true);
+      });
     });
   });
 

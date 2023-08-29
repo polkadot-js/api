@@ -3,14 +3,14 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { map, of } from 'rxjs';
 
 import { assertReturn, isU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 /**
  * @name accountId

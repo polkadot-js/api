@@ -3,14 +3,14 @@
 
 import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi, DeriveOwnContributions } from '../types';
+import type { DeriveApi, DeriveOwnContributions } from '../types.js';
 
 import { combineLatest, EMPTY, map, of, startWith, switchMap } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
-import { extractContributed } from './util';
+import { memo } from '../util/index.js';
+import { extractContributed } from './util.js';
 
 function _getValues (api: DeriveApi, childKey: string, keys: string[]): Observable<DeriveOwnContributions> {
   // We actually would love to use multi-keys https://github.com/paritytech/substrate/issues/9203

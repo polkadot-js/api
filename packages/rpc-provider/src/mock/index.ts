@@ -5,10 +5,10 @@
 
 import type { Header } from '@polkadot/types/interfaces';
 import type { Codec, Registry } from '@polkadot/types/types';
-import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
-import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions } from './types';
+import type { ProviderInterface, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types.js';
+import type { MockStateDb, MockStateSubscriptionCallback, MockStateSubscriptions } from './types.js';
 
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 
 import { createTestKeyring } from '@polkadot/keyring/testing';
 import { decorateStorage, Metadata } from '@polkadot/types';
@@ -53,9 +53,8 @@ export class MockProvider implements ProviderInterface {
   private prevNumber = new BN(-1);
 
   private requests: Record<string, (...params: any[]) => unknown> = {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     chain_getBlock: () => this.registry.createType('SignedBlock', rpcSignedBlock.result).toJSON(),
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chain_getBlockHash: () => '0x1234000000000000000000000000000000000000000000000000000000000000',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     chain_getFinalizedHead: () => this.registry.createType('Header', rpcHeader.result).hash,
@@ -97,7 +96,7 @@ export class MockProvider implements ProviderInterface {
   }
 
   public get hasSubscriptions (): boolean {
-    return true;
+    return !!true;
   }
 
   public clone (): MockProvider {
@@ -117,11 +116,11 @@ export class MockProvider implements ProviderInterface {
   }
 
   public get isClonable (): boolean {
-    return false;
+    return !!false;
   }
 
   public get isConnected (): boolean {
-    return true;
+    return !!true;
   }
 
   public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {
@@ -144,7 +143,7 @@ export class MockProvider implements ProviderInterface {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async subscribe (type: string, method: string, ...params: unknown[]): Promise<number> {
+  public async subscribe (_type: string, method: string, ...params: unknown[]): Promise<number> {
     l.debug(() => ['subscribe', method, params]);
 
     if (!this.subscriptions[method]) {
@@ -165,7 +164,7 @@ export class MockProvider implements ProviderInterface {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
+  public async unsubscribe (_type: string, _method: string, id: number): Promise<boolean> {
     const sub = this.subscriptionMap[id];
 
     l.debug(() => ['unsubscribe', id, sub]);
@@ -203,11 +202,11 @@ export class MockProvider implements ProviderInterface {
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index): void => {
-        this.setStateBn(query.system.account(publicKey), newHead.number.toBn().addn(index));
+        this.setStateBn(query['system']['account'](publicKey), newHead.number.toBn().addn(index));
       });
 
       // set the timestamp for the current block
-      this.setStateBn(query.timestamp.now(), Math.floor(Date.now() / 1000));
+      this.setStateBn(query['timestamp']['now'](), Math.floor(Date.now() / 1000));
       this.updateSubs('chain_subscribeNewHead', newHead);
 
       // We emit connected/disconnected at intervals

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, Inspect, ISet, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, Inspect, ISet, IU8a, Registry } from '../types/index.js';
 
 import { compactFromU8aLim, compactToU8a, isHex, isU8a, logger, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { compareSet, decodeU8aVec, sortSet, typeToConstructor } from '../utils';
+import { compareSet, decodeU8aVec, sortSet, typeToConstructor } from '../utils/index.js';
 
 const l = logger('BTreeSet');
 
@@ -141,7 +141,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public inspect (): Inspect {
-    const inner = new Array<Inspect>();
+    const inner: Inspect[] = [];
 
     for (const v of this.values()) {
       inner.push(v.inspect());
@@ -218,7 +218,7 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = new Array<Uint8Array>();
+    const encoded: Uint8Array[] = [];
 
     if (!isBare) {
       encoded.push(compactToU8a(this.size));

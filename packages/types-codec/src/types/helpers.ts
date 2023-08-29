@@ -3,7 +3,7 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { Codec } from './codec';
+import type { Codec } from './codec.js';
 
 export type AnyJson = string | number | boolean | null | undefined | AnyJson[] | { [index: string]: AnyJson };
 
@@ -44,6 +44,11 @@ export interface ToBn {
 
 export interface ToBigInt {
   toBigInt: () => bigint;
+}
+
+export interface DefinitionSetter <T> {
+  definition?: T | undefined;
+  setDefinition?: (d: T) => T;
 }
 
 export type LookupString = `Lookup${number}`;

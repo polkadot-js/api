@@ -1,9 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Definitions } from '../../types';
-
-import { objectSpread } from '@polkadot/util';
+import type { Definitions } from '../../types/index.js';
 
 // order important in structs... :)
 /* eslint-disable sort-keys */
@@ -82,6 +80,15 @@ const spec = {
     args: 'Vec<ContractMessageParamSpecV2>',
     docs: 'Vec<Text>'
   },
+  ContractConstructorSpecV4: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    docs: 'Vec<Text>',
+    default: 'bool',
+    returnType: 'Option<ContractTypeSpec>'
+  },
   ContractContractSpecV0: {
     constructors: 'Vec<ContractConstructorSpecV0>',
     messages: 'Vec<ContractMessageSpecV0>',
@@ -106,7 +113,14 @@ const spec = {
     events: 'Vec<ContractEventSpecV2>',
     docs: 'Vec<Text>'
   },
-  ContractContractSpecV4: 'ContractContractSpecV3',
+  ContractContractSpecV4: {
+    constructors: 'Vec<ContractConstructorSpecV4>',
+    messages: 'Vec<ContractMessageSpecV3>',
+    events: 'Vec<ContractEventSpecV2>',
+    docs: 'Vec<Text>',
+    environment: 'ContractEnvironmentV4'
+  },
+
   ContractDisplayName: 'SiPath',
   ContractEventParamSpecV0: {
     name: 'Text',
@@ -170,6 +184,16 @@ const spec = {
     returnType: 'Option<ContractTypeSpec>',
     docs: 'Vec<Text>'
   },
+  ContractMessageSpecV3: {
+    label: 'Text',
+    selector: 'ContractSelector',
+    mutates: 'bool',
+    payable: 'bool',
+    args: 'Vec<ContractMessageParamSpecV2>',
+    returnType: 'Option<ContractTypeSpec>',
+    docs: 'Vec<Text>',
+    default: 'bool'
+  },
   ContractSelector: '[u8; 4]',
   ContractTypeSpec: {
     type: 'SiLookupTypeId',
@@ -177,52 +201,46 @@ const spec = {
   }
 };
 
-const ContractMetadataV0 = {
-  metadataVersion: 'Text',
-  types: 'Vec<Si0Type>',
-  spec: 'ContractContractSpecV0'
-};
-
-const ContractMetadataV1 = {
-  types: 'Vec<PortableType>',
-  spec: 'ContractContractSpecV1'
-};
-
-const ContractMetadataV2 = {
-  types: 'Vec<PortableType>',
-  spec: 'ContractContractSpecV2'
-};
-
-const ContractMetadataV3 = {
-  types: 'Vec<PortableType>',
-  spec: 'ContractContractSpecV3'
-};
-
-const ContractMetadataV4 = ContractMetadataV3;
-
-const ContractProjectInfo = {
-  source: 'ContractProjectSource',
-  contract: 'ContractProjectContract'
-};
-
 const latest = {
-  ContractConstructorSpecLatest: 'ContractConstructorSpecV3',
+  ContractConstructorSpecLatest: 'ContractConstructorSpecV4',
   ContractEventSpecLatest: 'ContractEventSpecV2',
   ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
-  ContractMessageSpecLatest: 'ContractMessageSpecV2',
+  ContractMessageSpecLatest: 'ContractMessageSpecV3',
   ContractMetadataLatest: 'ContractMetadataV4'
 };
 
 export default {
   rpc: {},
-  types: objectSpread({}, layout, spec, latest, {
-    ContractProjectInfo,
-    ContractMetadataV0,
-    ContractMetadataV1,
-    ContractMetadataV2,
-    ContractMetadataV3,
-    ContractMetadataV4,
+  types: {
+    ...layout,
+    ...spec,
+    ...latest,
+    ContractProjectInfo: {
+      source: 'ContractProjectSource',
+      contract: 'ContractProjectContract'
+    },
+    ContractMetadataV0: {
+      metadataVersion: 'Text',
+      types: 'Vec<Si0Type>',
+      spec: 'ContractContractSpecV0'
+    },
+    ContractMetadataV1: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV1'
+    },
+    ContractMetadataV2: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV2'
+    },
+    ContractMetadataV3: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV3'
+    },
+    ContractMetadataV4: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV4'
+    },
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
@@ -232,7 +250,13 @@ export default {
         V4: 'ContractMetadataV4'
       }
     },
-    ContractProjectV0: objectSpread({ metadataVersion: 'Text' }, ContractProjectInfo, ContractMetadataV0),
+    ContractProjectV0: {
+      metadataVersion: 'Text',
+      source: 'ContractProjectSource',
+      contract: 'ContractProjectContract',
+      types: 'Vec<Si0Type>',
+      spec: 'ContractContractSpecV0'
+    },
     ContractProject: '(ContractProjectInfo, ContractMetadata)',
     ContractProjectContract: {
       _alias: {
@@ -255,6 +279,25 @@ export default {
       language: 'Text',
       compiler: 'Text',
       wasm: 'Raw'
+    },
+    ContractEnvironmentV4: {
+      _alias: {
+        hashType: 'hash'
+      },
+      // NOTE These are not marked optional in the Rust code, however since we
+      // convert from older versions to newer, we may not have these fields.
+      // The Option<...> works since our inputs are always JSON, so it will
+      // be None when not specified.
+      //
+      // Additionally we don't mark the full structure as Option, rather we
+      // do it on a per-field basis since fields may be added as the versions
+      // progress.
+      accountId: 'Option<ContractTypeSpec>',
+      balance: 'Option<ContractTypeSpec>',
+      blockNumber: 'Option<ContractTypeSpec>',
+      hashType: 'Option<ContractTypeSpec>',
+      timestamp: 'Option<ContractTypeSpec>',
+      maxEventTopics: 'Option<u32>'
     }
-  })
+  }
 } as Definitions;

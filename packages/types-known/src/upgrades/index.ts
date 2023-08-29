@@ -3,12 +3,12 @@
 
 import type { ChainUpgrades } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ChainUpgradesExpanded } from './types';
+import type { ChainUpgradesExpanded } from './types.js';
 
 import { selectableNetworks } from '@polkadot/networks';
 import { BN, hexToU8a } from '@polkadot/util';
 
-import * as allKnown from './e2e';
+import * as allKnown from './e2e/index.js';
 
 // testnets are not available in the networks map
 const NET_EXTRA: Record<string, { genesisHash: HexString[] }> = {
@@ -37,6 +37,4 @@ function mapRaw ([network, versions]: [string, ChainUpgradesExpanded]): ChainUpg
 }
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
-const upgrades = Object.entries<ChainUpgradesExpanded>(allKnown).map(mapRaw);
-
-export default upgrades;
+export const upgrades = Object.entries<ChainUpgradesExpanded>(allKnown).map(mapRaw);

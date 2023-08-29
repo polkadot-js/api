@@ -1,9 +1,11 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { isError } from '@polkadot/util/is/error';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import RpcError from './error';
+import { isError } from '@polkadot/util';
+
+import RpcError from './error.js';
 
 describe('RpcError', (): void => {
   describe('constructor', (): void => {

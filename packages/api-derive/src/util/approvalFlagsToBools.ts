@@ -8,7 +8,7 @@ import type { ApprovalFlag } from '@polkadot/types/interfaces/elections';
 export function approvalFlagsToBools (flags: Vec<ApprovalFlag> | ApprovalFlag[]): boolean[] {
   const bools: boolean[] = [];
 
-  for (let i = 0; i < flags.length; i++) {
+  for (let i = 0, count = flags.length; i < count; i++) {
     const str = flags[i].toString(2);
 
     // read from lowest bit to highest

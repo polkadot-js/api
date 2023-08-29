@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, Codec, IMethod, Registry } from '@polkadot/types-codec/types';
-import type { FunctionMetadataLatest } from '../interfaces/metadata';
-import type { CallBase, CallFunction, InterfaceTypes } from '../types';
+import type { FunctionMetadataLatest } from '../interfaces/metadata/index.js';
+import type { CallBase, CallFunction, InterfaceTypes } from '../types/index.js';
 
 import { Struct, U8aFixed } from '@polkadot/types-codec';
 import { isHex, isObject, isU8a, objectSpread, u8aToU8a } from '@polkadot/util';
@@ -85,11 +85,11 @@ function decodeCallViaU8a (registry: Registry, value: Uint8Array, _meta?: Functi
  * necessary.
  * @internal
  */
-function decodeCall (registry: Registry, value: unknown | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
+function decodeCall (registry: Registry, value: unknown = new Uint8Array(), _meta?: FunctionMetadataLatest): DecodedMethod {
   if (isU8a(value) || isHex(value)) {
     return decodeCallViaU8a(registry, u8aToU8a(value), _meta);
-  } else if (isObject(value) && value.callIndex && value.args) {
-    return decodeCallViaObject(registry, value as DecodedMethod, _meta);
+  } else if (isObject<DecodedMethod>(value) && value.callIndex && value.args) {
+    return decodeCallViaObject(registry, value, _meta);
   }
 
   throw new Error(`Call: Cannot decode value '${value as string}' of type ${typeof value}`);
@@ -137,7 +137,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
         const c = registry.findMetaCall(decoded.callIndex);
 
         method = `${c.section}.${c.method}`;
-      } catch (error) {
+      } catch {
         // ignore
       }
 
@@ -218,7 +218,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
 
     try {
       call = this.registry.findMetaCall(this.callIndex);
-    } catch (error) {
+    } catch {
       // swallow
     }
 

@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ExtDef, ExtInfo } from './types';
+import type { ExtDef, ExtInfo } from './types.js';
 
-import { emptyCheck } from './emptyCheck';
+import { emptyCheck } from './emptyCheck.js';
 
 const CheckMortality: ExtInfo = {
   extrinsic: {

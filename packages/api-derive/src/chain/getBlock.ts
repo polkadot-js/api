@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { SignedBlockExtended } from '../type/types';
-import type { DeriveApi } from '../types';
+import type { SignedBlockExtended } from '../type/types.js';
+import type { DeriveApi } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { createSignedBlockExtended } from '../type';
-import { memo } from '../util';
-import { getAuthorDetails } from './util';
+import { createSignedBlockExtended } from '../type/index.js';
+import { memo } from '../util/index.js';
+import { getAuthorDetails } from './util.js';
 
 /**
  * @name getBlock
@@ -34,7 +34,7 @@ export function getBlock (instanceId: string, api: DeriveApi): (hash: Uint8Array
         combineLatest([
           of(signedBlock),
           queryAt.system.events(),
-          getAuthorDetails(signedBlock.block.header, queryAt)
+          getAuthorDetails(api, signedBlock.block.header, blockHash)
         ])
       ),
       map(([signedBlock, events, [, validators, author]]) =>

@@ -1,9 +1,11 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeDefInfo } from '@polkadot/types-create';
 
-import { createClass, getTypeClass, TypeRegistry } from '.';
+import { createClass, getTypeClass, TypeRegistry } from './index.js';
 
 describe('createClass', (): void => {
   const registry = new TypeRegistry();

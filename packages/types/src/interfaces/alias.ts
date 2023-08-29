@@ -1,9 +1,7 @@
 // Copyright 2017-2023 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OverrideModuleType, Registry } from '../types';
-
-import { objectSpread } from '@polkadot/util';
+import type { OverrideModuleType, Registry } from '../types/index.js';
 
 // type overrides for modules (where duplication between modules exist)
 const typesAlias: Record<string, OverrideModuleType> = {
@@ -111,8 +109,8 @@ const typesAlias: Record<string, OverrideModuleType> = {
  * @description Get types for specific modules (metadata override)
  */
 export function getAliasTypes ({ knownTypes }: Registry, section: string): OverrideModuleType {
-  return objectSpread({},
-    typesAlias[section],
-    knownTypes.typesAlias?.[section]
-  );
+  return {
+    ...(typesAlias[section] ?? {}),
+    ...(knownTypes.typesAlias?.[section] ?? {})
+  };
 }

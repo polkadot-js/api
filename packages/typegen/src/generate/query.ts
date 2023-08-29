@@ -5,17 +5,18 @@ import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
 import type { Metadata, PortableRegistry } from '@polkadot/types/metadata';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types';
+import type { ModuleTypes } from '../util/imports.js';
+import type { TypeImports } from '../util/index.js';
+import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
 import * as defaultDefs from '@polkadot/types/interfaces/definitions';
-import { unwrapStorageSi } from '@polkadot/types/primitive/StorageKey';
+import { unwrapStorageSi } from '@polkadot/types/util';
 import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
-import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, TypeImports, writeFile } from '../util';
-import { ModuleTypes } from '../util/imports';
+import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
 
@@ -50,16 +51,14 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
         storageEntry.modifier.isOptional
           ? 'Option'
           : null,
-        defValue.lookupName
-          ? undefined
-          : defValue.type
+        defValue.lookupName || defValue.type
       ]);
 
       return [
         storageEntry.modifier.isOptional,
         keyDefs.map((k) => formatType(registry, allDefs, k.lookupName || k.type, imports)).join(', '),
         keyTypes.map((t, i) => `arg${keyTypes.length === 1 ? '' : (i + 1)}: ${t}`).join(', '),
-        formatType(registry, allDefs, outputType, imports)
+        outputType.lookupName || formatType(registry, allDefs, outputType, imports)
       ];
     }
 
@@ -115,7 +114,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       })
       .sort(compareName);
 
-    imports.typesTypes.Observable = true;
+    imports.typesTypes['Observable'] = true;
 
     return generateForMetaTemplate({
       headerType: 'chain',

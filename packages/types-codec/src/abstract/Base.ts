@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types';
+import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types/index.js';
 
 /**
  * @name Base
@@ -11,8 +11,8 @@ import type { AnyJson, BareOpts, Codec, Inspect, IU8a, Registry } from '../types
 export abstract class AbstractBase<T extends Codec> implements Codec {
   readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
-  public initialU8aLength?: number;
+  public createdAtHash?: IU8a | undefined;
+  public initialU8aLength?: number | undefined;
   public isStorageFallback?: boolean;
 
   readonly #raw: T;

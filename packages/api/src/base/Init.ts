@@ -8,17 +8,17 @@ import type { ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersi
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecorateMethod } from '../types';
-import type { VersionedRegistry } from './types';
+import type { ApiBase, ApiDecoration, ApiOptions, ApiTypes, DecorateMethod } from '../types/index.js';
+import type { VersionedRegistry } from './types.js';
 
 import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
-import { assertReturn, BN_ZERO, isUndefined, logger, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assertReturn, BN_ZERO, isUndefined, logger, noop, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import { Decorate } from './Decorate';
+import { Decorate } from './Decorate.js';
 
 const KEEPALIVE_INTERVAL = 10000;
 const WITH_VERSION_SHORTCUT = false;
@@ -77,8 +77,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // 'connected' event, then the `on('connected')` won't fire anymore. To
     // cater for this case, we call manually `this._onProviderConnect`.
     if (this._rpcCore.provider.isConnected) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.#onProviderConnect();
+      this.#onProviderConnect().catch(noop);
     }
   }
 
@@ -97,7 +96,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       registry.knownTypes.typesAlias = getSpecAlias(registry, chain, version.specName);
     }
 
-    registry.setMetadata(metadata, undefined, objectSpread<ExtDef>({}, getSpecExtensions(registry, chain, version.specName), this._options.signedExtensions));
+    registry.setMetadata(metadata, undefined, objectSpread<ExtDef>({}, getSpecExtensions(registry, chain, version.specName), this._options.signedExtensions), this._options.noInitWarn);
   }
 
   /**
@@ -129,8 +128,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const metadata = new Metadata(registry,
       await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
     );
+    const runtimeChain = this._runtimeChain;
 
-    this._initRegistry(registry, this._runtimeChain as Text, version, metadata);
+    if (!runtimeChain) {
+      throw new Error('Invalid initializion order, runtimeChain is not available');
+    }
+
+    this._initRegistry(registry, runtimeChain, version, metadata);
 
     // add our new registry
     const result = { counter: 0, lastBlockHash: blockHash, metadata, registry, runtimeVersion: version };
@@ -265,11 +269,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const sections = Object.keys(source.rpc);
     const rpcs: string[] = [];
 
-    for (let s = 0; s < sections.length; s++) {
+    for (let s = 0, scount = sections.length; s < scount; s++) {
       const section = sections[s];
       const methods = Object.keys((source.rpc as unknown as Record<string, Record<string, unknown>>)[section]);
 
-      for (let m = 0; m < methods.length; m++) {
+      for (let m = 0, mcount = methods.length; m < mcount; m++) {
         rpcs.push(`${section}_${methods[m]}`);
       }
     }
@@ -300,12 +304,17 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
               // update the default registry version
               const thisRegistry = this._getDefaultRegistry();
+              const runtimeChain = this._runtimeChain;
+
+              if (!runtimeChain) {
+                throw new Error('Invalid initializion order, runtimeChain is not available');
+              }
 
               // setup the data as per the current versions
               thisRegistry.metadata = metadata;
               thisRegistry.runtimeVersion = version;
 
-              this._initRegistry(this.registry, this._runtimeChain as Text, version, metadata);
+              this._initRegistry(this.registry, runtimeChain, version, metadata);
               this._injectMetadata(thisRegistry, true);
 
               return true;
@@ -335,7 +344,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${genesisHash.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
     const metadata = chainMetadata || (
-      optMetadata && optMetadata[metadataKey]
+      optMetadata?.[metadataKey]
         ? new Metadata(this.registry, optMetadata[metadataKey])
         : await firstValueFrom(this._rpcCore.state.getMetadata())
     );
@@ -357,10 +366,16 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private _initFromMeta (metadata: Metadata): boolean {
+    const runtimeVersion = this._runtimeVersion;
+
+    if (!runtimeVersion) {
+      throw new Error('Invalid initializion order, runtimeVersion is not available');
+    }
+
     this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
-    this._rx.runtimeVersion = this._runtimeVersion as RuntimeVersion; // must be set here
+    this._rx.runtimeVersion = runtimeVersion;
 
     // inject metadata and adjust the types as detected
     this._injectMetadata(this._getDefaultRegistry(), true);
@@ -373,10 +388,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private _subscribeHealth (): void {
+    this._unsubscribeHealth();
+
     // Only enable the health keepalive on WS, not needed on HTTP
     this.#healthTimer = this.hasSubscriptions
       ? setInterval((): void => {
-        firstValueFrom(this._rpcCore.system.health.raw()).catch(() => undefined);
+        firstValueFrom(this._rpcCore.system.health.raw()).catch(noop);
       }, KEEPALIVE_INTERVAL)
       : null;
   }
@@ -428,7 +445,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   #onProviderDisconnect (): void {
     this._isConnected.next(false);
-    this._unsubscribeHealth();
+    this._unsubscribe();
     this.emit('disconnected');
   }
 

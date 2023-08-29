@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ModuleTypes } from '../util/imports.js';
+
 import Handlebars from 'handlebars';
 
 import { Json, Raw } from '@polkadot/types/codec';
@@ -8,8 +10,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import * as defaultPrimitives from '@polkadot/types/primitive';
 
-import { createImports, readTemplate, setImports, writeFile } from '../util';
-import { ModuleTypes } from '../util/imports';
+import { createImports, readTemplate, setImports, writeFile } from '../util/index.js';
 
 const primitiveClasses = {
   ...defaultPrimitives,
@@ -20,7 +21,7 @@ const primitiveClasses = {
 const generateInterfaceTypesTemplate = Handlebars.compile(readTemplate('interfaceRegistry'));
 
 /** @internal */
-export function generateInterfaceTypes (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, dest: string): void {
+export function generateInterfaceTypes (importDefinitions: Record<string, Record<string, ModuleTypes>>, dest: string): void {
   const registry = new TypeRegistry();
 
   writeFile(dest, (): string => {

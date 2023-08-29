@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types';
+import type { AnyNumber, Inspect, INumber, IU8a, Registry, UIntBitLength } from '../types/index.js';
 
 import { BN, bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
@@ -162,10 +162,8 @@ export class CodecDate extends Date implements INumber {
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     return bnToU8a(this.toNumber(), U8A_OPTS);
   }
 }

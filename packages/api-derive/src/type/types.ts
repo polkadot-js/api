@@ -14,8 +14,8 @@ export interface SignedBlockExtended extends SignedBlock {
 }
 
 export interface TxWithEvent {
-  dispatchError?: DispatchError;
-  dispatchInfo?: DispatchInfo;
+  dispatchError?: DispatchError | undefined;
+  dispatchInfo?: DispatchInfo | undefined;
   events: Event[];
   extrinsic: Extrinsic;
 }

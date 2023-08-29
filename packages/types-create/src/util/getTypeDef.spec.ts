@@ -1,15 +1,20 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types';
 import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
+import { stringify } from '@polkadot/util';
 
 describe('getTypeDef', (): void => {
   it('maps empty tuples to empty tuple', (): void => {
     expect(
       getTypeDef('()')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.Tuple,
+      name: undefined,
       sub: [],
       type: '()'
     });
@@ -19,14 +24,20 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('BTreeMap<u32, Text>')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.BTreeMap,
+      name: undefined,
       sub: [
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
+          name: undefined,
           type: 'u32'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
+          name: undefined,
           type: 'Text'
         }
       ],
@@ -38,9 +49,13 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('BTreeSet<Text>')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.BTreeSet,
+      name: undefined,
       sub: {
+        displayName: undefined,
         info: TypeDefInfo.Plain,
+        name: undefined,
         type: 'Text'
       },
       type: 'BTreeSet<Text>'
@@ -51,14 +66,20 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('Result<u32, Text>')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.Result,
+      name: undefined,
       sub: [
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
+          name: undefined,
           type: 'u32'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
+          name: undefined,
           type: 'Text'
         }
       ],
@@ -70,24 +91,34 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('Result<Result<Null,u32>,Text>')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.Result,
+      name: undefined,
       sub: [
         {
+          displayName: undefined,
           info: TypeDefInfo.Result,
+          name: undefined,
           sub: [
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'Null'
             },
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'u32'
             }
           ],
           type: 'Result<Null,u32>'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
+          name: undefined,
           type: 'Text'
         }
       ],
@@ -99,54 +130,82 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text,Vec<(Bool,u128)>))')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.Tuple,
+      name: undefined,
       sub: [
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
+          name: undefined,
           type: 'u32'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Compact,
+          name: undefined,
           sub: {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'u32'
           },
           type: 'Compact<u32>'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Vec,
+          name: undefined,
           sub: {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'u64'
           },
           type: 'Vec<u64>'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Option,
+          name: undefined,
           sub: {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'u128'
           },
           type: 'Option<u128>'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Tuple,
+          name: undefined,
           sub: [
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'Text'
             },
             {
+              displayName: undefined,
               info: TypeDefInfo.Vec,
+              name: undefined,
               sub: {
+                displayName: undefined,
                 info: TypeDefInfo.Tuple,
+                name: undefined,
                 sub: [
                   {
+                    displayName: undefined,
                     info: TypeDefInfo.Plain,
+                    name: undefined,
                     type: 'Bool'
                   },
                   {
+                    displayName: undefined,
                     info: TypeDefInfo.Plain,
+                    name: undefined,
                     type: 'u128'
                   }
                 ],
@@ -166,20 +225,30 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('Vec<(Box<PropIndex>, Proposal,Lookup::Target)>')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.Vec,
+      name: undefined,
       sub: {
+        displayName: undefined,
         info: TypeDefInfo.Tuple,
+        name: undefined,
         sub: [
           {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'PropIndex'
           },
           {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'Proposal'
           },
           {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'LookupTarget'
           }
         ],
@@ -193,20 +262,30 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('Vec<(PropIndex, Proposal, AccountId)>')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.Vec,
+      name: undefined,
       sub: {
+        displayName: undefined,
         info: TypeDefInfo.Tuple,
+        name: undefined,
         sub: [
           {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'PropIndex'
           },
           {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'Proposal'
           },
           {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'AccountId'
           }
         ],
@@ -220,28 +299,39 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}')
     ).toEqual({
+      alias: undefined,
+      displayName: undefined,
+      fallbackType: undefined,
       info: TypeDefInfo.Struct,
+      name: undefined,
       sub: [
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
           name: 'balance',
           type: 'Balance'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
           name: 'account_id',
           type: 'AccountId'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Tuple,
           name: 'log',
           sub: [
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'u64'
             },
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'Signature'
             }
           ],
@@ -256,16 +346,24 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('[[[bool; 3]; 6]; 9]')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.VecFixed,
       length: 9,
+      name: undefined,
       sub: {
+        displayName: undefined,
         info: TypeDefInfo.VecFixed,
         length: 6,
+        name: undefined,
         sub: {
+          displayName: undefined,
           info: TypeDefInfo.VecFixed,
           length: 3,
+          name: undefined,
           sub: {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
+            name: undefined,
             type: 'bool'
           },
           type: '[bool;3]'
@@ -283,11 +381,16 @@ describe('getTypeDef', (): void => {
       displayName: 'MyType',
       info: TypeDefInfo.VecFixed,
       length: 3,
+      name: undefined,
       sub: {
+        displayName: undefined,
         info: TypeDefInfo.VecFixed,
         length: 6,
+        name: undefined,
         sub: {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
+          name: undefined,
           type: 'bool'
         },
         type: '[bool;6]'
@@ -300,24 +403,34 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('((u32, u64), u128)')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.Tuple,
+      name: undefined,
       sub: [
         {
+          displayName: undefined,
           info: TypeDefInfo.Tuple,
+          name: undefined,
           sub: [
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'u32'
             },
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'u64'
             }
           ],
           type: '(u32,u64)'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
+          name: undefined,
           type: 'u128'
         }
       ],
@@ -327,7 +440,7 @@ describe('getTypeDef', (): void => {
 
   it('creates a nested enum with tuple/struct', (): void => {
     expect(
-      getTypeDef(JSON.stringify({
+      getTypeDef(stringify({
         _enum: {
           A: 'u32',
           B: '(u32, bool)',
@@ -338,41 +451,55 @@ describe('getTypeDef', (): void => {
         }
       }))
     ).toEqual({
+      displayName: undefined,
+      fallbackType: undefined,
       info: TypeDefInfo.Enum,
+      name: undefined,
       sub: [
         {
+          displayName: undefined,
           index: 0,
           info: TypeDefInfo.Plain,
           name: 'A',
           type: 'u32'
         },
         {
+          displayName: undefined,
           index: 1,
           info: TypeDefInfo.Tuple,
           name: 'B',
           sub: [
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'u32'
             },
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'bool'
             }
           ],
           type: '(u32,bool)'
         },
         {
+          alias: undefined,
+          displayName: undefined,
+          fallbackType: undefined,
           index: 2,
           info: TypeDefInfo.Struct,
           name: 'C',
           sub: [
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
               name: 'd',
               type: 'AccountId'
             },
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
               name: 'e',
               type: 'Balance'
@@ -387,7 +514,7 @@ describe('getTypeDef', (): void => {
 
   it('creates a nested struct with struct/tuple', (): void => {
     expect(
-      getTypeDef(JSON.stringify({
+      getTypeDef(stringify({
         a: 'u32',
         b: '(u32, bool)',
         c: {
@@ -396,38 +523,53 @@ describe('getTypeDef', (): void => {
         }
       }))
     ).toEqual({
+      alias: undefined,
+      displayName: undefined,
+      fallbackType: undefined,
       info: TypeDefInfo.Struct,
+      name: undefined,
       sub: [
         {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
           name: 'a',
           type: 'u32'
         },
         {
+          displayName: undefined,
           info: TypeDefInfo.Tuple,
           name: 'b',
           sub: [
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'u32'
             },
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'bool'
             }
           ],
           type: '(u32,bool)'
         },
         {
+          alias: undefined,
+          displayName: undefined,
+          fallbackType: undefined,
           info: TypeDefInfo.Struct,
           name: 'c',
           sub: [
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
               name: 'd',
               type: 'AccountId'
             },
             {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
               name: 'e',
               type: 'Balance'
@@ -444,18 +586,28 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('Vec<[[[bool; 3]; 6]; 9]>')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.Vec,
+      name: undefined,
       sub: {
+        displayName: undefined,
         info: TypeDefInfo.VecFixed,
         length: 9,
+        name: undefined,
         sub: {
+          displayName: undefined,
           info: TypeDefInfo.VecFixed,
           length: 6,
+          name: undefined,
           sub: {
+            displayName: undefined,
             info: TypeDefInfo.VecFixed,
             length: 3,
+            name: undefined,
             sub: {
+              displayName: undefined,
               info: TypeDefInfo.Plain,
+              name: undefined,
               type: 'bool'
             },
             type: '[bool;3]'
@@ -472,25 +624,37 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef('Vec<{ "a": "u32", "b": "(u32, bool)" }>')
     ).toEqual({
+      displayName: undefined,
       info: TypeDefInfo.Vec,
+      name: undefined,
       sub: {
+        alias: undefined,
+        displayName: undefined,
+        fallbackType: undefined,
         info: TypeDefInfo.Struct,
+        name: undefined,
         sub: [
           {
+            displayName: undefined,
             info: TypeDefInfo.Plain,
             name: 'a',
             type: 'u32'
           },
           {
+            displayName: undefined,
             info: TypeDefInfo.Tuple,
             name: 'b',
             sub: [
               {
+                displayName: undefined,
                 info: TypeDefInfo.Plain,
+                name: undefined,
                 type: 'u32'
               },
               {
+                displayName: undefined,
                 info: TypeDefInfo.Plain,
+                name: undefined,
                 type: 'bool'
               }
             ],
@@ -517,12 +681,19 @@ describe('getTypeDef', (): void => {
     expect(
       getTypeDef(raw)
     ).toEqual({
+      alias: undefined,
+      displayName: undefined,
+      fallbackType: undefined,
       info: TypeDefInfo.Struct,
+      name: undefined,
       sub: [{
+        displayName: undefined,
         info: TypeDefInfo.Vec,
         name: 'data',
         sub: {
+          displayName: undefined,
           info: TypeDefInfo.Plain,
+          name: undefined,
           type: 'Recursive'
         },
         type: 'Vec<Recursive>'

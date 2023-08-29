@@ -6,20 +6,20 @@ import type { u32 } from '@polkadot/types';
 import type { Balance, BlockNumber, BountyIndex, Hash, Proposal, ProposalIndex, SetIndex, Votes } from '@polkadot/types/interfaces';
 import type { PalletBountiesBounty, PalletTreasuryProposal } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { ExactDerive } from './derive';
+import type { ExactDerive } from './derive.js';
 
-export * from './accounts/types';
-export * from './balances/types';
-export * from './bagsList/types';
-export * from './council/types';
-export * from './crowdloan/types';
-export * from './democracy/types';
-export * from './elections/types';
-export * from './parachains/types';
-export * from './session/types';
-export * from './society/types';
-export * from './staking/types';
-export * from './type/types';
+export * from './accounts/types.js';
+export * from './bagsList/types.js';
+export * from './balances/types.js';
+export * from './council/types.js';
+export * from './crowdloan/types.js';
+export * from './democracy/types.js';
+export * from './elections/types.js';
+export * from './parachains/types.js';
+export * from './session/types.js';
+export * from './society/types.js';
+export * from './staking/types.js';
+export * from './type/types.js';
 
 export interface DeriveApi extends ApiInterfaceRx {
   derive: ExactDerive;

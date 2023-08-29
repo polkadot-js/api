@@ -6,14 +6,14 @@ import type { u32, Vec } from '@polkadot/types';
 import type { AccountId32, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { PalletElectionsPhragmenSeatHolder } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi } from '../types';
-import type { DeriveElectionsInfo } from './types';
+import type { DeriveApi } from '../types.js';
+import type { DeriveElectionsInfo } from './types.js';
 
 import { combineLatest, map, of } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 // SeatHolder is current tuple is 2.x-era Substrate
 type Member = PalletElectionsPhragmenSeatHolder | ITuple<[AccountId32, Balance]>;
@@ -47,20 +47,22 @@ function sortAccounts ([, balanceA]: [AccountId32, Balance], [, balanceB]: [Acco
 function getConstants (api: DeriveApi, elections: string | null): Partial<DeriveElectionsInfo> {
   return elections
     ? {
-      candidacyBond: api.consts[elections].candidacyBond as Balance,
-      desiredRunnersUp: api.consts[elections].desiredRunnersUp as u32,
-      desiredSeats: api.consts[elections].desiredMembers as u32,
-      termDuration: api.consts[elections].termDuration as BlockNumber,
-      votingBond: api.consts[elections].votingBond as Balance
+      candidacyBond: api.consts[elections as 'elections'].candidacyBond as Balance,
+      desiredRunnersUp: api.consts[elections as 'elections'].desiredRunnersUp as u32,
+      desiredSeats: api.consts[elections as 'elections'].desiredMembers as u32,
+      termDuration: api.consts[elections as 'elections'].termDuration as BlockNumber,
+      votingBond: api.consts[elections as 'elections']['votingBond'] as Balance,
+      votingBondBase: api.consts[elections as 'elections'].votingBondBase as Balance,
+      votingBondFactor: api.consts[elections as 'elections'].votingBondFactor as Balance
     }
     : {};
 }
 
 function getModules (api: DeriveApi): [string, string | null] {
   const [council] = api.registry.getModuleInstances(api.runtimeVersion.specName, 'council') || ['council'];
-  const elections = api.query.phragmenElection
+  const elections = api.query['phragmenElection']
     ? 'phragmenElection'
-    : api.query.electionsPhragmen
+    : api.query['electionsPhragmen']
       ? 'electionsPhragmen'
       : api.query.elections
         ? 'elections'
@@ -72,9 +74,9 @@ function getModules (api: DeriveApi): [string, string | null] {
 function queryAll (api: DeriveApi, council: string, elections: string): Observable<[AccountId32[], Candidate[], Member[], Member[]]> {
   return api.queryMulti<[Vec<AccountId32>, Vec<Candidate>, Vec<Member>, Vec<Member>]>([
     api.query[council as 'council'].members,
-    api.query[elections as 'phragmenElection'].candidates,
-    api.query[elections as 'phragmenElection'].members,
-    api.query[elections as 'phragmenElection'].runnersUp
+    api.query[elections as 'elections'].candidates,
+    api.query[elections as 'elections'].members,
+    api.query[elections as 'elections'].runnersUp
   ]);
 }
 

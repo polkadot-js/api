@@ -1,7 +1,9 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { createType, TypeRegistry } from '../../create';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import { createType, TypeRegistry } from '../../create/index.js';
 
 const registry = new TypeRegistry();
 
@@ -9,8 +11,7 @@ describe('Registration', (): void => {
   it('decodes a Registration', (): void => {
     expect(
       createType(
-        registry, 'Registration',
-        '0x' +
+        registry, 'Registration', '0x' +
         '00' + // no judgements
         '00a0724e180900000000000000000000' + // balance
         '00' + // no length

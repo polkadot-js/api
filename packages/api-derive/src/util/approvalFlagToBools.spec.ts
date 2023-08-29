@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { ApprovalFlag } from '@polkadot/types/interfaces';
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { approvalFlagsToBools } from './approvalFlagsToBools';
+import { approvalFlagsToBools } from './approvalFlagsToBools.js';
 
 describe('approvalFlagsToBools', (): void => {
   const registry = new TypeRegistry();

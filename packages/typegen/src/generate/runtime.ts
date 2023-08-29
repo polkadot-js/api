@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
-import type { DefinitionCallNamed, Definitions } from '@polkadot/types/types';
+import type { DefinitionCallNamed, Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types';
+import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -13,7 +13,7 @@ import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { objectSpread, stringCamelCase } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
+import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 
 type Apis = [HexString, number][];
 
@@ -24,31 +24,32 @@ function getDefs (apis: Apis | null, defs: Record<string, Definitions>): Record<
   const named: Record<string, Record<string, DefinitionCallNamed>> = {};
   const all = Object.values(defs);
 
-  for (let j = 0; j < all.length; j++) {
+  for (let j = 0, jcount = all.length; j < jcount; j++) {
     const set = all[j].runtime;
 
     if (set) {
       const sections = Object.entries(set);
 
-      for (let i = 0; i < sections.length; i++) {
+      for (let i = 0, scount = sections.length; i < scount; i++) {
         const [_section, sec] = sections[i];
         const sectionHash = blake2AsHex(_section, 64);
-        const api = apis && apis.find(([h]) => h === sectionHash);
+        const api = apis?.find(([h]) => h === sectionHash);
 
         if (api) {
           const ver = sec.find(({ version }) => version === api[1]);
 
           if (ver) {
             const methods = Object.entries(ver.methods);
+            const mcount = methods.length;
 
-            if (methods.length) {
+            if (mcount) {
               const section = stringCamelCase(_section);
 
               if (!named[section]) {
                 named[section] = {};
               }
 
-              for (let m = 0; m < methods.length; m++) {
+              for (let m = 0; m < mcount; m++) {
                 const [_method, def] = methods[m];
                 const method = stringCamelCase(_method);
 
@@ -67,7 +68,7 @@ function getDefs (apis: Apis | null, defs: Record<string, Definitions>): Record<
 }
 
 /** @internal */
-export function generateCallTypes (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
+export function generateCallTypes (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
     const allTypes: ExtraTypes = {
       '@polkadot/types-augment': {
@@ -83,8 +84,7 @@ export function generateCallTypes (meta: Metadata, dest: string, extraTypes: Ext
 
     // find the system.Version in metadata
     let apis: Apis | null = null;
-    const { pallets, registry } = meta.asLatest;
-    const sysp = pallets.find(({ name }) => name.eq('System'));
+    const sysp = meta.asLatest.pallets.find(({ name }) => name.eq('System'));
 
     if (sysp) {
       const verc = sysp.constants.find(({ name }) => name.eq('Version'));
@@ -141,7 +141,7 @@ export function generateCallTypes (meta: Metadata, dest: string, extraTypes: Ext
     }).filter(({ items }) => items.length).sort((a, b) => a.name.localeCompare(b.name));
 
     if (modules.length) {
-      imports.typesTypes.Observable = true;
+      imports.typesTypes['Observable'] = true;
     }
 
     return generateCallsTypesTemplate({
@@ -163,10 +163,11 @@ export function generateCallTypes (meta: Metadata, dest: string, extraTypes: Ext
   });
 }
 
-export function generateDefaultCalls (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
-  const { metadata } = initMeta(data, extraTypes);
+export function generateDefaultRuntime (dest: string, data: HexString, extraTypes: ExtraTypes = {}, isStrict = false, customLookupDefinitions?: Definitions): void {
+  const { metadata, registry } = initMeta(data, extraTypes);
 
   generateCallTypes(
+    registry,
     metadata,
     dest,
     extraTypes,

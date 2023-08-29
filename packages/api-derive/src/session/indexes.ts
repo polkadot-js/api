@@ -4,11 +4,11 @@
 import type { Observable } from 'rxjs';
 import type { Option, u32 } from '@polkadot/types';
 import type { ActiveEraInfo, EraIndex, Moment, SessionIndex } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveSessionIndexes } from '../types';
+import type { DeriveApi, DeriveSessionIndexes } from '../types.js';
 
 import { map, of } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 // parse into Indexes
 function parse ([currentIndex, activeEra, activeEraStart, currentEra, validatorCount]: [SessionIndex, EraIndex, Option<Moment>, EraIndex, u32]): DeriveSessionIndexes {

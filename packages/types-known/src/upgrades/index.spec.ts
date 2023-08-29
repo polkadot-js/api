@@ -1,13 +1,15 @@
 // Copyright 2017-2023 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainUpgradesExpanded, ChainUpgradesRaw } from './types';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import type { ChainUpgradesExpanded, ChainUpgradesRaw } from './types.js';
 
 import { stringify, u8aEq } from '@polkadot/util';
 
-import * as allGen from './e2e';
-import * as allMan from './manual';
-import all from '.';
+import * as allGen from './e2e/index.js';
+import * as allMan from './manual/index.js';
+import { upgrades } from './index.js';
 
 interface TestDef {
   genesisHash: string;
@@ -61,34 +63,39 @@ describe('generated', (): void => {
     expect(Object.keys(allMan).sort()).toEqual(Object.keys(allGen).sort());
   });
 
-  describe.each(Object.keys(allMan))('%s', (chain): void => {
-    it('should have all generated', (): void => {
-      const missing = allMan[chain as keyof typeof allMan].filter(([na, sa]) =>
-        !allGen[chain as keyof typeof allGen].some(([nb, sb]) =>
-          nb === na &&
-          sb === sa
-        )
-      );
+  for (const chain of Object.keys(allMan)) {
+    describe(`${chain}`, (): void => {
+      // eslint-disable-next-line jest/expect-expect
+      it('should have all generated', (): void => {
+        const missing = allMan[chain as keyof typeof allMan].filter(([na, sa]) =>
+          !allGen[chain as keyof typeof allGen].some(([nb, sb]) =>
+            nb === na &&
+            sb === sa
+          )
+        );
 
-      if (missing.length !== 0) {
-        throw new Error(`${chain}:: missing generated apis found, run yarn test:one packages/types-known/src/upgrades/e2e`);
-      }
-    });
+        if (missing.length !== 0) {
+          throw new Error(`${chain}:: missing generated apis found, run yarn test:one packages/types-known/src/upgrades/e2e`);
+        }
+      });
 
-    it('manual should be correctly ordered', (): void => {
-      checkOrder(chain, (allGen as Record<string, ChainUpgradesExpanded>)[chain]);
-    });
+      // eslint-disable-next-line jest/expect-expect
+      it('manual should be correctly ordered', (): void => {
+        checkOrder(chain, (allGen as Record<string, ChainUpgradesExpanded>)[chain]);
+      });
 
-    it('generated should be correctly ordered', (): void => {
-      checkOrder(chain, (allMan as Record<string, ChainUpgradesRaw>)[chain]);
+      // eslint-disable-next-line jest/expect-expect
+      it('generated should be correctly ordered', (): void => {
+        checkOrder(chain, (allMan as Record<string, ChainUpgradesRaw>)[chain]);
+      });
     });
-  });
+  }
 });
 
 describe('upgrades', (): void => {
   TESTS.forEach(({ genesisHash, network, versions }): void => {
-    describe(network, (): void => {
-      const chain = all.find((n) => n.network === network);
+    describe(`${network}`, (): void => {
+      const chain = upgrades.find((n) => n.network === network);
 
       if (!chain) {
         throw new Error(`Unable to find the entry for ${network}`);

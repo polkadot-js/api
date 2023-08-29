@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, BareOpts, CodecObject, Inspect, IU8a, Registry, ToString } from '../types';
+import type { AnyJson, BareOpts, CodecObject, Inspect, IU8a, Registry, ToString } from '../types/index.js';
 
 /**
  * @name Object
@@ -12,7 +12,7 @@ export abstract class AbstractObject<T extends ToString> implements CodecObject<
   readonly registry: Registry;
 
   public createdAtHash?: IU8a;
-  public initialU8aLength?: number;
+  public initialU8aLength?: number | undefined;
   public isStorageFallback?: boolean;
 
   readonly $: T;

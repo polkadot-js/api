@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId, AccountIndex } from '@polkadot/types/interfaces';
-import type { AccountIndexes, DeriveApi } from '../types';
+import type { AccountIndexes, DeriveApi } from '../types.js';
 
 import { map } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 /**
  * @name idToIndex
@@ -27,7 +27,7 @@ export function idToIndex (instanceId: string, api: DeriveApi): (accountId: Acco
   return memo(instanceId, (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     api.derive.accounts.indexes().pipe(
       map((indexes: AccountIndexes): AccountIndex | undefined =>
-        (indexes || {})[accountId.toString()]
+        indexes[accountId.toString()]
       )
     ));
 }

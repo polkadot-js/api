@@ -2,12 +2,19 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "./packages",
-    "composite": false
+    "composite": false,
+    "resolveJsonModule": true
   },
   "include": [
-    "packages/**/src/**/*"
+    "packages/**/src/**/*",
+    "packages/**/scripts/**/*",
+    "scripts/*"
   ],
   "exclude": [
-    "**/node_modules/**/*"
+    "**/node_modules/**/*",
+    // these include the different-chain augmentations, which then overrides
+    // the substrate base. TS only allow single augmentations, so exclude here
+    "packages/api-augment/src/kusama/*.ts",
+    "packages/api-augment/src/polkadot/*.ts"
   ]
 }

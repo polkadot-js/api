@@ -3,9 +3,9 @@
 
 import type { Codec } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
-import type { EventMetadataLatest } from '../interfaces/metadata';
-import type { Hash } from '../interfaces/runtime';
-import type { EventId, Phase } from '../interfaces/system';
+import type { EventMetadataLatest } from '../interfaces/metadata/index.js';
+import type { Hash } from '../interfaces/runtime/index.js';
+import type { EventId, Phase } from '../interfaces/system/index.js';
 
 export interface IEventRecord<T extends Codec[]> extends Codec {
   readonly phase: Phase;

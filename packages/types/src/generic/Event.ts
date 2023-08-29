@@ -3,9 +3,9 @@
 
 import type { AnyJson, Codec, CodecClass } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
-import type { EventMetadataLatest } from '../interfaces/metadata';
-import type { EventId } from '../interfaces/system';
-import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types';
+import type { EventMetadataLatest } from '../interfaces/metadata/index.js';
+import type { EventId } from '../interfaces/system/index.js';
+import type { IEvent, IEventData, InterfaceTypes, Registry } from '../types/index.js';
 
 import { Null, Struct, Tuple } from '@polkadot/types-codec';
 import { objectProperties, objectSpread } from '@polkadot/util';
@@ -20,7 +20,7 @@ interface Decoded {
 
 /** @internal */
 function decodeEvent (registry: Registry, value?: Uint8Array): Decoded {
-  if (!value || !value.length) {
+  if (!value?.length) {
     return { DataType: Null };
   }
 
@@ -110,7 +110,7 @@ export class GenericEventData extends Tuple implements IEventData {
     if (this.#names !== null) {
       const json: Record<string, AnyJson> = {};
 
-      for (let i = 0; i < this.#names.length; i++) {
+      for (let i = 0, count = this.#names.length; i < count; i++) {
         json[this.#names[i]] = this[i].toHuman(isExtended);
       }
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Mock } from './types';
+import type { Mock } from './types.js';
 
 import nock from 'nock';
 
@@ -25,7 +25,7 @@ export function mockHttp (requests: Request[]): Mock {
   return requests.reduce((scope: HttpMock, request: Request) =>
     scope
       .post('/')
-      .reply(request.code || 200, (uri: string, body: { id: string }) => {
+      .reply(request.code || 200, (_uri: string, body: { id: string }) => {
         scope.body = scope.body || {};
         scope.body[request.method] = body;
 

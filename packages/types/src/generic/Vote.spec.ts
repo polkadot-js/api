@@ -1,8 +1,10 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '../create';
-import { GenericVote } from '.';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import { TypeRegistry } from '../create/index.js';
+import { GenericVote } from './index.js';
 
 describe('GenericVote', (): void => {
   const registry = new TypeRegistry();

@@ -1,14 +1,18 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 /* eslint-disable sort-keys */
 
+import type { Bool, Option } from '@polkadot/types-codec';
 import type { CodecTo } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
-import { Bool, Enum, Option, Struct, Text, U32, Vec } from '@polkadot/types-codec';
+import { Enum, Struct, Text, U32, Vec } from '@polkadot/types-codec';
+import { stringify } from '@polkadot/util';
 
-import { TEST_A } from './Struct.data';
+import { TEST_A } from './Struct.data.js';
 
 describe('Struct', (): void => {
   const registry = new TypeRegistry();
@@ -134,7 +138,7 @@ describe('Struct', (): void => {
             u32: U32
           })
         )(registry, 'ABC')
-      ).toThrowError(/Cannot decode value/);
+      ).toThrow(/Cannot decode value/);
     });
 
     it('throws a sensical error on incorrect array values passed to structs', (): void => {
@@ -311,7 +315,7 @@ describe('Struct', (): void => {
           counter: U32,
           vector: Vec.with('AccountId')
         }).toRawType()
-      ).toEqual(JSON.stringify({
+      ).toEqual(stringify({
         accountId: 'AccountId',
         balanceCompact: 'Compact<Balance>', // Override in Uint
         blockNumber: 'BlockNumber',
@@ -330,7 +334,7 @@ describe('Struct', (): void => {
 
       expect(
         new Type(registry).toRawType()
-      ).toEqual(JSON.stringify({
+      ).toEqual(stringify({
         accountId: 'AccountId',
         balance: 'Balance' // Override in Uint
       }));
@@ -392,6 +396,7 @@ describe('Struct', (): void => {
             outer: [new Uint8Array([1 << 2]), new Uint8Array([0x99])]
           },
           {
+            inner: undefined,
             name: 'bar',
             outer: [new Uint8Array([1]), new Uint8Array([1, 0, 0, 0])]
           },

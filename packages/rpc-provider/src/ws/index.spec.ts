@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Request } from '../mock/mockWs';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { mockWs } from '../mock/mockWs';
-import { Mock } from '../mock/types';
-import { WsProvider } from './';
+import type { Request } from '../mock/mockWs.js';
+import type { Mock } from '../mock/types.js';
+
+import { mockWs } from '../mock/mockWs.js';
+import { WsProvider } from './index.js';
 
 const TEST_WS_URL = 'ws://localhost-index.spec.ts:9977';
 
@@ -22,7 +24,7 @@ function createWs (requests: Request[], autoConnect = 1000, headers?: Record<str
 describe('Ws', (): void => {
   afterEach(async () => {
     if (mock) {
-      mock.done();
+      await mock.done();
     }
 
     if (provider) {
@@ -37,10 +39,12 @@ describe('Ws', (): void => {
     ).toEqual(false);
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('allows you to initialize the provider with custom headers', () => {
     createWs([], 100, { foo: 'bar' });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('allows you to set custom timeout value for handlers', () => {
     const CUSTOM_TIMEOUT_S = 90;
     const CUSTOM_TIMEOUT_MS = CUSTOM_TIMEOUT_S * 1000;
@@ -50,6 +54,7 @@ describe('Ws', (): void => {
 });
 
 describe('Endpoint Parsing', (): void => {
+  // eslint-disable-next-line jest/expect-expect
   it('Succeeds when WsProvider endpoint is a valid string', () => {
     /* eslint-disable no-new */
     new WsProvider(TEST_WS_URL, 0);
@@ -58,9 +63,10 @@ describe('Endpoint Parsing', (): void => {
   it('Throws when WsProvider endpoint is an invalid string', () => {
     expect(
       () => new WsProvider('http://127.0.0.1:9955', 0)
-    ).toThrowError(/^Endpoint should start with /);
+    ).toThrow(/^Endpoint should start with /);
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('Succeeds when WsProvider endpoint is a valid array', () => {
     const endpoints: string[] = ['ws://127.0.0.1:9955', 'wss://testnet.io:9944', 'ws://mychain.com:9933'];
 
@@ -73,7 +79,7 @@ describe('Endpoint Parsing', (): void => {
 
     expect(
       () => new WsProvider(endpoints, 0)
-    ).toThrowError('WsProvider requires at least one Endpoint');
+    ).toThrow('WsProvider requires at least one Endpoint');
   });
 
   it('Throws when WsProvider endpoint is an invalid array', () => {
@@ -81,6 +87,6 @@ describe('Endpoint Parsing', (): void => {
 
     expect(
       () => new WsProvider(endpoints, 0)
-    ).toThrowError(/^Endpoint should start with /);
+    ).toThrow(/^Endpoint should start with /);
   });
 });

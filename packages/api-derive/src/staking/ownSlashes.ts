@@ -4,15 +4,14 @@
 import type { Observable } from 'rxjs';
 import type { BalanceOf, EraIndex, Perbill } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi, DeriveStakerSlashes } from '../types';
+import type { DeriveApi, DeriveStakerSlashes } from '../types.js';
 
 import { combineLatest, map, of } from 'rxjs';
 
-import { firstMemo, memo } from '../util';
-import { erasHistoricApplyAccount } from './util';
+import { firstMemo, memo } from '../util/index.js';
+import { erasHistoricApplyAccount } from './util.js';
 
 export function _ownSlashes (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveStakerSlashes[]> =>
     eras.length
       ? combineLatest([
@@ -32,9 +31,9 @@ export function _ownSlashes (instanceId: string, api: DeriveApi): (accountId: Ui
   );
 }
 
-export const ownSlash = firstMemo(
+export const ownSlash = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, era: EraIndex) =>
     api.derive.staking._ownSlashes(accountId, [era], true)
 );
 
-export const ownSlashes = erasHistoricApplyAccount('_ownSlashes');
+export const ownSlashes = /*#__PURE__*/ erasHistoricApplyAccount('_ownSlashes');

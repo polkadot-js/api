@@ -7,11 +7,11 @@ import type { PalletSocietyBid, PalletSocietyBidKind, PalletSocietyVote, PalletS
 
 export interface DeriveSociety {
   bids: PalletSocietyBid[];
-  defender?: AccountId;
+  defender?: AccountId | undefined;
   hasDefender: boolean;
-  head?: AccountId;
-  founder?: AccountId;
-  maxMembers: u32;
+  head?: AccountId | undefined;
+  founder?: AccountId | undefined;
+  maxMembers?: u32 | undefined;
   pot: BalanceOf;
 }
 
@@ -28,6 +28,6 @@ export interface DeriveSocietyMember {
   isSuspended: boolean;
   payouts: [BlockNumber, Balance][];
   strikes: StrikeCount;
-  vote?: PalletSocietyVote;
-  vouching?: PalletSocietyVouchingStatus;
+  vote?: PalletSocietyVote | undefined;
+  vouching?: PalletSocietyVouchingStatus | undefined;
 }

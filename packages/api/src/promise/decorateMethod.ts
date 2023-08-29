@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Observable } from 'rxjs';
+import type { Observable, Subscription } from 'rxjs';
 import type { Callback, Codec } from '@polkadot/types/types';
-import type { DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types';
+import type { DecorateFn, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise, VoidFn } from '../types/index.js';
 
-import { catchError, EMPTY, Subscription, tap } from 'rxjs';
+import { catchError, EMPTY, tap } from 'rxjs';
 
 import { isFunction, nextTick } from '@polkadot/util';
 
@@ -106,7 +106,7 @@ function decorateSubscribe<M extends DecorateFn<CodecReturnType<M>>> (method: M,
  * @description Decorate method for ApiPromise, where the results are converted to the Promise equivalent
  */
 export function toPromiseMethod<M extends DecorateFn<CodecReturnType<M>>> (method: M, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
-  const needsCallback = !!(options && options.methodName && options.methodName.includes('subscribe'));
+  const needsCallback = !!(options?.methodName && options.methodName.includes('subscribe'));
 
   return function (...args: unknown[]): Promise<CodecReturnType<M>> | UnsubscribePromise {
     const [actualArgs, resultCb] = extractArgs(args, needsCallback);

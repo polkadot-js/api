@@ -33,7 +33,7 @@ export type __Sanitize<K extends string> =
 
 export type __Value = string | Record<string, unknown> | __Value[];
 
-export type __MapWrapOne<C extends Codec> = {
+export interface __MapWrapOne<C extends Codec> {
   'BTreeSet<': BTreeSet<C>;
   'Compact<': C extends INumber ? Compact<C> : Codec;
   'Linkage<': Linkage<C>;
@@ -42,15 +42,15 @@ export type __MapWrapOne<C extends Codec> = {
   'RangeInclusive<': C extends INumber ? RangeInclusive<C> : Codec;
   'Vec<': C extends u8 ? Bytes : Vec<C>;
   '[': C extends u8 ? U8aFixed : VecFixed<C>;
-};
+}
 
 // FIXME We don't cater for Int< & UInt< here. These could be problematic, since it has
 // a variable number of inner arguments, better would be to just strip them inside the sanitize
-export type __MapWrapTwo<K extends Codec, V extends Codec> = {
+export interface __MapWrapTwo<K extends Codec, V extends Codec> {
   'BTreeMap<': BTreeMap<K, V>;
   'HashMap<': HashMap<K, V>;
   'Result<': Result<K, V>;
-};
+}
 
 export type __WrapOne = keyof __MapWrapOne<Codec>;
 

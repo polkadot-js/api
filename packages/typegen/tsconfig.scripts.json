@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./scripts",
+    "emitDeclarationOnly": false,
+    "noEmit": true
+  },
+  "include": [
+    "scripts/**/*"
+  ],
+  "exclude": [
+    "src/**/*"
+  ],
+  "references": [
+    { "path": "../typegen/tsconfig.build.json" }
+  ]
+}

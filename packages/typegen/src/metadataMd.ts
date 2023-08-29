@@ -3,18 +3,27 @@
 
 import type { MetadataLatest, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { PortableRegistry } from '@polkadot/types/metadata';
+import type { Text } from '@polkadot/types/primitive';
 import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
+import type { HexString } from '@polkadot/util/types';
 
-import fs from 'fs';
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
-import { Text } from '@polkadot/types/primitive';
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import rpcdata from '@polkadot/types-support/metadata/static-substrate';
-import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
+import { unwrapStorageType } from '@polkadot/types/util';
+import kusamaMeta, { rpc as kusamaRpc, version as kusamaVer } from '@polkadot/types-support/metadata/static-kusama';
+import polkadotMeta, { rpc as polkadotRpc, version as polkadotVer } from '@polkadot/types-support/metadata/static-polkadot';
+import substrateMeta from '@polkadot/types-support/metadata/static-substrate';
+import { isHex, stringCamelCase, stringLowerFirst } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
+
+import { assertFile, getMetadataViaWs, getRpcMethodsViaWs, getRuntimeVersionViaWs } from './util/index.js';
 
 interface SectionItem {
   link?: string;
@@ -35,7 +44,31 @@ interface Page {
   sections: Section[];
 }
 
+type ApiDef = [apiHash: string, apiVersion: number];
+
+interface StaticDef {
+  meta: HexString;
+  rpc?: { methods: string[] };
+  ver?: { apis: ApiDef[] }
+}
+
 const headerFn = (runtimeDesc: string) => `\n\n(NOTE: These were generated from a static/snapshot view of a recent ${runtimeDesc}. Some items may not be available in older nodes, or in any customized implementations.)`;
+
+const ALL_STATIC: Record<string, StaticDef> = {
+  kusama: {
+    meta: kusamaMeta,
+    rpc: kusamaRpc,
+    ver: kusamaVer as unknown as { apis: ApiDef[] }
+  },
+  polkadot: {
+    meta: polkadotMeta,
+    rpc: polkadotRpc,
+    ver: polkadotVer as unknown as { apis: ApiDef[] }
+  },
+  substrate: {
+    meta: substrateMeta
+  }
+};
 
 /** @internal */
 function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
@@ -59,7 +92,7 @@ function docsVecToMarkdown (docLines: Vec<Text>, indent = 0): string {
     .replace(/#### Weight:/g, 'Weight:');
 
   // prefix each line with indentation
-  return md && md.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
+  return md?.split('\n\n').map((line) => `${' '.repeat(indent)}${line}`).join('\n\n');
 }
 
 function renderPage (page: Page): string {
@@ -136,7 +169,12 @@ function addRpc (_runtimeDesc: string, rpcMethods?: string[]): string {
           .keys(section.rpc || {})
           .sort()
           .forEach((methodName) => {
-            const method = (section.rpc || {})[methodName];
+            const method = section.rpc?.[methodName];
+
+            if (!method) {
+              throw new Error(`No ${methodName} RPC found in ${_sectionName}`);
+            }
+
             const sectionName = method.aliasSection || _sectionName;
             const jsonrpc = (method.endpoint || `${sectionName}_${methodName}`);
 
@@ -161,19 +199,16 @@ function addRpc (_runtimeDesc: string, rpcMethods?: string[]): string {
               return name + (isOptional ? '?' : '') + ': `' + type + '`';
             }).join(', ');
             const type = '`' + method.type + '`';
-            const item: SectionItem = {
+
+            container.items.push({
               interface: '`' + `api.rpc.${sectionName}.${methodName}` + '`',
               jsonrpc: '`' + jsonrpc + '`',
               // link: jsonrpc,
               name: `${methodName}(${args}): ${type}`,
-              ...(method.description && { summary: method.description })
-            };
-
-            if (method.deprecated) {
-              item.deprecated = method.deprecated;
-            }
-
-            container.items.push(item);
+              ...((method.description && { summary: method.description }) || {}),
+              ...((method.deprecated && { deprecated: method.deprecated }) || {}),
+              ...((method.isUnsafe && { unsafe: 'This method is only active with appropriate flags' }) || {})
+            });
           });
 
         return all;
@@ -183,7 +218,7 @@ function addRpc (_runtimeDesc: string, rpcMethods?: string[]): string {
 }
 
 /** @internal */
-function addRuntime (_runtimeDesc: string, apis?: [apiHash: string, apiVersion: number][]): string {
+function addRuntime (_runtimeDesc: string, apis?: ApiDef[]): string {
   return renderPage({
     description: 'The following section contains known runtime calls that may be available on specific runtimes (depending on configuration and available pallets). These call directly into the WASM runtime for queries and operations.',
     sections: Object
@@ -425,31 +460,74 @@ function writeFile (name: string, ...chunks: any[]): void {
   writeStream.end();
 }
 
-export function main (): void {
+interface ArgV { chain?: string; endpoint?: string; }
+
+async function mainPromise (): Promise<void> {
+  const { chain, endpoint } = yargs(hideBin(process.argv)).strict().options({
+    chain: {
+      description: 'The chain name to use for the output (defaults to "Substrate")',
+      type: 'string'
+    },
+    endpoint: {
+      description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
+      type: 'string'
+    }
+  }).argv as ArgV;
+
+  const chainName = chain || 'Substrate';
+  let metaHex: HexString;
+  let rpcMethods: string[] | undefined;
+  let runtimeApis: ApiDef[] | undefined;
+
+  if (endpoint) {
+    if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
+      metaHex = await getMetadataViaWs(endpoint);
+      rpcMethods = await getRpcMethodsViaWs(endpoint);
+      runtimeApis = await getRuntimeVersionViaWs(endpoint);
+    } else {
+      metaHex = (
+        JSON.parse(
+          fs.readFileSync(assertFile(path.join(process.cwd(), endpoint)), 'utf-8')
+        ) as { result: HexString }
+      ).result;
+
+      if (!isHex(metaHex)) {
+        throw new Error('Invalid metadata file');
+      }
+    }
+  } else if (ALL_STATIC[chainName.toLowerCase()]) {
+    metaHex = ALL_STATIC[chainName.toLowerCase()].meta;
+    rpcMethods = ALL_STATIC[chainName.toLowerCase()].rpc?.methods;
+    runtimeApis = ALL_STATIC[chainName.toLowerCase()].ver?.apis;
+  } else {
+    metaHex = substrateMeta;
+  }
+
   const registry = new TypeRegistry();
-  const metadata = new Metadata(registry, rpcdata);
+  const metadata = new Metadata(registry, metaHex);
 
   registry.setMetadata(metadata);
 
   const latest = metadata.asLatest;
-
-  // TODO Make can make this a variable passed in via args if we want to generate
-  // for different chain types
-  const chainName = 'Substrate';
   const runtimeDesc = `default ${chainName} runtime`;
   const docRoot = `docs/${chainName.toLowerCase()}`;
 
-  // TODO Pass the result from `rpc_methods` (done via util/wsMeta.ts -> getRpcMethodsViaWs)
-  // into here if we want to have a per-chain overview
-  writeFile(`${docRoot}/rpc.md`, addRpc(runtimeDesc));
+  writeFile(`${docRoot}/rpc.md`, addRpc(runtimeDesc, rpcMethods));
 
-  // TODO Pass the result from `state_getRuntimeVersion` (done via util/wsMeta.ts -> getRuntimeVersionViaWs)
-  // into here if we want to have a per-chain overview
-  writeFile(`${docRoot}/runtime.md`, addRuntime(runtimeDesc));
+  writeFile(`${docRoot}/runtime.md`, addRuntime(runtimeDesc, runtimeApis));
 
   writeFile(`${docRoot}/constants.md`, addConstants(runtimeDesc, latest));
   writeFile(`${docRoot}/storage.md`, addStorage(runtimeDesc, latest));
   writeFile(`${docRoot}/extrinsics.md`, addExtrinsics(runtimeDesc, latest));
   writeFile(`${docRoot}/events.md`, addEvents(runtimeDesc, latest));
   writeFile(`${docRoot}/errors.md`, addErrors(runtimeDesc, latest));
+}
+
+export function main (): void {
+  mainPromise().catch((error) => {
+    console.error();
+    console.error(error);
+    console.error();
+    process.exit(1);
+  });
 }

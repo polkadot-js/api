@@ -1,13 +1,15 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { Registry } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
 import { Enum, Null, Text, U32 } from '@polkadot/types-codec';
-import { u8aToHex } from '@polkadot/util';
+import { stringify, u8aToHex } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 const PEnum = Enum.with({ a: U32, b: U32 });
 
@@ -305,6 +307,7 @@ describe('Enum', (): void => {
             '0x0134120000'
           ).inspect()
         ).toEqual({
+          inner: undefined,
           outer: [new Uint8Array([0x01]), new Uint8Array([0x34, 0x12, 0x00, 0x00])]
         });
       });
@@ -355,7 +358,7 @@ describe('Enum', (): void => {
     it('has a sane output for basic enums', (): void => {
       expect(
         new Enum(registry, ['foo', 'bar']).toRawType()
-      ).toEqual(JSON.stringify({ _enum: ['foo', 'bar'] }));
+      ).toEqual(stringify({ _enum: ['foo', 'bar'] }));
     });
 
     it('has a sane output for typed enums', (): void => {
@@ -363,7 +366,7 @@ describe('Enum', (): void => {
         // eslint-disable-next-line sort-keys
         new Enum(registry, { foo: Text, bar: U32 }).toRawType()
       // eslint-disable-next-line sort-keys
-      ).toEqual(JSON.stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
+      ).toEqual(stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
     });
 
     it('re-creates via rawType (c-like)', (): void => {
@@ -376,8 +379,8 @@ describe('Enum', (): void => {
       const type = new Enum(registry, { A: Text, B: U32, C: U32 }).toRawType();
       const value = registry.createType(type, { B: 123 });
 
-      expect((value as unknown as Record<string, unknown>).isB).toEqual(true);
-      expect((value as unknown as Record<string, U32>).asB.toNumber()).toEqual(123);
+      expect((value as unknown as { isB: boolean }).isB).toEqual(true);
+      expect((value as unknown as { asB: U32 }).asB.toNumber()).toEqual(123);
     });
   });
 
@@ -398,7 +401,7 @@ describe('Enum', (): void => {
     });
 
     it('creates proper raw structure', (): void => {
-      expect(new Test(registry).toRawType()).toEqual(JSON.stringify({
+      expect(new Test(registry).toRawType()).toEqual(stringify({
         _enum: {
           A: 5,
           B: 42,
@@ -453,6 +456,29 @@ describe('Enum', (): void => {
         '00' + // index
         '00' + // MultiAddress indicating an embedded AccountId
         '0001020304050607080910111213141516171819202122232425262728293031' // AccountId
+      );
+    });
+  });
+
+  describe('toU8a', (): void => {
+    const Test = Enum.with({
+      A: Text,
+      B: U32
+    });
+
+    it('has a correct toU8a() output', (): void => {
+      expect(
+        new Test(registry, { B: 69 }).toU8a()
+      ).toEqual(
+        new Uint8Array([1, 69, 0, 0, 0])
+      );
+    });
+
+    it('has a correct toU8a(true) output', (): void => {
+      expect(
+        new Test(registry, { B: 69 }).toU8a(true)
+      ).toEqual(
+        new Uint8Array([69, 0, 0, 0])
       );
     });
   });

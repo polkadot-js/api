@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export * from './encodeTypes';
-export * from './getTypeDef';
-export * from './typeSplit';
-export * from './xcm';
+export * from './encodeTypes.js';
+export * from './getTypeDef.js';
+export * from './typeSplit.js';
+export * from './xcm.js';

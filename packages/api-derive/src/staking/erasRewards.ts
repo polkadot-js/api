@@ -4,13 +4,13 @@
 import type { Observable } from 'rxjs';
 import type { Option } from '@polkadot/types';
 import type { Balance, EraIndex } from '@polkadot/types/interfaces';
-import type { DeriveApi, DeriveEraRewards } from '../types';
+import type { DeriveApi, DeriveEraRewards } from '../types.js';
 
 import { map, of } from 'rxjs';
 
-import { memo } from '../util';
-import { filterCachedEras, getEraMultiCache, setEraMultiCache } from './cache';
-import { erasHistoricApply, filterEras } from './util';
+import { memo } from '../util/index.js';
+import { filterCachedEras, getEraMultiCache, setEraMultiCache } from './cache.js';
+import { erasHistoricApply, filterEras } from './util.js';
 
 const CACHE_KEY = 'eraRewards';
 
@@ -40,4 +40,4 @@ export function _erasRewards (instanceId: string, api: DeriveApi): (eras: EraInd
   });
 }
 
-export const erasRewards = erasHistoricApply('_erasRewards');
+export const erasRewards = /*#__PURE__*/ erasHistoricApply('_erasRewards');

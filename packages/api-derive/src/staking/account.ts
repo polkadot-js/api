@@ -4,14 +4,14 @@
 import type { Observable } from 'rxjs';
 import type { Balance } from '@polkadot/types/interfaces';
 import type { PalletStakingStakingLedger, PalletStakingUnlockChunk } from '@polkadot/types/lookup';
-import type { DeriveApi, DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types';
-import type { StakingQueryFlags } from './types';
+import type { DeriveApi, DeriveSessionInfo, DeriveStakingAccount, DeriveStakingKeys, DeriveStakingQuery, DeriveUnlocking } from '../types.js';
+import type { StakingQueryFlags } from './types.js';
 
 import { combineLatest, map, switchMap } from 'rxjs';
 
 import { BN, BN_ZERO, objectSpread } from '@polkadot/util';
 
-import { firstMemo, memo } from '../util';
+import { firstMemo, memo } from '../util/index.js';
 
 const QUERY_OPTS = {
   withDestination: true,
@@ -86,7 +86,7 @@ export function accounts (instanceId: string, api: DeriveApi): (accountIds: (Uin
 /**
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
-export const account = firstMemo(
+export const account = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, opts?: StakingQueryFlags) =>
     api.derive.staking.accounts([accountId], opts)
 );

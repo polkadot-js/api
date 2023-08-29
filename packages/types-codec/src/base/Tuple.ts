@@ -1,36 +1,25 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyTupleValue, Codec, CodecClass, Inspect, ITuple, Registry } from '../types';
+import type { AnyTupleValue, Codec, CodecClass, DefinitionSetter, Inspect, ITuple, Registry } from '../types/index.js';
 
-import { isFunction, isHex, isString, isU8a, stringify, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
+import { identity, isFunction, isHex, isString, isU8a, stringify, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/Array';
-import { decodeU8a, mapToTypeMap, typeToConstructor } from '../utils';
+import { AbstractArray } from '../abstract/Array.js';
+import { decodeU8a, mapToTypeMap, typesToConstructors, typeToConstructor } from '../utils/index.js';
 
 type TupleType = (CodecClass | string);
 
-type TupleTypes = TupleType[] | {
-  [index: string]: CodecClass | string;
-};
+type TupleTypes = TupleType[] | Record<string, CodecClass | string>;
 
 type Definition = [CodecClass[], string[]];
-
-interface Options {
-  definition?: Definition;
-  setDefinition?: (d: Definition) => Definition;
-}
-
-function noopSetDefinition (d: Definition): Definition {
-  return d;
-}
 
 /** @internal */
 function decodeTuple (registry: Registry, result: Codec[], value: Exclude<AnyTupleValue, Uint8Array> | undefined, Classes: Definition): [Codec[], number] {
   if (Array.isArray(value)) {
     const Types = Classes[0];
 
-    for (let i = 0; i < Types.length; i++) {
+    for (let i = 0, count = Types.length; i < count; i++) {
       try {
         const entry = value?.[i];
 
@@ -48,7 +37,7 @@ function decodeTuple (registry: Registry, result: Codec[], value: Exclude<AnyTup
   } else if (!value || !result.length) {
     const Types = Classes[0];
 
-    for (let i = 0; i < Types.length; i++) {
+    for (let i = 0, count = Types.length; i < count; i++) {
       result[i] = new Types[i](registry);
     }
 
@@ -67,10 +56,10 @@ function decodeTuple (registry: Registry, result: Codec[], value: Exclude<AnyTup
 export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   #Types: Definition;
 
-  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, { definition, setDefinition = noopSetDefinition }: Options = {}) {
+  constructor (registry: Registry, Types: TupleTypes | TupleType, value?: AnyTupleValue, { definition, setDefinition = identity }: DefinitionSetter<Definition> = {}) {
     const Classes = definition || setDefinition(
       Array.isArray(Types)
-        ? [Types.map((t) => typeToConstructor(registry, t)), []]
+        ? [typesToConstructors(registry, Types), []]
         : isFunction(Types) || isString(Types)
           ? [[typeToConstructor(registry, Types)], []]
           : mapToTypeMap(registry, Types)
@@ -106,7 +95,7 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
   public override get encodedLength (): number {
     let total = 0;
 
-    for (let i = 0; i < this.length; i++) {
+    for (let i = 0, count = this.length; i < count; i++) {
       total += this[i].encodedLength;
     }
 

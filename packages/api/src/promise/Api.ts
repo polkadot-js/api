@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiOptions, UnsubscribePromise } from '../types';
+import type { ApiOptions, UnsubscribePromise } from '../types/index.js';
+import type { CombinatorCallback, CombinatorFunction } from './Combinator.js';
 
-import { objectSpread } from '@polkadot/util';
+import { noop, objectSpread } from '@polkadot/util';
 
-import { ApiBase } from '../base';
-import { Combinator, CombinatorCallback, CombinatorFunction } from './Combinator';
-import { promiseTracker, toPromiseMethod } from './decorateMethod';
+import { ApiBase } from '../base/index.js';
+import { Combinator } from './Combinator.js';
+import { promiseTracker, toPromiseMethod } from './decorateMethod.js';
 
 /**
  * # @polkadot/api/promise
@@ -155,9 +156,7 @@ export class ApiPromise extends ApiBase<'promise'> {
 
     // Swallow any rejections on isReadyOrError
     // (in Node 15.x this creates issues, when not being looked at)
-    instance.isReadyOrError.catch(() => {
-      // ignore
-    });
+    instance.isReadyOrError.catch(noop);
 
     return instance.isReady;
   }

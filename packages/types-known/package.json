@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "Known type definitions",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-known#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/types-known",
   "repository": {
     "directory": "packages/types-known",
@@ -20,17 +18,17 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.12.2-11-x",
+  "version": "10.9.2-20-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/networks": "^10.3.1",
-    "@polkadot/types": "9.12.2-11-x",
-    "@polkadot/types-codec": "9.12.2-11-x",
-    "@polkadot/types-create": "9.12.2-11-x",
-    "@polkadot/util": "^10.3.1"
+    "@polkadot/networks": "^12.4.2",
+    "@polkadot/types": "10.9.2-20-x",
+    "@polkadot/types-codec": "10.9.2-20-x",
+    "@polkadot/types-create": "10.9.2-20-x",
+    "@polkadot/util": "^12.4.2",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@polkadot/api": "9.12.2-11-x"
+    "@polkadot/api": "10.9.2-20-x"
   }
 }

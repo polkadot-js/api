@@ -4,13 +4,11 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
-import hrmpTypes from './hrmp';
-import { runtime } from './runtime';
-import slotTypes from './slots';
+import hrmpTypes from './hrmp.js';
+import { runtime } from './runtime.js';
+import slotTypes from './slots.js';
 
 // proposeParachain
 const proposeTypes = {
@@ -57,6 +55,19 @@ const disputeTypes = {
     session: 'SessionIndex',
     statements: 'Vec<(DisputeStatement, ParaValidatorIndex, ValidatorSignature)>'
   },
+  ExecutorParam: {
+    _enum: {
+      Phantom: 'Null', // index starts at 1... empty slot at 0
+      MaxMemoryPages: 'u32',
+      StackLogicalMax: 'u32',
+      StackNativeMax: 'u32',
+      PrecheckingMaxMemory: 'u64',
+      PvfPrepTimeout: '(PvfPrepTimeoutKind, u64)',
+      PvfExecTimeout: '(PvfExecTimeoutKind, u64)'
+    }
+  },
+  ExecutorParamsHash: 'Hash',
+  ExecutorParams: 'Vec<ExecutorParam>',
   ExplicitDisputeStatement: {
     valid: 'bool',
     candidateHash: 'CandidateHash',
@@ -66,6 +77,12 @@ const disputeTypes = {
     _enum: ['Explicit']
   },
   MultiDisputeStatementSet: 'Vec<DisputeStatementSet>',
+  PvfExecTimeoutKind: {
+    _enum: ['Backing', 'Approval']
+  },
+  PvfPrepTimeoutKind: {
+    _enum: ['Precheck', 'Lenient']
+  },
   ValidDisputeStatementKind: {
     _enum: {
       Explicit: 'Null',
@@ -79,7 +96,12 @@ const disputeTypes = {
 export default {
   rpc: {},
   runtime,
-  types: objectSpread({}, cumulusTypes, disputeTypes, hrmpTypes, proposeTypes, slotTypes, {
+  types: {
+    ...cumulusTypes,
+    ...disputeTypes,
+    ...hrmpTypes,
+    ...proposeTypes,
+    ...slotTypes,
     AbridgedCandidateReceipt: {
       parachainIndex: 'ParaId',
       relayParent: 'Hash',
@@ -213,6 +235,16 @@ export default {
         Free: 'Null'
       }
     },
+    DisputeProof: {
+      timeSlot: 'DisputesTimeSlot',
+      kind: 'SlashingOffenceKind',
+      validatorIndex: 'ValidatorIndex',
+      validatorId: 'ValidatorId'
+    },
+    DisputesTimeSlot: {
+      sessionIndex: 'SessionIndex',
+      candidateHash: 'CandidateHash'
+    },
     DoubleVoteReport: {
       identity: 'ValidatorId',
       first: '(Statement, ValidatorSignature)',
@@ -310,6 +342,13 @@ export default {
     OutboundHrmpMessage: {
       recipient: 'u32',
       data: 'Bytes'
+    },
+    PendingSlashes: {
+      _alias: {
+        slashKeys: 'keys'
+      },
+      slashKeys: 'BTreeMap<ValidatorIndex, ValidatorId>',
+      kind: 'SlashingOffenceKind'
     },
     ParachainDispatchOrigin: {
       _enum: ['Signed', 'Parachain', 'Root']
@@ -438,6 +477,9 @@ export default {
       sessionIndex: 'SessionIndex',
       parentHash: 'Hash'
     },
+    SlashingOffenceKind: {
+      _enum: ['ForInvalid', 'AgainstValid']
+    },
     Statement: {
       _enum: {
         Never: 'Null', // starts at 1
@@ -490,5 +532,5 @@ export default {
     MessagingStateSnapshotEgressEntry: '(ParaId, AbridgedHrmpChannel)',
     SystemInherentData: 'ParachainInherentData',
     VecInboundHrmpMessage: 'Vec<InboundHrmpMessage>'
-  })
+  }
 } as Definitions;

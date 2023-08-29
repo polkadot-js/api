@@ -5,18 +5,69 @@
 
 export default {
   /**
-   * Lookup108: kusama_runtime::SessionKeys
+   * Lookup94: pallet_beefy::pallet::Call<T>
    **/
-  KusamaRuntimeSessionKeys: {
-    grandpa: 'SpFinalityGrandpaAppPublic',
-    babe: 'SpConsensusBabeAppPublic',
-    imOnline: 'PalletImOnlineSr25519AppSr25519Public',
-    paraValidator: 'PolkadotPrimitivesV2ValidatorAppPublic',
-    paraAssignment: 'PolkadotPrimitivesV2AssignmentAppPublic',
-    authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
+  PalletBeefyCall: {
+    _enum: {
+      report_equivocation: {
+        equivocationProof: 'SpConsensusBeefyEquivocationProof',
+        keyOwnerProof: 'SpSessionMembershipProof',
+      },
+      report_equivocation_unsigned: {
+        equivocationProof: 'SpConsensusBeefyEquivocationProof',
+        keyOwnerProof: 'SpSessionMembershipProof'
+      }
+    }
   },
   /**
-   * Lookup150: kusama_runtime::OriginCaller
+   * Lookup95: sp_consensus_beefy::EquivocationProof<Number, sp_consensus_beefy::ecdsa_crypto::Public, sp_consensus_beefy::ecdsa_crypto::Signature>
+   **/
+  SpConsensusBeefyEquivocationProof: {
+    first: 'SpConsensusBeefyVoteMessage',
+    second: 'SpConsensusBeefyVoteMessage'
+  },
+  /**
+   * Lookup96: sp_consensus_beefy::ecdsa_crypto::Public
+   **/
+  SpConsensusBeefyEcdsaCryptoPublic: 'SpCoreEcdsaPublic',
+  /**
+   * Lookup99: sp_consensus_beefy::ecdsa_crypto::Signature
+   **/
+  SpConsensusBeefyEcdsaCryptoSignature: 'SpCoreEcdsaSignature',
+  /**
+   * Lookup102: sp_consensus_beefy::VoteMessage<Number, sp_consensus_beefy::ecdsa_crypto::Public, sp_consensus_beefy::ecdsa_crypto::Signature>
+   **/
+  SpConsensusBeefyVoteMessage: {
+    commitment: 'SpConsensusBeefyCommitment',
+    id: 'SpConsensusBeefyEcdsaCryptoPublic',
+    signature: 'SpConsensusBeefyEcdsaCryptoSignature'
+  },
+  /**
+   * Lookup103: sp_consensus_beefy::commitment::Commitment<TBlockNumber>
+   **/
+  SpConsensusBeefyCommitment: {
+    payload: 'SpConsensusBeefyPayload',
+    blockNumber: 'u32',
+    validatorSetId: 'u64'
+  },
+  /**
+   * Lookup104: sp_consensus_beefy::payload::Payload
+   **/
+  SpConsensusBeefyPayload: 'Vec<([u8;2],Bytes)>',
+  /**
+   * Lookup109: kusama_runtime::SessionKeys
+   **/
+  KusamaRuntimeSessionKeys: {
+    grandpa: 'SpConsensusGrandpaAppPublic',
+    babe: 'SpConsensusBabeAppPublic',
+    imOnline: 'PalletImOnlineSr25519AppSr25519Public',
+    paraValidator: 'PolkadotPrimitivesV5ValidatorAppPublic',
+    paraAssignment: 'PolkadotPrimitivesV5AssignmentAppPublic',
+    authorityDiscovery: 'SpAuthorityDiscoveryAppPublic',
+    beefy: 'SpConsensusBeefyEcdsaCryptoPublic'
+  },
+  /**
+   * Lookup136: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -24,9 +75,9 @@ export default {
       __Unused1: 'Null',
       __Unused2: 'Null',
       __Unused3: 'Null',
-      __Unused4: 'Null',
-      __Unused5: 'Null',
       Void: 'SpCoreVoid',
+      __Unused5: 'Null',
+      __Unused6: 'Null',
       __Unused7: 'Null',
       __Unused8: 'Null',
       __Unused9: 'Null',
@@ -34,8 +85,8 @@ export default {
       __Unused11: 'Null',
       __Unused12: 'Null',
       __Unused13: 'Null',
-      Council: 'PalletCollectiveRawOrigin',
-      TechnicalCommittee: 'PalletCollectiveRawOrigin',
+      __Unused14: 'Null',
+      __Unused15: 'Null',
       __Unused16: 'Null',
       __Unused17: 'Null',
       __Unused18: 'Null',
@@ -123,19 +174,19 @@ export default {
     }
   },
   /**
-   * Lookup154: kusama_runtime::governance::origins::pallet_custom_origins::Origin
+   * Lookup138: kusama_runtime::governance::origins::pallet_custom_origins::Origin
    **/
   KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin: {
     _enum: ['StakingAdmin', 'Treasurer', 'FellowshipAdmin', 'GeneralAdmin', 'AuctionAdmin', 'LeaseAdmin', 'ReferendumCanceller', 'ReferendumKiller', 'SmallTipper', 'BigTipper', 'SmallSpender', 'MediumSpender', 'BigSpender', 'WhitelistedCaller', 'FellowshipInitiates', 'Fellows', 'FellowshipExperts', 'FellowshipMasters', 'Fellowship1Dan', 'Fellowship2Dan', 'Fellowship3Dan', 'Fellowship4Dan', 'Fellowship5Dan', 'Fellowship6Dan', 'Fellowship7Dan', 'Fellowship8Dan', 'Fellowship9Dan']
   },
   /**
-   * Lookup231: kusama_runtime::ProxyType
+   * Lookup214: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society', 'NominationPools']
   },
   /**
-   * Lookup241: kusama_runtime::NposCompactSolution24
+   * Lookup223: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -164,7 +215,67 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup873: kusama_runtime::Runtime
+   * Lookup556: kusama_runtime::RuntimeHoldReason
+   **/
+  KusamaRuntimeRuntimeHoldReason: {
+    _enum: {
+      __Unused0: 'Null',
+      __Unused1: 'Null',
+      __Unused2: 'Null',
+      __Unused3: 'Null',
+      __Unused4: 'Null',
+      __Unused5: 'Null',
+      __Unused6: 'Null',
+      __Unused7: 'Null',
+      __Unused8: 'Null',
+      __Unused9: 'Null',
+      __Unused10: 'Null',
+      __Unused11: 'Null',
+      __Unused12: 'Null',
+      __Unused13: 'Null',
+      __Unused14: 'Null',
+      __Unused15: 'Null',
+      __Unused16: 'Null',
+      __Unused17: 'Null',
+      __Unused18: 'Null',
+      __Unused19: 'Null',
+      __Unused20: 'Null',
+      __Unused21: 'Null',
+      __Unused22: 'Null',
+      __Unused23: 'Null',
+      __Unused24: 'Null',
+      __Unused25: 'Null',
+      __Unused26: 'Null',
+      __Unused27: 'Null',
+      __Unused28: 'Null',
+      __Unused29: 'Null',
+      __Unused30: 'Null',
+      __Unused31: 'Null',
+      __Unused32: 'Null',
+      __Unused33: 'Null',
+      __Unused34: 'Null',
+      __Unused35: 'Null',
+      __Unused36: 'Null',
+      __Unused37: 'Null',
+      Nis: 'PalletNisHoldReason'
+    }
+  },
+  /**
+   * Lookup591: pallet_beefy::pallet::Error<T>
+   **/
+  PalletBeefyError: {
+    _enum: ['InvalidKeyOwnershipProof', 'InvalidEquivocationProof', 'DuplicateOffenceReport']
+  },
+  /**
+   * Lookup592: sp_consensus_beefy::mmr::BeefyAuthoritySet<primitive_types::H256>
+   **/
+  SpConsensusBeefyMmrBeefyAuthoritySet: {
+    id: 'u64',
+    len: 'u32',
+    keysetCommitment: 'H256'
+  },
+  /**
+   * Lookup891: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };

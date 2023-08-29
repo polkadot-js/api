@@ -6,13 +6,13 @@ import type { AccountId, Address, Balance } from '@polkadot/types/interfaces';
 import type{ PalletElectionsPhragmenSeatHolder } from '@polkadot/types/lookup';
 import type { Codec } from '@polkadot/types/types';
 import type { Option } from '@polkadot/types-codec';
-import type { DeriveAccountFlags, DeriveApi } from '../types';
+import type { DeriveAccountFlags, DeriveApi } from '../types.js';
 
 import { map, of } from 'rxjs';
 
 import { isFunction } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 type FlagsIntermediate = [
   PalletElectionsPhragmenSeatHolder[] | [AccountId, Balance][] | undefined,
@@ -23,7 +23,7 @@ type FlagsIntermediate = [
 ];
 
 function parseFlags (address: AccountId | Address | string | null | undefined, [electionsMembers, councilMembers, technicalCommitteeMembers, societyMembers, sudoKey]: FlagsIntermediate): DeriveAccountFlags {
-  const addrStr = address && address.toString();
+  const addrStr = address?.toString();
   const isIncluded = (id: AccountId | Address | string) =>
     id.toString() === addrStr;
 
@@ -39,7 +39,7 @@ export function _flags (instanceId: string, api: DeriveApi): () => Observable<Fl
   return memo(instanceId, (): Observable<FlagsIntermediate> => {
     const results: unknown[] = [undefined, [], [], [], undefined];
     const calls = [
-      (api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections)?.members,
+      (api.query.elections || api.query['phragmenElection'] || api.query['electionsPhragmen'])?.members,
       api.query.council?.members,
       api.query.technicalCommittee?.members,
       api.query.society?.members,
@@ -55,7 +55,7 @@ export function _flags (instanceId: string, api: DeriveApi): () => Observable<Fl
       map((values: Codec[]): FlagsIntermediate => {
         let resultIndex = -1;
 
-        for (let i = 0; i < calls.length; i++) {
+        for (let i = 0, count = calls.length; i < count; i++) {
           if (isFunction(calls[i])) {
             results[i] = values[++resultIndex];
           }

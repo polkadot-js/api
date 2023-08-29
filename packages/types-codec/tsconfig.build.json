@@ -3,12 +3,12 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src",
-    "resolveJsonModule": true
+    "rootDir": "./src"
   },
   "exclude": [
     "**/*.data.ts",
     "**/checkTypes.manual.ts",
+    "**/mod.ts",
     "**/*.spec.ts",
     "**/test/*"
   ],

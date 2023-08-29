@@ -7,9 +7,16 @@
   "include": [
     "packages/**/src/**/*",
     "packages/**/scripts/**/*",
-    "packages/**/test/**/*"
+    "scripts/*",
+    ".prettierrc.cjs",
+    "eslint.config.js",
+    "rollup.config.js"
   ],
   "exclude": [
-    "**/node_modules/**/*"
+    "**/node_modules/**/*",
+    // We exclude these since it creates some issues with the
+    // @typescript-eslint/dot-notation rules
+    "packages/api-augment/src/kusama/*.ts",
+    "packages/api-augment/src/polkadot/*.ts"
   ]
 }

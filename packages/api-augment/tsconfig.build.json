@@ -7,6 +7,7 @@
   },
   "exclude": [
     "**/*.spec.ts",
+    "**/mod.ts",
     "**/kusama/*.ts",
     "**/polkadot/*.ts"
   ],

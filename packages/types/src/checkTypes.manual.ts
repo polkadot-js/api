@@ -5,11 +5,11 @@ import '@polkadot/types-augment';
 
 import type { Bytes, Compact, Option, u32 } from '@polkadot/types-codec';
 import type { IOption, ITuple } from '@polkadot/types-codec/types';
-import type { AccountId, BlockAttestations, SessionKeys7 } from './interfaces';
+import type { AccountId, BlockAttestations, SessionKeys7 } from './interfaces/index.js';
 
 import { assert } from '@polkadot/util';
 
-import { TypeRegistry } from './create';
+import { TypeRegistry } from './create/index.js';
 
 const registry = new TypeRegistry();
 

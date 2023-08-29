@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiBase } from '@polkadot/api/base';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { WeightV2 } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 
-import { ApiBase } from '@polkadot/api/base';
 import { isFunction } from '@polkadot/util';
 
-import { Abi } from '../Abi';
+import { Abi } from '../Abi/index.js';
 
 export abstract class Base<ApiType extends ApiTypes> {
   readonly abi: Abi;

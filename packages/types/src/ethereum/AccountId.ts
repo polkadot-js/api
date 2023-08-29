@@ -36,7 +36,7 @@ export class GenericEthereumAccountId extends U8aFixed {
    * @description Compares the value of the input to see if there is a match
    */
   public override eq (other?: unknown): boolean {
-    return super.eq(decodeAccountId(other as AnyU8a));
+    return !!other && super.eq(decodeAccountId(other as AnyU8a));
   }
 
   /**

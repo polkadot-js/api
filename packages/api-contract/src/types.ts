@@ -7,7 +7,7 @@ import type { Text } from '@polkadot/types';
 import type { ContractExecResultResult, ContractSelector, StorageDeposit, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { Abi } from '.';
+import type { Abi } from './index.js';
 
 export interface ContractBase<ApiType extends ApiTypes> {
   readonly abi: Abi;
@@ -37,6 +37,7 @@ export interface AbiMessage {
   identifier: string;
   index: number;
   isConstructor?: boolean;
+  isDefault?: boolean;
   isMutating?: boolean;
   isPayable?: boolean;
   method: string;
@@ -48,10 +49,8 @@ export interface AbiMessage {
 
 export type AbiConstructor = AbiMessage;
 
-export interface InterfaceContractCalls {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  [index: string]: Function;
-}
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type InterfaceContractCalls = Record<string, Function>;
 
 export interface ContractCallOutcome {
   debugMessage: Text;
@@ -86,6 +85,6 @@ export interface WeightAll {
   v1Weight: BN;
   v2Weight: {
     refTime: BN;
-    proofSize?: BN;
+    proofSize?: BN | undefined;
   };
 }

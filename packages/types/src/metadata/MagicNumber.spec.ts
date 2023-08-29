@@ -1,8 +1,10 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '../create';
-import { MAGIC_NUMBER, MagicNumber } from './MagicNumber';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import { TypeRegistry } from '../create/index.js';
+import { MAGIC_NUMBER, MagicNumber } from './MagicNumber.js';
 
 describe('MagicNumber', (): void => {
   const registry = new TypeRegistry();

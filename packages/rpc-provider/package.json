@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "Transport providers for the API",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/rpc-provider",
   "repository": {
     "directory": "packages/rpc-provider",
@@ -20,26 +18,26 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.12.2-11-x",
+  "version": "10.9.2-20-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/keyring": "^10.3.1",
-    "@polkadot/types": "9.12.2-11-x",
-    "@polkadot/types-support": "9.12.2-11-x",
-    "@polkadot/util": "^10.3.1",
-    "@polkadot/util-crypto": "^10.3.1",
-    "@polkadot/x-fetch": "^10.3.1",
-    "@polkadot/x-global": "^10.3.1",
-    "@polkadot/x-ws": "^10.3.1",
-    "eventemitter3": "^4.0.7",
-    "mock-socket": "^9.1.5",
-    "nock": "^13.3.0"
+    "@polkadot/keyring": "^12.4.2",
+    "@polkadot/types": "10.9.2-20-x",
+    "@polkadot/types-support": "10.9.2-20-x",
+    "@polkadot/util": "^12.4.2",
+    "@polkadot/util-crypto": "^12.4.2",
+    "@polkadot/x-fetch": "^12.4.2",
+    "@polkadot/x-global": "^12.4.2",
+    "@polkadot/x-ws": "^12.4.2",
+    "eventemitter3": "^5.0.1",
+    "mock-socket": "^9.2.1",
+    "nock": "^13.3.3",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@substrate/connect": "0.7.19"
+    "@substrate/connect": "0.7.31"
   },
   "optionalDependencies": {
-    "@substrate/connect": "0.7.19"
+    "@substrate/connect": "0.7.31"
   }
 }

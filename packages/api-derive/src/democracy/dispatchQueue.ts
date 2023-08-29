@@ -7,15 +7,15 @@ import type { BlockNumber, Call, Hash, ReferendumIndex, Scheduled } from '@polka
 import type { FrameSupportPreimagesBounded, PalletSchedulerScheduled } from '@polkadot/types/lookup';
 import type { Codec, ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { DeriveApi, DeriveDispatch, DeriveProposalImage } from '../types';
+import type { DeriveApi, DeriveDispatch, DeriveProposalImage } from '../types.js';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
 import { Enum } from '@polkadot/types';
 import { isFunction, objectSpread, stringToHex } from '@polkadot/util';
 
-import { memo } from '../util';
-import { getImageHashBounded } from './util';
+import { memo } from '../util/index.js';
+import { getImageHashBounded } from './util.js';
 
 const DEMOCRACY_ID = stringToHex('democrac');
 
@@ -53,7 +53,7 @@ function isBounded (call: FrameSupportPreimagesBounded | FrameSupportScheduleMay
 }
 
 function queryQueue (api: DeriveApi): Observable<DeriveDispatch[]> {
-  return api.query.democracy.dispatchQueue<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>().pipe(
+  return api.query.democracy['dispatchQueue']<Vec<ITuple<[BlockNumber, Hash, ReferendumIndex]>>>().pipe(
     switchMap((dispatches) =>
       combineLatest([
         of(dispatches),
@@ -142,7 +142,7 @@ export function dispatchQueue (instanceId: string, api: DeriveApi): () => Observ
   return memo(instanceId, (): Observable<DeriveDispatch[]> =>
     isFunction(api.query.scheduler?.agenda)
       ? queryScheduler(api)
-      : api.query.democracy.dispatchQueue
+      : api.query.democracy['dispatchQueue']
         ? queryQueue(api)
         : of([])
   );

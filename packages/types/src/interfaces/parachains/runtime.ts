@@ -1,9 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionsCall, DefinitionsCallEntry } from '../../types';
-
-import { objectSpread } from '@polkadot/util';
+import type { DefinitionsCall, DefinitionsCallEntry } from '../../types/index.js';
 
 const PH_V1_TO_V2: DefinitionsCallEntry['methods'] = {
   assumed_validation_data: {
@@ -180,24 +178,97 @@ const PH_V2_TO_V3: DefinitionsCallEntry['methods'] = {
   }
 };
 
+const PH_V3: DefinitionsCallEntry['methods'] = {
+  disputes: {
+    description: 'Returns all onchain disputes.',
+    params: [],
+    type: 'Vec<(SessionIndex, CandidateHash, DisputeState)>'
+  }
+};
+
+const PH_V4: DefinitionsCallEntry['methods'] = {
+  session_executor_params: {
+    description: 'Returns execution parameters for the session.',
+    params: [
+      {
+        name: 'sessionIndex',
+        type: 'SessionIndex'
+      }
+    ],
+    type: 'Option<ExecutorParams>'
+  }
+};
+
+const PH_V5: DefinitionsCallEntry['methods'] = {
+  key_ownership_proof: {
+    description: 'Returns a merkle proof of a validator session key',
+    params: [
+      {
+        name: 'validatorId',
+        type: 'ValidatorId'
+      }
+    ],
+    type: 'Option<OpaqueKeyOwnershipProof>'
+  },
+  submit_report_dispute_lost: {
+    description: 'Submit an unsigned extrinsic to slash validators who lost a dispute about a candidate of a past session',
+    params: [
+      {
+        name: 'disputeProof',
+        type: 'DisputeProof'
+      },
+      {
+        name: 'keyOwnershipProof',
+        type: 'OpaqueKeyOwnershipProof'
+      }
+    ],
+    type: 'Option<Null>'
+  },
+  unapplied_slashes: {
+    description: 'Returns a list of validators that lost a past session dispute and need to be slashed',
+    params: [],
+    type: 'Vec<(SessionIndex, CandidateHash, PendingSlashes)>'
+  }
+};
+
 export const runtime: DefinitionsCall = {
   ParachainHost: [
     {
-      methods: objectSpread({
-        disputes: {
-          description: 'Returns all onchain disputes.',
-          params: [],
-          type: 'Vec<(SessionIndex, CandidateHash, DisputeState)>'
-        }
-      }, PH_V1_TO_V2, PH_V2_TO_V3),
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3,
+        ...PH_V4,
+        ...PH_V5
+      },
+      version: 5
+    },
+    {
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3,
+        ...PH_V4
+      },
+      version: 4
+    },
+    {
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3
+      },
       version: 3
     },
     {
-      methods: objectSpread({}, PH_V1_TO_V2, PH_V2_TO_V3),
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3
+      },
       version: 2
     },
     {
-      methods: objectSpread({
+      methods: {
         session_info: {
           description: 'Get the session info for the given session, if stored.',
           params: [
@@ -207,8 +278,9 @@ export const runtime: DefinitionsCall = {
             }
           ],
           type: 'Option<OldV1SessionInfo>'
-        }
-      }, PH_V1_TO_V2),
+        },
+        ...PH_V1_TO_V2
+      },
       version: 1
     }
   ]

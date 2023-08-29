@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "Promise and RxJS wrappers around the Polkadot JS RPC",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/api",
   "repository": {
     "directory": "packages/api",
@@ -20,29 +18,29 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.12.2-11-x",
+  "version": "10.9.2-20-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/api-augment": "9.12.2-11-x",
-    "@polkadot/api-base": "9.12.2-11-x",
-    "@polkadot/api-derive": "9.12.2-11-x",
-    "@polkadot/keyring": "^10.3.1",
-    "@polkadot/rpc-augment": "9.12.2-11-x",
-    "@polkadot/rpc-core": "9.12.2-11-x",
-    "@polkadot/rpc-provider": "9.12.2-11-x",
-    "@polkadot/types": "9.12.2-11-x",
-    "@polkadot/types-augment": "9.12.2-11-x",
-    "@polkadot/types-codec": "9.12.2-11-x",
-    "@polkadot/types-create": "9.12.2-11-x",
-    "@polkadot/types-known": "9.12.2-11-x",
-    "@polkadot/util": "^10.3.1",
-    "@polkadot/util-crypto": "^10.3.1",
-    "eventemitter3": "^4.0.7",
-    "rxjs": "^7.8.0"
+    "@polkadot/api-augment": "10.9.2-20-x",
+    "@polkadot/api-base": "10.9.2-20-x",
+    "@polkadot/api-derive": "10.9.2-20-x",
+    "@polkadot/keyring": "^12.4.2",
+    "@polkadot/rpc-augment": "10.9.2-20-x",
+    "@polkadot/rpc-core": "10.9.2-20-x",
+    "@polkadot/rpc-provider": "10.9.2-20-x",
+    "@polkadot/types": "10.9.2-20-x",
+    "@polkadot/types-augment": "10.9.2-20-x",
+    "@polkadot/types-codec": "10.9.2-20-x",
+    "@polkadot/types-create": "10.9.2-20-x",
+    "@polkadot/types-known": "10.9.2-20-x",
+    "@polkadot/util": "^12.4.2",
+    "@polkadot/util-crypto": "^12.4.2",
+    "eventemitter3": "^5.0.1",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@polkadot/api-augment": "9.12.2-11-x",
-    "@polkadot/types-support": "9.12.2-11-x"
+    "@polkadot/api-augment": "10.9.2-20-x",
+    "@polkadot/types-support": "10.9.2-20-x"
   }
 }

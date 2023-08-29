@@ -1,15 +1,15 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type ScType from '@substrate/connect';
-import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types';
+import type * as ScType from '@substrate/connect';
+import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted } from '../types.js';
 
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 
-import { isError, isFunction, isObject, logger, objectSpread } from '@polkadot/util';
+import { isError, isFunction, isObject, logger, noop, objectSpread } from '@polkadot/util';
 
-import { RpcCoder } from '../coder';
-import { healthChecker } from './Health';
+import { RpcCoder } from '../coder/index.js';
+import { healthChecker } from './Health.js';
 
 type ResponseCallback = (response: string | Error) => void;
 
@@ -54,10 +54,10 @@ export class ScProvider implements ProviderInterface {
   readonly #Sc: SubstrateConnect;
   readonly #coder: RpcCoder = new RpcCoder();
   readonly #spec: string | ScType.WellKnownChain;
-  readonly #sharedSandbox?: ScProvider;
-  readonly #subscriptions: Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]> = new Map();
-  readonly #resubscribeMethods: Map<string, ActiveSubs> = new Map();
-  readonly #requests: Map<number, ResponseCallback> = new Map();
+  readonly #sharedSandbox?: ScProvider | undefined;
+  readonly #subscriptions = new Map<string, [ResponseCallback, { unsubscribeMethod: string; id: string | number }]>();
+  readonly #resubscribeMethods = new Map<string, ActiveSubs>();
+  readonly #requests = new Map<number, ResponseCallback>();
   readonly #wellKnownChains: Set<ScType.WellKnownChain>;
   readonly #eventemitter: EventEmitter = new EventEmitter();
 
@@ -77,11 +77,11 @@ export class ScProvider implements ProviderInterface {
 
   public get hasSubscriptions (): boolean {
     // Indicates that subscriptions are supported
-    return true;
+    return !!true;
   }
 
   public get isClonable (): boolean {
-    return false;
+    return !!false;
   }
 
   public get isConnected (): boolean {
@@ -132,11 +132,11 @@ export class ScProvider implements ProviderInterface {
         return;
       }
 
-      const response = JSON.parse(hcRes) as JsonRpcResponse;
+      const response = JSON.parse(hcRes) as JsonRpcResponse<string>;
       let decodedResponse: string | Error;
 
       try {
-        decodedResponse = this.#coder.decodeResponse(response) as string;
+        decodedResponse = this.#coder.decodeResponse(response);
       } catch (e) {
         decodedResponse = e as Error;
       }
@@ -193,11 +193,11 @@ export class ScProvider implements ProviderInterface {
 
         Promise
           .race([
-            this.send(unsubscribeMethod, [id]).catch(() => undefined),
+            this.send(unsubscribeMethod, [id]).catch(noop),
             new Promise((resolve) => setTimeout(resolve, 500))
           ])
           .then(killStaleSubscriptions)
-          .catch(() => undefined);
+          .catch(noop);
       };
 
       hc.start((health) => {
@@ -276,7 +276,7 @@ export class ScProvider implements ProviderInterface {
       }
 
       try {
-        const promise: Promise<void> = new Promise((resolve) => {
+        const promise = new Promise<void>((resolve) => {
           this.subscribe(subDetails.type, subDetails.method, subDetails.params, subDetails.callback).catch((error) => console.log(error));
           resolve();
         });

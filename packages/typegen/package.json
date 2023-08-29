@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "Type generation scripts",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/typegen",
   "repository": {
     "directory": "packages/typegen",
@@ -20,37 +18,33 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.12.2-11-x",
+  "version": "10.9.2-20-x",
   "main": "index.js",
   "bin": {
-    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.cjs",
-    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.cjs",
-    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.cjs",
-    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.cjs",
-    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.cjs"
+    "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.mjs",
+    "polkadot-types-from-chain": "./scripts/polkadot-types-from-chain.mjs",
+    "polkadot-types-from-defs": "./scripts/polkadot-types-from-defs.mjs",
+    "polkadot-types-internal-interfaces": "./scripts/polkadot-types-internal-interfaces.mjs",
+    "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.mjs"
   },
   "dependencies": {
-    "@babel/core": "^7.20.12",
-    "@babel/register": "^7.18.9",
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/api": "9.12.2-11-x",
-    "@polkadot/api-augment": "9.12.2-11-x",
-    "@polkadot/rpc-augment": "9.12.2-11-x",
-    "@polkadot/rpc-provider": "9.12.2-11-x",
-    "@polkadot/types": "9.12.2-11-x",
-    "@polkadot/types-augment": "9.12.2-11-x",
-    "@polkadot/types-codec": "9.12.2-11-x",
-    "@polkadot/types-create": "9.12.2-11-x",
-    "@polkadot/types-support": "9.12.2-11-x",
-    "@polkadot/util": "^10.3.1",
-    "@polkadot/util-crypto": "^10.3.1",
-    "@polkadot/x-ws": "^10.3.1",
-    "handlebars": "^4.7.7",
-    "websocket": "^1.0.34",
-    "yargs": "^17.6.2"
+    "@polkadot/api": "10.9.2-20-x",
+    "@polkadot/api-augment": "10.9.2-20-x",
+    "@polkadot/rpc-augment": "10.9.2-20-x",
+    "@polkadot/rpc-provider": "10.9.2-20-x",
+    "@polkadot/types": "10.9.2-20-x",
+    "@polkadot/types-augment": "10.9.2-20-x",
+    "@polkadot/types-codec": "10.9.2-20-x",
+    "@polkadot/types-create": "10.9.2-20-x",
+    "@polkadot/types-support": "10.9.2-20-x",
+    "@polkadot/util": "^12.4.2",
+    "@polkadot/util-crypto": "^12.4.2",
+    "@polkadot/x-ws": "^12.4.2",
+    "handlebars": "^4.7.8",
+    "tslib": "^2.6.2",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@types/websocket": "^1.0.5",
-    "@types/yargs": "^17.0.20"
+    "@types/yargs": "^17.0.24"
   }
 }

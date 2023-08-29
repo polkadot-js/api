@@ -3,9 +3,7 @@
 
 // As per frontier
 
-import type { DefinitionsRpc } from '../../types';
-
-import { objectSpread } from '@polkadot/util';
+import type { DefinitionsRpc } from '../../types/index.js';
 
 // We use aliasSection here to override since these are in another namespace
 const netRpc: DefinitionsRpc = {
@@ -43,7 +41,9 @@ const web3Rpc: DefinitionsRpc = {
   }
 };
 
-export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
+export const rpc: DefinitionsRpc = {
+  ...netRpc,
+  ...web3Rpc,
   accounts: {
     description: 'Returns accounts list.',
     params: [],
@@ -306,8 +306,8 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
     description: 'Returns the number of transactions sent from given address at given time (block number).',
     params: [
       {
-        name: 'hash',
-        type: 'H256'
+        name: 'address',
+        type: 'H160'
       },
       {
         isHistoric: true,
@@ -505,4 +505,4 @@ export const rpc: DefinitionsRpc = objectSpread({}, netRpc, web3Rpc, {
     ],
     type: 'bool'
   }
-});
+};

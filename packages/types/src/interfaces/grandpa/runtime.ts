@@ -1,9 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionsCall, DefinitionsCallEntry } from '../../types';
-
-import { objectSpread } from '@polkadot/util';
+import type { DefinitionsCall, DefinitionsCallEntry } from '../../types/index.js';
 
 const GRANDPA_V2_V3: DefinitionsCallEntry['methods'] = {
   generate_key_ownership_proof: {
@@ -44,13 +42,14 @@ const GRANDPA_V2_V3: DefinitionsCallEntry['methods'] = {
 export const runtime: DefinitionsCall = {
   GrandpaApi: [
     {
-      methods: objectSpread({
+      methods: {
         current_set_id: {
           description: 'Get current GRANDPA authority set id.',
           params: [],
           type: 'SetId'
-        }
-      }, GRANDPA_V2_V3),
+        },
+        ...GRANDPA_V2_V3
+      },
       version: 3
     },
     {

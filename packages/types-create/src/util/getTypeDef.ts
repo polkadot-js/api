@@ -5,14 +5,30 @@ import type { AnyString } from '@polkadot/types-codec/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 
 import { sanitize } from '@polkadot/types-codec';
-import { isNumber, isString, objectSpread } from '@polkadot/util';
+import { isNumber, isString, objectSpread, stringify } from '@polkadot/util';
 
-import { TypeDefInfo } from '../types';
-import { typeSplit } from './typeSplit';
+import { TypeDefInfo } from '../types/index.js';
+import { typeSplit } from './typeSplit.js';
 
 interface TypeDefOptions {
   name?: string;
   displayName?: string;
+}
+
+interface SetDetails {
+  _bitLength: number;
+  index: number;
+
+  [key: string]: number;
+}
+
+interface ParsedDef {
+  _alias: string;
+  _enum?: string[];
+  _fallback?: string;
+  _set?: SetDetails;
+
+  [key: string]: unknown;
 }
 
 const KNOWN_INTERNALS = ['_alias', '_fallback'];
@@ -20,7 +36,7 @@ const KNOWN_INTERNALS = ['_alias', '_fallback'];
 function getTypeString (typeOrObj: any): string {
   return isString(typeOrObj)
     ? typeOrObj.toString()
-    : JSON.stringify(typeOrObj);
+    : stringify(typeOrObj);
 }
 
 function isRustEnum (details: Record<string, string> | Record<string, number>): details is Record<string, string> {
@@ -71,7 +87,7 @@ function _decodeEnum (value: TypeDef, details: string[] | Record<string, string>
 
 // decode a set of the form
 //   { _set: { A: 0b0001, B: 0b0010, C: 0b0100 } }
-function _decodeSet (value: TypeDef, details: Record<string, number>, fallbackType: string | undefined): TypeDef {
+function _decodeSet (value: TypeDef, details: SetDetails, fallbackType: string | undefined): TypeDef {
   value.info = TypeDefInfo.Set;
   value.fallbackType = fallbackType;
   value.length = details._bitLength;
@@ -89,15 +105,14 @@ function _decodeSet (value: TypeDef, details: Record<string, number>, fallbackTy
 }
 
 // decode a struct, set or enum
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeStruct (value: TypeDef, type: string, _: string, count: number): TypeDef {
-  const parsed = JSON.parse(type) as Record<string, unknown> & { _alias: string, _fallback?: string };
+  const parsed = JSON.parse(type) as ParsedDef;
   const keys = Object.keys(parsed);
 
-  if (keys.includes('_enum')) {
-    return _decodeEnum(value, parsed._enum as string[], count, parsed._fallback);
-  } else if (keys.includes('_set')) {
-    return _decodeSet(value, parsed._set as Record<string, number>, parsed._fallback);
+  if (parsed._enum) {
+    return _decodeEnum(value, parsed._enum, count, parsed._fallback);
+  } else if (parsed._set) {
+    return _decodeSet(value, parsed._set, parsed._fallback);
   }
 
   value.alias = parsed._alias
@@ -114,7 +129,6 @@ function _decodeStruct (value: TypeDef, type: string, _: string, count: number):
 }
 
 // decode a fixed vector, e.g. [u8;32]
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number): TypeDef {
   const max = type.length - 1;
   let index = -1;
@@ -173,7 +187,6 @@ function _decodeTuple (value: TypeDef, _: string, subType: string, count: number
 }
 
 // decode a Int/UInt<bitLength[, name]>
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeAnyInt (value: TypeDef, type: string, _: string, clazz: 'Int' | 'UInt'): TypeDef {
   const [strLength, displayName] = type.substring(clazz.length + 1, type.length - 1).split(',');
   const length = parseInt(strLength.trim(), 10);
@@ -196,7 +209,6 @@ function _decodeUInt (value: TypeDef, type: string, subType: string): TypeDef {
   return _decodeAnyInt(value, type, subType, 'UInt');
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function _decodeDoNotConstruct (value: TypeDef, type: string, _: string): TypeDef {
   const NAME_LENGTH = 'DoNotConstruct'.length;
 
@@ -206,7 +218,7 @@ function _decodeDoNotConstruct (value: TypeDef, type: string, _: string): TypeDe
 }
 
 function hasWrapper (type: string, [start, end]: [string, string, TypeDefInfo, any?]): boolean {
-  return (type.substring(0, start.length) === start) && (type.slice(-1 * end.length) === end);
+  return (type.startsWith(start)) && (type.slice(-1 * end.length) === end);
 }
 
 const nestedExtraction: [string, string, TypeDefInfo, (value: TypeDef, type: string, subType: string, count: number) => TypeDef][] = [

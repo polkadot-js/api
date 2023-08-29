@@ -3,8 +3,8 @@
 
 // import type { SignOptions } from '@polkadot/keyring/types';
 import type { BN } from '@polkadot/util';
-import type { ArgsDef, Codec } from './codec';
-import type { AnyTuple } from './helpers';
+import type { ArgsDef, Codec } from './codec.js';
+import type { AnyTuple } from './helpers.js';
 
 export interface ICompact<T extends INumber = INumber> extends Codec {
   toBigInt (): bigint;
@@ -66,6 +66,7 @@ export interface IStruct<K = string, V extends Codec = Codec> extends Map<K, V>,
   toArray (): Codec[];
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export interface IText extends String, Codec {
   // nothing additional
 }

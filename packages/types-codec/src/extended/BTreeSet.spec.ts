@@ -1,12 +1,13 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { CodecClass, CodecTo } from '@polkadot/types-codec/types';
+import type { ITuple } from '../types/interfaces.js';
 
 import { TypeRegistry } from '@polkadot/types';
 import { BTreeSet, Enum, I32, Struct, Text, Tuple, U32 } from '@polkadot/types-codec';
-
-import { ITuple } from '../types/interfaces';
 
 const registry = new TypeRegistry();
 
@@ -123,7 +124,7 @@ describe('BTreeSet', (): void => {
       (): BTreeSet<U32> => new (
         BTreeSet.with(U32)
       )(registry, 'ABC')
-    ).toThrowError(/BTreeSet: cannot decode type/);
+    ).toThrow(/BTreeSet: cannot decode type/);
   });
 
   describe('enocodedLength & initialU8aLength', (): void => {

@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Option, Text, u8 } from '@polkadot/types-codec';
 import type { AnyJson, Registry } from '@polkadot/types-codec/types';
-import type { MetadataLatest, PalletCallMetadataLatest } from '../../interfaces/metadata';
+import type { MetadataLatest, PalletCallMetadataLatest } from '../../interfaces/metadata/index.js';
 
-import { Option, Text, u8 } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
 interface ModuleMetadataTrimmed {

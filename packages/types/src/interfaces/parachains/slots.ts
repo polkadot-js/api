@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { objectSpread } from '@polkadot/util';
-
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
@@ -44,7 +42,8 @@ const oldTypes = {
   SubId: 'u32'
 };
 
-export default objectSpread({}, oldTypes, {
+export default {
+  ...oldTypes,
   AuctionIndex: 'u32',
   LeasePeriod: 'BlockNumber',
   LeasePeriodOf: 'BlockNumber',
@@ -57,4 +56,4 @@ export default objectSpread({}, oldTypes, {
   WinnersData: 'Vec<WinnersDataTuple>',
   WinnersDataTuple10: '(AccountId, ParaId, BalanceOf, SlotRange10)',
   WinnersDataTuple: '(AccountId, ParaId, BalanceOf, SlotRange)'
-});
+};

@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { getSimilarTypes } from './derived';
+import { getSimilarTypes } from './derived.js';
 
 describe('getSimilarTypes', (): void => {
-  let registry: TypeRegistry;
-
+  const registry = new TypeRegistry();
   const mockImports = {
     codecTypes: {},
     definitions: {},
@@ -21,10 +22,6 @@ describe('getSimilarTypes', (): void => {
     typeToModule: {},
     typesTypes: {}
   };
-
-  beforeAll((): void => {
-    registry = new TypeRegistry();
-  });
 
   it('handles nested Tuples', (): void => {
     expect(getSimilarTypes(registry, {}, '(AccountId, (Balance, u32), u64)', mockImports)).toEqual([

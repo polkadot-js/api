@@ -3,14 +3,14 @@
 
 import type { Observable } from 'rxjs';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi } from '../types';
-import type { Bag, BagExpanded } from './types';
+import type { DeriveApi } from '../types.js';
+import type { Bag, BagExpanded } from './types.js';
 
 import { map, switchMap } from 'rxjs';
 
 import { objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 export function expand (instanceId: string, api: DeriveApi): (bag: Bag) => Observable<BagExpanded> {
   return memo(instanceId, (bag: Bag): Observable<BagExpanded> =>

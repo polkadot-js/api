@@ -6,26 +6,26 @@ import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, Hash, ReferendumInfoTo239, Vote } from '@polkadot/types/interfaces';
 import type { PalletDemocracyReferendumInfo, PalletDemocracyReferendumStatus, PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi, DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types';
+import type { DeriveApi, DeriveBalancesAccount, DeriveReferendum, DeriveReferendumVote, DeriveReferendumVotes } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { isFunction, objectSpread } from '@polkadot/util';
 
-import { memo } from '../util';
-import { calcVotes, getImageHash, getStatus } from './util';
+import { memo } from '../util/index.js';
+import { calcVotes, getImageHash, getStatus } from './util.js';
 
 type VotingDelegating = PalletDemocracyVoteVoting['asDelegating'];
 type VotingDirect = PalletDemocracyVoteVoting['asDirect'];
 type VotingDirectVote = VotingDirect['votes'][0];
 
 function votesPrev (api: DeriveApi, referendumId: BN): Observable<DeriveReferendumVote[]> {
-  return api.query.democracy.votersFor<Vec<AccountId>>(referendumId).pipe(
+  return api.query.democracy['votersFor']<Vec<AccountId>>(referendumId).pipe(
     switchMap((votersFor): Observable<[Vec<AccountId>, Vote[], DeriveBalancesAccount[]]> =>
       combineLatest([
         of(votersFor),
         votersFor.length
-          ? api.query.democracy.voteOf.multi<Vote>(
+          ? api.query.democracy['voteOf'].multi<Vote>(
             votersFor.map((accountId): [BN | number, AccountId] =>
               [referendumId, accountId]
             )

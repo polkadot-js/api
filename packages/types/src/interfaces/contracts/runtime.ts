@@ -1,9 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionCall, DefinitionsCall } from '../../types';
-
-import { objectSpread } from '@polkadot/util';
+import type { DefinitionCall, DefinitionsCall } from '../../types/index.js';
 
 const SHARED_V1_V2: Record<string, DefinitionCall> = {
   get_storage: {
@@ -43,7 +41,7 @@ const SHARED_V1_V2: Record<string, DefinitionCall> = {
 export const runtime: DefinitionsCall = {
   ContractsApi: [
     {
-      methods: objectSpread({
+      methods: {
         call: {
           description: 'Perform a call from a specified account to a given contract.',
           params: [
@@ -107,12 +105,13 @@ export const runtime: DefinitionsCall = {
             }
           ],
           type: 'ContractInstantiateResult'
-        }
-      }, SHARED_V1_V2),
+        },
+        ...SHARED_V1_V2
+      },
       version: 2
     },
     {
-      methods: objectSpread({
+      methods: {
         call: {
           description: 'Perform a call from a specified account to a given contract.',
           params: [
@@ -176,8 +175,9 @@ export const runtime: DefinitionsCall = {
             }
           ],
           type: 'ContractInstantiateResultU64'
-        }
-      }, SHARED_V1_V2),
+        },
+        ...SHARED_V1_V2
+      },
       version: 1
     }
   ]

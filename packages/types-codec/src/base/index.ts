@@ -1,15 +1,15 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export { Compact } from './Compact';
-export { DoNotConstruct } from './DoNotConstruct';
-export { Enum } from './Enum';
-export { Int } from './Int';
-export { Null } from './Null';
-export { Option } from './Option';
-export { Result } from './Result';
-export { Tuple } from './Tuple';
-export { UInt } from './UInt';
-export { Vec } from './Vec';
-export { VecAny } from './VecAny';
-export { VecFixed } from './VecFixed';
+export { Compact } from './Compact.js';
+export { DoNotConstruct } from './DoNotConstruct.js';
+export { Enum } from './Enum.js';
+export { Int } from './Int.js';
+export { Null } from './Null.js';
+export { Option } from './Option.js';
+export { Result } from './Result.js';
+export { Tuple } from './Tuple.js';
+export { UInt } from './UInt.js';
+export { Vec } from './Vec.js';
+export { VecAny } from './VecAny.js';
+export { VecFixed } from './VecFixed.js';

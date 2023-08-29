@@ -1,18 +1,20 @@
 // Copyright 2017-2023 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Definitions, DefinitionsTypes } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
-import { Definitions } from '@polkadot/types/types';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isHex } from '@polkadot/util';
 
-import { generateDefaultCalls, generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultTx } from './generate';
-import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util';
+import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTx } from './generate/index.js';
+import { assertDir, assertFile, getMetadataViaWs, HEADER, writeFile } from './util/index.js';
 
-function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): void {
+async function generate (metaHex: HexString, pkg: string | undefined, output: string, isStrict?: boolean): Promise<void> {
   console.log(`Generating from metadata, ${formatNumber((metaHex.length - 2) / 2)} bytes`);
 
   const outputPath = assertDir(path.join(process.cwd(), output));
@@ -21,9 +23,12 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
 
   if (pkg) {
     try {
+      const defCont = await import(
+        assertFile(path.join(outputPath, 'definitions.ts'))
+      ) as Record<string, any>;
+
       extraTypes = {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-argument
-        [pkg]: require(assertFile(path.join(outputPath, 'definitions.ts'))) as Record<string, any>
+        [pkg]: defCont
       };
     } catch (error) {
       console.error('ERROR: No custom definitions found:', (error as Error).message);
@@ -31,10 +36,13 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
   }
 
   try {
+    const lookCont = await import(
+      assertFile(path.join(outputPath, 'lookup.ts'))
+    ) as { default: DefinitionsTypes };
+
     customLookupDefinitions = {
       rpc: {},
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-      types: require(assertFile(path.join(outputPath, 'lookup.ts'))).default
+      types: lookCont.default
     };
   } catch (error) {
     console.error('ERROR: No lookup definitions found:', (error as Error).message);
@@ -45,8 +53,8 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
   generateDefaultEvents(path.join(outputPath, 'augment-api-events.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultQuery(path.join(outputPath, 'augment-api-query.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultRpc(path.join(outputPath, 'augment-api-rpc.ts'), extraTypes);
+  generateDefaultRuntime(path.join(outputPath, 'augment-api-runtime.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
   generateDefaultTx(path.join(outputPath, 'augment-api-tx.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
-  generateDefaultCalls(path.join(outputPath, 'augment-api-runtime.ts'), metaHex, extraTypes, isStrict, customLookupDefinitions);
 
   writeFile(path.join(outputPath, 'augment-api.ts'), (): string =>
     [
@@ -54,7 +62,7 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
       ...[
         ...['consts', 'errors', 'events', 'query', 'tx', 'rpc', 'runtime']
           .filter((key) => !!key)
-          .map((key) => `./augment-api-${key}`)
+          .map((key) => `./augment-api-${key}.js`)
       ].map((path) => `import '${path}';\n`)
     ].join('')
   );
@@ -62,10 +70,10 @@ function generate (metaHex: HexString, pkg: string | undefined, output: string, 
   process.exit(0);
 }
 
-type ArgV = { endpoint: string; output: string; package?: string; strict?: boolean };
+interface ArgV { endpoint: string; output: string; package?: string; strict?: boolean }
 
-export function main (): void {
-  const { endpoint, output, package: pkg, strict: isStrict } = yargs.strict().options({
+async function mainPromise (): Promise<void> {
+  const { endpoint, output, package: pkg, strict: isStrict } = yargs(hideBin(process.argv)).strict().options({
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
       required: true,
@@ -86,14 +94,30 @@ export function main (): void {
     }
   }).argv as ArgV;
 
-  if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-    getMetadataViaWs(endpoint)
-      .then((metadata) => generate(metadata, pkg, output, isStrict))
-      .catch(() => process.exit(1));
-  } else {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const metadata = (require(assertFile(path.join(process.cwd(), endpoint))) as Record<string, HexString>).result;
+  let metaHex: HexString;
 
-    generate(metadata, pkg, output, isStrict);
+  if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
+    metaHex = await getMetadataViaWs(endpoint);
+  } else {
+    metaHex = (
+      JSON.parse(
+        fs.readFileSync(assertFile(path.join(process.cwd(), endpoint)), 'utf-8')
+      ) as { result: HexString }
+    ).result;
+
+    if (!isHex(metaHex)) {
+      throw new Error('Invalid metadata file');
+    }
   }
+
+  await generate(metaHex, pkg, output, isStrict);
+}
+
+export function main (): void {
+  mainPromise().catch((error) => {
+    console.error();
+    console.error(error);
+    console.error();
+    process.exit(1);
+  });
 }

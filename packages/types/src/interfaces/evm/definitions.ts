@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
 export default {
   rpc: {},
@@ -25,6 +25,20 @@ export default {
       usedGas: 'U256',
       logs: 'Vec<EvmLog>'
     },
+    EvmCallInfoV2: {
+      exitReason: 'ExitReason',
+      value: 'Bytes',
+      usedGas: 'U256',
+      weightInfo: 'Option<EvmWeightInfo>',
+      logs: 'Vec<EvmLog>'
+    },
+    EvmCreateInfoV2: {
+      exitReason: 'ExitReason',
+      value: 'H160',
+      usedGas: 'U256',
+      weightInfo: 'Option<EvmWeightInfo>',
+      logs: 'Vec<EvmLog>'
+    },
     EvmLog: {
       address: 'H160',
       topics: 'Vec<H256>',
@@ -33,6 +47,13 @@ export default {
     EvmVicinity: {
       gasPrice: 'u256',
       origin: 'H160'
+    },
+    EvmWeightInfo: {
+      refTimeLimit: 'Option<u64>',
+      proofSizeLimit: 'Option<u64>',
+      refTimeUsage: 'Option<u64>',
+      proofSizeUsage: 'Option<u64>'
+
     },
     ExitError: {
       _enum: {

@@ -3,20 +3,11 @@
 
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, AnyNumber, CodecClass, ICompact, Inspect, INumber, IU8a, Registry } from '../types';
+import type { AnyJson, AnyNumber, CodecClass, DefinitionSetter, ICompact, Inspect, INumber, IU8a, Registry } from '../types/index.js';
 
-import { compactFromU8a, compactFromU8aLim, compactToU8a, isU8a } from '@polkadot/util';
+import { compactFromU8a, compactFromU8aLim, compactToU8a, identity, isU8a } from '@polkadot/util';
 
-import { typeToConstructor } from '../utils';
-
-interface Options<T> {
-  definition?: CodecClass<T>;
-  setDefinition?: (d: CodecClass<T>) => CodecClass<T>;
-}
-
-function noopSetDefinition <T> (d: CodecClass<T>): CodecClass<T> {
-  return d;
-}
+import { typeToConstructor } from '../utils/index.js';
 
 function decodeCompact<T extends INumber> (registry: Registry, Type: CodecClass<T>, value: Compact<T> | AnyNumber): [T, number] {
   if (isU8a(value)) {
@@ -56,7 +47,7 @@ export class Compact<T extends INumber> implements ICompact<T> {
   readonly #Type: CodecClass<T>;
   readonly #raw: T;
 
-  constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = noopSetDefinition }: Options<T> = {}) {
+  constructor (registry: Registry, Type: CodecClass<T> | string, value: Compact<T> | AnyNumber = 0, { definition, setDefinition = identity }: DefinitionSetter<CodecClass<T>> = {}) {
     this.registry = registry;
     this.#Type = definition || setDefinition(typeToConstructor(registry, Type));
 
@@ -193,10 +184,8 @@ export class Compact<T extends INumber> implements ICompact<T> {
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     return compactToU8a(this.#raw.toBn());
   }
 

@@ -3,25 +3,23 @@
 
 import type { PalletConstantMetadataLatest } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
-import type { ApiTypes } from './base';
+import type { ApiTypes, EmptyBase } from './base.js';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface AugmentedConst<ApiType extends ApiTypes> {
+export interface AugmentedConst<_ extends ApiTypes> {
   meta: PalletConstantMetadataLatest;
 }
 
 // augmented interfaces
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface AugmentedConsts<ApiType extends ApiTypes> {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AugmentedConsts<ApiType extends ApiTypes> extends EmptyBase<ApiType> {
   // augmented
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
   // when non-augmented, we need to at least have Codec results
   [key: string]: QueryableModuleConsts;
 }
 
-export interface QueryableModuleConsts {
-  [key: string]: Codec;
-}
+export type QueryableModuleConsts = Record<string, Codec>;

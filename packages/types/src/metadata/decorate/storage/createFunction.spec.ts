@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { u8aToHex } from '@polkadot/util';
 
-import { TypeRegistry } from '../../../create';
-import { Metadata } from '../../Metadata';
-import { createFunction } from './createFunction';
+import { TypeRegistry } from '../../../create/index.js';
+import { Metadata } from '../../Metadata.js';
+import { createFunction } from './createFunction.js';
 
 describe('createFunction', (): void => {
   const registry = new TypeRegistry();
@@ -86,7 +88,7 @@ describe('createFunction', (): void => {
       '1a7938fede32e1275281b3eee5708706d88444a6dc898a4dec463f1eb298463f' // AccountId
     );
     expect(
-      storageFn.iterKey && storageFn.iterKey.meta.type.asPlain.toNumber()
+      storageFn.iterKey?.meta.type.asPlain.toNumber()
     ).toEqual(0);
   });
 

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { ExtrinsicOptions } from './types';
+import type { ExtrinsicOptions } from './types.js';
 
 import { Struct } from '@polkadot/types-codec';
 
-import { UNMASK_VERSION } from './constants';
+import { UNMASK_VERSION } from './constants.js';
 
 /**
  * @name GenericExtrinsicUnknown
@@ -14,7 +14,7 @@ import { UNMASK_VERSION } from './constants';
  * A default handler for extrinsics where the version is not known (default throw)
  */
 export class GenericExtrinsicUnknown extends Struct {
-  constructor (registry: Registry, value?: unknown, { isSigned = false, version = 0 }: Partial<ExtrinsicOptions> = {}) {
+  constructor (registry: Registry, _value?: unknown, { isSigned = false, version = 0 }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {});
 
     throw new Error(`Unsupported ${isSigned ? '' : 'un'}signed extrinsic version ${version & UNMASK_VERSION}`);

@@ -7,17 +7,17 @@ import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, AnyNumber, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
-import type { RpcInterfaceMethod } from './types';
+import type { RpcInterfaceMethod } from './types/index.js';
 
 import { Observable, publishReplay, refCount } from 'rxjs';
 
 import { rpcDefinitions } from '@polkadot/types';
 import { hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aConcat, u8aToU8a } from '@polkadot/util';
 
-import { drr, refCountDelay } from './util';
+import { drr, refCountDelay } from './util/index.js';
 
-export { packageInfo } from './packageInfo';
-export * from './util';
+export { packageInfo } from './packageInfo.js';
+export * from './util/index.js';
 
 interface StorageChangeSetJSON {
   block: string;
@@ -27,6 +27,12 @@ interface StorageChangeSetJSON {
 type MemoizedRpcInterfaceMethod = Memoized<RpcInterfaceMethod> & {
   raw: Memoized<RpcInterfaceMethod>;
   meta: DefinitionRpc;
+}
+
+interface Options {
+  isPedantic?: boolean;
+  provider: ProviderInterface;
+  userRpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
 }
 
 const l = logger('rpc-core');
@@ -47,11 +53,11 @@ function logErrorMessage (method: string, { noErrorLog, params, type }: Definiti
     return;
   }
 
-  const inputs = params.map(({ isOptional, name, type }): string =>
-    `${name}${isOptional ? '?' : ''}: ${type}`
-  ).join(', ');
-
-  l.error(`${method}(${inputs}): ${type}:: ${error.message}`);
+  l.error(`${method}(${
+    params.map(({ isOptional, name, type }): string =>
+      `${name}${isOptional ? '?' : ''}: ${type}`
+    ).join(', ')
+  }): ${type}:: ${error.message}`);
 }
 
 function isTreatAsHex (key: StorageKey): boolean {
@@ -84,13 +90,13 @@ function isTreatAsHex (key: StorageKey): boolean {
  * ```
  */
 export class RpcCore {
-  #instanceId: string;
-  #registryDefault: Registry;
+  readonly #instanceId: string;
+  readonly #isPedantic: boolean;
+  readonly #registryDefault: Registry;
+  readonly #storageCache = new Map<string, Codec>();
 
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
   #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
-
-  readonly #storageCache = new Map<string, Codec>();
 
   readonly mapping = new Map<string, DefinitionRpcExt>();
   readonly provider: ProviderInterface;
@@ -98,16 +104,16 @@ export class RpcCore {
 
   /**
    * @constructor
-   * Default constructor for the Api Object
-   * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
+   * Default constructor for the core RPC handler
+   * @param  {ProviderInterface} provider An API provider using any of the supported providers (HTTP, SC or WebSocket)
    */
-  constructor (instanceId: string, registry: Registry, provider: ProviderInterface, userRpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>> = {}) {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
+  constructor (instanceId: string, registry: Registry, { isPedantic = true, provider, userRpc = {} }: Options) {
     if (!provider || !isFunction(provider.send)) {
       throw new Error('Expected Provider to API create');
     }
 
     this.#instanceId = instanceId;
+    this.#isPedantic = isPedantic;
     this.#registryDefault = registry;
     this.provider = provider;
 
@@ -163,12 +169,12 @@ export class RpcCore {
     // add any extra user-defined sections
     this.sections.push(...Object.keys(userRpc).filter((k) => !this.sections.includes(k)));
 
-    for (let s = 0; s < this.sections.length; s++) {
+    for (let s = 0, scount = this.sections.length; s < scount; s++) {
       const section = this.sections[s];
       const defs = objectSpread<Record<string, DefinitionRpc | DefinitionRpcSub>>({}, rpcDefinitions[section as 'babe'], userRpc[section]);
       const methods = Object.keys(defs);
 
-      for (let m = 0; m < methods.length; m++) {
+      for (let m = 0, mcount = methods.length; m < mcount; m++) {
         const method = methods[m];
         const def = defs[method];
         const jsonrpc = def.endpoint || `${section}_${method}`;
@@ -227,7 +233,7 @@ export class RpcCore {
         ? await this.#getBlockRegistry(u8aToU8a(blockHash))
         : { registry: this.#registryDefault };
 
-      const params = this._formatInputs(registry, null, def, values);
+      const params = this._formatParams(registry, null, def, values);
 
       // only cache .at(<blockHash>) queries, e.g. where valid blockHash was supplied
       const result = await this.provider.send<AnyJson>(rpcName, params.map((p) => p.toJSON()), !!blockHash);
@@ -307,8 +313,7 @@ export class RpcCore {
         };
 
         try {
-          const params = this._formatInputs(registry, null, def, values);
-          const paramsJson = params.map((p) => p.toJSON());
+          const params = this._formatParams(registry, null, def, values);
 
           const update = (error?: Error | null, result?: unknown): void => {
             if (error) {
@@ -324,7 +329,7 @@ export class RpcCore {
             }
           };
 
-          subscriptionPromise = this._createSubscriber({ paramsJson, subName, subType, update }, errorHandler);
+          subscriptionPromise = this._createSubscriber({ paramsJson: params.map((p) => p.toJSON()), subName, subType, update }, errorHandler);
         } catch (error) {
           errorHandler(error as Error);
         }
@@ -355,19 +360,21 @@ export class RpcCore {
     return memoized;
   }
 
-  private _formatInputs (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
-    const reqArgCount = def.params.filter(({ isOptional }) => !isOptional).length;
-    const optText = reqArgCount === def.params.length
-      ? ''
-      : ` (${def.params.length - reqArgCount} optional)`;
+  private _formatParams (registry: Registry, blockHash: Uint8Array | string | null | undefined, def: DefinitionRpc, inputs: unknown[]): Codec[] {
+    const count = inputs.length;
+    const reqCount = def.params.filter(({ isOptional }) => !isOptional).length;
 
-    if (inputs.length < reqArgCount || inputs.length > def.params.length) {
-      throw new Error(`Expected ${def.params.length} parameters${optText}, ${inputs.length} found instead`);
+    if (count < reqCount || count > def.params.length) {
+      throw new Error(`Expected ${def.params.length} parameters${reqCount === def.params.length ? '' : ` (${def.params.length - reqCount} optional)`}, ${count} found instead`);
     }
 
-    return inputs.map((input, index): Codec =>
-      registry.createTypeUnsafe(def.params[index].type, [input], { blockHash })
-    );
+    const params = new Array<Codec>(count);
+
+    for (let i = 0; i < count; i++) {
+      params[i] = registry.createTypeUnsafe(def.params[i].type, [inputs[i]], { blockHash });
+    }
+
+    return params;
   }
 
   private _formatOutput (registry: Registry, blockHash: Uint8Array | string | null | undefined, method: string, rpc: DefinitionRpc, params: Codec[], result?: unknown): Codec | Codec[] {
@@ -382,10 +389,18 @@ export class RpcCore {
         ? this._formatStorageSet(registry, (result as StorageChangeSetJSON).block, keys, (result as StorageChangeSetJSON).changes)
         : registry.createType('StorageChangeSet', result);
     } else if (rpc.type === 'Vec<StorageChangeSet>') {
-      const mapped = (result as StorageChangeSetJSON[]).map(({ block, changes }): [Hash, Codec[]] => [
-        registry.createType('Hash', block),
-        this._formatStorageSet(registry, block, params[0] as Vec<StorageKey>, changes)
-      ]);
+      const jsonSet = (result as StorageChangeSetJSON[]);
+      const count = jsonSet.length;
+      const mapped = new Array<[Hash, Codec[]]>(count);
+
+      for (let i = 0; i < count; i++) {
+        const { block, changes } = jsonSet[i];
+
+        mapped[i] = [
+          registry.createType('BlockHash', block),
+          this._formatStorageSet(registry, block, params[0] as Vec<StorageKey>, changes)
+        ];
+      }
 
       // we only query at a specific block, not a range - flatten
       return method === 'queryStorageAt'
@@ -412,17 +427,17 @@ export class RpcCore {
 
   private _formatStorageSet (registry: Registry, blockHash: string, keys: Vec<StorageKey>, changes: [string, string | null][]): Codec[] {
     // For StorageChangeSet, the changes has the [key, value] mappings
-    const withCache = keys.length !== 1;
+    const count = keys.length;
+    const withCache = count !== 1;
+    const values = new Array<Codec>(count);
 
-    // multiple return values (via state.storage subscription), decode the values
-    // one at a time, all based on the query types. Three values can be returned -
-    //   - Codec - There is a valid value, non-empty
-    //   - null - The storage key is empty
-    return keys.reduce((results: Codec[], key: StorageKey, index): Codec[] => {
-      results.push(this._formatStorageSetEntry(registry, blockHash, key, changes, withCache, index));
+    // multiple return values (via state.storage subscription), decode the
+    // values one at a time, all based on the supplied query types
+    for (let i = 0; i < count; i++) {
+      values[i] = this._formatStorageSetEntry(registry, blockHash, keys[i], changes, withCache, i);
+    }
 
-      return results;
-    }, []);
+    return values;
   }
 
   private _formatStorageSetEntry (registry: Registry, blockHash: string, key: StorageKey, changes: [string, string | null][], withCache: boolean, entryIndex: number): Codec {
@@ -478,9 +493,9 @@ export class RpcCore {
               : hexToU8a(meta.fallback.toHex())
             : undefined
           : meta.modifier.isOptional
-            ? registry.createTypeUnsafe(type, [input], { blockHash, isPedantic: true })
+            ? registry.createTypeUnsafe(type, [input], { blockHash, isPedantic: this.#isPedantic })
             : input
-      ], { blockHash, isFallback: isEmpty && !!meta.fallback, isOptional: meta.modifier.isOptional, isPedantic: !meta.modifier.isOptional });
+      ], { blockHash, isFallback: isEmpty && !!meta.fallback, isOptional: meta.modifier.isOptional, isPedantic: this.#isPedantic && !meta.modifier.isOptional });
     } catch (error) {
       throw new Error(`Unable to decode storage ${key.section || 'unknown'}.${key.method || 'unknown'}:${entryNum}: ${(error as Error).message}`);
     }

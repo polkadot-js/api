@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "API generated augmentation",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-augment#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/api-augment",
   "repository": {
     "directory": "packages/api-augment",
@@ -20,15 +18,15 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.12.2-11-x",
+  "version": "10.9.2-20-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/api-base": "9.12.2-11-x",
-    "@polkadot/rpc-augment": "9.12.2-11-x",
-    "@polkadot/types": "9.12.2-11-x",
-    "@polkadot/types-augment": "9.12.2-11-x",
-    "@polkadot/types-codec": "9.12.2-11-x",
-    "@polkadot/util": "^10.3.1"
+    "@polkadot/api-base": "10.9.2-20-x",
+    "@polkadot/rpc-augment": "10.9.2-20-x",
+    "@polkadot/types": "10.9.2-20-x",
+    "@polkadot/types-augment": "10.9.2-20-x",
+    "@polkadot/types-codec": "10.9.2-20-x",
+    "@polkadot/util": "^12.4.2",
+    "tslib": "^2.6.2"
   }
 }

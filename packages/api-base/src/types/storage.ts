@@ -6,15 +6,13 @@ import type { StorageKey, u64 } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyTuple, Callback, Codec, IStorageKey } from '@polkadot/types/types';
-import type { ApiTypes, DropLast, MethodResult, PaginationOptions, PromiseOrObs, ReturnCodec, UnsubscribePromise } from './base';
+import type { ApiTypes, DropLast, EmptyBase, MethodResult, PaginationOptions, PromiseOrObs, ReturnCodec, UnsubscribePromise } from './base.js';
 
-interface StorageEntryObservableMulti<R extends Codec = Codec> {
-  <T extends Codec = R>(args: (unknown[] | unknown)[]): Observable<T[]>;
-}
+type StorageEntryObservableMulti<R extends Codec = Codec> = <T extends Codec = R>(args: unknown[]) => Observable<T[]>;
 
 interface StorageEntryPromiseMulti<R extends Codec = Codec> {
-  <T extends Codec = R>(args: (unknown[] | unknown)[]): Promise<T[]>;
-  <T extends Codec = R>(args: (unknown[] | unknown)[], callback: Callback<T[]>): UnsubscribePromise;
+  <T extends Codec = R>(args: unknown[]): Promise<T[]>;
+  <T extends Codec = R>(args: unknown[], callback: Callback<T[]>): UnsubscribePromise;
 }
 
 export interface StorageEntryPromiseOverloads {
@@ -48,12 +46,12 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
   /**
    * @deprecated Use api.at(<blockHash>)
    */
-  at: <T extends Codec | any = ReturnCodec<F>>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
+  at: <T = ReturnCodec<F>>(hash: Hash | Uint8Array | string, ...args: Parameters<F>) => PromiseOrObs<ApiType, T>;
   creator: StorageEntry;
   /**
    * @deprecated Use api.at(<blockHash>)
    */
-  entriesAt: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  entriesAt: <T = ReturnCodec<F>, K extends AnyTuple = A>(hash: Hash | Uint8Array | string, ...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
   /**
    * @deprecated Use api.at(<blockHash>)
    */
@@ -68,8 +66,8 @@ export interface StorageEntryBase<ApiType extends ApiTypes, F extends AnyFunctio
 }
 
 export interface StorageEntryBaseAt<ApiType extends ApiTypes, F extends AnyFunction, A extends AnyTuple = AnyTuple> {
-  entries: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
-  entriesPaged: <T extends Codec | any = ReturnCodec<F>, K extends AnyTuple = A>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  entries: <T = ReturnCodec<F>, K extends AnyTuple = A>(...args: DropLast<Parameters<F>>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
+  entriesPaged: <T = ReturnCodec<F>, K extends AnyTuple = A>(opts: PaginationOptions<Parameters<F>[0]>) => PromiseOrObs<ApiType, [StorageKey<K>, T][]>;
   hash: (...args: Parameters<F>) => PromiseOrObs<ApiType, Hash>;
   is: (key: IStorageKey<AnyTuple>) => key is IStorageKey<A>;
   key: (...args: Parameters<F>) => string;
@@ -79,21 +77,15 @@ export interface StorageEntryBaseAt<ApiType extends ApiTypes, F extends AnyFunct
   size: (...args: Parameters<F>) => PromiseOrObs<ApiType, u64>;
 }
 
-export interface QueryableModuleStorage<ApiType extends ApiTypes> {
-  [key: string]: QueryableStorageEntry<ApiType, AnyTuple>;
-}
+export type QueryableModuleStorage<ApiType extends ApiTypes> = Record<string, QueryableStorageEntry<ApiType, AnyTuple>>;
 
-export interface QueryableModuleStorageAt<ApiType extends ApiTypes> {
-  [key: string]: QueryableStorageEntryAt<ApiType, AnyTuple>;
-}
+export type QueryableModuleStorageAt<ApiType extends ApiTypes> = Record<string, QueryableStorageEntryAt<ApiType, AnyTuple>>;
 
 export type QueryableStorageMultiArg<ApiType extends ApiTypes> =
   QueryableStorageEntry<ApiType> |
   [QueryableStorageEntry<ApiType>, ...unknown[]];
 
-export interface QueryableStorageMultiBase<ApiType extends ApiTypes> {
-  <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]): Observable<T>;
-}
+export type QueryableStorageMultiBase<ApiType extends ApiTypes> = <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[]) => Observable<T>;
 
 export interface QueryableStorageMultiPromise<ApiType extends ApiTypes> {
   <T extends Codec[]>(calls: QueryableStorageMultiArg<ApiType>[], callback: Callback<T>): UnsubscribePromise;
@@ -114,16 +106,18 @@ export type AugmentedQueryDoubleMap<ApiType extends ApiTypes, F extends AnyFunct
 
 // augmented interfaces
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-interface
-export interface AugmentedQueries<ApiType extends ApiTypes> {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AugmentedQueries<ApiType extends ApiTypes> extends EmptyBase<ApiType> {
   // augmented
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface QueryableStorage<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
   // when non-augmented, we need to at least have Codec results
   [key: string]: QueryableModuleStorage<ApiType>;
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface QueryableStorageAt<ApiType extends ApiTypes> extends AugmentedQueries<ApiType> {
   [key: string]: QueryableModuleStorageAt<ApiType>;
 }

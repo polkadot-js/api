@@ -1,8 +1,8 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SiLookupTypeId, SiVariant } from '../interfaces';
-import type { PortableRegistry } from '../metadata';
+import type { SiLookupTypeId, SiVariant } from '../interfaces/index.js';
+import type { PortableRegistry } from '../metadata/index.js';
 
 import { lazyMethod } from '@polkadot/util';
 
@@ -14,7 +14,7 @@ export function lazyVariants <T> (lookup: PortableRegistry, { type }: TypeHolder
   const result: Record<string, T> = {};
   const variants = lookup.getSiType(type).def.asVariant.variants;
 
-  for (let i = 0; i < variants.length; i++) {
+  for (let i = 0, count = variants.length; i < count; i++) {
     lazyMethod(result, variants[i], creator, getName, i);
   }
 

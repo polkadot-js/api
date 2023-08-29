@@ -17,30 +17,30 @@ export interface JsonRpcResponseBaseError {
   message: string;
 }
 
-export interface RpcErrorInterface<Data> {
+export interface RpcErrorInterface<T> {
   code: number;
-  data?: Data;
+  data?: T;
   message: string;
   stack: string;
 }
 
-interface JsonRpcResponseSingle {
+interface JsonRpcResponseSingle<T> {
   error?: JsonRpcResponseBaseError;
-  result?: unknown;
+  result: T;
 }
 
-interface JsonRpcResponseSubscription {
+interface JsonRpcResponseSubscription<T> {
   method?: string;
   params: {
     error?: JsonRpcResponseBaseError;
-    result: unknown;
+    result: T;
     subscription: number | string;
   };
 }
 
-export type JsonRpcResponseBase = JsonRpcResponseSingle & JsonRpcResponseSubscription;
+export type JsonRpcResponseBase<T> = JsonRpcResponseSingle<T> & JsonRpcResponseSubscription<T>;
 
-export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
+export type JsonRpcResponse<T> = JsonRpcObject & JsonRpcResponseBase<T>;
 
 export type ProviderInterfaceCallback = (error: Error | null, result: any) => void;
 
@@ -67,18 +67,20 @@ export interface ProviderInterface {
   unsubscribe (type: string, method: string, id: number | string): Promise<boolean>;
 }
 
+export interface EndpointStats {
+  bytesRecv: number;
+  bytesSent: number;
+  cached: number;
+  errors: number;
+  requests: number;
+  subscriptions: number;
+  timeout: number;
+}
+
 export interface ProviderStats {
   active: {
     requests: number;
     subscriptions: number;
   };
-  total: {
-    bytesRecv: number;
-    bytesSent: number;
-    cached: number;
-    errors: number;
-    requests: number;
-    subscriptions: number;
-    timeout: number;
-  };
+  total: EndpointStats;
 }

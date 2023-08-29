@@ -3,18 +3,18 @@
 
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod, Inspect } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics';
-import type { FunctionMetadataLatest } from '../interfaces/metadata';
-import type { Address, Call, CodecHash } from '../interfaces/runtime';
-import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types';
-import type { GenericExtrinsicEra } from './ExtrinsicEra';
-import type { ExtrinsicValueV4 } from './v4/Extrinsic';
+import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics/index.js';
+import type { FunctionMetadataLatest } from '../interfaces/metadata/index.js';
+import type { Address, Call, CodecHash } from '../interfaces/runtime/index.js';
+import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types/index.js';
+import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
+import type { ExtrinsicValueV4 } from './v4/Extrinsic.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic';
-import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants';
+import { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic.js';
+import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants.js';
 
 interface CreateOptions {
   version?: number;
@@ -88,7 +88,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
 
     // This is on the abstract class, ensuring that hasOwnProperty operates
     // correctly, i.e. it needs to be on the base class exposing it
-    for (let i = 0; i < signKeys.length; i++) {
+    for (let i = 0, count = signKeys.length; i < count; i++) {
       objectProperty(this, signKeys[i], getter);
     }
   }
@@ -234,7 +234,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
  * - left as is, to create an inherent
  */
 export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBase<A> implements IExtrinsic<A> {
-  #hashCache?: CodecHash;
+  #hashCache?: CodecHash | undefined;
 
   static LATEST_EXTRINSIC_VERSION = LATEST_EXTRINSIC_VERSION;
 

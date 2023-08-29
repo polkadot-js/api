@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { DeriveApi, DeriveReferendum } from '../types';
+import type { DeriveApi, DeriveReferendum } from '../types.js';
 
 import { of, switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 export function referendumsActive (instanceId: string, api: DeriveApi): () => Observable<DeriveReferendum[]> {
   return memo(instanceId, (): Observable<DeriveReferendum[]> =>

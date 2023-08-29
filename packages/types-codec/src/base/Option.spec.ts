@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types';
 import { bool, Bytes, Null, Option, Text, U32 } from '@polkadot/types-codec';
 
@@ -145,6 +147,12 @@ describe('Option', (): void => {
     ).toEqual(new Uint8Array([1, 4 << 2, 49, 50, 51, 52]));
   });
 
+  it('allows bare specifiers on toU8a', (): void => {
+    expect(
+      new Option(registry, Text, '1234').toU8a(true)
+    ).toEqual(new Uint8Array([49, 50, 51, 52]));
+  });
+
   it('converts toU8a() without', (): void => {
     expect(
       new Option(registry, Text).toU8a()
@@ -200,6 +208,7 @@ describe('Option', (): void => {
       expect(
         new Option(registry, U32, '1234').inspect()
       ).toEqual({
+        inner: undefined,
         outer: [new Uint8Array([0x01]), new Uint8Array([210, 4, 0, 0])]
       });
     });

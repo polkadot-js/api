@@ -3,7 +3,7 @@
 
 import { isObject, isUndefined } from '@polkadot/util';
 
-import { hasEq } from './util';
+import { hasEq } from './util.js';
 
 function hasMismatch (a?: unknown, b?: unknown): boolean {
   return isUndefined(a) || (
@@ -25,7 +25,7 @@ function compareMapArray (a: Map<unknown, unknown>, b: [unknown, unknown][]): bo
   );
 }
 
-// NOTE These are used internally and when comparing objects, expects that
+// NOTE These are used internally and when comparing objects, we expect that
 // when the second is an Map<string, Codec> that the first has to be as well
 export function compareMap (a: Map<unknown, unknown>, b?: unknown): boolean {
   if (Array.isArray(b)) {

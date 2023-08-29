@@ -3,14 +3,14 @@
 
 import type { TypeRegistry } from '@polkadot/types/create';
 import type { Definitions } from '@polkadot/types/types';
-import type { ExtraTypes } from './types';
+import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 
-import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util';
+import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 
 interface ItemDef {
   args: string;
@@ -126,7 +126,7 @@ export function generateRpcTypes (registry: TypeRegistry, importDefinitions: Rec
       };
     }).concat(...Object.values(additional)).sort((a, b) => a.name.localeCompare(b.name));
 
-    imports.typesTypes.Observable = true;
+    imports.typesTypes['Observable'] = true;
 
     return generateRpcTypesTemplate({
       headerType: 'chain',

@@ -2,21 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyJson, AnyTuple, Codec } from '@polkadot/types-codec/types';
-import type { StorageEntryMetadataLatest, StorageEntryTypeLatest, StorageHasher } from '../interfaces/metadata';
-import type { AllHashers } from '../interfaces/metadata/definitions';
-import type { SiLookupTypeId } from '../interfaces/scaleInfo';
-import type { InterfaceTypes, IStorageKey, Registry } from '../types';
-import type { StorageEntry } from './types';
+import type { AllHashers } from '../interfaces/metadata/definitions.js';
+import type { StorageEntryMetadataLatest, StorageHasher } from '../interfaces/metadata/index.js';
+import type { SiLookupTypeId } from '../interfaces/scaleInfo/index.js';
+import type { IStorageKey, Registry } from '../types/index.js';
+import type { StorageEntry } from './types.js';
 
 import { Bytes } from '@polkadot/types-codec';
 import { isFunction, isString, isU8a } from '@polkadot/util';
 
-import { getSiName } from '../metadata/util';
+import { getSiName } from '../metadata/util/index.js';
+import { unwrapStorageType } from '../util/index.js';
 
 interface Decoded {
-  key?: Uint8Array | string;
-  method?: string;
-  section?: string;
+  key?: Uint8Array | string | undefined;
+  method?: string | undefined;
+  section?: string | undefined;
 }
 
 interface StorageKeyExtra {
@@ -35,21 +36,6 @@ const HASHER_MAP: Record<keyof typeof AllHashers, [number, boolean]> = {
   Twox256: [32, false],
   Twox64Concat: [8, true]
 };
-
-export function unwrapStorageSi (type: StorageEntryTypeLatest): SiLookupTypeId {
-  return type.isPlain
-    ? type.asPlain
-    : type.asMap.value;
-}
-
-/** @internal */
-export function unwrapStorageType (registry: Registry, type: StorageEntryTypeLatest, isOptional?: boolean): keyof InterfaceTypes {
-  const outputType = getSiName(registry.lookup, unwrapStorageSi(type));
-
-  return isOptional
-    ? `Option<${outputType}>` as unknown as keyof InterfaceTypes
-    : outputType as keyof InterfaceTypes;
-}
 
 /** @internal */
 function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?]): Decoded {
@@ -84,8 +70,6 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
     }
 
     return {
-      // This is unknown[] above (also where assigned), the linter thinks it is any[] here
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       key: fn(...args),
       method: fn.method,
       section: fn.section
@@ -99,9 +83,10 @@ function decodeStorageKey (value?: string | Uint8Array | StorageKey | StorageEnt
 function decodeHashers <A extends AnyTuple> (registry: Registry, value: Uint8Array, hashers: [StorageHasher, SiLookupTypeId][]): A {
   // the storage entry is xxhashAsU8a(prefix, 128) + xxhashAsU8a(method, 128), 256 bits total
   let offset = 32;
-  const result = new Array<Codec>(hashers.length);
+  const count = hashers.length;
+  const result = new Array<Codec>(count);
 
-  for (let i = 0; i < hashers.length; i++) {
+  for (let i = 0; i < count; i++) {
     const [hasher, type] = hashers[i];
     const [hashLen, canDecode] = HASHER_MAP[hasher.type as 'Identity'];
     const decoded = canDecode
@@ -172,10 +157,10 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore This is assigned via this.decodeArgsFromMeta()
   #args: A;
-  #meta?: StorageEntryMetadataLatest;
+  #meta?: StorageEntryMetadataLatest | undefined;
   #outputType: string;
-  #method?: string;
-  #section?: string;
+  #method?: string | undefined;
+  #section?: string | undefined;
 
   constructor (registry: Registry, value?: string | Uint8Array | StorageKey | StorageEntry | [StorageEntry, unknown[]?], override: Partial<StorageKeyExtra> = {}) {
     const { key, method, section } = decodeStorageKey(value);
@@ -241,7 +226,7 @@ export class StorageKey<A extends AnyTuple = AnyTuple> extends Bytes implements 
 
     try {
       this.#args = decodeArgsFromMeta(this.registry, this.toU8a(true), meta);
-    } catch (error) {
+    } catch {
       // ignore...
     }
 

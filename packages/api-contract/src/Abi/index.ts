@@ -2,15 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo } from '@polkadot/types/interfaces';
-import type { Codec, Registry } from '@polkadot/types/types';
-import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec } from '@polkadot/types/interfaces';
+import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
+import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
-import { TypeRegistry } from '@polkadot/types';
+import { Option, TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
-import { assertReturn, compactAddLength, compactStripLength, isNumber, isObject, isString, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { convertVersions, enumVersions } from './toLatest';
+import { convertVersions, enumVersions } from './toLatest.js';
+
+interface AbiJson {
+  version?: string;
+
+  [key: string]: unknown;
+}
 
 const l = logger('Abi');
 
@@ -26,12 +32,12 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-function getLatestMeta (registry: Registry, json: Record<string, unknown>): ContractMetadataLatest {
+function getLatestMeta (registry: Registry, json: AbiJson): ContractMetadataLatest {
   // this is for V1, V2, V3
   const vx = enumVersions.find((v) => isObject(json[v]));
 
   // this was added in V4
-  const jsonVersion = json.version as string;
+  const jsonVersion = json.version;
 
   if (!vx && jsonVersion && !enumVersions.find((v) => v === `V${jsonVersion}`)) {
     throw new Error(`Unable to handle version ${jsonVersion}`);
@@ -56,7 +62,7 @@ function getLatestMeta (registry: Registry, json: Record<string, unknown>): Cont
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
-  const latest = getLatestMeta(registry, json);
+  const latest = getLatestMeta(registry, json as unknown as AbiJson);
   const lookup = registry.createType('PortableRegistry', { types: latest.types }, true);
 
   // attach the lookup to the registry - now the types are known
@@ -74,6 +80,22 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
   return [json, registry, latest, info];
 }
 
+/**
+ * @internal
+ * Determines if the given input value is a ContractTypeSpec
+ */
+function isTypeSpec (value: Codec): value is ContractTypeSpec {
+  return !!value && value instanceof Map && !isUndefined((value as ContractTypeSpec).type) && !isUndefined((value as ContractTypeSpec).displayName);
+}
+
+/**
+ * @internal
+ * Determines if the given input value is an Option
+ */
+function isOption (value: Codec): value is Option<Codec> {
+  return !!value && value instanceof Option;
+}
+
 export class Abi {
   readonly events: AbiEvent[];
   readonly constructors: AbiConstructor[];
@@ -82,6 +104,7 @@ export class Abi {
   readonly messages: AbiMessage[];
   readonly metadata: ContractMetadataLatest;
   readonly registry: Registry;
+  readonly environment = new Map<string, TypeDef | Codec>();
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
     [this.json, this.registry, this.metadata, this.info] = parseJson(
@@ -93,23 +116,47 @@ export class Abi {
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
       this.#createMessage(spec, index, {
         isConstructor: true,
-        isPayable: spec.payable.isTrue
+        isDefault: spec.default.isTrue,
+        isPayable: spec.payable.isTrue,
+        returnType: spec.returnType.isSome
+          ? this.registry.lookup.getTypeDef(spec.returnType.unwrap().type)
+          : null
       })
     );
     this.events = this.metadata.spec.events.map((spec: ContractEventSpecLatest, index) =>
       this.#createEvent(spec, index)
     );
-    this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage => {
-      const typeSpec = spec.returnType.unwrapOr(null);
-
-      return this.#createMessage(spec, index, {
+    this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage =>
+      this.#createMessage(spec, index, {
+        isDefault: spec.default.isTrue,
         isMutating: spec.mutates.isTrue,
         isPayable: spec.payable.isTrue,
-        returnType: typeSpec
-          ? this.registry.lookup.getTypeDef(typeSpec.type)
+        returnType: spec.returnType.isSome
+          ? this.registry.lookup.getTypeDef(spec.returnType.unwrap().type)
           : null
-      });
-    });
+      })
+    );
+
+    // NOTE See the rationale for having Option<...> values in the actual
+    // ContractEnvironmentV4 structure definition in interfaces/contractsAbi
+    // (Due to conversions, the fields may not exist)
+    for (const [key, opt] of this.metadata.spec.environment.entries()) {
+      if (isOption(opt)) {
+        if (opt.isSome) {
+          const value = opt.unwrap();
+
+          if (isBn(value)) {
+            this.environment.set(key, value);
+          } else if (isTypeSpec(value)) {
+            this.environment.set(key, this.registry.lookup.getTypeDef(value.type));
+          } else {
+            throw new Error(`Invalid environment definition for ${key}:: Expected either Number or ContractTypeSpec`);
+          }
+        }
+      } else {
+        throw new Error(`Expected Option<*> definition for ${key} in ContractEnvironment`);
+      }
+    }
   }
 
   /**
@@ -215,6 +262,7 @@ export class Abi {
       }),
       identifier,
       index,
+      isDefault: spec.default.isTrue,
       method: stringCamelCase(identifier),
       path: identifier.split('::').map((s) => stringCamelCase(s)),
       selector: spec.selector,

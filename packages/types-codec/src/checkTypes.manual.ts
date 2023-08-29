@@ -5,7 +5,7 @@ import '@polkadot/types-augment';
 
 import { TypeRegistry } from '@polkadot/types';
 
-import { U32 } from '.';
+import { U32 } from './index.js';
 
 const registry = new TypeRegistry();
 

@@ -4,11 +4,9 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
-import { objectSpread } from '@polkadot/util';
-
-import { runtime } from './runtime';
+import { runtime } from './runtime.js';
 
 // The runtime definition of SessionKeys are passed as a Trait to session
 // Defined in `node/runtime/src/lib.rs` as follow
@@ -42,7 +40,8 @@ const keyTypes = {
 export default {
   rpc: {},
   runtime,
-  types: objectSpread({}, keyTypes, {
+  types: {
+    ...keyTypes,
     FullIdentification: 'Exposure',
     IdentificationTuple: '(ValidatorId, FullIdentification)',
     MembershipProof: {
@@ -52,5 +51,5 @@ export default {
     },
     SessionIndex: 'u32',
     ValidatorCount: 'u32'
-  })
+  }
 } as Definitions;

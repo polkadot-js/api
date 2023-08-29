@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-core#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/rpc-core",
   "repository": {
     "directory": "packages/rpc-core",
@@ -20,18 +18,18 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.12.2-11-x",
+  "version": "10.9.2-20-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/rpc-augment": "9.12.2-11-x",
-    "@polkadot/rpc-provider": "9.12.2-11-x",
-    "@polkadot/types": "9.12.2-11-x",
-    "@polkadot/util": "^10.3.1",
-    "rxjs": "^7.8.0"
+    "@polkadot/rpc-augment": "10.9.2-20-x",
+    "@polkadot/rpc-provider": "10.9.2-20-x",
+    "@polkadot/types": "10.9.2-20-x",
+    "@polkadot/util": "^12.4.2",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^10.3.1",
-    "@polkadot/rpc-augment": "9.12.2-11-x"
+    "@polkadot/keyring": "^12.4.2",
+    "@polkadot/rpc-augment": "10.9.2-20-x"
   }
 }

@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces';
-import type { PortableRegistry } from '../../../metadata';
-import type { CallFunction } from '../../../types';
-import type { Extrinsics } from '../types';
+import type { MetadataLatest, PalletMetadataLatest, SiVariant } from '../../../interfaces/index.js';
+import type { PortableRegistry } from '../../../metadata/index.js';
+import type { CallFunction } from '../../../types/index.js';
+import type { Extrinsics } from '../types.js';
 
 import { lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
-import { lazyVariants } from '../../../create/lazy';
-import { getSiName } from '../../util';
-import { objectNameToCamel } from '../util';
-import { createUnchecked } from './createUnchecked';
+import { lazyVariants } from '../../../create/lazy.js';
+import { getSiName } from '../../util/index.js';
+import { objectNameToCamel } from '../util.js';
+import { createUnchecked } from './createUnchecked.js';
 
 export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
   return calls.isSome;
@@ -20,14 +20,15 @@ export function filterCallsSome ({ calls }: PalletMetadataLatest): boolean {
 
 export function createCallFunction (registry: Registry, lookup: PortableRegistry, variant: SiVariant, sectionName: string, sectionIndex: number): CallFunction {
   const { fields, index } = variant;
-  const args = new Array<Record<string, unknown>>(fields.length);
+  const count = fields.length;
+  const args = new Array<Record<string, unknown>>(count);
 
-  for (let a = 0; a < fields.length; a++) {
-    const { name, type, typeName } = fields[a];
+  for (let i = 0; i < count; i++) {
+    const { name, type, typeName } = fields[i];
 
-    args[a] = objectSpread(
+    args[i] = objectSpread(
       {
-        name: stringCamelCase(name.unwrapOr(`param${a}`)),
+        name: stringCamelCase(name.unwrapOr(`param${i}`)),
         type: getSiName(lookup, type)
       },
       typeName.isSome
@@ -49,7 +50,7 @@ export function decorateExtrinsics (registry: Registry, { lookup, pallets }: Met
   const result: Extrinsics = {};
   const filtered = pallets.filter(filterCallsSome);
 
-  for (let i = 0; i < filtered.length; i++) {
+  for (let i = 0, count = filtered.length; i < count; i++) {
     const { calls, index, name } = filtered[i];
     const sectionName = stringCamelCase(name);
     const sectionIndex = version >= 12 ? index.toNumber() : i;

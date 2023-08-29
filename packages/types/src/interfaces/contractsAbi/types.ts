@@ -7,7 +7,7 @@ import type { PortableType } from '@polkadot/types/interfaces/metadata';
 import type { Si0Type, SiLookupTypeId, SiPath } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name ContractConstructorSpecLatest */
-export interface ContractConstructorSpecLatest extends ContractConstructorSpecV3 {}
+export interface ContractConstructorSpecLatest extends ContractConstructorSpecV4 {}
 
 /** @name ContractConstructorSpecV0 */
 export interface ContractConstructorSpecV0 extends Struct {
@@ -40,6 +40,17 @@ export interface ContractConstructorSpecV3 extends Struct {
   readonly payable: bool;
   readonly args: Vec<ContractMessageParamSpecV2>;
   readonly docs: Vec<Text>;
+}
+
+/** @name ContractConstructorSpecV4 */
+export interface ContractConstructorSpecV4 extends Struct {
+  readonly label: Text;
+  readonly selector: ContractSelector;
+  readonly payable: bool;
+  readonly args: Vec<ContractMessageParamSpecV2>;
+  readonly docs: Vec<Text>;
+  readonly default: bool;
+  readonly returnType: Option<ContractTypeSpec>;
 }
 
 /** @name ContractContractSpecV0 */
@@ -75,7 +86,13 @@ export interface ContractContractSpecV3 extends Struct {
 }
 
 /** @name ContractContractSpecV4 */
-export interface ContractContractSpecV4 extends ContractContractSpecV3 {}
+export interface ContractContractSpecV4 extends Struct {
+  readonly constructors: Vec<ContractConstructorSpecV4>;
+  readonly messages: Vec<ContractMessageSpecV3>;
+  readonly events: Vec<ContractEventSpecV2>;
+  readonly docs: Vec<Text>;
+  readonly environment: ContractEnvironmentV4;
+}
 
 /** @name ContractCryptoHasher */
 export interface ContractCryptoHasher extends Enum {
@@ -90,6 +107,16 @@ export interface ContractDiscriminant extends u32 {}
 
 /** @name ContractDisplayName */
 export interface ContractDisplayName extends SiPath {}
+
+/** @name ContractEnvironmentV4 */
+export interface ContractEnvironmentV4 extends Struct {
+  readonly accountId: Option<ContractTypeSpec>;
+  readonly balance: Option<ContractTypeSpec>;
+  readonly blockNumber: Option<ContractTypeSpec>;
+  readonly hashType: Option<ContractTypeSpec>;
+  readonly timestamp: Option<ContractTypeSpec>;
+  readonly maxEventTopics: Option<u32>;
+}
 
 /** @name ContractEventParamSpecLatest */
 export interface ContractEventParamSpecLatest extends ContractEventParamSpecV2 {}
@@ -198,7 +225,7 @@ export interface ContractMessageParamSpecV2 extends Struct {
 }
 
 /** @name ContractMessageSpecLatest */
-export interface ContractMessageSpecLatest extends ContractMessageSpecV2 {}
+export interface ContractMessageSpecLatest extends ContractMessageSpecV3 {}
 
 /** @name ContractMessageSpecV0 */
 export interface ContractMessageSpecV0 extends Struct {
@@ -231,6 +258,18 @@ export interface ContractMessageSpecV2 extends Struct {
   readonly args: Vec<ContractMessageParamSpecV2>;
   readonly returnType: Option<ContractTypeSpec>;
   readonly docs: Vec<Text>;
+}
+
+/** @name ContractMessageSpecV3 */
+export interface ContractMessageSpecV3 extends Struct {
+  readonly label: Text;
+  readonly selector: ContractSelector;
+  readonly mutates: bool;
+  readonly payable: bool;
+  readonly args: Vec<ContractMessageParamSpecV2>;
+  readonly returnType: Option<ContractTypeSpec>;
+  readonly docs: Vec<Text>;
+  readonly default: bool;
 }
 
 /** @name ContractMetadata */
@@ -279,7 +318,7 @@ export interface ContractMetadataV3 extends Struct {
 /** @name ContractMetadataV4 */
 export interface ContractMetadataV4 extends Struct {
   readonly types: Vec<PortableType>;
-  readonly spec: ContractContractSpecV3;
+  readonly spec: ContractContractSpecV4;
 }
 
 /** @name ContractProject */

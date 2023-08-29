@@ -5,7 +5,7 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/types/registry';
 
-import type { KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin, KusamaRuntimeNposCompactSolution24, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeRuntime, KusamaRuntimeSessionKeys } from '@polkadot/types/lookup';
+import type { KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin, KusamaRuntimeNposCompactSolution24, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeRuntime, KusamaRuntimeRuntimeHoldReason, KusamaRuntimeSessionKeys, PalletBeefyCall, PalletBeefyError, SpConsensusBeefyCommitment, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyEcdsaCryptoSignature, SpConsensusBeefyEquivocationProof, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusBeefyPayload, SpConsensusBeefyVoteMessage } from '@polkadot/types/lookup';
 
 declare module '@polkadot/types/types/registry' {
   interface InterfaceTypes {
@@ -14,6 +14,16 @@ declare module '@polkadot/types/types/registry' {
     KusamaRuntimeOriginCaller: KusamaRuntimeOriginCaller;
     KusamaRuntimeProxyType: KusamaRuntimeProxyType;
     KusamaRuntimeRuntime: KusamaRuntimeRuntime;
+    KusamaRuntimeRuntimeHoldReason: KusamaRuntimeRuntimeHoldReason;
     KusamaRuntimeSessionKeys: KusamaRuntimeSessionKeys;
+    PalletBeefyCall: PalletBeefyCall;
+    PalletBeefyError: PalletBeefyError;
+    SpConsensusBeefyCommitment: SpConsensusBeefyCommitment;
+    SpConsensusBeefyEcdsaCryptoPublic: SpConsensusBeefyEcdsaCryptoPublic;
+    SpConsensusBeefyEcdsaCryptoSignature: SpConsensusBeefyEcdsaCryptoSignature;
+    SpConsensusBeefyEquivocationProof: SpConsensusBeefyEquivocationProof;
+    SpConsensusBeefyMmrBeefyAuthoritySet: SpConsensusBeefyMmrBeefyAuthoritySet;
+    SpConsensusBeefyPayload: SpConsensusBeefyPayload;
+    SpConsensusBeefyVoteMessage: SpConsensusBeefyVoteMessage;
   } // InterfaceTypes
 } // declare module

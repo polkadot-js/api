@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { SignedBlockExtended } from '../type/types';
-import type { DeriveApi } from '../types';
+import type { SignedBlockExtended } from '../type/types.js';
+import type { DeriveApi } from '../types.js';
 
 import { switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 /**
  * @name subscribeNewBlocks

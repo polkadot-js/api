@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { typeSplit } from '@polkadot/types-create';
 
 describe('typeSplit', (): void => {

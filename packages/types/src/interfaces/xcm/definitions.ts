@@ -4,14 +4,13 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { Definitions } from '../../types';
+import type { Definitions } from '../../types/index.js';
 
 import { mapXcmTypes } from '@polkadot/types-create';
-import { objectSpread } from '@polkadot/util';
 
-import { v0 } from './v0';
-import { v1 } from './v1';
-import { v2 } from './v2';
+import { v0 } from './v0.js';
+import { v1 } from './v1.js';
+import { v2 } from './v2.js';
 
 const XCM_LATEST = 'V2';
 
@@ -82,7 +81,13 @@ const location = {
 
 export default {
   rpc: {},
-  types: objectSpread({}, location, xcm, v0, v1, v2, mapXcmTypes(XCM_LATEST), {
+  types: {
+    ...location,
+    ...xcm,
+    ...v0,
+    ...v1,
+    ...v2,
+    ...mapXcmTypes(XCM_LATEST),
     DoubleEncodedCall: {
       encoded: 'Vec<u8>'
     },
@@ -159,5 +164,5 @@ export default {
       }
     },
     XcmVersion: 'u32'
-  })
+  }
 } as Definitions;

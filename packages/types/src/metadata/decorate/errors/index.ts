@@ -3,14 +3,14 @@
 
 import type { Text, u8 } from '@polkadot/types-codec';
 import type { Registry } from '@polkadot/types-codec/types';
-import type { DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, MetadataLatest, SiField, SiVariant } from '../../../interfaces';
-import type { PortableRegistry } from '../../../metadata';
-import type { Errors, IsError } from '../types';
+import type { DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, MetadataLatest, SiField, SiVariant } from '../../../interfaces/index.js';
+import type { PortableRegistry } from '../../../metadata/index.js';
+import type { Errors, IsError } from '../types.js';
 
 import { isCodec, isU8a, lazyMethod, objectSpread, stringCamelCase } from '@polkadot/util';
 
-import { lazyVariants } from '../../../create/lazy';
-import { objectNameToString } from '../util';
+import { lazyVariants } from '../../../create/lazy.js';
+import { objectNameToString } from '../util.js';
 
 interface ItemMeta {
   args: string[];
@@ -31,7 +31,7 @@ export function variantToMeta (lookup: PortableRegistry, variant: SiVariant): It
 export function decorateErrors (registry: Registry, { lookup, pallets }: MetadataLatest, version: number): Errors {
   const result: Errors = {};
 
-  for (let i = 0; i < pallets.length; i++) {
+  for (let i = 0, count = pallets.length; i < count; i++) {
     const { errors, index, name } = pallets[i];
 
     if (errors.isSome) {

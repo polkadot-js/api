@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, ToString } from './helpers';
-import type { IU8a } from './interfaces';
-import type { Registry } from './registry';
+import type { AnyJson, ToString } from './helpers.js';
+import type { IU8a } from './interfaces.js';
+import type { Registry } from './registry.js';
 
 export type BareOpts = boolean | Record<string, boolean>;
 
 export interface Inspect {
-  inner?: Inspect[];
+  inner?: Inspect[] | undefined;
   name?: string;
   outer?: Uint8Array[];
 }
@@ -28,14 +28,14 @@ export interface Codec {
    * The block at which this value was retrieved/created (set to non-empty when
    * retrieved from storage)
    */
-  createdAtHash?: IU8a;
+  createdAtHash?: IU8a | undefined;
 
   /**
    * @description
    * The length of the initial encoded value (Only available when the value was
    * constructed from a Uint8Array input)
    */
-  initialU8aLength?: number;
+  initialU8aLength?: number | undefined;
 
   /**
    * @description
@@ -111,20 +111,19 @@ export interface Codec {
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   * @param isBare true when the value has none of the type-specific prefixes (internal use, only available on
+   * some Codec types, specifically those that add encodings such as length of indexes)
    */
   toU8a (isBare?: BareOpts): Uint8Array;
 }
 
-export interface CodecClass<T = Codec> {
+export interface CodecClass<T = Codec, A extends unknown[] = any[]> {
   /**
    * @description An internal fallback type (previous generation) if encoding fails
    */
   readonly __fallbackType?: string;
 
-  // NOTE: We need the any[] here, unknown[] does not work as expected
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new(registry: Registry, ...args: any[]): T;
+  new(registry: Registry, ...args: A): T;
 }
 
 export interface CodecObject<T extends ToString> extends Codec {

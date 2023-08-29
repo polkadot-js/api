@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
-import { TypeRegistry } from '../../../create';
-import { Metadata } from '../../Metadata';
-import { decorateEvents } from '..';
+import { TypeRegistry } from '../../../create/index.js';
+import { Metadata } from '../../Metadata.js';
+import { decorateEvents } from '../index.js';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
@@ -16,13 +18,13 @@ const events = decorateEvents(registry, metadata.asLatest, metadata.version);
 
 describe('decorateEvents', (): void => {
   it('should return known errors', (): void => {
-    expect(events.balances.Transfer).toBeDefined();
-    expect(events.system.CodeUpdated).toBeDefined();
+    expect(events['balances']['Transfer']).toBeDefined();
+    expect(events['system']['CodeUpdated']).toBeDefined();
   });
 
   it('has the correct metadata for known errors', (): void => {
     expect(
-      events.staking.Rewarded.meta.toJSON()
+      events['staking']['Rewarded'].meta.toJSON()
     ).toEqual({
       args: ['AccountId32', 'u128'],
       docs: [
@@ -39,7 +41,7 @@ describe('decorateEvents', (): void => {
 
   it('should check against a specific error', (): void => {
     expect(
-      events.system.ExtrinsicSuccess.is(registry.createType('Event', { index: [0, 0] }))
+      events['system']['ExtrinsicSuccess'].is(registry.createType('Event', { index: [0, 0] }))
     ).toBe(true);
   });
 });

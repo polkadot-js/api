@@ -1,28 +1,26 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiBase } from '@polkadot/api/base';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
 import type { Bytes } from '@polkadot/types';
 import type { AccountId, ContractExecResult, EventRecord, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
-import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent, WeightAll } from '../types';
-import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types';
+import type { Abi } from '../Abi/index.js';
+import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent, WeightAll } from '../types.js';
+import type { ContractCallResult, ContractCallSend, ContractQuery, ContractTx, MapMessageQuery, MapMessageTx } from './types.js';
 
 import { map } from 'rxjs';
 
 import { SubmittableResult } from '@polkadot/api';
-import { ApiBase } from '@polkadot/api/base';
 import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, isUndefined, logger } from '@polkadot/util';
 
-import { Abi } from '../Abi';
-import { applyOnEvent } from '../util';
-import { Base } from './Base';
-import { convertWeight, withMeta } from './util';
+import { applyOnEvent } from '../util.js';
+import { Base } from './Base.js';
+import { convertWeight, withMeta } from './util.js';
 
-export interface ContractConstructor<ApiType extends ApiTypes> {
-  new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId): Contract<ApiType>;
-}
+export type ContractConstructor<ApiType extends ApiTypes> = new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId) => Contract<ApiType>;
 
 // As per Rust, 5 * GAS_PER_SEC
 const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
@@ -42,7 +40,7 @@ function createTx <ApiType extends ApiTypes> (meta: AbiMessage, fn: (options: Co
 }
 
 export class ContractSubmittableResult extends SubmittableResult {
-  readonly contractEvents?: DecodedEvent[];
+  readonly contractEvents?: DecodedEvent[] | undefined;
 
   constructor (result: ISubmittableResult, contractEvents?: DecodedEvent[]) {
     super(result);
@@ -97,7 +95,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
         : convertWeight(
           this.api.consts.system.blockWeights
             ? (this.api.consts.system.blockWeights as unknown as { maxBlock: WeightV2 }).maxBlock
-            : this.api.consts.system.maximumBlockWeight as Weight
+            : this.api.consts.system['maximumBlockWeight'] as Weight
         ).v1Weight.muln(64).div(BN_HUNDRED)
     );
   };

@@ -15,5 +15,6 @@ function convert (fn: (n: Name) => string): (n: Named) => string {
   return ({ name }: Named) => fn(name);
 }
 
-export const objectNameToCamel = convert(stringCamelCase);
-export const objectNameToString = convert((n) => n.toString());
+export const objectNameToCamel = /*#__PURE__*/ convert(stringCamelCase);
+
+export const objectNameToString = /*#__PURE__*/ convert((n) => n.toString());

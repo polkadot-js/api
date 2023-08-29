@@ -1,9 +1,11 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { MockProvider } from '.';
+import { MockProvider } from './index.js';
 
 describe('send', (): void => {
   const registry = new TypeRegistry();
@@ -21,6 +23,7 @@ describe('send', (): void => {
     return mock
       .send('something_invalid', [])
       .catch((error): void => {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect((error as Error).message).toMatch(/Invalid method/);
       });
   });

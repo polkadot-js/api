@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, IMap, Inspect, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, IMap, Inspect, IU8a, Registry } from '../types/index.js';
 
 import { compactFromU8aLim, compactToU8a, isHex, isObject, isU8a, logger, stringify, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { AbstractArray } from '../abstract/Array';
-import { Enum } from '../base/Enum';
-import { Raw } from '../native/Raw';
-import { Struct } from '../native/Struct';
-import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils';
+import { AbstractArray } from '../abstract/Array.js';
+import { Enum } from '../base/Enum.js';
+import { Raw } from '../native/Raw.js';
+import { Struct } from '../native/Struct.js';
+import { compareMap, decodeU8a, sortMap, typeToConstructor } from '../utils/index.js';
 
 const l = logger('Map');
 
@@ -26,7 +26,7 @@ function decodeMapFromU8a<K extends Codec, V extends Codec> (registry: Registry,
 
   const [values, decodedLength] = decodeU8a(registry, new Array(types.length), u8a.subarray(offset), [types, []]);
 
-  for (let i = 0; i < values.length; i += 2) {
+  for (let i = 0, count = values.length; i < count; i += 2) {
     output.set(values[i] as K, values[i + 1] as V);
   }
 
@@ -154,7 +154,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @description Returns a breakdown of the hex encoding for this Codec
    */
   public inspect (): Inspect {
-    const inner = new Array<Inspect>();
+    const inner: Inspect[] = [];
 
     for (const [k, v] of this.entries()) {
       inner.push(k.inspect());
@@ -240,7 +240,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (isBare?: boolean): Uint8Array {
-    const encoded = new Array<Uint8Array>();
+    const encoded: Uint8Array[] = [];
 
     if (!isBare) {
       encoded.push(compactToU8a(this.size));

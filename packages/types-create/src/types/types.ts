@@ -28,20 +28,20 @@ export enum TypeDefInfo {
 }
 
 export interface TypeDef {
-  alias?: Map<string, string>;
-  displayName?: string;
-  docs?: string[];
-  fallbackType?: string;
+  alias?: Map<string, string> | undefined;
+  displayName?: string | undefined;
+  docs?: string[] | undefined;
+  fallbackType?: string | undefined;
   info: TypeDefInfo;
   index?: number;
   isFromSi?: boolean;
   length?: number;
   lookupIndex?: number;
-  lookupName?: string;
-  lookupNameRoot?: string;
-  name?: string;
-  namespace?: string;
+  lookupName?: string | undefined;
+  lookupNameRoot?: string | undefined;
+  name?: string | undefined;
+  namespace?: string | undefined;
   sub?: TypeDef | TypeDef[];
   type: string;
-  typeName?: string;
+  typeName?: string | undefined;
 }

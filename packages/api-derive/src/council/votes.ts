@@ -7,11 +7,11 @@ import type { Vec } from '@polkadot/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 import type { PalletElectionsPhragmenVoter } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { DeriveApi, DeriveCouncilVote, DeriveCouncilVotes } from '../types';
+import type { DeriveApi, DeriveCouncilVote, DeriveCouncilVotes } from '../types.js';
 
 import { combineLatest, map, of } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 // Voter is current tuple is 2.x-era
 type VoteEntry = PalletElectionsPhragmenVoter | ITuple<[Balance, Vec<AccountId>]>;
@@ -21,22 +21,22 @@ function isVoter (value: VoteEntry): value is PalletElectionsPhragmenVoter {
 }
 
 function retrieveStakeOf (elections: QueryableModuleStorage<'rxjs'>): Observable<[AccountId, Balance][]> {
-  return elections.stakeOf.entries<Balance, [AccountId]>().pipe(
+  return elections['stakeOf'].entries<Balance, [AccountId]>().pipe(
     map((entries) =>
       entries.map(([{ args: [accountId] }, stake]) => [accountId, stake])
     )
   );
 }
 
-function retrieveVoteOf (elections: QueryableModuleStorage<'rxjs'>): Observable<[AccountId, AccountId[]][]> {
-  return elections.votesOf.entries<Vec<AccountId>, [AccountId]>().pipe(
+function retrieveVoteOf (elections: DeriveApi['query']['elections']): Observable<[AccountId, AccountId[]][]> {
+  return elections['votesOf'].entries<Vec<AccountId>, [AccountId]>().pipe(
     map((entries) =>
       entries.map(([{ args: [accountId] }, votes]) => [accountId, votes])
     )
   );
 }
 
-function retrievePrev (api: DeriveApi, elections: QueryableModuleStorage<'rxjs'>): Observable<DeriveCouncilVotes> {
+function retrievePrev (api: DeriveApi, elections: DeriveApi['query']['elections']): Observable<DeriveCouncilVotes> {
   return combineLatest([
     retrieveStakeOf(elections),
     retrieveVoteOf(elections)
@@ -63,7 +63,7 @@ function retrievePrev (api: DeriveApi, elections: QueryableModuleStorage<'rxjs'>
   );
 }
 
-function retrieveCurrent (elections: QueryableModuleStorage<'rxjs'>): Observable<DeriveCouncilVotes> {
+function retrieveCurrent (elections: DeriveApi['query']['elections']): Observable<DeriveCouncilVotes> {
   return elections.voting.entries<VoteEntry, [AccountId]>().pipe(
     map((entries): DeriveCouncilVotes =>
       entries.map(([{ args: [accountId] }, value]): [AccountId, DeriveCouncilVote] => [
@@ -77,11 +77,11 @@ function retrieveCurrent (elections: QueryableModuleStorage<'rxjs'>): Observable
 }
 
 export function votes (instanceId: string, api: DeriveApi): () => Observable<DeriveCouncilVotes> {
-  const elections = api.query.phragmenElection || api.query.electionsPhragmen || api.query.elections;
+  const elections = api.query.elections || api.query['phragmenElection'] || api.query['electionsPhragmen'];
 
   return memo(instanceId, (): Observable<DeriveCouncilVotes> =>
     elections
-      ? elections.stakeOf
+      ? elections['stakeOf']
         ? retrievePrev(api, elections)
         : retrieveCurrent(elections)
       : of([])

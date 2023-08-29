@@ -3,11 +3,11 @@
 
 import type { Observable } from 'rxjs';
 import type { Hash, Header } from '@polkadot/types/interfaces';
-import type { DeriveApi } from '../types';
+import type { DeriveApi } from '../types.js';
 
 import { from, of, switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 /**
  * Returns a header range from startHash to to (not including) endHash, i.e. lastBlock.parentHash === endHash

@@ -1,17 +1,17 @@
 // Copyright 2017-2023 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export * from './assert';
-export * from './derived';
-export * from './docs';
-export * from './file';
-export * from './formatting';
-export * from './imports';
-export * from './initMeta';
-export * from './register';
-export * from './wsMeta';
+export * from './assert.js';
+export * from './derived.js';
+export * from './docs.js';
+export * from './file.js';
+export * from './formatting.js';
+export * from './imports.js';
+export * from './initMeta.js';
+export * from './register.js';
+export * from './wsMeta.js';
 
-type Cmp = { name: { toString(): string } };
+interface Cmp { name: { toString(): string } }
 
 export function compareName (a: Cmp, b: Cmp): number {
   return a.name.toString().localeCompare(b.name.toString());

@@ -4,7 +4,7 @@
 // order important in structs... :)
 /* eslint-disable sort-keys */
 
-import type { DefinitionsTypes } from '../../types';
+import type { DefinitionsTypes } from '../../types/index.js';
 
 export const v9: DefinitionsTypes = {
   // v9

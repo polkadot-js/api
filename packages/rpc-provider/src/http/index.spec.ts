@@ -1,8 +1,10 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TEST_HTTP_URL } from '../mock/mockHttp';
-import { HttpProvider } from './';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import { TEST_HTTP_URL } from '../mock/mockHttp.js';
+import { HttpProvider } from './index.js';
 
 describe('Http', (): void => {
   let http: HttpProvider;
@@ -41,16 +43,19 @@ describe('Http', (): void => {
     expect(http.isConnected).toEqual(true);
   });
 
-  it('does not (yet) support subscribe', (): Promise<number | void> => {
-    return http.subscribe('', '', [], (cb): void => {
+  it('does not (yet) support subscribe', async (): Promise<void> => {
+    await http.subscribe('', '', [], (cb): void => {
+      // eslint-disable-next-line jest/no-conditional-expect
       expect(cb).toEqual(expect.anything());
     }).catch((error): void => {
+      // eslint-disable-next-line jest/no-conditional-expect
       expect((error as Error).message).toMatch(/does not have subscriptions/);
     });
   });
 
-  it('does not (yet) support unsubscribe', (): Promise<boolean | void> => {
-    return http.unsubscribe('', '', 0).catch((error): void => {
+  it('does not (yet) support unsubscribe', async (): Promise<void> => {
+    await http.unsubscribe('', '', 0).catch((error): void => {
+      // eslint-disable-next-line jest/no-conditional-expect
       expect((error as Error).message).toMatch(/does not have subscriptions/);
     });
   });

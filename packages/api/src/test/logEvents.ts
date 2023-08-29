@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EventRecord } from '@polkadot/types/interfaces';
-
-import { SubmittableResult } from '..';
+import type { SubmittableResult } from '../index.js';
 
 // log all events for the transfers, calling done() when finalized
 export const logEvents = (done: () => Record<string, unknown>): (r: SubmittableResult) => void =>

@@ -1,9 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefinitionCall, DefinitionsCall } from '../../types';
-
-import { objectSpread } from '@polkadot/util';
+import type { DefinitionCall, DefinitionsCall } from '../../types/index.js';
 
 const V1_V2_SHARED: Record<string, DefinitionCall> = {
   current_epoch: {
@@ -54,23 +52,25 @@ const V1_V2_SHARED: Record<string, DefinitionCall> = {
 export const runtime: DefinitionsCall = {
   BabeApi: [
     {
-      methods: objectSpread({
+      methods: {
         configuration: {
           description: 'Return the genesis configuration for BABE. The configuration is only read on genesis.',
           params: [],
           type: 'BabeGenesisConfiguration'
-        }
-      }, V1_V2_SHARED),
+        },
+        ...V1_V2_SHARED
+      },
       version: 2
     },
     {
-      methods: objectSpread({
+      methods: {
         configuration: {
           description: 'Return the configuration for BABE. Version 1.',
           params: [],
           type: 'BabeGenesisConfigurationV1'
-        }
-      }, V1_V2_SHARED),
+        },
+        ...V1_V2_SHARED
+      },
       version: 1
     }
   ]

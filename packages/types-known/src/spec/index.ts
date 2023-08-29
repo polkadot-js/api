@@ -3,18 +3,18 @@
 
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
-import centrifugeChain from './centrifuge-chain';
-import kusama from './kusama';
-import node from './node';
-import nodeTemplate from './node-template';
-import polkadot from './polkadot';
-import rococo from './rococo';
-import shell from './shell';
-import statemint from './statemint';
-import westend from './westend';
+import { versioned as centrifugeChain } from './centrifuge-chain.js';
+import { versioned as kusama } from './kusama.js';
+import { versioned as node } from './node.js';
+import { versioned as nodeTemplate } from './node-template.js';
+import { versioned as polkadot } from './polkadot.js';
+import { versioned as rococo } from './rococo.js';
+import { versioned as shell } from './shell.js';
+import { versioned as statemint } from './statemint.js';
+import { versioned as westend } from './westend.js';
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
-const typesSpec: Record<string, OverrideVersionedType[]> = {
+export const typesSpec: Record<string, OverrideVersionedType[]> = {
   'centrifuge-chain': centrifugeChain,
   kusama,
   node,
@@ -27,5 +27,3 @@ const typesSpec: Record<string, OverrideVersionedType[]> = {
   westend,
   westmint: statemint
 };
-
-export default typesSpec;

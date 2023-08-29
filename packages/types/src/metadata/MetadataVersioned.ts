@@ -3,29 +3,25 @@
 
 import type { AnyJson } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14 } from '../interfaces/metadata';
-import type { Registry } from '../types';
+import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV15 } from '../interfaces/metadata/index.js';
+import type { Registry } from '../types/index.js';
+import type { MetaVersionAll, MetaVersionAsX } from './versions.js';
 
 import { Struct } from '@polkadot/types-codec';
 
-import { toV10 } from './v9/toV10';
-import { toV11 } from './v10/toV11';
-import { toV12 } from './v11/toV12';
-import { toV13 } from './v12/toV13';
-import { toV14 } from './v13/toV14';
-import { toLatest } from './v14/toLatest';
-import { MagicNumber } from './MagicNumber';
-import { getUniqTypes, toCallsOnly } from './util';
+import { getUniqTypes, toCallsOnly } from './util/index.js';
+import { toV10 } from './v9/toV10.js';
+import { toV11 } from './v10/toV11.js';
+import { toV12 } from './v11/toV12.js';
+import { toV13 } from './v12/toV13.js';
+import { toV14 } from './v13/toV14.js';
+import { toV15 } from './v14/toV15.js';
+import { toLatest } from './v15/toLatest.js';
+import { MagicNumber } from './MagicNumber.js';
+import { LATEST_VERSION, TO_CALLS_VERSION } from './versions.js';
 
-// Use these to generate all the Meta* types below via template keys
-// NOTE: Keep from latest -> earliest, see the LATEST_VERSION 0 index
-const KNOWN_VERSIONS = <const> [14, 13, 12, 11, 10, 9];
-const LATEST_VERSION = KNOWN_VERSIONS[0];
-
-type MetaAll = typeof KNOWN_VERSIONS[number];
-type MetaAsX = `asV${MetaAll}`;
-type MetaMapped = MetadataAll[MetaAsX];
-type MetaVersions = MetaAll | 'latest';
+type MetaMapped = MetadataAll[MetaVersionAsX];
+type MetaVersions = Exclude<MetaVersionAll, 9> | 'latest';
 
 /**
  * @name MetadataVersioned
@@ -55,16 +51,17 @@ export class MetadataVersioned extends Struct {
   };
 
   #getVersion = <T extends MetaMapped, F extends MetaMapped>(version: MetaVersions, fromPrev: (registry: Registry, input: F, metaVersion: number) => T): T => {
-    const asCurr = `asV${version}` as MetaAsX;
-    const asPrev = version === 'latest'
-      ? `asV${LATEST_VERSION}` as MetaAsX
-      : `asV${version - 1}` as MetaAsX;
-
     if (version !== 'latest' && this.#assertVersion(version)) {
+      const asCurr: MetaVersionAsX = `asV${version}`;
+
       return this.#metadata()[asCurr] as T;
     }
 
     if (!this.#converted.has(version)) {
+      const asPrev: MetaVersionAsX = version === 'latest'
+        ? `asV${LATEST_VERSION}`
+        : `asV${(version - 1) as MetaVersionAll}`;
+
       this.#converted.set(version, fromPrev(this.registry, this[asPrev] as F, this.version));
     }
 
@@ -84,7 +81,7 @@ export class MetadataVersioned extends Struct {
   public get asCallsOnly (): MetadataVersioned {
     return new MetadataVersioned(this.registry, {
       magicNumber: this.magicNumber,
-      metadata: this.registry.createTypeUnsafe('MetadataAll', [toCallsOnly(this.registry, this.asLatest), LATEST_VERSION])
+      metadata: this.registry.createTypeUnsafe('MetadataAll', [toCallsOnly(this.registry, this.asLatest), TO_CALLS_VERSION])
     });
   }
 
@@ -133,6 +130,13 @@ export class MetadataVersioned extends Struct {
   }
 
   /**
+   * @description Returns the wrapped values as a V14 object
+   */
+  public get asV15 (): MetadataV15 {
+    return this.#getVersion(15, toV15);
+  }
+
+  /**
    * @description Returns the wrapped values as a latest version object
    */
   public get asLatest (): MetadataLatest {
@@ -149,8 +153,8 @@ export class MetadataVersioned extends Struct {
   /**
    * @description the metadata version this structure represents
    */
-  public get version (): number {
-    return this.#metadata().index;
+  public get version (): MetaVersionAll {
+    return this.#metadata().index as MetaVersionAll;
   }
 
   public getUniqTypes (throwError: boolean): string[] {

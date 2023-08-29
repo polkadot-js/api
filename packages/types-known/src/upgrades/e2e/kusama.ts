@@ -4,9 +4,9 @@
 // Auto-generated from on-chain data & manual definitions, do not edit
 /* eslint-disable quotes, comma-spacing */
 
-import type { ChainUpgradesExpanded } from '../types';
+import type { ChainUpgradesExpanded } from '../types.js';
 
-const upgrades: ChainUpgradesExpanded = [
+export const upgrades: ChainUpgradesExpanded = [
   [
     0,
     1020,
@@ -4180,5 +4180,3 @@ const upgrades: ChainUpgradesExpanded = [
     ]
   ]
 ];
-
-export default upgrades;

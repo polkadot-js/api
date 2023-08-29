@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { TypeRegistry } from '@polkadot/types';
 import { CodecDate, Compact, U32 } from '@polkadot/types-codec';
 import { BN } from '@polkadot/util';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 const CompactU32 = Compact.with(U32);
 
@@ -14,7 +16,7 @@ describe('Compact', (): void => {
 
   describe('constructor', (): void => {
     it('fails on > MAX_SAFE_INTEGER', (): void => {
-      // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+      // eslint-disable-next-line @typescript-eslint/no-loss-of-precision, no-loss-of-precision
       expect(() => new Compact(registry, 'u128', 9007199254740999)).toThrow(/integer <= Number.MAX_SAFE_INTEGER/);
     });
 

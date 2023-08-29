@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { DeriveApi } from '../types';
-import type { Collective } from './types';
+import type { DeriveApi } from '../types.js';
+import type { Collective } from './types.js';
 
 import { of } from 'rxjs';
 
 import { isFunction } from '@polkadot/util';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 export function getInstance (api: DeriveApi, section: string): DeriveApi['query']['council'] {
   const instances = api.registry.getModuleInstances(api.runtimeVersion.specName, section);
-  const name = instances && instances.length
+  const name = instances?.length
     ? instances[0]
     : section;
 

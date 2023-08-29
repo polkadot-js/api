@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, Text, Type, Vec } from '@polkadot/types-codec';
+import type { Option, Text, Type, u32, Vec } from '@polkadot/types-codec';
 import type { AnyString, LookupString, Registry } from '@polkadot/types-codec/types';
 import type { ILookup, TypeDef } from '@polkadot/types-create/types';
-import type { PortableType } from '../../interfaces/metadata';
-import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo';
+import type { PortableType } from '../../interfaces/metadata/index.js';
+import type { SiField, SiLookupTypeId, SiType, SiTypeDefArray, SiTypeDefBitSequence, SiTypeDefCompact, SiTypeDefComposite, SiTypeDefSequence, SiTypeDefTuple, SiTypeDefVariant, SiTypeParameter, SiVariant } from '../../interfaces/scaleInfo/index.js';
 
-import { sanitize, Struct, u32 } from '@polkadot/types-codec';
+import { sanitize, Struct } from '@polkadot/types-codec';
 import { getTypeDef, TypeDefInfo, withTypeString } from '@polkadot/types-create';
 import { assertUnreachable, isNumber, isString, logger, objectSpread, stringCamelCase, stringify, stringPascalCase } from '@polkadot/util';
 
@@ -27,8 +27,17 @@ interface Extract extends ExtractBase {
 interface TypeInfo {
   lookups: Record<string, LookupString>;
   names: Record<number, string>;
-  params: Record<string, SiTypeParameter[]>;
+  params: TypeInfoParams;
   types: Record<number, PortableType>;
+}
+
+interface TypeInfoParams {
+  // known param definitions
+  FrameSystemEventRecord: [event: SiTypeParameter, topic: SiTypeParameter]
+  SpRuntimeUncheckedExtrinsic: [address: SiTypeParameter, call: SiTypeParameter, signature: SiTypeParameter, extra: SiTypeParameter];
+
+  // other type definitions
+  [key: string]: SiTypeParameter[];
 }
 
 // Just a placeholder for a type.unrwapOr()
@@ -47,12 +56,14 @@ const PATHS_ALIAS = splitNamespace([
   'sp_core::crypto::AccountId32',
   'sp_runtime::generic::era::Era',
   'sp_runtime::multiaddress::MultiAddress',
-  // weights 2 (1.5+) is a structure, potentially can be flatenned
-  'frame_support::weights::weight_v2::Weight',
-  'sp_weights::weight_v2::Weight',
   // ethereum overrides (Frontier, Moonbeam, Polkadot claims)
+  'fp_account::AccountId20',
   'account::AccountId20',
   'polkadot_runtime_common::claims::EthereumAddress',
+  // weights 2 is a structure, however for 1.5. with a single field it
+  // should be flatenned (can appear in Compact<Weight> extrinsics)
+  'frame_support::weights::weight_v2::Weight',
+  'sp_weights::weight_v2::Weight',
   // wildcard matching in place...
   // these have a specific encoding or logic, use a wildcard for {pallet, darwinia}_democracy
   '*_democracy::vote::Vote',
@@ -65,9 +76,17 @@ const PATHS_ALIAS = splitNamespace([
   // shorten some well-known types
   'primitive_types::*',
   'sp_arithmetic::per_things::*',
+  // runtime
+  '*_runtime::RuntimeCall',
+  '*_runtime::RuntimeEvent',
   // ink!
+  'ink::env::types::*',
+  'ink::primitives::types::*',
   'ink_env::types::*',
-  'ink_primitives::types::*'
+  'ink_primitives::types::*',
+  // noir
+  'np_runtime::accountname::AccountName',
+  'np_runtime::universaladdress::UniversalAddress'
 ]);
 
 // Mappings for types that should be converted to set via BitVec
@@ -96,9 +115,10 @@ const PATH_RM_INDEX_1 = ['generic', 'misc', 'pallet', 'traits', 'types'];
 
 /** @internal Converts a Text[] into string[] (used as part of definitions) */
 function sanitizeDocs (docs: Text[]): string[] {
-  const result = new Array<string>(docs.length);
+  const count = docs.length;
+  const result = new Array<string>(count);
 
-  for (let i = 0; i < docs.length; i++) {
+  for (let i = 0; i < count; i++) {
     result[i] = docs[i].toString();
   }
 
@@ -107,9 +127,10 @@ function sanitizeDocs (docs: Text[]): string[] {
 
 /** @internal Split a namespace with :: into individual parts */
 function splitNamespace (values: string[]): string[][] {
-  const result = new Array<string[]>(values.length);
+  const count = values.length;
+  const result = new Array<string[]>(count);
 
-  for (let i = 0; i < values.length; i++) {
+  for (let i = 0; i < count; i++) {
     result[i] = values[i].split('::');
   }
 
@@ -153,9 +174,12 @@ function matchParts (first: string[], second: (string | Text)[]): boolean {
 
 /** @internal check if the path matches the PATHS_ALIAS (with wildcards) */
 function getAliasPath ({ def, path }: SiType): string | null {
-  // specific logic for weights - we only override when non-complex struct
-  if (path.join('::') === 'sp_weights::weight_v2::Weight' && def.isComposite && def.asComposite.fields.length !== 1) {
-    return null;
+  // specific logic for weights - we override when non-complex struct
+  // (as applied in Weight 1.5 where we also have `Compact<{ refTime: u64 }>)
+  if (['frame_support::weights::weight_v2::Weight', 'sp_weights::weight_v2::Weight'].includes(path.join('::'))) {
+    return !def.isComposite || def.asComposite.fields.length === 1
+      ? 'WeightV1'
+      : null;
   }
 
   // TODO We need to handle ink! Balance in some way
@@ -227,7 +251,7 @@ function extractName (portable: PortableType[], lookupIndex: number, { type: { p
 function nextDupeMatches (name: string, startAt: number, names: Extract[]): Extract[] {
   const result = [names[startAt]];
 
-  for (let i = startAt + 1; i < names.length; i++) {
+  for (let i = startAt + 1, count = names.length; i < count; i++) {
     const v = names[i];
 
     if (v.name === name) {
@@ -321,11 +345,12 @@ function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], na
       }
 
       // see if using the param type helps
-      const adjusted = new Array<ExtractBase>(allSame.length);
+      const sameCount = allSame.length;
+      const adjusted = new Array<ExtractBase>(sameCount);
 
       // loop through all, specifically checking that index where the
       // first param yields differences
-      for (let i = 0; i < allSame.length; i++) {
+      for (let i = 0; i < sameCount; i++) {
         const { lookupIndex, name, params } = allSame[i];
         const { def, path } = lookup.getSiType(params[paramIdx].type.unwrap());
 
@@ -354,7 +379,7 @@ function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], na
       // Last-ditch effort to use the full type path - ugly
       // loop through all, specifically checking that index where the
       // first param yields differences
-      for (let i = 0; i < allSame.length; i++) {
+      for (let i = 0; i < sameCount; i++) {
         const { lookupIndex, name, params } = allSame[i];
         const { def, path } = lookup.getSiType(params[paramIdx].type.unwrap());
         const flat = extractNameFlat(portable, lookupIndex, params, path, true);
@@ -385,7 +410,7 @@ function removeDupeNames (lookup: PortableRegistry, portable: PortableType[], na
 }
 
 /** @internal Detect on-chain types (AccountId/Signature) as set as the default */
-function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: Record<string, SiTypeParameter[]>): void {
+function registerTypes (lookup: PortableRegistry, lookups: Record<string, string>, names: Record<number, string>, params: TypeInfoParams): void {
   // Register the types we extracted
   lookup.registry.register(lookups);
 
@@ -408,11 +433,10 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
     }
 
     lookup.registry.register({
-      AccountId: ['sp_core::crypto::AccountId32'].includes(nsAccountId)
-        ? 'AccountId32'
-        : ['account::AccountId20', 'primitive_types::H160'].includes(nsAccountId)
-          ? 'AccountId20'
-          : 'AccountId32', // other, default to AccountId32
+      // known: account::AccountId20, fp_account::AccountId20, primitive_types::H160
+      AccountId: nsAccountId.endsWith('::AccountId20') || nsAccountId.endsWith('::H160')
+        ? 'AccountId20'
+        : 'AccountId32',
       Address: isMultiAddress
         ? 'MultiAddress'
         : 'AccountId',
@@ -427,7 +451,7 @@ function registerTypes (lookup: PortableRegistry, lookups: Record<string, string
  * @internal Extracts aliases based on what we know the runtime config looks like in a
  * Substrate chain. Specifically we want to have access to the Call and Event params
  **/
-function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?: boolean): Record<number, string> {
+function extractAliases (params: TypeInfoParams, isContract?: boolean): Record<number, string> {
   const hasParams = Object.keys(params).some((k) => !k.startsWith('Pallet'));
   const alias: Record<number, string> = {};
 
@@ -456,9 +480,8 @@ function extractAliases (params: Record<string, SiTypeParameter[]>, isContract?:
 function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): TypeInfo {
   const nameInfo: Extract[] = [];
   const types: Record<number, PortableType> = {};
-  const porCount = portable.length;
 
-  for (let i = 0; i < porCount; i++) {
+  for (let i = 0, count = portable.length; i < count; i++) {
     const type = portable[i];
     const lookupIndex = type.id.toNumber();
     const extracted = extractName(portable, lookupIndex, portable[i]);
@@ -472,11 +495,10 @@ function extractTypeInfo (lookup: PortableRegistry, portable: PortableType[]): T
 
   const lookups: Record<string, LookupString> = {};
   const names: Record<number, string> = {};
-  const params: Record<string, SiTypeParameter[]> = {};
+  const params = {} as TypeInfoParams;
   const dedup = removeDupeNames(lookup, portable, nameInfo);
-  const dedupCount = dedup.length;
 
-  for (let i = 0; i < dedupCount; i++) {
+  for (let i = 0, count = dedup.length; i < count; i++) {
     const { lookupIndex, name, params: p } = dedup[i];
 
     names[lookupIndex] = name;
@@ -491,7 +513,7 @@ export class PortableRegistry extends Struct implements ILookup {
   #alias: Record<number, string>;
   #lookups: Record<string, LookupString>;
   #names: Record<number, string>;
-  #params: Record<string, SiTypeParameter[]>;
+  #params: TypeInfoParams;
   #typeDefs: Record<number, TypeDef> = {};
   #types: Record<number, PortableType>;
 
@@ -518,6 +540,13 @@ export class PortableRegistry extends Struct implements ILookup {
    **/
   public get names (): string[] {
     return Object.values(this.#names).sort();
+  }
+
+  /**
+   * @description Returns all the available parameterized types for this chain
+   **/
+  public get paramTypes (): TypeInfoParams {
+    return this.#params;
   }
 
   /**
@@ -712,13 +741,22 @@ export class PortableRegistry extends Struct implements ILookup {
       ? [a, b]
       : [b, a];
 
-    // NOTE: Currently the BitVec type is one-way only, i.e. we only use it to decode, not
-    // re-encode stuff. As such we ignore the msb/lsb identifier given by bitOrderType, or rather
-    // we don't pass it though at all (all displays in LSB)
-    if (!BITVEC_NS.includes(bitOrder.namespace || '')) {
+    if (!bitOrder.namespace || !BITVEC_NS.includes(bitOrder.namespace)) {
       throw new Error(`Unexpected bitOrder found as ${bitOrder.namespace || '<unknown>'}`);
     } else if (bitStore.info !== TypeDefInfo.Plain || bitStore.type !== 'u8') {
       throw new Error(`Only u8 bitStore is currently supported, found ${bitStore.type}`);
+    }
+
+    const isLsb = BITVEC_NS_LSB.includes(bitOrder.namespace);
+
+    if (!isLsb) {
+      // TODO To remove this limitation, we need to pass an extra info flag
+      // through to the TypeDef (Here we could potentially re-use something
+      // like index (???) to indicate and ensure we use it to pass to the
+      // BitVec constructor - which does handle this type)
+      //
+      // See https://github.com/polkadot-js/api/issues/5588
+      // throw new Error(`Only LSB BitVec is currently supported, found ${bitOrder.namespace}`);
     }
 
     return {
@@ -814,8 +852,9 @@ export class PortableRegistry extends Struct implements ILookup {
   #extractFields (lookupIndex: number, fields: SiField[]): TypeDef {
     let isStruct = true;
     let isTuple = true;
+    const count = fields.length;
 
-    for (let f = 0; f < fields.length; f++) {
+    for (let f = 0; f < count; f++) {
       const { name } = fields[f];
 
       isStruct = isStruct && name.isSome;
@@ -826,12 +865,12 @@ export class PortableRegistry extends Struct implements ILookup {
       throw new Error('Invalid fields type detected, expected either Tuple (all unnamed) or Struct (all named)');
     }
 
-    if (fields.length === 0) {
+    if (count === 0) {
       return {
         info: TypeDefInfo.Null,
         type: 'Null'
       };
-    } else if (isTuple && fields.length === 1) {
+    } else if (isTuple && count === 1) {
       const typeDef = this.#createSiDef(fields[0].type);
 
       return objectSpread(
@@ -874,9 +913,10 @@ export class PortableRegistry extends Struct implements ILookup {
   /** @internal Apply field aliassed (with no JS conflicts) */
   #extractFieldsAlias (fields: SiField[]): [TypeDef[], Map<string, string>] {
     const alias = new Map<string, string>();
-    const sub = new Array<TypeDef>(fields.length);
+    const count = fields.length;
+    const sub = new Array<TypeDef>(count);
 
-    for (let i = 0; i < fields.length; i++) {
+    for (let i = 0; i < count; i++) {
       const { docs, name, type, typeName } = fields[i];
       const typeDef = this.#createSiDef(type);
 

@@ -5,14 +5,14 @@ import type { Observable } from 'rxjs';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { DeriveApi, DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPoints, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types';
-import type { DeriveStakingQuery } from './types';
+import type { DeriveApi, DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPoints, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types.js';
+import type { DeriveStakingQuery } from './types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { BN_BILLION, BN_ZERO, objectSpread } from '@polkadot/util';
 
-import { firstMemo, memo } from '../util';
+import { firstMemo, memo } from '../util/index.js';
 
 type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
@@ -167,10 +167,12 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
             queries.map(({ stakingLedger }, index): DeriveStakerReward[] =>
               filterRewards(
                 eras,
-                stashValidators[index].map((validatorId): [string, DeriveStakingQuery] => [
-                  validatorId,
-                  queriedVals.find((q) => q.accountId.eq(validatorId)) as DeriveStakingQuery
-                ]),
+                stashValidators[index]
+                  .map((validatorId): [string, DeriveStakingQuery | undefined] => [
+                    validatorId,
+                    queriedVals.find((q) => q.accountId.eq(validatorId))
+                  ])
+                  .filter((v): v is [string, DeriveStakingQuery] => !!v[1]),
                 {
                   rewards: allRewards[index],
                   stakingLedger
@@ -184,7 +186,7 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
   );
 }
 
-export const stakerRewards = firstMemo(
+export const stakerRewards = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, withActive?: boolean) =>
     api.derive.staking.erasHistoric(withActive).pipe(
       switchMap((eras) => api.derive.staking._stakerRewards([accountId], eras, withActive))

@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ICompact, Inspect, INumber } from '@polkadot/types-codec/types';
-import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata';
-import type { StorageEntry, StorageEntryIterator } from '../../../primitive/types';
-import type { Registry } from '../../../types';
+import type { StorageEntryMetadataLatest, StorageHasher } from '../../../interfaces/metadata/index.js';
+import type { StorageKey } from '../../../primitive/index.js';
+import type { StorageEntry, StorageEntryIterator } from '../../../primitive/types.js';
+import type { Registry } from '../../../types/index.js';
 
 import { Raw } from '@polkadot/types-codec';
 import { compactAddLength, compactStripLength, isUndefined, objectSpread, stringCamelCase, u8aConcat, u8aToU8a } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
-import { StorageKey } from '../../../primitive';
-import { getSiName } from '../../util';
-import { getHasher } from './getHasher';
+import { getSiName } from '../../util/index.js';
+import { getHasher } from './getHasher.js';
 
 export interface CreateItemOptions {
   key?: Uint8Array | string;
@@ -62,9 +62,10 @@ function assertArgs ({ method, section }: CreateItemFn, { args, keys }: RawArgs)
 
 /** @internal */
 export function createKeyRawParts (registry: Registry, itemFn: CreateItemBase, { args, hashers, keys }: RawArgs): [Uint8Array[], Uint8Array[]] {
-  const extra = new Array<Uint8Array>(keys.length);
+  const count = keys.length;
+  const extra = new Array<Uint8Array>(count);
 
-  for (let i = 0; i < keys.length; i++) {
+  for (let i = 0; i < count; i++) {
     extra[i] = getHasher(hashers[i])(
       registry.createTypeUnsafe(registry.createLookupType(keys[i]), [args[i]]).toU8a()
     );

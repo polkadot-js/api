@@ -7,20 +7,20 @@ import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '
 import type { Bytes, Option } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { DeriveApi, DeriveProposalImage } from '../types';
+import type { DeriveApi, DeriveProposalImage } from '../types.js';
 
 import { map, of, switchMap } from 'rxjs';
 
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import { firstMemo, memo } from '../util';
-import { getImageHashBounded } from './util';
+import { firstMemo, memo } from '../util/index.js';
+import { getImageHashBounded } from './util.js';
 
 type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
 type OldPreimage = ITuple<PreimageInfo>;
 
 function isDemocracyPreimage (api: DeriveApi, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): imageOpt is Option<PreimageStatus> {
-  return !!imageOpt && !api.query.democracy.dispatchQueue;
+  return !!imageOpt && !api.query.democracy['dispatchQueue'];
 }
 
 function constructProposal (api: DeriveApi, [bytes, proposer, balance, at]: PreimageInfo): DeriveProposalImage {
@@ -79,7 +79,7 @@ function parseImage (api: DeriveApi, [proposalHash, status, bytes]: [HexString, 
 function getDemocracyImages (api: DeriveApi, bounded: (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[]): Observable<(DeriveProposalImage | undefined)[]> {
   const hashes = bounded.map((b) => getImageHashBounded(b));
 
-  return api.query.democracy.preimages.multi<Option<PreimageStatus>>(hashes).pipe(
+  return api.query.democracy['preimages'].multi<Option<PreimageStatus>>(hashes).pipe(
     map((images): (DeriveProposalImage | undefined)[] =>
       images.map((imageOpt) => parseDemocracy(api, imageOpt))
     )
@@ -127,7 +127,7 @@ function getImages (api: DeriveApi, bounded: (FrameSupportPreimagesBounded | Uin
 export function preimages (instanceId: string, api: DeriveApi): (hashes: (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[]) => Observable<(DeriveProposalImage | undefined)[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[]): Observable<(DeriveProposalImage | undefined)[]> =>
     hashes.length
-      ? isFunction(api.query.democracy.preimages)
+      ? isFunction(api.query.democracy['preimages'])
         ? getDemocracyImages(api, hashes)
         : isFunction(api.query.preimage.preimageFor)
           ? getImages(api, hashes)
@@ -136,7 +136,7 @@ export function preimages (instanceId: string, api: DeriveApi): (hashes: (Hash |
   );
 }
 
-export const preimage = firstMemo(
+export const preimage = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, hash: Hash | Uint8Array | string | FrameSupportPreimagesBounded) =>
     api.derive.democracy.preimages([hash])
 );

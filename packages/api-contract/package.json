@@ -1,14 +1,12 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/api/issues",
-  "contributors": [],
   "description": "Interfaces for interacting with contracts and contract ABIs",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-contract#readme",
   "license": "Apache-2.0",
-  "maintainers": [],
   "name": "@polkadot/api-contract",
   "repository": {
     "directory": "packages/api-contract",
@@ -20,20 +18,21 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "9.12.2-11-x",
+  "version": "10.9.2-20-x",
   "main": "index.js",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/api": "9.12.2-11-x",
-    "@polkadot/types": "9.12.2-11-x",
-    "@polkadot/types-codec": "9.12.2-11-x",
-    "@polkadot/types-create": "9.12.2-11-x",
-    "@polkadot/util": "^10.3.1",
-    "@polkadot/util-crypto": "^10.3.1",
-    "rxjs": "^7.8.0"
+    "@polkadot/api": "10.9.2-20-x",
+    "@polkadot/api-augment": "10.9.2-20-x",
+    "@polkadot/types": "10.9.2-20-x",
+    "@polkadot/types-codec": "10.9.2-20-x",
+    "@polkadot/types-create": "10.9.2-20-x",
+    "@polkadot/util": "^12.4.2",
+    "@polkadot/util-crypto": "^12.4.2",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@polkadot/api-augment": "9.12.2-11-x",
-    "@polkadot/keyring": "^10.3.1"
+    "@polkadot/api-augment": "10.9.2-20-x",
+    "@polkadot/keyring": "^12.4.2"
   }
 }

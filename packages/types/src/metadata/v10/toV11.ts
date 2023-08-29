@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { MetadataV10, MetadataV11 } from '../../interfaces/metadata';
+import type { MetadataV10, MetadataV11 } from '../../interfaces/metadata/index.js';
 
 /** @internal */
 export function toV11 (registry: Registry, { modules }: MetadataV10): MetadataV11 {

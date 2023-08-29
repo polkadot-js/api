@@ -2,19 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
-import type { MetadataLatest, PalletConstantMetadataLatest } from '../../../interfaces';
-import type { ConstantCodec, Constants } from '../types';
+import type { MetadataLatest, PalletConstantMetadataLatest } from '../../../interfaces/index.js';
+import type { ConstantCodec, Constants } from '../types.js';
 
 import { hexToU8a, lazyMethod, lazyMethods, stringCamelCase } from '@polkadot/util';
 
-import { objectNameToCamel } from '../util';
+import { objectNameToCamel } from '../util.js';
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function decorateConstants (registry: Registry, { pallets }: MetadataLatest, _version: number): Constants {
   const result: Constants = {};
 
-  for (let i = 0; i < pallets.length; i++) {
+  for (let i = 0, count = pallets.length; i < count; i++) {
     const { constants, name } = pallets[i];
 
     if (!constants.isEmpty) {
@@ -23,11 +22,12 @@ export function decorateConstants (registry: Registry, { pallets }: MetadataLate
           {},
           constants,
           (constant: PalletConstantMetadataLatest): ConstantCodec => {
-            const codec = registry.createTypeUnsafe(registry.createLookupType(constant.type), [hexToU8a(constant.value.toHex())]);
+            const codec = registry.createTypeUnsafe<ConstantCodec>(registry.createLookupType(constant.type), [hexToU8a(constant.value.toHex())]);
 
-            (codec as unknown as Record<string, unknown>).meta = constant;
+            // We are casting here since we are assigning to a read-only property
+            (codec as { meta: PalletConstantMetadataLatest }).meta = constant;
 
-            return codec as ConstantCodec;
+            return codec;
           },
           objectNameToCamel
         )

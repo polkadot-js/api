@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { HeaderExtended } from '../type/types';
-import type { DeriveApi } from '../types';
+import type { HeaderExtended } from '../type/types.js';
+import type { DeriveApi } from '../types.js';
 
-import { combineLatest, map, switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 
-import { createHeaderExtended } from '../type';
-import { memo } from '../util';
-import { getAuthorDetails } from './util';
+import { createHeaderExtended } from '../type/index.js';
+import { memo } from '../util/index.js';
+import { getAuthorDetails } from './util.js';
 
 /**
  * @name getHeader
@@ -27,12 +27,9 @@ import { getAuthorDetails } from './util';
  */
 export function getHeader (instanceId: string, api: DeriveApi): (blockHash: Uint8Array | string) => Observable<HeaderExtended> {
   return memo(instanceId, (blockHash: Uint8Array | string): Observable<HeaderExtended> =>
-    combineLatest([
-      api.rpc.chain.getHeader(blockHash),
-      api.queryAt(blockHash)
-    ]).pipe(
-      switchMap(([header, queryAt]) =>
-        getAuthorDetails(header, queryAt)
+    api.rpc.chain.getHeader(blockHash).pipe(
+      switchMap((header) =>
+        getAuthorDetails(api, header, blockHash)
       ),
       map(([header, validators, author]) =>
         createHeaderExtended((validators || header).registry, header, validators, author)

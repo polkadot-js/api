@@ -1,12 +1,13 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry } from '@polkadot/types-codec/types';
+import type { Text, Vec } from '@polkadot/types-codec';
+import type { AnyJson, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { Address, BlockHash, Call, ExtrinsicEra, Hash } from '../interfaces';
-import type { Codec, ICompact, INumber, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types';
+import type { Address, BlockHash, Call, ExtrinsicEra, Hash } from '../interfaces/index.js';
+import type { Codec, ICompact, INumber, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types/index.js';
 
-import { Option, Struct, Text, Vec } from '@polkadot/types-codec';
+import { Option, Struct } from '@polkadot/types-codec';
 import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';
 
 export interface SignerPayloadType extends Codec {
@@ -45,7 +46,7 @@ const knownTypes: Record<string, string> = {
 export class GenericSignerPayload extends Struct implements ISignerPayload, SignerPayloadType {
   readonly #extraTypes: Record<string, string>;
 
-  constructor (registry: Registry, value?: HexString | { [x: string]: unknown; } | Map<unknown, unknown> | unknown[]) {
+  constructor (registry: Registry, value?: HexString | Record<string, unknown> | Map<unknown, unknown> | unknown[]) {
     const extensionTypes = objectSpread<Record<string, string>>({}, registry.getSignedExtensionTypes(), registry.getSignedExtensionExtra());
 
     super(registry, objectSpread<Record<string, string>>({}, extensionTypes, knownTypes), value);
@@ -111,18 +112,22 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayloadJSON {
-    const result: Record<string, string> = {};
+    const result: Record<string, AnyJson> = {};
     const keys = Object.keys(this.#extraTypes);
 
     // add any explicit overrides we may have
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0, count = keys.length; i < count; i++) {
       const key = keys[i];
-      const value = this.get(key) as Codec;
-      const isOption = value instanceof Option;
+      const value = this.getT(key);
 
       // Don't include Option.isNone
-      if (!isOption || value.isSome) {
-        result[key] = value.toHex();
+      if (!(value instanceof Option) || value.isSome) {
+        // NOTE In the spread below we convert (mostly) to Hex to align
+        // with the typings. In the case of "unknown" fields, we use the
+        // primitive toJSON conversion (which is serializable). Technically
+        // we can include isNone in here as well ("null" is allowed), however
+        // for empty fields we just skip it completely (historical compat)
+        result[key] = value.toJSON();
       }
     }
 

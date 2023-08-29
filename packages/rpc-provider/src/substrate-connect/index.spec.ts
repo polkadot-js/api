@@ -1,45 +1,58 @@
 // Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable sort-keys */
-/* eslint-disable promise/param-names */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/ban-types */
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-// FIXME A number of tests here, that were passing, is not skipped since
-// Jest has "some" issues with `await import` - we don't transform these
+import type * as Sc from '@substrate/connect';
+import type { HealthChecker, SmoldotHealth } from './types.js';
 
-import type Sc from '@substrate/connect';
-import type { HealthChecker, SmoldotHealth } from './types';
+import { stringify } from '@polkadot/util';
 
-import { jest } from '@jest/globals';
+import { ScProvider } from './index.js';
 
-import { ScProvider } from '.';
-
-const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-type MockedHealthChecker = HealthChecker & {
-  _isActive: () => boolean
-  _triggerHealthUpdate: (update: SmoldotHealth) => void
+interface MockChain extends Sc.Chain {
+  _spec: () => string;
+  _recevedRequests: () => string[];
+  _isTerminated: () => boolean;
+  _triggerCallback: (response: string | object) => void;
+  _setTerminateInterceptor: (fn: () => void) => void;
+  _setSendJsonRpcInterceptor: (fn: (rpc: string) => void) => void;
+  _getLatestRequest: () => string;
 }
 
-const healthCheckerMock = (): MockedHealthChecker => {
-  let cb: (health: SmoldotHealth) => void = () => {};
+interface MockedHealthChecker extends HealthChecker {
+  _isActive: () => boolean;
+  _triggerHealthUpdate: (update: SmoldotHealth) => void;
+}
 
-  let sendJsonRpc: (request: string) => void = () => {};
+type MockSc = typeof Sc & {
+  latestChain: () => MockChain;
+};
 
+enum WellKnownChain {
+  polkadot = 'polkadot',
+  ksmcc3 = 'ksmcc3',
+  rococo_v2_2 = 'rococo_v2_2',
+  westend2 = 'westend2'
+}
+
+const wait = (ms: number) =>
+  new Promise((resolve) =>
+    setTimeout(resolve, ms)
+  );
+
+function healthCheckerMock (): MockedHealthChecker {
+  let cb: (health: SmoldotHealth) => void = () => undefined;
+  let sendJsonRpc: (request: string) => void = () => undefined;
   let isActive = false;
 
   return {
+    _isActive: () => isActive,
+    _triggerHealthUpdate: (update: SmoldotHealth) => {
+      cb(update);
+    },
+    responsePassThrough: (response) => response,
+    sendJsonRpc: (...args) => sendJsonRpc(...args),
     setSendJsonRpc: (cb) => {
       sendJsonRpc = cb;
     },
@@ -49,79 +62,63 @@ const healthCheckerMock = (): MockedHealthChecker => {
     },
     stop: () => {
       isActive = false;
-    },
-    sendJsonRpc: (...args) => sendJsonRpc(...args),
-    responsePassThrough: (response) => response,
-    _isActive: () => isActive,
-    _triggerHealthUpdate: (update: SmoldotHealth) => {
-      cb(update);
     }
   };
-};
+}
 
-const healthCheckerFactory = () => {
+function healthCheckerFactory () {
   const _healthCheckers: MockedHealthChecker[] = [];
 
   return {
+    _healthCheckers,
+    _latestHealthChecker: () => _healthCheckers.slice(-1)[0],
     healthChecker: () => {
       const result = healthCheckerMock();
 
       _healthCheckers.push(result);
 
       return result;
-    },
-    _healthCheckers,
-    _latestHealthChecker: () => _healthCheckers.slice(-1)[0]
+    }
   };
-};
-
-jest.mock('./Health', () => healthCheckerFactory());
-
-type MockChain = Sc.Chain & {
-  _spec: () => string
-  _recevedRequests: () => string[]
-  _isTerminated: () => boolean
-  _triggerCallback: (response: string | {}) => void
-  _setTerminateInterceptor: (fn: () => void) => void
-  _setSendJsonRpcInterceptor: (fn: (rpc: string) => void) => void
-  _getLatestRequest: () => string
 }
 
-const getFakeChain = (spec: string, callback: Sc.JsonRpcCallback): MockChain => {
+function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
   const _receivedRequests: string[] = [];
   let _isTerminated = false;
 
-  let terminateInterceptor: Function = Function.prototype;
-  let sendJsonRpcInterceptor: Function = Function.prototype;
+  let terminateInterceptor = Function.prototype;
+  let sendJsonRpcInterceptor = Function.prototype;
 
   return {
-    _spec: () => spec,
-    _recevedRequests: () => _receivedRequests,
+    _getLatestRequest: () => _receivedRequests[_receivedRequests.length - 1],
     _isTerminated: () => _isTerminated,
-    _triggerCallback: (response) => {
-      callback(
-        typeof response === 'string' ? response : JSON.stringify(response)
-      );
-    },
+    _recevedRequests: () => _receivedRequests,
     _setSendJsonRpcInterceptor: (fn) => {
       sendJsonRpcInterceptor = fn;
     },
     _setTerminateInterceptor: (fn) => {
       terminateInterceptor = fn;
     },
-    sendJsonRpc: (rpc) => {
-      sendJsonRpcInterceptor(rpc);
-      _receivedRequests.push(rpc);
+    _spec: () => spec,
+    _triggerCallback: (response) => {
+      callback(
+        typeof response === 'string'
+          ? response
+          : stringify(response)
+      );
     },
     remove: () => {
       terminateInterceptor();
       _isTerminated = true;
     },
-    _getLatestRequest: () => _receivedRequests[_receivedRequests.length - 1]
+    sendJsonRpc: (rpc) => {
+      sendJsonRpcInterceptor(rpc);
+      _receivedRequests.push(rpc);
+    }
   };
-};
+}
 
-const getFakeClient = () => {
+function getFakeClient () {
   const chains: MockChain[] = [];
   let addChainInterceptor: Promise<void> = Promise.resolve();
   let addWellKnownChainInterceptor: Promise<void> = Promise.resolve();
@@ -154,21 +151,15 @@ const getFakeClient = () => {
         return result;
       })
   };
-};
-
-enum WellKnownChain {
-  polkadot = 'polkadot',
-  ksmcc3 = 'ksmcc3',
-  rococo_v2_2 = 'rococo_v2_2',
-  westend2 = 'westend2'
 }
 
-const connectorFactory = () => {
+function connectorFactory (): MockSc {
   const clients: ReturnType<typeof getFakeClient>[] = [];
   const latestClient = () => clients[clients.length - 1];
 
   return {
     WellKnownChain,
+    _clients: () => clients,
     createScClient: () => {
       const result = getFakeClient();
 
@@ -176,31 +167,30 @@ const connectorFactory = () => {
 
       return result;
     },
-    _clients: () => clients,
-    latestClient,
     latestChain: () =>
-      latestClient()._chains()[latestClient()._chains().length - 1]
-  };
-};
+      latestClient()._chains()[latestClient()._chains().length - 1],
+    latestClient
+  } as unknown as MockSc;
+}
 
-let mockSc: typeof Sc & { latestChain: () => MockChain };
-let mockedHealthChecker: ReturnType<typeof healthCheckerFactory>;
-const getCurrentHealthChecker = () => mockedHealthChecker._latestHealthChecker();
-
-const setChainSyncyingStatus = (isSyncing: boolean) => {
+function setChainSyncyingStatus (isSyncing: boolean): void {
   getCurrentHealthChecker()._triggerHealthUpdate({
     isSyncing,
     peers: 1,
     shouldHavePeers: true
   });
-};
+}
 
-beforeAll(() => {
-  mockSc = connectorFactory() as unknown as typeof Sc & { latestChain: () => MockChain };
-  mockedHealthChecker = healthCheckerFactory();
-});
+let mockSc: MockSc;
+let mockedHealthChecker: ReturnType<typeof healthCheckerFactory>;
+const getCurrentHealthChecker = () => mockedHealthChecker._latestHealthChecker();
 
 describe('ScProvider', () => {
+  beforeAll(() => {
+    mockSc = connectorFactory();
+    mockedHealthChecker = healthCheckerFactory();
+  });
+
   describe('on', () => {
     it('emits `connected` as soon as the chain is not syncing', async () => {
       const provider = new ScProvider(mockSc, '');
@@ -251,16 +241,15 @@ describe('ScProvider', () => {
       setChainSyncyingStatus(false);
 
       const onConnected = jest.fn();
-
-      provider.on('connected', onConnected);
       const onDisconnected = jest.fn();
 
+      provider.on('connected', onConnected);
       provider.on('disconnected', onDisconnected);
 
       expect(onConnected).toHaveBeenCalled();
       expect(onDisconnected).not.toHaveBeenCalled();
 
-      onConnected.mockRestore();
+      onConnected.mockReset();
       setChainSyncyingStatus(true);
 
       expect(onConnected).not.toHaveBeenCalled();
@@ -284,7 +273,7 @@ describe('ScProvider', () => {
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
-      expect(() => provider.clone()).toThrowError();
+      expect(() => provider.clone()).toThrow();
     });
   });
 
@@ -306,9 +295,9 @@ describe('ScProvider', () => {
 
       setChainSyncyingStatus(false);
 
-      await expect(provider.connect(undefined, mockedHealthChecker.healthChecker)).rejects.toThrowError(
-        'Already connected!'
-      );
+      await expect(
+        provider.connect(undefined, mockedHealthChecker.healthChecker)
+      ).rejects.toThrow(/Already connected/);
     });
   });
 
@@ -324,13 +313,13 @@ describe('ScProvider', () => {
       expect(chain._isTerminated()).toBe(true);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('does not throw when disconnecting on an already disconnected Provider', async () => {
       const provider = new ScProvider(mockSc, '');
 
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
-
       await provider.disconnect();
-      await expect(provider.disconnect()).resolves.not.toThrow();
+      await provider.disconnect();
     });
   });
 
@@ -351,7 +340,7 @@ describe('ScProvider', () => {
 
       setChainSyncyingStatus(false);
 
-      const responsePromise = provider.send('getData', ['foo']);
+      const responsePromise = provider.send<unknown>('getData', ['foo']);
 
       await wait(0);
       expect(chain._getLatestRequest()).toEqual(
@@ -361,8 +350,8 @@ describe('ScProvider', () => {
       const result = { foo: 'foo' };
 
       chain._triggerCallback({
-        jsonrpc: '2.0',
         id: 1,
+        jsonrpc: '2.0',
         result
       });
 
@@ -381,8 +370,8 @@ describe('ScProvider', () => {
 
       setTimeout(() => {
         chain._triggerCallback({
-          jsonrpc: '2.0',
-          id: 1
+          id: 1,
+          jsonrpc: '2.0'
         });
       }, 0);
 
@@ -402,9 +391,9 @@ describe('ScProvider', () => {
         throw new Error('boom!');
       });
 
-      await expect(provider.send('getData', ['foo'])).rejects.toThrowError(
-        'Disconnected'
-      );
+      await expect(
+        provider.send('getData', ['foo'])
+      ).rejects.toThrow(/Disconnected/);
       expect(provider.isConnected).toBe(false);
     });
   });
@@ -422,8 +411,8 @@ describe('ScProvider', () => {
 
       setTimeout(() => {
         chain._triggerCallback({
-          jsonrpc: '2.0',
           id: 1,
+          jsonrpc: '2.0',
           result: unsubscribeToken
         });
       }, 0);
@@ -461,7 +450,9 @@ describe('ScProvider', () => {
       expect(cb).toHaveBeenCalledTimes(2);
       expect(cb).toHaveBeenLastCalledWith(null, 2);
 
-      provider.unsubscribe('foo', 'chain_unsubscribeNewHeads', unsubscribeToken);
+      provider
+        .unsubscribe('foo', 'chain_unsubscribeNewHeads', unsubscribeToken)
+        .catch(console.error);
 
       chain._triggerCallback({
         jsonrpc: '2.0',
@@ -495,8 +486,8 @@ describe('ScProvider', () => {
       });
       setTimeout(() => {
         chain._triggerCallback({
-          jsonrpc: '2.0',
           id: 1,
+          jsonrpc: '2.0',
           result: unsubscribeToken
         });
       }, 0);
@@ -526,8 +517,8 @@ describe('ScProvider', () => {
 
       setTimeout(() => {
         chain._triggerCallback({
-          jsonrpc: '2.0',
           id: 1,
+          jsonrpc: '2.0',
           result: unsubscribeToken
         });
       }, 0);
@@ -551,8 +542,7 @@ describe('ScProvider', () => {
 
       expect(token).toBe(unsubscribeToken);
       expect(cb).toHaveBeenCalledTimes(1);
-      expect(cb.mock.lastCall![0]).toBeInstanceOf(Error);
-      expect(cb.mock.lastCall![1]).toBe(undefined);
+      expect(cb).toHaveBeenLastCalledWith(expect.any(Error), undefined);
     });
 
     it('errors when subscribing to an unsupported method', async () => {
@@ -561,11 +551,11 @@ describe('ScProvider', () => {
       await provider.connect(undefined, mockedHealthChecker.healthChecker);
 
       setChainSyncyingStatus(false);
-      await wait(0);
 
+      await wait(0);
       await expect(
-        provider.subscribe('foo', 'bar', ['baz'], () => {})
-      ).rejects.toThrowError('Unsupported subscribe method: bar');
+        provider.subscribe('foo', 'bar', ['baz'], () => undefined)
+      ).rejects.toThrow(/Unsupported subscribe method: bar/);
     });
   });
 
@@ -577,9 +567,9 @@ describe('ScProvider', () => {
 
       setChainSyncyingStatus(false);
 
-      await expect(provider.unsubscribe('', '', '')).rejects.toThrowError(
-        'Unable to find active subscription=::'
-      );
+      await expect(
+        provider.unsubscribe('', '', '')
+      ).rejects.toThrow(/Unable to find active subscription/);
     });
   });
 
@@ -598,8 +588,8 @@ describe('ScProvider', () => {
 
     setTimeout(() => {
       chain._triggerCallback({
-        jsonrpc: '2.0',
         id: 1,
+        jsonrpc: '2.0',
         result: unsubscribeToken
       });
     }, 0);

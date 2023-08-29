@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyBool, Inspect, Registry } from '../types';
+import type { AnyBool, Inspect, Registry } from '../types/index.js';
 
 import { isHex, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { Option } from '../base/Option';
-import { bool as Bool } from '../native/Bool';
+import { Option } from '../base/Option.js';
+import { bool as Bool } from '../native/Bool.js';
 
 function decodeU8a (registry: Registry, value: Uint8Array): null | Bool {
   // Encoded as -
@@ -40,7 +40,7 @@ export class OptionBool extends Option<Bool> {
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return 1;
+    return 1 | 0;
   }
 
   /**

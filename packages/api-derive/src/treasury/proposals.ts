@@ -5,11 +5,11 @@ import type { Observable } from 'rxjs';
 import type { Option } from '@polkadot/types';
 import type { ProposalIndex } from '@polkadot/types/interfaces';
 import type { PalletTreasuryProposal } from '@polkadot/types/lookup';
-import type { DeriveApi, DeriveCollectiveProposal, DeriveTreasuryProposal, DeriveTreasuryProposals } from '../types';
+import type { DeriveApi, DeriveCollectiveProposal, DeriveTreasuryProposal, DeriveTreasuryProposals } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
-import { memo } from '../util';
+import { memo } from '../util/index.js';
 
 interface Result {
   allIds: ProposalIndex[];

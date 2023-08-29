@@ -1,16 +1,18 @@
 // Copyright 2017-2023 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { Registry } from '@polkadot/types/types';
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import process from 'node:process';
 
 import { TypeDefInfo } from '@polkadot/types/types';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-import abis from '../test/contracts';
-import { Abi } from '.';
+import abis from '../test/contracts/index.js';
+import { Abi } from './index.js';
 
 interface SpecDef {
   messages: {
@@ -42,8 +44,8 @@ interface JSONAbi {
 }
 
 function stringifyInfo (key: string, value: unknown): unknown {
-  return key === 'info'
-    ? TypeDefInfo[value as number]
+  return key === 'info' && typeof value === 'number'
+    ? TypeDefInfo[value]
     : value;
 }
 
@@ -82,31 +84,34 @@ describe('Abi', (): void => {
   });
 
   describe('TypeDef', (): void => {
-    Object.keys(abis).forEach((abiName) => {
-      it(`initializes from a contract ABI (${abiName})`, (): void => {
-        const abi = new Abi(abis[abiName]);
-        const json = stringifyJson(abi.registry);
-        const cmpPath = path.join(__dirname, `../test/compare/${abiName}.test.json`);
+    for (const [abiName, abiJson] of Object.entries(abis)) {
+      it(`initializes from a contract ABI: ${abiName}`, (): void => {
+        const abi = new Abi(abiJson);
+        const registryJson = stringifyJson(abi.registry);
+        const cmpFile = new URL(`../test/compare/${abiName}.test.json`, import.meta.url);
 
         try {
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          expect(JSON.parse(json)).toEqual(require(cmpPath));
+          expect(
+            JSON.parse(registryJson)
+          ).toEqual(
+            JSON.parse(fs.readFileSync(cmpFile, 'utf-8'))
+          );
         } catch (error) {
-          if (process.env.GITHUB_REPOSITORY) {
-            console.error(json);
+          if (process.env['GITHUB_REPOSITORY']) {
+            console.error(registryJson);
 
             throw error;
           }
 
-          fs.writeFileSync(cmpPath, json, { flag: 'w' });
+          fs.writeFileSync(cmpFile, registryJson, { flag: 'w' });
         }
       });
-    });
+    }
   });
 
   it('has the correct hash for the source', (): void => {
-    const abi = new Abi(abis.ink_v0_flipperBundle);
-    const bundle = abis.ink_v0_flipperBundle as unknown as JSONAbi;
+    const abi = new Abi(abis['ink_v0_flipperBundle']);
+    const bundle = abis['ink_v0_flipperBundle'] as unknown as JSONAbi;
 
     // manual
     expect(bundle.source.hash).toEqual(blake2AsHex(bundle.source.wasm));

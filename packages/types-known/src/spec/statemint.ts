@@ -6,7 +6,6 @@
 import type { OverrideVersionedType } from '@polkadot/types/types';
 
 import { mapXcmTypes } from '@polkadot/types-create';
-import { objectSpread } from '@polkadot/util';
 
 const sharedTypes = {
   DispatchErrorModule: 'DispatchErrorModuleU8',
@@ -26,21 +25,25 @@ const sharedTypes = {
 };
 
 // these are override types for Statemine, Statemint, Westmint
-const versioned: OverrideVersionedType[] = [
+export const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, 3],
-    types: objectSpread({
+    types: {
       // Enum was modified mid-flight -
       // https://github.com/paritytech/substrate/pull/10382/files#diff-e4e016b33a82268b6208dc974eea841bad47597865a749fee2f937eb6fdf67b4R498
-      DispatchError: 'DispatchErrorPre6First'
-    }, sharedTypes, mapXcmTypes('V0'))
+      DispatchError: 'DispatchErrorPre6First',
+      ...sharedTypes,
+      ...mapXcmTypes('V0')
+    }
   },
   {
     minmax: [4, 5],
-    types: objectSpread({
+    types: {
       // As above, see https://github.com/polkadot-js/api/issues/5301
-      DispatchError: 'DispatchErrorPre6First'
-    }, sharedTypes, mapXcmTypes('V1'))
+      DispatchError: 'DispatchErrorPre6First',
+      ...sharedTypes,
+      ...mapXcmTypes('V1')
+    }
   },
   {
     // metadata V14
@@ -58,5 +61,3 @@ const versioned: OverrideVersionedType[] = [
   //   }
   // }
 ];
-
-export default versioned;

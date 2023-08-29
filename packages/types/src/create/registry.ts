@@ -3,24 +3,24 @@
 
 import type { AnyString, Codec, CodecClass, IU8a, LookupString } from '@polkadot/types-codec/types';
 import type { CreateOptions, TypeDef } from '@polkadot/types-create/types';
-import type { ExtDef } from '../extrinsic/signedExtensions/types';
-import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant, WeightV2 } from '../interfaces/types';
-import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types';
+import type { ExtDef } from '../extrinsic/signedExtensions/types.js';
+import type { ChainProperties, DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, EventMetadataLatest, Hash, MetadataLatest, SiField, SiLookupTypeId, SiVariant, WeightV1, WeightV2 } from '../interfaces/types.js';
+import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTypes, Registry, RegistryError, RegistryTypes } from '../types/index.js';
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
-import { assertReturn, BN_ZERO, formatBalance, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
+import { assertReturn, BN_ZERO, formatBalance, isBn, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions';
-import { GenericEventData } from '../generic/Event';
-import * as baseTypes from '../index.types';
-import * as definitions from '../interfaces/definitions';
-import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate';
-import { createCallFunction } from '../metadata/decorate/extrinsics';
-import { Metadata } from '../metadata/Metadata';
-import { PortableRegistry } from '../metadata/PortableRegistry';
-import { lazyVariants } from './lazy';
+import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions/index.js';
+import { GenericEventData } from '../generic/Event.js';
+import * as baseTypes from '../index.types.js';
+import * as definitions from '../interfaces/definitions.js';
+import { createCallFunction } from '../metadata/decorate/extrinsics/index.js';
+import { decorateConstants, filterCallsSome, filterEventsSome } from '../metadata/decorate/index.js';
+import { Metadata } from '../metadata/Metadata.js';
+import { PortableRegistry } from '../metadata/PortableRegistry/index.js';
+import { lazyVariants } from './lazy.js';
 
 const DEFAULT_FIRST_CALL_IDX = new Uint8Array(2);
 
@@ -35,9 +35,10 @@ function valueToString (v: { toString: () => string }): string {
 }
 
 function getFieldArgs (lookup: PortableRegistry, fields: SiField[]): string[] {
-  const args = new Array<string>(fields.length);
+  const count = fields.length;
+  const args = new Array<string>(count);
 
-  for (let i = 0; i < fields.length; i++) {
+  for (let i = 0; i < count; i++) {
     args[i] = lookup.getTypeDef(fields[i].type).type;
   }
 
@@ -47,7 +48,7 @@ function getFieldArgs (lookup: PortableRegistry, fields: SiField[]): string[] {
 function clearRecord (record: Record<string, unknown>): void {
   const keys = Object.keys(record);
 
-  for (let i = 0; i < keys.length; i++) {
+  for (let i = 0, count = keys.length; i < count; i++) {
     delete record[keys[i]];
   }
 }
@@ -60,7 +61,7 @@ function getVariantStringIdx ({ index }: SiVariant): string {
 function injectErrors (_: TypeRegistry, { lookup, pallets }: MetadataLatest, version: number, result: Record<string, Record<string, RegistryError>>): void {
   clearRecord(result);
 
-  for (let i = 0; i < pallets.length; i++) {
+  for (let i = 0, count = pallets.length; i < count; i++) {
     const { errors, index, name } = pallets[i];
 
     if (errors.isSome) {
@@ -87,7 +88,7 @@ function injectEvents (registry: TypeRegistry, { lookup, pallets }: MetadataLate
 
   clearRecord(result);
 
-  for (let i = 0; i < filtered.length; i++) {
+  for (let i = 0, count = filtered.length; i < count; i++) {
     const { events, index, name } = filtered[i];
 
     lazyMethod(result, version >= 12 ? index.toNumber() : i, () =>
@@ -111,7 +112,7 @@ function injectExtrinsics (registry: TypeRegistry, { lookup, pallets }: Metadata
   clearRecord(result);
   clearRecord(mapping);
 
-  for (let i = 0; i < filtered.length; i++) {
+  for (let i = 0, count = filtered.length; i < count; i++) {
     const { calls, index, name } = filtered[i];
     const sectionIndex = version >= 12 ? index.toNumber() : i;
     const sectionName = stringCamelCase(name);
@@ -154,7 +155,7 @@ function injectExtrinsics (registry: TypeRegistry, { lookup, pallets }: Metadata
 function extractProperties (registry: TypeRegistry, metadata: Metadata): ChainProperties | undefined {
   const original = registry.getChainProperties();
   const constants = decorateConstants(registry, metadata.asLatest, metadata.version);
-  const ss58Format = constants.system && (constants.system.sS58Prefix || constants.system.ss58Prefix);
+  const ss58Format = constants['system'] && (constants['system']['sS58Prefix'] || constants['system']['ss58Prefix']);
 
   if (!ss58Format) {
     return original;
@@ -177,9 +178,10 @@ export class TypeRegistry implements Registry {
   #metadataVersion = 0;
   #signedExtensions: string[] = fallbackExtensions;
   #unknownTypes = new Map<string, boolean>();
-  #userExtensions?: ExtDef;
+  #userExtensions?: ExtDef | undefined;
 
   readonly #knownDefaults: Record<string, CodecClass>;
+  readonly #knownDefaultsEntries: [string, CodecClass][];
   readonly #knownDefinitions: Record<string, Definitions>;
   readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
   readonly #metadataErrors: Record<string, Record<string, RegistryError>> = {};
@@ -190,11 +192,12 @@ export class TypeRegistry implements Registry {
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
     this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
+    this.#knownDefaultsEntries = Object.entries(this.#knownDefaults);
     this.#knownDefinitions = definitions;
 
     const allKnown = Object.values(this.#knownDefinitions);
 
-    for (let i = 0; i < allKnown.length; i++) {
+    for (let i = 0, count = allKnown.length; i < count; i++) {
       this.register(allKnown[i].types as unknown as RegistryTypes);
     }
 
@@ -340,7 +343,7 @@ export class TypeRegistry implements Registry {
   }
 
   public get <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
-    return this.getUnsafe(name, withUnknown, knownTypeDef) as CodecClass<T>;
+    return this.getUnsafe(name, withUnknown, knownTypeDef);
   }
 
   public getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
@@ -393,7 +396,7 @@ export class TypeRegistry implements Registry {
     // (previously this used to be a simple find & return)
     const names: string[] = [];
 
-    for (const [name, Clazz] of Object.entries(this.#knownDefaults)) {
+    for (const [name, Clazz] of this.#knownDefaultsEntries) {
       if (Type === Clazz) {
         names.push(name);
       }
@@ -405,11 +408,10 @@ export class TypeRegistry implements Registry {
       }
     }
 
-    // both sort and reverse are done in-place
-    names.sort().reverse();
-
     return names.length
-      ? names[0]
+      // both sort and reverse are done in-place
+      // ['U32', 'u32'] -> ['u32', 'U32']
+      ? names.sort().reverse()[0]
       : undefined;
   }
 
@@ -485,7 +487,7 @@ export class TypeRegistry implements Registry {
   #registerObject = (obj: RegistryTypes): void => {
     const entries = Object.entries(obj);
 
-    for (let e = 0; e < entries.length; e++) {
+    for (let e = 0, count = entries.length; e < count; e++) {
       const [name, type] = entries[e];
 
       if (isFunction(type)) {
@@ -540,24 +542,33 @@ export class TypeRegistry implements Registry {
     // attach the lookup before we register any types
     this.setLookup(lookup);
 
-    // default to V1 - this includes 1.5 (with single field)
-    let weightType = 'WeightV1';
-    const Clazz = this.get<WeightV2>('SpWeightsWeightV2Weight');
+    // we detect based on runtime configuration
+    let Weight: string | null = null;
 
-    // detection for WeightV2 type
-    if (Clazz) {
-      const weight = new Clazz(this);
+    if (this.hasType('SpWeightsWeightV2Weight')) {
+      // detection for WeightV2 type based on latest naming
+      const weightv2 = this.createType<WeightV2>('SpWeightsWeightV2Weight');
 
-      if (weight.refTime && weight.proofSize) {
-        weightType = 'SpWeightsWeightV2Weight';
-      }
+      Weight = weightv2.refTime && weightv2.proofSize
+        // with both refTime & proofSize we use as-is (WeightV2)
+        ? 'SpWeightsWeightV2Weight'
+        // fallback to WeightV1 (WeightV1.5 is a struct, single field)
+        : 'WeightV1';
+    } else if (!isBn(this.createType<WeightV1>('Weight'))) {
+      // where we have an already-supplied BN override, we don't clobber
+      // it with our detected value (This protects against pre-defines
+      // where Weight may be aliassed to WeightV0, e.g. in early Kusama chains)
+      Weight = 'WeightV1';
     }
 
-    this.register({ Weight: weightType });
+    if (Weight) {
+      // we have detected a version, adjust the definition
+      this.register({ Weight });
+    }
   };
 
   // sets the metadata
-  public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void {
+  public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef, noInitWarn?: boolean): void {
     this.#metadata = metadata.asLatest;
     this.#metadataVersion = metadata.version;
     this.#firstCallIndex = null;
@@ -593,7 +604,8 @@ export class TypeRegistry implements Registry {
           ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
           : fallbackExtensions
       ),
-      userExtensions
+      userExtensions,
+      noInitWarn
     );
 
     // setup the chain properties with format overrides
@@ -603,14 +615,16 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the available signed extensions
-  setSignedExtensions (signedExtensions: string[] = fallbackExtensions, userExtensions?: ExtDef): void {
+  setSignedExtensions (signedExtensions: string[] = fallbackExtensions, userExtensions?: ExtDef, noInitWarn?: boolean): void {
     this.#signedExtensions = signedExtensions;
     this.#userExtensions = userExtensions;
 
-    const unknown = findUnknownExtensions(this.#signedExtensions, this.#userExtensions);
+    if (!noInitWarn) {
+      const unknown = findUnknownExtensions(this.#signedExtensions, this.#userExtensions);
 
-    if (unknown.length) {
-      l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);
+      if (unknown.length) {
+        l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);
+      }
     }
   }
 }

@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ExtDef, ExtInfo, ExtTypes } from './types';
+import type { ExtDef, ExtInfo, ExtTypes } from './types.js';
 
 import { objectSpread } from '@polkadot/util';
 
-import { polkadot } from './polkadot';
-import { shell } from './shell';
-import { statemint } from './statemint';
-import { substrate } from './substrate';
+import { polkadot } from './polkadot.js';
+import { shell } from './shell.js';
+import { statemint } from './statemint.js';
+import { substrate } from './substrate.js';
 
 // A mapping of the known signed extensions to the extra fields that they
 // contain. Unlike in the actual extensions, we define the extra fields not

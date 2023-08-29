@@ -3,14 +3,14 @@
 
 import type { DeriveCustom } from '@polkadot/api-base/types';
 import type { AnyFunction, AnyString } from '@polkadot/types/types';
-import type { ExactDerive } from './derive';
-import type { DeriveApi } from './types';
+import type { ExactDerive } from './derive.js';
+import type { DeriveApi } from './types.js';
 
-import { derive } from './derive';
-import { lazyDeriveSection } from './util';
+import { lazyDeriveSection } from './util/index.js';
+import { derive } from './derive.js';
 
-export * from './derive';
-export * from './type';
+export * from './derive.js';
+export * from './type/index.js';
 
 interface Avail {
   instances: string[];
@@ -119,7 +119,7 @@ function injectFunctions (instanceId: string, api: DeriveApi, derives: DeriveCus
     )
   ));
 
-  for (let i = 0; i < names.length; i++) {
+  for (let i = 0, count = names.length; i < count; i++) {
     const name = names[i];
 
     isIncluded(name) &&

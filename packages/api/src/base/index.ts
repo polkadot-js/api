@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignerPayloadRawBase } from '@polkadot/types/types';
-import type { ApiOptions, ApiTypes, DecorateMethod, Signer } from '../types';
+import type { ApiOptions, ApiTypes, DecorateMethod, Signer } from '../types/index.js';
 
 import { isString, objectSpread, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { Getters } from './Getters';
+import { Getters } from './Getters.js';
 
 interface KeyringSigner {
   sign (message: Uint8Array): Uint8Array;
@@ -58,7 +58,7 @@ export abstract class ApiBase<ApiType extends ApiTypes> extends Getters<ApiType>
   /**
    * @description Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
-  public setSigner (signer: Signer): void {
+  public setSigner (signer: Signer | undefined): void {
     this._rx.signer = signer;
   }
 
@@ -69,7 +69,7 @@ export abstract class ApiBase<ApiType extends ApiTypes> extends Getters<ApiType>
     if (isString(address)) {
       const _signer = signer || this._rx.signer;
 
-      if (!_signer || !_signer.signRaw) {
+      if (!_signer?.signRaw) {
         throw new Error('No signer exists with a signRaw interface. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
       }
 

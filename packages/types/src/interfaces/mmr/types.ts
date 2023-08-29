@@ -28,6 +28,9 @@ export interface MmrError extends Enum {
   readonly type: 'Push' | 'GetRoot' | 'Commit' | 'GenerateProof' | 'Verify' | 'LeafNotFound' | 'PalletNotIncluded' | 'InvalidLeafIndex';
 }
 
+/** @name MmrHash */
+export interface MmrHash extends Hash {}
+
 /** @name MmrLeafBatchProof */
 export interface MmrLeafBatchProof extends Struct {
   readonly blockHash: BlockHash;

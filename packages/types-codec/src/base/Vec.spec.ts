@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import type { PropIndex } from '@polkadot/types/interfaces/democracy';
 import type { Codec, CodecTo, ITuple } from '@polkadot/types-codec/types';
 
@@ -9,7 +11,7 @@ import { Text, u32, Vec } from '@polkadot/types-codec';
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { decodeAddress, randomAsU8a } from '@polkadot/util-crypto';
 
-import { perf } from '../test/performance';
+import { perf } from '../test/performance.js';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, rpcMetadata);
@@ -37,7 +39,7 @@ describe('Vec', (): void => {
       expect(new Vec(registry, Text, null)).toHaveLength(0);
     });
 
-    it('decodes a complex type via construction', (): void => {
+    it('decodes a complex type via construction (1)', (): void => {
       const test = createTypeUnsafe<Vec<ITuple<[PropIndex, AccountId]>>>(registry, 'Vec<(PropIndex, AccountId)>', [new Uint8Array([
         4, 10, 0, 0, 0, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
       ])]);
@@ -46,7 +48,7 @@ describe('Vec', (): void => {
       expect(test[0][1].toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaQua');
     });
 
-    it('decodes a complex type via construction', (): void => {
+    it('decodes a complex type via construction (2)', (): void => {
       const INPUT = '0x08cc0200000000ce0200000001';
       const test = createTypeUnsafe<Vec<Codec>>(registry, 'Vec<(u32, [u32; 0], u16)>', [INPUT]);
 
@@ -84,9 +86,19 @@ describe('Vec', (): void => {
       expect(vector.toString()).toEqual('[1, 23, 345, 4567, 56789]');
     });
 
-    it('encodes with length prefix', (): void => {
+    it('encodes with length prefix on toU8a()', (): void => {
       expect(vector.toU8a()).toEqual(new Uint8Array([
         5 << 2,
+        1 << 2, 49,
+        2 << 2, 50, 51,
+        3 << 2, 51, 52, 53,
+        4 << 2, 52, 53, 54, 55,
+        5 << 2, 53, 54, 55, 56, 57
+      ]));
+    });
+
+    it('encodes without length prefix on toU8a(true)', (): void => {
+      expect(vector.toU8a(true)).toEqual(new Uint8Array([
         1 << 2, 49,
         2 << 2, 50, 51,
         3 << 2, 51, 52, 53,
@@ -106,7 +118,7 @@ describe('Vec', (): void => {
     });
 
     it('exposes a working forEach', (): void => {
-      const result: { [index: number]: string } = {};
+      const result: Record<number, string> = {};
 
       vector.forEach((e, i): void => {
         result[i] = e.toString();
@@ -129,7 +141,7 @@ describe('Vec', (): void => {
 
     it('exposes a working filter', (): void => {
       expect(
-        vector.filter((e, i): boolean => i >= 3).toString()
+        vector.filter((_, i): boolean => i >= 3).toString()
       ).toEqual('4567,56789');
     });
 

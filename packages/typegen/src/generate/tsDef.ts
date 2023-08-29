@@ -3,17 +3,18 @@
 
 import type { Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
-import type { ModuleTypes } from '../util/imports';
+import type { ModuleTypes } from '../util/imports.js';
+import type { TypeImports } from '../util/index.js';
 
 import Handlebars from 'handlebars';
-import path from 'path';
+import path from 'node:path';
 
 import { TypeRegistry } from '@polkadot/types/create';
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import { getTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { assert, isString, stringify, stringPascalCase } from '@polkadot/util';
 
-import { createImports, exportInterface, formatType, readTemplate, setImports, TypeImports, writeFile } from '../util';
+import { createImports, exportInterface, formatType, readTemplate, setImports, writeFile } from '../util/index.js';
 
 interface Imports extends TypeImports {
   interfaces: [string, string][];
@@ -32,8 +33,7 @@ export function createGetter (definitions: Record<string, ModuleTypes>, name = '
 }
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function errorUnhandled (_: Registry, definitions: Record<string, ModuleTypes>, def: TypeDef, imports: TypeImports): string {
+function errorUnhandled (_: Registry, _definitions: Record<string, ModuleTypes>, def: TypeDef, _imports: TypeImports): string {
   throw new Error(`Generate: ${def.name || ''}: Unhandled type ${TypeDefInfo[def.info]}`);
 }
 
@@ -96,7 +96,7 @@ function tsInt (_: Registry, definitions: Record<string, ModuleTypes>, def: Type
 }
 
 /** @internal */
-function tsNull (registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex = -1, name }: TypeDef, imports: TypeImports): string {
+function tsNull (_registry: Registry, definitions: Record<string, ModuleTypes>, { lookupIndex = -1, name }: TypeDef, imports: TypeImports): string {
   setImports(definitions, imports, ['Null']);
 
   // * @description extends [[${base}]]
@@ -151,10 +151,9 @@ function tsResult (registry: Registry, definitions: Record<string, ModuleTypes>,
 }
 
 /** @internal */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function tsSi (registry: Registry, definitions: Record<string, ModuleTypes>, typeDef: TypeDef, imports: TypeImports): string {
+function tsSi (_registry: Registry, _definitions: Record<string, ModuleTypes>, typeDef: TypeDef, _imports: TypeImports): string {
   // FIXME
-  return `// SI: ${JSON.stringify(typeDef)}`;
+  return `// SI: ${stringify(typeDef)}`;
 }
 
 /** @internal */
@@ -254,7 +253,7 @@ function generateInterfaces (registry: Registry, definitions: Record<string, Mod
 }
 
 /** @internal */
-export function generateTsDefFor (registry: Registry, importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
+export function generateTsDefFor (registry: Registry, importDefinitions: Record<string, Record<string, ModuleTypes>>, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
   const imports = { ...createImports(importDefinitions, { types }), interfaces: [] } as Imports;
   const definitions = imports.definitions;
   const interfaces = generateInterfaces(registry, definitions, { types }, imports);
@@ -276,7 +275,7 @@ export function generateTsDefFor (registry: Registry, importDefinitions: { [impo
 }
 
 /** @internal */
-export function generateTsDef (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, outputDir: string, generatingPackage: string): void {
+export function generateTsDef (importDefinitions: Record<string, Record<string, ModuleTypes>>, outputDir: string, generatingPackage: string): void {
   const registry = new TypeRegistry();
 
   writeFile(path.join(outputDir, 'types.ts'), (): string => {

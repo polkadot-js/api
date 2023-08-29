@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, AnyU8a, Inspect, IU8a, Registry } from '../types';
+import type { AnyJson, AnyU8a, Inspect, IU8a, Registry } from '../types/index.js';
 
 import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 
@@ -18,8 +18,8 @@ import { isAscii, isUndefined, isUtf8, u8aToHex, u8aToString, u8aToU8a } from '@
 export class Raw extends Uint8Array implements IU8a {
   readonly registry: Registry;
 
-  public createdAtHash?: IU8a;
-  public initialU8aLength?: number;
+  public createdAtHash?: IU8a | undefined;
+  public initialU8aLength?: number | undefined;
   public isStorageFallback?: boolean;
 
   /**
@@ -153,10 +153,8 @@ export class Raw extends Uint8Array implements IU8a {
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     return Uint8Array.from(this);
   }
 

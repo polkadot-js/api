@@ -3,21 +3,28 @@
 
 import type { PortableType, SiLookupTypeId, SiPath, SiTypeParameter } from '@polkadot/types/interfaces';
 import type { PortableRegistry } from '@polkadot/types/metadata';
+import type { Registry } from '@polkadot/types/types';
 import type { TypeDef } from '@polkadot/types-create/types';
 import type { HexString } from '@polkadot/util/types';
 
 import Handlebars from 'handlebars';
-import path from 'path';
+import path from 'node:path';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
-import { Registry } from '@polkadot/types/types';
 import staticKusama from '@polkadot/types-support/metadata/static-kusama';
 import staticPolkadot from '@polkadot/types-support/metadata/static-polkadot';
 import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
 import { isString, stringify } from '@polkadot/util';
 
-import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util';
-import { typeEncoders } from './tsDef';
+import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util/index.js';
+import { typeEncoders } from './tsDef.js';
+
+// Record<string, >
+interface ParsedDef {
+  _set: Record<string, number>;
+
+  [key: string]: string | Record<string, string> | Record<string, number>;
+}
 
 const WITH_TYPEDEF = false;
 
@@ -67,9 +74,9 @@ function expandSet (parsed: Record<string, number>): string[] {
   );
 }
 
-function expandObject (parsed: Record<string, string | Record<string, string>>): string[] {
+function expandObject (parsed: ParsedDef): string[] {
   if (parsed._set) {
-    return expandSet(parsed._set as unknown as Record<string, number>);
+    return expandSet(parsed._set);
   }
 
   return formatObject(
@@ -78,7 +85,7 @@ function expandObject (parsed: Record<string, string | Record<string, string>>):
         ? expandType(v)
         : Array.isArray(v)
           ? [`[${(v as string[]).map((e) => `'${e}'`).join(', ')}]`]
-          : expandObject(v);
+          : expandObject(v as ParsedDef);
 
       inner.forEach((l, index): void => {
         all.push(`${
@@ -98,7 +105,7 @@ function expandType (encoded: string): string[] {
     return [`'${encoded}'`];
   }
 
-  return expandObject(JSON.parse(encoded) as Record<string, string | Record<string, string>>);
+  return expandObject(JSON.parse(encoded) as ParsedDef);
 }
 
 function expandDefToString ({ lookupNameRoot, type }: TypeDef, indent: number): string {
@@ -218,7 +225,7 @@ function generateLookupTypes (registry: Registry, filtered: [PortableType, TypeD
   writeFile(path.join(destDir, 'index.ts'), () => generateLookupIndexTmpl({ headerType: 'defs' }), true);
 }
 
-function generateRegistry (registry: Registry, filtered: [PortableType, TypeDef][], destDir: string, subPath: string): void {
+function generateRegistry (_registry: Registry, filtered: [PortableType, TypeDef][], destDir: string, subPath: string): void {
   writeFile(path.join(destDir, `${subPath}.ts`), (): string => {
     const items = filtered
       .map(([, { lookupName }]) => lookupName)

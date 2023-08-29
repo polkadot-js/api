@@ -1,15 +1,15 @@
 // Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyU8a, Inspect, Registry } from '../types';
+import type { AnyU8a, Inspect, Registry } from '../types/index.js';
 
 import { compactFromU8aLim, compactToU8a, isString, u8aConcatStrict, u8aToU8a } from '@polkadot/util';
 
-import { Raw } from '../native/Raw';
+import { Raw } from '../native/Raw.js';
 
 /** @internal */
 function decodeBitVecU8a (value?: Uint8Array): [number, Uint8Array] {
-  if (!value || !value.length) {
+  if (!value?.length) {
     return [0, new Uint8Array()];
   }
 
@@ -73,6 +73,40 @@ export class BitVec extends Raw {
     };
   }
 
+  /**
+   * @description Creates a boolean array of the bit values
+   */
+  public toBoolArray (): boolean[] {
+    const map = [...this.toU8a(true)].map((v) => [
+      !!(v & 0b1000_0000),
+      !!(v & 0b0100_0000),
+      !!(v & 0b0010_0000),
+      !!(v & 0b0001_0000),
+      !!(v & 0b0000_1000),
+      !!(v & 0b0000_0100),
+      !!(v & 0b0000_0010),
+      !!(v & 0b0000_0001)
+    ]);
+    const count = map.length;
+    const result = new Array<boolean>(8 * count);
+
+    for (let i = 0; i < count; i++) {
+      const off = i * 8;
+      const v = map[i];
+
+      for (let j = 0; j < 8; j++) {
+        result[off + j] = this.#isMsb
+          ? v[j]
+          : v[7 - j];
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   */
   public override toHuman (): string {
     return `0b${
       [...this.toU8a(true)]
@@ -94,7 +128,7 @@ export class BitVec extends Raw {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    const bitVec = super.toU8a();
+    const bitVec = super.toU8a(isBare);
 
     return isBare
       ? bitVec

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Codec, CodecClass } from './codec';
-import type { AnyTuple, LookupString } from './helpers';
-import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces';
+import type { Codec, CodecClass } from './codec.js';
+import type { AnyTuple, LookupString } from './helpers.js';
+import type { ICompact, IEnum, IMap, IMethod, INumber, IOption, IResult, ISet, IStruct, ITuple, IU8a, IVec } from './interfaces.js';
 
 export type OnlyCodec<K, T, Types> =
   K extends keyof Types
@@ -31,7 +31,7 @@ export type RegistryTypes =
   { _set: Record<string, number> }>;
 
 export interface CodecCreateOptions {
-  blockHash?: Uint8Array | string | null;
+  blockHash?: Uint8Array | string | null | undefined;
   isFallback?: boolean;
   isOptional?: boolean;
   isPedantic?: boolean;
@@ -64,6 +64,9 @@ export interface Registry {
   createClassUnsafe <T extends Codec = Codec, K extends string = string> (type: K): CodecClass<T>;
   createTypeUnsafe <T extends Codec = Codec, K extends string = string> (type: K, params: unknown[], options?: CodecCreateOptions): T;
 
+  // get is for Compat, overridden in derived classes
+  get (...params: never[]): any;
+
   getClassName (clazz: CodecClass): string | undefined;
   getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): CodecClass<T>;
   getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): CodecClass<T>;
@@ -77,5 +80,5 @@ export interface Registry {
   register (type: CodecClass | RegistryTypes): void;
   register (name: string, type: CodecClass): void;
   register (arg1: string | CodecClass | RegistryTypes, arg2?: CodecClass): void;
-  setMetadata (metadata: unknown, signedExtensions?: string[], userExtensions?: unknown): void;
+  setMetadata (metadata: unknown, signedExtensions?: string[], userExtensions?: unknown, noInitWarn?: boolean): void;
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, Inspect, INumber, IU8a, Registry, ToBn, UIntBitLength } from '../types';
+import type { AnyNumber, Inspect, INumber, IU8a, Registry, ToBn, UIntBitLength } from '../types/index.js';
 
 import { BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBigInt, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
 
@@ -29,7 +29,7 @@ function toPercentage (value: BN, divisor: BN): string {
 }
 
 /** @internal */
-function decodeBN (value: Exclude<AnyNumber, Uint8Array> | Record<string, string> | ToBn, isNegative: boolean): string | number {
+function decodeBN (value: Exclude<AnyNumber, Uint8Array> | Record<string, string> | ToBn | null, isNegative: boolean): string | number {
   if (isNumber(value)) {
     if (!Number.isInteger(value) || value > Number.MAX_SAFE_INTEGER || value < Number.MIN_SAFE_INTEGER) {
       throw new Error('Number needs to be an integer <= Number.MAX_SAFE_INTEGER, i.e. 2 ^ 53 - 1');
@@ -63,6 +63,8 @@ function decodeBN (value: Exclude<AnyNumber, Uint8Array> | Record<string, string
     }
 
     return decodeBN(value[keys[0]], isNegative);
+  } else if (!value) {
+    return 0;
   }
 
   throw new Error(`Unable to create BN from unknown type ${typeof value}`);
@@ -84,7 +86,7 @@ export abstract class AbstractInt extends BN implements INumber {
 
   readonly #bitLength: UIntBitLength;
 
-  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
+  constructor (registry: Registry, value: AnyNumber | null = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
     // Construct via a string/number, which will be passed in the BN constructor.
     // It would be ideal to actually return a BN, but there is an issue:
     // https://github.com/indutny/bn.js/issues/206
@@ -195,8 +197,7 @@ export abstract class AbstractInt extends BN implements INumber {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toHuman (isExpanded?: boolean): string {
+  public toHuman (_isExpanded?: boolean): string {
     const rawType = this.toRawType();
 
     if (rawType === 'Balance') {
@@ -224,9 +225,9 @@ export abstract class AbstractInt extends BN implements INumber {
   public override toJSON (onlyHex = false): any {
     // FIXME this return type should by string | number, however BN returns string
     // Options here are
-    //   - super.bitLength() - the actual used bits
-    //   - this.#bitLength - the type bits (this should be used, however contracts RPC is problematic)
-    return onlyHex || (super.bitLength() > MAX_NUMBER_BITS)
+    //   - super.bitLength() - the actual used bits, use hex when close to MAX_SAFE_INTEGER
+    //   - this.#bitLength - the max used bits, use hex when larger than native Rust type
+    return onlyHex || (this.#bitLength > 128) || (super.bitLength() > MAX_NUMBER_BITS)
       ? this.toHex()
       : this.toNumber();
   }
@@ -263,10 +264,8 @@ export abstract class AbstractInt extends BN implements INumber {
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     return bnToU8a(this, {
       bitLength: this.bitLength(),
       isLe: true,

@@ -2,17 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { AnyJson, Codec, CodecClass, IEnum, Inspect, IU8a, Registry } from '../types';
+import type { AnyJson, Codec, CodecClass, DefinitionSetter, IEnum, Inspect, IU8a, Registry } from '../types/index.js';
 
-import { isHex, isNumber, isObject, isString, isU8a, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { identity, isHex, isNumber, isObject, isString, isU8a, objectProperties, stringCamelCase, stringify, stringPascalCase, u8aConcatStrict, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { mapToTypeMap, typesToMap } from '../utils';
-import { Null } from './Null';
+import { mapToTypeMap, typesToMap } from '../utils/index.js';
+import { Null } from './Null.js';
 
 // export interface, this is used in Enum.with, so required as public by TS
-export interface EnumCodecClass<T = Codec> {
-  new(registry: Registry, value?: any, index?: number): T;
-}
+export type EnumCodecClass<T = Codec> = new(registry: Registry, value?: any, index?: number) => T;
 
 interface Definition {
   def: TypesDef;
@@ -30,15 +28,6 @@ type TypesDef = Record<string, EntryDef>;
 interface Decoded {
   index: number;
   value: Codec;
-}
-
-interface Options {
-  definition?: Definition;
-  setDefinition?: (d: Definition) => Definition;
-}
-
-function noopSetDefinition (d: Definition): Definition {
-  return d;
 }
 
 function isRustEnum (def: Record<string, string | CodecClass> | Record<string, number>): def is Record<string, string | CodecClass> {
@@ -61,7 +50,7 @@ function extractDef (registry: Registry, _def: Record<string, string | CodecClas
   let isIndexed: boolean;
 
   if (Array.isArray(_def)) {
-    for (let i = 0; i < _def.length; i++) {
+    for (let i = 0, count = _def.length; i < count; i++) {
       def[_def[i]] = { Type: Null, index: i };
     }
 
@@ -70,7 +59,7 @@ function extractDef (registry: Registry, _def: Record<string, string | CodecClas
   } else if (isRustEnum(_def)) {
     const [Types, keys] = mapToTypeMap(registry, _def);
 
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0, count = keys.length; i < count; i++) {
       def[keys[i]] = { Type: Types[i], index: i };
     }
 
@@ -79,7 +68,7 @@ function extractDef (registry: Registry, _def: Record<string, string | CodecClas
   } else {
     const entries = Object.entries(_def);
 
-    for (let i = 0; i < entries.length; i++) {
+    for (let i = 0, count = entries.length; i < count; i++) {
       const [key, index] = entries[i];
 
       def[key] = { Type: Null, index };
@@ -99,7 +88,7 @@ function extractDef (registry: Registry, _def: Record<string, string | CodecClas
 function getEntryType (def: TypesDef, checkIdx: number): CodecClass {
   const values = Object.values(def);
 
-  for (let i = 0; i < values.length; i++) {
+  for (let i = 0, count = values.length; i < count; i++) {
     const { Type, index } = values[i];
 
     if (index === checkIdx) {
@@ -196,7 +185,7 @@ export class Enum implements IEnum {
   readonly #isIndexed: boolean;
   readonly #raw: Codec;
 
-  constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number, { definition, setDefinition = noopSetDefinition }: Options = {}) {
+  constructor (registry: Registry, Types: Record<string, string | CodecClass> | Record<string, number> | string[], value?: unknown, index?: number, { definition, setDefinition = identity }: DefinitionSetter<Definition> = {}) {
     const { def, isBasic, isIndexed } = definition || setDefinition(extractDef(registry, Types));
 
     // shortcut isU8a as used in SCALE decoding
@@ -229,10 +218,11 @@ export class Enum implements IEnum {
         const keys = Array.isArray(Types)
           ? Types
           : Object.keys(Types);
-        const asKeys = new Array<string>(keys.length);
-        const isKeys = new Array<string>(keys.length);
+        const count = keys.length;
+        const asKeys = new Array<string>(count);
+        const isKeys = new Array<string>(count);
 
-        for (let i = 0; i < keys.length; i++) {
+        for (let i = 0; i < count; i++) {
           const name = stringPascalCase(keys[i]);
 
           asKeys[i] = `as${name}`;
