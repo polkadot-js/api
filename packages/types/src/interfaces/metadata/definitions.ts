@@ -36,7 +36,7 @@ export default {
     // hence latest for most pointing to the previous V14
     ErrorMetadataLatest: 'ErrorMetadataV14',
     EventMetadataLatest: 'EventMetadataV14',
-    ExtrinsicMetadataLatest: 'ExtrinsicMetadataV14',
+    ExtrinsicMetadataLatest: 'ExtrinsicMetadataV15',
     FunctionArgumentMetadataLatest: 'FunctionArgumentMetadataV14',
     FunctionMetadataLatest: 'FunctionMetadataV14',
     MetadataLatest: 'MetadataV15',
