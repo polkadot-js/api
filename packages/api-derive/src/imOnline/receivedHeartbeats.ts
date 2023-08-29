@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, u32, WrapperOpaque } from '@polkadot/types';
+import type { Option, u32 } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { PalletImOnlineBoundedOpaqueNetworkState } from '@polkadot/types/lookup';
+import type { Codec } from '@polkadot/types/types';
 import type { DeriveApi, DeriveHeartbeats } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -13,9 +13,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { memo } from '../util/index.js';
 
-type HeartbeatsOpt = Option<WrapperOpaque<PalletImOnlineBoundedOpaqueNetworkState>>;
-
-function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbeats, AccountId[], HeartbeatsOpt[], u32[]]): DeriveHeartbeats {
+function mapResult ([result, validators, heartbeats, numBlocks]: [DeriveHeartbeats, AccountId[], Option<Codec>[], u32[]]): DeriveHeartbeats {
   validators.forEach((validator, index): void => {
     const validatorId = validator.toString();
     const blockCount = numBlocks[index];
@@ -41,7 +39,7 @@ export function receivedHeartbeats (instanceId: string, api: DeriveApi): () => O
   return memo(instanceId, (): Observable<DeriveHeartbeats> =>
     api.query.imOnline?.receivedHeartbeats
       ? api.derive.staking.overview().pipe(
-        switchMap(({ currentIndex, validators }): Observable<[DeriveHeartbeats, AccountId[], HeartbeatsOpt[], u32[]]> =>
+        switchMap(({ currentIndex, validators }): Observable<[DeriveHeartbeats, AccountId[], Option<Codec>[], u32[]]> =>
           combineLatest([
             of({}),
             of(validators),
