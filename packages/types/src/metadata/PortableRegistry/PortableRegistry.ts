@@ -543,6 +543,13 @@ export class PortableRegistry extends Struct implements ILookup {
   }
 
   /**
+   * @description Returns all the available parameterized types for this chain
+   **/
+  public get paramTypes (): TypeInfoParams {
+    return this.#params;
+  }
+
+  /**
    * @description The types of the registry
    */
   public get types (): Vec<PortableType> {
