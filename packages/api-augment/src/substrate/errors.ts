@@ -132,6 +132,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotMember: AugmentedError<ApiType>;
       /**
+       * Prime account is not a member
+       **/
+      PrimeAccountNotMember: AugmentedError<ApiType>;
+      /**
        * Proposal must exist
        **/
       ProposalMissing: AugmentedError<ApiType>;
@@ -165,11 +169,16 @@ declare module '@polkadot/api-base/types/errors' {
        * Provided amount should be greater than or equal to the existential deposit/asset's
        * minimal amount.
        **/
-      AmountLessThanMinimal: AugmentedError<ApiType>;
+      AmountOneLessThanMinimal: AugmentedError<ApiType>;
       /**
        * Desired amount can't be equal to the pool reserve.
        **/
       AmountOutTooHigh: AugmentedError<ApiType>;
+      /**
+       * Provided amount should be greater than or equal to the existential deposit/asset's
+       * minimal amount.
+       **/
+      AmountTwoLessThanMinimal: AugmentedError<ApiType>;
       /**
        * The minimal amount requirement for the first token in the pair wasn't met.
        **/
@@ -187,9 +196,19 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AssetTwoWithdrawalDidNotMeetMinimum: AugmentedError<ApiType>;
       /**
+       * Unable to find an element in an array/vec that should have one-to-one correspondence
+       * with another. For example, an array of assets constituting a `path` should have a
+       * corresponding array of `amounts` along the path.
+       **/
+      CorrespondenceError: AugmentedError<ApiType>;
+      /**
        * Provided assets are equal.
        **/
       EqualAssets: AugmentedError<ApiType>;
+      /**
+       * It was not possible to get or increment the Id of the pool.
+       **/
+      IncorrectPoolAssetId: AugmentedError<ApiType>;
       /**
        * Insufficient liquidity in the pool.
        **/
@@ -244,6 +263,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ReserveLeftLessThanMinimal: AugmentedError<ApiType>;
       /**
+       * Provided asset is not supported for pool.
+       **/
+      UnsupportedAsset: AugmentedError<ApiType>;
+      /**
        * Desired amount can't be zero.
        **/
       WrongDesiredAmount: AugmentedError<ApiType>;
@@ -268,7 +291,7 @@ declare module '@polkadot/api-base/types/errors' {
       /**
        * The given asset ID is unknown.
        **/
-      UnknownAssetId: AugmentedError<ApiType>;
+      UnknownAssetKind: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -482,6 +505,127 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    broker: {
+      /**
+       * The lease expiry time has already passed.
+       **/
+      AlreadyExpired: AugmentedError<ApiType>;
+      /**
+       * The pivot mask for the interlacing is complete (and therefore not a strict subset).
+       **/
+      CompletePivot: AugmentedError<ApiType>;
+      /**
+       * The workplan of the pallet's state is invalid. This indicates a state corruption.
+       **/
+      CorruptWorkplan: AugmentedError<ApiType>;
+      /**
+       * The pivot mask for the interlacing is not contained within the region's interlace mask.
+       **/
+      ExteriorPivot: AugmentedError<ApiType>;
+      /**
+       * The workload assigned for renewal is incomplete. This is unexpected and indicates a
+       * logic error.
+       **/
+      IncompleteAssignment: AugmentedError<ApiType>;
+      /**
+       * The configuration could not be applied because it is invalid.
+       **/
+      InvalidConfig: AugmentedError<ApiType>;
+      /**
+       * The history item does not exist.
+       **/
+      NoHistory: AugmentedError<ApiType>;
+      /**
+       * There is no sale happening currently.
+       **/
+      NoSales: AugmentedError<ApiType>;
+      /**
+       * Invalid attempt to renew.
+       **/
+      NotAllowed: AugmentedError<ApiType>;
+      /**
+       * There is no work to be done.
+       **/
+      NothingToDo: AugmentedError<ApiType>;
+      /**
+       * The owner of the region is not the origin.
+       **/
+      NotOwner: AugmentedError<ApiType>;
+      /**
+       * The price limit is exceeded.
+       **/
+      Overpriced: AugmentedError<ApiType>;
+      /**
+       * The pivot point of the partition at the beginning of the region.
+       **/
+      PivotTooEarly: AugmentedError<ApiType>;
+      /**
+       * The pivot point of the partition at or after the end of the region.
+       **/
+      PivotTooLate: AugmentedError<ApiType>;
+      /**
+       * The sale limit has been reached.
+       **/
+      SoldOut: AugmentedError<ApiType>;
+      /**
+       * An item cannot be dropped because it is still valid.
+       **/
+      StillValid: AugmentedError<ApiType>;
+      /**
+       * The purchase cannot happen yet as the sale period is yet to begin.
+       **/
+      TooEarly: AugmentedError<ApiType>;
+      /**
+       * The maximum amount of leases has already been reached.
+       **/
+      TooManyLeases: AugmentedError<ApiType>;
+      /**
+       * The maximum amount of reservations has already been reached.
+       **/
+      TooManyReservations: AugmentedError<ApiType>;
+      /**
+       * There are no cores available.
+       **/
+      Unavailable: AugmentedError<ApiType>;
+      /**
+       * This pallet has not yet been initialized.
+       **/
+      Uninitialized: AugmentedError<ApiType>;
+      /**
+       * The identified contribution to the Instantaneous Core Pool is unknown.
+       **/
+      UnknownContribution: AugmentedError<ApiType>;
+      /**
+       * The given region identity is not known.
+       **/
+      UnknownRegion: AugmentedError<ApiType>;
+      /**
+       * The renewal record cannot be found.
+       **/
+      UnknownRenewal: AugmentedError<ApiType>;
+      /**
+       * No reservation of the given index exists.
+       **/
+      UnknownReservation: AugmentedError<ApiType>;
+      /**
+       * The revenue for the Instantaneous Core Sales of this period is not (yet) known and thus
+       * this operation cannot proceed.
+       **/
+      UnknownRevenue: AugmentedError<ApiType>;
+      /**
+       * The pivot mask for the interlacing is void (and therefore unschedulable).
+       **/
+      VoidPivot: AugmentedError<ApiType>;
+      /**
+       * The renewal operation is not valid at the current time (it may become valid in the next
+       * sale).
+       **/
+      WrongTime: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     childBounties: {
       /**
        * The bounty balance is not enough to add new child-bounty.
@@ -502,6 +646,14 @@ declare module '@polkadot/api-base/types/errors' {
     };
     contracts: {
       /**
+       * Can not add a delegate dependency to the code hash of the contract itself.
+       **/
+      CannotAddSelfAsDelegateDependency: AugmentedError<ApiType>;
+      /**
+       * No code info could be found at the supplied code hash.
+       **/
+      CodeInfoNotFound: AugmentedError<ApiType>;
+      /**
        * Code removal was denied because the code is still in use by at least one contract.
        **/
       CodeInUse: AugmentedError<ApiType>;
@@ -510,7 +662,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CodeNotFound: AugmentedError<ApiType>;
       /**
-       * The contract's code was found to be invalid during validation or instrumentation.
+       * The contract's code was found to be invalid during validation.
        * 
        * The most likely cause of this is that an API was used which is not supported by the
        * node. This happens if an older node is used with a new version of ink!. Try updating
@@ -545,6 +697,14 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DecodingFailed: AugmentedError<ApiType>;
       /**
+       * The contract already depends on the given delegate dependency.
+       **/
+      DelegateDependencyAlreadyExists: AugmentedError<ApiType>;
+      /**
+       * The dependency was not found in the contract's delegate dependencies.
+       **/
+      DelegateDependencyNotFound: AugmentedError<ApiType>;
+      /**
        * A contract with the same AccountId already exists.
        **/
       DuplicateContract: AugmentedError<ApiType>;
@@ -561,14 +721,18 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidCallFlags: AugmentedError<ApiType>;
       /**
-       * A new schedule must have a greater version than the current one.
+       * Invalid schedule supplied, e.g. with zero weight of a basic operation.
        **/
-      InvalidScheduleVersion: AugmentedError<ApiType>;
+      InvalidSchedule: AugmentedError<ApiType>;
       /**
        * Performing a call was denied because the calling depth reached the limit
        * of what is specified in the schedule.
        **/
       MaxCallDepthReached: AugmentedError<ApiType>;
+      /**
+       * The contract has reached its maximum number of delegate dependencies.
+       **/
+      MaxDelegateDependenciesReached: AugmentedError<ApiType>;
       /**
        * A pending migration needs to complete before the extrinsic can be called.
        **/
@@ -759,6 +923,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Account is not a member
        **/
       NotMember: AugmentedError<ApiType>;
+      /**
+       * Prime account is not a member
+       **/
+      PrimeAccountNotMember: AugmentedError<ApiType>;
       /**
        * Proposal must exist
        **/
@@ -1067,6 +1235,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyInitialized: AugmentedError<ApiType>;
       /**
+       * The limit was over [`crate::RESOURCE_HARD_LIMIT`].
+       **/
+      InsaneLimit: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -1285,6 +1457,12 @@ declare module '@polkadot/api-base/types/errors' {
        * The message is queued for future execution.
        **/
       Queued: AugmentedError<ApiType>;
+      /**
+       * The queue is paused and no message can be executed from it.
+       * 
+       * This can change at any time and may resolve in the future by re-trying.
+       **/
+      QueuePaused: AugmentedError<ApiType>;
       /**
        * This message is temporarily unprocessable.
        * 
@@ -1660,6 +1838,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Not enough blocks have surpassed since the last commission update.
        **/
       CommissionChangeThrottled: AugmentedError<ApiType>;
+      /**
+       * The supplied commission exceeds global maximum commission.
+       **/
+      CommissionExceedsGlobalMaximum: AugmentedError<ApiType>;
       /**
        * The supplied commission exceeds the max allowed commission.
        **/
@@ -2167,6 +2349,40 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    safeMode: {
+      /**
+       * The account already has a deposit reserved and can therefore not enter or extend again.
+       **/
+      AlreadyDeposited: AugmentedError<ApiType>;
+      /**
+       * This deposit cannot be released yet.
+       **/
+      CannotReleaseYet: AugmentedError<ApiType>;
+      /**
+       * An error from the underlying `Currency`.
+       **/
+      CurrencyError: AugmentedError<ApiType>;
+      /**
+       * The safe-mode is (already or still) entered.
+       **/
+      Entered: AugmentedError<ApiType>;
+      /**
+       * The safe-mode is (already or still) exited.
+       **/
+      Exited: AugmentedError<ApiType>;
+      /**
+       * There is no balance reserved.
+       **/
+      NoDeposit: AugmentedError<ApiType>;
+      /**
+       * This functionality of the pallet is disabled by the configuration.
+       **/
+      NotConfigured: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     salary: {
       /**
        * The account is already inducted.
@@ -2288,6 +2504,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyCandidate: AugmentedError<ApiType>;
       /**
+       * The member is already elevated to this rank.
+       **/
+      AlreadyElevated: AugmentedError<ApiType>;
+      /**
        * Society already founded.
        **/
       AlreadyFounded: AugmentedError<ApiType>;
@@ -2296,13 +2516,21 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyMember: AugmentedError<ApiType>;
       /**
+       * The skeptic has already been punished for this offence.
+       **/
+      AlreadyPunished: AugmentedError<ApiType>;
+      /**
        * Member is already vouching or banned from vouching again.
        **/
       AlreadyVouching: AugmentedError<ApiType>;
       /**
-       * An incorrect position was provided.
+       * The candidacy cannot be dropped as the candidate was clearly approved.
        **/
-      BadPosition: AugmentedError<ApiType>;
+      Approved: AugmentedError<ApiType>;
+      /**
+       * The skeptic need not vote on candidates from expired rounds.
+       **/
+      Expired: AugmentedError<ApiType>;
       /**
        * Cannot remove the founder.
        **/
@@ -2312,6 +2540,14 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       Head: AugmentedError<ApiType>;
       /**
+       * The candidacy cannot be concluded as the voting is still in progress.
+       **/
+      InProgress: AugmentedError<ApiType>;
+      /**
+       * Funds are insufficient to pay off society debts.
+       **/
+      InsufficientFunds: AugmentedError<ApiType>;
+      /**
        * Not enough in pot to accept candidate.
        **/
       InsufficientPot: AugmentedError<ApiType>;
@@ -2320,9 +2556,21 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       MaxMembers: AugmentedError<ApiType>;
       /**
+       * There is no defender currently.
+       **/
+      NoDefender: AugmentedError<ApiType>;
+      /**
        * Nothing to payout.
        **/
       NoPayout: AugmentedError<ApiType>;
+      /**
+       * The membership cannot be claimed as the candidate was not clearly approved.
+       **/
+      NotApproved: AugmentedError<ApiType>;
+      /**
+       * User is not a bidder.
+       **/
+      NotBidder: AugmentedError<ApiType>;
       /**
        * User is not a candidate.
        **/
@@ -2332,6 +2580,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotFounder: AugmentedError<ApiType>;
       /**
+       * Group doesn't exist.
+       **/
+      NotGroup: AugmentedError<ApiType>;
+      /**
        * The caller is not the head.
        **/
       NotHead: AugmentedError<ApiType>;
@@ -2340,17 +2592,37 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotMember: AugmentedError<ApiType>;
       /**
+       * The candidate cannot be kicked as the candidate was not clearly rejected.
+       **/
+      NotRejected: AugmentedError<ApiType>;
+      /**
        * User is not suspended.
        **/
       NotSuspended: AugmentedError<ApiType>;
       /**
        * Member is not vouching.
        **/
-      NotVouching: AugmentedError<ApiType>;
+      NotVouchingOnBidder: AugmentedError<ApiType>;
+      /**
+       * The candidate/defender has no stale votes to remove.
+       **/
+      NoVotes: AugmentedError<ApiType>;
+      /**
+       * The candidacy cannot be bestowed as the candidate was clearly rejected.
+       **/
+      Rejected: AugmentedError<ApiType>;
       /**
        * User is suspended.
        **/
       Suspended: AugmentedError<ApiType>;
+      /**
+       * The candidacy cannot be pruned until a full additional intake period has passed.
+       **/
+      TooEarly: AugmentedError<ApiType>;
+      /**
+       * The skeptic already voted.
+       **/
+      Voted: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -2564,6 +2836,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotMember: AugmentedError<ApiType>;
       /**
+       * Prime account is not a member
+       **/
+      PrimeAccountNotMember: AugmentedError<ApiType>;
+      /**
        * Proposal must exist
        **/
       ProposalMissing: AugmentedError<ApiType>;
@@ -2720,6 +2996,25 @@ declare module '@polkadot/api-base/types/errors' {
        * Too many approvals in the queue.
        **/
       TooManyApprovals: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    txPause: {
+      /**
+       * The call is paused.
+       **/
+      IsPaused: AugmentedError<ApiType>;
+      /**
+       * The call is unpaused.
+       **/
+      IsUnpaused: AugmentedError<ApiType>;
+      NotFound: AugmentedError<ApiType>;
+      /**
+       * The call is whitelisted and cannot be paused.
+       **/
+      Unpausable: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

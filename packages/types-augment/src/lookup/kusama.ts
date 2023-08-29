@@ -5,18 +5,69 @@
 
 export default {
   /**
-   * Lookup96: kusama_runtime::SessionKeys
+   * Lookup94: pallet_beefy::pallet::Call<T>
+   **/
+  PalletBeefyCall: {
+    _enum: {
+      report_equivocation: {
+        equivocationProof: 'SpConsensusBeefyEquivocationProof',
+        keyOwnerProof: 'SpSessionMembershipProof',
+      },
+      report_equivocation_unsigned: {
+        equivocationProof: 'SpConsensusBeefyEquivocationProof',
+        keyOwnerProof: 'SpSessionMembershipProof'
+      }
+    }
+  },
+  /**
+   * Lookup95: sp_consensus_beefy::EquivocationProof<Number, sp_consensus_beefy::ecdsa_crypto::Public, sp_consensus_beefy::ecdsa_crypto::Signature>
+   **/
+  SpConsensusBeefyEquivocationProof: {
+    first: 'SpConsensusBeefyVoteMessage',
+    second: 'SpConsensusBeefyVoteMessage'
+  },
+  /**
+   * Lookup96: sp_consensus_beefy::ecdsa_crypto::Public
+   **/
+  SpConsensusBeefyEcdsaCryptoPublic: 'SpCoreEcdsaPublic',
+  /**
+   * Lookup99: sp_consensus_beefy::ecdsa_crypto::Signature
+   **/
+  SpConsensusBeefyEcdsaCryptoSignature: 'SpCoreEcdsaSignature',
+  /**
+   * Lookup102: sp_consensus_beefy::VoteMessage<Number, sp_consensus_beefy::ecdsa_crypto::Public, sp_consensus_beefy::ecdsa_crypto::Signature>
+   **/
+  SpConsensusBeefyVoteMessage: {
+    commitment: 'SpConsensusBeefyCommitment',
+    id: 'SpConsensusBeefyEcdsaCryptoPublic',
+    signature: 'SpConsensusBeefyEcdsaCryptoSignature'
+  },
+  /**
+   * Lookup103: sp_consensus_beefy::commitment::Commitment<TBlockNumber>
+   **/
+  SpConsensusBeefyCommitment: {
+    payload: 'SpConsensusBeefyPayload',
+    blockNumber: 'u32',
+    validatorSetId: 'u64'
+  },
+  /**
+   * Lookup104: sp_consensus_beefy::payload::Payload
+   **/
+  SpConsensusBeefyPayload: 'Vec<([u8;2],Bytes)>',
+  /**
+   * Lookup109: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
     grandpa: 'SpConsensusGrandpaAppPublic',
     babe: 'SpConsensusBabeAppPublic',
     imOnline: 'PalletImOnlineSr25519AppSr25519Public',
-    paraValidator: 'PolkadotPrimitivesV4ValidatorAppPublic',
-    paraAssignment: 'PolkadotPrimitivesV4AssignmentAppPublic',
-    authorityDiscovery: 'SpAuthorityDiscoveryAppPublic'
+    paraValidator: 'PolkadotPrimitivesV5ValidatorAppPublic',
+    paraAssignment: 'PolkadotPrimitivesV5AssignmentAppPublic',
+    authorityDiscovery: 'SpAuthorityDiscoveryAppPublic',
+    beefy: 'SpConsensusBeefyEcdsaCryptoPublic'
   },
   /**
-   * Lookup127: kusama_runtime::OriginCaller
+   * Lookup136: kusama_runtime::OriginCaller
    **/
   KusamaRuntimeOriginCaller: {
     _enum: {
@@ -123,19 +174,19 @@ export default {
     }
   },
   /**
-   * Lookup129: kusama_runtime::governance::origins::pallet_custom_origins::Origin
+   * Lookup138: kusama_runtime::governance::origins::pallet_custom_origins::Origin
    **/
   KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin: {
     _enum: ['StakingAdmin', 'Treasurer', 'FellowshipAdmin', 'GeneralAdmin', 'AuctionAdmin', 'LeaseAdmin', 'ReferendumCanceller', 'ReferendumKiller', 'SmallTipper', 'BigTipper', 'SmallSpender', 'MediumSpender', 'BigSpender', 'WhitelistedCaller', 'FellowshipInitiates', 'Fellows', 'FellowshipExperts', 'FellowshipMasters', 'Fellowship1Dan', 'Fellowship2Dan', 'Fellowship3Dan', 'Fellowship4Dan', 'Fellowship5Dan', 'Fellowship6Dan', 'Fellowship7Dan', 'Fellowship8Dan', 'Fellowship9Dan']
   },
   /**
-   * Lookup208: kusama_runtime::ProxyType
+   * Lookup214: kusama_runtime::ProxyType
    **/
   KusamaRuntimeProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society', 'NominationPools']
   },
   /**
-   * Lookup217: kusama_runtime::NposCompactSolution24
+   * Lookup223: kusama_runtime::NposCompactSolution24
    **/
   KusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -164,7 +215,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup543: kusama_runtime::RuntimeHoldReason
+   * Lookup556: kusama_runtime::RuntimeHoldReason
    **/
   KusamaRuntimeRuntimeHoldReason: {
     _enum: {
@@ -210,7 +261,21 @@ export default {
     }
   },
   /**
-   * Lookup869: kusama_runtime::Runtime
+   * Lookup591: pallet_beefy::pallet::Error<T>
+   **/
+  PalletBeefyError: {
+    _enum: ['InvalidKeyOwnershipProof', 'InvalidEquivocationProof', 'DuplicateOffenceReport']
+  },
+  /**
+   * Lookup592: sp_consensus_beefy::mmr::BeefyAuthoritySet<primitive_types::H256>
+   **/
+  SpConsensusBeefyMmrBeefyAuthoritySet: {
+    id: 'u64',
+    len: 'u32',
+    keysetCommitment: 'H256'
+  },
+  /**
+   * Lookup891: kusama_runtime::Runtime
    **/
   KusamaRuntimeRuntime: 'Null'
 };
