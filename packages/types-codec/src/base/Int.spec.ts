@@ -113,7 +113,6 @@ describe('Int', (): void => {
       new Int(registry, new Uint8Array([0, 0]), 16).toNumber()
     ).toEqual(0);
 
-
     // One
     expect(
       new Int(registry, new Uint8Array([1]), 8).toNumber()
@@ -141,7 +140,6 @@ describe('Int', (): void => {
       new Int(registry, new Uint8Array([255, 127]), 16).toNumber()
     ).toEqual(32767);
   });
-
 
   it('converts to Little Endian from the provided value (bitLength)', (): void => {
     expect(
