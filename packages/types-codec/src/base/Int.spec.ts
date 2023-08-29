@@ -41,6 +41,106 @@ describe('Int', (): void => {
     ).toEqual(new Uint8Array([46, 251, 255, 255, 255, 255, 255, 255]));
   });
 
+  it('decodes edge case to bytes correctly', (): void => {
+    // Zero
+    expect(
+      new Int(registry, 0, 8).toU8a()
+    ).toEqual(new Uint8Array([0]));
+
+    expect(
+      new Int(registry, 0, 16).toU8a()
+    ).toEqual(new Uint8Array([0, 0]));
+
+    expect(
+      new Int(registry, 0, 32).toU8a()
+    ).toEqual(new Uint8Array([0, 0, 0, 0]));
+
+    expect(
+      new Int(registry, 0, 64).toU8a()
+    ).toEqual(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
+
+    expect(
+      new Int(registry, 0, 128).toU8a()
+    ).toEqual(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+
+    // One
+    expect(
+      new Int(registry, 0, 8).toU8a()
+    ).toEqual(new Uint8Array([0]));
+
+    expect(
+      new Int(registry, 1, 16).toU8a()
+    ).toEqual(new Uint8Array([1, 0]));
+
+    expect(
+      new Int(registry, 1, 32).toU8a()
+    ).toEqual(new Uint8Array([1, 0, 0, 0]));
+
+    expect(
+      new Int(registry, 1, 64).toU8a()
+    ).toEqual(new Uint8Array([1, 0, 0, 0, 0, 0, 0, 0]));
+
+    expect(
+      new Int(registry, 1, 128).toU8a()
+    ).toEqual(new Uint8Array([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+
+    // MIN
+    expect(
+      new Int(registry, -128, 8).toU8a()
+    ).toEqual(new Uint8Array([128]));
+
+    expect(
+      new Int(registry, -32768, 16).toU8a()
+    ).toEqual(new Uint8Array([0, 128]));
+
+    // MAX
+    expect(
+      new Int(registry, 127, 8).toU8a()
+    ).toEqual(new Uint8Array([127]));
+
+    expect(
+      new Int(registry, 32767, 16).toU8a()
+    ).toEqual(new Uint8Array([255, 127]));
+  });
+
+  it('decodes edge case to js number', (): void => {
+    // Zero
+    expect(
+      new Int(registry, new Uint8Array([0]), 8).toNumber()
+    ).toEqual(0);
+
+    expect(
+      new Int(registry, new Uint8Array([0, 0]), 16).toNumber()
+    ).toEqual(0);
+
+    // One
+    expect(
+      new Int(registry, new Uint8Array([1]), 8).toNumber()
+    ).toEqual(1);
+
+    expect(
+      new Int(registry, new Uint8Array([1, 0]), 16).toNumber()
+    ).toEqual(1);
+
+    // MIN
+    expect(
+      new Int(registry, new Uint8Array([128]), 8).toNumber()
+    ).toEqual(-128);
+
+    expect(
+      new Int(registry, new Uint8Array([128, 255]), 16).toNumber()
+    ).toEqual(-128);
+
+    // MAX
+    expect(
+      new Int(registry, new Uint8Array([127]), 8).toNumber()
+    ).toEqual(127);
+
+    expect(
+      new Int(registry, new Uint8Array([255, 127]), 16).toNumber()
+    ).toEqual(32767);
+  });
+
   it('converts to Little Endian from the provided value (bitLength)', (): void => {
     expect(
       new Int(registry, -1234, 32).toU8a()
