@@ -2,8 +2,19 @@
 /* eslint-disable */
 
 import type { PortableRegistry } from '@polkadot/types';
-import type { Bytes, Enum, Option, Struct, Text, Type, Vec, WrapperOpaque, bool, u8 } from '@polkadot/types-codec';
+import type { BTreeMap, Bytes, Enum, Option, Struct, Text, Type, Vec, WrapperOpaque, bool, u8 } from '@polkadot/types-codec';
 import type { Si1Field, Si1LookupTypeId, Si1Type, SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
+
+/** @name CustomMetadata15 */
+export interface CustomMetadata15 extends Struct {
+  readonly map: BTreeMap<Text, CustomValueMetadata15>;
+}
+
+/** @name CustomValueMetadata15 */
+export interface CustomValueMetadata15 extends Struct {
+  readonly type: SiLookupTypeId;
+  readonly value: Bytes;
+}
 
 /** @name ErrorMetadataLatest */
 export interface ErrorMetadataLatest extends ErrorMetadataV14 {}
@@ -207,6 +218,8 @@ export interface MetadataV15 extends Struct {
   readonly extrinsic: ExtrinsicMetadataV14;
   readonly type: SiLookupTypeId;
   readonly apis: Vec<RuntimeApiMetadataV15>;
+  readonly outerEnums: OuterEnums15;
+  readonly custom: CustomMetadata15;
 }
 
 /** @name MetadataV9 */
@@ -288,6 +301,13 @@ export interface ModuleMetadataV9 extends Struct {
 
 /** @name OpaqueMetadata */
 export interface OpaqueMetadata extends WrapperOpaque<Bytes> {}
+
+/** @name OuterEnums15 */
+export interface OuterEnums15 extends Struct {
+  readonly callEnumType: SiLookupTypeId;
+  readonly eventEnumType: SiLookupTypeId;
+  readonly errorEnumType: SiLookupTypeId;
+}
 
 /** @name PalletCallMetadataLatest */
 export interface PalletCallMetadataLatest extends PalletCallMetadataV14 {}
