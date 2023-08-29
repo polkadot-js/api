@@ -84,7 +84,6 @@ describe('Int', (): void => {
       new Int(registry, 1, 128).toU8a()
     ).toEqual(new Uint8Array([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
 
-
     // MIN
     expect(
       new Int(registry, -128, 8).toU8a()
