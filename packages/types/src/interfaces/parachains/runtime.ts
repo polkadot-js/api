@@ -199,8 +199,50 @@ const PH_V4: DefinitionsCallEntry['methods'] = {
   }
 };
 
+const PH_V5: DefinitionsCallEntry['methods'] = {
+  key_ownership_proof: {
+    description: 'Returns a merkle proof of a validator session key',
+    params: [
+      {
+        name: 'validatorId',
+        type: 'ValidatorId'
+      }
+    ],
+    type: 'Option<OpaqueKeyOwnershipProof>'
+  },
+  submit_report_dispute_lost: {
+    description: 'Submit an unsigned extrinsic to slash validators who lost a dispute about a candidate of a past session',
+    params: [
+      {
+        name: 'disputeProof',
+        type: 'DisputeProof'
+      },
+      {
+        name: 'keyOwnershipProof',
+        type: 'OpaqueKeyOwnershipProof'
+      }
+    ],
+    type: 'Option<Null>'
+  },
+  unapplied_slashes: {
+    description: 'Returns a list of validators that lost a past session dispute and need to be slashed',
+    params: [],
+    type: 'Vec<(SessionIndex, CandidateHash, PendingSlashes)>'
+  }
+};
+
 export const runtime: DefinitionsCall = {
   ParachainHost: [
+    {
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3,
+        ...PH_V4,
+        ...PH_V5
+      },
+      version: 5
+    },
     {
       methods: {
         ...PH_V1_TO_V2,

@@ -235,6 +235,16 @@ export default {
         Free: 'Null'
       }
     },
+    DisputeProof: {
+      timeSlot: 'DisputesTimeSlot',
+      kind: 'SlashingOffenceKind',
+      validatorIndex: 'ValidatorIndex',
+      validatorId: 'ValidatorId'
+    },
+    DisputesTimeSlot: {
+      sessionIndex: 'SessionIndex',
+      candidateHash: 'CandidateHash'
+    },
     DoubleVoteReport: {
       identity: 'ValidatorId',
       first: '(Statement, ValidatorSignature)',
@@ -332,6 +342,13 @@ export default {
     OutboundHrmpMessage: {
       recipient: 'u32',
       data: 'Bytes'
+    },
+    PendingSlashes: {
+      _alias: {
+        slashKeys: 'keys'
+      },
+      slashKeys: 'BTreeMap<ValidatorIndex, ValidatorId>',
+      kind: 'SlashingOffenceKind'
     },
     ParachainDispatchOrigin: {
       _enum: ['Signed', 'Parachain', 'Root']
@@ -459,6 +476,9 @@ export default {
     SigningContext: {
       sessionIndex: 'SessionIndex',
       parentHash: 'Hash'
+    },
+    SlashingOffenceKind: {
+      _enum: ['ForInvalid', 'AgainstValid']
     },
     Statement: {
       _enum: {
