@@ -10,9 +10,7 @@ import { mapToTypeMap, typesToMap } from '../utils/index.js';
 import { Null } from './Null.js';
 
 // export interface, this is used in Enum.with, so required as public by TS
-export interface EnumCodecClass<T = Codec> {
-  new(registry: Registry, value?: any, index?: number): T;
-}
+export type EnumCodecClass<T = Codec> = new(registry: Registry, value?: any, index?: number) => T;
 
 interface Definition {
   def: TypesDef;
@@ -90,7 +88,7 @@ function extractDef (registry: Registry, _def: Record<string, string | CodecClas
 function getEntryType (def: TypesDef, checkIdx: number): CodecClass {
   const values = Object.values(def);
 
-  for (let i = 0; i < values.length; i++) {
+  for (let i = 0, count = values.length; i < count; i++) {
     const { Type, index } = values[i];
 
     if (index === checkIdx) {

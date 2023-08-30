@@ -2,8 +2,19 @@
 /* eslint-disable */
 
 import type { PortableRegistry } from '@polkadot/types';
-import type { Bytes, Enum, Option, Struct, Text, Type, Vec, WrapperOpaque, bool, u8 } from '@polkadot/types-codec';
+import type { BTreeMap, Bytes, Enum, Option, Struct, Text, Type, Vec, WrapperOpaque, bool, u8 } from '@polkadot/types-codec';
 import type { Si1Field, Si1LookupTypeId, Si1Type, SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
+
+/** @name CustomMetadata15 */
+export interface CustomMetadata15 extends Struct {
+  readonly map: BTreeMap<Text, CustomValueMetadata15>;
+}
+
+/** @name CustomValueMetadata15 */
+export interface CustomValueMetadata15 extends Struct {
+  readonly type: SiLookupTypeId;
+  readonly value: Bytes;
+}
 
 /** @name ErrorMetadataLatest */
 export interface ErrorMetadataLatest extends ErrorMetadataV14 {}
@@ -67,7 +78,7 @@ export interface EventMetadataV9 extends Struct {
 }
 
 /** @name ExtrinsicMetadataLatest */
-export interface ExtrinsicMetadataLatest extends ExtrinsicMetadataV14 {}
+export interface ExtrinsicMetadataLatest extends ExtrinsicMetadataV15 {}
 
 /** @name ExtrinsicMetadataV11 */
 export interface ExtrinsicMetadataV11 extends Struct {
@@ -85,6 +96,16 @@ export interface ExtrinsicMetadataV13 extends ExtrinsicMetadataV12 {}
 export interface ExtrinsicMetadataV14 extends Struct {
   readonly type: SiLookupTypeId;
   readonly version: u8;
+  readonly signedExtensions: Vec<SignedExtensionMetadataV14>;
+}
+
+/** @name ExtrinsicMetadataV15 */
+export interface ExtrinsicMetadataV15 extends Struct {
+  readonly version: u8;
+  readonly addressType: SiLookupTypeId;
+  readonly callType: SiLookupTypeId;
+  readonly signatureType: SiLookupTypeId;
+  readonly extraType: SiLookupTypeId;
   readonly signedExtensions: Vec<SignedExtensionMetadataV14>;
 }
 
@@ -204,9 +225,11 @@ export interface MetadataV14 extends Struct {
 export interface MetadataV15 extends Struct {
   readonly lookup: PortableRegistry;
   readonly pallets: Vec<PalletMetadataV15>;
-  readonly extrinsic: ExtrinsicMetadataV14;
+  readonly extrinsic: ExtrinsicMetadataV15;
   readonly type: SiLookupTypeId;
   readonly apis: Vec<RuntimeApiMetadataV15>;
+  readonly outerEnums: OuterEnums15;
+  readonly custom: CustomMetadata15;
 }
 
 /** @name MetadataV9 */
@@ -288,6 +311,13 @@ export interface ModuleMetadataV9 extends Struct {
 
 /** @name OpaqueMetadata */
 export interface OpaqueMetadata extends WrapperOpaque<Bytes> {}
+
+/** @name OuterEnums15 */
+export interface OuterEnums15 extends Struct {
+  readonly callType: SiLookupTypeId;
+  readonly eventType: SiLookupTypeId;
+  readonly errorType: SiLookupTypeId;
+}
 
 /** @name PalletCallMetadataLatest */
 export interface PalletCallMetadataLatest extends PalletCallMetadataV14 {}

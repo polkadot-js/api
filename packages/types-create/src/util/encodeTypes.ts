@@ -8,7 +8,7 @@ import { isNumber, isUndefined, objectSpread, stringify } from '@polkadot/util';
 
 import { TypeDefInfo } from '../types/index.js';
 
-type ToString = { toString: () => string };
+interface ToString { toString: () => string }
 
 const stringIdentity = <T extends ToString> (value: T): string => value.toString();
 
@@ -56,7 +56,11 @@ function encodeSubTypes (registry: Registry, sub: TypeDef[], asEnum?: boolean, e
   for (let i = 0, count = sub.length; i < count; i++) {
     const def = sub[i];
 
-    inner[def.name as string] = encodeTypeDef(registry, def);
+    if (!def.name) {
+      throw new Error(`No name found in ${stringify(def)}`);
+    }
+
+    inner[def.name] = encodeTypeDef(registry, def);
   }
 
   return stringify(

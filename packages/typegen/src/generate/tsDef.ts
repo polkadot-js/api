@@ -253,7 +253,7 @@ function generateInterfaces (registry: Registry, definitions: Record<string, Mod
 }
 
 /** @internal */
-export function generateTsDefFor (registry: Registry, importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
+export function generateTsDefFor (registry: Registry, importDefinitions: Record<string, Record<string, ModuleTypes>>, defName: string, { types }: { types: Record<string, any> }, outputDir: string): void {
   const imports = { ...createImports(importDefinitions, { types }), interfaces: [] } as Imports;
   const definitions = imports.definitions;
   const interfaces = generateInterfaces(registry, definitions, { types }, imports);
@@ -275,7 +275,7 @@ export function generateTsDefFor (registry: Registry, importDefinitions: { [impo
 }
 
 /** @internal */
-export function generateTsDef (importDefinitions: { [importPath: string]: Record<string, ModuleTypes> }, outputDir: string, generatingPackage: string): void {
+export function generateTsDef (importDefinitions: Record<string, Record<string, ModuleTypes>>, outputDir: string, generatingPackage: string): void {
   const registry = new TypeRegistry();
 
   writeFile(path.join(outputDir, 'types.ts'), (): string => {

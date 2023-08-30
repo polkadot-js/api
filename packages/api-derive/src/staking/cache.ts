@@ -39,8 +39,10 @@ export function setEraMultiCache <T extends { era: EraIndex }> (CACHE_KEY: strin
 }
 
 export function filterCachedEras <T extends { era: EraIndex }> (eras: EraIndex[], cached: T[], query: T[]): T[] {
-  return eras.map((e) =>
-    cached.find(({ era }) => e.eq(era)) ||
-    query.find(({ era }) => e.eq(era)) as T
-  );
+  return eras
+    .map((e) =>
+      cached.find(({ era }) => e.eq(era)) ||
+      query.find(({ era }) => e.eq(era))
+    )
+    .filter((e): e is T => !!e);
 }

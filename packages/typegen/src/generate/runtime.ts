@@ -33,7 +33,7 @@ function getDefs (apis: Apis | null, defs: Record<string, Definitions>): Record<
       for (let i = 0, scount = sections.length; i < scount; i++) {
         const [_section, sec] = sections[i];
         const sectionHash = blake2AsHex(_section, 64);
-        const api = apis && apis.find(([h]) => h === sectionHash);
+        const api = apis?.find(([h]) => h === sectionHash);
 
         if (api) {
           const ver = sec.find(({ version }) => version === api[1]);

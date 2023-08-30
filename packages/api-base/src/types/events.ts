@@ -14,11 +14,10 @@ export interface AugmentedEvents<ApiType extends ApiTypes> extends EmptyBase<Api
   // augmented
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface DecoratedEvents<ApiType extends ApiTypes> extends AugmentedEvents<ApiType> {
   // when non-augmented, we need to at least have Codec results
   [key: string]: ModuleEvents<ApiType>;
 }
 
-export interface ModuleEvents<ApiType extends ApiTypes> {
-  [key: string]: AugmentedEvent<ApiType>;
-}
+export type ModuleEvents<ApiType extends ApiTypes> = Record<string, AugmentedEvent<ApiType>>;

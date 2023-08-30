@@ -96,7 +96,7 @@ export class MockProvider implements ProviderInterface {
   }
 
   public get hasSubscriptions (): boolean {
-    return true;
+    return !!true;
   }
 
   public clone (): MockProvider {
@@ -116,11 +116,11 @@ export class MockProvider implements ProviderInterface {
   }
 
   public get isClonable (): boolean {
-    return false;
+    return !!false;
   }
 
   public get isConnected (): boolean {
-    return true;
+    return !!true;
   }
 
   public on (type: ProviderInterfaceEmitted, sub: ProviderInterfaceEmitCb): () => void {

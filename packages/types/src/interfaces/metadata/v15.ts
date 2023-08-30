@@ -8,6 +8,26 @@ import type { DefinitionsTypes } from '../../types/index.js';
 
 export const v15: DefinitionsTypes = {
   // new/adjusted in v15
+  CustomMetadata15: {
+    map: 'BTreeMap<Text, CustomValueMetadata15>'
+  },
+  CustomValueMetadata15: {
+    type: 'SiLookupTypeId',
+    value: 'Bytes'
+  },
+  ExtrinsicMetadataV15: {
+    version: 'u8',
+    addressType: 'SiLookupTypeId',
+    callType: 'SiLookupTypeId',
+    signatureType: 'SiLookupTypeId',
+    extraType: 'SiLookupTypeId',
+    signedExtensions: 'Vec<SignedExtensionMetadataV14>'
+  },
+  OuterEnums15: {
+    callType: 'SiLookupTypeId',
+    eventType: 'SiLookupTypeId',
+    errorType: 'SiLookupTypeId'
+  },
   PalletMetadataV15: {
     name: 'Text',
     storage: 'Option<PalletStorageMetadataV14>',
@@ -38,8 +58,10 @@ export const v15: DefinitionsTypes = {
   MetadataV15: {
     lookup: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV15>',
-    extrinsic: 'ExtrinsicMetadataV14',
+    extrinsic: 'ExtrinsicMetadataV15',
     type: 'SiLookupTypeId',
-    apis: 'Vec<RuntimeApiMetadataV15>'
+    apis: 'Vec<RuntimeApiMetadataV15>',
+    outerEnums: 'OuterEnums15',
+    custom: 'CustomMetadata15'
   }
 };

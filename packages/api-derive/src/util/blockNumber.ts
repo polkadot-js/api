@@ -6,7 +6,7 @@ import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import { isCompact } from '@polkadot/util';
 
-type CompatHeader = { number: Compact<BlockNumber> | BlockNumber };
+interface CompatHeader { number: Compact<BlockNumber> | BlockNumber }
 
 export function unwrapBlockNumber (hdr: CompatHeader): BlockNumber {
   return isCompact<BlockNumber>(hdr.number)

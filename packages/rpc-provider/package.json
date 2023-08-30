@@ -18,26 +18,26 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "10.9.2-6-x",
+  "version": "10.9.2-20-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/keyring": "^12.3.2",
-    "@polkadot/types": "10.9.2-6-x",
-    "@polkadot/types-support": "10.9.2-6-x",
-    "@polkadot/util": "^12.3.2",
-    "@polkadot/util-crypto": "^12.3.2",
-    "@polkadot/x-fetch": "^12.3.2",
-    "@polkadot/x-global": "^12.3.2",
-    "@polkadot/x-ws": "^12.3.2",
+    "@polkadot/keyring": "^12.4.2",
+    "@polkadot/types": "10.9.2-20-x",
+    "@polkadot/types-support": "10.9.2-20-x",
+    "@polkadot/util": "^12.4.2",
+    "@polkadot/util-crypto": "^12.4.2",
+    "@polkadot/x-fetch": "^12.4.2",
+    "@polkadot/x-global": "^12.4.2",
+    "@polkadot/x-ws": "^12.4.2",
     "eventemitter3": "^5.0.1",
     "mock-socket": "^9.2.1",
-    "nock": "^13.3.1",
-    "tslib": "^2.6.0"
+    "nock": "^13.3.3",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@substrate/connect": "0.7.29"
+    "@substrate/connect": "0.7.31"
   },
   "optionalDependencies": {
-    "@substrate/connect": "0.7.29"
+    "@substrate/connect": "0.7.31"
   }
 }

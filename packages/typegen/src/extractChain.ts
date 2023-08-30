@@ -26,7 +26,7 @@ async function run (ws: string): Promise<void> {
   api.runtimeMetadata.getUniqTypes(false);
 }
 
-type ArgV = { ws: string };
+interface ArgV { ws: string }
 
 export function main (): void {
   // retrieve and parse arguments - we do this globally, since this is a single command

@@ -16,11 +16,10 @@ export interface AugmentedConsts<ApiType extends ApiTypes> extends EmptyBase<Api
   // augmented
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface QueryableConsts<ApiType extends ApiTypes> extends AugmentedConsts<ApiType> {
   // when non-augmented, we need to at least have Codec results
   [key: string]: QueryableModuleConsts;
 }
 
-export interface QueryableModuleConsts {
-  [key: string]: Codec;
-}
+export type QueryableModuleConsts = Record<string, Codec>;

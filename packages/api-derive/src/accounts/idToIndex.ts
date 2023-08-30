@@ -27,7 +27,7 @@ export function idToIndex (instanceId: string, api: DeriveApi): (accountId: Acco
   return memo(instanceId, (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     api.derive.accounts.indexes().pipe(
       map((indexes: AccountIndexes): AccountIndex | undefined =>
-        (indexes || {})[accountId.toString()]
+        indexes[accountId.toString()]
       )
     ));
 }
