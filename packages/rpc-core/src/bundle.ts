@@ -7,7 +7,7 @@ import type { StorageKey, Vec } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { AnyJson, AnyNumber, Codec, DefinitionRpc, DefinitionRpcExt, DefinitionRpcSub, Registry } from '@polkadot/types/types';
 import type { Memoized } from '@polkadot/util/types';
-import type { RpcInterfaceMethod } from './types/index.js';
+import type { RpcCoreStats, RpcInterfaceMethod } from './types/index.js';
 
 import { Observable, publishReplay, refCount } from 'rxjs';
 
@@ -94,6 +94,8 @@ export class RpcCore {
   readonly #isPedantic: boolean;
   readonly #registryDefault: Registry;
   readonly #storageCache = new Map<string, Codec>();
+  #storageCacheHits = 0;
+  #storageCacheSize = 0;
 
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
   #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
@@ -145,6 +147,23 @@ export class RpcCore {
    */
   public disconnect (): Promise<void> {
     return this.provider.disconnect();
+  }
+
+  /**
+   * @description Returns the underlying core stats, including those from teh provider
+   */
+  public get stats (): RpcCoreStats | undefined {
+    const stats = this.provider.stats;
+
+    return stats
+      ? {
+        ...stats,
+        core: {
+          cacheHits: this.#storageCacheHits,
+          cacheSize: this.#storageCacheSize
+        }
+      }
+      : undefined;
   }
 
   /**
@@ -453,6 +472,8 @@ export class RpcCore {
       const cached = this.#storageCache.get(hexKey);
 
       if (cached) {
+        this.#storageCacheHits++;
+
         return cached;
       }
     }
@@ -470,6 +491,7 @@ export class RpcCore {
     // clearing of it, so very long running processes (not just a couple of hours, longer)
     // will increase memory beyond what is allowed.
     this.#storageCache.set(hexKey, codec);
+    this.#storageCacheSize++;
 
     return codec;
   }

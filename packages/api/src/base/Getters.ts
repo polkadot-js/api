@@ -1,8 +1,7 @@
 // Copyright 2017-2023 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RpcInterface } from '@polkadot/rpc-core/types';
-import type { ProviderInterface } from '@polkadot/rpc-provider/types';
+import type { RpcCoreStats, RpcInterface } from '@polkadot/rpc-core/types';
 import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
@@ -201,8 +200,8 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
   /**
    * @description Returns the underlying provider stats
    */
-  public get stats (): ProviderInterface['stats'] | undefined {
-    return this._rpcCore.provider.stats;
+  public get stats (): RpcCoreStats | undefined {
+    return this._rpcCore.stats;
   }
 
   /**
