@@ -187,8 +187,7 @@ export abstract class AbstractBigInt extends AbstractObject<bigint> implements I
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toHuman (isExpanded?: boolean): string {
+  public toHuman (_isExpanded?: boolean): string {
     const rawType = this.toRawType();
 
     if (rawType === 'Balance') {
@@ -263,8 +262,7 @@ export abstract class AbstractBigInt extends AbstractObject<bigint> implements I
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public toU8a (isBare?: boolean): Uint8Array {
+  public toU8a (_isBare?: boolean): Uint8Array {
     return nToU8a(this.$, {
       bitLength: this.bitLength(),
       isLe: true,
