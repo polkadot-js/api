@@ -18,6 +18,7 @@ Changes:
 - Add support for latest/stable V15 metadata interfaces
 - Add runtime `BeefyApi` version 3
 - Add runtime `ParachainHost` version 5
+- Expose `chain.subscribeFinalizedBlocks` derive
 - Consistently use `import.meta.url` inside tests
 - Group `Uint/Int` tests for maintainability
 - Update to latest Polkadot, Kusama & Substrate metadata
