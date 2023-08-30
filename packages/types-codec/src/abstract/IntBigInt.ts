@@ -75,7 +75,7 @@ function decodeBigInt (value: Exclude<AnyNumber, Uint8Array> | Record<string, st
 }
 
 /**
- * @name AbstractInt
+ * @name AbstractBigInt
  * @ignore
  * @noInheritDoc
  */
