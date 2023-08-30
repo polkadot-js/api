@@ -8,14 +8,18 @@ Contributed:
 - Add runtime `FungliblesApi` version 2 (Thanks to https://github.com/bkontur)
 - Add runtime `EthereumApi` version 5 (Thanks to https://github.com/timbrinded)
 - Add runtime `AssetConversionApi` (Thanks to https://github.com/jsidorenko)
+- Adjust types for runtime `AssetConversionApi` (Thanks to https://github.com/jsidorenko)
+- Expand test cases for `Int` conversions (Thanks to https://github.com/peetzweg)
 
 Changes:
 
+- Serialize any additional payload fields via `toJSON()`
+- Expose internal `rpc-core` stats on `api.stats` getter
+- Add support for latest/stable V15 metadata interfaces
 - Add runtime `BeefyApi` version 3
 - Add runtime `ParachainHost` version 5
 - Consistently use `import.meta.url` inside tests
 - Group `Uint/Int` tests for maintainability
-- Serialize any additional payload fields via `toJSON()`
 - Update to latest Polkadot, Kusama & Substrate metadata
 
 

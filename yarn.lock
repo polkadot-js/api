@@ -461,41 +461,41 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.76.21":
-  version: 0.76.21
-  resolution: "@polkadot/dev-test@npm:0.76.21"
+"@polkadot/dev-test@npm:^0.76.22":
+  version: 0.76.22
+  resolution: "@polkadot/dev-test@npm:0.76.22"
   dependencies:
     jsdom: ^22.1.0
     tslib: ^2.6.2
-  checksum: f233b7f49879c03dd726d0dd789b0d93a6ecfc5a6b3b03020a8fccce5ef26423e357e293880e466db746c8655c68ad2aa3878efe0df8608cc6c3933f9650b5f0
+  checksum: c1f1e665c743756dd8a911a63dc7fb9cad634c51de47bd1e29dae71565e63f0a2ffee04f2ff48572d5a4c5fb62cd9dbe939914bc079341cedf692a9764797ca6
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.76.21":
-  version: 0.76.21
-  resolution: "@polkadot/dev-ts@npm:0.76.21"
+"@polkadot/dev-ts@npm:^0.76.22":
+  version: 0.76.22
+  resolution: "@polkadot/dev-ts@npm:0.76.22"
   dependencies:
     json5: ^2.2.3
     tslib: ^2.6.2
     typescript: ^5.2.2
-  checksum: 1ace8c289d7a118b5b5c91c4083a8936896396721a5fcdb08720c27a46d9ec966af05d521cd9b70c323671b1fc64fb5351a81b9357dbfab291549ed2c4c0b467
+  checksum: 2902b79e84313a71c459c9eb0b364aa5a807b1abca8f3b5fdad82455dd73965ffbd4a3726ed15a2262449e5b858333c055ae8fa8662628f7bc453c91097cdbcc
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.76.21":
-  version: 0.76.21
-  resolution: "@polkadot/dev@npm:0.76.21"
+"@polkadot/dev@npm:^0.76.22":
+  version: 0.76.22
+  resolution: "@polkadot/dev@npm:0.76.22"
   dependencies:
     "@eslint/js": ^8.48.0
-    "@polkadot/dev-test": ^0.76.21
-    "@polkadot/dev-ts": ^0.76.21
+    "@polkadot/dev-test": ^0.76.22
+    "@polkadot/dev-ts": ^0.76.22
     "@rollup/plugin-alias": ^5.0.0
     "@rollup/plugin-commonjs": ^25.0.4
     "@rollup/plugin-dynamic-import-vars": ^2.0.5
     "@rollup/plugin-inject": ^5.0.3
     "@rollup/plugin-json": ^6.0.0
     "@rollup/plugin-node-resolve": ^15.2.1
-    "@tsconfig/strictest": ^2.0.1
+    "@tsconfig/strictest": ^2.0.2
     "@typescript-eslint/eslint-plugin": ^6.5.0
     "@typescript-eslint/parser": ^6.5.0
     eslint: ^8.48.0
@@ -553,7 +553,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 23c1c2ac9727b4616c7bb92738919f9ce54e1c53769af73bd675be57b52a8980e037622045fa0e2745210c00fcecdc82c1dd55c64b07cb0284cc66237f3e0262
+  checksum: 41951d81ca7dbd396621cfc8f9ebab37dc2aff01a08b273dbb835fa740a8f4651f78d5b9c2fc51d17162a21b54f67f4bae5d3b0c8cc1682bf7292772564c76e8
   languageName: node
   linkType: hard
 
@@ -1094,10 +1094,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/strictest@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@tsconfig/strictest@npm:2.0.1"
-  checksum: 3a9b913e06c20fee0a002fc22a925370525dd917853dee2e0082de763b10a61a69d72d60d02e243629da94b3e0b98843469a3b063c0ab2a5d6716183867dd114
+"@tsconfig/strictest@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@tsconfig/strictest@npm:2.0.2"
+  checksum: 5409233288d872a2d79aca5eb65d3da681c6e0baa9ee58744adceda834fececdaa8265869793cfd5a80f4c887e3296b4d13309ef5bffbf7c8272071f00b60ba7
   languageName: node
   linkType: hard
 
@@ -7668,7 +7668,7 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@polkadot/dev": ^0.76.21
+    "@polkadot/dev": ^0.76.22
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/node": ^20.5.7
   languageName: unknown
