@@ -55,7 +55,7 @@ describe('ChainProperties', (): void => {
     });
     const { isEthereum, ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', original);
 
-    expect(isEthereum.eq(true)).toBe(true);
+    expect(isEthereum.isTrue).toBe(true);
     expect(ss58Format.unwrap().eq(2)).toBe(true);
     expect(tokenDecimals.unwrap().eq([15])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['KSM'])).toBe(true);
