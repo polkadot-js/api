@@ -218,6 +218,10 @@ export class TypeRegistry implements Registry {
     return [12];
   }
 
+  public get chainIsEthereum (): boolean {
+    return this.#chainProperties?.isEthereum.isTrue || false;
+  }
+
   public get chainSS58 (): number | undefined {
     return this.#chainProperties?.ss58Format.isSome
       ? this.#chainProperties.ss58Format.unwrap().toNumber()
