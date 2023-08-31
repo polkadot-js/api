@@ -36,7 +36,7 @@ function decodeValue (registry: Registry, key: string, value: unknown): unknown 
       : key === 'tokenSymbol'
         ? createValue(registry, 'Option<Vec<Text>>' as 'Vec<Text>', value)
         : key === 'isEthereum'
-          ? createValue(registry, 'Option<Bool>', value, false)
+          ? createValue(registry, 'Bool', value, false)
           : value;
 }
 
@@ -51,7 +51,7 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
 
     return all;
   }, {
-    isEthereum: registry.createTypeUnsafe('Option<Bool>', []),
+    isEthereum: registry.createTypeUnsafe('Bool', []),
     ss58Format: registry.createTypeUnsafe('Option<u32>', []),
     tokenDecimals: registry.createTypeUnsafe('Option<Vec<u32>>', []),
     tokenSymbol: registry.createTypeUnsafe('Option<Vec<Text>>', [])
@@ -66,7 +66,7 @@ export class GenericChainProperties extends Json {
   /**
    * @description The chain uses Ethereum addresses
    */
-  public get isEthereum (): Option<Bool> {
+  public get isEthereum (): Bool {
     return this.getT('isEthereum');
   }
 

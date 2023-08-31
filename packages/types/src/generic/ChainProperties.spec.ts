@@ -20,7 +20,7 @@ describe('ChainProperties', (): void => {
     expect(ss58Format.unwrap().eq(2)).toBe(true);
     expect(tokenDecimals.unwrap().eq([12])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['KSM'])).toBe(true);
-    expect(isEthereum.unwrap().eq(false)).toBe(true);
+    expect(isEthereum.isFalse).toBe(true);
   });
 
   it('decodes from an actual object (multiple tokens)', (): void => {
@@ -31,7 +31,7 @@ describe('ChainProperties', (): void => {
       tokenSymbol: ['pDOT', 'pKSM']
     });
 
-    expect(isEthereum.isNone).toBe(true);
+    expect(isEthereum.isFalse).toBe(true);
     expect(ss58Format.isNone).toBe(true);
     expect(tokenDecimals.unwrap().eq([10, 12])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['pDOT', 'pKSM'])).toBe(true);
@@ -40,7 +40,7 @@ describe('ChainProperties', (): void => {
   it('decodes from an object, flagged for non-existent ss58Format', (): void => {
     const { isEthereum, ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', { tokenSymbol: 'DEV' });
 
-    expect(isEthereum.isNone).toBe(true);
+    expect(isEthereum.isFalse).toBe(true);
     expect(ss58Format.isNone).toBe(true);
     expect(tokenDecimals.isNone).toBe(true);
     expect(tokenSymbol.isSome).toBe(true);
@@ -55,7 +55,7 @@ describe('ChainProperties', (): void => {
     });
     const { isEthereum, ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', original);
 
-    expect(isEthereum.unwrap().eq(true)).toBe(true);
+    expect(isEthereum.eq(true)).toBe(true);
     expect(ss58Format.unwrap().eq(2)).toBe(true);
     expect(tokenDecimals.unwrap().eq([15])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['KSM'])).toBe(true);
