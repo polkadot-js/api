@@ -40,7 +40,7 @@ function isRiscV (bytes: unknown): bytes is Uint8Array {
   return isU8a(bytes) && u8aEq(bytes.subarray(0, 4), ELF_MAGIC);
 }
 
-function isValidCode (code: Uint8Array) {
+function isValidCode (code: Uint8Array): boolean {
   return isWasm(code) || isRiscV(code);
 }
 
