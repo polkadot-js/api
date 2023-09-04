@@ -34,13 +34,14 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
   }
 }
 
-function isRiscV(bytes: unknown) {
+function isRiscV (bytes: unknown) {
   const ELF_MAGIC = new Uint8Array([0x7f, 0x45, 0x4c, 0x46]); // ELF magic bytes: 0x7f, 'E', 'L', 'F'
+
   return isU8a(bytes) && u8aEq(bytes.subarray(0, 4), ELF_MAGIC);
 }
 
-function isValidCode(code: Uint8Array) {
-  return isWasm(code) || isRiscV(code)
+function isValidCode (code: Uint8Array) {
+  return isWasm(code) || isRiscV(code);
 }
 
 export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
