@@ -10,6 +10,8 @@ Contributed:
 - Add runtime `AssetConversionApi` (Thanks to https://github.com/jsidorenko)
 - Adjust types for runtime `AssetConversionApi` (Thanks to https://github.com/jsidorenko)
 - Expand test cases for `Int` conversions (Thanks to https://github.com/peetzweg)
+- Add `isEthereum` to chain properties (Thanks to https://github.com/fgamundi)
+- Allo RiscV contracts via check (Thanks to https://github.com/statictype)
 
 Changes:
 
