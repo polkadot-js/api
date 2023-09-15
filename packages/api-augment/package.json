@@ -26,7 +26,7 @@
     "@polkadot/types": "10.9.2-25-x",
     "@polkadot/types-augment": "10.9.2-25-x",
     "@polkadot/types-codec": "10.9.2-25-x",
-    "@polkadot/util": "^12.4.2",
+    "@polkadot/util": "^12.5.1",
     "tslib": "^2.6.2"
   }
 }
