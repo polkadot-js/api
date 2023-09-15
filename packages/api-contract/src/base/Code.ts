@@ -12,7 +12,7 @@ import type { AbiConstructor, BlueprintOptions } from '../types.js';
 import type { MapConstructorExec } from './types.js';
 
 import { SubmittableResult } from '@polkadot/api';
-import { BN_ZERO, compactAddLength, isU8a, isUndefined, isWasm, u8aEq, u8aToU8a } from '@polkadot/util';
+import { BN_ZERO, compactAddLength, isRiscV, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
 
 import { applyOnEvent } from '../util.js';
 import { Base } from './Base.js';
@@ -34,12 +34,8 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
   }
 }
 
-function isRiscV (bytes: unknown): bytes is Uint8Array {
-  const ELF_MAGIC = new Uint8Array([0x7f, 0x45, 0x4c, 0x46]); // ELF magic bytes: 0x7f, 'E', 'L', 'F'
-
-  return isU8a(bytes) && u8aEq(bytes.subarray(0, 4), ELF_MAGIC);
-}
-
+// checks to see if the code (or at least the header)
+// is a valid/supported format
 function isValidCode (code: Uint8Array): boolean {
   return isWasm(code) || isRiscV(code);
 }
