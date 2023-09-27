@@ -2,11 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { Enum } from '../base/Enum.js';
 import type { Option } from '../base/Option.js';
 import type { Codec } from '../types/index.js';
 
-import { bnToBn, isBigInt, isBn, isBoolean, isCodec, isNumber, stringify } from '@polkadot/util';
+import { bnToBn, isBigInt, isBn, isBoolean, isCodec, isNumber, logger, stringify } from '@polkadot/util';
+
+const l = logger('sortValues');
 
 type SortArg = Codec | Codec[] | number[] | BN | bigint | number | Uint8Array;
 
@@ -47,6 +50,26 @@ function sortArray (a: Uint8Array | Codec[] | number[], b: Uint8Array | Codec[] 
   return a.length - b.length;
 }
 
+/** @internal */
+function filterDuplicates (container: string, seen: Set<HexString>, arg: SortArg): boolean {
+  // Convert the value to hex.
+  if (isCodec<Codec>(arg)) {
+    const hex = arg.toHex();
+
+    // Check if we have seen the value.
+    if (seen.has(hex)) {
+      l.error(`Duplicate value in ${container}: ${stringify(arg)}`);
+
+      // Filter out duplicate value.
+      return false;
+    }
+
+    seen.add(hex);
+  }
+
+  return true;
+}
+
 /**
 * Sort keys/values of BTreeSet/BTreeMap in ascending order for encoding compatibility with Rust's BTreeSet/BTreeMap
 * (https://doc.rust-lang.org/stable/std/collections/struct.BTreeSet.html)
@@ -72,9 +95,13 @@ export function sortAsc<V extends SortArg = Codec> (a: V, b: V): number {
 }
 
 export function sortSet<V extends Codec = Codec> (set: Set<V>): Set<V> {
-  return new Set(Array.from(set).sort(sortAsc));
+  const seen = new Set<HexString>();
+
+  return new Set(Array.from(set).filter((value) => filterDuplicates('BTreeSet', seen, value)).sort(sortAsc));
 }
 
 export function sortMap<K extends Codec = Codec, V extends Codec = Codec> (map: Map<K, V>): Map<K, V> {
-  return new Map(Array.from(map.entries()).sort(([keyA], [keyB]) => sortAsc(keyA, keyB)));
+  const seen = new Set<HexString>();
+
+  return new Map(Array.from(map.entries()).filter(([key]) => filterDuplicates('BTreeMap', seen, key)).sort(([keyA], [keyB]) => sortAsc(keyA, keyB)));
 }
