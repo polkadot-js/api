@@ -3,9 +3,10 @@
 
 import type { BN } from '@polkadot/util';
 import type { Enum } from '../base/Enum.js';
+import type { Option } from '../base/Option.js';
 import type { Codec } from '../types/index.js';
 
-import { bnToBn, isBigInt, isBn, isCodec, isNumber, stringify } from '@polkadot/util';
+import { bnToBn, isBigInt, isBn, isBoolean, isCodec, isNumber, stringify } from '@polkadot/util';
 
 type SortArg = Codec | Codec[] | number[] | BN | bigint | number | Uint8Array;
 
@@ -17,6 +18,11 @@ function isArrayLike (arg: SortArg): arg is Uint8Array | Codec[] | number[] {
 /** @internal **/
 function isEnum (arg: SortArg): arg is Enum {
   return isCodec<Codec>(arg) && isNumber((arg as Enum).index) && isCodec((arg as Enum).value);
+}
+
+/** @internal **/
+function isOption (arg: SortArg): arg is Option<Codec> {
+  return isCodec<Codec>(arg) && isBoolean((arg as Option<Codec>).isSome) && isCodec((arg as Option<Codec>).value);
 }
 
 /** @internal */
@@ -53,6 +59,8 @@ export function sortAsc<V extends SortArg = Codec> (a: V, b: V): number {
     return sortAsc(Array.from(a.values()), Array.from(b.values()));
   } else if (isEnum(a) && isEnum(b)) {
     return sortAsc(a.index, b.index) || sortAsc(a.value, b.value);
+  } else if (isOption(a) && isOption(b)) {
+    return sortAsc(a.isNone ? 0 : 1, b.isNone ? 0 : 1) || sortAsc(a.value, b.value);
   } else if (isArrayLike(a) && isArrayLike(b)) {
     return sortArray(a, b);
   } else if (isCodec<Codec>(a) && isCodec<Codec>(b)) {
