@@ -7,9 +7,7 @@ import type { Enum } from '../base/Enum.js';
 import type { Option } from '../base/Option.js';
 import type { Codec } from '../types/index.js';
 
-import { bnToBn, isBigInt, isBn, isBoolean, isCodec, isNumber, logger, stringify } from '@polkadot/util';
-
-const l = logger('sortValues');
+import { bnToBn, isBigInt, isBn, isBoolean, isCodec, isNumber, stringify } from '@polkadot/util';
 
 type SortArg = Codec | Codec[] | number[] | BN | bigint | number | Uint8Array;
 
@@ -51,17 +49,15 @@ function sortArray (a: Uint8Array | Codec[] | number[], b: Uint8Array | Codec[] 
 }
 
 /** @internal */
-function filterDuplicates (container: string, seen: Set<HexString>, arg: SortArg): boolean {
+function checkForDuplicates (container: string, seen: Set<HexString>, arg: SortArg): boolean {
   // Convert the value to hex.
   if (isCodec<Codec>(arg)) {
     const hex = arg.toHex();
 
     // Check if we have seen the value.
     if (seen.has(hex)) {
-      l.error(`Duplicate value in ${container}: ${stringify(arg)}`);
-
-      // Filter out duplicate value.
-      return false;
+      // Duplicates are not allowed.
+      throw new Error(`Duplicate value in ${container}: ${stringify(arg)}`);
     }
 
     seen.add(hex);
@@ -97,11 +93,11 @@ export function sortAsc<V extends SortArg = Codec> (a: V, b: V): number {
 export function sortSet<V extends Codec = Codec> (set: Set<V>): Set<V> {
   const seen = new Set<HexString>();
 
-  return new Set(Array.from(set).filter((value) => filterDuplicates('BTreeSet', seen, value)).sort(sortAsc));
+  return new Set(Array.from(set).filter((value) => checkForDuplicates('BTreeSet', seen, value)).sort(sortAsc));
 }
 
 export function sortMap<K extends Codec = Codec, V extends Codec = Codec> (map: Map<K, V>): Map<K, V> {
   const seen = new Set<HexString>();
 
-  return new Map(Array.from(map.entries()).filter(([key]) => filterDuplicates('BTreeMap', seen, key)).sort(([keyA], [keyB]) => sortAsc(keyA, keyB)));
+  return new Map(Array.from(map.entries()).filter(([key]) => checkForDuplicates('BTreeMap', seen, key)).sort(([keyA], [keyB]) => sortAsc(keyA, keyB)));
 }
