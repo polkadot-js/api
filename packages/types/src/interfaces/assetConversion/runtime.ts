@@ -12,11 +12,11 @@ export const runtime: DefinitionsCall = {
           params: [
             {
               name: 'asset1',
-              type: 'MultiAssetId'
+              type: 'XcmV3MultiLocation'
             },
             {
               name: 'asset2',
-              type: 'MultiAssetId'
+              type: 'XcmV3MultiLocation'
             }
           ],
           type: 'Option<(Balance,Balance)>'
@@ -26,11 +26,11 @@ export const runtime: DefinitionsCall = {
           params: [
             {
               name: 'asset1',
-              type: 'MultiAssetId'
+              type: 'XcmV3MultiLocation'
             },
             {
               name: 'asset2',
-              type: 'MultiAssetId'
+              type: 'XcmV3MultiLocation'
             },
             {
               name: 'amount',
@@ -48,11 +48,11 @@ export const runtime: DefinitionsCall = {
           params: [
             {
               name: 'asset1',
-              type: 'MultiAssetId'
+              type: 'XcmV3MultiLocation'
             },
             {
               name: 'asset2',
-              type: 'MultiAssetId'
+              type: 'XcmV3MultiLocation'
             },
             {
               name: 'amount',

@@ -11,12 +11,5 @@ import { runtime } from './runtime.js';
 export default {
   rpc: {},
   runtime,
-  types: {
-    MultiAssetId: {
-      _enum: {
-        Native: null,
-        Asset: 'AssetId'
-      }
-    }
-  }
+  types: {}
 } as Definitions;

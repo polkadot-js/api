@@ -11,32 +11,36 @@ describe('ChainProperties', (): void => {
   it('decodes from a null value (setting defaults)', (): void => {
     expect(
       [...registry.createType('ChainProperties', null).keys()]
-    ).toEqual(['ss58Format', 'tokenDecimals', 'tokenSymbol']);
+    ).toEqual(['isEthereum', 'ss58Format', 'tokenDecimals', 'tokenSymbol']);
   });
 
   it('decodes from an actual JSON', (): void => {
-    const { ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', JSON.parse('{"ss58Format":2,"tokenDecimals":12,"tokenSymbol":"KSM"}'));
+    const { isEthereum, ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', JSON.parse('{"isEthereum":false,"ss58Format":2,"tokenDecimals":12,"tokenSymbol":"KSM"}'));
 
     expect(ss58Format.unwrap().eq(2)).toBe(true);
     expect(tokenDecimals.unwrap().eq([12])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['KSM'])).toBe(true);
+    expect(isEthereum.isFalse).toBe(true);
   });
 
   it('decodes from an actual object (multiple tokens)', (): void => {
-    const { ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', {
+    const { isEthereum, ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', {
+      isEthereum: undefined,
       ss58Format: undefined,
       tokenDecimals: [10, 12],
       tokenSymbol: ['pDOT', 'pKSM']
     });
 
+    expect(isEthereum.isFalse).toBe(true);
     expect(ss58Format.isNone).toBe(true);
     expect(tokenDecimals.unwrap().eq([10, 12])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['pDOT', 'pKSM'])).toBe(true);
   });
 
   it('decodes from an object, flagged for non-existent ss58Format', (): void => {
-    const { ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', { tokenSymbol: 'DEV' });
+    const { isEthereum, ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', { tokenSymbol: 'DEV' });
 
+    expect(isEthereum.isFalse).toBe(true);
     expect(ss58Format.isNone).toBe(true);
     expect(tokenDecimals.isNone).toBe(true);
     expect(tokenSymbol.isSome).toBe(true);
@@ -44,12 +48,14 @@ describe('ChainProperties', (): void => {
 
   it('decodes from a ChainProperties object', (): void => {
     const original = registry.createType('ChainProperties', {
+      isEthereum: true,
       ss58Format: 2,
       tokenDecimals: 15,
       tokenSymbol: 'KSM'
     });
-    const { ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', original);
+    const { isEthereum, ss58Format, tokenDecimals, tokenSymbol } = registry.createType('ChainProperties', original);
 
+    expect(isEthereum.isTrue).toBe(true);
     expect(ss58Format.unwrap().eq(2)).toBe(true);
     expect(tokenDecimals.unwrap().eq([15])).toBe(true);
     expect(tokenSymbol.unwrap().eq(['KSM'])).toBe(true);
@@ -58,11 +64,13 @@ describe('ChainProperties', (): void => {
   it('has a sane toHuman (single tokenDecimals)', (): void => {
     expect(
       registry.createType('ChainProperties', {
+        isEthereum: false,
         ss58Format: 42,
         tokenDecimals: registry.createType('u32', 9),
         tokenSymbol: ['Unit', 'Aux1']
       }).toHuman()
     ).toEqual({
+      isEthereum: false,
       ss58Format: '42',
       tokenDecimals: ['9'],
       tokenSymbol: ['Unit', 'Aux1']
@@ -72,11 +80,13 @@ describe('ChainProperties', (): void => {
   it('has a sane toHuman (multiple tokenDecimals)', (): void => {
     expect(
       registry.createType('ChainProperties', {
+        isEthereum: false,
         ss58Format: 2,
         tokenDecimals: [registry.createType('u32', 12), 8],
         tokenSymbol: ['KSM', 'BTC']
       }).toHuman()
     ).toEqual({
+      isEthereum: false,
       ss58Format: '2',
       tokenDecimals: ['12', '8'],
       tokenSymbol: ['KSM', 'BTC']

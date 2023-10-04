@@ -7,6 +7,7 @@ export * from './bestNumberLag.js';
 export * from './getBlock.js';
 export * from './getBlockByNumber.js';
 export * from './getHeader.js';
+export * from './subscribeFinalizedBlocks.js';
 export * from './subscribeFinalizedHeads.js';
 export * from './subscribeNewBlocks.js';
 export * from './subscribeNewHeads.js';

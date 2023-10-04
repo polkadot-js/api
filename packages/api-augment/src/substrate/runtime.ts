@@ -8,7 +8,6 @@ import '@polkadot/api-base/types/calls';
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, Vec, bool, u128, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
-import type { MultiAssetId } from '@polkadot/types/interfaces/assetConversion';
 import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
@@ -26,6 +25,7 @@ import type { AccountId, Balance, Block, BlockNumber, Call, Hash, Header, Index,
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
+import type { XcmV3MultiLocation } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -49,15 +49,15 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Get pool reserves
        **/
-      getReserves: AugmentedCall<ApiType, (asset1: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, asset2: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array) => Observable<Option<ITuple<[Balance, Balance]>>>>;
+      getReserves: AugmentedCall<ApiType, (asset1: XcmV3MultiLocation, asset2: XcmV3MultiLocation) => Observable<Option<ITuple<[Balance, Balance]>>>>;
       /**
        * Quote price: exact tokens for tokens
        **/
-      quotePriceExactTokensForTokens: AugmentedCall<ApiType, (asset1: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, asset2: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
+      quotePriceExactTokensForTokens: AugmentedCall<ApiType, (asset1: XcmV3MultiLocation, asset2: XcmV3MultiLocation, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
       /**
        * Quote price: tokens for exact tokens
        **/
-      quotePriceTokensForExactTokens: AugmentedCall<ApiType, (asset1: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, asset2: MultiAssetId | { Native: any } | { Asset: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
+      quotePriceTokensForExactTokens: AugmentedCall<ApiType, (asset1: XcmV3MultiLocation, asset2: XcmV3MultiLocation, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
       /**
        * Generic call
        **/

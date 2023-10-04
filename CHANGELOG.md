@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Add aliases for Noir type paths (Thanks to https://github.com/conr2d)
+- Add runtime `FungliblesApi` version 2 (Thanks to https://github.com/bkontur)
+- Add runtime `EthereumApi` version 5 (Thanks to https://github.com/timbrinded)
+- Add runtime `AssetConversionApi` (Thanks to https://github.com/jsidorenko)
+- Adjust types for runtime `AssetConversionApi` (Thanks to https://github.com/jsidorenko)
+- Expand test cases for `Int` conversions (Thanks to https://github.com/peetzweg)
+- Add `isEthereum` to chain properties (Thanks to https://github.com/fgamundi)
+- Allow RiscV contracts via check (Thanks to https://github.com/statictype)
+
+Changes:
+
+- Serialize any additional payload fields via `toJSON()`
+- Expose internal `rpc-core` stats on `api.stats` getter
+- Add support for latest/stable V15 metadata interfaces
+- Add runtime `BeefyApi` version 3
+- Add runtime `ParachainHost` version 5
+- Expose `chain.subscribeFinalizedBlocks` derive
+- Consistently use `import.meta.url` inside tests
+- Group `Uint/Int` tests for maintainability
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
 ## 10.9.1 Jun 12, 2023
 
 Changes:

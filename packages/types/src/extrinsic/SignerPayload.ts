@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text, Vec } from '@polkadot/types-codec';
-import type { Registry } from '@polkadot/types-codec/types';
+import type { AnyJson, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { Address, BlockHash, Call, ExtrinsicEra, Hash } from '../interfaces/index.js';
 import type { Codec, ICompact, INumber, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types/index.js';
@@ -112,18 +112,22 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
   public toPayload (): SignerPayloadJSON {
-    const result: Record<string, string> = {};
+    const result: Record<string, AnyJson> = {};
     const keys = Object.keys(this.#extraTypes);
 
     // add any explicit overrides we may have
     for (let i = 0, count = keys.length; i < count; i++) {
       const key = keys[i];
       const value = this.getT(key);
-      const isOption = value instanceof Option;
 
       // Don't include Option.isNone
-      if (!isOption || value.isSome) {
-        result[key] = value.toHex();
+      if (!(value instanceof Option) || value.isSome) {
+        // NOTE In the spread below we convert (mostly) to Hex to align
+        // with the typings. In the case of "unknown" fields, we use the
+        // primitive toJSON conversion (which is serializable). Technically
+        // we can include isNone in here as well ("null" is allowed), however
+        // for empty fields we just skip it completely (historical compat)
+        result[key] = value.toJSON();
       }
     }
 

@@ -67,20 +67,33 @@ export interface ProviderInterface {
   unsubscribe (type: string, method: string, id: number | string): Promise<boolean>;
 }
 
+/** Stats for a specific endpoint */
 export interface EndpointStats {
+  /** The total number of bytes sent */
   bytesRecv: number;
+  /** The total number of bytes received */
   bytesSent: number;
+  /** The number of cached/in-progress requests made */
   cached: number;
+  /** The number of errors found */
   errors: number;
+  /** The number of requests */
   requests: number;
+  /** The number of subscriptions */
   subscriptions: number;
+  /** The number of request timeouts */
   timeout: number;
 }
 
+/** Overall stats for the provider */
 export interface ProviderStats {
+  /** Details for the active/open requests */
   active: {
+    /** Number of active requests */
     requests: number;
+    /** Number of active subscriptions */
     subscriptions: number;
   };
+  /** The total requests that have been made */
   total: EndpointStats;
 }

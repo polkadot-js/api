@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, Text, u32, Vec } from '@polkadot/types-codec';
+import type { bool as Bool, Option, Text, u32, Vec } from '@polkadot/types-codec';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { Codec } from '../types/index.js';
 
@@ -35,7 +35,9 @@ function decodeValue (registry: Registry, key: string, value: unknown): unknown 
       ? createValue(registry, 'Option<Vec<u32>>' as 'Vec<u32>', value)
       : key === 'tokenSymbol'
         ? createValue(registry, 'Option<Vec<Text>>' as 'Vec<Text>', value)
-        : value;
+        : key === 'isEthereum'
+          ? createValue(registry, 'Bool', value, false)
+          : value;
 }
 
 function decode (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null): Record<string, unknown> {
@@ -49,6 +51,7 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
 
     return all;
   }, {
+    isEthereum: registry.createTypeUnsafe('Bool', []),
     ss58Format: registry.createTypeUnsafe('Option<u32>', []),
     tokenDecimals: registry.createTypeUnsafe('Option<Vec<u32>>', []),
     tokenSymbol: registry.createTypeUnsafe('Option<Vec<Text>>', [])
@@ -58,6 +61,13 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
 export class GenericChainProperties extends Json {
   constructor (registry: Registry, value?: Map<string, unknown> | Record<string, unknown> | null) {
     super(registry, decode(registry, value));
+  }
+
+  /**
+   * @description The chain uses Ethereum addresses
+   */
+  public get isEthereum (): Bool {
+    return this.getT('isEthereum');
   }
 
   /**
