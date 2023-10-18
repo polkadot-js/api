@@ -10,13 +10,13 @@ export const rpc: DefinitionsRpc = {
     type: 'H256'
   },
   subscribeJustifications: {
-    description: 'Returns the block most recently finalized by BEEFY, alongside side its justification.',
+    description: 'Returns the block most recently finalized by BEEFY, alongside its justification.',
     params: [],
     pubsub: [
       'justifications',
       'subscribeJustifications',
       'unsubscribeJustifications'
     ],
-    type: 'BeefySignedCommitment'
+    type: 'BeefyVersionedFinalityProof'
   }
 };
