@@ -32,6 +32,12 @@ export default {
       commitment: 'BeefyCommitment',
       signatures: 'Vec<Option<EcdsaSignature>>'
     },
+    BeefyVersionedFinalityProof: {
+      _enum: {
+        V0: 'Null',
+        V1: 'BeefySignedCommitment'
+      }
+    },
     BeefyNextAuthoritySet: {
       id: 'u64',
       len: 'u32',
