@@ -14,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "10.10.1",
+  "version": "10.10.2-1-x",
   "versions": {
-    "git": "10.10.1",
+    "git": "10.10.2-1-x",
     "npm": "10.10.1"
   },
   "workspaces": [
@@ -42,9 +42,13 @@
   "devDependencies": {
     "@polkadot/dev": "^0.76.30",
     "@polkadot/typegen": "workspace:packages/typegen",
+<<<<<<< HEAD
     "@types/node": "^20.8.7"
+=======
+    "@types/node": "^20.8.4"
+>>>>>>> master
   },
   "resolutions": {
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   }
 }
