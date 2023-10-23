@@ -31,13 +31,13 @@
     "@polkadot/x-ws": "^12.5.1",
     "eventemitter3": "^5.0.1",
     "mock-socket": "^9.3.1",
-    "nock": "^13.3.4",
+    "nock": "^13.3.6",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@substrate/connect": "0.7.33"
+    "@substrate/connect": "0.7.34"
   },
   "optionalDependencies": {
-    "@substrate/connect": "0.7.33"
+    "@substrate/connect": "0.7.34"
   }
 }
