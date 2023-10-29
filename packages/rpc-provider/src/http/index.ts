@@ -3,7 +3,7 @@
 
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types.js';
 
-import { logger, noop } from '@polkadot/util';
+import { logger, noop, stringify } from '@polkadot/util';
 import { fetch } from '@polkadot/x-fetch';
 
 import { RpcCoder } from '../coder/index.js';
@@ -125,15 +125,16 @@ export class HttpProvider implements ProviderInterface {
     this.#stats.total.requests++;
 
     const [, body] = this.#coder.encodeJson(method, params);
+    const cacheKey = isCacheable ? `${method}::${stringify(params)}` : '';
     let resultPromise: Promise<T> | null = isCacheable
-      ? this.#callCache.get(body)
+      ? this.#callCache.get(cacheKey)
       : null;
 
     if (!resultPromise) {
       resultPromise = this.#send(body);
 
       if (isCacheable) {
-        this.#callCache.set(body, resultPromise);
+        this.#callCache.set(cacheKey, resultPromise);
       }
     } else {
       this.#stats.total.cached++;
