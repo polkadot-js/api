@@ -99,7 +99,7 @@ export class ScProvider implements ProviderInterface {
       throw new Error('Already connected!');
     }
 
-    // it could happen that after emitting `disconnected` due to the fact taht
+    // it could happen that after emitting `disconnected` due to the fact that
     // smoldot is syncing, the consumer tries to reconnect after a certain amount
     // of time... In which case we want to make sure that we don't create a new
     // chain.
