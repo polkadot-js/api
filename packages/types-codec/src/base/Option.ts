@@ -35,7 +35,7 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
     // convert the actual value into known
     return new Type(registry, value.value);
   } else if (isNull(value) || isUndefined(value) || value === '0x' || value instanceof None) {
-    // anyhting empty we pass as-is
+    // anything empty we pass as-is
     return new None(registry);
   } else if (isU8a(value)) {
     // the isU8a check happens last in the if-tree - since the wrapped value
