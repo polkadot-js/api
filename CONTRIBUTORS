@@ -122,6 +122,7 @@
        1	Tim B                         	added EthRTApiV5 ifaces (#5680)
        1	WoeOm                         	adapt Darwinia, Crab Network types (#3498)
        1	Xat_MassacrE                  	Fix packages/types/src/codec/utils/encodeTypes.ts encodeSubTypes bug (#1544)
+       1	xiaolou86                     	Fix typos (#5747)
        1	yjh                           	fix MetadataVersioned.asV12 (#2983)
        1	Yuri                          	fixes #3693 Fix uniques return types (#3694)
        1	Zeke Mostov                   	fix: Allow sudo for polkadot indexed proxy enum (#3286)
