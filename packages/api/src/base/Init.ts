@@ -324,17 +324,21 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     ).subscribe();
   }
 
-  private async _metaFromChain (optMetadata?: Record<string, HexString>): Promise<[Hash, Metadata]> {
-    const [genesisHash, runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await Promise.all([
+  protected async _queryMetaFromChain(includeMetadata = false) {
+    return await Promise.all([
       firstValueFrom(this._rpcCore.chain.getBlockHash(0)),
       firstValueFrom(this._rpcCore.state.getRuntimeVersion()),
       firstValueFrom(this._rpcCore.system.chain()),
       firstValueFrom(this._rpcCore.system.properties()),
       firstValueFrom(this._rpcCore.rpc.methods()),
-      optMetadata
+      !includeMetadata
         ? Promise.resolve(null)
         : firstValueFrom(this._rpcCore.state.getMetadata())
     ]);
+  }
+
+  private async _metaFromChain (optMetadata?: Record<string, HexString>): Promise<[Hash, Metadata]> {
+    const [genesisHash, runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await this._queryMetaFromChain(!optMetadata);
 
     // set our chain version & genesisHash as returned
     this._runtimeChain = chain;
