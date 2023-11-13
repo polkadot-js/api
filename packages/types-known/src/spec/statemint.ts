@@ -47,11 +47,20 @@ export const versioned: OverrideVersionedType[] = [
   },
   {
     // metadata V14
-    minmax: [500, undefined],
+    minmax: [500, 999999],
     types: {
-      Weight: 'WeightV1'
+      Weight: 'WeightV1',
+      PalletAssetConversionNativeOrAssetId: 'AssetId'
+    }
+  },
+  {
+    minmax: [1000000, undefined],
+    types: {
+      Weight: 'WeightV1',
+      PalletAssetConversionNativeOrAssetId: 'MultiLocation'
     }
   }
+
   // ,
   // {
   //   // weight v2 introduction
