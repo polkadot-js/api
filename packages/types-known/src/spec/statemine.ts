@@ -24,7 +24,7 @@ const sharedTypes = {
   Weight: 'WeightV1'
 };
 
-// these are override types for Statemine, Statemint, Westmint
+// these are override types for Statemine, Westmint
 export const versioned: OverrideVersionedType[] = [
   {
     minmax: [0, 3],
@@ -47,18 +47,16 @@ export const versioned: OverrideVersionedType[] = [
   },
   {
     // metadata V14
-    minmax: [500, undefined],
+    minmax: [500, 9999],
     types: {
       Weight: 'WeightV1',
       AssetConversionAlias: 'Option<AssetId>'
     }
+  },
+  {
+    minmax: [10000, undefined],
+    types: {
+      AssetConversionAlias: 'Option<MultiLocation>'
+    }
   }
-  // ,
-  // {
-  //   // weight v2 introduction
-  //   minmax: [9300, undefined],
-  //   types: {
-  //     Weight: 'WeightV2'
-  //   }
-  // }
 ];
