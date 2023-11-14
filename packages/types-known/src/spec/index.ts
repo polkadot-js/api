@@ -12,8 +12,8 @@ import { versioned as rococo } from './rococo.js';
 import { versioned as shell } from './shell.js';
 import { versioned as statemine } from './statemine.js';
 import { versioned as statemint } from './statemint.js';
-import {versioned as westmint } from './westmint.js';
 import { versioned as westend } from './westend.js';
+import { versioned as westmint } from './westmint.js';
 
 // Type overrides for specific spec types & versions as given in runtimeVersion
 export const typesSpec: Record<string, OverrideVersionedType[]> = {
@@ -27,5 +27,5 @@ export const typesSpec: Record<string, OverrideVersionedType[]> = {
   statemine,
   statemint,
   westend,
-  westmint,
+  westmint
 };
