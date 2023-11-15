@@ -62,12 +62,8 @@ describe('SignerPayload', (): void => {
 
   it('handles Option<AssetId> correctly', (): void => {
     const test = new SignerPayload(registry, {
-      assetId: {
-        parents: 0,
-        interior: {
-          x2: [{ palletInstance: 50 }, { generalIndex: 123 }]
-        }
-      }
+      // eslint-disable-next-line sort-keys
+      assetId: { parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] } }
     });
 
     expect(
@@ -78,10 +74,8 @@ describe('SignerPayload', (): void => {
       // @ts-expect-error We don't have getters for this field
       test.toPayload().assetId
     ).toEqual({
-      parents: 0,
-      interior: {
-        x2: [{ palletInstance: 50 }, { generalIndex: 123 }]
-      }
+      // eslint-disable-next-line sort-keys
+      parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] }
     });
 
     expect(
@@ -122,12 +116,8 @@ describe('SignerPayload', (): void => {
   it('can be used as a feed to ExtrinsicPayload', (): void => {
     const signer = new SignerPayload(registry, {
       ...TEST,
-      assetId: {
-        parents: 0,
-        interior: {
-          x2: [{ palletInstance: 50 }, { generalIndex: 123 }]
-        }
-      }
+      // eslint-disable-next-line sort-keys
+      assetId: { parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] } }
     }).toPayload();
     const payload = registry.createType('ExtrinsicPayload', signer, { version: signer.version });
 
@@ -139,14 +129,8 @@ describe('SignerPayload', (): void => {
     // @ts-expect-error assetId is of unknown type, so we don't know about "isSome"
     expect(payload.inner?.get('assetId')?.isSome && payload.inner?.get('assetId')
       ?.eq(registry.createType('MultiLocation', {
-        parents: 0,
-        interior: {
-          X2: [{
-            palletInstance: 50
-          }, {
-            generalIndex: 123
-          }]
-        }
+        // eslint-disable-next-line sort-keys
+        parents: 0, interior: { X2: [{ palletInstance: 50 }, { generalIndex: 123 }] }
       }))).toBe(true);
   });
 });
