@@ -50,7 +50,7 @@ export const versioned: OverrideVersionedType[] = [
     minmax: [500, undefined],
     types: {
       Weight: 'WeightV1',
-      AssetConversionAlias: 'Option<AssetId>'
+      TAssetConversion: 'Option<AssetId>'
     }
   }
   // ,
