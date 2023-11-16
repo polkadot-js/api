@@ -61,7 +61,10 @@ describe('SignerPayload', (): void => {
   });
 
   it('handles Option<AssetId> correctly', (): void => {
-    const test = new SignerPayload(registry, { assetId: 123 });
+    const test = new SignerPayload(registry, {
+      // eslint-disable-next-line sort-keys
+      assetId: { parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] } }
+    });
 
     expect(
       [...test.keys()].includes('assetId')
@@ -70,12 +73,18 @@ describe('SignerPayload', (): void => {
     expect(
       // @ts-expect-error We don't have getters for this field
       test.toPayload().assetId
-    ).toEqual(123);
+    ).toEqual({
+      // eslint-disable-next-line sort-keys
+      parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] }
+    });
 
     expect(
       // @ts-expect-error We don't have getters for this field
       new SignerPayload(registry, { assetId: 0 }).toPayload().assetId
-    ).toEqual(0);
+    ).toEqual({
+      // eslint-disable-next-line sort-keys
+      parents: 0, interior: { here: null }
+    });
 
     expect(
       // @ts-expect-error We don't have getters for this field
@@ -105,7 +114,11 @@ describe('SignerPayload', (): void => {
   });
 
   it('can be used as a feed to ExtrinsicPayload', (): void => {
-    const signer = new SignerPayload(registry, { ...TEST, assetId: 123 }).toPayload();
+    const signer = new SignerPayload(registry, {
+      ...TEST,
+      // eslint-disable-next-line sort-keys
+      assetId: { parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] } }
+    }).toPayload();
     const payload = registry.createType('ExtrinsicPayload', signer, { version: signer.version });
 
     expect(payload.era.toHex()).toEqual(TEST.era);
@@ -114,6 +127,10 @@ describe('SignerPayload', (): void => {
     expect(payload.nonce.eq(TEST.nonce)).toBe(true);
     expect(payload.tip.eq(TEST.tip)).toBe(true);
     // @ts-expect-error assetId is of unknown type, so we don't know about "isSome"
-    expect(payload.inner?.get('assetId')?.isSome && payload.inner?.get('assetId')?.eq(123)).toBe(true);
+    expect(payload.inner?.get('assetId')?.isSome && payload.inner?.get('assetId')
+      ?.eq(registry.createType('MultiLocation', {
+        // eslint-disable-next-line sort-keys
+        parents: 0, interior: { X2: [{ palletInstance: 50 }, { generalIndex: 123 }] }
+      }))).toBe(true);
   });
 });

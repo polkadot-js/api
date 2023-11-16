@@ -11,5 +11,7 @@ import { runtime } from './runtime.js';
 export default {
   rpc: {},
   runtime,
-  types: {}
+  types: {
+    TAssetConversion: 'Option<MultiLocation>'
+  }
 } as Definitions;

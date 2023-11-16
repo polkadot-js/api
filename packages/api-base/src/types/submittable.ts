@@ -16,7 +16,7 @@ export interface SignerOptions {
   nonce: AnyNumber | Codec;
   signer?: Signer;
   tip?: AnyNumber;
-  assetId?: AnyNumber;
+  assetId?: AnyNumber | object;
 }
 
 export type SubmittableDryRunResult<ApiType extends ApiTypes> =
