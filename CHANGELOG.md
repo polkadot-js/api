@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Support for latest `ChargeAssetTxPayment` (Thanks to https://github.com/bee344)
+- Support for latest `beefy::subscribeJustifications()` (Thanks to https://github.com/serban300)
+
+Changes:
+
+- Drop support for Node 16 (EOL 11 Sep 2023)
+
+
 ## 10.10.1 Oct 14, 2023
 
 Contributed:
