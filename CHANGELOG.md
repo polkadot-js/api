@@ -9,6 +9,7 @@ Contributed:
 
 Changes:
 
+- Add known `intrablockEntropy` storage key
 - Drop support for Node 16 (EOL 11 Sep 2023)
 
 
