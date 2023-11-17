@@ -1,4 +1,4 @@
-    3500	Jaco                          	Bump dev deps (#5743)
+    3501	Jaco                          	Bump dev deps, drop Node 16 (#5753)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)

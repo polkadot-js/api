@@ -3,7 +3,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "description": "Types generated augmentation",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-augment#readme",
   "license": "Apache-2.0",
@@ -18,11 +18,11 @@
     "./detectPackage.cjs"
   ],
   "type": "module",
-  "version": "10.10.2-4-x",
+  "version": "10.10.2-5-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/types": "10.10.2-4-x",
-    "@polkadot/types-codec": "10.10.2-4-x",
+    "@polkadot/types": "10.10.2-5-x",
+    "@polkadot/types-codec": "10.10.2-5-x",
     "@polkadot/util": "^12.5.1",
     "tslib": "^2.6.2"
   }
