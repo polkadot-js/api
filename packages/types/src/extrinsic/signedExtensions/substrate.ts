@@ -14,13 +14,15 @@ const CheckMortality: ExtInfo = {
   }
 };
 
-export const substrate: ExtDef = {
-  ChargeTransactionPayment: {
-    extrinsic: {
-      tip: 'Compact<Balance>'
-    },
-    payload: {}
+const ChargeTransactionPayment: ExtInfo = {
+  extrinsic: {
+    tip: 'Compact<Balance>'
   },
+  payload: {}
+};
+
+export const substrate: ExtDef = {
+  ChargeTransactionPayment,
   CheckBlockGasLimit: emptyCheck,
   CheckEra: CheckMortality,
   CheckGenesis: {
@@ -57,5 +59,6 @@ export const substrate: ExtDef = {
   },
   CheckWeight: emptyCheck,
   LockStakingStatus: emptyCheck,
+  SkipCheckIfFeeless: ChargeTransactionPayment,
   ValidateEquivocationReport: emptyCheck
 };
