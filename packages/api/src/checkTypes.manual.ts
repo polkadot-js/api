@@ -282,7 +282,7 @@ async function tx (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<voi
   await api.tx.democracy['proxyVote'](123, { Split: { nay: 456, yay: 123 } }).signAndSend(pairs.alice);
 
   // is
-  if (api.tx.balances.transfer.is(second)) {
+  if (api.tx.balances.transferAllowDeath.is(second)) {
     const [recipientId, balance] = second.args;
 
     // should be LookupSource & Balance types

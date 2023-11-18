@@ -4,6 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
+import type { u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPoints, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types.js';
 import type { DeriveStakingQuery } from './types.js';
@@ -88,6 +89,10 @@ function allUniqValidators (rewards: DeriveStakerReward[][]): [string[], string[
   }, [[], []]);
 }
 
+function getClaimedRewards (valLedger?: PalletStakingStakingLedger): undefined | u32[] {
+  return valLedger && (valLedger.legacyClaimedRewards || (valLedger as unknown as { claimedRewards: u32[] }).claimedRewards);
+}
+
 function removeClaimed (validators: string[], queryValidators: DeriveStakingQuery[], reward: DeriveStakerReward): void {
   const rm: string[] = [];
 
@@ -95,9 +100,7 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
     const index = validators.indexOf(validatorId);
 
     if (index !== -1) {
-      const valLedger = queryValidators[index].stakingLedger;
-
-      if (valLedger?.claimedRewards.some((e) => reward.era.eq(e))) {
+      if (getClaimedRewards(queryValidators[index].stakingLedger)?.some((e) => reward.era.eq(e))) {
         rm.push(validatorId);
       }
     }
@@ -109,7 +112,7 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
 }
 
 function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: PalletStakingStakingLedger }): DeriveStakerReward[] {
-  const filter = eras.filter((e) => !stakingLedger.claimedRewards.some((s) => s.eq(e)));
+  const filter = eras.filter((e) => !getClaimedRewards(stakingLedger)?.some((s) => s.eq(e)));
   const validators = valInfo.map(([v]) => v);
   const queryValidators = valInfo.map(([, q]) => q);
 

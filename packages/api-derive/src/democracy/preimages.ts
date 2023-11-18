@@ -3,7 +3,7 @@
 
 import type { Observable } from 'rxjs';
 import type { AccountId, Balance, BlockNumber, Call, Hash, PreimageStatus } from '@polkadot/types/interfaces';
-import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 import type { Bytes, Option } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
@@ -55,14 +55,14 @@ function parseDemocracy (api: DeriveApi, imageOpt: Option<OldPreimage> | Option<
   return constructProposal(api, imageOpt.unwrap());
 }
 
-function parseImage (api: DeriveApi, [proposalHash, status, bytes]: [HexString, PalletPreimageRequestStatus | null, Bytes | null]): DeriveProposalImage | undefined {
+function parseImage (api: DeriveApi, [proposalHash, status, bytes]: [HexString, PalletPreimageRequestStatus | PalletPreimageOldRequestStatus | null, Bytes | null]): DeriveProposalImage | undefined {
   if (!status) {
     return undefined;
   }
 
   const [proposer, balance] = status.isUnrequested
-    ? status.asUnrequested.deposit
-    : status.asRequested.deposit.unwrapOrDefault();
+    ? (status as unknown as PalletPreimageRequestStatus).asUnrequested.ticket || (status as unknown as PalletPreimageOldRequestStatus).asUnrequested.deposit
+    : ((status as unknown as PalletPreimageRequestStatus).asRequested.maybeTicket || (status as unknown as PalletPreimageOldRequestStatus).asRequested.deposit).unwrapOrDefault();
   let proposal: Call | undefined;
 
   if (bytes) {
@@ -112,7 +112,7 @@ function getImages (api: DeriveApi, bounded: (FrameSupportPreimagesBounded | Uin
           let ptr = -1;
 
           return statuses
-            .map((s, i): [HexString, PalletPreimageRequestStatus | null, Bytes | null] =>
+            .map((s, i): [HexString, PalletPreimageOldRequestStatus | null, Bytes | null] =>
               s
                 ? [hashes[i], s, optBytes[++ptr].unwrapOr(null)]
                 : [hashes[i], null, null]
