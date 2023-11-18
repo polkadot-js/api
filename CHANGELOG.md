@@ -11,6 +11,7 @@ Changes:
 
 - Add known `intrablockEntropy` storage key
 - Drop support for Node 16 (EOL 11 Sep 2023)
+- Update to latest Substrate metadata
 
 
 ## 10.10.1 Oct 14, 2023

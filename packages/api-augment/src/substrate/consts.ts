@@ -485,10 +485,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       offchainRepeat: u32 & AugmentedConst<ApiType>;
       /**
-       * Base deposit for a signed solution.
-       **/
-      signedDepositBase: u128 & AugmentedConst<ApiType>;
-      /**
        * Per-byte deposit for a signed solution.
        **/
       signedDepositByte: u128 & AugmentedConst<ApiType>;
@@ -639,14 +635,9 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       basicDeposit: u128 & AugmentedConst<ApiType>;
       /**
-       * The amount held on deposit per additional field for a registered identity.
+       * The amount held on deposit per encoded byte for a registered identity.
        **/
-      fieldDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * Maximum number of additional fields that may be stored in an ID. Needed to bound the I/O
-       * required to access an identity, but can be pretty high.
-       **/
-      maxAdditionalFields: u32 & AugmentedConst<ApiType>;
+      byteDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * Maxmimum number of registrars allowed in the system. Needed to bound the complexity
        * of, e.g., updating judgements.
@@ -733,6 +724,58 @@ declare module '@polkadot/api-base/types/consts' {
        * `ServiceQueues::service_queues` manually.
        **/
       serviceWeight: Option<SpWeightsWeightV2Weight> & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    mixnet: {
+      /**
+       * The maximum number of authorities per session.
+       **/
+      maxAuthorities: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of external addresses for a mixnode.
+       **/
+      maxExternalAddressesPerMixnode: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum size of one of a mixnode's external addresses.
+       **/
+      maxExternalAddressSize: u32 & AugmentedConst<ApiType>;
+      /**
+       * Minimum number of mixnodes. If there are fewer than this many mixnodes registered for a
+       * session, the mixnet will not be active during the session.
+       **/
+      minMixnodes: u32 & AugmentedConst<ApiType>;
+      /**
+       * Length of the first phase of each session (`CoverToCurrent`), in blocks.
+       **/
+      numCoverToCurrentBlocks: u32 & AugmentedConst<ApiType>;
+      /**
+       * Length of the third phase of each session (`CoverToPrev`), in blocks.
+       **/
+      numCoverToPrevBlocks: u32 & AugmentedConst<ApiType>;
+      /**
+       * The number of "slack" blocks at the end of each session.
+       * [`maybe_register`](Pallet::maybe_register) will try to register before this slack
+       * period, but may post registration transactions during the slack period as a last
+       * resort.
+       **/
+      numRegisterEndSlackBlocks: u32 & AugmentedConst<ApiType>;
+      /**
+       * The number of "slack" blocks at the start of each session, during which
+       * [`maybe_register`](Pallet::maybe_register) will not attempt to post registration
+       * transactions.
+       **/
+      numRegisterStartSlackBlocks: u32 & AugmentedConst<ApiType>;
+      /**
+       * Length of the second phase of each session (`RequestsToCurrent`), in blocks.
+       **/
+      numRequestsToCurrentBlocks: u32 & AugmentedConst<ApiType>;
+      /**
+       * Priority of unsigned transactions used to register mixnodes.
+       **/
+      registrationPriority: u64 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -1259,8 +1302,8 @@ declare module '@polkadot/api-base/types/consts' {
        * Following information is kept for eras in `[current_era -
        * HistoryDepth, current_era]`: `ErasStakers`, `ErasStakersClipped`,
        * `ErasValidatorPrefs`, `ErasValidatorReward`, `ErasRewardPoints`,
-       * `ErasTotalStake`, `ErasStartSessionIndex`,
-       * `StakingLedger.claimed_rewards`.
+       * `ErasTotalStake`, `ErasStartSessionIndex`, `ClaimedRewards`, `ErasStakersPaged`,
+       * `ErasStakersOverview`.
        * 
        * Must be more than the number of eras delayed by session.
        * I.e. active era must always be in history. I.e. `active_era >
@@ -1270,19 +1313,26 @@ declare module '@polkadot/api-base/types/consts' {
        * this should be set to same value or greater as in storage.
        * 
        * Note: `HistoryDepth` is used as the upper bound for the `BoundedVec`
-       * item `StakingLedger.claimed_rewards`. Setting this value lower than
+       * item `StakingLedger.legacy_claimed_rewards`. Setting this value lower than
        * the existing value can lead to inconsistencies in the
        * `StakingLedger` and will need to be handled properly in a migration.
        * The test `reducing_history_depth_abrupt` shows this effect.
        **/
       historyDepth: u32 & AugmentedConst<ApiType>;
       /**
-       * The maximum number of nominators rewarded for each validator.
+       * The maximum size of each `T::ExposurePage`.
        * 
-       * For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can
-       * claim their reward. This used to limit the i/o cost for the nominator payout.
+       * An `ExposurePage` is weakly bounded to a maximum of `MaxExposurePageSize`
+       * nominators.
+       * 
+       * For older non-paged exposure, a reward payout was restricted to the top
+       * `MaxExposurePageSize` nominators. This is to limit the i/o cost for the
+       * nominator payout.
+       * 
+       * Note: `MaxExposurePageSize` is used to bound `ClaimedRewards` and is unsafe to reduce
+       * without handling it in a migration.
        **/
-      maxNominatorRewardedPerValidator: u32 & AugmentedConst<ApiType>;
+      maxExposurePageSize: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of `unlocking` chunks a [`StakingLedger`] can
        * have. Effectively determines how many unique eras a staker may be
@@ -1418,10 +1468,12 @@ declare module '@polkadot/api-base/types/consts' {
     };
     timestamp: {
       /**
-       * The minimum period between blocks. Beware that this is different to the *expected*
-       * period that the block production apparatus provides. Your chosen consensus system will
-       * generally work with this to determine a sensible block time. e.g. For Aura, it will be
-       * double this period on default settings.
+       * The minimum period between blocks.
+       * 
+       * Be aware that this is different to the *expected* period that the block production
+       * apparatus provides. Your chosen consensus system will generally work with this to
+       * determine a sensible block time. For example, in the Aura pallet it will be double this
+       * period on default settings.
        **/
       minimumPeriod: u64 & AugmentedConst<ApiType>;
       /**
@@ -1441,6 +1493,10 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       maximumReasonLength: u32 & AugmentedConst<ApiType>;
       /**
+       * The maximum amount for a single tip.
+       **/
+      maxTipAmount: u128 & AugmentedConst<ApiType>;
+      /**
        * The period for which a tip remains open after is has achieved threshold tippers.
        **/
       tipCountdown: u32 & AugmentedConst<ApiType>;
@@ -1459,10 +1515,10 @@ declare module '@polkadot/api-base/types/consts' {
     };
     transactionPayment: {
       /**
-       * A fee mulitplier for `Operational` extrinsics to compute "virtual tip" to boost their
+       * A fee multiplier for `Operational` extrinsics to compute "virtual tip" to boost their
        * `priority`
        * 
-       * This value is multipled by the `final_fee` to obtain a "virtual tip" that is later
+       * This value is multiplied by the `final_fee` to obtain a "virtual tip" that is later
        * added to a tip component in regular `priority` calculations.
        * It means that a `Normal` transaction can front-run a similarly-sized `Operational`
        * extrinsic (with no tip), by including a tip value greater than the virtual tip.
@@ -1502,6 +1558,10 @@ declare module '@polkadot/api-base/types/consts' {
        * The treasury's pallet id, used for deriving its sovereign account ID.
        **/
       palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * The period during which an approved treasury spend has to be claimed.
+       **/
+      payoutPeriod: u32 & AugmentedConst<ApiType>;
       /**
        * Fraction of a proposal's value that should be bonded in order to place the proposal.
        * An accepted proposal gets these back. A rejected proposal does not.
