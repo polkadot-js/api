@@ -10,6 +10,7 @@ Contributed:
 Changes:
 
 - Add known `intrablockEntropy` storage key
+- Add support for `SkipCheckIfFeeless` signed extension
 - Drop support for Node 16 (EOL 11 Sep 2023)
 - Update to latest Substrate metadata
 
