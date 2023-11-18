@@ -219,7 +219,7 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
    *
    * ```javascript
    * api.tx.balances
-   *   .transfer(<recipientId>, <balance>)
+   *   .transferAllowDeath(<recipientId>, <balance>)
    *   .signAndSend(<keyPair>, ({status}) => {
    *     console.log('tx status', status.asFinalized.toHex());
    *   });

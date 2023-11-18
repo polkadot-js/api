@@ -95,7 +95,7 @@ import { toRxMethod } from './decorateMethod.js';
  *      switchMap(([nonce]) =>
  *        api.tx.balances
  *          // create transfer
- *          .transfer(keyring.bob.address, 12345)
+ *          .transferAllowDeath(keyring.bob.address, 12345)
  *          // sign the transaction
  *          .sign(keyring.alice, { nonce })
  *          // send the transaction

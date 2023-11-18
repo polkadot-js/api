@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 10.11.1 Nov 18, 2023
 
 Contributed:
 
@@ -11,6 +11,7 @@ Changes:
 
 - Add known `intrablockEntropy` storage key
 - Add support for `SkipCheckIfFeeless` signed extension
+- Ensure all usages of `balances.transfer` (in tests) have been removed
 - Drop support for Node 16 (EOL 11 Sep 2023)
 
 
