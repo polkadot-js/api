@@ -50,6 +50,7 @@ export interface CallFunction<A extends AnyTuple = AnyTuple, M = any> extends Ca
 
 export interface Registry {
   readonly chainDecimals: number[];
+  readonly chainIsEthereum: boolean;
   readonly chainSS58: number | undefined;
   readonly chainTokens: string[];
 
