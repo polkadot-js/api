@@ -5,6 +5,8 @@ import type { PortableType } from '../../../interfaces/index.js';
 import type { StorageEntry } from '../../../primitive/types.js';
 import type { Registry } from '../../../types/index.js';
 
+import { getTypeDef } from '@polkadot/types-create';
+
 import { createFunction } from './createFunction.js';
 
 export interface ManualMetadata {
@@ -18,8 +20,8 @@ interface ManualDefinition {
   section: string;
 }
 
-function findSiPrimitive (registry: Registry, _prim: string): PortableType | undefined {
-  const prim = _prim.toLowerCase();
+function findSiPrimitive (registry: Registry, type: string): PortableType | undefined {
+  const prim = type.toLowerCase();
 
   return registry.lookup.types.find((t) =>
     (
@@ -32,27 +34,49 @@ function findSiPrimitive (registry: Registry, _prim: string): PortableType | und
   );
 }
 
-function findSiType (registry: Registry, orig: string): PortableType | undefined {
-  let portable = findSiPrimitive(registry, orig);
+function findSiType (registry: Registry, type: string): PortableType | undefined {
+  let portable = findSiPrimitive(registry, type);
 
-  if (!portable && orig === 'Bytes') {
+  // some types are either Sequence or Arrays, cater for these
+  // specifically (these all come from the base substrate known keys)
+  if (!portable && (type === 'Bytes' || type.startsWith('[u8;'))) {
     const u8 = findSiPrimitive(registry, 'u8');
 
     if (u8) {
-      portable = registry.lookup.types.find((t) =>
-        (
-          t.type.def.isSequence &&
-          t.type.def.asSequence.type.eq(u8.id)
-        ) || (
-          t.type.def.isHistoricMetaCompat &&
-          t.type.def.asHistoricMetaCompat.eq(orig)
-        )
-      );
+      if (type === 'Bytes') {
+        portable = registry.lookup.types.find((t) =>
+          (
+            t.type.def.isSequence &&
+            t.type.def.asSequence.type.eq(u8.id)
+          ) || (
+            t.type.def.isHistoricMetaCompat &&
+            t.type.def.asHistoricMetaCompat.eq(type)
+          )
+        );
+      } else {
+        const td = getTypeDef(type);
+
+        portable = registry.lookup.types.find((t) =>
+          (
+            t.type.def.isArray &&
+            t.type.def.asArray.eq({
+              len: td.length,
+              type: u8.id
+            })
+          ) || (
+            t.type.def.isHistoricMetaCompat &&
+            t.type.def.asHistoricMetaCompat.eq(type)
+          )
+        );
+      }
     }
   }
 
   if (!portable) {
-    console.warn(`Unable to map ${orig} to a lookup index`);
+    // Not fatal, however if this happens the storage key using this
+    // type will not return valid values, rather it will most probably
+    // be decoded incorrectly
+    console.warn(`Unable to map ${type} to a lookup index`);
   }
 
   return portable;
