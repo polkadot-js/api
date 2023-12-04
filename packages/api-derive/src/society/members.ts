@@ -36,11 +36,16 @@ function _membersPrev (api: DeriveApi, accountIds: AccountId[]): Observable<Deri
 }
 
 function _membersCurr (api: DeriveApi, accountIds: AccountId[]): Observable<DeriveSocietyMember[]> {
+  let currentChallengeRound: u32 = api.registry.createType('u32', 0);
+  api.query.society.challengeRoundCount().subscribe(result => {
+    currentChallengeRound = result;
+  });
+
   return combineLatest([
     of(accountIds),
     api.query.society.members.multi(accountIds),
     api.query.society.payouts.multi(accountIds),
-    api.query.society.defenderVotes.multi(accountIds),
+    api.query.society.defenderVotes.multi(accountIds.map(accountId => [currentChallengeRound, accountId])),
     api.query.society.suspendedMembers.multi(accountIds)
   ]).pipe(
     map(([accountIds, members, payouts, defenderVotes, suspendedMembers]) =>
