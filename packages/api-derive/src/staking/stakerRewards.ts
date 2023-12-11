@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { u32, Vec } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
@@ -15,6 +16,16 @@ import { BN_BILLION, BN_ZERO, objectSpread } from '@polkadot/util';
 import { firstMemo, memo } from '../util/index.js';
 
 type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
+
+// handle compatibility between generations of structures
+function extractCompatRewards (ledger?: PalletStakingStakingLedger): u32[] {
+  return ledger
+    ? (
+      ledger.legacyClaimedRewards ||
+      (ledger as PalletStakingStakingLedger & { claimedRewards: Vec<u32> }).claimedRewards
+    )
+    : [];
+}
 
 function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
@@ -97,7 +108,7 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
     if (index !== -1) {
       const valLedger = queryValidators[index].stakingLedger;
 
-      if (valLedger?.claimedRewards.some((e) => reward.era.eq(e))) {
+      if (extractCompatRewards(valLedger).some((e) => reward.era.eq(e))) {
         rm.push(validatorId);
       }
     }
@@ -109,7 +120,7 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
 }
 
 function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: PalletStakingStakingLedger }): DeriveStakerReward[] {
-  const filter = eras.filter((e) => !stakingLedger.claimedRewards.some((s) => s.eq(e)));
+  const filter = eras.filter((e) => !extractCompatRewards(stakingLedger).some((s) => s.eq(e)));
   const validators = valInfo.map(([v]) => v);
   const queryValidators = valInfo.map(([, q]) => q);
 

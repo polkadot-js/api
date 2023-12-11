@@ -108,7 +108,7 @@ declare module '@polkadot/api-base/types/errors' {
       /**
        * The account's identity does not have display field and website field.
        **/
-      WithoutIdentityDisplayAndWebsite: AugmentedError<ApiType>;
+      WithoutRequiredIdentityFields: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -803,6 +803,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ValueTooLarge: AugmentedError<ApiType>;
       /**
+       * Failed to decode the XCM program.
+       **/
+      XCMDecodeFailed: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -1341,10 +1345,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       StickyJudgement: AugmentedError<ApiType>;
       /**
-       * Too many additional fields.
-       **/
-      TooManyFields: AugmentedError<ApiType>;
-      /**
        * Maximum amount of registrars reached. Cannot add any more.
        **/
       TooManyRegistrars: AugmentedError<ApiType>;
@@ -1463,6 +1463,10 @@ declare module '@polkadot/api-base/types/errors' {
        * This can change at any time and may resolve in the future by re-trying.
        **/
       QueuePaused: AugmentedError<ApiType>;
+      /**
+       * Another call is in progress and needs to finish before this call can happen.
+       **/
+      RecursiveDisallowed: AugmentedError<ApiType>;
       /**
        * This message is temporarily unprocessable.
        * 
@@ -1887,9 +1891,9 @@ declare module '@polkadot/api-base/types/errors' {
       /**
        * The amount does not meet the minimum bond to either join or create a pool.
        * 
-       * The depositor can never unbond to a value less than
-       * `Pallet::depositor_min_bond`. The caller does not have nominating
-       * permissions for the pool. Members can never unbond to a value below `MinJoinBond`.
+       * The depositor can never unbond to a value less than `Pallet::depositor_min_bond`. The
+       * caller does not have nominating permissions for the pool. Members can never unbond to a
+       * value below `MinJoinBond`.
        **/
       MinimumBondNotMet: AugmentedError<ApiType>;
       /**
@@ -1905,6 +1909,10 @@ declare module '@polkadot/api-base/types/errors' {
        * other members to be permissionlessly unbonded.
        **/
       NotDestroying: AugmentedError<ApiType>;
+      /**
+       * No imbalance in the ED deposit for the pool.
+       **/
+      NothingToAdjust: AugmentedError<ApiType>;
       /**
        * Either a) the caller cannot make a valid kick or b) the pool is not destroying.
        **/
@@ -2064,6 +2072,14 @@ declare module '@polkadot/api-base/types/errors' {
        * Preimage is too large to store on-chain.
        **/
       TooBig: AugmentedError<ApiType>;
+      /**
+       * Too few hashes were requested to be upgraded (i.e. zero).
+       **/
+      TooFew: AugmentedError<ApiType>;
+      /**
+       * More than `MAX_HASH_UPGRADE_BULK_COUNT` hashes were requested to be upgraded at once.
+       **/
+      TooMany: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -2662,6 +2678,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CommissionTooLow: AugmentedError<ApiType>;
       /**
+       * Used when attempting to use deprecated controller account logic.
+       **/
+      ControllerDeprecated: AugmentedError<ApiType>;
+      /**
        * Duplicate index.
        **/
       DuplicateIndex: AugmentedError<ApiType>;
@@ -2695,6 +2715,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Invalid number of nominations.
        **/
       InvalidNumberOfNominations: AugmentedError<ApiType>;
+      /**
+       * No nominators exist on this page.
+       **/
+      InvalidPage: AugmentedError<ApiType>;
       /**
        * Slash record index out of bounds.
        **/
@@ -2776,7 +2800,7 @@ declare module '@polkadot/api-base/types/errors' {
     };
     sudo: {
       /**
-       * Sender must be the Sudo account
+       * Sender must be the Sudo account.
        **/
       RequireSudo: AugmentedError<ApiType>;
       /**
@@ -2790,6 +2814,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CallFiltered: AugmentedError<ApiType>;
       /**
+       * The specified [`Task`] failed during execution.
+       **/
+      FailedTask: AugmentedError<ApiType>;
+      /**
        * Failed to extract the runtime version from the new runtime.
        * 
        * Either calling `Core_version` or decoding `RuntimeVersion` failed.
@@ -2800,6 +2828,10 @@ declare module '@polkadot/api-base/types/errors' {
        * and the new runtime.
        **/
       InvalidSpecName: AugmentedError<ApiType>;
+      /**
+       * The specified [`Task`] is not valid.
+       **/
+      InvalidTask: AugmentedError<ApiType>;
       /**
        * Suicide called when the account has non-default composite data.
        **/
@@ -2813,6 +2845,16 @@ declare module '@polkadot/api-base/types/errors' {
        * and the new runtime.
        **/
       SpecVersionNeedsToIncrease: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    tasksExample: {
+      /**
+       * The referenced task was not found.
+       **/
+      NotFound: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -2892,6 +2934,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyKnown: AugmentedError<ApiType>;
       /**
+       * The tip given was too generous.
+       **/
+      MaxTipAmountExceeded: AugmentedError<ApiType>;
+      /**
        * The account attempting to retract the tip is not the finder of the tip.
        **/
       NotFinder: AugmentedError<ApiType>;
@@ -2929,10 +2975,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Attempting to store empty transaction
        **/
       EmptyTransaction: AugmentedError<ApiType>;
-      /**
-       * Insufficient account balance.
-       **/
-      InsufficientFunds: AugmentedError<ApiType>;
       /**
        * Proof failed verification.
        **/
@@ -2976,6 +3018,22 @@ declare module '@polkadot/api-base/types/errors' {
     };
     treasury: {
       /**
+       * The payment has already been attempted.
+       **/
+      AlreadyAttempted: AugmentedError<ApiType>;
+      /**
+       * The spend is not yet eligible for payout.
+       **/
+      EarlyPayout: AugmentedError<ApiType>;
+      /**
+       * The balance of the asset kind is not convertible to the balance of the native asset.
+       **/
+      FailedToConvertBalance: AugmentedError<ApiType>;
+      /**
+       * The payment has neither failed nor succeeded yet.
+       **/
+      Inconclusive: AugmentedError<ApiType>;
+      /**
        * The spend origin is valid but the amount it is allowed to spend is lower than the
        * amount to be spent.
        **/
@@ -2985,13 +3043,25 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InsufficientProposersBalance: AugmentedError<ApiType>;
       /**
-       * No proposal or bounty at that index.
+       * No proposal, bounty or spend at that index.
        **/
       InvalidIndex: AugmentedError<ApiType>;
+      /**
+       * The payout was not yet attempted/claimed.
+       **/
+      NotAttempted: AugmentedError<ApiType>;
+      /**
+       * There was some issue with the mechanism of payment.
+       **/
+      PayoutError: AugmentedError<ApiType>;
       /**
        * Proposal has not been approved.
        **/
       ProposalNotApproved: AugmentedError<ApiType>;
+      /**
+       * The spend has expired and cannot be claimed.
+       **/
+      SpendExpired: AugmentedError<ApiType>;
       /**
        * Too many approvals in the queue.
        **/
