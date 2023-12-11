@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { AccountId, Balance, BlockNumber, Call, Hash, PreimageStatus } from '@polkadot/types/interfaces';
-import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
+import type { u128 } from '@polkadot/types';
+import type { AccountId, AccountId32, Balance, BlockNumber, Call, Hash, PreimageStatus } from '@polkadot/types/interfaces';
+import type { FrameSupportPreimagesBounded, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 import type { Bytes, Option } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
@@ -18,6 +19,16 @@ import { getImageHashBounded } from './util.js';
 
 type PreimageInfo = [Bytes, AccountId, Balance, BlockNumber];
 type OldPreimage = ITuple<PreimageInfo>;
+type CompatStatusU = PalletPreimageRequestStatus['asUnrequested'] & { deposit: ITuple<[AccountId32, u128]> };
+type CompatStatusR = PalletPreimageRequestStatus['asRequested'] & { deposit: Option<ITuple<[AccountId32, u128]>> };
+
+function getUnrequestedTicket (status: PalletPreimageRequestStatus['asUnrequested']): [AccountId32, u128] {
+  return status.ticket || (status as CompatStatusU).deposit;
+}
+
+function getRequestedTicket (status: PalletPreimageRequestStatus['asRequested']): [AccountId32, u128] {
+  return (status.maybeTicket || (status as CompatStatusR).deposit).unwrapOrDefault();
+}
 
 function isDemocracyPreimage (api: DeriveApi, imageOpt: Option<OldPreimage> | Option<PreimageStatus>): imageOpt is Option<PreimageStatus> {
   return !!imageOpt && !api.query.democracy['dispatchQueue'];
@@ -55,14 +66,14 @@ function parseDemocracy (api: DeriveApi, imageOpt: Option<OldPreimage> | Option<
   return constructProposal(api, imageOpt.unwrap());
 }
 
-function parseImage (api: DeriveApi, [proposalHash, status, bytes]: [HexString, PalletPreimageRequestStatus | null, Bytes | null]): DeriveProposalImage | undefined {
+function parseImage (api: DeriveApi, [proposalHash, status, bytes]: [HexString, PalletPreimageRequestStatus | PalletPreimageOldRequestStatus | null, Bytes | null]): DeriveProposalImage | undefined {
   if (!status) {
     return undefined;
   }
 
   const [proposer, balance] = status.isUnrequested
-    ? status.asUnrequested.deposit
-    : status.asRequested.deposit.unwrapOrDefault();
+    ? getUnrequestedTicket((status as PalletPreimageRequestStatus).asUnrequested)
+    : getRequestedTicket((status as PalletPreimageRequestStatus).asRequested);
   let proposal: Call | undefined;
 
   if (bytes) {
@@ -112,7 +123,7 @@ function getImages (api: DeriveApi, bounded: (FrameSupportPreimagesBounded | Uin
           let ptr = -1;
 
           return statuses
-            .map((s, i): [HexString, PalletPreimageRequestStatus | null, Bytes | null] =>
+            .map((s, i): [HexString, PalletPreimageRequestStatus | PalletPreimageOldRequestStatus | null, Bytes | null] =>
               s
                 ? [hashes[i], s, optBytes[++ptr].unwrapOr(null)]
                 : [hashes[i], null, null]
