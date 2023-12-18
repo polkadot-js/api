@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 10.11.2 Dec 18, 2023
+
+Contributed:
+
+- Add `chainIsEthereum` key to `Registry` interface (Thanks to https://github.com/fgamundi)
+- Adjust types for `ChargeAssetTxPayment` (Thanks to https://github.com/bee344)
+
+Changes:
+
+- Support `[8a;32]` types in known keys
+- Update to latest Polkadot, Kusama & Substrate metadata
+
+
 ## 10.11.1 Nov 18, 2023
 
 Contributed:
