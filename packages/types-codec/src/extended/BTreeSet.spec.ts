@@ -63,6 +63,7 @@ const mockEnumSetObj = [
 ];
 
 const mockOptionEnumSetObj = [
+  new Option(registry, MockEnum, null),
   new Option(registry, MockEnum, { Key3: new U32TextTuple(registry, [2, 'ba']) }),
   new Option(registry, MockEnum, { Key3: new U32TextTuple(registry, [2, 'b']) }),
   new Option(registry, MockEnum, { Key2: new MockStruct(registry, { int: -1, text: 'b' }) }),
@@ -212,8 +213,9 @@ describe('BTreeSet', (): void => {
 
     it('correctly sorts complex Option(enum) values', (): void => {
       expect(
-        Array.from(new (BTreeSet.with(MockOptionEnum))(registry, mockOptionEnumSetObj)).map((k) => k.unwrap().toJSON())
+        Array.from(new (BTreeSet.with(MockOptionEnum))(registry, mockOptionEnumSetObj)).map((k) => k.value.toJSON())
       ).toEqual([
+        null,
         { key1: { int: -1, text: 'b' } },
         { key1: { int: 1, text: 'b' } },
         { key2: { int: -1, text: 'b' } },

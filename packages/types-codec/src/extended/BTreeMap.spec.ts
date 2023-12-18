@@ -56,6 +56,7 @@ mockU32EnumMap.set(new MockEnum(registry, { Key2: new MockStruct(registry, { int
 mockU32EnumMap.set(new MockEnum(registry, { Key1: new MockStruct(registry, { int: 1, text: 'b' }) }), new U32(registry, 25));
 mockU32EnumMap.set(new MockEnum(registry, { Key1: new MockStruct(registry, { int: -1, text: 'b' }) }), new U32(registry, 69));
 
+mockU32OptionEnumMap.set(new Option(registry, MockEnum, null), new U32(registry, 13));
 mockU32OptionEnumMap.set(new Option(registry, MockEnum, { Key3: new U32TextTuple(registry, [2, 'ba']) }), new U32(registry, 13));
 mockU32OptionEnumMap.set(new Option(registry, MockEnum, { Key3: new U32TextTuple(registry, [2, 'b']) }), new U32(registry, 42));
 mockU32OptionEnumMap.set(new Option(registry, MockEnum, { Key2: new MockStruct(registry, { int: -1, text: 'b' }) }), new U32(registry, 7));
@@ -136,8 +137,9 @@ describe('BTreeMap', (): void => {
 
   it('correctly sorts Option(Enum) keys', (): void => {
     expect(
-      Array.from(new (BTreeMap.with(MockOptionEnum, U32))(registry, mockU32OptionEnumMap).keys()).map((k) => k.unwrap().toJSON())
+      Array.from(new (BTreeMap.with(MockOptionEnum, U32))(registry, mockU32OptionEnumMap).keys()).map((k) => k.value.toJSON())
     ).toEqual([
+      null,
       { key1: { int: -1, text: 'b' } },
       { key1: { int: 1, text: 'b' } },
       { key2: { int: -1, text: 'b' } },
