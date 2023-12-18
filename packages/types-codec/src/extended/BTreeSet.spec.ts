@@ -7,7 +7,7 @@ import type { CodecClass, CodecTo } from '@polkadot/types-codec/types';
 import type { ITuple } from '../types/interfaces.js';
 
 import { TypeRegistry } from '@polkadot/types';
-import { BTreeSet, Enum, I32, Struct, Text, Tuple, U32 } from '@polkadot/types-codec';
+import { BTreeSet, Enum, I32, Option, Struct, Text, Tuple, U32 } from '@polkadot/types-codec';
 
 const registry = new TypeRegistry();
 
@@ -20,6 +20,7 @@ class MockEnum extends Enum.with({
   Key2: MockStruct,
   Key3: U32TextTuple
 }) {}
+class MockOptionEnum extends Option.with(MockEnum) {}
 
 const mockU32Set = new Set<U32>();
 
@@ -59,6 +60,21 @@ const mockEnumSetObj = [
   new MockEnum(registry, { Key2: new MockStruct(registry, { int: -1, text: 'b' }) }),
   new MockEnum(registry, { Key1: new MockStruct(registry, { int: 1, text: 'b' }) }),
   new MockEnum(registry, { Key1: new MockStruct(registry, { int: -1, text: 'b' }) })
+];
+
+const mockOptionEnumSetObj = [
+  new Option(registry, MockEnum, { Key3: new U32TextTuple(registry, [2, 'ba']) }),
+  new Option(registry, MockEnum, { Key3: new U32TextTuple(registry, [2, 'b']) }),
+  new Option(registry, MockEnum, { Key2: new MockStruct(registry, { int: -1, text: 'b' }) }),
+  new Option(registry, MockEnum, { Key1: new MockStruct(registry, { int: 1, text: 'b' }) }),
+  new Option(registry, MockEnum, { Key1: new MockStruct(registry, { int: -1, text: 'b' }) })
+];
+const mockDuplicateTextSetObj = [
+  new Text(registry, 'baz'),
+  new Text(registry, 'bb'),
+  new Text(registry, 'bb'), // duplicate.
+  new Text(registry, 'ba'),
+  new Text(registry, 'c')
 ];
 
 describe('BTreeSet', (): void => {
@@ -171,6 +187,12 @@ describe('BTreeSet', (): void => {
       ).toEqual(['b', 'ba', 'baz', 'bb', 'c']);
     });
 
+    it('Reject duplicate values', (): void => {
+      expect(
+        () => new (BTreeSet.with(Text))(registry, mockDuplicateTextSetObj)
+      ).toThrow(/Duplicate value in BTreeSet/);
+    });
+
     it('correctly sorts complex tuple values', (): void => {
       expect(
         Array.from(new (BTreeSet.with(U32TextTuple))(registry, mockTupleSetObj)).map((k) => k.toJSON())
@@ -185,6 +207,18 @@ describe('BTreeSet', (): void => {
         { int: 1, text: 'b' },
         { int: -1, text: 'ba' },
         { int: -2, text: 'baz' }
+      ]);
+    });
+
+    it('correctly sorts complex Option(enum) values', (): void => {
+      expect(
+        Array.from(new (BTreeSet.with(MockOptionEnum))(registry, mockOptionEnumSetObj)).map((k) => k.unwrap().toJSON())
+      ).toEqual([
+        { key1: { int: -1, text: 'b' } },
+        { key1: { int: 1, text: 'b' } },
+        { key2: { int: -1, text: 'b' } },
+        { key3: [2, 'b'] },
+        { key3: [2, 'ba'] }
       ]);
     });
 
