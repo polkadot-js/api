@@ -6,7 +6,7 @@
 import type { CodecClass, ITuple } from '@polkadot/types-codec/types';
 
 import { TypeRegistry } from '@polkadot/types';
-import { BTreeMap, Enum, I32, Struct, Text, Tuple, U32 } from '@polkadot/types-codec';
+import { BTreeMap, Enum, I32, Option, Struct, Text, Tuple, U32 } from '@polkadot/types-codec';
 import { stringToU8a } from '@polkadot/util';
 
 const registry = new TypeRegistry();
@@ -20,14 +20,20 @@ class MockEnum extends Enum.with({
   Key2: MockStruct,
   Key3: U32TextTuple
 }) {}
+class MockOptionEnum extends Option.with(MockEnum) {}
 
 const mockU32TextMap = new Map<Text, U32>();
+const mockU32DuplicateTextMap = new Map<Text, U32>();
 const mockU32TupleMap = new Map<ITuple<[U32, Text]>, U32>();
 const mockU32I32Map = new Map<I32, U32>();
 const mockU32StructMap = new Map<MockStruct, U32>();
 const mockU32EnumMap = new Map<MockEnum, U32>();
+const mockU32OptionEnumMap = new Map<MockOptionEnum, U32>();
 
 mockU32TextMap.set(new Text(registry, 'bazzing'), new U32(registry, 69));
+
+mockU32DuplicateTextMap.set(new Text(registry, 'bazzing'), new U32(registry, 42));
+mockU32DuplicateTextMap.set(new Text(registry, 'bazzing'), new U32(registry, 43));
 
 mockU32TupleMap.set((new U32TextTuple(registry, [2, 'ba'])), new U32(registry, 42));
 mockU32TupleMap.set((new U32TextTuple(registry, [2, 'b'])), new U32(registry, 7));
@@ -49,6 +55,12 @@ mockU32EnumMap.set(new MockEnum(registry, { Key3: new U32TextTuple(registry, [2,
 mockU32EnumMap.set(new MockEnum(registry, { Key2: new MockStruct(registry, { int: -1, text: 'b' }) }), new U32(registry, 7));
 mockU32EnumMap.set(new MockEnum(registry, { Key1: new MockStruct(registry, { int: 1, text: 'b' }) }), new U32(registry, 25));
 mockU32EnumMap.set(new MockEnum(registry, { Key1: new MockStruct(registry, { int: -1, text: 'b' }) }), new U32(registry, 69));
+
+mockU32OptionEnumMap.set(new Option(registry, MockEnum, { Key3: new U32TextTuple(registry, [2, 'ba']) }), new U32(registry, 13));
+mockU32OptionEnumMap.set(new Option(registry, MockEnum, { Key3: new U32TextTuple(registry, [2, 'b']) }), new U32(registry, 42));
+mockU32OptionEnumMap.set(new Option(registry, MockEnum, { Key2: new MockStruct(registry, { int: -1, text: 'b' }) }), new U32(registry, 7));
+mockU32OptionEnumMap.set(new Option(registry, MockEnum, { Key1: new MockStruct(registry, { int: 1, text: 'b' }) }), new U32(registry, 25));
+mockU32OptionEnumMap.set(new Option(registry, MockEnum, { Key1: new MockStruct(registry, { int: -1, text: 'b' }) }), new U32(registry, 69));
 
 describe('BTreeMap', (): void => {
   it('decodes null', (): void => {
@@ -76,6 +88,12 @@ describe('BTreeMap', (): void => {
 
     s.set('value', new (BTreeMap.with(Text, U32))(registry, mockU32TextMap));
     expect(s.toString()).toBe('{"placeholder":0,"value":{"bazzing":69}}');
+  });
+
+  it('throws on duplicate keys', (): void => {
+    expect(
+      () => new (BTreeMap.with(Text, U32))(registry, mockU32DuplicateTextMap)
+    ).toThrow(/Duplicate value in BTreeMap/);
   });
 
   it('throws when it cannot decode', (): void => {
@@ -113,6 +131,18 @@ describe('BTreeMap', (): void => {
       { int: 1, text: 'b' },
       { int: -1, text: 'ba' },
       { int: -2, text: 'baz' }
+    ]);
+  });
+
+  it('correctly sorts Option(Enum) keys', (): void => {
+    expect(
+      Array.from(new (BTreeMap.with(MockOptionEnum, U32))(registry, mockU32OptionEnumMap).keys()).map((k) => k.unwrap().toJSON())
+    ).toEqual([
+      { key1: { int: -1, text: 'b' } },
+      { key1: { int: 1, text: 'b' } },
+      { key2: { int: -1, text: 'b' } },
+      { key3: [2, 'b'] },
+      { key3: [2, 'ba'] }
     ]);
   });
 
