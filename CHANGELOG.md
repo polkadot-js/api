@@ -10,7 +10,7 @@ Contributed:
 Changes:
 
 - Support `[8a;32]` types in known keys
-- Update to latest Polkadot, Kusama & Substrate metadata
+- Update to latest Substrate metadata
 
 
 ## 10.11.1 Nov 18, 2023
