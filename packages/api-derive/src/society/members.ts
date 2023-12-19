@@ -42,7 +42,7 @@ function _membersCurr (api: DeriveApi, accountIds: AccountId[]): Observable<Deri
     api.query.society.payouts.multi(accountIds),
     api.query.society.challengeRoundCount().pipe(
       switchMap((round) =>
-        api.query.society.defenderVotes.multi(accountIds.map(accountId => [round, accountId]))
+        api.query.society.defenderVotes.multi(accountIds.map((accountId) => [round, accountId]))
       )
     ),
     api.query.society.suspendedMembers.multi(accountIds)
