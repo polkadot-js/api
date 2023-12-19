@@ -107,6 +107,7 @@
        1	qiuhao                        	update DeriveCustom type (#2581)
        1	r0t0r-r0t0r                   	Fix memory leak on raw rpc call (#4505)
        1	Raphael Flechtner             	fix: typegen disconnect ws on success (#4901)
+       1	Robert Gabriel Jakabosky      	Fix sorting of `Option` values and error on duplicates from BTreeSet/BTreeMap. (#5731)
        1	Robert Hambrock               	update MMR API (#5479)
        1	Rocco Musolino                	remove broken link (#2671)
        1	sander2                       	fix: type generation for nested tuples (#5395)
