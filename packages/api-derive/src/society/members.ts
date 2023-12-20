@@ -53,9 +53,7 @@ function _membersCurr (api: DeriveApi, accountIds: AccountId[]): Observable<Deri
           members[index].isSome
             ? {
               accountId,
-              isDefenderVoter: defenderVotes[index].isSome
-                ? defenderVotes[index].unwrap().approve.isTrue
-                : false,
+              isDefenderVoter: defenderVotes[index].isSome,
               isSuspended: suspendedMembers[index].isSome,
               member: members[index].unwrap(),
               payouts: payouts[index].payouts
