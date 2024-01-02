@@ -114,6 +114,9 @@ function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
     sendJsonRpc: (rpc) => {
       sendJsonRpcInterceptor(rpc);
       _receivedRequests.push(rpc);
+    },
+    addChain: async (chainSpec, jsonRpcCallback) => {
+      return getFakeChain(chainSpec, jsonRpcCallback ?? (() => {}));
     }
   };
 }
