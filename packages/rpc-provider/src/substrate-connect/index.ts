@@ -155,7 +155,10 @@ export class ScProvider implements ProviderInterface {
     };
 
     const addChain = this.#sharedSandbox
-      ? (async (...args) => (await this.#sharedSandbox!.#chain)!.addChain(...args)) as ScType.AddChain
+      ? (async (...args) => {
+          const source = this.#sharedSandbox!;
+          return (await source.#chain)!.addChain(...args);
+        }) as ScType.AddChain
       : this.#wellKnownChains.has(this.#spec as ScType.WellKnownChain)
         ? client.addWellKnownChain
         : client.addChain;
