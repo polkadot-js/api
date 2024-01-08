@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/typegen authors & contributors
+// Copyright 2017-2024 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Connects to the local chain and outputs a re-usable calls-only chain definition in  the form
