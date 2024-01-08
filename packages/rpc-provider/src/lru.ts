@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2024 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Assuming all 1.5MB responses, we apply a default allowing for 192MB

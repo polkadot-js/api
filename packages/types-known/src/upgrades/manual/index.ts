@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types-known authors & contributors
+// Copyright 2017-2024 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export { upgrades as kusama } from './kusama.js';
