@@ -108,7 +108,7 @@ export class WsProvider implements ProviderInterface {
    * @param {Record<string, string>} headers The headers provided to the underlying WebSocket
    * @param {number} [timeout] Custom timeout value used per request . Defaults to `DEFAULT_TIMEOUT_MS`
    */
-  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, cacheCapacity: number = DEFAULT_CAPACITY, timeout?: number) {
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number, cacheCapacity?: number) {
     const endpoints = Array.isArray(endpoint)
       ? endpoint
       : [endpoint];
@@ -122,7 +122,7 @@ export class WsProvider implements ProviderInterface {
         throw new Error(`Endpoint should start with 'ws://', received '${endpoint}'`);
       }
     });
-    this.#callCache = new LRUCache(cacheCapacity);
+    this.#callCache = new LRUCache(cacheCapacity || DEFAULT_CAPACITY);
     this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;
     this.#coder = new RpcCoder();
