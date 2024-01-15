@@ -6,7 +6,7 @@
 import type * as Sc from '@substrate/connect';
 import type { HealthChecker, SmoldotHealth } from './types.js';
 
-import { stringify } from '@polkadot/util';
+import { noop, stringify } from '@polkadot/util';
 
 import { ScProvider } from './index.js';
 
@@ -107,6 +107,8 @@ function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
           : stringify(response)
       );
     },
+    addChain: (chainSpec, jsonRpcCallback) =>
+      Promise.resolve(getFakeChain(chainSpec, jsonRpcCallback ?? noop)),
     remove: () => {
       terminateInterceptor();
       _isTerminated = true;
@@ -114,9 +116,6 @@ function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
     sendJsonRpc: (rpc) => {
       sendJsonRpcInterceptor(rpc);
       _receivedRequests.push(rpc);
-    },
-    addChain: async (chainSpec, jsonRpcCallback) => {
-      return getFakeChain(chainSpec, jsonRpcCallback ?? (() => {}));
     }
   };
 }
