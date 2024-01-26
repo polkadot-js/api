@@ -89,6 +89,7 @@
        1	Lae                           	Make sure awaiting on an api object won't stuck forever on error (#1763)
        1	Lezek123                      	BTreeSet and BTreeMap - encoding and serialization fixes (#3789)
        1	Lovesh Harchandani            	Fix name of "getBlock" in package "api-derive" and export it in "index.ts" (#2857)
+       1	Marc Fornós                   	add beefy compact signed commitment definition (#5781)
        1	Mario Neises                  	fix usage with typescript (#405)
        1	Mario Pino                    	Add PolkaStats to API users (#1593)
        1	Mark Robert Henderson         	Update warnings.ts to have the latest URLs (#2720)
