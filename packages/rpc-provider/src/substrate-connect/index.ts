@@ -154,9 +154,17 @@ export class ScProvider implements ProviderInterface {
       callback?.(decodedResponse);
     };
 
-    const addChain = this.#wellKnownChains.has(this.#spec as ScType.WellKnownChain)
-      ? client.addWellKnownChain
-      : client.addChain;
+    const addChain = this.#sharedSandbox
+      ? (async (...args) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const source = this.#sharedSandbox!;
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return (await source.#chain)!.addChain(...args);
+      }) as ScType.AddChain
+      : this.#wellKnownChains.has(this.#spec as ScType.WellKnownChain)
+        ? client.addWellKnownChain
+        : client.addChain;
 
     this.#chain = addChain(this.#spec as ScType.WellKnownChain, onResponse).then((chain) => {
       hc.setSendJsonRpc(chain.sendJsonRpc);
