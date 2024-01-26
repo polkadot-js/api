@@ -28,6 +28,12 @@ export default {
       first: 'BeefyVoteMessage',
       second: 'BeefyVoteMessage'
     },
+    BeefyCompactSignedCommitment: {
+      commitment: 'BeefyCommitment',
+      signaturesFrom: 'Vec<u8>',
+      validatorSetLen: 'u32',
+      signaturesCompact: 'Vec<EcdsaSignature>'
+    },
     BeefySignedCommitment: {
       commitment: 'BeefyCommitment',
       signatures: 'Vec<Option<EcdsaSignature>>'
@@ -35,7 +41,7 @@ export default {
     BeefyVersionedFinalityProof: {
       _enum: {
         V0: 'Null',
-        V1: 'BeefySignedCommitment'
+        V1: 'BeefyCompactSignedCommitment'
       }
     },
     BeefyNextAuthoritySet: {

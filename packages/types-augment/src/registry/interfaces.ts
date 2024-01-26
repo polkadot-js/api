@@ -15,7 +15,7 @@ import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interface
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeGenesisConfiguration, BabeGenesisConfigurationV1, BabeWeight, Epoch, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, OpaqueKeyOwnershipProof, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, ReserveData, ReserveIdentifier, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
-import type { BeefyAuthoritySet, BeefyCommitment, BeefyEquivocationProof, BeefyId, BeefyNextAuthoritySet, BeefyPayload, BeefyPayloadId, BeefySignedCommitment, BeefyVersionedFinalityProof, BeefyVoteMessage, MmrRootHash, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
+import type { BeefyAuthoritySet, BeefyCommitment, BeefyCompactSignedCommitment, BeefyEquivocationProof, BeefyId, BeefyNextAuthoritySet, BeefyPayload, BeefyPayloadId, BeefySignedCommitment, BeefyVersionedFinalityProof, BeefyVoteMessage, MmrRootHash, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { BenchmarkBatch, BenchmarkConfig, BenchmarkList, BenchmarkMetadata, BenchmarkParameter, BenchmarkResult } from '@polkadot/types/interfaces/benchmark';
 import type { CheckInherentsResult, InherentData, InherentIdentifier } from '@polkadot/types/interfaces/blockbuilder';
 import type { BridgeMessageId, BridgedBlockHash, BridgedBlockNumber, BridgedHeader, CallOrigin, ChainId, DeliveredMessages, DispatchFeePayment, InboundLaneData, InboundRelayer, InitializationData, LaneId, MessageData, MessageKey, MessageNonce, MessagesDeliveryProofOf, MessagesProofOf, OperatingMode, OutboundLaneData, OutboundMessageFee, OutboundPayload, Parameter, RelayerId, UnrewardedRelayer, UnrewardedRelayersState } from '@polkadot/types/interfaces/bridges';
@@ -153,6 +153,7 @@ declare module '@polkadot/types/types/registry' {
     BalanceStatus: BalanceStatus;
     BeefyAuthoritySet: BeefyAuthoritySet;
     BeefyCommitment: BeefyCommitment;
+    BeefyCompactSignedCommitment: BeefyCompactSignedCommitment;
     BeefyEquivocationProof: BeefyEquivocationProof;
     BeefyId: BeefyId;
     BeefyKey: BeefyKey;

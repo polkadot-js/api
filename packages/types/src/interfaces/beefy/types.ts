@@ -21,6 +21,14 @@ export interface BeefyCommitment extends Struct {
   readonly validatorSetId: ValidatorSetId;
 }
 
+/** @name BeefyCompactSignedCommitment */
+export interface BeefyCompactSignedCommitment extends Struct {
+  readonly commitment: BeefyCommitment;
+  readonly signaturesFrom: Bytes;
+  readonly validatorSetLen: u32;
+  readonly signaturesCompact: Vec<EcdsaSignature>;
+}
+
 /** @name BeefyEquivocationProof */
 export interface BeefyEquivocationProof extends Struct {
   readonly first: BeefyVoteMessage;
@@ -53,7 +61,7 @@ export interface BeefySignedCommitment extends Struct {
 export interface BeefyVersionedFinalityProof extends Enum {
   readonly isV0: boolean;
   readonly isV1: boolean;
-  readonly asV1: BeefySignedCommitment;
+  readonly asV1: BeefyCompactSignedCommitment;
   readonly type: 'V0' | 'V1';
 }
 
