@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { SignedBlockExtended } from '../type/types.js';
 import type { DeriveApi } from '../types.js';
 
-import { switchMap } from 'rxjs';
+import { concatMap } from 'rxjs';
 
 import { memo } from '../util/index.js';
 
@@ -16,7 +16,7 @@ import { memo } from '../util/index.js';
 export function subscribeFinalizedBlocks (instanceId: string, api: DeriveApi): () => Observable<SignedBlockExtended> {
   return memo(instanceId, (): Observable<SignedBlockExtended> =>
     api.derive.chain.subscribeFinalizedHeads().pipe(
-      switchMap((header) =>
+      concatMap((header) =>
         api.derive.chain.getBlock(header.createdAtHash || header.hash)
       )
     )
