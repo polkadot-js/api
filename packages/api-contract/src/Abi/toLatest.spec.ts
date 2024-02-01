@@ -144,7 +144,6 @@ describe('v5ToLatest', (): void => {
   const latest = v5ToLatest(registry, contract.asV5);
 
   it('has new event fields', (): void => {
-
     expect(
       latest.spec.events.every(e=>e.has("module_path"))
     ).toEqual(true);

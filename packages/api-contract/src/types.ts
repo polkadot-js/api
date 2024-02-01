@@ -28,6 +28,7 @@ export interface AbiEvent {
   fromU8a: (data: Uint8Array) => DecodedEvent;
   identifier: string;
   index: number;
+  signatureTopic?: string;
 }
 
 export interface AbiMessage {
