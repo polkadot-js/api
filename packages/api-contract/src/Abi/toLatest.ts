@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ContractMetadataLatest,  ContractMetadataV5 } from '@polkadot/types/interfaces';
+import type { ContractMetadataLatest, ContractMetadataV5 } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 
 import { v0ToV1 } from './toV1.js';

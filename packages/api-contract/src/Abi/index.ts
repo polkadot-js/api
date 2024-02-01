@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec, EventRecord, Hash } from '@polkadot/types/interfaces';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec, EventRecord } from '@polkadot/types/interfaces';
 import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
@@ -162,16 +162,19 @@ export class Abi {
   /**
    * Warning: Unstable API, bound to change
    */
-  public decodeEvent (data: Bytes | Uint8Array, topic:EventRecord['topics'][0]): DecodedEvent {
+  public decodeEvent (data: Bytes | Uint8Array, topic: EventRecord['topics'][0]): DecodedEvent {
     // try to find a topic signature match - ink! v5 upwards
-    let event = this.events.find(e=>e.signatureTopic === topic.toHex())
-    if(event){
+    let event = this.events.find((e) => e.signatureTopic === topic.toHex());
+
+    if (event) {
       return event.fromU8a(data.subarray(0));
     }
 
     // otherwise fallback to using the index to determine event - ink! v4 downwards
     const index = data[0];
+
     event = this.events[index];
+
     if (!event) {
       throw new Error(`Unable to find event with index ${index}`);
     }
@@ -249,9 +252,9 @@ export class Abi {
         args: this.#decodeArgs(args, data),
         event
       }),
-      identifier: [spec.module_path, spec.label.toString()].join("::"),
-      signatureTopic: spec.signature_topic.toHex() || undefined,
+      identifier: [spec.module_path, spec.label.toString()].join('::'),
       index,
+      signatureTopic: spec.signature_topic.toHex() || undefined
     };
 
     return event;

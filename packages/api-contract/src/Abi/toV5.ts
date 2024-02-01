@@ -12,7 +12,7 @@ export function v4ToV5 (registry: Registry, v4: ContractMetadataV4): ContractMet
       events: v4.spec.events.map((e) =>
         registry.createType('ContractEventSpecV3', objectSpread({
           module_path: undefined,
-          signature_topic: undefined,
+          signature_topic: undefined
         }, e))
       )
     })

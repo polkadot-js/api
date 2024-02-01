@@ -115,7 +115,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       // ContractEmitted is the current generation, ContractExecution is the previous generation
       new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
         records
-          .map(({ event: { data: [, data] },topics }): DecodedEvent | null => {
+          .map(({ event: { data: [, data] }, topics }): DecodedEvent | null => {
             try {
               return this.abi.decodeEvent(data as Bytes, topics[0]);
             } catch (error) {

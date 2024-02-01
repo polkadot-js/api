@@ -145,13 +145,11 @@ describe('v5ToLatest', (): void => {
 
   it('has new event fields', (): void => {
     expect(
-      latest.spec.events.every(e=>e.has("module_path"))
+      latest.spec.events.every((e) => e.has('module_path'))
     ).toEqual(true);
 
     expect(
-      latest.spec.events.every(e=>e.has("signature_topic"))
+      latest.spec.events.every((e) => e.has('signature_topic'))
     ).toEqual(true);
-
   });
 });
-
