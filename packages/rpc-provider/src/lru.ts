@@ -1,10 +1,10 @@
-// Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2024 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Assuming all 1.5MB responses, we apply a default allowing for 192MB
 // cache space (depending on the historic queries this would vary, metadata
 // for Kusama/Polkadot/Substrate falls between 600-750K, 2x for estimate)
-const DEFAULT_CAPACITY = 128;
+export const DEFAULT_CAPACITY = 128;
 
 class LRUNode {
   readonly key: string;

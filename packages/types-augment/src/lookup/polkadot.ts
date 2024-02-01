@@ -5,6 +5,21 @@
 
 export default {
   /**
+   * Lookup59: pallet_staking::Exposure<sp_core::crypto::AccountId32, Balance>
+   **/
+  PalletStakingExposure: {
+    total: 'Compact<u128>',
+    own: 'Compact<u128>',
+    others: 'Vec<PalletStakingIndividualExposure>'
+  },
+  /**
+   * Lookup62: pallet_staking::IndividualExposure<sp_core::crypto::AccountId32, Balance>
+   **/
+  PalletStakingIndividualExposure: {
+    who: 'AccountId32',
+    value: 'Compact<u128>'
+  },
+  /**
    * Lookup103: polkadot_runtime::SessionKeys
    **/
   PolkadotRuntimeSessionKeys: {
@@ -312,6 +327,40 @@ export default {
    **/
   PolkadotRuntimeCommonClaimsStatementKind: {
     _enum: ['Regular', 'Saft']
+  },
+  /**
+   * Lookup161: pallet_identity::types::IdentityInfo<FieldLimit>
+   **/
+  PalletIdentityIdentityInfo: {
+    additional: 'Vec<(Data,Data)>',
+    display: 'Data',
+    legal: 'Data',
+    web: 'Data',
+    riot: 'Data',
+    email: 'Data',
+    pgpFingerprint: 'Option<[u8;20]>',
+    image: 'Data',
+    twitter: 'Data'
+  },
+  /**
+   * Lookup198: pallet_identity::types::BitFlags<pallet_identity::types::IdentityField>
+   **/
+  PalletIdentityBitFlags: {
+    _bitLength: 64,
+    Display: 1,
+    Legal: 2,
+    Web: 4,
+    Riot: 8,
+    Email: 16,
+    PgpFingerprint: 32,
+    Image: 64,
+    Twitter: 128
+  },
+  /**
+   * Lookup199: pallet_identity::types::IdentityField
+   **/
+  PalletIdentityIdentityField: {
+    _enum: ['__Unused0', 'Display', 'Legal', '__Unused3', 'Web', '__Unused5', '__Unused6', '__Unused7', 'Riot', '__Unused9', '__Unused10', '__Unused11', '__Unused12', '__Unused13', '__Unused14', '__Unused15', 'Email', '__Unused17', '__Unused18', '__Unused19', '__Unused20', '__Unused21', '__Unused22', '__Unused23', '__Unused24', '__Unused25', '__Unused26', '__Unused27', '__Unused28', '__Unused29', '__Unused30', '__Unused31', 'PgpFingerprint', '__Unused33', '__Unused34', '__Unused35', '__Unused36', '__Unused37', '__Unused38', '__Unused39', '__Unused40', '__Unused41', '__Unused42', '__Unused43', '__Unused44', '__Unused45', '__Unused46', '__Unused47', '__Unused48', '__Unused49', '__Unused50', '__Unused51', '__Unused52', '__Unused53', '__Unused54', '__Unused55', '__Unused56', '__Unused57', '__Unused58', '__Unused59', '__Unused60', '__Unused61', '__Unused62', '__Unused63', 'Image', '__Unused65', '__Unused66', '__Unused67', '__Unused68', '__Unused69', '__Unused70', '__Unused71', '__Unused72', '__Unused73', '__Unused74', '__Unused75', '__Unused76', '__Unused77', '__Unused78', '__Unused79', '__Unused80', '__Unused81', '__Unused82', '__Unused83', '__Unused84', '__Unused85', '__Unused86', '__Unused87', '__Unused88', '__Unused89', '__Unused90', '__Unused91', '__Unused92', '__Unused93', '__Unused94', '__Unused95', '__Unused96', '__Unused97', '__Unused98', '__Unused99', '__Unused100', '__Unused101', '__Unused102', '__Unused103', '__Unused104', '__Unused105', '__Unused106', '__Unused107', '__Unused108', '__Unused109', '__Unused110', '__Unused111', '__Unused112', '__Unused113', '__Unused114', '__Unused115', '__Unused116', '__Unused117', '__Unused118', '__Unused119', '__Unused120', '__Unused121', '__Unused122', '__Unused123', '__Unused124', '__Unused125', '__Unused126', '__Unused127', 'Twitter']
   },
   /**
    * Lookup203: polkadot_runtime::ProxyType
@@ -2193,6 +2242,13 @@ export default {
    * Lookup507: polkadot_runtime::RuntimeHoldReason
    **/
   PolkadotRuntimeRuntimeHoldReason: 'Null',
+  /**
+   * Lookup510: pallet_balances::types::IdAmount<Id, Balance>
+   **/
+  PalletBalancesIdAmount: {
+    id: 'Null',
+    amount: 'u128'
+  },
   /**
    * Lookup570: pallet_referenda::types::ReferendumInfo<TrackId, polkadot_runtime::OriginCaller, Moment, frame_support::traits::preimages::Bounded<polkadot_runtime::RuntimeCall>, Balance, pallet_conviction_voting::types::Tally<Votes, Total>, sp_core::crypto::AccountId32, ScheduleAddress>
    **/

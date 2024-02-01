@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyJson, AnyNumber, AnyTuple, AnyU8a, Codec } from '@polkadot/types-codec/types';
@@ -163,7 +163,7 @@ export interface SignatureOptions {
   signedExtensions?: string[];
   signer?: Signer;
   tip?: AnyNumber;
-  assetId?: AnyNumber;
+  assetId?: AnyNumber | object;
 }
 
 interface ExtrinsicSignatureBase {
@@ -184,7 +184,7 @@ export interface ExtrinsicPayloadValue {
   specVersion: AnyNumber;
   tip: AnyNumber;
   transactionVersion: AnyNumber;
-  assetId?: AnyNumber;
+  assetId?: AnyNumber | object;
 }
 
 export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
@@ -15,22 +15,33 @@ const metadata = new Metadata(registry, metadataStatic);
 registry.setMetadata(metadata);
 
 describe('Call', (): void => {
+  // balances.forceSetBalance(0x, 0)
+  const FSBU8 = new Uint8Array([
+    // index
+    6, 8,
+    // id lookup
+    0,
+    // public
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    // value
+    0
+  ]);
+
   it('handles decoding correctly (bare)', (): void => {
     expect(
       new Call(registry, {
-        args: ['0x0000000000000000000000000000000000000000000000000000000000000000', 0, 0],
-        callIndex: [6, 1] // balances.setBalance
+        args: ['0x0000000000000000000000000000000000000000000000000000000000000000', 0],
+        callIndex: [6, 8]
       }).toU8a()
-    ).toEqual(
-      new Uint8Array([6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-    );
+    ).toEqual(FSBU8);
   });
 
   it('handles creation from a hex value properly', (): void => {
     expect(
-      new Call(registry, '0x06010000000000000000000000000000000000000000000000000000000000000000').toU8a()
-    ).toEqual(
-      new Uint8Array([6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-    ); // balances.setBalance
+      new Call(registry, '0x0608000000000000000000000000000000000000000000000000000000000000000000').toU8a()
+    ).toEqual(FSBU8);
   });
 });

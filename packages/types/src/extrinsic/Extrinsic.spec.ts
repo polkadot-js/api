@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
@@ -33,7 +33,7 @@ describe('Extrinsic', (): void => {
         'a90b' + // mortal era
         '1101' + // nonce, compact 68
         '0700ac23fc06' + // tip, 0.03 KSM
-        '0600' + // balances.transfer (on Kusama this was 0400, changed here to match metadata)
+        '0600' + // balances.transferAllowDeath (on Kusama this was 0400, changed here to match metadata)
         '00' + // MultiAddress, AccountId of recipient follows
         '495e1e506f266418af07fa0c5c108dd436f2faa59fe7d9e54403779f5bbd7718' + // recipient
         '0bc01eb1fc185f' // value, 104.560 KSM

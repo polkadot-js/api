@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2024 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
@@ -6,7 +6,7 @@
 import type * as Sc from '@substrate/connect';
 import type { HealthChecker, SmoldotHealth } from './types.js';
 
-import { stringify } from '@polkadot/util';
+import { noop, stringify } from '@polkadot/util';
 
 import { ScProvider } from './index.js';
 
@@ -107,6 +107,8 @@ function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
           : stringify(response)
       );
     },
+    addChain: (chainSpec, jsonRpcCallback) =>
+      Promise.resolve(getFakeChain(chainSpec, jsonRpcCallback ?? noop)),
     remove: () => {
       terminateInterceptor();
       _isTerminated = true;

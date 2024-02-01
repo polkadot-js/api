@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types-known authors & contributors
+// Copyright 2017-2024 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable sort-keys */
@@ -49,7 +49,8 @@ export const versioned: OverrideVersionedType[] = [
     // metadata V14
     minmax: [500, undefined],
     types: {
-      Weight: 'WeightV1'
+      Weight: 'WeightV1',
+      TAssetConversion: 'Option<AssetId>'
     }
   }
   // ,

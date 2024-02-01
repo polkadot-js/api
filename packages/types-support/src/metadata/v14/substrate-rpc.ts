@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types-support authors & contributors
+// Copyright 2017-2024 @polkadot/types-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable */
@@ -22,15 +22,14 @@ export default {
     "chainHead_unstable_call",
     "chainHead_unstable_continue",
     "chainHead_unstable_follow",
-    "chainHead_unstable_genesisHash",
     "chainHead_unstable_header",
     "chainHead_unstable_stopOperation",
     "chainHead_unstable_storage",
     "chainHead_unstable_unfollow",
     "chainHead_unstable_unpin",
-    "chainSpec_unstable_chainName",
-    "chainSpec_unstable_genesisHash",
-    "chainSpec_unstable_properties",
+    "chainSpec_v1_chainName",
+    "chainSpec_v1_genesisHash",
+    "chainSpec_v1_properties",
     "chain_getBlock",
     "chain_getBlockHash",
     "chain_getFinalisedHead",
@@ -70,6 +69,7 @@ export default {
     "offchain_localStorageSet",
     "payment_queryFeeDetails",
     "payment_queryInfo",
+    "rpc_methods",
     "state_call",
     "state_callAt",
     "state_getChildReadProof",

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/api authors & contributors
+// Copyright 2017-2024 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Simple non-runnable checks to test type definitions in the editor itself
@@ -243,7 +243,7 @@ function types (api: ApiPromise): void {
 
 async function tx (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<void> {
   // transfer, also allows for bigint inputs here
-  const transfer = api.tx.balances.transfer(pairs.bob.address, BigInt(123456789));
+  const transfer = api.tx.balances.transferAllowDeath(pairs.bob.address, BigInt(123456789));
 
   console.log('transfer casted', transfer as IMethod<AnyTuple>, transfer as IExtrinsic<AnyTuple>);
 
@@ -254,19 +254,19 @@ async function tx (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<voi
   const nonce = await api.query.system['accountNonce']<Index>(pairs.alice.address);
 
   (await api.tx.balances
-    .transfer(pairs.bob.address, 12345)
+    .transferAllowDeath(pairs.bob.address, 12345)
     .signAndSend(pairs.alice, { nonce })
   ).toHex();
 
   // just with the callback
   await api.tx.balances
-    .transfer(pairs.bob.address, 12345)
+    .transferAllowDeath(pairs.bob.address, 12345)
     .signAndSend(pairs.alice, ({ status }: SubmittableResult) => console.log(status.type));
 
   // with options and the callback
   const nonce2 = await api.query.system['accountNonce'](pairs.alice.address);
   const unsub2 = await api.tx.balances
-    .transfer(pairs.bob.address, 12345)
+    .transferAllowDeath(pairs.bob.address, 12345)
     .signAndSend(pairs.alice, { nonce: nonce2 }, ({ status }: SubmittableResult): void => {
       console.log('transfer status:', status.type);
 
@@ -282,7 +282,7 @@ async function tx (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<voi
   await api.tx.democracy['proxyVote'](123, { Split: { nay: 456, yay: 123 } }).signAndSend(pairs.alice);
 
   // is
-  if (api.tx.balances.transfer.is(second)) {
+  if (api.tx.balances.transferAllowDeath.is(second)) {
     const [recipientId, balance] = second.args;
 
     // should be LookupSource & Balance types

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/api-derive authors & contributors
+// Copyright 2017-2024 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, DispatchError, DispatchInfo, Event, EventRecord, Extrinsic, Header, SignedBlock } from '@polkadot/types/interfaces';

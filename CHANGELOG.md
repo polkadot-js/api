@@ -1,6 +1,34 @@
 # CHANGELOG
 
-## master
+## 10.11.2 Dec 18, 2023
+
+Contributed:
+
+- Add `chainIsEthereum` key to `Registry` interface (Thanks to https://github.com/fgamundi)
+- Adjust types for `ChargeAssetTxPayment` (Thanks to https://github.com/bee344)
+
+Changes:
+
+- Support `[8a;32]` types in known keys
+- Update to latest Substrate metadata
+
+
+## 10.11.1 Nov 18, 2023
+
+Contributed:
+
+- Support for latest `ChargeAssetTxPayment` (Thanks to https://github.com/bee344)
+- Support for latest `beefy::subscribeJustifications()` (Thanks to https://github.com/serban300)
+
+Changes:
+
+- Add known `intrablockEntropy` storage key
+- Add support for `SkipCheckIfFeeless` signed extension
+- Ensure all usages of `balances.transfer` (in tests) have been removed
+- Drop support for Node 16 (EOL 11 Sep 2023)
+
+
+## 10.10.1 Oct 14, 2023
 
 Contributed:
 

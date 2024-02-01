@@ -3,7 +3,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-derive#readme",
   "license": "Apache-2.0",
@@ -14,29 +14,29 @@
     "url": "https://github.com/polkadot-js/api.git"
   },
   "sideEffects": [
-    "./detectPackage.js",
-    "./detectPackage.cjs"
+    "./packageDetect.js",
+    "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "10.9.2-28-x",
+  "version": "10.11.3-6-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api": "10.9.2-28-x",
-    "@polkadot/api-augment": "10.9.2-28-x",
-    "@polkadot/api-base": "10.9.2-28-x",
-    "@polkadot/rpc-core": "10.9.2-28-x",
-    "@polkadot/types": "10.9.2-28-x",
-    "@polkadot/types-codec": "10.9.2-28-x",
-    "@polkadot/util": "^12.5.1",
-    "@polkadot/util-crypto": "^12.5.1",
+    "@polkadot/api": "10.11.3-6-x",
+    "@polkadot/api-augment": "10.11.3-6-x",
+    "@polkadot/api-base": "10.11.3-6-x",
+    "@polkadot/rpc-core": "10.11.3-6-x",
+    "@polkadot/types": "10.11.3-6-x",
+    "@polkadot/types-codec": "10.11.3-6-x",
+    "@polkadot/util": "^12.6.2",
+    "@polkadot/util-crypto": "^12.6.2",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@polkadot/api": "10.9.2-28-x",
-    "@polkadot/api-augment": "10.9.2-28-x",
-    "@polkadot/rpc-augment": "10.9.2-28-x",
-    "@polkadot/rpc-provider": "10.9.2-28-x",
-    "@polkadot/types-support": "10.9.2-28-x"
+    "@polkadot/api": "10.11.3-6-x",
+    "@polkadot/api-augment": "10.11.3-6-x",
+    "@polkadot/rpc-augment": "10.11.3-6-x",
+    "@polkadot/rpc-provider": "10.11.3-6-x",
+    "@polkadot/types-support": "10.11.3-6-x"
   }
 }

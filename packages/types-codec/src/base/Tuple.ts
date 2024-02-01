@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types-codec authors & contributors
+// Copyright 2017-2024 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyTupleValue, Codec, CodecClass, DefinitionSetter, Inspect, ITuple, Registry } from '../types/index.js';

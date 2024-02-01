@@ -3,7 +3,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "description": "Type generation scripts",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/typegen#readme",
   "license": "Apache-2.0",
@@ -14,11 +14,11 @@
     "url": "https://github.com/polkadot-js/api.git"
   },
   "sideEffects": [
-    "./detectPackage.js",
-    "./detectPackage.cjs"
+    "./packageDetect.js",
+    "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "10.9.2-28-x",
+  "version": "10.11.3-6-x",
   "main": "index.js",
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.mjs",
@@ -28,23 +28,23 @@
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.mjs"
   },
   "dependencies": {
-    "@polkadot/api": "10.9.2-28-x",
-    "@polkadot/api-augment": "10.9.2-28-x",
-    "@polkadot/rpc-augment": "10.9.2-28-x",
-    "@polkadot/rpc-provider": "10.9.2-28-x",
-    "@polkadot/types": "10.9.2-28-x",
-    "@polkadot/types-augment": "10.9.2-28-x",
-    "@polkadot/types-codec": "10.9.2-28-x",
-    "@polkadot/types-create": "10.9.2-28-x",
-    "@polkadot/types-support": "10.9.2-28-x",
-    "@polkadot/util": "^12.5.1",
-    "@polkadot/util-crypto": "^12.5.1",
-    "@polkadot/x-ws": "^12.5.1",
+    "@polkadot/api": "10.11.3-6-x",
+    "@polkadot/api-augment": "10.11.3-6-x",
+    "@polkadot/rpc-augment": "10.11.3-6-x",
+    "@polkadot/rpc-provider": "10.11.3-6-x",
+    "@polkadot/types": "10.11.3-6-x",
+    "@polkadot/types-augment": "10.11.3-6-x",
+    "@polkadot/types-codec": "10.11.3-6-x",
+    "@polkadot/types-create": "10.11.3-6-x",
+    "@polkadot/types-support": "10.11.3-6-x",
+    "@polkadot/util": "^12.6.2",
+    "@polkadot/util-crypto": "^12.6.2",
+    "@polkadot/x-ws": "^12.6.2",
     "handlebars": "^4.7.8",
     "tslib": "^2.6.2",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@types/yargs": "^17.0.26"
+    "@types/yargs": "^17.0.32"
   }
 }

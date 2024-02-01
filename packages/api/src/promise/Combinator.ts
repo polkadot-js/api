@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/api authors & contributors
+// Copyright 2017-2024 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Callback } from '@polkadot/types/types';
@@ -22,7 +22,7 @@ export class Combinator<T extends unknown[] = unknown[]> {
   constructor (fns: (CombinatorFunction | [CombinatorFunction, ...unknown[]])[], callback: CombinatorCallback<T>) {
     this.#callback = callback;
 
-    // eslint-disable-next-line @typescript-eslint/require-await
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises, @typescript-eslint/require-await
     this.#subscriptions = fns.map(async (input, index): UnsubscribePromise => {
       const [fn, ...args] = Array.isArray(input)
         ? input
@@ -73,16 +73,19 @@ export class Combinator<T extends unknown[] = unknown[]> {
 
     this.#isActive = false;
 
-    this.#subscriptions.map(async (subscription): Promise<void> => {
-      try {
-        const unsubscribe = await subscription;
+    Promise
+      .all(this.#subscriptions.map(async (subscription): Promise<void> => {
+        try {
+          const unsubscribe = await subscription;
 
-        if (isFunction(unsubscribe)) {
-          unsubscribe();
+          if (isFunction(unsubscribe)) {
+            unsubscribe();
+          }
+        } catch {
+          // ignore
         }
-      } catch {
-        // ignore
-      }
-    });
+      })).catch(() => {
+        // ignore, already ignored above, should never throw
+      });
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -28,9 +28,21 @@ export default {
       first: 'BeefyVoteMessage',
       second: 'BeefyVoteMessage'
     },
+    BeefyCompactSignedCommitment: {
+      commitment: 'BeefyCommitment',
+      signaturesFrom: 'Vec<u8>',
+      validatorSetLen: 'u32',
+      signaturesCompact: 'Vec<EcdsaSignature>'
+    },
     BeefySignedCommitment: {
       commitment: 'BeefyCommitment',
       signatures: 'Vec<Option<EcdsaSignature>>'
+    },
+    BeefyVersionedFinalityProof: {
+      _enum: {
+        V0: 'Null',
+        V1: 'BeefyCompactSignedCommitment'
+      }
     },
     BeefyNextAuthoritySet: {
       id: 'u64',

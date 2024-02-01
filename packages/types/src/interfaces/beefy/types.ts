@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types-codec';
+import type { Bytes, Enum, Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { EcdsaSignature, Signature } from '@polkadot/types/interfaces/extrinsics';
@@ -19,6 +19,14 @@ export interface BeefyCommitment extends Struct {
   readonly payload: BeefyPayload;
   readonly blockNumber: BlockNumber;
   readonly validatorSetId: ValidatorSetId;
+}
+
+/** @name BeefyCompactSignedCommitment */
+export interface BeefyCompactSignedCommitment extends Struct {
+  readonly commitment: BeefyCommitment;
+  readonly signaturesFrom: Bytes;
+  readonly validatorSetLen: u32;
+  readonly signaturesCompact: Vec<EcdsaSignature>;
 }
 
 /** @name BeefyEquivocationProof */
@@ -47,6 +55,14 @@ export interface BeefyPayloadId extends U8aFixed {}
 export interface BeefySignedCommitment extends Struct {
   readonly commitment: BeefyCommitment;
   readonly signatures: Vec<Option<EcdsaSignature>>;
+}
+
+/** @name BeefyVersionedFinalityProof */
+export interface BeefyVersionedFinalityProof extends Enum {
+  readonly isV0: boolean;
+  readonly isV1: boolean;
+  readonly asV1: BeefyCompactSignedCommitment;
+  readonly type: 'V0' | 'V1';
 }
 
 /** @name BeefyVoteMessage */

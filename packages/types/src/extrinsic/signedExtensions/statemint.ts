@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtDef } from './types.js';
@@ -8,7 +8,7 @@ export const statemint: ExtDef = {
     extrinsic: {
       tip: 'Compact<Balance>',
       // eslint-disable-next-line sort-keys
-      assetId: 'Option<AssetId>'
+      assetId: 'TAssetConversion'
     },
     payload: {}
   }

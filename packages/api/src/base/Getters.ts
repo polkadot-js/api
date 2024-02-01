@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/api authors & contributors
+// Copyright 2017-2024 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RpcCoreStats, RpcInterface } from '@polkadot/rpc-core/types';
@@ -219,7 +219,7 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
    *
    * ```javascript
    * api.tx.balances
-   *   .transfer(<recipientId>, <balance>)
+   *   .transferAllowDeath(<recipientId>, <balance>)
    *   .signAndSend(<keyPair>, ({status}) => {
    *     console.log('tx status', status.asFinalized.toHex());
    *   });
