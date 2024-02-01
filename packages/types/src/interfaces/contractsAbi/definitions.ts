@@ -160,7 +160,7 @@ const spec = {
     label: 'Text',
     args: 'Vec<ContractEventParamSpecV2>',
     docs: 'Vec<Text>',
-    module_path: 'SiPath',
+    module_path: 'Text',
     signature_topic: "[u8; 32]"
   },
   ContractMessageParamSpecV0: {

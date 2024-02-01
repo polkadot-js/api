@@ -11,8 +11,8 @@ export function v4ToV5 (registry: Registry, v4: ContractMetadataV4): ContractMet
     spec: objectSpread({}, v4.spec, {
       events: v4.spec.events.map((e) =>
         registry.createType('ContractEventSpecV3', objectSpread({
-          module_path: 'todo::todo',
-          signature_topic: "0xDEADBEEF"
+          module_path: undefined,
+          signature_topic: undefined,
         }, e))
       )
     })

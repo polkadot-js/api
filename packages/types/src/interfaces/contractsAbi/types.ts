@@ -175,7 +175,7 @@ export interface ContractEventSpecV3 extends Struct {
   readonly label: Text;
   readonly args: Vec<ContractEventParamSpecV2>;
   readonly docs: Vec<Text>;
-  readonly module_path: SiPath;
+  readonly module_path: Text;
   readonly signature_topic: U8aFixed;
 }
 
@@ -302,6 +302,8 @@ export interface ContractMetadata extends Enum {
   readonly asV3: ContractMetadataV3;
   readonly isV4: boolean;
   readonly asV4: ContractMetadataV4;
+  readonly isV5: boolean;
+  readonly asV5: ContractMetadataV5;
   readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5';
 }
 

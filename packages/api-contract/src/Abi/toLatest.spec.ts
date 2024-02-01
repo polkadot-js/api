@@ -6,7 +6,7 @@
 import { TypeRegistry } from '@polkadot/types';
 
 import abis from '../test/contracts/index.js';
-import { v0ToLatest, v1ToLatest, v2ToLatest, v3ToLatest, v4ToLatest } from './toLatest.js';
+import { v0ToLatest, v1ToLatest, v2ToLatest, v3ToLatest, v4ToLatest, v5ToLatest } from './toLatest.js';
 
 describe('v0ToLatest', (): void => {
   const registry = new TypeRegistry();
@@ -137,3 +137,22 @@ describe('v4ToLatest', (): void => {
     ).toEqual(false);
   });
 });
+
+describe('v5ToLatest', (): void => {
+  const registry = new TypeRegistry();
+  const contract = registry.createType('ContractMetadata', { V5: abis['ink_v5_erc20'] });
+  const latest = v5ToLatest(registry, contract.asV5);
+
+  it('has new event fields', (): void => {
+
+    expect(
+      latest.spec.events.every(e=>e.has("module_path"))
+    ).toEqual(true);
+
+    expect(
+      latest.spec.events.every(e=>e.has("signature_topic"))
+    ).toEqual(true);
+
+  });
+});
+
