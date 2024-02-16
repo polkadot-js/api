@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec, EventRecord } from '@polkadot/types/interfaces';
-import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
-import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
-
 import { Option, TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec } from '@polkadot/types/interfaces';
+import type { Hash } from '@polkadot/types/interfaces/runtime';
+import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
+import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
 import { convertVersions, enumVersions } from './toLatest.js';
 
@@ -162,9 +162,9 @@ export class Abi {
   /**
    * Warning: Unstable API, bound to change
    */
-  public decodeEvent (data: Bytes | Uint8Array, topic: EventRecord['topics'][0]): DecodedEvent {
+  public decodeEvent (data: Bytes | Uint8Array, signatureTopic: Hash): DecodedEvent {
     // try to find a topic signature match - ink! v5 upwards
-    let event = this.events.find((e) => e.signatureTopic === topic.toHex());
+    let event = this.events.find((e) => e.signatureTopic === signatureTopic.toHex());
 
     if (event) {
       return event.fromU8a(data.subarray(0));
