@@ -9,6 +9,7 @@ import fs from 'node:fs';
 import process from 'node:process';
 
 import { TypeDefInfo } from '@polkadot/types/types';
+import { hexToU8a } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import abis from '../test/contracts/index.js';
@@ -121,5 +122,70 @@ describe('Abi', (): void => {
 
     // the hash as per the actual Abi
     expect(bundle.source.hash).toEqual(abi.info.source.wasmHash.toHex());
+  });
+
+  it('decoding <=ink!v4 events', (): void => {
+    const abi = new Abi(abis['ink_v4_erc20Metadata']);
+
+    const dataHex = '0x0001d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d018eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a4800505a4f7e9f4eb10600000000000000';
+    const dataU8A = hexToU8a(dataHex);
+
+    const decodedEvent = abi.decodeEvent(dataU8A);
+
+    expect(decodedEvent.event.args.length).toEqual(3);
+    expect(decodedEvent.args.length).toEqual(3);
+    expect(decodedEvent.event.identifier).toEqual('Transfer');
+
+    const decodedEventHuman = decodedEvent.event.args.reduce((prev, cur, index) => {
+      return {
+        ...prev,
+        [cur.name]: decodedEvent.args[index].toHuman()
+      };
+    }, {});
+
+    const expectedEvent = {
+      from: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY',
+      to: '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty',
+      value: '123.4567 MUnit'
+    };
+
+    expect(decodedEventHuman).toEqual(expectedEvent);
+  });
+
+  it('decoding <=ink!v5 events', (): void => {
+    const metadataJson = abis['ink_v5_erc20Metadata'];
+
+    expect(metadataJson).toBeDefined();
+    const abi = new Abi(metadataJson);
+
+    const dataHex = '0x01d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d018eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a4800505a4f7e9f4eb10600000000000000';
+    const dataU8A = hexToU8a(dataHex);
+
+    const signatureTopicHex = '0xb5b61a3e6a21a16be4f044b517c28ac692492f73c5bfd3f60178ad98c767f4cb';
+
+    expect(abi.events.length).toEqual(2);
+    expect(abi.events[0].signatureTopic).toEqual(signatureTopicHex);
+
+    const signatureTopicHash = abi.registry.createType('Hash', signatureTopicHex);
+    const decodedEvent = abi.decodeEvent(dataU8A, signatureTopicHash);
+
+    expect(decodedEvent.event.args.length).toEqual(3);
+    expect(decodedEvent.args.length).toEqual(3);
+    expect(decodedEvent.event.identifier).toEqual('erc20::erc20::Transfer');
+
+    const decodedEventHuman = decodedEvent.event.args.reduce((prev, cur, index) => {
+      return {
+        ...prev,
+        [cur.name]: decodedEvent.args[index].toHuman()
+      };
+    }, {});
+
+    const expectedEvent = {
+      from: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY',
+      to: '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty',
+      value: '123.4567 MUnit'
+    };
+
+    expect(decodedEventHuman).toEqual(expectedEvent);
   });
 });

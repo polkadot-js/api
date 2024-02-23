@@ -140,16 +140,30 @@ describe('v4ToLatest', (): void => {
 
 describe('v5ToLatest', (): void => {
   const registry = new TypeRegistry();
-  const contract = registry.createType('ContractMetadata', { V5: abis['ink_v5_erc20'] });
+  const contract = registry.createType('ContractMetadata', { V5: abis['ink_v5_erc20Metadata'] });
   const latest = v5ToLatest(registry, contract.asV5);
 
+  it('has the correct messages', (): void => {
+    expect(
+      latest.spec.messages.map(({ label }) => label.toString())
+    ).toEqual(['total_supply', 'balance_of', 'allowance', 'transfer', 'approve', 'transfer_from']);
+  });
+
   it('has new event fields', (): void => {
+    expect(
+      latest.spec.events.length
+    ).toEqual(2);
+
     expect(
       latest.spec.events.every((e) => e.has('module_path'))
     ).toEqual(true);
 
+    expect(latest.spec.events[0].module_path.toString()).toEqual('erc20::erc20');
+
     expect(
       latest.spec.events.every((e) => e.has('signature_topic'))
     ).toEqual(true);
+
+    expect(latest.spec.events[0].signature_topic.toHex()).toEqual('0xb5b61a3e6a21a16be4f044b517c28ac692492f73c5bfd3f60178ad98c767f4cb');
   });
 });

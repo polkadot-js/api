@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import { Option, TypeRegistry } from '@polkadot/types';
-import { TypeDefInfo } from '@polkadot/types-create';
 import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec } from '@polkadot/types/interfaces';
 import type { Hash } from '@polkadot/types/interfaces/runtime';
 import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
-import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
+
+import { Option, TypeRegistry } from '@polkadot/types';
+import { TypeDefInfo } from '@polkadot/types-create';
+import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { convertVersions, enumVersions } from './toLatest.js';
 
@@ -162,24 +163,27 @@ export class Abi {
   /**
    * Warning: Unstable API, bound to change
    */
-  public decodeEvent (data: Bytes | Uint8Array, signatureTopic: Hash): DecodedEvent {
-    // try to find a topic signature match - ink! v5 upwards
-    let event = this.events.find((e) => e.signatureTopic === signatureTopic.toHex());
+  public decodeEvent (data: Bytes | Uint8Array, signatureTopic?: Hash): DecodedEvent {
+    if (signatureTopic !== undefined) {
+      const event = this.events.find((e) => e.signatureTopic !== undefined && e.signatureTopic === signatureTopic.toHex());
 
-    if (event) {
-      return event.fromU8a(data.subarray(0));
-    }
-
+      if (event) {
+        return event.fromU8a(data.subarray(0));
+      } else {
+        throw new Error(`Unable to find event with signature_topic ${signatureTopic.toHex()}`);
+      }
+    } else {
     // otherwise fallback to using the index to determine event - ink! v4 downwards
-    const index = data[0];
+      const index = data[0];
 
-    event = this.events[index];
+      const event = this.events[index];
 
-    if (!event) {
-      throw new Error(`Unable to find event with index ${index}`);
+      if (!event) {
+        throw new Error(`Unable to find event with index ${index}`);
+      }
+
+      return event.fromU8a(data.subarray(1));
     }
-
-    return event.fromU8a(data.subarray(1));
   }
 
   /**
@@ -252,7 +256,7 @@ export class Abi {
         args: this.#decodeArgs(args, data),
         event
       }),
-      identifier: [spec.module_path, spec.label.toString()].join('::'),
+      identifier: [spec.module_path, spec.label].filter((t) => !t.isEmpty).join('::'),
       index,
       signatureTopic: spec.signature_topic.toHex() || undefined
     };

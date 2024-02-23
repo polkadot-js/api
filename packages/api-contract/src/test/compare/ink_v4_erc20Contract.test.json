@@ -1,0 +1,253 @@
+[
+  {
+    "info": "Plain",
+    "lookupIndex": 0,
+    "type": "u128",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 1,
+    "type": "Result<Null, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 2,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 3,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup3"
+      }
+    ]
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 2,
+    "type": "Null",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 3,
+    "lookupName": "InkPrimitivesLangError",
+    "type": "{\"_enum\":[\"__Unused0\",\"CouldNotReadInput\"]}",
+    "docs": [],
+    "namespace": "ink_primitives::LangError",
+    "sub": [
+      {
+        "index": 0,
+        "info": "Null",
+        "name": "__Unused0",
+        "type": "Null"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "CouldNotReadInput"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 4,
+    "type": "Result<u128, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Plain",
+        "lookupIndex": 0,
+        "type": "u128",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 3,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup3"
+      }
+    ]
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 5,
+    "type": "AccountId",
+    "docs": [],
+    "namespace": "ink_primitives::types::AccountId",
+    "lookupNameRoot": "InkPrimitivesAccountId"
+  },
+  {
+    "info": "VecFixed",
+    "lookupIndex": 6,
+    "type": "[u8;32]",
+    "docs": [],
+    "namespace": "",
+    "length": 32,
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 7,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 7,
+    "type": "u8",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 8,
+    "type": "Result<Result<Null, Erc20Error>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Result",
+        "lookupIndex": 9,
+        "type": "Result<Null, Erc20Error>",
+        "docs": [],
+        "namespace": "Result",
+        "sub": [
+          {
+            "name": "Ok",
+            "info": "Null",
+            "lookupIndex": 2,
+            "type": "Null",
+            "docs": [],
+            "namespace": ""
+          },
+          {
+            "name": "Error",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 10,
+            "lookupName": "Erc20Error",
+            "type": "Lookup10"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 3,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup3"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 9,
+    "type": "Result<Null, Erc20Error>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 2,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 10,
+        "lookupName": "Erc20Error",
+        "type": "Lookup10"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 10,
+    "lookupName": "Erc20Error",
+    "type": "{\"_enum\":[\"InsufficientBalance\",\"InsufficientAllowance\"]}",
+    "docs": [],
+    "namespace": "erc20::erc20::Error",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "InsufficientBalance"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "InsufficientAllowance"
+      }
+    ]
+  },
+  {
+    "info": "Option",
+    "lookupIndex": 11,
+    "type": "Option<AccountId>",
+    "docs": [],
+    "namespace": "Option",
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 5,
+      "type": "AccountId",
+      "docs": [],
+      "namespace": "ink_primitives::types::AccountId",
+      "lookupNameRoot": "InkPrimitivesAccountId"
+    }
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 12,
+    "type": "Hash",
+    "docs": [],
+    "namespace": "ink_primitives::types::Hash",
+    "lookupNameRoot": "InkPrimitivesHash"
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 13,
+    "type": "u64",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 14,
+    "type": "u32",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 15,
+    "type": "NoChainExtension",
+    "docs": [],
+    "namespace": "ink_env::types::NoChainExtension",
+    "lookupNameRoot": "InkEnvNoChainExtension"
+  }
+]

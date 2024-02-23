@@ -7,6 +7,7 @@ import type { Text } from '@polkadot/types';
 import type { ContractExecResultResult, ContractSelector, StorageDeposit, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { Abi } from './index.js';
 
 export interface ContractBase<ApiType extends ApiTypes> {
@@ -28,7 +29,7 @@ export interface AbiEvent {
   fromU8a: (data: Uint8Array) => DecodedEvent;
   identifier: string;
   index: number;
-  signatureTopic?: string;
+  signatureTopic?: HexString;
 }
 
 export interface AbiMessage {
