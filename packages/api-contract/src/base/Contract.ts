@@ -4,7 +4,6 @@
 import type { ApiBase } from '@polkadot/api/base';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { Bytes } from '@polkadot/types';
 import type { AccountId, ContractExecResult, EventRecord, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { Abi } from '../Abi/index.js';
@@ -115,9 +114,9 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       // ContractEmitted is the current generation, ContractExecution is the previous generation
       new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
         records
-          .map(({ event: { data: [, data] }, topics }): DecodedEvent | null => {
+          .map((record): DecodedEvent | null => {
             try {
-              return this.abi.decodeEvent(data as Bytes, topics[0]);
+              return this.abi.decodeEvent(record);
             } catch (error) {
               l.error(`Unable to decode contract event: ${(error as Error).message}`);
 

@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec } from '@polkadot/types/interfaces';
-import type { Hash } from '@polkadot/types/interfaces/runtime';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec, EventRecord } from '@polkadot/types/interfaces';
 import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
@@ -163,7 +162,12 @@ export class Abi {
   /**
    * Warning: Unstable API, bound to change
    */
-  public decodeEvent (data: Bytes | Uint8Array, signatureTopic?: Hash): DecodedEvent {
+  public decodeEvent (record: EventRecord): DecodedEvent {
+    // TODO we could double check here if record is actually section `contract` and type `ContractExecution` or `ContractEmitted`
+    const data = record.event.data[1] as Bytes;
+
+    const signatureTopic = record.topics[0];
+
     if (signatureTopic !== undefined) {
       const event = this.events.find((e) => e.signatureTopic !== undefined && e.signatureTopic === signatureTopic.toHex());
 
@@ -173,7 +177,11 @@ export class Abi {
         throw new Error(`Unable to find event with signature_topic ${signatureTopic.toHex()}`);
       }
     } else {
-    // otherwise fallback to using the index to determine event - ink! v4 downwards
+      if (!data) {
+        throw new Error('Unable to find event data');
+      }
+
+      // otherwise fallback to using the index to determine event - ink! v4 downwards
       const index = data[0];
 
       const event = this.events[index];
