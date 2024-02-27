@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 10.11.3 Feb 27, 2023
+
+Contributed:
+
+- Fix sorting of `Option` values and error on duplicates from BTreeSet/BTreeMap (Thanks to https://github.com/Neopallium)
+- Fix BEEFY compact signed commitment in versioned finality proofs (Thanks to https://github.com/mfornos)
+- Update @substrate/connect (Thanks to https://github.com/kratico)
+
+Changes:
+
+- Bump dev w/ packageDetect adjustments
+- Update copyright year
+- Bump nock, and dev deps
+- Allow `cacheCapacity` option for the `WsProvider`
+- Bump yarn
+
+
 ## 10.11.2 Dec 18, 2023
 
 Contributed:
