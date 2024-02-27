@@ -480,6 +480,7 @@ __metadata:
     "@polkadot/types": "npm:10.11.3"
     "@polkadot/types-codec": "npm:10.11.3"
     "@polkadot/types-create": "npm:10.11.3"
+    "@polkadot/types-support": "npm:10.11.3"
     "@polkadot/util": "npm:^12.6.2"
     "@polkadot/util-crypto": "npm:^12.6.2"
     rxjs: "npm:^7.8.1"
