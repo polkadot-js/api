@@ -310,9 +310,6 @@ export interface ContractMetadata extends Enum {
 /** @name ContractMetadataLatest */
 export interface ContractMetadataLatest extends ContractMetadataV5 {}
 
-/** @name ContractMetadataSupported */
-export type ContractMetadataSupported = ContractMetadataV5 | ContractMetadataV4
-
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
   readonly metadataVersion: Text;

@@ -6,7 +6,7 @@ import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
 import { Option, TypeRegistry } from '@polkadot/types';
-import { type ChainProperties, type ContractConstructorSpecLatest, type ContractMessageParamSpecLatest, type ContractMessageSpecLatest, type ContractMetadata, type ContractMetadataSupported, type ContractMetadataV4, type ContractMetadataV5, type ContractProjectInfo, type ContractTypeSpec, type EventRecord } from '@polkadot/types/interfaces';
+import { type ChainProperties, type ContractConstructorSpecLatest, type ContractMessageParamSpecLatest, type ContractMessageSpecLatest, type ContractMetadata, type ContractMetadataV4, type ContractMetadataV5, type ContractProjectInfo, type ContractTypeSpec, type EventRecord } from '@polkadot/types/interfaces';
 import { TypeDefInfo } from '@polkadot/types-create';
 import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -17,6 +17,8 @@ interface AbiJson {
 
   [key: string]: unknown;
 }
+
+export type ContractMetadataSupported = ContractMetadataV4 | ContractMetadataV5;
 
 const l = logger('Abi');
 
