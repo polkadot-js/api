@@ -128,7 +128,7 @@ export class Abi {
           : null
       })
     );
-    this.events = this.metadata.spec.events.map((_: ContractMetadataSupported['spec']['events'], index: number) =>
+    this.events = this.metadata.spec.events.map((_: ContractMetadataSupported['spec']['events'][number], index: number) =>
       this.#createEvent(index)
     );
     this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage =>
