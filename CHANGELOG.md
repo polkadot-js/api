@@ -16,6 +16,7 @@ Changes:
 - Allow `cacheCapacity` option for the `WsProvider`
 - Bump yarn
 
+
 ## 10.11.2 Dec 18, 2023
 
 Contributed:
