@@ -230,6 +230,7 @@ export default {
     ...layout,
     ...spec,
     ...latest,
+    ContractMetadataSupported: 'ContractMetadataSupported',
     ContractProjectInfo: {
       source: 'ContractProjectSource',
       contract: 'ContractProjectContract'
