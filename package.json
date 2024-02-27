@@ -6,7 +6,7 @@
   },
   "homepage": "https://github.com/polkadot-js/api#readme",
   "license": "Apache-2.0",
-  "packageManager": "yarn@3.2.0",
+  "packageManager": "yarn@4.1.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -14,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "10.11.3-6-x",
+  "version": "10.11.3-10-x",
   "versions": {
-    "git": "10.11.3-6-x",
+    "git": "10.11.3-10-x",
     "npm": "10.11.2"
   },
   "workspaces": [
