@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@polkadot/api-augment": "10.11.3-10-x",
-    "@polkadot/keyring": "^12.6.2"
+    "@polkadot/keyring": "^12.6.2",
+    "@polkadot/types-support": "10.11.3-10-x"
   }
 }
