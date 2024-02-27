@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ContractMetadataLatest, ContractMetadataV4, ContractMetadataV5 } from '@polkadot/types/interfaces';
+import type { ContractMetadataSupported, ContractMetadataV4, ContractMetadataV5 } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 
 import { v0ToV1 } from './toV1.js';
@@ -15,11 +15,11 @@ export const enumVersions = ['V5', 'V4', 'V3', 'V2', 'V1'] as const;
 
 type Versions = typeof enumVersions[number] | 'V0';
 
-type Converter = (registry: Registry, vx: any) => ContractMetadataV4 | ContractMetadataV5;
+type Converter = (registry: Registry, vx: any) => ContractMetadataSupported;
 
 // Helper to convert metadata from one step to the next
-function createConverter <I, O> (next: (registry: Registry, input: O) => ContractMetadataLatest, step: (registry: Registry, input: I) => O): (registry: Registry, input: I) => ContractMetadataLatest {
-  return (registry: Registry, input: I): ContractMetadataLatest =>
+function createConverter <I, O> (next: (registry: Registry, input: O) => ContractMetadataSupported, step: (registry: Registry, input: I) => O): (registry: Registry, input: I) => ContractMetadataSupported {
+  return (registry: Registry, input: I): ContractMetadataSupported =>
     next(registry, step(registry, input));
 }
 

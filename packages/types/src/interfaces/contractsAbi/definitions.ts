@@ -253,11 +253,13 @@ export default {
     },
     ContractMetadataV4: {
       types: 'Vec<PortableType>',
-      spec: 'ContractContractSpecV4'
+      spec: 'ContractContractSpecV4',
+      version: 'Text'
     },
     ContractMetadataV5: {
       types: 'Vec<PortableType>',
-      spec: 'ContractContractSpecV5'
+      spec: 'ContractContractSpecV5',
+      version: 'Text'
     },
     ContractMetadata: {
       _enum: {

@@ -15,6 +15,7 @@ export function v3ToV4 (registry: Registry, v3: ContractMetadataV3): ContractMet
       messages: v3.spec.messages.map((m) =>
         registry.createType('ContractMessageSpecV3', objectSpread({}, m))
       )
-    })
+    }),
+    version: registry.createType('Text', '4')
   }));
 }

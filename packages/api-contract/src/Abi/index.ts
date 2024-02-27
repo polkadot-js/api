@@ -6,7 +6,7 @@ import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
 import { Option, TypeRegistry } from '@polkadot/types';
-import { type ChainProperties, type ContractConstructorSpecLatest, type ContractMessageParamSpecLatest, type ContractMessageSpecLatest, type ContractMetadata, type ContractMetadataVersion, type ContractProjectInfo, type ContractTypeSpec, type EventRecord, isV5Metadata, type SupportedContractMetadata } from '@polkadot/types/interfaces';
+import { type ChainProperties, type ContractConstructorSpecLatest, type ContractMessageParamSpecLatest, type ContractMessageSpecLatest, type ContractMetadata, type ContractMetadataSupported, type ContractMetadataV4, type ContractMetadataV5, type ContractProjectInfo, type ContractTypeSpec, type EventRecord } from '@polkadot/types/interfaces';
 import { TypeDefInfo } from '@polkadot/types-create';
 import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -32,7 +32,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-function getMetadata (registry: Registry, json: AbiJson): [SupportedContractMetadata, ContractMetadataVersion] {
+function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSupported {
   // this is for V1, V2, V3
   const vx = enumVersions.find((v) => isObject(json[v]));
 
@@ -50,22 +50,22 @@ function getMetadata (registry: Registry, json: AbiJson): [SupportedContractMeta
         ? { [`V${jsonVersion}`]: json }
         : { V0: json }
   );
+
   const converter = convertVersionsCompatible.find(([v]) => metadata[`is${v}`]);
 
   if (!converter) {
-    throw new Error(`Unable to convert ABI with version ${metadata.type} to latest`);
+    throw new Error(`Unable to convert ABI with version ${metadata.type} to a supported version`);
   }
 
   const upgradedMetadata = converter[1](registry, metadata[`as${converter[0]}`]);
 
-  return [upgradedMetadata, metadata.type];
+  return upgradedMetadata;
 }
 
-function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, SupportedContractMetadata, ContractProjectInfo, ContractMetadataVersion] {
+function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataSupported, ContractProjectInfo] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
-  // const latest = getLatestMeta(registry, json as unknown as AbiJson);
-  const [metadata, version] = getMetadata(registry, json as unknown as AbiJson);
+  const metadata = getMetadata(registry, json as unknown as AbiJson);
   const lookup = registry.createType('PortableRegistry', { types: metadata.types }, true);
 
   // attach the lookup to the registry - now the types are known
@@ -80,7 +80,7 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
     lookup.getTypeDef(id)
   );
 
-  return [json, registry, metadata, info, version];
+  return [json, registry, metadata, info];
 }
 
 /**
@@ -105,13 +105,12 @@ export class Abi {
   readonly info: ContractProjectInfo;
   readonly json: Record<string, unknown>;
   readonly messages: AbiMessage[];
-  readonly metadata: SupportedContractMetadata;
-  readonly version: ContractMetadataVersion;
+  readonly metadata: ContractMetadataSupported;
   readonly registry: Registry;
   readonly environment = new Map<string, TypeDef | Codec>();
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
-    [this.json, this.registry, this.metadata, this.info, this.version] = parseJson(
+    [this.json, this.registry, this.metadata, this.info] = parseJson(
       isString(abiJson)
         ? JSON.parse(abiJson) as Record<string, unknown>
         : abiJson,
@@ -167,39 +166,39 @@ export class Abi {
    * Warning: Unstable API, bound to change
    */
   public decodeEvent (record: EventRecord): DecodedEvent {
-    const data = record.event.data[1] as Bytes;
-
-    switch (this.version) {
-      case 'V4':
-      case 'V3':
-      case 'V2':
-      case 'V1':
-
-      case 'V0':{
-        const index = data[0];
-
-        const event = this.events[index];
-
-        if (!event) {
-          throw new Error(`Unable to find event with index ${index}`);
-        }
-
-        return event.fromU8a(data.subarray(1));
-      }
-
+    switch (this.metadata.version.toString()) {
+      // earlier version are hoisted to v4
+      case '4':
+        return this.#decodeEventV4(record);
       // Latest
-      default: {
-        const signatureTopic = record.topics[0];
-        const event = this.events.find((e) => e.signatureTopic !== undefined && e.signatureTopic === signatureTopic.toHex());
-
-        if (event) {
-          return event.fromU8a(data.subarray(0));
-        } else {
-          throw new Error(`Unable to find event with signature_topic ${signatureTopic.toHex()}`);
-        }
-      }
+      default:
+        return this.#decodeEventV5(record);
     }
   }
+
+  #decodeEventV5 = (record: EventRecord): DecodedEvent => {
+    const data = record.event.data[1] as Bytes;
+    const signatureTopic = record.topics[0];
+    const event = this.events.find((e) => e.signatureTopic !== undefined && e.signatureTopic === signatureTopic.toHex());
+
+    if (!event) {
+      throw new Error(`Unable to find event with signature_topic ${signatureTopic.toHex()}`);
+    }
+
+    return event.fromU8a(data.subarray(0));
+  };
+
+  #decodeEventV4 = (record: EventRecord): DecodedEvent => {
+    const data = record.event.data[1] as Bytes;
+    const index = data[0];
+    const event = this.events[index];
+
+    if (!event) {
+      throw new Error(`Unable to find event with index ${index}`);
+    }
+
+    return event.fromU8a(data.subarray(1));
+  };
 
   /**
    * Warning: Unstable API, bound to change
@@ -262,38 +261,48 @@ export class Abi {
   };
 
   #createEvent = (index: number): AbiEvent => {
-    if (isV5Metadata(this.metadata, this.version)) {
-      const spec = this.metadata.spec.events[index];
-      const args = this.#createArgs(spec.args, spec);
-      const event = {
-        args,
-        docs: spec.docs.map((d) => d.toString()),
-        fromU8a: (data: Uint8Array): DecodedEvent => ({
-          args: this.#decodeArgs(args, data),
-          event
-        }),
-        identifier: [spec.module_path, spec.label].filter((t) => !t.isEmpty).join('::'),
-        index,
-        signatureTopic: spec.signature_topic.toHex() || undefined
-      };
-
-      return event;
-    } else {
-      const spec = this.metadata.spec.events[index];
-      const args = this.#createArgs(spec.args, spec);
-      const event = {
-        args,
-        docs: spec.docs.map((d) => d.toString()),
-        fromU8a: (data: Uint8Array): DecodedEvent => ({
-          args: this.#decodeArgs(args, data),
-          event
-        }),
-        identifier: spec.label.toString(),
-        index
-      };
-
-      return event;
+    // TODO TypeScript would narrow this type to the correct version,
+    // but version is `Text` so I need to call `toString()` here,
+    // which breaks the type inference.
+    switch (this.metadata.version.toString()) {
+      case '4':
+        return this.#createEventV4((this.metadata as ContractMetadataV4).spec.events[index], index);
+      default:
+        return this.#createEventV5((this.metadata as ContractMetadataV5).spec.events[index], index);
     }
+  };
+
+  #createEventV5 = (spec: ContractMetadataV5['spec']['events'][number], index: number): AbiEvent => {
+    const args = this.#createArgs(spec.args, spec);
+    const event = {
+      args,
+      docs: spec.docs.map((d) => d.toString()),
+      fromU8a: (data: Uint8Array): DecodedEvent => ({
+        args: this.#decodeArgs(args, data),
+        event
+      }),
+      identifier: [spec.module_path, spec.label].join('::'),
+      index,
+      signatureTopic: spec.signature_topic.toHex()
+    };
+
+    return event;
+  };
+
+  #createEventV4 = (spec: ContractMetadataV4['spec']['events'][number], index: number): AbiEvent => {
+    const args = this.#createArgs(spec.args, spec);
+    const event = {
+      args,
+      docs: spec.docs.map((d) => d.toString()),
+      fromU8a: (data: Uint8Array): DecodedEvent => ({
+        args: this.#decodeArgs(args, data),
+        event
+      }),
+      identifier: spec.label.toString(),
+      index
+    };
+
+    return event;
   };
 
   #createMessage = (spec: ContractMessageSpecLatest | ContractConstructorSpecLatest, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {

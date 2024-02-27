@@ -149,9 +149,6 @@ export interface ContractEventParamSpecV2 extends Struct {
 /** @name ContractEventSpecLatest */
 export interface ContractEventSpecLatest extends ContractEventSpecV3 {}
 
-/** @name SupportedContractEventSpec */
-export type SupportedContractEventSpec = SupportedContractMetadata['spec']['events'][number]
-
 /** @name ContractEventSpecV0 */
 export interface ContractEventSpecV0 extends Struct {
   readonly name: Text;
@@ -293,11 +290,6 @@ export interface ContractMessageSpecV3 extends Struct {
   readonly default: bool;
 }
 
-
-
-/** @name ContractMetadataVersion */
-export type ContractMetadataVersion ='V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5';
-
 /** @name ContractMetadata */
 export interface ContractMetadata extends Enum {
   readonly isV0: boolean;
@@ -312,23 +304,14 @@ export interface ContractMetadata extends Enum {
   readonly asV4: ContractMetadataV4;
   readonly isV5: boolean;
   readonly asV5: ContractMetadataV5;
-  readonly type: ContractMetadataVersion;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5';
 }
-
 
 /** @name ContractMetadataLatest */
 export interface ContractMetadataLatest extends ContractMetadataV5 {}
 
-/** @name SupportedContractMetadata */
-export type SupportedContractMetadata = ContractMetadataV5 | ContractMetadataV4
-
-export const isV4Metadata = (metadata: SupportedContractMetadata, version: ContractMetadataVersion): metadata is ContractMetadataV4 =>{
-  return version === 'V4'
-}
-
-export const isV5Metadata = (metadata: SupportedContractMetadata, version: ContractMetadataVersion): metadata is ContractMetadataV5 =>{
-  return version === 'V5'
-}
+/** @name ContractMetadataSupported */
+export type ContractMetadataSupported = ContractMetadataV5 | ContractMetadataV4
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
@@ -359,12 +342,14 @@ export interface ContractMetadataV3 extends Struct {
 export interface ContractMetadataV4 extends Struct {
   readonly types: Vec<PortableType>;
   readonly spec: ContractContractSpecV4;
+  readonly version: '4';
 }
 
 /** @name ContractMetadataV5 */
 export interface ContractMetadataV5 extends Struct {
   readonly types: Vec<PortableType>;
   readonly spec: ContractContractSpecV5;
+  readonly version: '5';
 }
 
 /** @name ContractProject */
