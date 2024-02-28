@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0x536329645b973de35b88a083a0fb769b9a6778dd7daacf1f2069c966a26fcc25",
-    "language": "ink! 5.0.0-rc",
+    "hash": "0xaf1c6d2ea289d7d4f8753db2d658782f4d066544f3ee34b3d54272075ad0de99",
+    "language": "ink! 5.0.0-rc.1",
     "compiler": "rustc 1.75.0",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "3.2.0",
+      "cargo_contract_version": "4.0.0-rc.2",
       "rust_toolchain": "stable-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -15,11 +15,12 @@
   },
   "contract": {
     "name": "flipper",
-    "version": "5.0.0-rc",
+    "version": "5.0.0-rc.1",
     "authors": [
       "Parity Technologies <admin@parity.io>"
     ]
   },
+  "image": null,
   "spec": {
     "constructors": [
       {

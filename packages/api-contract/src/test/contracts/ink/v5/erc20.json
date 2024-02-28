@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0x656ec6137638ba8ad1477e96dfe91eb90ca625dfbe543057868ea521fd1b73fe",
+    "hash": "0xf6939855fe6abe0b79cd23a154f0816d8205a5751f36b8703e9a60f31d9e48a5",
     "language": "ink! 5.0.0-rc.1",
     "compiler": "rustc 1.75.0",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "3.2.0",
+      "cargo_contract_version": "4.0.0-rc.2",
       "rust_toolchain": "stable-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -20,6 +20,7 @@
       "Parity Technologies <admin@parity.io>"
     ]
   },
+  "image": null,
   "spec": {
     "constructors": [
       {
