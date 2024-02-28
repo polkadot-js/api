@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes, Vec } from '@polkadot/types';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataV4, ContractMetadataV5, ContractProjectInfo, ContractTypeSpec, EventRecord } from '@polkadot/types/interfaces';
+import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
+import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
+
 import { Option, TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecV2, ContractEventSpecV3, ContractEventSpecV3, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataV4, ContractMetadataV5, ContractProjectInfo, ContractTypeSpec, EventOf, EventRecord } from '@polkadot/types/interfaces';
-import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
-import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
-import { convertVersions as convertVersionsCompatible, enumVersions } from './toLatestCompatible.js';
+
+import { convertVersions, enumVersions } from './toLatestCompatible.js';
 
 interface AbiJson {
   version?: string;
@@ -16,8 +18,8 @@ interface AbiJson {
   [key: string]: unknown;
 }
 
-type EventOf<M> = M extends {spec:{ events: Vec<infer E>}} ?  E : never
-type ContractMetadataSupported = ContractMetadataV4 | ContractMetadataV5;
+type EventOf<M> = M extends {spec: { events: Vec<infer E>}} ? E : never
+export type ContractMetadataSupported = ContractMetadataV4 | ContractMetadataV5;
 type ContractEventSupported = EventOf<ContractMetadataSupported>;
 
 const l = logger('Abi');
@@ -53,7 +55,7 @@ function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSuppor
         : { V0: json }
   );
 
-  const converter = convertVersionsCompatible.find(([v]) => metadata[`is${v}`]);
+  const converter = convertVersions.find(([v]) => metadata[`is${v}`]);
 
   if (!converter) {
     throw new Error(`Unable to convert ABI with version ${metadata.type} to a supported version`);
