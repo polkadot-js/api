@@ -346,7 +346,7 @@ export interface ContractMetadataV4 extends Struct {
 export interface ContractMetadataV5 extends Struct {
   readonly types: Vec<PortableType>;
   readonly spec: ContractContractSpecV5;
-  readonly version: '5';
+  readonly version: 5;
 }
 
 /** @name ContractProject */
