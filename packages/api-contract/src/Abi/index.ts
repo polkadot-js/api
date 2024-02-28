@@ -1,15 +1,13 @@
 // Copyright 2017-2024 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes } from '@polkadot/types';
-import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
-import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
-
+import type { Bytes, Vec } from '@polkadot/types';
 import { Option, TypeRegistry } from '@polkadot/types';
-import { type ChainProperties, type ContractConstructorSpecLatest, type ContractMessageParamSpecLatest, type ContractMessageSpecLatest, type ContractMetadata, type ContractMetadataV4, type ContractMetadataV5, type ContractProjectInfo, type ContractTypeSpec, type EventRecord } from '@polkadot/types/interfaces';
 import { TypeDefInfo } from '@polkadot/types-create';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecV2, ContractEventSpecV3, ContractEventSpecV3, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataV4, ContractMetadataV5, ContractProjectInfo, ContractTypeSpec, EventOf, EventRecord } from '@polkadot/types/interfaces';
+import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
-
+import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 import { convertVersions as convertVersionsCompatible, enumVersions } from './toLatestCompatible.js';
 
 interface AbiJson {
@@ -18,7 +16,9 @@ interface AbiJson {
   [key: string]: unknown;
 }
 
-export type ContractMetadataSupported = ContractMetadataV4 | ContractMetadataV5;
+type EventOf<M> = M extends {spec:{ events: Vec<infer E>}} ?  E : never
+type ContractMetadataSupported = ContractMetadataV4 | ContractMetadataV5;
+type ContractEventSupported = EventOf<ContractMetadataSupported>;
 
 const l = logger('Abi');
 
@@ -128,7 +128,7 @@ export class Abi {
           : null
       })
     );
-    this.events = this.metadata.spec.events.map((_: ContractMetadataSupported['spec']['events'][number], index: number) =>
+    this.events = this.metadata.spec.events.map((_: ContractEventSupported, index: number) =>
       this.#createEvent(index)
     );
     this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage =>
@@ -274,7 +274,7 @@ export class Abi {
     }
   };
 
-  #createEventV5 = (spec: ContractMetadataV5['spec']['events'][number], index: number): AbiEvent => {
+  #createEventV5 = (spec: EventOf<ContractMetadataV5>, index: number): AbiEvent => {
     const args = this.#createArgs(spec.args, spec);
     const event = {
       args,
@@ -291,7 +291,7 @@ export class Abi {
     return event;
   };
 
-  #createEventV4 = (spec: ContractMetadataV4['spec']['events'][number], index: number): AbiEvent => {
+  #createEventV4 = (spec: EventOf<ContractMetadataV4>, index: number): AbiEvent => {
     const args = this.#createArgs(spec.args, spec);
     const event = {
       args,

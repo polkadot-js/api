@@ -166,7 +166,7 @@ describe('Abi', (): void => {
       expect(decodedEventHuman).toEqual(expectedEvent);
     });
 
-    it('decoding <=ink!v5 events', (): void => {
+    it('decoding >=ink!v5 events', (): void => {
       const abiJson = abis['ink_v5_erc20Metadata'];
 
       expect(abiJson).toBeDefined();
