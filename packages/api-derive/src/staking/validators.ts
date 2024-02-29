@@ -33,7 +33,7 @@ export function validators (instanceId: string, api: DeriveApi): () => Observabl
       api.query.session
         ? api.query.session.validators()
         : of([]),
-      api.query.staking
+      api.derive.staking
         ? api.derive.staking.nextElected()
         : of([])
     ]).pipe(
