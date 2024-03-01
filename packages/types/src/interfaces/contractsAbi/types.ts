@@ -176,7 +176,7 @@ export interface ContractEventSpecV3 extends Struct {
   readonly args: Vec<ContractEventParamSpecV2>;
   readonly docs: Vec<Text>;
   readonly module_path: Text;
-  readonly signature_topic: U8aFixed;
+  readonly signature_topic: Option<U8aFixed>;
 }
 
 /** @name ContractLayoutArray */

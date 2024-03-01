@@ -134,7 +134,7 @@ describe('Abi', (): void => {
       registry.setMetadata(metadata);
     });
 
-    it('decoding <=ink!v4 events', (): void => {
+    it('decoding <=ink!v4 event', (): void => {
       const abiJson = abis['ink_v4_erc20Metadata'];
 
       expect(abiJson).toBeDefined();
@@ -166,7 +166,7 @@ describe('Abi', (): void => {
       expect(decodedEventHuman).toEqual(expectedEvent);
     });
 
-    it('decoding >=ink!v5 events', (): void => {
+    it('decoding >=ink!v5 event', (): void => {
       const abiJson = abis['ink_v5_erc20Metadata'];
 
       expect(abiJson).toBeDefined();
@@ -177,6 +177,41 @@ describe('Abi', (): void => {
       const record = registry.createType('EventRecord', eventRecordHex);
 
       const decodedEvent = abi.decodeEvent(record);
+
+      expect(decodedEvent.event.args.length).toEqual(3);
+      expect(decodedEvent.args.length).toEqual(3);
+      expect(decodedEvent.event.identifier).toEqual('erc20::erc20::Transfer');
+
+      const decodedEventHuman = decodedEvent.event.args.reduce((prev, cur, index) => {
+        return {
+          ...prev,
+          [cur.name]: decodedEvent.args[index].toHuman()
+        };
+      }, {});
+
+      const expectedEvent = {
+        from: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY',
+        to: '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty',
+        value: '123.4567 MUnit'
+      };
+
+      expect(decodedEventHuman).toEqual(expectedEvent);
+    });
+
+    it('decoding >=ink!v5 anonymous event', (): void => {
+      const abiJson = abis['ink_v5_erc20AnonymousTransferMetadata']; // TODO needs metadata with anonymous event
+
+      expect(abiJson).toBeDefined();
+      const abi = new Abi(abiJson);
+
+      expect(abi.events[0].identifier).toEqual('erc20::erc20::Transfer');
+      expect(abi.events[0].signatureTopic).toEqual(null);
+
+      const eventRecordWithAnonymousEventHex = '0x00010000000803538e726248a9c155911e7d99f4f474c3408630a2f6275dd501d4471c7067ad2c490101d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d018eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a4800505a4f7e9f4eb1060000000000000008d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48';
+      const record = registry.createType('EventRecord', eventRecordWithAnonymousEventHex);
+
+      const decodedEvent = abi.decodeEvent(record);
+      // TODO what should even happen?
 
       expect(decodedEvent.event.args.length).toEqual(3);
       expect(decodedEvent.args.length).toEqual(3);

@@ -161,7 +161,7 @@ const spec = {
     args: 'Vec<ContractEventParamSpecV2>',
     docs: 'Vec<Text>',
     module_path: 'Text',
-    signature_topic: '[u8; 32]'
+    signature_topic: 'Option<[u8; 32]>'
   },
   ContractMessageParamSpecV0: {
     name: 'Text',

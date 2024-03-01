@@ -23,17 +23,23 @@ export interface AbiParam {
   type: TypeDef;
 }
 
+export type AbiMessageParam = AbiParam
+
+export interface AbiEventParam extends AbiParam{
+  indexed: boolean;
+}
+
 export interface AbiEvent {
-  args: AbiParam[];
+  args: AbiEventParam[];
   docs: string[];
   fromU8a: (data: Uint8Array) => DecodedEvent;
   identifier: string;
   index: number;
-  signatureTopic?: HexString;
+  signatureTopic?: HexString | null;
 }
 
 export interface AbiMessage {
-  args: AbiParam[];
+  args: AbiMessageParam[];
   docs: string[];
   fromU8a: (data: Uint8Array) => DecodedMessage;
   identifier: string;
