@@ -199,7 +199,7 @@ describe('Abi', (): void => {
     });
 
     it('decoding >=ink!v5 anonymous event', (): void => {
-      const abiJson = abis['ink_v5_erc20AnonymousTransferMetadata']; // TODO needs metadata with anonymous event
+      const abiJson = abis['ink_v5_erc20AnonymousTransferMetadata'];
 
       expect(abiJson).toBeDefined();
       const abi = new Abi(abiJson);
@@ -211,7 +211,6 @@ describe('Abi', (): void => {
       const record = registry.createType('EventRecord', eventRecordWithAnonymousEventHex);
 
       const decodedEvent = abi.decodeEvent(record);
-      // TODO what should even happen?
 
       expect(decodedEvent.event.args.length).toEqual(3);
       expect(decodedEvent.args.length).toEqual(3);
