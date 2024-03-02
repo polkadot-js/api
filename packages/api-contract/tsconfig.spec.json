@@ -17,9 +17,10 @@
     "mock.ts"
   ],
   "references": [
-    { "path": "../api/tsconfig.build.json" },
     { "path": "../api-augment/tsconfig.build.json" },
     { "path": "../api-contract/tsconfig.build.json" },
+    { "path": "../api/tsconfig.build.json" },
+    { "path": "../types-support/tsconfig.build.json" },
     { "path": "../types/tsconfig.build.json" }
   ]
 }

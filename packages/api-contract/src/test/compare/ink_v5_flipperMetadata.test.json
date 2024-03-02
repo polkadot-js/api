@@ -1,0 +1,174 @@
+[
+  {
+    "info": "Plain",
+    "lookupIndex": 0,
+    "type": "bool",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Struct",
+    "lookupIndex": 1,
+    "lookupName": "Flipper",
+    "type": "{\"value\":\"bool\"}",
+    "docs": [],
+    "namespace": "flipper::flipper::Flipper",
+    "sub": [
+      {
+        "docs": [],
+        "name": "value",
+        "info": "Plain",
+        "lookupIndex": 0,
+        "type": "bool",
+        "namespace": "",
+        "typeName": ""
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 2,
+    "type": "Result<Null, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 3,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 4,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup4"
+      }
+    ]
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 3,
+    "type": "Null",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 4,
+    "lookupName": "InkPrimitivesLangError",
+    "type": "{\"_enum\":[\"__Unused0\",\"CouldNotReadInput\"]}",
+    "docs": [],
+    "namespace": "ink_primitives::LangError",
+    "sub": [
+      {
+        "index": 0,
+        "info": "Null",
+        "name": "__Unused0",
+        "type": "Null"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "CouldNotReadInput"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 5,
+    "type": "Result<bool, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Plain",
+        "lookupIndex": 0,
+        "type": "bool",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 4,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup4"
+      }
+    ]
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 6,
+    "type": "AccountId",
+    "docs": [],
+    "namespace": "ink_primitives::types::AccountId",
+    "lookupNameRoot": "InkPrimitivesAccountId"
+  },
+  {
+    "info": "VecFixed",
+    "lookupIndex": 7,
+    "type": "[u8;32]",
+    "docs": [],
+    "namespace": "",
+    "length": 32,
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 8,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 8,
+    "type": "u8",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 9,
+    "type": "u128",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 10,
+    "type": "Hash",
+    "docs": [],
+    "namespace": "ink_primitives::types::Hash",
+    "lookupNameRoot": "InkPrimitivesHash"
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 11,
+    "type": "u64",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 12,
+    "type": "u32",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 13,
+    "type": "NoChainExtension",
+    "docs": [],
+    "namespace": "ink_env::types::NoChainExtension",
+    "lookupNameRoot": "InkEnvNoChainExtension"
+  }
+]
