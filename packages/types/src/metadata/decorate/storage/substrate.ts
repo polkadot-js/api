@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry } from '@polkadot/types-codec/types';
@@ -36,5 +36,9 @@ export const substrate: Record<string, Creator> = {
   heapPages: createSubstrateFn('heapPages', ':heappages', {
     docs: 'Number of wasm linear memory pages required for execution of the runtime.',
     type: 'u64'
+  }),
+  intrablockEntropy: createSubstrateFn('intrablockEntropy', ':intrablock_entropy', {
+    docs: 'Current intra-block entropy (a universally unique `[u8; 32]` value) is stored here.',
+    type: '[u8; 32]'
   })
 };

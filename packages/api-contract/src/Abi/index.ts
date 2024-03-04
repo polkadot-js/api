@@ -1,22 +1,26 @@
-// Copyright 2017-2023 @polkadot/api-contract authors & contributors
+// Copyright 2017-2024 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataLatest, ContractProjectInfo, ContractTypeSpec } from '@polkadot/types/interfaces';
+import type { Bytes, Vec } from '@polkadot/types';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventParamSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataV4, ContractMetadataV5, ContractProjectInfo, ContractTypeSpec, EventRecord } from '@polkadot/types/interfaces';
 import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
-import type { AbiConstructor, AbiEvent, AbiMessage, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
+import type { AbiConstructor, AbiEvent, AbiEventParam, AbiMessage, AbiMessageParam, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
 import { Option, TypeRegistry } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types-create';
 import { assertReturn, compactAddLength, compactStripLength, isBn, isNumber, isObject, isString, isUndefined, logger, stringCamelCase, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { convertVersions, enumVersions } from './toLatest.js';
+import { convertVersions, enumVersions } from './toLatestCompatible.js';
 
 interface AbiJson {
   version?: string;
 
   [key: string]: unknown;
 }
+
+type EventOf<M> = M extends {spec: { events: Vec<infer E>}} ? E : never
+export type ContractMetadataSupported = ContractMetadataV4 | ContractMetadataV5;
+type ContractEventSupported = EventOf<ContractMetadataSupported>;
 
 const l = logger('Abi');
 
@@ -32,7 +36,7 @@ function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string 
   return assertReturn(message, () => `Attempted to call an invalid contract interface, ${stringify(messageOrId)}`);
 }
 
-function getLatestMeta (registry: Registry, json: AbiJson): ContractMetadataLatest {
+function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSupported {
   // this is for V1, V2, V3
   const vx = enumVersions.find((v) => isObject(json[v]));
 
@@ -50,20 +54,23 @@ function getLatestMeta (registry: Registry, json: AbiJson): ContractMetadataLate
         ? { [`V${jsonVersion}`]: json }
         : { V0: json }
   );
+
   const converter = convertVersions.find(([v]) => metadata[`is${v}`]);
 
   if (!converter) {
-    throw new Error(`Unable to convert ABI with version ${metadata.type} to latest`);
+    throw new Error(`Unable to convert ABI with version ${metadata.type} to a supported version`);
   }
 
-  return converter[1](registry, metadata[`as${converter[0]}`]);
+  const upgradedMetadata = converter[1](registry, metadata[`as${converter[0]}`]);
+
+  return upgradedMetadata;
 }
 
-function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataLatest, ContractProjectInfo] {
+function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataSupported, ContractProjectInfo] {
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
-  const latest = getLatestMeta(registry, json as unknown as AbiJson);
-  const lookup = registry.createType('PortableRegistry', { types: latest.types }, true);
+  const metadata = getMetadata(registry, json as unknown as AbiJson);
+  const lookup = registry.createType('PortableRegistry', { types: metadata.types }, true);
 
   // attach the lookup to the registry - now the types are known
   registry.setLookup(lookup);
@@ -77,7 +84,7 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
     lookup.getTypeDef(id)
   );
 
-  return [json, registry, latest, info];
+  return [json, registry, metadata, info];
 }
 
 /**
@@ -102,7 +109,7 @@ export class Abi {
   readonly info: ContractProjectInfo;
   readonly json: Record<string, unknown>;
   readonly messages: AbiMessage[];
-  readonly metadata: ContractMetadataLatest;
+  readonly metadata: ContractMetadataSupported;
   readonly registry: Registry;
   readonly environment = new Map<string, TypeDef | Codec>();
 
@@ -123,8 +130,8 @@ export class Abi {
           : null
       })
     );
-    this.events = this.metadata.spec.events.map((spec: ContractEventSpecLatest, index) =>
-      this.#createEvent(spec, index)
+    this.events = this.metadata.spec.events.map((_: ContractEventSupported, index: number) =>
+      this.#createEvent(index)
     );
     this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage =>
       this.#createMessage(spec, index, {
@@ -162,7 +169,59 @@ export class Abi {
   /**
    * Warning: Unstable API, bound to change
    */
-  public decodeEvent (data: Bytes | Uint8Array): DecodedEvent {
+  public decodeEvent (record: EventRecord): DecodedEvent {
+    switch (this.metadata.version.toString()) {
+      // earlier version are hoisted to v4
+      case '4':
+        return this.#decodeEventV4(record);
+      // Latest
+      default:
+        return this.#decodeEventV5(record);
+    }
+  }
+
+  #decodeEventV5 = (record: EventRecord): DecodedEvent => {
+    // Find event by first topic, which potentially is the signature_topic
+    const signatureTopic = record.topics[0];
+    const data = record.event.data[1] as Bytes;
+
+    if (signatureTopic) {
+      const event = this.events.find((e) => e.signatureTopic !== undefined && e.signatureTopic !== null && e.signatureTopic === signatureTopic.toHex());
+
+      // Early return if event found by signature topic
+      if (event) {
+        return event.fromU8a(data);
+      }
+    }
+
+    // If no event returned yet, it might be anonymous
+    const amountOfTopics = record.topics.length;
+    const potentialEvents = this.events.filter((e) => {
+      // event can't have a signature topic
+      if (e.signatureTopic !== null && e.signatureTopic !== undefined) {
+        return false;
+      }
+
+      // event should have same amount of indexed fields as emitted topics
+      const amountIndexed = e.args.filter((a) => a.indexed).length;
+
+      if (amountIndexed !== amountOfTopics) {
+        return false;
+      }
+
+      // If all conditions met, it's a potential event
+      return true;
+    });
+
+    if (potentialEvents.length === 1) {
+      return potentialEvents[0].fromU8a(data);
+    }
+
+    throw new Error('Unable to determine event');
+  };
+
+  #decodeEventV4 = (record: EventRecord): DecodedEvent => {
+    const data = record.event.data[1] as Bytes;
     const index = data[0];
     const event = this.events[index];
 
@@ -171,7 +230,7 @@ export class Abi {
     }
 
     return event.fromU8a(data.subarray(1));
-  }
+  };
 
   /**
    * Warning: Unstable API, bound to change
@@ -195,7 +254,7 @@ export class Abi {
     return findMessage(this.messages, messageOrId);
   }
 
-  #createArgs = (args: ContractMessageParamSpecLatest[], spec: unknown): AbiParam[] => {
+  #createArgs = (args: ContractMessageParamSpecLatest[] | ContractEventParamSpecLatest[], spec: unknown): AbiParam[] => {
     return args.map(({ label, type }, index): AbiParam => {
       try {
         if (!isObject(type)) {
@@ -233,8 +292,47 @@ export class Abi {
     });
   };
 
-  #createEvent = (spec: ContractEventSpecLatest, index: number): AbiEvent => {
-    const args = this.#createArgs(spec.args, spec);
+  #createMessageParams = (args: ContractMessageParamSpecLatest[], spec: unknown): AbiMessageParam[] => {
+    return this.#createArgs(args, spec);
+  };
+
+  #createEventParams = (args: ContractEventParamSpecLatest[], spec: unknown): AbiEventParam[] => {
+    const params = this.#createArgs(args, spec);
+
+    return params.map((p, index): AbiEventParam => ({ ...p, indexed: args[index].indexed.toPrimitive() }));
+  };
+
+  #createEvent = (index: number): AbiEvent => {
+    // TODO TypeScript would narrow this type to the correct version,
+    // but version is `Text` so I need to call `toString()` here,
+    // which breaks the type inference.
+    switch (this.metadata.version.toString()) {
+      case '4':
+        return this.#createEventV4((this.metadata as ContractMetadataV4).spec.events[index], index);
+      default:
+        return this.#createEventV5((this.metadata as ContractMetadataV5).spec.events[index], index);
+    }
+  };
+
+  #createEventV5 = (spec: EventOf<ContractMetadataV5>, index: number): AbiEvent => {
+    const args = this.#createEventParams(spec.args, spec);
+    const event = {
+      args,
+      docs: spec.docs.map((d) => d.toString()),
+      fromU8a: (data: Uint8Array): DecodedEvent => ({
+        args: this.#decodeArgs(args, data),
+        event
+      }),
+      identifier: [spec.module_path, spec.label].join('::'),
+      index,
+      signatureTopic: spec.signature_topic.isSome ? spec.signature_topic.unwrap().toHex() : null
+    };
+
+    return event;
+  };
+
+  #createEventV4 = (spec: EventOf<ContractMetadataV4>, index: number): AbiEvent => {
+    const args = this.#createEventParams(spec.args, spec);
     const event = {
       args,
       docs: spec.docs.map((d) => d.toString()),
@@ -250,7 +348,7 @@ export class Abi {
   };
 
   #createMessage = (spec: ContractMessageSpecLatest | ContractConstructorSpecLatest, index: number, add: Partial<AbiMessage> = {}): AbiMessage => {
-    const args = this.#createArgs(spec.args, spec);
+    const args = this.#createMessageParams(spec.args, spec);
     const identifier = spec.label.toString();
     const message = {
       ...add,
@@ -267,7 +365,7 @@ export class Abi {
       path: identifier.split('::').map((s) => stringCamelCase(s)),
       selector: spec.selector,
       toU8a: (params: unknown[]) =>
-        this.#encodeArgs(spec, args, params)
+        this.#encodeMessageArgs(spec, args, params)
     };
 
     return message;
@@ -299,7 +397,7 @@ export class Abi {
     return message.fromU8a(trimmed.subarray(4));
   };
 
-  #encodeArgs = ({ label, selector }: ContractMessageSpecLatest | ContractConstructorSpecLatest, args: AbiParam[], data: unknown[]): Uint8Array => {
+  #encodeMessageArgs = ({ label, selector }: ContractMessageSpecLatest | ContractConstructorSpecLatest, args: AbiMessageParam[], data: unknown[]): Uint8Array => {
     if (data.length !== args.length) {
       throw new Error(`Expected ${args.length} arguments to contract message '${label.toString()}', found ${data.length}`);
     }

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/api-contract authors & contributors
+// Copyright 2017-2024 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiBase } from '@polkadot/api/base';
@@ -7,6 +7,7 @@ import type { Text } from '@polkadot/types';
 import type { ContractExecResultResult, ContractSelector, StorageDeposit, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 import type { Abi } from './index.js';
 
 export interface ContractBase<ApiType extends ApiTypes> {
@@ -22,16 +23,23 @@ export interface AbiParam {
   type: TypeDef;
 }
 
+export type AbiMessageParam = AbiParam
+
+export interface AbiEventParam extends AbiParam{
+  indexed: boolean;
+}
+
 export interface AbiEvent {
-  args: AbiParam[];
+  args: AbiEventParam[];
   docs: string[];
   fromU8a: (data: Uint8Array) => DecodedEvent;
   identifier: string;
   index: number;
+  signatureTopic?: HexString | null;
 }
 
 export interface AbiMessage {
-  args: AbiParam[];
+  args: AbiMessageParam[];
   docs: string[];
   fromU8a: (data: Uint8Array) => DecodedMessage;
   identifier: string;

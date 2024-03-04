@@ -7,6 +7,7 @@ import '@polkadot/types/types/registry';
 
 import type { Data, StorageKey } from '@polkadot/types';
 import type { BitVec, Bool, Bytes, F32, F64, I128, I16, I256, I32, I64, I8, ISize, Json, Null, OptionBool, Raw, Text, Type, U128, U16, U256, U32, U64, U8, USize, bool, f32, f64, i128, i16, i256, i32, i64, i8, isize, u128, u16, u256, u32, u64, u8, usize } from '@polkadot/types-codec';
+import type { TAssetConversion } from '@polkadot/types/interfaces/assetConversion';
 import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -14,7 +15,7 @@ import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interface
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeGenesisConfiguration, BabeGenesisConfigurationV1, BabeWeight, Epoch, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, OpaqueKeyOwnershipProof, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, ReserveData, ReserveIdentifier, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
-import type { BeefyAuthoritySet, BeefyCommitment, BeefyEquivocationProof, BeefyId, BeefyNextAuthoritySet, BeefyPayload, BeefyPayloadId, BeefySignedCommitment, BeefyVersionedFinalityProof, BeefyVoteMessage, MmrRootHash, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
+import type { BeefyAuthoritySet, BeefyCommitment, BeefyCompactSignedCommitment, BeefyEquivocationProof, BeefyId, BeefyNextAuthoritySet, BeefyPayload, BeefyPayloadId, BeefySignedCommitment, BeefyVersionedFinalityProof, BeefyVoteMessage, MmrRootHash, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { BenchmarkBatch, BenchmarkConfig, BenchmarkList, BenchmarkMetadata, BenchmarkParameter, BenchmarkResult } from '@polkadot/types/interfaces/benchmark';
 import type { CheckInherentsResult, InherentData, InherentIdentifier } from '@polkadot/types/interfaces/blockbuilder';
 import type { BridgeMessageId, BridgedBlockHash, BridgedBlockNumber, BridgedHeader, CallOrigin, ChainId, DeliveredMessages, DispatchFeePayment, InboundLaneData, InboundRelayer, InitializationData, LaneId, MessageData, MessageKey, MessageNonce, MessagesDeliveryProofOf, MessagesProofOf, OperatingMode, OutboundLaneData, OutboundMessageFee, OutboundPayload, Parameter, RelayerId, UnrewardedRelayer, UnrewardedRelayersState } from '@polkadot/types/interfaces/bridges';
@@ -24,7 +25,7 @@ import type { StatementKind } from '@polkadot/types/interfaces/claims';
 import type { CollectiveOrigin, MemberCount, ProposalIndex, Votes, VotesTo230 } from '@polkadot/types/interfaces/collective';
 import type { AuthorityId, RawVRFOutput } from '@polkadot/types/interfaces/consensus';
 import type { AliveContractInfo, CodeHash, CodeSource, CodeUploadRequest, CodeUploadResult, CodeUploadResultValue, ContractCallFlags, ContractCallRequest, ContractExecResult, ContractExecResultOk, ContractExecResultResult, ContractExecResultSuccessTo255, ContractExecResultSuccessTo260, ContractExecResultTo255, ContractExecResultTo260, ContractExecResultTo267, ContractExecResultU64, ContractInfo, ContractInstantiateResult, ContractInstantiateResultTo267, ContractInstantiateResultTo299, ContractInstantiateResultU64, ContractReturnFlags, ContractStorageKey, DeletedContract, ExecReturnValue, Gas, HostFnWeights, HostFnWeightsTo264, InstantiateRequest, InstantiateRequestV1, InstantiateRequestV2, InstantiateReturnValue, InstantiateReturnValueOk, InstantiateReturnValueTo267, InstructionWeights, Limits, LimitsTo264, PrefabWasmModule, RentProjection, Schedule, ScheduleTo212, ScheduleTo258, ScheduleTo264, SeedOf, StorageDeposit, TombstoneContractInfo, TrieId } from '@polkadot/types/interfaces/contracts';
-import type { ContractConstructorSpecLatest, ContractConstructorSpecV0, ContractConstructorSpecV1, ContractConstructorSpecV2, ContractConstructorSpecV3, ContractConstructorSpecV4, ContractContractSpecV0, ContractContractSpecV1, ContractContractSpecV2, ContractContractSpecV3, ContractContractSpecV4, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEnvironmentV4, ContractEventParamSpecLatest, ContractEventParamSpecV0, ContractEventParamSpecV2, ContractEventSpecLatest, ContractEventSpecV0, ContractEventSpecV1, ContractEventSpecV2, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpecLatest, ContractMessageParamSpecV0, ContractMessageParamSpecV2, ContractMessageSpecLatest, ContractMessageSpecV0, ContractMessageSpecV1, ContractMessageSpecV2, ContractMessageSpecV3, ContractMetadata, ContractMetadataLatest, ContractMetadataV0, ContractMetadataV1, ContractMetadataV2, ContractMetadataV3, ContractMetadataV4, ContractProject, ContractProjectContract, ContractProjectInfo, ContractProjectSource, ContractProjectV0, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
+import type { ContractConstructorSpecLatest, ContractConstructorSpecV0, ContractConstructorSpecV1, ContractConstructorSpecV2, ContractConstructorSpecV3, ContractConstructorSpecV4, ContractContractSpecV0, ContractContractSpecV1, ContractContractSpecV2, ContractContractSpecV3, ContractContractSpecV4, ContractContractSpecV5, ContractCryptoHasher, ContractDiscriminant, ContractDisplayName, ContractEnvironmentV4, ContractEventParamSpecLatest, ContractEventParamSpecV0, ContractEventParamSpecV2, ContractEventSpecLatest, ContractEventSpecV0, ContractEventSpecV1, ContractEventSpecV2, ContractEventSpecV3, ContractLayoutArray, ContractLayoutCell, ContractLayoutEnum, ContractLayoutHash, ContractLayoutHashingStrategy, ContractLayoutKey, ContractLayoutStruct, ContractLayoutStructField, ContractMessageParamSpecLatest, ContractMessageParamSpecV0, ContractMessageParamSpecV2, ContractMessageSpecLatest, ContractMessageSpecV0, ContractMessageSpecV1, ContractMessageSpecV2, ContractMessageSpecV3, ContractMetadata, ContractMetadataLatest, ContractMetadataV0, ContractMetadataV1, ContractMetadataV2, ContractMetadataV3, ContractMetadataV4, ContractMetadataV5, ContractProject, ContractProjectContract, ContractProjectInfo, ContractProjectSource, ContractProjectV0, ContractSelector, ContractStorageLayout, ContractTypeSpec } from '@polkadot/types/interfaces/contractsAbi';
 import type { FundIndex, FundInfo, LastContribution, TrieIndex } from '@polkadot/types/interfaces/crowdloan';
 import type { CollationInfo, CollationInfoV1, ConfigData, MessageId, OverweightIndex, PageCounter, PageIndexData } from '@polkadot/types/interfaces/cumulus';
 import type { AccountVote, AccountVoteSplit, AccountVoteStandard, Conviction, Delegations, PreimageStatus, PreimageStatusAvailable, PriorLock, PropIndex, Proposal, ProxyState, ReferendumIndex, ReferendumInfo, ReferendumInfoFinished, ReferendumInfoTo239, ReferendumStatus, Tally, Voting, VotingDelegating, VotingDirect, VotingDirectVote } from '@polkadot/types/interfaces/democracy';
@@ -152,6 +153,7 @@ declare module '@polkadot/types/types/registry' {
     BalanceStatus: BalanceStatus;
     BeefyAuthoritySet: BeefyAuthoritySet;
     BeefyCommitment: BeefyCommitment;
+    BeefyCompactSignedCommitment: BeefyCompactSignedCommitment;
     BeefyEquivocationProof: BeefyEquivocationProof;
     BeefyId: BeefyId;
     BeefyKey: BeefyKey;
@@ -260,6 +262,7 @@ declare module '@polkadot/types/types/registry' {
     ContractContractSpecV2: ContractContractSpecV2;
     ContractContractSpecV3: ContractContractSpecV3;
     ContractContractSpecV4: ContractContractSpecV4;
+    ContractContractSpecV5: ContractContractSpecV5;
     ContractCryptoHasher: ContractCryptoHasher;
     ContractDiscriminant: ContractDiscriminant;
     ContractDisplayName: ContractDisplayName;
@@ -271,6 +274,7 @@ declare module '@polkadot/types/types/registry' {
     ContractEventSpecV0: ContractEventSpecV0;
     ContractEventSpecV1: ContractEventSpecV1;
     ContractEventSpecV2: ContractEventSpecV2;
+    ContractEventSpecV3: ContractEventSpecV3;
     ContractExecResult: ContractExecResult;
     ContractExecResultOk: ContractExecResultOk;
     ContractExecResultResult: ContractExecResultResult;
@@ -308,6 +312,7 @@ declare module '@polkadot/types/types/registry' {
     ContractMetadataV2: ContractMetadataV2;
     ContractMetadataV3: ContractMetadataV3;
     ContractMetadataV4: ContractMetadataV4;
+    ContractMetadataV5: ContractMetadataV5;
     ContractProject: ContractProject;
     ContractProjectContract: ContractProjectContract;
     ContractProjectInfo: ContractProjectInfo;
@@ -1092,6 +1097,7 @@ declare module '@polkadot/types/types/registry' {
     Tally: Tally;
     TaskAddress: TaskAddress;
     TAssetBalance: TAssetBalance;
+    TAssetConversion: TAssetConversion;
     TAssetDepositBalance: TAssetDepositBalance;
     Text: Text;
     Timepoint: Timepoint;

@@ -3,7 +3,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "description": "Implementation of the SCALE codec",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-codec#readme",
   "license": "Apache-2.0",
@@ -14,21 +14,21 @@
     "url": "https://github.com/polkadot-js/api.git"
   },
   "sideEffects": [
-    "./detectPackage.js",
-    "./detectPackage.cjs"
+    "./packageDetect.js",
+    "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "10.10.2-2-x",
+  "version": "10.12.1",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^12.5.1",
-    "@polkadot/x-bigint": "^12.5.1",
+    "@polkadot/util": "^12.6.2",
+    "@polkadot/x-bigint": "^12.6.2",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@polkadot/types": "10.10.2-2-x",
-    "@polkadot/types-augment": "10.10.2-2-x",
-    "@polkadot/types-support": "10.10.2-2-x",
-    "@polkadot/util-crypto": "^12.5.1"
+    "@polkadot/types": "10.12.1",
+    "@polkadot/types-augment": "10.12.1",
+    "@polkadot/types-support": "10.12.1",
+    "@polkadot/util-crypto": "^12.6.2"
   }
 }

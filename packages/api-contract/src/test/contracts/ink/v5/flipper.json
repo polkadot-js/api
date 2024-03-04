@@ -1,0 +1,420 @@
+{
+  "source": {
+    "hash": "0xaf1c6d2ea289d7d4f8753db2d658782f4d066544f3ee34b3d54272075ad0de99",
+    "language": "ink! 5.0.0-rc.1",
+    "compiler": "rustc 1.75.0",
+    "build_info": {
+      "build_mode": "Debug",
+      "cargo_contract_version": "4.0.0-rc.2",
+      "rust_toolchain": "stable-aarch64-apple-darwin",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "flipper",
+    "version": "5.0.0-rc.1",
+    "authors": [
+      "Parity Technologies <admin@parity.io>"
+    ]
+  },
+  "image": null,
+  "spec": {
+    "constructors": [
+      {
+        "args": [
+          {
+            "label": "init_value",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          "Creates a new flipper smart contract initialized with the given value."
+        ],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 2
+        },
+        "selector": "0x9bae9d5e"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          "Creates a new flipper smart contract initialized to `false`."
+        ],
+        "label": "new_default",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 2
+        },
+        "selector": "0x61ef7e3e"
+      }
+    ],
+    "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": [
+          "AccountId"
+        ],
+        "type": 6
+      },
+      "balance": {
+        "displayName": [
+          "Balance"
+        ],
+        "type": 9
+      },
+      "blockNumber": {
+        "displayName": [
+          "BlockNumber"
+        ],
+        "type": 12
+      },
+      "chainExtension": {
+        "displayName": [
+          "ChainExtension"
+        ],
+        "type": 13
+      },
+      "hash": {
+        "displayName": [
+          "Hash"
+        ],
+        "type": 10
+      },
+      "maxEventTopics": 4,
+      "staticBufferSize": 16384,
+      "timestamp": {
+        "displayName": [
+          "Timestamp"
+        ],
+        "type": 11
+      }
+    },
+    "events": [],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 4
+    },
+    "messages": [
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " Flips the current value of the Flipper's boolean."
+        ],
+        "label": "flip",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 2
+        },
+        "selector": "0x633aa551"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " Returns the current value of the Flipper's boolean."
+        ],
+        "label": "get",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 5
+        },
+        "selector": "0x2f865bd9"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 0
+                }
+              },
+              "name": "value"
+            }
+          ],
+          "name": "Flipper"
+        }
+      },
+      "root_key": "0x00000000",
+      "ty": 1
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "value",
+                "type": 0,
+                "typeName": "<bool as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<2054318728u32, ()>,>>::Type"
+              }
+            ]
+          }
+        },
+        "path": [
+          "flipper",
+          "flipper",
+          "Flipper"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 3
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 4
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 3
+          },
+          {
+            "name": "E",
+            "type": 4
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 4
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          },
+          {
+            "name": "E",
+            "type": 4
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 7,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 8
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 7,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
+      }
+    }
+  ],
+  "version": 5
+}

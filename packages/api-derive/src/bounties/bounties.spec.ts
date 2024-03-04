@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/api-derive authors & contributors
+// Copyright 2017-2024 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
@@ -74,7 +74,7 @@ describe('bounties derive', () => {
   });
 
   it('creates proposal', function () {
-    expect(createProposal(api.tx.balances.transfer('5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))).toBeTruthy();
+    expect(createProposal(api.tx.balances.transferAllowDeath('5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))).toBeTruthy();
   });
 
   it('combines bounties with descriptions', async () => {

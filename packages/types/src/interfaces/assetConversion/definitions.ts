@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // order important in structs... :)
@@ -11,5 +11,7 @@ import { runtime } from './runtime.js';
 export default {
   rpc: {},
   runtime,
-  types: {}
+  types: {
+    TAssetConversion: 'Option<MultiLocation>'
+  }
 } as Definitions;

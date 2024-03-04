@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
@@ -26,12 +26,17 @@ describe('decorateEvents', (): void => {
     expect(
       events['staking']['Rewarded'].meta.toJSON()
     ).toEqual({
-      args: ['AccountId32', 'u128'],
+      args: [
+        'AccountId32',
+        '{"_enum":{"Staked":"Null","Stash":"Null","Controller":"Null","Account":"AccountId32","None":"Null"}}',
+        'u128'
+      ],
       docs: [
-        'The nominator has been rewarded by this amount.'
+        'The nominator has been rewarded by this amount to this destination.'
       ],
       fields: [
         { docs: [], name: 'stash', type: 0, typeName: 'T::AccountId' },
+        { docs: [], name: 'dest', type: 50, typeName: 'RewardDestination<T::AccountId>' },
         { docs: [], name: 'amount', type: 6, typeName: 'BalanceOf<T>' }
       ],
       index: 1,

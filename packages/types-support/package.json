@@ -3,7 +3,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "description": "Supporting files for types, mostly for testing",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types-support#readme",
   "license": "Apache-2.0",
@@ -14,14 +14,14 @@
     "url": "https://github.com/polkadot-js/api.git"
   },
   "sideEffects": [
-    "./detectPackage.js",
-    "./detectPackage.cjs"
+    "./packageDetect.js",
+    "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "10.10.2-2-x",
+  "version": "10.12.1",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^12.5.1",
+    "@polkadot/util": "^12.6.2",
     "tslib": "^2.6.2"
   }
 }

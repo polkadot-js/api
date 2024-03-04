@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/api-base authors & contributors
+// Copyright 2017-2024 @polkadot/api-base authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ export interface SignerOptions {
   nonce: AnyNumber | Codec;
   signer?: Signer;
   tip?: AnyNumber;
-  assetId?: AnyNumber;
+  assetId?: AnyNumber | object;
 }
 
 export type SubmittableDryRunResult<ApiType extends ApiTypes> =

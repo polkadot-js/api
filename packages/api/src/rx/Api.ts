@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/api authors & contributors
+// Copyright 2017-2024 @polkadot/api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
@@ -95,7 +95,7 @@ import { toRxMethod } from './decorateMethod.js';
  *      switchMap(([nonce]) =>
  *        api.tx.balances
  *          // create transfer
- *          .transfer(keyring.bob.address, 12345)
+ *          .transferAllowDeath(keyring.bob.address, 12345)
  *          // sign the transaction
  *          .sign(keyring.alice, { nonce })
  *          // send the transaction

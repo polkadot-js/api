@@ -3,7 +3,7 @@
   "bugs": "https://github.com/polkadot-js/api/issues",
   "description": "Interfaces for interacting with contracts and contract ABIs",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-base#readme",
   "license": "Apache-2.0",
@@ -14,16 +14,16 @@
     "url": "https://github.com/polkadot-js/api.git"
   },
   "sideEffects": [
-    "./detectPackage.js",
-    "./detectPackage.cjs"
+    "./packageDetect.js",
+    "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "10.10.2-2-x",
+  "version": "10.12.1",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/rpc-core": "10.10.2-2-x",
-    "@polkadot/types": "10.10.2-2-x",
-    "@polkadot/util": "^12.5.1",
+    "@polkadot/rpc-core": "10.12.1",
+    "@polkadot/types": "10.12.1",
+    "@polkadot/util": "^12.6.2",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2"
   }

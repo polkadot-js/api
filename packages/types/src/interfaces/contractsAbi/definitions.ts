@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Definitions } from '../../types/index.js';
@@ -120,6 +120,13 @@ const spec = {
     docs: 'Vec<Text>',
     environment: 'ContractEnvironmentV4'
   },
+  ContractContractSpecV5: {
+    constructors: 'Vec<ContractConstructorSpecV4>',
+    messages: 'Vec<ContractMessageSpecV3>',
+    events: 'Vec<ContractEventSpecV3>',
+    docs: 'Vec<Text>',
+    environment: 'ContractEnvironmentV4'
+  },
 
   ContractDisplayName: 'SiPath',
   ContractEventParamSpecV0: {
@@ -148,6 +155,13 @@ const spec = {
     label: 'Text',
     args: 'Vec<ContractEventParamSpecV2>',
     docs: 'Vec<Text>'
+  },
+  ContractEventSpecV3: {
+    label: 'Text',
+    args: 'Vec<ContractEventParamSpecV2>',
+    docs: 'Vec<Text>',
+    module_path: 'Text',
+    signature_topic: 'Option<[u8; 32]>'
   },
   ContractMessageParamSpecV0: {
     name: 'Text',
@@ -203,11 +217,11 @@ const spec = {
 
 const latest = {
   ContractConstructorSpecLatest: 'ContractConstructorSpecV4',
-  ContractEventSpecLatest: 'ContractEventSpecV2',
+  ContractEventSpecLatest: 'ContractEventSpecV3',
   ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
   ContractMessageSpecLatest: 'ContractMessageSpecV3',
-  ContractMetadataLatest: 'ContractMetadataV4'
+  ContractMetadataLatest: 'ContractMetadataV5'
 };
 
 export default {
@@ -239,7 +253,13 @@ export default {
     },
     ContractMetadataV4: {
       types: 'Vec<PortableType>',
-      spec: 'ContractContractSpecV4'
+      spec: 'ContractContractSpecV4',
+      version: 'Text'
+    },
+    ContractMetadataV5: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV5',
+      version: 'u64'
     },
     ContractMetadata: {
       _enum: {
@@ -247,7 +267,8 @@ export default {
         V1: 'ContractMetadataV1',
         V2: 'ContractMetadataV2',
         V3: 'ContractMetadataV3',
-        V4: 'ContractMetadataV4'
+        V4: 'ContractMetadataV4',
+        V5: 'ContractMetadataV5'
       }
     },
     ContractProjectV0: {

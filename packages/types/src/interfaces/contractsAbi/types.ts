@@ -94,6 +94,15 @@ export interface ContractContractSpecV4 extends Struct {
   readonly environment: ContractEnvironmentV4;
 }
 
+/** @name ContractContractSpecV5 */
+export interface ContractContractSpecV5 extends Struct {
+  readonly constructors: Vec<ContractConstructorSpecV4>;
+  readonly messages: Vec<ContractMessageSpecV3>;
+  readonly events: Vec<ContractEventSpecV3>;
+  readonly docs: Vec<Text>;
+  readonly environment: ContractEnvironmentV4;
+}
+
 /** @name ContractCryptoHasher */
 export interface ContractCryptoHasher extends Enum {
   readonly isBlake2x256: boolean;
@@ -138,7 +147,7 @@ export interface ContractEventParamSpecV2 extends Struct {
 }
 
 /** @name ContractEventSpecLatest */
-export interface ContractEventSpecLatest extends ContractEventSpecV2 {}
+export interface ContractEventSpecLatest extends ContractEventSpecV3 {}
 
 /** @name ContractEventSpecV0 */
 export interface ContractEventSpecV0 extends Struct {
@@ -159,6 +168,15 @@ export interface ContractEventSpecV2 extends Struct {
   readonly label: Text;
   readonly args: Vec<ContractEventParamSpecV2>;
   readonly docs: Vec<Text>;
+}
+
+/** @name ContractEventSpecV3 */
+export interface ContractEventSpecV3 extends Struct {
+  readonly label: Text;
+  readonly args: Vec<ContractEventParamSpecV2>;
+  readonly docs: Vec<Text>;
+  readonly module_path: Text;
+  readonly signature_topic: Option<U8aFixed>;
 }
 
 /** @name ContractLayoutArray */
@@ -284,11 +302,13 @@ export interface ContractMetadata extends Enum {
   readonly asV3: ContractMetadataV3;
   readonly isV4: boolean;
   readonly asV4: ContractMetadataV4;
-  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4';
+  readonly isV5: boolean;
+  readonly asV5: ContractMetadataV5;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5';
 }
 
 /** @name ContractMetadataLatest */
-export interface ContractMetadataLatest extends ContractMetadataV4 {}
+export interface ContractMetadataLatest extends ContractMetadataV5 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
@@ -319,6 +339,14 @@ export interface ContractMetadataV3 extends Struct {
 export interface ContractMetadataV4 extends Struct {
   readonly types: Vec<PortableType>;
   readonly spec: ContractContractSpecV4;
+  readonly version: Text;
+}
+
+/** @name ContractMetadataV5 */
+export interface ContractMetadataV5 extends Struct {
+  readonly types: Vec<PortableType>;
+  readonly spec: ContractContractSpecV5;
+  readonly version: u64;
 }
 
 /** @name ContractProject */

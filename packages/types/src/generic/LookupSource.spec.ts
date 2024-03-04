@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types authors & contributors
+// Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
@@ -44,7 +44,7 @@ describe('LookupSource', (): void => {
     testDecode(
       'AccountIndex (mixed prefixes)',
       registry.createType('IndicesLookupSource', '118r'),
-      // NOTE Expected adress here is encoded with prefix 42, input above with 1
+      // NOTE Expected address here is encoded with prefix 42, input above with 1
       '25GUyv'
     );
     testDecode(

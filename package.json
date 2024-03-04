@@ -6,7 +6,7 @@
   },
   "homepage": "https://github.com/polkadot-js/api#readme",
   "license": "Apache-2.0",
-  "packageManager": "yarn@3.2.0",
+  "packageManager": "yarn@4.1.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -14,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "10.10.2-2-x",
+  "version": "10.12.1",
   "versions": {
-    "git": "10.10.2-2-x",
-    "npm": "10.10.1"
+    "git": "10.12.1",
+    "npm": "10.12.1"
   },
   "workspaces": [
     "packages/*"
@@ -40,11 +40,11 @@
     "test:one": "polkadot-dev-run-test --env node"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.76.30",
+    "@polkadot/dev": "^0.78.9",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/node": "^20.8.7"
+    "@types/node": "^20.11.6"
   },
   "resolutions": {
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   }
 }

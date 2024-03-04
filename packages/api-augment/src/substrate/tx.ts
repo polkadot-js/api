@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletAssetConversionNativeOrAssetId, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeTask, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletAssetConversionNativeOrAssetId, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -331,14 +331,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * See [`Pallet::force_unreserve`].
        **/
       forceUnreserve: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, u128]>;
-      /**
-       * See [`Pallet::set_balance_deprecated`].
-       **/
-      setBalanceDeprecated: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, newFree: Compact<u128> | AnyNumber | Uint8Array, oldReserved: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>, Compact<u128>]>;
-      /**
-       * See [`Pallet::transfer`].
-       **/
-      transfer: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>]>;
       /**
        * See [`Pallet::transfer_all`].
        **/
@@ -910,11 +902,11 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * See [`Pallet::set_fields`].
        **/
-      setFields: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array, fields: PalletIdentityBitFlags) => SubmittableExtrinsic<ApiType>, [Compact<u32>, PalletIdentityBitFlags]>;
+      setFields: AugmentedSubmittable<(index: Compact<u32> | AnyNumber | Uint8Array, fields: u64 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, u64]>;
       /**
        * See [`Pallet::set_identity`].
        **/
-      setIdentity: AugmentedSubmittable<(info: PalletIdentityIdentityInfo | { additional?: any; display?: any; legal?: any; web?: any; riot?: any; email?: any; pgpFingerprint?: any; image?: any; twitter?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletIdentityIdentityInfo]>;
+      setIdentity: AugmentedSubmittable<(info: PalletIdentityLegacyIdentityInfo | { additional?: any; display?: any; legal?: any; web?: any; riot?: any; email?: any; pgpFingerprint?: any; image?: any; twitter?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletIdentityLegacyIdentityInfo]>;
       /**
        * See [`Pallet::set_subs`].
        **/
@@ -991,6 +983,16 @@ declare module '@polkadot/api-base/types/submittable' {
        * See [`Pallet::reap_page`].
        **/
       reapPage: AugmentedSubmittable<(messageOrigin: u32 | AnyNumber | Uint8Array, pageIndex: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    mixnet: {
+      /**
+       * See `Pallet::register`.
+       **/
+      register: AugmentedSubmittable<(registration: PalletMixnetRegistration | { blockNumber?: any; sessionIndex?: any; authorityIndex?: any; mixnode?: any } | string | Uint8Array, signature: SpMixnetAppSignature | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletMixnetRegistration, SpMixnetAppSignature]>;
       /**
        * Generic tx
        **/
@@ -1230,6 +1232,10 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     nominationPools: {
       /**
+       * See [`Pallet::adjust_pool_deposit`].
+       **/
+      adjustPoolDeposit: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
        * See [`Pallet::bond_extra`].
        **/
       bondExtra: AugmentedSubmittable<(extra: PalletNominationPoolsBondExtra | { FreeBalance: any } | { Rewards: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletNominationPoolsBondExtra]>;
@@ -1285,6 +1291,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * See [`Pallet::set_commission_change_rate`].
        **/
       setCommissionChangeRate: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, changeRate: PalletNominationPoolsCommissionChangeRate | { maxIncrease?: any; minDelay?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, PalletNominationPoolsCommissionChangeRate]>;
+      /**
+       * See [`Pallet::set_commission_claim_permission`].
+       **/
+      setCommissionClaimPermission: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, permission: Option<PalletNominationPoolsCommissionClaimPermission> | null | Uint8Array | PalletNominationPoolsCommissionClaimPermission | { Permissionless: any } | { Account: any } | string) => SubmittableExtrinsic<ApiType>, [u32, Option<PalletNominationPoolsCommissionClaimPermission>]>;
       /**
        * See [`Pallet::set_commission_max`].
        **/
@@ -1467,6 +1477,10 @@ declare module '@polkadot/api-base/types/submittable' {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     preimage: {
+      /**
+       * See [`Pallet::ensure_updated`].
+       **/
+      ensureUpdated: AugmentedSubmittable<(hashes: Vec<H256> | (H256 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<H256>]>;
       /**
        * See [`Pallet::note_preimage`].
        **/
@@ -1702,9 +1716,13 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     rootTesting: {
       /**
-       * See [`Pallet::fill_block`].
+       * See `Pallet::fill_block`.
        **/
       fillBlock: AugmentedSubmittable<(ratio: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Perbill]>;
+      /**
+       * See `Pallet::trigger_defensive`.
+       **/
+      triggerDefensive: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
        * Generic tx
        **/
@@ -1820,7 +1838,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * See [`Pallet::set_keys`].
        **/
-      setKeys: AugmentedSubmittable<(keys: KitchensinkRuntimeSessionKeys | { grandpa?: any; babe?: any; imOnline?: any; authorityDiscovery?: any } | string | Uint8Array, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeSessionKeys, Bytes]>;
+      setKeys: AugmentedSubmittable<(keys: KitchensinkRuntimeSessionKeys | { grandpa?: any; babe?: any; imOnline?: any; authorityDiscovery?: any; mixnet?: any } | string | Uint8Array, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeSessionKeys, Bytes]>;
       /**
        * Generic tx
        **/
@@ -1932,7 +1950,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * See [`Pallet::chill_other`].
        **/
-      chillOther: AugmentedSubmittable<(controller: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
+      chillOther: AugmentedSubmittable<(stash: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * See [`Pallet::force_apply_min_commission`].
        **/
@@ -1969,6 +1987,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * See [`Pallet::payout_stakers`].
        **/
       payoutStakers: AugmentedSubmittable<(validatorStash: AccountId32 | string | Uint8Array, era: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32]>;
+      /**
+       * See [`Pallet::payout_stakers_by_page`].
+       **/
+      payoutStakersByPage: AugmentedSubmittable<(validatorStash: AccountId32 | string | Uint8Array, era: u32 | AnyNumber | Uint8Array, page: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32, u32]>;
       /**
        * See [`Pallet::reap_stash`].
        **/
@@ -2009,6 +2031,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * See [`Pallet::unbond`].
        **/
       unbond: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>]>;
+      /**
+       * See [`Pallet::update_payee`].
+       **/
+      updatePayee: AugmentedSubmittable<(controller: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * See [`Pallet::validate`].
        **/
@@ -2054,6 +2080,10 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     sudo: {
       /**
+       * See [`Pallet::remove_key`].
+       **/
+      removeKey: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
        * See [`Pallet::set_key`].
        **/
       setKey: AugmentedSubmittable<(updated: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
@@ -2075,6 +2105,10 @@ declare module '@polkadot/api-base/types/submittable' {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     system: {
+      /**
+       * See [`Pallet::do_task`].
+       **/
+      doTask: AugmentedSubmittable<(task: KitchensinkRuntimeRuntimeTask | { TasksExample: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeRuntimeTask]>;
       /**
        * See [`Pallet::kill_prefix`].
        **/
@@ -2240,6 +2274,14 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       approveProposal: AugmentedSubmittable<(proposalId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
+       * See [`Pallet::check_status`].
+       **/
+      checkStatus: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * See [`Pallet::payout`].
+       **/
+      payout: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
        * See [`Pallet::propose_spend`].
        **/
       proposeSpend: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, beneficiary: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress]>;
@@ -2254,7 +2296,15 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * See [`Pallet::spend`].
        **/
-      spend: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, beneficiary: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress]>;
+      spend: AugmentedSubmittable<(assetKind: u32 | AnyNumber | Uint8Array, amount: Compact<u128> | AnyNumber | Uint8Array, beneficiary: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, validFrom: Option<u32> | null | Uint8Array | u32 | AnyNumber) => SubmittableExtrinsic<ApiType>, [u32, Compact<u128>, MultiAddress, Option<u32>]>;
+      /**
+       * See [`Pallet::spend_local`].
+       **/
+      spendLocal: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, beneficiary: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress]>;
+      /**
+       * See [`Pallet::void_spend`].
+       **/
+      voidSpend: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Generic tx
        **/
@@ -2415,6 +2465,10 @@ declare module '@polkadot/api-base/types/submittable' {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     vesting: {
+      /**
+       * See [`Pallet::force_remove_vesting_schedule`].
+       **/
+      forceRemoveVestingSchedule: AugmentedSubmittable<(target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, scheduleIndex: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, u32]>;
       /**
        * See [`Pallet::force_vested_transfer`].
        **/

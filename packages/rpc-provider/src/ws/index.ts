@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2024 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Class } from '@polkadot/util/types';
@@ -12,7 +12,7 @@ import { WebSocket } from '@polkadot/x-ws';
 
 import { RpcCoder } from '../coder/index.js';
 import defaults from '../defaults.js';
-import { LRUCache } from '../lru.js';
+import { DEFAULT_CAPACITY, LRUCache } from '../lru.js';
 import { getWSErrorString } from './errors.js';
 
 interface SubscriptionHandler {
@@ -83,7 +83,7 @@ function defaultEndpointStats (): EndpointStats {
  * @see [[HttpProvider]]
  */
 export class WsProvider implements ProviderInterface {
-  readonly #callCache = new LRUCache();
+  readonly #callCache: LRUCache;
   readonly #coder: RpcCoder;
   readonly #endpoints: string[];
   readonly #headers: Record<string, string>;
@@ -108,7 +108,7 @@ export class WsProvider implements ProviderInterface {
    * @param {Record<string, string>} headers The headers provided to the underlying WebSocket
    * @param {number} [timeout] Custom timeout value used per request . Defaults to `DEFAULT_TIMEOUT_MS`
    */
-  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number) {
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number, cacheCapacity?: number) {
     const endpoints = Array.isArray(endpoint)
       ? endpoint
       : [endpoint];
@@ -122,7 +122,7 @@ export class WsProvider implements ProviderInterface {
         throw new Error(`Endpoint should start with 'ws://', received '${endpoint}'`);
       }
     });
-
+    this.#callCache = new LRUCache(cacheCapacity || DEFAULT_CAPACITY);
     this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;
     this.#coder = new RpcCoder();

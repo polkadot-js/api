@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types-support authors & contributors
+// Copyright 2017-2024 @polkadot/types-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable */
@@ -89,7 +89,15 @@ export default {
       2
     ],
     [
+      "0x6fd7c327202e4a8d",
+      1
+    ],
+    [
       "0xab3c0572291feb8b",
+      1
+    ],
+    [
+      "0xfbc577b9d747efd6",
       1
     ]
   ],

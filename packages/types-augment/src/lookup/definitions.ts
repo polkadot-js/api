@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/types-lookup authors & contributors
+// Copyright 2017-2024 @polkadot/types-lookup authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Definitions } from '@polkadot/types/types';

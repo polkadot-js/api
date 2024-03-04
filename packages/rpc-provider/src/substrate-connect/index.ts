@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/rpc-provider authors & contributors
+// Copyright 2017-2024 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type * as ScType from '@substrate/connect';
@@ -99,7 +99,7 @@ export class ScProvider implements ProviderInterface {
       throw new Error('Already connected!');
     }
 
-    // it could happen that after emitting `disconnected` due to the fact taht
+    // it could happen that after emitting `disconnected` due to the fact that
     // smoldot is syncing, the consumer tries to reconnect after a certain amount
     // of time... In which case we want to make sure that we don't create a new
     // chain.
@@ -154,9 +154,17 @@ export class ScProvider implements ProviderInterface {
       callback?.(decodedResponse);
     };
 
-    const addChain = this.#wellKnownChains.has(this.#spec as ScType.WellKnownChain)
-      ? client.addWellKnownChain
-      : client.addChain;
+    const addChain = this.#sharedSandbox
+      ? (async (...args) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const source = this.#sharedSandbox!;
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return (await source.#chain)!.addChain(...args);
+      }) as ScType.AddChain
+      : this.#wellKnownChains.has(this.#spec as ScType.WellKnownChain)
+        ? client.addWellKnownChain
+        : client.addChain;
 
     this.#chain = addChain(this.#spec as ScType.WellKnownChain, onResponse).then((chain) => {
       hc.setSendJsonRpc(chain.sendJsonRpc);
