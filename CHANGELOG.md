@@ -1,6 +1,13 @@
 # CHANGELOG
 
-## 10.11.3 Feb 27, 2023
+## 10.12.0 Mar 4, 2024
+
+Contributed:
+
+- Ink! V5 Support (Thanks to https://github.com/peetzweg)
+
+
+## 10.11.3 Feb 27, 2024
 
 Contributed:
 
