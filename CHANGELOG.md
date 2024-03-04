@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 10.12.0 Mar 4, 2024
+## 10.12.1 Mar 4, 2024
 
 Contributed:
 
