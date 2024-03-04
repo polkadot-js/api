@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 10.12.1 Mar 4, 2024
+
+Contributed:
+
+- Ink! V5 Support (Thanks to https://github.com/peetzweg)
+
+
 ## 10.12.0 Mar 4, 2024
 
 Contributed:
