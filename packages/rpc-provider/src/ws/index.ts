@@ -6,7 +6,7 @@ import type { EndpointStats, JsonRpcResponse, ProviderInterface, ProviderInterfa
 
 import { EventEmitter } from 'eventemitter3';
 
-import { isChildClass, isNull, isUndefined, logger, noop, objectSpread } from '@polkadot/util';
+import { isChildClass, isNull, isUndefined, logger, noop, objectSpread, stringify } from '@polkadot/util';
 import { xglobal } from '@polkadot/x-global';
 import { WebSocket } from '@polkadot/x-ws';
 
@@ -312,15 +312,16 @@ export class WsProvider implements ProviderInterface {
     this.#stats.total.requests++;
 
     const [id, body] = this.#coder.encodeJson(method, params);
+    const cacheKey = isCacheable ? `${method}::${stringify(params)}` : '';
     let resultPromise: Promise<T> | null = isCacheable
-      ? this.#callCache.get(body)
+      ? this.#callCache.get(cacheKey)
       : null;
 
     if (!resultPromise) {
       resultPromise = this.#send(id, body, method, params, subscription);
 
       if (isCacheable) {
-        this.#callCache.set(body, resultPromise);
+        this.#callCache.set(cacheKey, resultPromise);
       }
     } else {
       this.#endpointStats.cached++;
