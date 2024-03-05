@@ -36,7 +36,7 @@ describe('decorateEvents', (): void => {
       ],
       fields: [
         { docs: [], name: 'stash', type: 0, typeName: 'T::AccountId' },
-        { docs: [], name: 'dest', type: 50, typeName: 'RewardDestination<T::AccountId>' },
+        { docs: [], name: 'dest', type: 48, typeName: 'RewardDestination<T::AccountId>' },
         { docs: [], name: 'amount', type: 6, typeName: 'BalanceOf<T>' }
       ],
       index: 1,

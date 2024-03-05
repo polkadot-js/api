@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Data } from '@polkadot/types';
+import type { Bytes, Data } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletIdentityIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { Option } from '@polkadot/types-codec';
@@ -40,12 +40,12 @@ function extractOther (additional: IdentityInfoAdditional[]): Record<string, str
   }, {});
 }
 
-function extractIdentity (identityOfOpt?: Option<PalletIdentityRegistration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
+function extractIdentity (identityOfOpt?: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
   if (!identityOfOpt?.isSome) {
     return { judgements: [] };
   }
 
-  const { info, judgements } = identityOfOpt.unwrap();
+  const { info, judgements } = identityOfOpt.unwrap()[0];
   const topDisplay = dataAsString(info.display);
 
   return {
@@ -64,7 +64,7 @@ function extractIdentity (identityOfOpt?: Option<PalletIdentityRegistration>, su
   };
 }
 
-function getParent (api: DeriveApi, identityOfOpt: Option<PalletIdentityRegistration> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<PalletIdentityRegistration> | undefined, [AccountId, Data] | undefined]> {
+function getParent (api: DeriveApi, identityOfOpt: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>> | undefined, superOfOpt: Option<ITuple<[AccountId, Data]>> | undefined): Observable<[Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>> | undefined, [AccountId, Data] | undefined]> {
   if (identityOfOpt?.isSome) {
     // this identity has something set
     return of([identityOfOpt, undefined]);
@@ -83,8 +83,8 @@ function getParent (api: DeriveApi, identityOfOpt: Option<PalletIdentityRegistra
   return of([undefined, undefined]);
 }
 
-export function _identity (instanceId: string, api: DeriveApi): (accountId?: AccountId | Uint8Array | string) => Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
-  return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<[Option<PalletIdentityRegistration> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> =>
+export function _identity (instanceId: string, api: DeriveApi): (accountId?: AccountId | Uint8Array | string) => Observable<[Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> {
+  return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<[Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>> | undefined, Option<ITuple<[AccountId, Data]>> | undefined]> =>
     accountId && api.query.identity?.identityOf
       ? combineLatest([
         api.query.identity.identityOf(accountId),
@@ -132,7 +132,7 @@ export function hasIdentityMulti (instanceId: string, api: DeriveApi): (accountI
             let display: string | undefined;
 
             if (identityOfOpt && identityOfOpt.isSome) {
-              const value = dataAsString(identityOfOpt.unwrap().info.display);
+              const value = dataAsString(identityOfOpt.unwrap()[0].info.display);
 
               if (value && !isHex(value)) {
                 display = value;

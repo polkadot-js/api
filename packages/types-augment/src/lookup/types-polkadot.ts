@@ -991,9 +991,6 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
   }
 
-  /** @name SpCoreEcdsaPublic (344) */
-  interface SpCoreEcdsaPublic extends U8aFixed {}
-
   /** @name PalletXcmCall (349) */
   interface PalletXcmCall extends Enum {
     readonly isSend: boolean;
