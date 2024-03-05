@@ -1,4 +1,14 @@
-## extraction
+## Extraction (Current)
+
+For Substrate -
+
+Clone the [polkadot-sdk](https://github.com/paritytech/polkadot-sdk) repository and from the ROOT run:
+
+`cargo build --release && ./target/release/substrate-node --dev`
+
+`--dev` sets the flag `--tmp` automatically so there is no need for purging the dev db.
+
+## extraction (Legacy)
 
 For Substrate & Polkadot (dev chains) -
 
