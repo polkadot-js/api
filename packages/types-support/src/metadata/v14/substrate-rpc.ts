@@ -18,6 +18,9 @@ export default {
     "author_submitExtrinsic",
     "author_unwatchExtrinsic",
     "babe_epochAuthorship",
+    "beefy_getFinalizedHead",
+    "beefy_subscribeJustifications",
+    "beefy_unsubscribeJustifications",
     "chainHead_unstable_body",
     "chainHead_unstable_call",
     "chainHead_unstable_continue",
@@ -122,8 +125,8 @@ export default {
     "system_syncState",
     "system_unstable_networkState",
     "system_version",
-    "transaction_unstable_submitAndWatch",
-    "transaction_unstable_unwatch",
+    "transactionWatch_unstable_submitAndWatch",
+    "transactionWatch_unstable_unwatch",
     "unsubscribe_newHead"
   ]
 };
