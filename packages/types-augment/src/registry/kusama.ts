@@ -5,25 +5,32 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/types/registry';
 
-import type { KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin, KusamaRuntimeNposCompactSolution24, KusamaRuntimeOriginCaller, KusamaRuntimeProxyType, KusamaRuntimeRuntime, KusamaRuntimeRuntimeHoldReason, KusamaRuntimeSessionKeys, PalletBeefyCall, PalletBeefyError, SpConsensusBeefyCommitment, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyEcdsaCryptoSignature, SpConsensusBeefyEquivocationProof, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusBeefyPayload, SpConsensusBeefyVoteMessage } from '@polkadot/types/lookup';
+import type { PalletBalancesIdAmount, PolkadotRuntimeParachainsAssignerCoretimeAssignmentState, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsAssignerCoretimePalletError, PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor, PolkadotRuntimeParachainsAssignerCoretimeSchedule, PolkadotRuntimeParachainsAssignerCoretimeWorkState, PolkadotRuntimeParachainsAssignerOnDemandCoreAffinityCount, PolkadotRuntimeParachainsAssignerOnDemandEnqueuedOrder, PolkadotRuntimeParachainsAssignerOnDemandPalletCall, PolkadotRuntimeParachainsAssignerOnDemandPalletError, PolkadotRuntimeParachainsAssignerOnDemandPalletEvent, PolkadotRuntimeParachainsCoretimePalletCall, PolkadotRuntimeParachainsCoretimePalletError, PolkadotRuntimeParachainsCoretimePalletEvent, StagingKusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin, StagingKusamaRuntimeNposCompactSolution24, StagingKusamaRuntimeOriginCaller, StagingKusamaRuntimeProxyType, StagingKusamaRuntimeRuntime, StagingKusamaRuntimeRuntimeFreezeReason, StagingKusamaRuntimeRuntimeHoldReason, StagingKusamaRuntimeSessionKeys } from '@polkadot/types/lookup';
 
 declare module '@polkadot/types/types/registry' {
   interface InterfaceTypes {
-    KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin: KusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin;
-    KusamaRuntimeNposCompactSolution24: KusamaRuntimeNposCompactSolution24;
-    KusamaRuntimeOriginCaller: KusamaRuntimeOriginCaller;
-    KusamaRuntimeProxyType: KusamaRuntimeProxyType;
-    KusamaRuntimeRuntime: KusamaRuntimeRuntime;
-    KusamaRuntimeRuntimeHoldReason: KusamaRuntimeRuntimeHoldReason;
-    KusamaRuntimeSessionKeys: KusamaRuntimeSessionKeys;
-    PalletBeefyCall: PalletBeefyCall;
-    PalletBeefyError: PalletBeefyError;
-    SpConsensusBeefyCommitment: SpConsensusBeefyCommitment;
-    SpConsensusBeefyEcdsaCryptoPublic: SpConsensusBeefyEcdsaCryptoPublic;
-    SpConsensusBeefyEcdsaCryptoSignature: SpConsensusBeefyEcdsaCryptoSignature;
-    SpConsensusBeefyEquivocationProof: SpConsensusBeefyEquivocationProof;
-    SpConsensusBeefyMmrBeefyAuthoritySet: SpConsensusBeefyMmrBeefyAuthoritySet;
-    SpConsensusBeefyPayload: SpConsensusBeefyPayload;
-    SpConsensusBeefyVoteMessage: SpConsensusBeefyVoteMessage;
+    PalletBalancesIdAmount: PalletBalancesIdAmount;
+    PolkadotRuntimeParachainsAssignerCoretimeAssignmentState: PolkadotRuntimeParachainsAssignerCoretimeAssignmentState;
+    PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor;
+    PolkadotRuntimeParachainsAssignerCoretimePalletError: PolkadotRuntimeParachainsAssignerCoretimePalletError;
+    PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor: PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor;
+    PolkadotRuntimeParachainsAssignerCoretimeSchedule: PolkadotRuntimeParachainsAssignerCoretimeSchedule;
+    PolkadotRuntimeParachainsAssignerCoretimeWorkState: PolkadotRuntimeParachainsAssignerCoretimeWorkState;
+    PolkadotRuntimeParachainsAssignerOnDemandCoreAffinityCount: PolkadotRuntimeParachainsAssignerOnDemandCoreAffinityCount;
+    PolkadotRuntimeParachainsAssignerOnDemandEnqueuedOrder: PolkadotRuntimeParachainsAssignerOnDemandEnqueuedOrder;
+    PolkadotRuntimeParachainsAssignerOnDemandPalletCall: PolkadotRuntimeParachainsAssignerOnDemandPalletCall;
+    PolkadotRuntimeParachainsAssignerOnDemandPalletError: PolkadotRuntimeParachainsAssignerOnDemandPalletError;
+    PolkadotRuntimeParachainsAssignerOnDemandPalletEvent: PolkadotRuntimeParachainsAssignerOnDemandPalletEvent;
+    PolkadotRuntimeParachainsCoretimePalletCall: PolkadotRuntimeParachainsCoretimePalletCall;
+    PolkadotRuntimeParachainsCoretimePalletError: PolkadotRuntimeParachainsCoretimePalletError;
+    PolkadotRuntimeParachainsCoretimePalletEvent: PolkadotRuntimeParachainsCoretimePalletEvent;
+    StagingKusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin: StagingKusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin;
+    StagingKusamaRuntimeNposCompactSolution24: StagingKusamaRuntimeNposCompactSolution24;
+    StagingKusamaRuntimeOriginCaller: StagingKusamaRuntimeOriginCaller;
+    StagingKusamaRuntimeProxyType: StagingKusamaRuntimeProxyType;
+    StagingKusamaRuntimeRuntime: StagingKusamaRuntimeRuntime;
+    StagingKusamaRuntimeRuntimeFreezeReason: StagingKusamaRuntimeRuntimeFreezeReason;
+    StagingKusamaRuntimeRuntimeHoldReason: StagingKusamaRuntimeRuntimeHoldReason;
+    StagingKusamaRuntimeSessionKeys: StagingKusamaRuntimeSessionKeys;
   } // InterfaceTypes
 } // declare module

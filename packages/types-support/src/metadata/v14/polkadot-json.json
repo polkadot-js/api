@@ -162,7 +162,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 12,
-                    "value": 456
+                    "value": 500
                   }
                 },
                 "fallback": "0x00",
@@ -183,7 +183,7 @@
                 "name": "LastRuntimeUpgrade",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 457
+                  "plain": 501
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -194,7 +194,7 @@
                 "name": "UpgradedToU32RefCount",
                 "modifier": "Default",
                 "type": {
-                  "plain": 44
+                  "plain": 30
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -205,7 +205,7 @@
                 "name": "UpgradedToTripleRefCount",
                 "modifier": "Default",
                 "type": {
-                  "plain": 44
+                  "plain": 30
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -217,17 +217,28 @@
                 "name": "ExecutionPhase",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 454
+                  "plain": 499
                 },
                 "fallback": "0x00",
                 "docs": [
                   " The execution phase of the block."
                 ]
+              },
+              {
+                "name": "AuthorizedUpgrade",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 503
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " `Some` if a code upgrade has been authorized."
+                ]
               }
             ]
           },
           "calls": {
-            "type": 69
+            "type": 95
           },
           "events": {
             "type": 21
@@ -235,7 +246,7 @@
           "constants": [
             {
               "name": "BlockWeights",
-              "type": 459,
+              "type": 504,
               "value": "0x07b0bde93603000b00204aa9d10113ffffffffffffffff222d0d1e00010bb8845c8f580113a3703d0ad7a370bd010b0098f73e5d0113ffffffffffffffbf010000222d0d1e00010bb80caff9cc0113a3703d0ad7a370fd010b00204aa9d10113ffffffffffffffff01070088526a74130000000000000040222d0d1e00000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
@@ -243,7 +254,7 @@
             },
             {
               "name": "BlockLength",
-              "type": 462,
+              "type": 507,
               "value": "0x00003c000000500000005000",
               "docs": [
                 " The maximum length of a block (in bytes)."
@@ -259,7 +270,7 @@
             },
             {
               "name": "DbWeight",
-              "type": 464,
+              "type": 509,
               "value": "0x38ca38010000000098aaf90400000000",
               "docs": [
                 " The weight of runtime database operations the runtime can invoke."
@@ -267,15 +278,15 @@
             },
             {
               "name": "Version",
-              "type": 465,
-              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000d62400000000000044df6acb689907609b0400000037e397fc7c91f5e40200000040fe3ad401f8959a0600000017a6bc0d0062aeb30100000018ef58a3b67ba77001000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0500000049eaaf1b548a0cb00300000091d5df18b0d2cf5802000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a804000000f3ff14d5ab527059030000001800000000",
+              "type": 510,
+              "value": "0x20706f6c6b61646f743c7061726974792d706f6c6b61646f7400000000104a0f00000000004cdf6acb689907609b0400000037e397fc7c91f5e40200000040fe3ad401f8959a0600000017a6bc0d0062aeb30100000018ef58a3b67ba77001000000d2bc9897eed08f1503000000f78b278be53f454c02000000af2c0297a23e6d3d0500000049eaaf1b548a0cb00300000091d5df18b0d2cf58020000002a5e924655399e6001000000ed99c5acb25eedf503000000cbca25e39f14238702000000687ad44ad37f03c201000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a804000000f3ff14d5ab52705903000000fbc577b9d747efd6010000001900000000",
               "docs": [
                 " Get the chain's current version."
               ]
             },
             {
               "name": "SS58Prefix",
-              "type": 66,
+              "type": 92,
               "value": "0x0000",
               "docs": [
                 " The designated SS58 prefix of this chain.",
@@ -287,7 +298,7 @@
             }
           ],
           "errors": {
-            "type": 469
+            "type": 514
           },
           "index": 0
         },
@@ -314,7 +325,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 470
+                    "value": 515
                   }
                 },
                 "fallback": "0x00",
@@ -331,7 +342,7 @@
                       "Twox64Concat"
                     ],
                     "key": 1,
-                    "value": 31
+                    "value": 32
                   }
                 },
                 "fallback": "0x00",
@@ -345,10 +356,10 @@
             ]
           },
           "calls": {
-            "type": 73
+            "type": 99
           },
           "events": {
-            "type": 30
+            "type": 31
           },
           "constants": [
             {
@@ -373,7 +384,7 @@
             }
           ],
           "errors": {
-            "type": 474
+            "type": 519
           },
           "index": 1
         },
@@ -391,7 +402,24 @@
                       "Identity"
                     ],
                     "key": 12,
-                    "value": 475
+                    "value": 520
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The request status of a given hash."
+                ]
+              },
+              {
+                "name": "RequestStatusFor",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 12,
+                    "value": 522
                   }
                 },
                 "fallback": "0x00",
@@ -407,8 +435,8 @@
                     "hashers": [
                       "Identity"
                     ],
-                    "key": 477,
-                    "value": 478
+                    "key": 526,
+                    "value": 527
                   }
                 },
                 "fallback": "0x00",
@@ -417,14 +445,14 @@
             ]
           },
           "calls": {
-            "type": 75
+            "type": 101
           },
           "events": {
-            "type": 35
+            "type": 36
           },
           "constants": [],
           "errors": {
-            "type": 479
+            "type": 528
           },
           "index": 10
         },
@@ -448,7 +476,7 @@
                 "name": "Authorities",
                 "modifier": "Default",
                 "type": {
-                  "plain": 480
+                  "plain": 529
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -459,7 +487,7 @@
                 "name": "GenesisSlot",
                 "modifier": "Default",
                 "type": {
-                  "plain": 81
+                  "plain": 108
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
@@ -471,7 +499,7 @@
                 "name": "CurrentSlot",
                 "modifier": "Default",
                 "type": {
-                  "plain": 81
+                  "plain": 108
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
@@ -502,7 +530,7 @@
                 "name": "PendingEpochConfigChange",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 83
+                  "plain": 110
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -524,7 +552,7 @@
                 "name": "NextAuthorities",
                 "modifier": "Default",
                 "type": {
-                  "plain": 480
+                  "plain": 529
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -559,7 +587,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 483
+                    "value": 532
                   }
                 },
                 "fallback": "0x00",
@@ -571,7 +599,7 @@
                 "name": "Initialized",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 485
+                  "plain": 534
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -583,7 +611,7 @@
                 "name": "AuthorVrfRandomness",
                 "modifier": "Default",
                 "type": {
-                  "plain": 32
+                  "plain": 33
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -597,7 +625,7 @@
                 "name": "EpochStart",
                 "modifier": "Default",
                 "type": {
-                  "plain": 31
+                  "plain": 32
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
@@ -627,7 +655,7 @@
                 "name": "EpochConfig",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 491
+                  "plain": 540
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -639,7 +667,7 @@
                 "name": "NextEpochConfig",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 491
+                  "plain": 540
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -651,7 +679,7 @@
                 "name": "SkippedEpochs",
                 "modifier": "Default",
                 "type": {
-                  "plain": 492
+                  "plain": 541
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -668,14 +696,14 @@
             ]
           },
           "calls": {
-            "type": 76
+            "type": 103
           },
           "events": null,
           "constants": [
             {
               "name": "EpochDuration",
               "type": 11,
-              "value": "0x6009000000000000",
+              "value": "0x1400000000000000",
               "docs": [
                 " The amount of time, in slots, that each epoch should last.",
                 " NOTE: Currently it is not possible to change the epoch duration after",
@@ -712,7 +740,7 @@
             }
           ],
           "errors": {
-            "type": 495
+            "type": 544
           },
           "index": 2
         },
@@ -729,24 +757,27 @@
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
-                  " Current time for the current block."
+                  " The current time for the current block."
                 ]
               },
               {
                 "name": "DidUpdate",
                 "modifier": "Default",
                 "type": {
-                  "plain": 44
+                  "plain": 30
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " Did the timestamp get updated in this block?"
+                  " Whether the timestamp has been updated in this block.",
+                  "",
+                  " This value is updated to `true` upon successful submission of a timestamp by a node.",
+                  " It is then checked at the end of each block execution in the `on_finalize` hook."
                 ]
               }
             ]
           },
           "calls": {
-            "type": 86
+            "type": 113
           },
           "events": null,
           "constants": [
@@ -755,10 +786,12 @@
               "type": 11,
               "value": "0xb80b000000000000",
               "docs": [
-                " The minimum period between blocks. Beware that this is different to the *expected*",
-                " period that the block production apparatus provides. Your chosen consensus system will",
-                " generally work with this to determine a sensible block time. e.g. For Aura, it will be",
-                " double this period on default settings."
+                " The minimum period between blocks.",
+                "",
+                " Be aware that this is different to the *expected* period that the block production",
+                " apparatus provides. Your chosen consensus system will generally work with this to",
+                " determine a sensible block time. For example, in the Aura pallet it will be double this",
+                " period on default settings."
               ]
             }
           ],
@@ -779,7 +812,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 496
+                    "value": 545
                   }
                 },
                 "fallback": "0x00",
@@ -790,10 +823,10 @@
             ]
           },
           "calls": {
-            "type": 87
+            "type": 114
           },
           "events": {
-            "type": 36
+            "type": 37
           },
           "constants": [
             {
@@ -806,7 +839,7 @@
             }
           ],
           "errors": {
-            "type": 497
+            "type": 546
           },
           "index": 4
         },
@@ -886,7 +919,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 498
+                    "value": 547
                   }
                 },
                 "fallback": "0x00",
@@ -904,7 +937,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 502
+                    "value": 551
                   }
                 },
                 "fallback": "0x00",
@@ -921,7 +954,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 505
+                    "value": 554
                   }
                 },
                 "fallback": "0x00",
@@ -938,7 +971,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 509
+                    "value": 559
                   }
                 },
                 "fallback": "0x00",
@@ -949,10 +982,10 @@
             ]
           },
           "calls": {
-            "type": 91
+            "type": 117
           },
           "events": {
-            "type": 37
+            "type": 38
           },
           "constants": [
             {
@@ -988,24 +1021,16 @@
               ]
             },
             {
-              "name": "MaxHolds",
-              "type": 4,
-              "value": "0x00000000",
-              "docs": [
-                " The maximum number of holds that can exist on an account at any time."
-              ]
-            },
-            {
               "name": "MaxFreezes",
               "type": 4,
-              "value": "0x00000000",
+              "value": "0x08000000",
               "docs": [
                 " The maximum number of individual freeze locks that can exist on an account at any time."
               ]
             }
           ],
           "errors": {
-            "type": 512
+            "type": 564
           },
           "index": 5
         },
@@ -1018,7 +1043,7 @@
                 "name": "NextFeeMultiplier",
                 "modifier": "Default",
                 "type": {
-                  "plain": 513
+                  "plain": 449
                 },
                 "fallback": "0x000064a7b3b6e00d0000000000000000",
                 "docs": []
@@ -1027,7 +1052,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 514
+                  "plain": 565
                 },
                 "fallback": "0x00",
                 "docs": []
@@ -1036,7 +1061,7 @@
           },
           "calls": null,
           "events": {
-            "type": 39
+            "type": 40
           },
           "constants": [
             {
@@ -1044,10 +1069,10 @@
               "type": 2,
               "value": "0x05",
               "docs": [
-                " A fee mulitplier for `Operational` extrinsics to compute \"virtual tip\" to boost their",
+                " A fee multiplier for `Operational` extrinsics to compute \"virtual tip\" to boost their",
                 " `priority`",
                 "",
-                " This value is multipled by the `final_fee` to obtain a \"virtual tip\" that is later",
+                " This value is multiplied by the `final_fee` to obtain a \"virtual tip\" that is later",
                 " added to a tip component in regular `priority` calculations.",
                 " It means that a `Normal` transaction can front-run a similarly-sized `Operational`",
                 " extrinsic (with no tip), by including a tip value greater than the virtual tip.",
@@ -1126,7 +1151,7 @@
                 "name": "Invulnerables",
                 "modifier": "Default",
                 "type": {
-                  "plain": 92
+                  "plain": 118
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1191,7 +1216,7 @@
                 "name": "MinCommission",
                 "modifier": "Default",
                 "type": {
-                  "plain": 41
+                  "plain": 43
                 },
                 "fallback": "0x00000000",
                 "docs": [
@@ -1209,24 +1234,27 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 515
+                    "value": 566
                   }
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " Map from all (unlocked) \"controller\" accounts to the info regarding the staking."
+                  " Map from all (unlocked) \"controller\" accounts to the info regarding the staking.",
+                  "",
+                  " Note: All the reads and mutations to this storage *MUST* be done through the methods exposed",
+                  " by [`StakingLedger`] to ensure data and lock consistency."
                 ]
               },
               {
                 "name": "Payee",
-                "modifier": "Default",
+                "modifier": "Optional",
                 "type": {
                   "map": {
                     "hashers": [
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 94
+                    "value": 42
                   }
                 },
                 "fallback": "0x00",
@@ -1245,7 +1273,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 42
+                    "value": 44
                   }
                 },
                 "fallback": "0x0000",
@@ -1288,7 +1316,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 520
+                    "value": 571
                   }
                 },
                 "fallback": "0x00",
@@ -1356,7 +1384,7 @@
                 "name": "ActiveEra",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 522
+                  "plain": 573
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1380,7 +1408,7 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " The session index at which the era start for the last `HISTORY_DEPTH` eras.",
+                  " The session index at which the era start for the last [`Config::HistoryDepth`] eras.",
                   "",
                   " Note: This tracks the starting session (i.e. session index when era start being active)",
                   " for the eras in `[CurrentEra - HISTORY_DEPTH, CurrentEra]`."
@@ -1395,8 +1423,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 524,
-                    "value": 59
+                    "key": 575,
+                    "value": 576
                   }
                 },
                 "fallback": "0x000000",
@@ -1405,8 +1433,39 @@
                   "",
                   " This is keyed first by the era index to allow bulk deletion and then the stash account.",
                   "",
-                  " Is it removed after `HISTORY_DEPTH` eras.",
-                  " If stakers hasn't been set or has been removed then empty exposure is returned."
+                  " Is it removed after [`Config::HistoryDepth`] eras.",
+                  " If stakers hasn't been set or has been removed then empty exposure is returned.",
+                  "",
+                  " Note: Deprecated since v14. Use `EraInfo` instead to work with exposures."
+                ]
+              },
+              {
+                "name": "ErasStakersOverview",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 575,
+                    "value": 579
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Summary of validator exposure at a given era.",
+                  "",
+                  " This contains the total stake in support of the validator and their own stake. In addition,",
+                  " it can also be used to get the number of nominators backing this validator and the number of",
+                  " exposure pages they are divided into. The page count is useful to determine the number of",
+                  " pages of rewards that needs to be claimed.",
+                  "",
+                  " This is keyed first by the era index to allow bulk deletion and then the stash account.",
+                  " Should only be accessed through `EraInfo`.",
+                  "",
+                  " Is it removed after [`Config::HistoryDepth`] eras.",
+                  " If stakers hasn't been set or has been removed then empty overview is returned."
                 ]
               },
               {
@@ -1418,23 +1477,75 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 524,
-                    "value": 59
+                    "key": 575,
+                    "value": 576
                   }
                 },
                 "fallback": "0x000000",
                 "docs": [
                   " Clipped Exposure of validator at era.",
                   "",
+                  " Note: This is deprecated, should be used as read-only and will be removed in the future.",
+                  " New `Exposure`s are stored in a paged manner in `ErasStakersPaged` instead.",
+                  "",
                   " This is similar to [`ErasStakers`] but number of nominators exposed is reduced to the",
-                  " `T::MaxNominatorRewardedPerValidator` biggest stakers.",
+                  " `T::MaxExposurePageSize` biggest stakers.",
                   " (Note: the field `total` and `own` of the exposure remains unchanged).",
                   " This is used to limit the i/o cost for the nominator payout.",
                   "",
                   " This is keyed fist by the era index to allow bulk deletion and then the stash account.",
                   "",
-                  " Is it removed after `HISTORY_DEPTH` eras.",
-                  " If stakers hasn't been set or has been removed then empty exposure is returned."
+                  " It is removed after [`Config::HistoryDepth`] eras.",
+                  " If stakers hasn't been set or has been removed then empty exposure is returned.",
+                  "",
+                  " Note: Deprecated since v14. Use `EraInfo` instead to work with exposures."
+                ]
+              },
+              {
+                "name": "ErasStakersPaged",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 580,
+                    "value": 581
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Paginated exposure of a validator at given era.",
+                  "",
+                  " This is keyed first by the era index to allow bulk deletion, then stash account and finally",
+                  " the page. Should only be accessed through `EraInfo`.",
+                  "",
+                  " This is cleared after [`Config::HistoryDepth`] eras."
+                ]
+              },
+              {
+                "name": "ClaimedRewards",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 575,
+                    "value": 123
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " History of claimed paged rewards by era and validator.",
+                  "",
+                  " This is keyed by era and validator stash which maps to the set of page indexes which have",
+                  " been claimed.",
+                  "",
+                  " It is removed after [`Config::HistoryDepth`] eras."
                 ]
               },
               {
@@ -1446,8 +1557,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 524,
-                    "value": 42
+                    "key": 575,
+                    "value": 44
                   }
                 },
                 "fallback": "0x0000",
@@ -1456,7 +1567,7 @@
                   "",
                   " This is keyed first by the era index to allow bulk deletion and then the stash account.",
                   "",
-                  " Is it removed after `HISTORY_DEPTH` eras."
+                  " Is it removed after [`Config::HistoryDepth`] eras."
                 ]
               },
               {
@@ -1473,7 +1584,7 @@
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " The total validator era payout for the last `HISTORY_DEPTH` eras.",
+                  " The total validator era payout for the last [`Config::HistoryDepth`] eras.",
                   "",
                   " Eras that haven't finished yet or has been removed doesn't have reward."
                 ]
@@ -1487,12 +1598,12 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 525
+                    "value": 582
                   }
                 },
                 "fallback": "0x0000000000",
                 "docs": [
-                  " Rewards for the last `HISTORY_DEPTH` eras.",
+                  " Rewards for the last [`Config::HistoryDepth`] eras.",
                   " If reward hasn't been set or has been removed then 0 reward is returned."
                 ]
               },
@@ -1510,7 +1621,7 @@
                 },
                 "fallback": "0x00000000000000000000000000000000",
                 "docs": [
-                  " The total amount staked for the last `HISTORY_DEPTH` eras.",
+                  " The total amount staked for the last [`Config::HistoryDepth`] eras.",
                   " If total hasn't been set or has been removed then 0 stake is returned."
                 ]
               },
@@ -1518,7 +1629,7 @@
                 "name": "ForceEra",
                 "modifier": "Default",
                 "type": {
-                  "plain": 45
+                  "plain": 46
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1529,7 +1640,7 @@
                 "name": "SlashRewardFraction",
                 "modifier": "Default",
                 "type": {
-                  "plain": 41
+                  "plain": 43
                 },
                 "fallback": "0x00000000",
                 "docs": [
@@ -1559,7 +1670,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 529
+                    "value": 586
                   }
                 },
                 "fallback": "0x00",
@@ -1571,7 +1682,7 @@
                 "name": "BondedEras",
                 "modifier": "Default",
                 "type": {
-                  "plain": 456
+                  "plain": 500
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1590,8 +1701,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 524,
-                    "value": 531
+                    "key": 575,
+                    "value": 588
                   }
                 },
                 "fallback": "0x00",
@@ -1609,7 +1720,7 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 524,
+                    "key": 575,
                     "value": 6
                   }
                 },
@@ -1627,7 +1738,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 532
+                    "value": 589
                   }
                 },
                 "fallback": "0x00",
@@ -1643,8 +1754,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 528,
-                    "value": 533
+                    "key": 585,
+                    "value": 590
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -1670,7 +1781,7 @@
                 "name": "OffendingValidators",
                 "modifier": "Default",
                 "type": {
-                  "plain": 534
+                  "plain": 591
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1689,7 +1800,7 @@
                 "name": "ChillThreshold",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 96
+                  "plain": 122
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1701,10 +1812,10 @@
             ]
           },
           "calls": {
-            "type": 93
+            "type": 120
           },
           "events": {
-            "type": 40
+            "type": 41
           },
           "constants": [
             {
@@ -1717,8 +1828,8 @@
                 " Following information is kept for eras in `[current_era -",
                 " HistoryDepth, current_era]`: `ErasStakers`, `ErasStakersClipped`,",
                 " `ErasValidatorPrefs`, `ErasValidatorReward`, `ErasRewardPoints`,",
-                " `ErasTotalStake`, `ErasStartSessionIndex`,",
-                " `StakingLedger.claimed_rewards`.",
+                " `ErasTotalStake`, `ErasStartSessionIndex`, `ClaimedRewards`, `ErasStakersPaged`,",
+                " `ErasStakersOverview`.",
                 "",
                 " Must be more than the number of eras delayed by session.",
                 " I.e. active era must always be in history. I.e. `active_era >",
@@ -1728,7 +1839,7 @@
                 " this should be set to same value or greater as in storage.",
                 "",
                 " Note: `HistoryDepth` is used as the upper bound for the `BoundedVec`",
-                " item `StakingLedger.claimed_rewards`. Setting this value lower than",
+                " item `StakingLedger.legacy_claimed_rewards`. Setting this value lower than",
                 " the existing value can lead to inconsistencies in the",
                 " `StakingLedger` and will need to be handled properly in a migration.",
                 " The test `reducing_history_depth_abrupt` shows this effect."
@@ -1737,7 +1848,7 @@
             {
               "name": "SessionsPerEra",
               "type": 4,
-              "value": "0x06000000",
+              "value": "0x01000000",
               "docs": [
                 " Number of sessions per era."
               ]
@@ -1762,14 +1873,21 @@
               ]
             },
             {
-              "name": "MaxNominatorRewardedPerValidator",
+              "name": "MaxExposurePageSize",
               "type": 4,
               "value": "0x00020000",
               "docs": [
-                " The maximum number of nominators rewarded for each validator.",
+                " The maximum size of each `T::ExposurePage`.",
                 "",
-                " For each validator only the `$MaxNominatorRewardedPerValidator` biggest stakers can",
-                " claim their reward. This used to limit the i/o cost for the nominator payout."
+                " An `ExposurePage` is weakly bounded to a maximum of `MaxExposurePageSize`",
+                " nominators.",
+                "",
+                " For older non-paged exposure, a reward payout was restricted to the top",
+                " `MaxExposurePageSize` nominators. This is to limit the i/o cost for the",
+                " nominator payout.",
+                "",
+                " Note: `MaxExposurePageSize` is used to bound `ClaimedRewards` and is unsafe to reduce",
+                " without handling it in a migration."
               ]
             },
             {
@@ -1791,7 +1909,7 @@
             }
           ],
           "errors": {
-            "type": 536
+            "type": 593
           },
           "index": 7
         },
@@ -1809,7 +1927,7 @@
                       "Twox64Concat"
                     ],
                     "key": 12,
-                    "value": 537
+                    "value": 594
                   }
                 },
                 "fallback": "0x00",
@@ -1826,8 +1944,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 538,
-                    "value": 455
+                    "key": 596,
+                    "value": 102
                   }
                 },
                 "fallback": "0x00",
@@ -1839,7 +1957,7 @@
           },
           "calls": null,
           "events": {
-            "type": 46
+            "type": 47
           },
           "constants": [],
           "errors": null,
@@ -1847,7 +1965,39 @@
         },
         {
           "name": "Historical",
-          "storage": null,
+          "storage": {
+            "prefix": "Historical",
+            "items": [
+              {
+                "name": "HistoricalSessions",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 526
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Mapping from historical session indices to session-data root hash and validator count."
+                ]
+              },
+              {
+                "name": "StoredRange",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 32
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The range of historical sessions we store. [first, last)"
+                ]
+              }
+            ]
+          },
           "calls": null,
           "events": null,
           "constants": [],
@@ -1863,7 +2013,7 @@
                 "name": "Validators",
                 "modifier": "Default",
                 "type": {
-                  "plain": 92
+                  "plain": 118
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1885,7 +2035,7 @@
                 "name": "QueuedChanged",
                 "modifier": "Default",
                 "type": {
-                  "plain": 44
+                  "plain": 30
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1897,7 +2047,7 @@
                 "name": "QueuedKeys",
                 "modifier": "Default",
                 "type": {
-                  "plain": 539
+                  "plain": 597
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1909,7 +2059,7 @@
                 "name": "DisabledValidators",
                 "modifier": "Default",
                 "type": {
-                  "plain": 97
+                  "plain": 123
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1929,7 +2079,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 103
+                    "value": 130
                   }
                 },
                 "fallback": "0x00",
@@ -1945,7 +2095,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 541,
+                    "key": 599,
                     "value": 0
                   }
                 },
@@ -1957,14 +2107,14 @@
             ]
           },
           "calls": {
-            "type": 102
+            "type": 129
           },
           "events": {
-            "type": 48
+            "type": 49
           },
           "constants": [],
           "errors": {
-            "type": 543
+            "type": 601
           },
           "index": 9
         },
@@ -1977,7 +2127,7 @@
                 "name": "State",
                 "modifier": "Default",
                 "type": {
-                  "plain": 544
+                  "plain": 602
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1988,7 +2138,7 @@
                 "name": "PendingChange",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 545
+                  "plain": 603
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2010,7 +2160,7 @@
                 "name": "Stalled",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 31
+                  "plain": 32
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2054,14 +2204,25 @@
                   "",
                   " TWOX-NOTE: `SetId` is not under user control."
                 ]
+              },
+              {
+                "name": "Authorities",
+                "modifier": "Default",
+                "type": {
+                  "plain": 604
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current list of authorities."
+                ]
               }
             ]
           },
           "calls": {
-            "type": 107
+            "type": 137
           },
           "events": {
-            "type": 49
+            "type": 50
           },
           "constants": [
             {
@@ -2083,7 +2244,7 @@
             {
               "name": "MaxSetIdSessionEntries",
               "type": 11,
-              "value": "0xa800000000000000",
+              "value": "0x1c00000000000000",
               "docs": [
                 " The maximum number of entries to keep in the set id to session index mapping.",
                 "",
@@ -2095,113 +2256,39 @@
             }
           ],
           "errors": {
-            "type": 547
+            "type": 605
           },
           "index": 11
         },
         {
-          "name": "ImOnline",
+          "name": "AuthorityDiscovery",
           "storage": {
-            "prefix": "ImOnline",
+            "prefix": "AuthorityDiscovery",
             "items": [
-              {
-                "name": "HeartbeatAfter",
-                "modifier": "Default",
-                "type": {
-                  "plain": 4
-                },
-                "fallback": "0x00000000",
-                "docs": [
-                  " The block number after which it's ok to send heartbeats in the current",
-                  " session.",
-                  "",
-                  " At the beginning of each session we set this to a value that should fall",
-                  " roughly in the middle of the session duration. The idea is to first wait for",
-                  " the validators to produce a block in the current session, so that the",
-                  " heartbeat later on will not be necessary.",
-                  "",
-                  " This value will only be used as a fallback if we fail to get a proper session",
-                  " progress estimate from `NextSessionRotation`, as those estimates should be",
-                  " more accurate then the value we calculate for `HeartbeatAfter`."
-                ]
-              },
               {
                 "name": "Keys",
                 "modifier": "Default",
                 "type": {
-                  "plain": 548
+                  "plain": 606
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " The current set of keys that may issue a heartbeat."
+                  " Keys of the current authority set."
                 ]
               },
               {
-                "name": "ReceivedHeartbeats",
-                "modifier": "Optional",
-                "type": {
-                  "map": {
-                    "hashers": [
-                      "Twox64Concat",
-                      "Twox64Concat"
-                    ],
-                    "key": 31,
-                    "value": 44
-                  }
-                },
-                "fallback": "0x00",
-                "docs": [
-                  " For each session index, we keep a mapping of `SessionIndex` and `AuthIndex`."
-                ]
-              },
-              {
-                "name": "AuthoredBlocks",
+                "name": "NextKeys",
                 "modifier": "Default",
                 "type": {
-                  "map": {
-                    "hashers": [
-                      "Twox64Concat",
-                      "Twox64Concat"
-                    ],
-                    "key": 524,
-                    "value": 4
-                  }
+                  "plain": 606
                 },
-                "fallback": "0x00000000",
+                "fallback": "0x00",
                 "docs": [
-                  " For each session index, we keep a mapping of `ValidatorId<T>` to the",
-                  " number of blocks authored by the given authority."
+                  " Keys of the next authority set."
                 ]
               }
             ]
           },
-          "calls": {
-            "type": 119
-          },
-          "events": {
-            "type": 54
-          },
-          "constants": [
-            {
-              "name": "UnsignedPriority",
-              "type": 11,
-              "value": "0xffffffffffffffff",
-              "docs": [
-                " A configuration for base priority of unsigned transactions.",
-                "",
-                " This is exposed so that it can be tuned for particular runtime, when",
-                " multiple pallets send unsigned transactions."
-              ]
-            }
-          ],
-          "errors": {
-            "type": 550
-          },
-          "index": 12
-        },
-        {
-          "name": "AuthorityDiscovery",
-          "storage": null,
           "calls": null,
           "events": null,
           "constants": [],
@@ -2233,7 +2320,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 551
+                    "value": 608
                   }
                 },
                 "fallback": "0x00",
@@ -2256,25 +2343,53 @@
                 "name": "Approvals",
                 "modifier": "Default",
                 "type": {
-                  "plain": 552
+                  "plain": 609
                 },
                 "fallback": "0x00",
                 "docs": [
                   " Proposal indices that have been approved but not yet awarded."
                 ]
+              },
+              {
+                "name": "SpendCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The count of spends that have been made."
+                ]
+              },
+              {
+                "name": "Spends",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 610
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Spends that have been approved and being processed."
+                ]
               }
             ]
           },
           "calls": {
-            "type": 123
+            "type": 149
           },
           "events": {
-            "type": 63
+            "type": 55
           },
           "constants": [
             {
               "name": "ProposalBond",
-              "type": 553,
+              "type": 612,
               "value": "0x50c30000",
               "docs": [
                 " Fraction of a proposal's value that should be bonded in order to place the proposal.",
@@ -2291,7 +2406,7 @@
             },
             {
               "name": "ProposalBondMaximum",
-              "type": 554,
+              "type": 613,
               "value": "0x01005039278c0400000000000000000000",
               "docs": [
                 " Maximum amount of funds that should be placed in a deposit for making a proposal."
@@ -2307,7 +2422,7 @@
             },
             {
               "name": "Burn",
-              "type": 553,
+              "type": 612,
               "value": "0x10270000",
               "docs": [
                 " Percentage of spare funds (if any) that are burnt per spend period."
@@ -2315,7 +2430,7 @@
             },
             {
               "name": "PalletId",
-              "type": 555,
+              "type": 614,
               "value": "0x70792f7472737279",
               "docs": [
                 " The treasury's pallet id, used for deriving its sovereign account ID."
@@ -2330,10 +2445,18 @@
                 "",
                 " NOTE: This parameter is also used within the Bounties Pallet extension if enabled."
               ]
+            },
+            {
+              "name": "PayoutPeriod",
+              "type": 4,
+              "value": "0x80970600",
+              "docs": [
+                " The period during which an approved treasury spend has to be claimed."
+              ]
             }
           ],
           "errors": {
-            "type": 556
+            "type": 615
           },
           "index": 19
         },
@@ -2351,8 +2474,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 557,
-                    "value": 558
+                    "key": 616,
+                    "value": 617
                   }
                 },
                 "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -2370,7 +2493,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 566
+                    "value": 625
                   }
                 },
                 "fallback": "0x00",
@@ -2383,10 +2506,10 @@
             ]
           },
           "calls": {
-            "type": 124
+            "type": 151
           },
           "events": {
-            "type": 64
+            "type": 90
           },
           "constants": [
             {
@@ -2403,7 +2526,7 @@
             {
               "name": "VoteLockingPeriod",
               "type": 4,
-              "value": "0x00270600",
+              "value": "0x01000000",
               "docs": [
                 " The minimum period of vote locking.",
                 "",
@@ -2413,7 +2536,7 @@
             }
           ],
           "errors": {
-            "type": 569
+            "type": 628
           },
           "index": 20
         },
@@ -2442,7 +2565,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 570
+                    "value": 629
                   }
                 },
                 "fallback": "0x00",
@@ -2458,8 +2581,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 66,
-                    "value": 578
+                    "key": 92,
+                    "value": 637
                   }
                 },
                 "fallback": "0x00",
@@ -2478,7 +2601,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 66,
+                    "key": 92,
                     "value": 4
                   }
                 },
@@ -2502,7 +2625,7 @@
                 "fallback": "0x00",
                 "docs": [
                   " The metadata is a general information concerning the referendum.",
-                  " The `PreimageHash` refers to the preimage of the `Preimages` provider which can be a JSON",
+                  " The `Hash` refers to the preimage of the `Preimages` provider which can be a JSON",
                   " dump or IPFS hash of a JSON file.",
                   "",
                   " Consider a garbage collection for a metadata of finished referendums to `unrequest` (remove)",
@@ -2512,10 +2635,10 @@
             ]
           },
           "calls": {
-            "type": 129
+            "type": 156
           },
           "events": {
-            "type": 65
+            "type": 91
           },
           "constants": [
             {
@@ -2555,17 +2678,26 @@
             },
             {
               "name": "Tracks",
-              "type": 581,
-              "value": "0x3c000010726f6f74010000000080c6a47e8d03000000000000000000b00400000027060040380000403800000290d73e0d000000005743de13000000005443de13000000000000ca9a3b000000000065cd1d01004877686974656c69737465645f63616c6c65726400000000407a10f35a000000000000000000002c01000000270600640000006400000002ec972510000000007b573c170000000042392f1200000000020e00840000000000d6e61f010000000039627902000000000a00347374616b696e675f61646d696e0a00000000203d88792d00000000000000000000b004000000270600080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff0b00247472656173757265720a00000000a0724e180900000000000000000000b00400000027060008070000403800000290d73e0d000000005743de13000000005443de13000000000000ca9a3b000000000065cd1d0c002c6c656173655f61646d696e0a00000000203d88792d00000000000000000000b004000000270600080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff0d004066656c6c6f77736869705f61646d696e0a00000000203d88792d00000000000000000000b004000000270600080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff0e003467656e6572616c5f61646d696e0a00000000203d88792d00000000000000000000b00400000027060008070000640000000290d73e0d000000005743de13000000005443de13000000000259a2f40200000000a3296b05000000002e6b4afdffffffff0f003461756374696f6e5f61646d696e0a00000000203d88792d00000000000000000000b00400000027060008070000640000000290d73e0d000000005743de13000000005443de13000000000259a2f40200000000a3296b05000000002e6b4afdffffffff1400507265666572656e64756d5f63616e63656c6c6572e803000000407a10f35a00000000000000000000b0040000c0890100080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff1500447265666572656e64756d5f6b696c6c6572e803000000406352bfc601000000000000000000b004000000270600080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff1e0030736d616c6c5f746970706572c800000000e40b540200000000000000000000000a000000c0890100640000000a00000000499149150065cd1d00ca9a3b02f9ba1800000000002a4d3100000000006b59e7ffffffffff1f00286269675f7469707065726400000000e8764817000000000000000000000064000000c0890100580200006400000000499149150065cd1d00ca9a3b02694f3f000000000035967d0000000000e534c1ffffffffff200034736d616c6c5f7370656e646572320000000010a5d4e800000000000000000000006009000000270600201c00004038000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff2100386d656469756d5f7370656e6465723200000000204aa9d1010000000000000000000060090000002706004038000040380000005b01f6300065cd1d00ca9a3b021161db0000000000bfd1aa010000000020972affffffffff22002c6269675f7370656e6465723200000000409452a30300000000000000000000600900000027060080700000403800000000ca9a3b0065cd1d00ca9a3b02413cb00100000000755d34030000000045d165feffffffff",
+              "type": 640,
+              "value": "0x40000010726f6f74010000000080c6a47e8d03000000000000000000b00400000027060040380000403800000290d73e0d000000005743de13000000005443de13000000000000ca9a3b000000000065cd1d01004877686974656c69737465645f63616c6c65726400000000407a10f35a000000000000000000002c01000000270600640000006400000002ec972510000000007b573c170000000042392f1200000000020e00840000000000d6e61f0100000000396279020000000002003c776973685f666f725f6368616e67650a0000000080f420e6b500000000000000000000b00400000027060040380000640000000290d73e0d000000005743de13000000005443de13000000000000ca9a3b000000000065cd1d0a00347374616b696e675f61646d696e0a00000000203d88792d00000000000000000000b004000000270600080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff0b00247472656173757265720a00000000a0724e180900000000000000000000b004000000270600c0890100403800000290d73e0d000000005743de13000000005443de13000000000000ca9a3b000000000065cd1d0c002c6c656173655f61646d696e0a00000000203d88792d00000000000000000000b004000000270600080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff0d004066656c6c6f77736869705f61646d696e0a00000000203d88792d00000000000000000000b004000000270600080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff0e003467656e6572616c5f61646d696e0a00000000203d88792d00000000000000000000b00400000027060008070000640000000290d73e0d000000005743de13000000005443de13000000000259a2f40200000000a3296b05000000002e6b4afdffffffff0f003461756374696f6e5f61646d696e0a00000000203d88792d00000000000000000000b00400000027060008070000640000000290d73e0d000000005743de13000000005443de13000000000259a2f40200000000a3296b05000000002e6b4afdffffffff1400507265666572656e64756d5f63616e63656c6c6572e803000000407a10f35a00000000000000000000b0040000c0890100080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff1500447265666572656e64756d5f6b696c6c6572e803000000406352bfc601000000000000000000b004000000270600080700006400000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff1e0030736d616c6c5f746970706572c800000000e40b540200000000000000000000000a000000c0890100640000000a00000000499149150065cd1d00ca9a3b02f9ba1800000000002a4d3100000000006b59e7ffffffffff1f00286269675f7469707065726400000000e8764817000000000000000000000064000000c0890100580200006400000000499149150065cd1d00ca9a3b02694f3f000000000035967d0000000000e534c1ffffffffff200034736d616c6c5f7370656e646572320000000010a5d4e800000000000000000000006009000000270600807000004038000000c94330240065cd1d00ca9a3b025d6f780000000000e82eed00000000008c6889ffffffffff2100386d656469756d5f7370656e6465723200000000204aa9d10100000000000000000000600900000027060000e1000040380000005b01f6300065cd1d00ca9a3b021161db0000000000bfd1aa010000000020972affffffffff22002c6269675f7370656e6465723200000000409452a303000000000000000000006009000000270600c0890100403800000000ca9a3b0065cd1d00ca9a3b02413cb00100000000755d34030000000045d165feffffffff",
               "docs": [
                 " Information concerning the different referendum tracks."
               ]
             }
           ],
           "errors": {
-            "type": 587
+            "type": 646
           },
           "index": 21
+        },
+        {
+          "name": "Origins",
+          "storage": null,
+          "calls": null,
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 22
         },
         {
           "name": "Whitelist",
@@ -2581,7 +2713,7 @@
                       "Twox64Concat"
                     ],
                     "key": 12,
-                    "value": 34
+                    "value": 35
                   }
                 },
                 "fallback": "0x00",
@@ -2590,14 +2722,14 @@
             ]
           },
           "calls": {
-            "type": 146
+            "type": 166
           },
           "events": {
-            "type": 417
+            "type": 461
           },
           "constants": [],
           "errors": {
-            "type": 588
+            "type": 647
           },
           "index": 23
         },
@@ -2614,7 +2746,7 @@
                     "hashers": [
                       "Identity"
                     ],
-                    "key": 150,
+                    "key": 170,
                     "value": 6
                   }
                 },
@@ -2638,8 +2770,8 @@
                     "hashers": [
                       "Identity"
                     ],
-                    "key": 150,
-                    "value": 152
+                    "key": 170,
+                    "value": 172
                   }
                 },
                 "fallback": "0x00",
@@ -2658,8 +2790,8 @@
                     "hashers": [
                       "Identity"
                     ],
-                    "key": 150,
-                    "value": 154
+                    "key": 170,
+                    "value": 174
                   }
                 },
                 "fallback": "0x00",
@@ -2676,7 +2808,7 @@
                       "Identity"
                     ],
                     "key": 0,
-                    "value": 150
+                    "value": 170
                   }
                 },
                 "fallback": "0x00",
@@ -2687,10 +2819,10 @@
             ]
           },
           "calls": {
-            "type": 147
+            "type": 167
           },
           "events": {
-            "type": 422
+            "type": 466
           },
           "constants": [
             {
@@ -2701,7 +2833,7 @@
             }
           ],
           "errors": {
-            "type": 589
+            "type": 648
           },
           "index": 24
         },
@@ -2719,7 +2851,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 590
+                    "value": 649
                   }
                 },
                 "fallback": "0x00",
@@ -2731,7 +2863,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 592
+                  "plain": 651
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2743,10 +2875,10 @@
             ]
           },
           "calls": {
-            "type": 156
+            "type": 176
           },
           "events": {
-            "type": 423
+            "type": 467
           },
           "constants": [
             {
@@ -2765,7 +2897,7 @@
             }
           ],
           "errors": {
-            "type": 593
+            "type": 652
           },
           "index": 25
         },
@@ -2773,10 +2905,10 @@
           "name": "Utility",
           "storage": null,
           "calls": {
-            "type": 158
+            "type": 178
           },
           "events": {
-            "type": 424
+            "type": 468
           },
           "constants": [
             {
@@ -2789,7 +2921,7 @@
             }
           ],
           "errors": {
-            "type": 594
+            "type": 653
           },
           "index": 26
         },
@@ -2807,12 +2939,13 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 595
+                    "value": 654
                   }
                 },
                 "fallback": "0x00",
                 "docs": [
-                  " Information that is pertinent to identify the entity behind an account.",
+                  " Information that is pertinent to identify the entity behind an account. First item is the",
+                  " registration, second is the account's primary username.",
                   "",
                   " TWOX-NOTE: OK ― `AccountId` is a secure hash."
                 ]
@@ -2826,7 +2959,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 197
+                    "value": 217
                   }
                 },
                 "fallback": "0x00",
@@ -2844,7 +2977,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 599
+                    "value": 660
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
@@ -2860,7 +2993,7 @@
                 "name": "Registrars",
                 "modifier": "Default",
                 "type": {
-                  "plain": 601
+                  "plain": 662
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -2869,14 +3002,74 @@
                   "",
                   " The index into this can be cast to `RegistrarIndex` to get a valid value."
                 ]
+              },
+              {
+                "name": "UsernameAuthorities",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 666
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A map of the accounts who are authorized to grant usernames."
+                ]
+              },
+              {
+                "name": "AccountOfUsername",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 223,
+                    "value": 0
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Reverse lookup from `username` to the `AccountId` that has registered it. The value should",
+                  " be a key in the `IdentityOf` map, but it may not if the user has cleared their identity.",
+                  "",
+                  " Multiple usernames may map to the same `AccountId`, but `IdentityOf` will only map to one",
+                  " primary username."
+                ]
+              },
+              {
+                "name": "PendingUsernames",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 223,
+                    "value": 585
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Usernames that an authority has granted, but that the account controller has not confirmed",
+                  " that they want it. Used primarily in cases where the `AccountId` cannot provide a signature",
+                  " because they are a pure proxy, multisig, etc. In order to confirm it, they should call",
+                  " [`Call::accept_username`].",
+                  "",
+                  " First tuple item is the account and second is the acceptance deadline."
+                ]
               }
             ]
           },
           "calls": {
-            "type": 160
+            "type": 180
           },
           "events": {
-            "type": 425
+            "type": 469
           },
           "constants": [
             {
@@ -2884,15 +3077,15 @@
               "type": 6,
               "value": "0x007db52a2f0000000000000000000000",
               "docs": [
-                " The amount held on deposit for a registered identity"
+                " The amount held on deposit for a registered identity."
               ]
             },
             {
-              "name": "FieldDeposit",
+              "name": "ByteDeposit",
               "type": 6,
-              "value": "0x00cd5627000000000000000000000000",
+              "value": "0x80969800000000000000000000000000",
               "docs": [
-                " The amount held on deposit per additional field for a registered identity."
+                " The amount held on deposit per encoded byte for a registered identity."
               ]
             },
             {
@@ -2914,15 +3107,6 @@
               ]
             },
             {
-              "name": "MaxAdditionalFields",
-              "type": 4,
-              "value": "0x64000000",
-              "docs": [
-                " Maximum number of additional fields that may be stored in an ID. Needed to bound the I/O",
-                " required to access an identity, but can be pretty high."
-              ]
-            },
-            {
               "name": "MaxRegistrars",
               "type": 4,
               "value": "0x14000000",
@@ -2930,10 +3114,34 @@
                 " Maxmimum number of registrars allowed in the system. Needed to bound the complexity",
                 " of, e.g., updating judgements."
               ]
+            },
+            {
+              "name": "PendingUsernameExpiration",
+              "type": 4,
+              "value": "0xc0890100",
+              "docs": [
+                " The number of blocks within which a username grant must be accepted."
+              ]
+            },
+            {
+              "name": "MaxSuffixLength",
+              "type": 4,
+              "value": "0x07000000",
+              "docs": [
+                " The maximum length of a suffix."
+              ]
+            },
+            {
+              "name": "MaxUsernameLength",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": [
+                " The maximum length of a username, including its suffix and any system-added delimiters."
+              ]
             }
           ],
           "errors": {
-            "type": 605
+            "type": 668
           },
           "index": 28
         },
@@ -2951,7 +3159,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 606
+                    "value": 669
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
@@ -2969,7 +3177,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 610
+                    "value": 673
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
@@ -2980,10 +3188,10 @@
             ]
           },
           "calls": {
-            "type": 201
+            "type": 224
           },
           "events": {
-            "type": 426
+            "type": 470
           },
           "constants": [
             {
@@ -3049,7 +3257,7 @@
             }
           ],
           "errors": {
-            "type": 614
+            "type": 677
           },
           "index": 29
         },
@@ -3067,8 +3275,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 615,
-                    "value": 616
+                    "key": 678,
+                    "value": 679
                   }
                 },
                 "fallback": "0x00",
@@ -3079,10 +3287,10 @@
             ]
           },
           "calls": {
-            "type": 204
+            "type": 227
           },
           "events": {
-            "type": 427
+            "type": 471
           },
           "constants": [
             {
@@ -3118,7 +3326,7 @@
             }
           ],
           "errors": {
-            "type": 618
+            "type": 681
           },
           "index": 30
         },
@@ -3147,7 +3355,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 619
+                    "value": 682
                   }
                 },
                 "fallback": "0x00",
@@ -3164,7 +3372,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 621
+                    "value": 684
                   }
                 },
                 "fallback": "0x00",
@@ -3176,7 +3384,7 @@
                 "name": "BountyApprovals",
                 "modifier": "Default",
                 "type": {
-                  "plain": 552
+                  "plain": 609
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3186,10 +3394,10 @@
             ]
           },
           "calls": {
-            "type": 207
+            "type": 230
           },
           "events": {
-            "type": 428
+            "type": 472
           },
           "constants": [
             {
@@ -3218,7 +3426,7 @@
             },
             {
               "name": "CuratorDepositMultiplier",
-              "type": 553,
+              "type": 612,
               "value": "0x20a10700",
               "docs": [
                 " The curator deposit is calculated as a percentage of the curator fee.",
@@ -3229,7 +3437,7 @@
             },
             {
               "name": "CuratorDepositMax",
-              "type": 554,
+              "type": 613,
               "value": "0x0100204aa9d10100000000000000000000",
               "docs": [
                 " Maximum amount of funds that should be placed in a deposit for making a proposal."
@@ -3237,7 +3445,7 @@
             },
             {
               "name": "CuratorDepositMin",
-              "type": 554,
+              "type": 613,
               "value": "0x0100e87648170000000000000000000000",
               "docs": [
                 " Minimum amount of funds that should be placed in a deposit for making a proposal."
@@ -3271,7 +3479,7 @@
             }
           ],
           "errors": {
-            "type": 622
+            "type": 685
           },
           "index": 34
         },
@@ -3318,8 +3526,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 31,
-                    "value": 623
+                    "key": 32,
+                    "value": 686
                   }
                 },
                 "fallback": "0x00",
@@ -3336,7 +3544,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 621
+                    "value": 684
                   }
                 },
                 "fallback": "0x00",
@@ -3364,10 +3572,10 @@
             ]
           },
           "calls": {
-            "type": 208
+            "type": 231
           },
           "events": {
-            "type": 429
+            "type": 473
           },
           "constants": [
             {
@@ -3388,7 +3596,7 @@
             }
           ],
           "errors": {
-            "type": 625
+            "type": 688
           },
           "index": 38
         },
@@ -3417,7 +3625,7 @@
                 "name": "CurrentPhase",
                 "modifier": "Default",
                 "type": {
-                  "plain": 432
+                  "plain": 476
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3428,7 +3636,7 @@
                 "name": "QueuedSolution",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 626
+                  "plain": 689
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3441,13 +3649,14 @@
                 "name": "Snapshot",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 628
+                  "plain": 691
                 },
                 "fallback": "0x00",
                 "docs": [
                   " Snapshot data of the round.",
                   "",
-                  " This is created at the beginning of the signed phase and cleared upon calling `elect`."
+                  " This is created at the beginning of the signed phase and cleared upon calling `elect`.",
+                  " Note: This storage type must only be mutated through [`SnapshotWrapper`]."
                 ]
               },
               {
@@ -3460,20 +3669,22 @@
                 "docs": [
                   " Desired number of targets to elect for this round.",
                   "",
-                  " Only exists when [`Snapshot`] is present."
+                  " Only exists when [`Snapshot`] is present.",
+                  " Note: This storage type must only be mutated through [`SnapshotWrapper`]."
                 ]
               },
               {
                 "name": "SnapshotMetadata",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 263
+                  "plain": 286
                 },
                 "fallback": "0x00",
                 "docs": [
                   " The metadata of the [`RoundSnapshot`]",
                   "",
-                  " Only exists when [`Snapshot`] is present."
+                  " Only exists when [`Snapshot`] is present.",
+                  " Note: This storage type must only be mutated through [`SnapshotWrapper`]."
                 ]
               },
               {
@@ -3499,7 +3710,7 @@
                 "name": "SignedSubmissionIndices",
                 "modifier": "Default",
                 "type": {
-                  "plain": 631
+                  "plain": 694
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3520,7 +3731,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 634
+                    "value": 697
                   }
                 },
                 "fallback": "0x00",
@@ -3538,7 +3749,7 @@
                 "name": "MinimumUntrustedScore",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 262
+                  "plain": 285
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3551,16 +3762,16 @@
             ]
           },
           "calls": {
-            "type": 209
+            "type": 232
           },
           "events": {
-            "type": 430
+            "type": 474
           },
           "constants": [
             {
               "name": "UnsignedPhase",
               "type": 4,
-              "value": "0x58020000",
+              "value": "0x0a000000",
               "docs": [
                 " Duration of the unsigned phase."
               ]
@@ -3568,14 +3779,14 @@
             {
               "name": "SignedPhase",
               "type": 4,
-              "value": "0x58020000",
+              "value": "0x0a000000",
               "docs": [
                 " Duration of the signed phase."
               ]
             },
             {
               "name": "BetterSignedThreshold",
-              "type": 41,
+              "type": 43,
               "value": "0x00000000",
               "docs": [
                 " The minimum amount of improvement to the solution score that defines a solution as",
@@ -3583,18 +3794,9 @@
               ]
             },
             {
-              "name": "BetterUnsignedThreshold",
-              "type": 41,
-              "value": "0x20a10700",
-              "docs": [
-                " The minimum amount of improvement to the solution score that defines a solution as",
-                " \"better\" in the Unsigned phase."
-              ]
-            },
-            {
               "name": "OffchainRepeat",
               "type": 4,
-              "value": "0x12000000",
+              "value": "0x00000000",
               "docs": [
                 " The repeat threshold of the offchain worker.",
                 "",
@@ -3653,14 +3855,6 @@
               ]
             },
             {
-              "name": "SignedDepositBase",
-              "type": 6,
-              "value": "0x00a0db215d0000000000000000000000",
-              "docs": [
-                " Base deposit for a signed solution."
-              ]
-            },
-            {
               "name": "SignedDepositByte",
               "type": 6,
               "value": "0x787d0100000000000000000000000000",
@@ -3713,7 +3907,7 @@
             }
           ],
           "errors": {
-            "type": 635
+            "type": 698
           },
           "index": 36
         },
@@ -3731,7 +3925,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 636
+                    "value": 699
                   }
                 },
                 "fallback": "0x00",
@@ -3761,7 +3955,7 @@
                       "Twox64Concat"
                     ],
                     "key": 11,
-                    "value": 637
+                    "value": 700
                   }
                 },
                 "fallback": "0x00",
@@ -3774,15 +3968,15 @@
             ]
           },
           "calls": {
-            "type": 271
+            "type": 293
           },
           "events": {
-            "type": 434
+            "type": 478
           },
           "constants": [
             {
               "name": "BagThresholds",
-              "type": 638,
+              "type": 701,
               "value": "0x210300e40b5402000000f39e809702000000a8b197e20200000094492e3603000000279c3a930300000003bccefa0300000042c01b6e040000001b4775ee04000000385e557d0500000046dc601c0600000089386ccd06000000b6ee809207000000fe7ee36d08000000e81b1a6209000000b019f4710a000000103592a00b000000cfc96ff10c00000041146d680e000000e79bda0910000000cee885da1100000028a9c7df13000000bb70931f160000008e4089a018000000810a096a1b000000366a48841e0000005bd36af821000000807c9cd025000000c95530182a000000bd63c1db2e00000071e0572934000000689092103a000000edc4d4a240000000699379f3470000008fd80c18500000004baf8a28590000006a16a63f630000000995177b6e00000078c5f4fb7a00000062c811e78800000051bf6d6598000000048eaba4a9000000544698d7bc00000091cac036d2000000175f1801ea000000bd15b27c0401000043358ff721010000b8fc84c84201000099673c506701000007e44efa8f010000b341833ebd010000027f2ea2ef0100009883bcb927020000164d652a66020000b49513acab0200002d8e820bf9020000a1e6982c4f030000a616080daf030000cc9d37c719040000a0d584959004000042e7e0d514050000028cd70da80500000f750aef4b060000ea8d2e5c02070000c3cb996ecd070000b1e5717caf080000aa2b8e1fab090000b5c1203dc30a000026d03d0efb0b000070c75929560d0000ebadda8cd80e0000f797dbaa86100000cff04476651200001f2660717a14000009a611becb1600001dfbe82f60190000943a3c603f1c00008afe89c4711f0000ced963c70023000003a92ae4f6260000fe72eec55f2b000036c9cc6948300000dae33245bf350000062a7470d43b00007c9732d69942000084a32468234a0000571ad45987520000e7f10262de5b00000db8760344660000ae0401ded67100007d9eb308b97e00001e044a76108d00003a1df064079d0000e04fafdaccae00005679f02f95c2000095c3aaa99ad80000967c05251ef10000177a66d6670c010028cb1f1ec82a0100fa282f75984c0100d57dc8743c7201007dc4b3fb229c0100365cde74c7ca01009eb8e142b3fe01000c31ae547f3802005fe101e8d57802006373da7e74c0020051d1a60d2e100300c7e9a468ed68030061c091f7b7cb0300bf27a1b7b03904007b1499941bb404008523ed22613c050069a5d4c512d40500ec8c934def7c0600f5aa901be83807008cbe5ddb260a080002978ce113f30800fae314435df60900ddf12dbafe160b002ebadc6f4a580c000c5518c4f2bd0d00f0bb5431154c0f00498e866b46071100b2c153de9ff41200278a2fb2ce191500b2399f84247d1700e199e704aa251a00ba13f5ab331b1d00264785cc7866200088bf803f2d1124001c9823f81d262800ccc422d450b12c00f088820528c03100367c6d7e896137006e9329d30aa63d008cbc6c1322a044000070f32a5c644c00b43b84699909550080b4abe450a95e00a0cda979db5f69004cc27f4cc74c7500d0ac0eba34938200483e0ccf3d5a910068c68e7469cda100281e6fa52b1db40098a92326747fc800f09a74634d30df0080cdfc4b8d72f8009014602d9a901401f0b413d945dd330120973596c1b4560150dcfbaead7d7d01e01198b947aaa80130c7ee16bbb9d801206e488697390e02a0fa4b1d72c74902c0117170b5128c02808a1643a6ded502c0f823b1a204280380af5970a2768303c06f2d87ff41e90340937fac8f925a040091097117b6d804400fdf5b212065050049c149446e0106008ebca6e56caf0600595686851c71078068aa34a4b7480880a1e29e52b9380900bdabe880e4430a002a72b4204c6d0b80f1c013335cb80c00a03ccbdce3280e80b8629a9e20c30f00de5693d2ca8b11005d7f4c93238813001a87df3504be1500a7ce4b84ef3318000110fbea24f11a00802ae5d1b5fd1d0022a134609d62210044216bf0da2925000261f1828f5e29006620cf851e0d2e008410195252433300a0c18fca8410390026ad1493cc853f00d0cd24662fb646009ce19a1cdab64e0058ccc20c5f9f5700200a7578fb89610030bbbbd6e4936c0060cba7dc9edd7800b83bc0425b8b8600b886236164c59500f8f15fdc93b8a600206a91c0d696b900d8efe28fc097ce0068299bf52ef9e5ffffffffffffffff",
               "docs": [
                 " The list of thresholds separating the various bags.",
@@ -3832,7 +4026,7 @@
             }
           ],
           "errors": {
-            "type": 639
+            "type": 702
           },
           "index": 37
         },
@@ -3841,6 +4035,21 @@
           "storage": {
             "prefix": "NominationPools",
             "items": [
+              {
+                "name": "TotalValueLocked",
+                "modifier": "Default",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " The sum of funds across all pools.",
+                  "",
+                  " This might be lower but never higher than the sum of `total_balance` of all [`PoolMembers`]",
+                  " because calling `pool_withdraw_unbonded` might decrease the total stake of the pool's",
+                  " `bonded_account` without adjusting the pallet-internal `UnbondingPool`'s."
+                ]
+              },
               {
                 "name": "MinJoinBond",
                 "modifier": "Default",
@@ -3909,7 +4118,7 @@
                 "name": "GlobalMaxCommission",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 41
+                  "plain": 43
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3927,7 +4136,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 641
+                    "value": 704
                   }
                 },
                 "fallback": "0x00",
@@ -3957,7 +4166,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 644
+                    "value": 707
                   }
                 },
                 "fallback": "0x00",
@@ -3985,7 +4194,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 649
+                    "value": 712
                   }
                 },
                 "fallback": "0x00",
@@ -4014,7 +4223,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 650
+                    "value": 713
                   }
                 },
                 "fallback": "0x00",
@@ -4043,7 +4252,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 656
+                    "value": 719
                   }
                 },
                 "fallback": "0x00",
@@ -4113,7 +4322,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 279
+                    "value": 301
                   }
                 },
                 "fallback": "0x00",
@@ -4124,15 +4333,15 @@
             ]
           },
           "calls": {
-            "type": 272
+            "type": 294
           },
           "events": {
-            "type": 435
+            "type": 479
           },
           "constants": [
             {
               "name": "PalletId",
-              "type": 555,
+              "type": 614,
               "value": "0x70792f6e6f706c73",
               "docs": [
                 " The nomination pool's pallet id."
@@ -4156,10 +4365,18 @@
                 " For a value of 10, the threshold would be a pool points-to-balance ratio of 10:1.",
                 " Such a scenario would also be the equivalent of the pool being 90% slashed."
               ]
+            },
+            {
+              "name": "MaxUnbonding",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": [
+                " The maximum number of simultaneous unbonding chunks that can exist per member."
+              ]
             }
           ],
           "errors": {
-            "type": 657
+            "type": 720
           },
           "index": 39
         },
@@ -4172,7 +4389,7 @@
                 "name": "Head",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 659
+                  "plain": 722
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4232,10 +4449,10 @@
             ]
           },
           "calls": {
-            "type": 283
+            "type": 307
           },
           "events": {
-            "type": 436
+            "type": 480
           },
           "constants": [
             {
@@ -4249,7 +4466,7 @@
             }
           ],
           "errors": {
-            "type": 662
+            "type": 725
           },
           "index": 40
         },
@@ -4271,9 +4488,9 @@
                 "name": "ActiveConfig",
                 "modifier": "Default",
                 "type": {
-                  "plain": 663
+                  "plain": 726
                 },
-                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001027000080b2e60e80c3c90180969800000000000000000000000000050000000100000001000000010000000000060000006400000001000000000000000000000000000000000000000200000002000000",
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001027000080b2e60e80c3c90180969800000000000000000000000000050000000100000001000000010000000000060000006400000001000000000000000000000000000000000000000200000002000000020000000001000000",
                 "docs": [
                   " The active configuration for the current session."
                 ]
@@ -4282,7 +4499,7 @@
                 "name": "PendingConfigs",
                 "modifier": "Default",
                 "type": {
-                  "plain": 664
+                  "plain": 727
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4299,7 +4516,7 @@
                 "name": "BypassConsistencyCheck",
                 "modifier": "Default",
                 "type": {
-                  "plain": 44
+                  "plain": 30
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4310,12 +4527,12 @@
             ]
           },
           "calls": {
-            "type": 284
+            "type": 308
           },
           "events": null,
           "constants": [],
           "errors": {
-            "type": 666
+            "type": 729
           },
           "index": 51
         },
@@ -4339,7 +4556,7 @@
                 "name": "ActiveValidatorIndices",
                 "modifier": "Default",
                 "type": {
-                  "plain": 667
+                  "plain": 730
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4351,7 +4568,7 @@
                 "name": "ActiveValidatorKeys",
                 "modifier": "Default",
                 "type": {
-                  "plain": 668
+                  "plain": 731
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4363,7 +4580,7 @@
                 "name": "AllowedRelayParents",
                 "modifier": "Default",
                 "type": {
-                  "plain": 669
+                  "plain": 732
                 },
                 "fallback": "0x0000000000",
                 "docs": [
@@ -4373,7 +4590,7 @@
             ]
           },
           "calls": {
-            "type": 291
+            "type": 316
           },
           "events": null,
           "constants": [],
@@ -4393,8 +4610,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 300,
-                    "value": 672
+                    "key": 325,
+                    "value": 735
                   }
                 },
                 "fallback": "0x00",
@@ -4410,8 +4627,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 673
+                    "key": 161,
+                    "value": 736
                   }
                 },
                 "fallback": "0x00",
@@ -4427,8 +4644,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 309
+                    "key": 161,
+                    "value": 334
                   }
                 },
                 "fallback": "0x00",
@@ -4439,14 +4656,14 @@
             ]
           },
           "calls": {
-            "type": 292
+            "type": 317
           },
           "events": {
-            "type": 437
+            "type": 481
           },
           "constants": [],
           "errors": {
-            "type": 674
+            "type": 737
           },
           "index": 53
         },
@@ -4459,7 +4676,7 @@
                 "name": "Included",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 34
+                  "plain": 35
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4475,7 +4692,7 @@
                 "name": "OnChainVotes",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 675
+                  "plain": 738
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4485,12 +4702,12 @@
             ]
           },
           "calls": {
-            "type": 293
+            "type": 318
           },
           "events": null,
           "constants": [],
           "errors": {
-            "type": 680
+            "type": 743
           },
           "index": 54
         },
@@ -4503,7 +4720,7 @@
                 "name": "ValidatorGroups",
                 "modifier": "Default",
                 "type": {
-                  "plain": 681
+                  "plain": 744
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4520,7 +4737,7 @@
                 "name": "AvailabilityCores",
                 "modifier": "Default",
                 "type": {
-                  "plain": 682
+                  "plain": 745
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4555,7 +4772,7 @@
                 "name": "ClaimQueue",
                 "modifier": "Default",
                 "type": {
-                  "plain": 686
+                  "plain": 749
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4587,8 +4804,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 308,
-                    "value": 691
+                    "key": 333,
+                    "value": 753
                   }
                 },
                 "fallback": "0x00",
@@ -4603,7 +4820,7 @@
                 "name": "PvfActiveVoteList",
                 "modifier": "Default",
                 "type": {
-                  "plain": 694
+                  "plain": 757
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4614,7 +4831,7 @@
                 "name": "Parachains",
                 "modifier": "Default",
                 "type": {
-                  "plain": 695
+                  "plain": 758
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4632,8 +4849,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 696
+                    "key": 161,
+                    "value": 759
                   }
                 },
                 "fallback": "0x00",
@@ -4649,8 +4866,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 316
+                    "key": 161,
+                    "value": 341
                   }
                 },
                 "fallback": "0x00",
@@ -4666,7 +4883,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
+                    "key": 161,
                     "value": 4
                   }
                 },
@@ -4683,8 +4900,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 308
+                    "key": 161,
+                    "value": 333
                   }
                 },
                 "fallback": "0x00",
@@ -4702,8 +4919,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 697,
-                    "value": 308
+                    "key": 760,
+                    "value": 333
                   }
                 },
                 "fallback": "0x00",
@@ -4722,8 +4939,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 698
+                    "key": 161,
+                    "value": 761
                   }
                 },
                 "fallback": "0x0000",
@@ -4737,7 +4954,7 @@
                 "name": "PastCodePruning",
                 "modifier": "Default",
                 "type": {
-                  "plain": 701
+                  "plain": 764
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4757,7 +4974,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
+                    "key": 161,
                     "value": 4
                   }
                 },
@@ -4776,8 +4993,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 308
+                    "key": 161,
+                    "value": 333
                   }
                 },
                 "fallback": "0x00",
@@ -4795,8 +5012,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 702
+                    "key": 161,
+                    "value": 765
                   }
                 },
                 "fallback": "0x00",
@@ -4821,8 +5038,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 703
+                    "key": 161,
+                    "value": 766
                   }
                 },
                 "fallback": "0x00",
@@ -4842,7 +5059,7 @@
                 "name": "UpgradeCooldowns",
                 "modifier": "Default",
                 "type": {
-                  "plain": 701
+                  "plain": 764
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4855,7 +5072,7 @@
                 "name": "UpcomingUpgrades",
                 "modifier": "Default",
                 "type": {
-                  "plain": 701
+                  "plain": 764
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4874,7 +5091,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 695
+                    "value": 758
                   }
                 },
                 "fallback": "0x00",
@@ -4890,8 +5107,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 704
+                    "key": 161,
+                    "value": 767
                   }
                 },
                 "fallback": "0x00",
@@ -4910,7 +5127,7 @@
                     "hashers": [
                       "Identity"
                     ],
-                    "key": 308,
+                    "key": 333,
                     "value": 4
                   }
                 },
@@ -4927,8 +5144,8 @@
                     "hashers": [
                       "Identity"
                     ],
-                    "key": 308,
-                    "value": 315
+                    "key": 333,
+                    "value": 340
                   }
                 },
                 "fallback": "0x00",
@@ -4942,10 +5159,10 @@
             ]
           },
           "calls": {
-            "type": 327
+            "type": 353
           },
           "events": {
-            "type": 441
+            "type": 485
           },
           "constants": [
             {
@@ -4956,7 +5173,7 @@
             }
           ],
           "errors": {
-            "type": 705
+            "type": 768
           },
           "index": 56
         },
@@ -4969,7 +5186,7 @@
                 "name": "HasInitialized",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 34
+                  "plain": 35
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -4987,7 +5204,7 @@
                 "name": "BufferedSessionChanges",
                 "modifier": "Default",
                 "type": {
-                  "plain": 706
+                  "plain": 769
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -5003,7 +5220,7 @@
             ]
           },
           "calls": {
-            "type": 329
+            "type": 355
           },
           "events": null,
           "constants": [],
@@ -5023,8 +5240,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 708
+                    "key": 161,
+                    "value": 771
                   }
                 },
                 "fallback": "0x00",
@@ -5040,7 +5257,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
+                    "key": 161,
                     "value": 12
                   }
                 },
@@ -5063,13 +5280,13 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 513
+                    "key": 161,
+                    "value": 449
                   }
                 },
                 "fallback": "0x000064a7b3b6e00d0000000000000000",
                 "docs": [
-                  " The number to multiply the base delivery fee by."
+                  " The factor to multiply the base delivery fee by."
                 ]
               }
             ]
@@ -5093,8 +5310,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 331,
-                    "value": 710
+                    "key": 357,
+                    "value": 773
                   }
                 },
                 "fallback": "0x00",
@@ -5111,7 +5328,7 @@
                 "name": "HrmpOpenChannelRequestsList",
                 "modifier": "Default",
                 "type": {
-                  "plain": 711
+                  "plain": 774
                 },
                 "fallback": "0x00",
                 "docs": []
@@ -5124,7 +5341,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
+                    "key": 161,
                     "value": 4
                   }
                 },
@@ -5143,7 +5360,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
+                    "key": 161,
                     "value": 4
                   }
                 },
@@ -5162,8 +5379,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 331,
-                    "value": 34
+                    "key": 357,
+                    "value": 35
                   }
                 },
                 "fallback": "0x00",
@@ -5181,7 +5398,7 @@
                 "name": "HrmpCloseChannelRequestsList",
                 "modifier": "Default",
                 "type": {
-                  "plain": 711
+                  "plain": 774
                 },
                 "fallback": "0x00",
                 "docs": []
@@ -5194,7 +5411,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
+                    "key": 161,
                     "value": 4
                   }
                 },
@@ -5214,8 +5431,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 331,
-                    "value": 712
+                    "key": 357,
+                    "value": 775
                   }
                 },
                 "fallback": "0x00",
@@ -5233,8 +5450,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 695
+                    "key": 161,
+                    "value": 758
                   }
                 },
                 "fallback": "0x00",
@@ -5262,8 +5479,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 695
+                    "key": 161,
+                    "value": 758
                   }
                 },
                 "fallback": "0x00",
@@ -5277,8 +5494,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 331,
-                    "value": 713
+                    "key": 357,
+                    "value": 776
                   }
                 },
                 "fallback": "0x00",
@@ -5295,8 +5512,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 715
+                    "key": 161,
+                    "value": 778
                   }
                 },
                 "fallback": "0x00",
@@ -5312,14 +5529,14 @@
             ]
           },
           "calls": {
-            "type": 330
+            "type": 356
           },
           "events": {
-            "type": 442
+            "type": 486
           },
           "constants": [],
           "errors": {
-            "type": 717
+            "type": 780
           },
           "index": 60
         },
@@ -5332,7 +5549,7 @@
                 "name": "AssignmentKeysUnsafe",
                 "modifier": "Default",
                 "type": {
-                  "plain": 718
+                  "plain": 781
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -5361,7 +5578,7 @@
                       "Identity"
                     ],
                     "key": 4,
-                    "value": 719
+                    "value": 782
                   }
                 },
                 "fallback": "0x00",
@@ -5380,7 +5597,7 @@
                       "Identity"
                     ],
                     "key": 4,
-                    "value": 92
+                    "value": 118
                   }
                 },
                 "fallback": "0x00",
@@ -5397,7 +5614,7 @@
                       "Identity"
                     ],
                     "key": 4,
-                    "value": 286
+                    "value": 310
                   }
                 },
                 "fallback": "0x00",
@@ -5439,8 +5656,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 723,
-                    "value": 724
+                    "key": 785,
+                    "value": 786
                   }
                 },
                 "fallback": "0x00",
@@ -5457,8 +5674,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 723,
-                    "value": 725
+                    "key": 785,
+                    "value": 787
                   }
                 },
                 "fallback": "0x00",
@@ -5476,7 +5693,7 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 723,
+                    "key": 785,
                     "value": 4
                   }
                 },
@@ -5490,7 +5707,7 @@
                 "name": "Frozen",
                 "modifier": "Default",
                 "type": {
-                  "plain": 270
+                  "plain": 150
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -5503,14 +5720,14 @@
             ]
           },
           "calls": {
-            "type": 332
+            "type": 358
           },
           "events": {
-            "type": 443
+            "type": 487
           },
           "constants": [],
           "errors": {
-            "type": 726
+            "type": 788
           },
           "index": 62
         },
@@ -5528,8 +5745,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 723,
-                    "value": 727
+                    "key": 785,
+                    "value": 789
                   }
                 },
                 "fallback": "0x00",
@@ -5557,12 +5774,12 @@
             ]
           },
           "calls": {
-            "type": 333
+            "type": 359
           },
           "events": null,
           "constants": [],
           "errors": {
-            "type": 731
+            "type": 793
           },
           "index": 63
         },
@@ -5588,8 +5805,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 134
+                    "key": 161,
+                    "value": 161
                   }
                 },
                 "fallback": "0x00",
@@ -5605,8 +5822,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 732
+                    "key": 161,
+                    "value": 794
                   }
                 },
                 "fallback": "0x00",
@@ -5621,7 +5838,7 @@
                 "name": "NextFreeParaId",
                 "modifier": "Default",
                 "type": {
-                  "plain": 134
+                  "plain": 161
                 },
                 "fallback": "0x00000000",
                 "docs": [
@@ -5631,10 +5848,10 @@
             ]
           },
           "calls": {
-            "type": 337
+            "type": 363
           },
           "events": {
-            "type": 446
+            "type": 490
           },
           "constants": [
             {
@@ -5656,7 +5873,7 @@
             }
           ],
           "errors": {
-            "type": 733
+            "type": 796
           },
           "index": 70
         },
@@ -5673,8 +5890,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 734
+                    "key": 161,
+                    "value": 797
                   }
                 },
                 "fallback": "0x00",
@@ -5700,10 +5917,10 @@
             ]
           },
           "calls": {
-            "type": 338
+            "type": 364
           },
           "events": {
-            "type": 447
+            "type": 491
           },
           "constants": [
             {
@@ -5717,14 +5934,14 @@
             {
               "name": "LeaseOffset",
               "type": 4,
-              "value": "0x00100e00",
+              "value": "0x00000000",
               "docs": [
                 " The number of blocks to offset each lease period by."
               ]
             }
           ],
           "errors": {
-            "type": 735
+            "type": 798
           },
           "index": 71
         },
@@ -5748,7 +5965,7 @@
                 "name": "AuctionInfo",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 31
+                  "plain": 32
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -5767,7 +5984,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 736,
+                    "key": 799,
                     "value": 6
                   }
                 },
@@ -5786,7 +6003,7 @@
                       "Twox64Concat"
                     ],
                     "key": 4,
-                    "value": 737
+                    "value": 800
                   }
                 },
                 "fallback": "0x00",
@@ -5799,10 +6016,10 @@
             ]
           },
           "calls": {
-            "type": 339
+            "type": 365
           },
           "events": {
-            "type": 448
+            "type": 492
           },
           "constants": [
             {
@@ -5837,7 +6054,7 @@
             }
           ],
           "errors": {
-            "type": 740
+            "type": 803
           },
           "index": 72
         },
@@ -5854,8 +6071,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 134,
-                    "value": 741
+                    "key": 161,
+                    "value": 804
                   }
                 },
                 "fallback": "0x00",
@@ -5867,7 +6084,7 @@
                 "name": "NewRaise",
                 "modifier": "Default",
                 "type": {
-                  "plain": 695
+                  "plain": 758
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -5900,15 +6117,15 @@
             ]
           },
           "calls": {
-            "type": 341
+            "type": 367
           },
           "events": {
-            "type": 449
+            "type": 493
           },
           "constants": [
             {
               "name": "PalletId",
-              "type": 555,
+              "type": 614,
               "value": "0x70792f6366756e64",
               "docs": [
                 " `PalletId` for the crowdloan pallet. An appropriate value could be",
@@ -5934,7 +6151,7 @@
             }
           ],
           "errors": {
-            "type": 743
+            "type": 806
           },
           "index": 73
         },
@@ -5963,7 +6180,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 11,
-                    "value": 744
+                    "value": 807
                   }
                 },
                 "fallback": "0x00",
@@ -5987,7 +6204,7 @@
                 "docs": [
                   " The existing asset traps.",
                   "",
-                  " Key is the blake2 256 hash of (origin, versioned `MultiAssets`) pair. Value is the number of",
+                  " Key is the blake2 256 hash of (origin, versioned `Assets`) pair. Value is the number of",
                   " times this pair has been trapped (usually just 1 if it exists at all)."
                 ]
               },
@@ -6012,7 +6229,7 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 749,
+                    "key": 812,
                     "value": 4
                   }
                 },
@@ -6030,7 +6247,7 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 749,
+                    "key": 812,
                     "value": 11
                   }
                 },
@@ -6048,8 +6265,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 749,
-                    "value": 750
+                    "key": 812,
+                    "value": 813
                   }
                 },
                 "fallback": "0x00",
@@ -6062,7 +6279,7 @@
                 "name": "VersionDiscoveryQueue",
                 "modifier": "Default",
                 "type": {
-                  "plain": 751
+                  "plain": 814
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -6075,7 +6292,7 @@
                 "name": "CurrentMigration",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 754
+                  "plain": 817
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -6092,8 +6309,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 756,
-                    "value": 758
+                    "key": 819,
+                    "value": 821
                   }
                 },
                 "fallback": "0x00",
@@ -6110,7 +6327,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 762
+                    "value": 825
                   }
                 },
                 "fallback": "0x00",
@@ -6122,7 +6339,7 @@
                 "name": "XcmExecutionSuspended",
                 "modifier": "Default",
                 "type": {
-                  "plain": 44
+                  "plain": 30
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -6132,14 +6349,14 @@
             ]
           },
           "calls": {
-            "type": 349
+            "type": 370
           },
           "events": {
-            "type": 450
+            "type": 494
           },
           "constants": [],
           "errors": {
-            "type": 765
+            "type": 828
           },
           "index": 99
         },
@@ -6156,8 +6373,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 413,
-                    "value": 766
+                    "key": 446,
+                    "value": 829
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000",
@@ -6169,7 +6386,7 @@
                 "name": "ServiceHead",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 413
+                  "plain": 446
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -6185,8 +6402,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 769,
-                    "value": 770
+                    "key": 832,
+                    "value": 833
                   }
                 },
                 "fallback": "0x00",
@@ -6197,10 +6414,10 @@
             ]
           },
           "calls": {
-            "type": 412
+            "type": 445
           },
           "events": {
-            "type": 452
+            "type": 496
           },
           "constants": [
             {
@@ -6227,7 +6444,7 @@
             },
             {
               "name": "ServiceWeight",
-              "type": 420,
+              "type": 464,
               "value": "0x010700a0db215d133333333333333333",
               "docs": [
                 " The amount of weight (if any) which should be provided to the message queue for",
@@ -6239,63 +6456,312 @@
             }
           ],
           "errors": {
-            "type": 772
+            "type": 835
           },
           "index": 100
+        },
+        {
+          "name": "AssetRate",
+          "storage": {
+            "prefix": "AssetRate",
+            "items": [
+              {
+                "name": "ConversionRateToNative",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 56,
+                    "value": 449
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Maps an asset to its fixed point representation in the native balance.",
+                  "",
+                  " E.g. `native_amount = asset_amount * ConversionRateToNative::<T>::get(asset_kind)`"
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 448
+          },
+          "events": {
+            "type": 498
+          },
+          "constants": [],
+          "errors": {
+            "type": 836
+          },
+          "index": 101
+        },
+        {
+          "name": "Beefy",
+          "storage": {
+            "prefix": "Beefy",
+            "items": [
+              {
+                "name": "Authorities",
+                "modifier": "Default",
+                "type": {
+                  "plain": 837
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current authorities set"
+                ]
+              },
+              {
+                "name": "ValidatorSetId",
+                "modifier": "Default",
+                "type": {
+                  "plain": 11
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " The current validator set id"
+                ]
+              },
+              {
+                "name": "NextAuthorities",
+                "modifier": "Default",
+                "type": {
+                  "plain": 837
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Authorities set scheduled to be used with the next session"
+                ]
+              },
+              {
+                "name": "SetIdSession",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 11,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A mapping from BEEFY set ID to the index of the *most recent* session for which its",
+                  " members were responsible.",
+                  "",
+                  " This is only used for validating equivocation proofs. An equivocation proof must",
+                  " contains a key-ownership proof for a given session, therefore we need a way to tie",
+                  " together sessions and BEEFY set ids, i.e. we need to validate that a validator",
+                  " was the owner of a given key on a given session, and what the active set ID was",
+                  " during that session.",
+                  "",
+                  " TWOX-NOTE: `ValidatorSetId` is not under user control."
+                ]
+              },
+              {
+                "name": "GenesisBlock",
+                "modifier": "Default",
+                "type": {
+                  "plain": 150
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Block number where BEEFY consensus is enabled/started.",
+                  " By changing this (through privileged `set_new_genesis()`), BEEFY consensus is effectively",
+                  " restarted from the newly set block number."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 450
+          },
+          "events": null,
+          "constants": [
+            {
+              "name": "MaxAuthorities",
+              "type": 4,
+              "value": "0xa0860100",
+              "docs": [
+                " The maximum number of authorities that can be added."
+              ]
+            },
+            {
+              "name": "MaxNominators",
+              "type": 4,
+              "value": "0x00020000",
+              "docs": [
+                " The maximum number of nominators for each validator."
+              ]
+            },
+            {
+              "name": "MaxSetIdSessionEntries",
+              "type": 11,
+              "value": "0x1c00000000000000",
+              "docs": [
+                " The maximum number of entries to keep in the set id to session index mapping.",
+                "",
+                " Since the `SetIdSession` map is only used for validating equivocations this",
+                " value should relate to the bonding duration of whatever staking system is",
+                " being used (if any). If equivocation handling is not enabled then this value",
+                " can be zero."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 839
+          },
+          "index": 200
+        },
+        {
+          "name": "Mmr",
+          "storage": {
+            "prefix": "Mmr",
+            "items": [
+              {
+                "name": "RootHash",
+                "modifier": "Default",
+                "type": {
+                  "plain": 12
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Latest MMR Root hash."
+                ]
+              },
+              {
+                "name": "NumberOfLeaves",
+                "modifier": "Default",
+                "type": {
+                  "plain": 11
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " Current size of the MMR (number of leaves)."
+                ]
+              },
+              {
+                "name": "Nodes",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 11,
+                    "value": 12
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Hashes of the nodes in the MMR.",
+                  "",
+                  " Note this collection only contains MMR peaks, the inner nodes (and leaves)",
+                  " are pruned and only stored in the Offchain DB."
+                ]
+              }
+            ]
+          },
+          "calls": null,
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 201
+        },
+        {
+          "name": "BeefyMmrLeaf",
+          "storage": {
+            "prefix": "BeefyMmrLeaf",
+            "items": [
+              {
+                "name": "BeefyAuthorities",
+                "modifier": "Default",
+                "type": {
+                  "plain": 840
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Details of current BEEFY authority set."
+                ]
+              },
+              {
+                "name": "BeefyNextAuthorities",
+                "modifier": "Default",
+                "type": {
+                  "plain": 840
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Details of next BEEFY authority set.",
+                  "",
+                  " This storage entry is used as cache for calls to `update_beefy_next_authority_set`."
+                ]
+              }
+            ]
+          },
+          "calls": null,
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 202
         }
       ],
       "extrinsic": {
-        "type": 773,
+        "type": 841,
         "version": 4,
         "signedExtensions": [
           {
             "identifier": "CheckNonZeroSender",
-            "type": 775,
-            "additionalSigned": 34
+            "type": 843,
+            "additionalSigned": 35
           },
           {
             "identifier": "CheckSpecVersion",
-            "type": 776,
+            "type": 844,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckTxVersion",
-            "type": 777,
+            "type": 845,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckGenesis",
-            "type": 778,
+            "type": 846,
             "additionalSigned": 12
           },
           {
             "identifier": "CheckMortality",
-            "type": 779,
+            "type": 847,
             "additionalSigned": 12
           },
           {
             "identifier": "CheckNonce",
-            "type": 781,
-            "additionalSigned": 34
+            "type": 849,
+            "additionalSigned": 35
           },
           {
             "identifier": "CheckWeight",
-            "type": 782,
-            "additionalSigned": 34
+            "type": 850,
+            "additionalSigned": 35
           },
           {
             "identifier": "ChargeTransactionPayment",
-            "type": 783,
-            "additionalSigned": 34
+            "type": 851,
+            "additionalSigned": 35
           },
           {
             "identifier": "PrevalidateAttests",
-            "type": 784,
-            "additionalSigned": 34
+            "type": 852,
+            "additionalSigned": 35
           }
         ]
       },
-      "type": 785
+      "type": 853
     }
   }
 }

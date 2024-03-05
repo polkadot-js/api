@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedEvent } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256, Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeTask, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletAssetConversionNativeOrAssetId, PalletBrokerCoretimeInterfaceCoreAssignment, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsOrigin, PalletConvictionVotingTally, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsPalletAttributes, PalletNftsPriceWithDirection, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletSafeModeExitReason, PalletSocietyGroupParams, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpStakingExposure, SpStatementStoreStatement, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensMiscBalanceStatus, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParametersKey, KitchensinkRuntimeRuntimeParametersValue, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletBrokerCoretimeInterfaceCoreAssignment, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsOrigin, PalletConvictionVotingTally, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsPalletAttributes, PalletNftsPriceWithDirection, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletSafeModeExitReason, PalletSocietyGroupParams, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpStakingExposure, SpStatementStoreStatement, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -113,24 +113,24 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A successful call of the `AddLiquidity` extrinsic will create this event.
        **/
-      LiquidityAdded: AugmentedEvent<ApiType, [who: AccountId32, mintTo: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, amount1Provided: u128, amount2Provided: u128, lpToken: u32, lpTokenMinted: u128], { who: AccountId32, mintTo: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, amount1Provided: u128, amount2Provided: u128, lpToken: u32, lpTokenMinted: u128 }>;
+      LiquidityAdded: AugmentedEvent<ApiType, [who: AccountId32, mintTo: AccountId32, poolId: ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId]>, amount1Provided: u128, amount2Provided: u128, lpToken: u32, lpTokenMinted: u128], { who: AccountId32, mintTo: AccountId32, poolId: ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId]>, amount1Provided: u128, amount2Provided: u128, lpToken: u32, lpTokenMinted: u128 }>;
       /**
        * A successful call of the `RemoveLiquidity` extrinsic will create this event.
        **/
-      LiquidityRemoved: AugmentedEvent<ApiType, [who: AccountId32, withdrawTo: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, amount1: u128, amount2: u128, lpToken: u32, lpTokenBurned: u128, withdrawalFee: Permill], { who: AccountId32, withdrawTo: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, amount1: u128, amount2: u128, lpToken: u32, lpTokenBurned: u128, withdrawalFee: Permill }>;
+      LiquidityRemoved: AugmentedEvent<ApiType, [who: AccountId32, withdrawTo: AccountId32, poolId: ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId]>, amount1: u128, amount2: u128, lpToken: u32, lpTokenBurned: u128, withdrawalFee: Permill], { who: AccountId32, withdrawTo: AccountId32, poolId: ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId]>, amount1: u128, amount2: u128, lpToken: u32, lpTokenBurned: u128, withdrawalFee: Permill }>;
       /**
        * A successful call of the `CretaPool` extrinsic will create this event.
        **/
-      PoolCreated: AugmentedEvent<ApiType, [creator: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, poolAccount: AccountId32, lpToken: u32], { creator: AccountId32, poolId: ITuple<[PalletAssetConversionNativeOrAssetId, PalletAssetConversionNativeOrAssetId]>, poolAccount: AccountId32, lpToken: u32 }>;
+      PoolCreated: AugmentedEvent<ApiType, [creator: AccountId32, poolId: ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId]>, poolAccount: AccountId32, lpToken: u32], { creator: AccountId32, poolId: ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId]>, poolAccount: AccountId32, lpToken: u32 }>;
+      /**
+       * Assets have been converted from one to another.
+       **/
+      SwapCreditExecuted: AugmentedEvent<ApiType, [amountIn: u128, amountOut: u128, path: Vec<ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, u128]>>], { amountIn: u128, amountOut: u128, path: Vec<ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, u128]>> }>;
       /**
        * Assets have been converted from one to another. Both `SwapExactTokenForToken`
        * and `SwapTokenForExactToken` will generate this event.
        **/
-      SwapExecuted: AugmentedEvent<ApiType, [who: AccountId32, sendTo: AccountId32, path: Vec<PalletAssetConversionNativeOrAssetId>, amountIn: u128, amountOut: u128], { who: AccountId32, sendTo: AccountId32, path: Vec<PalletAssetConversionNativeOrAssetId>, amountIn: u128, amountOut: u128 }>;
-      /**
-       * An amount has been transferred from one account to another.
-       **/
-      Transfer: AugmentedEvent<ApiType, [from: AccountId32, to: AccountId32, asset: PalletAssetConversionNativeOrAssetId, amount: u128], { from: AccountId32, to: AccountId32, asset: PalletAssetConversionNativeOrAssetId, amount: u128 }>;
+      SwapExecuted: AugmentedEvent<ApiType, [who: AccountId32, sendTo: AccountId32, amountIn: u128, amountOut: u128, path: Vec<ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, u128]>>], { who: AccountId32, sendTo: AccountId32, amountIn: u128, amountOut: u128, path: Vec<ITuple<[FrameSupportTokensFungibleUnionOfNativeOrWithId, u128]>> }>;
       /**
        * Generic event
        **/
@@ -341,6 +341,10 @@ declare module '@polkadot/api-base/types/events' {
        * Some balance was thawed.
        **/
       Thawed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * The `TotalIssuance` was forcefully changed.
+       **/
+      TotalIssuanceForced: AugmentedEvent<ApiType, [old: u128, new_: u128], { old: u128, new_: u128 }>;
       /**
        * Transfer succeeded.
        **/
@@ -678,6 +682,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Requested: AugmentedEvent<ApiType, [who: AccountId32, wish: PalletCoreFellowshipWish], { who: AccountId32, wish: PalletCoreFellowshipWish }>;
       /**
+       * A member had its AccountId swapped.
+       **/
+      Swapped: AugmentedEvent<ApiType, [who: AccountId32, newWho: AccountId32], { who: AccountId32, newWho: AccountId32 }>;
+      /**
        * Generic event
        **/
       [key: string]: AugmentedEvent<ApiType>;
@@ -940,6 +948,19 @@ declare module '@polkadot/api-base/types/events' {
     };
     identity: {
       /**
+       * A username authority was added.
+       **/
+      AuthorityAdded: AugmentedEvent<ApiType, [authority: AccountId32], { authority: AccountId32 }>;
+      /**
+       * A username authority was removed.
+       **/
+      AuthorityRemoved: AugmentedEvent<ApiType, [authority: AccountId32], { authority: AccountId32 }>;
+      /**
+       * A dangling username (as in, a username corresponding to an account that has removed its
+       * identity) has been removed.
+       **/
+      DanglingUsernameRemoved: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes], { who: AccountId32, username: Bytes }>;
+      /**
        * A name was cleared, and the given balance returned.
        **/
       IdentityCleared: AugmentedEvent<ApiType, [who: AccountId32, deposit: u128], { who: AccountId32, deposit: u128 }>;
@@ -964,6 +985,14 @@ declare module '@polkadot/api-base/types/events' {
        **/
       JudgementUnrequested: AugmentedEvent<ApiType, [who: AccountId32, registrarIndex: u32], { who: AccountId32, registrarIndex: u32 }>;
       /**
+       * A queued username passed its expiration without being claimed and was removed.
+       **/
+      PreapprovalExpired: AugmentedEvent<ApiType, [whose: AccountId32], { whose: AccountId32 }>;
+      /**
+       * A username was set as a primary and can be looked up from `who`.
+       **/
+      PrimaryUsernameSet: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes], { who: AccountId32, username: Bytes }>;
+      /**
        * A registrar was added.
        **/
       RegistrarAdded: AugmentedEvent<ApiType, [registrarIndex: u32], { registrarIndex: u32 }>;
@@ -980,6 +1009,14 @@ declare module '@polkadot/api-base/types/events' {
        * main identity account to the sub-identity account.
        **/
       SubIdentityRevoked: AugmentedEvent<ApiType, [sub: AccountId32, main: AccountId32, deposit: u128], { sub: AccountId32, main: AccountId32, deposit: u128 }>;
+      /**
+       * A username was queued, but `who` must accept it prior to `expiration`.
+       **/
+      UsernameQueued: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes, expiration: u32], { who: AccountId32, username: Bytes, expiration: u32 }>;
+      /**
+       * A username was set for `who`.
+       **/
+      UsernameSet: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes], { who: AccountId32, username: Bytes }>;
       /**
        * Generic event
        **/
@@ -1404,6 +1441,18 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    parameters: {
+      /**
+       * A Parameter was set.
+       * 
+       * Is also emitted when the value was not changed.
+       **/
+      Updated: AugmentedEvent<ApiType, [key: KitchensinkRuntimeRuntimeParametersKey, oldValue: Option<KitchensinkRuntimeRuntimeParametersValue>, newValue: Option<KitchensinkRuntimeRuntimeParametersValue>], { key: KitchensinkRuntimeRuntimeParametersKey, oldValue: Option<KitchensinkRuntimeRuntimeParametersValue>, newValue: Option<KitchensinkRuntimeRuntimeParametersValue> }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     poolAssets: {
       /**
        * Accounts were destroyed for given asset.
@@ -1564,6 +1613,10 @@ declare module '@polkadot/api-base/types/events' {
        * A member `who` has been added.
        **/
       MemberAdded: AugmentedEvent<ApiType, [who: AccountId32], { who: AccountId32 }>;
+      /**
+       * The member `who` had their `AccountId` changed to `new_who`.
+       **/
+      MemberExchanged: AugmentedEvent<ApiType, [who: AccountId32, newWho: AccountId32], { who: AccountId32, newWho: AccountId32 }>;
       /**
        * The member `who` of given `rank` has been removed from the collective.
        **/
@@ -1820,6 +1873,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Registered: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
+       * A member swapped their account.
+       **/
+      Swapped: AugmentedEvent<ApiType, [who: AccountId32, newWho: AccountId32], { who: AccountId32, newWho: AccountId32 }>;
+      /**
        * Generic event
        **/
       [key: string]: AugmentedEvent<ApiType>;
@@ -1845,6 +1902,19 @@ declare module '@polkadot/api-base/types/events' {
        * The given task can never be executed since it is overweight.
        **/
       PermanentlyOverweight: AugmentedEvent<ApiType, [task: ITuple<[u32, u32]>, id: Option<U8aFixed>], { task: ITuple<[u32, u32]>, id: Option<U8aFixed> }>;
+      /**
+       * Cancel a retry configuration for some task.
+       **/
+      RetryCancelled: AugmentedEvent<ApiType, [task: ITuple<[u32, u32]>, id: Option<U8aFixed>], { task: ITuple<[u32, u32]>, id: Option<U8aFixed> }>;
+      /**
+       * The given task was unable to be retried since the agenda is full at that block or there
+       * was not enough weight to reschedule it.
+       **/
+      RetryFailed: AugmentedEvent<ApiType, [task: ITuple<[u32, u32]>, id: Option<U8aFixed>], { task: ITuple<[u32, u32]>, id: Option<U8aFixed> }>;
+      /**
+       * Set a retry configuration for some task.
+       **/
+      RetrySet: AugmentedEvent<ApiType, [task: ITuple<[u32, u32]>, id: Option<U8aFixed>, period: u32, retries: u8], { task: ITuple<[u32, u32]>, id: Option<U8aFixed>, period: u32, retries: u8 }>;
       /**
        * Scheduled some task.
        **/
@@ -2114,17 +2184,9 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Remarked: AugmentedEvent<ApiType, [sender: AccountId32, hash_: H256], { sender: AccountId32, hash_: H256 }>;
       /**
-       * A [`Task`] has finished executing.
+       * An upgrade was authorized.
        **/
-      TaskCompleted: AugmentedEvent<ApiType, [task: KitchensinkRuntimeRuntimeTask], { task: KitchensinkRuntimeRuntimeTask }>;
-      /**
-       * A [`Task`] failed during execution.
-       **/
-      TaskFailed: AugmentedEvent<ApiType, [task: KitchensinkRuntimeRuntimeTask, err: SpRuntimeDispatchError], { task: KitchensinkRuntimeRuntimeTask, err: SpRuntimeDispatchError }>;
-      /**
-       * A [`Task`] has started executing
-       **/
-      TaskStarted: AugmentedEvent<ApiType, [task: KitchensinkRuntimeRuntimeTask], { task: KitchensinkRuntimeRuntimeTask }>;
+      UpgradeAuthorized: AugmentedEvent<ApiType, [codeHash: H256, checkVersion: bool], { codeHash: H256, checkVersion: bool }>;
       /**
        * Generic event
        **/
