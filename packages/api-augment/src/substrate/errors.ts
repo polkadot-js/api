@@ -196,27 +196,21 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AssetTwoWithdrawalDidNotMeetMinimum: AugmentedError<ApiType>;
       /**
-       * Unable to find an element in an array/vec that should have one-to-one correspondence
-       * with another. For example, an array of assets constituting a `path` should have a
-       * corresponding array of `amounts` along the path.
+       * The destination account cannot exist with the swapped funds.
        **/
-      CorrespondenceError: AugmentedError<ApiType>;
-      /**
-       * Provided assets are equal.
-       **/
-      EqualAssets: AugmentedError<ApiType>;
+      BelowMinimum: AugmentedError<ApiType>;
       /**
        * It was not possible to get or increment the Id of the pool.
        **/
       IncorrectPoolAssetId: AugmentedError<ApiType>;
       /**
-       * Insufficient liquidity in the pool.
-       **/
-      InsufficientLiquidity: AugmentedError<ApiType>;
-      /**
        * Insufficient liquidity minted.
        **/
       InsufficientLiquidityMinted: AugmentedError<ApiType>;
+      /**
+       * Provided asset pair is not supported for pool.
+       **/
+      InvalidAssetPair: AugmentedError<ApiType>;
       /**
        * The provided path must consists of 2 assets at least.
        **/
@@ -234,17 +228,9 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       Overflow: AugmentedError<ApiType>;
       /**
-       * It was not possible to calculate path data.
-       **/
-      PathError: AugmentedError<ApiType>;
-      /**
        * Pool already exists.
        **/
       PoolExists: AugmentedError<ApiType>;
-      /**
-       * Only pools with native on one side are valid.
-       **/
-      PoolMustContainNativeCurrency: AugmentedError<ApiType>;
       /**
        * The pool doesn't exist.
        **/
@@ -262,10 +248,6 @@ declare module '@polkadot/api-base/types/errors' {
        * minimal amount.
        **/
       ReserveLeftLessThanMinimal: AugmentedError<ApiType>;
-      /**
-       * Provided asset is not supported for pool.
-       **/
-      UnsupportedAsset: AugmentedError<ApiType>;
       /**
        * Desired amount can't be zero.
        **/
@@ -288,6 +270,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The given asset ID already has an assigned conversion rate and cannot be re-created.
        **/
       AlreadyExists: AugmentedError<ApiType>;
+      /**
+       * Overflow ocurred when calculating the inverse rate.
+       **/
+      Overflow: AugmentedError<ApiType>;
       /**
        * The given asset ID is unknown.
        **/
@@ -414,6 +400,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DeadAccount: AugmentedError<ApiType>;
       /**
+       * The delta cannot be zero.
+       **/
+      DeltaZero: AugmentedError<ApiType>;
+      /**
        * Value too low to create account due to existential deposit.
        **/
       ExistentialDeposit: AugmentedError<ApiType>;
@@ -430,6 +420,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InsufficientBalance: AugmentedError<ApiType>;
       /**
+       * The issuance cannot be modified since it is already deactivated.
+       **/
+      IssuanceDeactivated: AugmentedError<ApiType>;
+      /**
        * Account liquidity restrictions prevent withdrawal.
        **/
       LiquidityRestrictions: AugmentedError<ApiType>;
@@ -438,7 +432,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       TooManyFreezes: AugmentedError<ApiType>;
       /**
-       * Number of holds exceed `MaxHolds`.
+       * Number of holds exceed `VariantCountOf<T::RuntimeHoldReason>`.
        **/
       TooManyHolds: AugmentedError<ApiType>;
       /**
@@ -449,6 +443,28 @@ declare module '@polkadot/api-base/types/errors' {
        * Vesting balance too high to send value.
        **/
       VestingBalance: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    beefy: {
+      /**
+       * A given equivocation report is valid but already previously reported.
+       **/
+      DuplicateOffenceReport: AugmentedError<ApiType>;
+      /**
+       * Submitted configuration is invalid.
+       **/
+      InvalidConfiguration: AugmentedError<ApiType>;
+      /**
+       * An equivocation proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidEquivocationProof: AugmentedError<ApiType>;
+      /**
+       * A key ownership proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidKeyOwnershipProof: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -818,7 +834,7 @@ declare module '@polkadot/api-base/types/errors' {
       AlreadyDelegating: AugmentedError<ApiType>;
       /**
        * The account currently has votes attached to it and the operation cannot succeed until
-       * these are removed, either through `unvote` or `reap_vote`.
+       * these are removed through `remove_vote`.
        **/
       AlreadyVoting: AugmentedError<ApiType>;
       /**
@@ -1089,6 +1105,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       OcwCallWrongEra: AugmentedError<ApiType>;
       /**
+       * Sumission was prepared for a different round.
+       **/
+      PreDispatchDifferentRound: AugmentedError<ApiType>;
+      /**
        * Submission was too early.
        **/
       PreDispatchEarlySubmission: AugmentedError<ApiType>;
@@ -1305,9 +1325,21 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidJudgement: AugmentedError<ApiType>;
       /**
+       * The signature on a username was not valid.
+       **/
+      InvalidSignature: AugmentedError<ApiType>;
+      /**
+       * The provided suffix is too long.
+       **/
+      InvalidSuffix: AugmentedError<ApiType>;
+      /**
        * The target is invalid.
        **/
       InvalidTarget: AugmentedError<ApiType>;
+      /**
+       * The username does not meet the requirements.
+       **/
+      InvalidUsername: AugmentedError<ApiType>;
       /**
        * The provided judgement was for a different identity.
        **/
@@ -1321,9 +1353,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       JudgementPaymentFailed: AugmentedError<ApiType>;
       /**
+       * The authority cannot allocate any more usernames.
+       **/
+      NoAllocation: AugmentedError<ApiType>;
+      /**
        * No identity found.
        **/
       NoIdentity: AugmentedError<ApiType>;
+      /**
+       * The username cannot be forcefully removed because it can still be accepted.
+       **/
+      NotExpired: AugmentedError<ApiType>;
       /**
        * Account isn't found.
        **/
@@ -1341,6 +1381,18 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotSub: AugmentedError<ApiType>;
       /**
+       * The sender does not have permission to issue a username.
+       **/
+      NotUsernameAuthority: AugmentedError<ApiType>;
+      /**
+       * The requested username does not exist.
+       **/
+      NoUsername: AugmentedError<ApiType>;
+      /**
+       * Setting this username requires a signature, but none was provided.
+       **/
+      RequiresSignature: AugmentedError<ApiType>;
+      /**
        * Sticky judgement.
        **/
       StickyJudgement: AugmentedError<ApiType>;
@@ -1352,6 +1404,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Too many subs-accounts.
        **/
       TooManySubAccounts: AugmentedError<ApiType>;
+      /**
+       * The username is already taken.
+       **/
+      UsernameTaken: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -2161,6 +2217,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       RankTooLow: AugmentedError<ApiType>;
       /**
+       * The new member to exchange is the same as the old member
+       **/
+      SameMember: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -2814,10 +2874,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CallFiltered: AugmentedError<ApiType>;
       /**
-       * The specified [`Task`] failed during execution.
-       **/
-      FailedTask: AugmentedError<ApiType>;
-      /**
        * Failed to extract the runtime version from the new runtime.
        * 
        * Either calling `Core_version` or decoding `RuntimeVersion` failed.
@@ -2829,10 +2885,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidSpecName: AugmentedError<ApiType>;
       /**
-       * The specified [`Task`] is not valid.
-       **/
-      InvalidTask: AugmentedError<ApiType>;
-      /**
        * Suicide called when the account has non-default composite data.
        **/
       NonDefaultComposite: AugmentedError<ApiType>;
@@ -2841,10 +2893,18 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NonZeroRefCount: AugmentedError<ApiType>;
       /**
+       * No upgrade authorized.
+       **/
+      NothingAuthorized: AugmentedError<ApiType>;
+      /**
        * The specification version is not allowed to decrease between the current runtime
        * and the new runtime.
        **/
       SpecVersionNeedsToIncrease: AugmentedError<ApiType>;
+      /**
+       * The submitted code is not authorized.
+       **/
+      Unauthorized: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

@@ -109,7 +109,7 @@ export interface DeriveStakingStash {
   controllerId: AccountId | null;
   exposure: PalletStakingExposure;
   nominators: AccountId[];
-  rewardDestination: PalletStakingRewardDestination;
+  rewardDestination: PalletStakingRewardDestination | null;
   stashId: AccountId;
   validatorPrefs: PalletStakingValidatorPrefs;
 }

@@ -1133,10 +1133,6 @@ export default {
     }
   },
   /**
-   * Lookup344: sp_core::ecdsa::Public
-   **/
-  SpCoreEcdsaPublic: '[u8;33]',
-  /**
    * Lookup349: pallet_xcm::pallet::Call<T>
    **/
   PalletXcmCall: {

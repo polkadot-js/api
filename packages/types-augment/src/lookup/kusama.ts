@@ -5,56 +5,6 @@
 
 export default {
   /**
-   * Lookup94: pallet_beefy::pallet::Call<T>
-   **/
-  PalletBeefyCall: {
-    _enum: {
-      report_equivocation: {
-        equivocationProof: 'SpConsensusBeefyEquivocationProof',
-        keyOwnerProof: 'SpSessionMembershipProof',
-      },
-      report_equivocation_unsigned: {
-        equivocationProof: 'SpConsensusBeefyEquivocationProof',
-        keyOwnerProof: 'SpSessionMembershipProof'
-      }
-    }
-  },
-  /**
-   * Lookup95: sp_consensus_beefy::EquivocationProof<Number, sp_consensus_beefy::ecdsa_crypto::Public, sp_consensus_beefy::ecdsa_crypto::Signature>
-   **/
-  SpConsensusBeefyEquivocationProof: {
-    first: 'SpConsensusBeefyVoteMessage',
-    second: 'SpConsensusBeefyVoteMessage'
-  },
-  /**
-   * Lookup96: sp_consensus_beefy::ecdsa_crypto::Public
-   **/
-  SpConsensusBeefyEcdsaCryptoPublic: 'SpCoreEcdsaPublic',
-  /**
-   * Lookup99: sp_consensus_beefy::ecdsa_crypto::Signature
-   **/
-  SpConsensusBeefyEcdsaCryptoSignature: 'SpCoreEcdsaSignature',
-  /**
-   * Lookup102: sp_consensus_beefy::VoteMessage<Number, sp_consensus_beefy::ecdsa_crypto::Public, sp_consensus_beefy::ecdsa_crypto::Signature>
-   **/
-  SpConsensusBeefyVoteMessage: {
-    commitment: 'SpConsensusBeefyCommitment',
-    id: 'SpConsensusBeefyEcdsaCryptoPublic',
-    signature: 'SpConsensusBeefyEcdsaCryptoSignature'
-  },
-  /**
-   * Lookup103: sp_consensus_beefy::commitment::Commitment<TBlockNumber>
-   **/
-  SpConsensusBeefyCommitment: {
-    payload: 'SpConsensusBeefyPayload',
-    blockNumber: 'u32',
-    validatorSetId: 'u64'
-  },
-  /**
-   * Lookup104: sp_consensus_beefy::payload::Payload
-   **/
-  SpConsensusBeefyPayload: 'Vec<([u8;2],Bytes)>',
-  /**
    * Lookup109: kusama_runtime::SessionKeys
    **/
   KusamaRuntimeSessionKeys: {
@@ -259,20 +209,6 @@ export default {
       __Unused37: 'Null',
       Nis: 'PalletNisHoldReason'
     }
-  },
-  /**
-   * Lookup591: pallet_beefy::pallet::Error<T>
-   **/
-  PalletBeefyError: {
-    _enum: ['InvalidKeyOwnershipProof', 'InvalidEquivocationProof', 'DuplicateOffenceReport']
-  },
-  /**
-   * Lookup592: sp_consensus_beefy::mmr::BeefyAuthoritySet<primitive_types::H256>
-   **/
-  SpConsensusBeefyMmrBeefyAuthoritySet: {
-    id: 'u64',
-    len: 'u32',
-    keysetCommitment: 'H256'
   },
   /**
    * Lookup891: kusama_runtime::Runtime
