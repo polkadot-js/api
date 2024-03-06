@@ -11,7 +11,15 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { firstMemo, memo } from '../util/index.js';
 
-function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination>, validatorPrefs: PalletStakingValidatorPrefs, exposure: PalletStakingExposure, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
+// handle compatibility between generations of structures
+function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestination | Option<PalletStakingRewardDestination>): PalletStakingRewardDestination | null {
+  // We ensure the type is an Option by checking if isSome is a boolean. When isSome doesn't exist it will always return undefined.
+  return typeof (rewardDestination as Option<PalletStakingRewardDestination>).isSome === 'boolean'
+    ? (rewardDestination as Option<PalletStakingRewardDestination>).unwrapOr(null)
+    : (rewardDestination as PalletStakingRewardDestination);
+}
+
+function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: PalletStakingExposure, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
   return {
     accountId: stashId,
     controllerId: controllerIdOpt?.unwrapOr(null) || null,
@@ -19,7 +27,7 @@ function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | 
     nominators: nominatorsOpt.isSome
       ? nominatorsOpt.unwrap().targets
       : [],
-    rewardDestination: rewardDestinationOpts.unwrapOr(null) || null,
+    rewardDestination: rewardDestinationCompat(rewardDestinationOpts),
     stakingLedger: stakingLedgerOpt.unwrapOrDefault(),
     stashId,
     validatorPrefs

@@ -40,12 +40,21 @@ function extractOther (additional: IdentityInfoAdditional[]): Record<string, str
   }, {});
 }
 
-function extractIdentity (identityOfOpt?: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
+// handle compatibility between generations of structures
+function identityCompat (identityOfOpt: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>> | Option<PalletIdentityRegistration>): PalletIdentityRegistration {
+  const identity = identityOfOpt.unwrap();
+
+  return Array.isArray(identity)
+    ? identity[0]
+    : identity;
+}
+
+function extractIdentity (identityOfOpt?: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>> | Option<PalletIdentityRegistration>, superOf?: [AccountId, Data]): DeriveAccountRegistration {
   if (!identityOfOpt?.isSome) {
     return { judgements: [] };
   }
 
-  const { info, judgements } = identityOfOpt.unwrap()[0];
+  const { info, judgements } = identityCompat(identityOfOpt);
   const topDisplay = dataAsString(info.display);
 
   return {
@@ -132,7 +141,7 @@ export function hasIdentityMulti (instanceId: string, api: DeriveApi): (accountI
             let display: string | undefined;
 
             if (identityOfOpt && identityOfOpt.isSome) {
-              const value = dataAsString(identityOfOpt.unwrap()[0].info.display);
+              const value = dataAsString(identityCompat(identityOfOpt).info.display);
 
               if (value && !isHex(value)) {
                 display = value;
