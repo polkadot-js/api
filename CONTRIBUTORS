@@ -8,7 +8,7 @@
       14	Nikos Kontakis                	Bump substrate connect to 0.7.16 (#5307)
       11	Ian He                        	HttpProvider support clone() (#3949)
       10	Axel Chalon                   	Make Enum/Tuple constructor use value directly if instance (#1954)
-       8	Tarik Gul                     	Bump to latest Substrate metadata (#5807)
+       9	Tarik Gul                     	Update docs in types-support for retrieving metadata for typegen (#5809)
        6	Andreea Eftene                	Update check for contract instantiation (#5699)
        5	Chevdor                       	Fix metadata package link (#3458)
        5	Jake Naviasky                 	Fixing approvalFlagsToBools. (#1250)
