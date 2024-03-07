@@ -26,6 +26,7 @@ Clone the [polkadot-sdk](https://github.com/paritytech/polkadot-sdk) repository,
 ```bash
 $ cargo build --release --bin polkadot-prepare-worker --features fast-runtime
 $ cargo build --release --bin polkadot-execute-worker --features fast-runtime
+$ cargo build --release --bin polkadot --features fast-runtime
 $ ./target/release/polkadot --chain polkadotDevChainSpec.json
 ```
 
