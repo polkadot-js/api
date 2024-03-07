@@ -20,7 +20,7 @@ $ ./target/release/chain-spec-generator polkadot-dev > polkadotDevChainSpec.json
 
 Note: For kusama just change the `polkadotDevChainSpec.json` to `kusamaDevChainSpec.json`.
 
-Clone the [polkadot-sdk](https://github.com/paritytech/polkadot-sdk) repository and from the ROOT run:
+Clone the [polkadot-sdk](https://github.com/paritytech/polkadot-sdk) repository, checkout the most recent releases tag and from the ROOT run:
 
 ```bash
 $ cargo build --release --bin polkadot-prepare-worker --features fast-runtime
