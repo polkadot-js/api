@@ -8,6 +8,26 @@ Clone the [polkadot-sdk](https://github.com/paritytech/polkadot-sdk) repository 
 
 `--dev` sets the flag `--tmp` automatically so there is no need for purging the dev db.
 
+For Polkadot & Kusama -
+
+Clone the [polkadot-fellows/runtimes](https://github.com/polkadot-fellows/runtimes/tree/main) repository and from the ROOT run:
+
+```bash 
+$ unset SKIP_WASM_BUILD
+$ cargo build --release -p chain-spec-generator --features fast-runtime
+$ ./target/release/chain-spec-generator polkadot-dev > polkadotDevChainSpec.json
+```
+
+Note: For kusama just change the `polkadotDevChainSpec.json` to `kusamaDevChainSpec.json`.
+
+Clone the [polkadot-sdk](https://github.com/paritytech/polkadot-sdk) repository and from the ROOT run:
+
+```bash
+$ cargo build --release --bin polkadot-prepare-worker --features fast-runtime
+$ cargo build --release --bin polkadot-execute-worker --features fast-runtime
+$ ./target/release/polkadot --chain polkadotDevChainSpec.json
+```
+
 To retrieve the metadata -
 
 `curl -H "Content-Type: application/json" -d '{"id":"1", "jsonrpc":"2.0", "method": "state_getMetadata", "params":[]}' http://localhost:9944`
