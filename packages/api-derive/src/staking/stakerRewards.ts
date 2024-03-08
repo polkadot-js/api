@@ -38,7 +38,7 @@ function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPref
     Object.entries(eraValidators).forEach(([validatorId, exposure]): void => {
       const valPoints = allValPoints[validatorId] || BN_ZERO;
       const valComm = allValPrefs[validatorId]?.commission.unwrap() || BN_ZERO;
-      const expTotal = ((exposure as PalletStakingExposure).total && (exposure as PalletStakingExposure).total?.unwrap()) || BN_ZERO;
+      const expTotal = (exposure as PalletStakingExposure).total ? (exposure as PalletStakingExposure).total?.unwrap() : BN_ZERO;
       let avail = BN_ZERO;
       let value: BN | undefined;
 
