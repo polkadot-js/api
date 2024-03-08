@@ -918,6 +918,8 @@ export class PortableRegistry extends Struct implements ILookup {
 
     for (let i = 0; i < count; i++) {
       const { docs, name, type, typeName } = fields[i];
+
+      // TODO: Investigate this line for Lookup assignment
       const typeDef = this.#createSiDef(type);
 
       if (name.isNone) {

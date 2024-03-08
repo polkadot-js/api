@@ -159,6 +159,11 @@ function generateLookupDefs (registry: Registry, filtered: [PortableType, TypeDe
       const typeLookup = registry.createLookupType(id);
       const def = expandDefToString(typeDef, subPath ? 2 : 4);
 
+      if (id.toString() === '69') {
+        console.log(typeDef)
+        console.log({ def, typeLookup, typeName: typeDef.lookupName })
+      }
+
       return {
         docs: [
           generateTypeDocs(registry, id, path, params),
