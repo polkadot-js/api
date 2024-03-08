@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { u32, Vec } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
-import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
+import type { PalletStakingExposure, PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveApi, DeriveEraPoints, DeriveEraPrefs, DeriveEraRewards, DeriveEraValPoints, DeriveEraValPrefs, DeriveStakerExposure, DeriveStakerReward, DeriveStakerRewardValidator } from '../types.js';
 import type { DeriveStakingQuery } from './types.js';
@@ -38,7 +38,7 @@ function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPref
     Object.entries(eraValidators).forEach(([validatorId, exposure]): void => {
       const valPoints = allValPoints[validatorId] || BN_ZERO;
       const valComm = allValPrefs[validatorId]?.commission.unwrap() || BN_ZERO;
-      const expTotal = exposure.total?.unwrap() || BN_ZERO;
+      const expTotal = ((exposure as PalletStakingExposure).total && (exposure as PalletStakingExposure).total?.unwrap()) || BN_ZERO;
       let avail = BN_ZERO;
       let value: BN | undefined;
 
@@ -48,8 +48,8 @@ function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPref
         const valCut = valComm.mul(avail).div(BN_BILLION);
         let staked: BN;
 
-        if (validatorId === stakerId) {
-          staked = exposure.own.unwrap();
+        if (validatorId === stakerId && (exposure as PalletStakingExposure).own) {
+          staked = (exposure as PalletStakingExposure).own.unwrap();
         } else {
           const stakerExp = exposure.others.find(({ who }) => who.eq(stakerId));
 

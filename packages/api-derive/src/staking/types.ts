@@ -74,7 +74,7 @@ export interface DeriveStakerExposure {
   isEmpty: boolean;
   isValidator: boolean;
   nominating: DeriveEraExposureNominating[];
-  validators: DeriveEraValidatorExposure;
+  validators: DeriveEraValidatorExposurePaged;
 }
 
 export interface DeriveStakerPrefs {
