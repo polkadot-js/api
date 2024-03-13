@@ -56,9 +56,11 @@ function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPref
           if ((exposure as PalletStakingExposure).own) {
             staked = (exposure as PalletStakingExposure).own.unwrap();
           } else {
-            const expAccount = exposure.others.find(({ who }) => who.toString() === validatorId);
+            const expAccount = exposure.others.find(({ who }) => who.eq(validatorId));
 
-            staked = expAccount ? expAccount.value.unwrap() : BN_ZERO;
+            staked = expAccount
+              ? expAccount.value.unwrap()
+              : BN_ZERO;
           }
         } else {
           const stakerExp = exposure.others.find(({ who }) => who.eq(stakerId));
