@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { DeriveApi } from '../types.js';
-import type { DeriveEraValidatorExposure, DeriveStakerExposure } from './types.js';
+import type { DeriveEraValidatorExposurePaged, DeriveStakerExposure } from './types.js';
 
 import { map, switchMap } from 'rxjs';
 
@@ -19,7 +19,7 @@ export function _stakerExposures (instanceId: string, api: DeriveApi): (accountI
         stakerIds.map((stakerId) =>
           exposures.map(({ era, nominators: allNominators, validators: allValidators }): DeriveStakerExposure => {
             const isValidator = !!allValidators[stakerId];
-            const validators: DeriveEraValidatorExposure = {};
+            const validators: DeriveEraValidatorExposurePaged = {};
             const nominating = allNominators[stakerId] || [];
 
             if (isValidator) {
