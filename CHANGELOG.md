@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 10.12.2 Mar 11, 2024
+
+Contributed:
+
+- fix cache key (rpc-provider) (Thanks to https://github.com/ermalkaleci)
+
+Changes:
+
+- Update to latest Substrate metadata
+
+
 ## 10.12.1 Mar 4, 2024
 
 Contributed:
