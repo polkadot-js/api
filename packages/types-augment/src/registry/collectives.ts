@@ -1,0 +1,61 @@
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
+/* eslint-disable */
+
+// import type lookup before we augment - in some environments
+// this is required to allow for ambient/previous definitions
+import '@polkadot/types/types/registry';
+
+import type { CollectivesPolkadotRuntimeFellowshipOriginsPalletOriginsOrigin, CollectivesPolkadotRuntimeOriginCaller, CollectivesPolkadotRuntimeProxyType, CollectivesPolkadotRuntimeRuntime, CollectivesPolkadotRuntimeRuntimeHoldReason, CollectivesPolkadotRuntimeSessionKeys, CumulusPalletDmpQueueCall, CumulusPalletDmpQueueConfigData, CumulusPalletDmpQueueError, CumulusPalletDmpQueueEvent, CumulusPalletDmpQueuePageIndexData, CumulusPalletParachainSystemCall, CumulusPalletParachainSystemCodeUpgradeAuthorization, CumulusPalletParachainSystemError, CumulusPalletParachainSystemEvent, CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot, CumulusPalletParachainSystemRelayStateSnapshotRelayDispatchQueueRemainingCapacity, CumulusPalletParachainSystemUnincludedSegmentAncestor, CumulusPalletParachainSystemUnincludedSegmentHrmpChannelUpdate, CumulusPalletParachainSystemUnincludedSegmentSegmentTracker, CumulusPalletParachainSystemUnincludedSegmentUsedBandwidth, CumulusPalletXcmError, CumulusPalletXcmEvent, CumulusPalletXcmOrigin, CumulusPalletXcmpQueueCall, CumulusPalletXcmpQueueError, CumulusPalletXcmpQueueEvent, CumulusPalletXcmpQueueInboundChannelDetails, CumulusPalletXcmpQueueInboundState, CumulusPalletXcmpQueueOutboundChannelDetails, CumulusPalletXcmpQueueOutboundState, CumulusPalletXcmpQueueQueueConfigData, CumulusPrimitivesParachainInherentParachainInherentData, PalletCollatorSelectionCall, PalletCollatorSelectionCandidateInfo, PalletCollatorSelectionError, PalletCollatorSelectionEvent, PolkadotParachainPrimitivesPrimitivesXcmpMessageFormat, PolkadotPrimitivesV6AbridgedHostConfiguration, PolkadotPrimitivesV6AbridgedHrmpChannel, PolkadotPrimitivesV6AsyncBackingAsyncBackingParams, PolkadotPrimitivesV6PersistedValidationData, PolkadotPrimitivesV6UpgradeGoAhead, PolkadotPrimitivesV6UpgradeRestriction, PolkadotRuntimeCommonImplsVersionedLocatableAsset, SpConsensusAuraSr25519AppSr25519Public, SpTrieStorageProof, StagingXcmV3MultiLocation } from '@polkadot/types/lookup';
+
+declare module '@polkadot/types/types/registry' {
+  interface InterfaceTypes {
+    CollectivesPolkadotRuntimeFellowshipOriginsPalletOriginsOrigin: CollectivesPolkadotRuntimeFellowshipOriginsPalletOriginsOrigin;
+    CollectivesPolkadotRuntimeOriginCaller: CollectivesPolkadotRuntimeOriginCaller;
+    CollectivesPolkadotRuntimeProxyType: CollectivesPolkadotRuntimeProxyType;
+    CollectivesPolkadotRuntimeRuntime: CollectivesPolkadotRuntimeRuntime;
+    CollectivesPolkadotRuntimeRuntimeHoldReason: CollectivesPolkadotRuntimeRuntimeHoldReason;
+    CollectivesPolkadotRuntimeSessionKeys: CollectivesPolkadotRuntimeSessionKeys;
+    CumulusPalletDmpQueueCall: CumulusPalletDmpQueueCall;
+    CumulusPalletDmpQueueConfigData: CumulusPalletDmpQueueConfigData;
+    CumulusPalletDmpQueueError: CumulusPalletDmpQueueError;
+    CumulusPalletDmpQueueEvent: CumulusPalletDmpQueueEvent;
+    CumulusPalletDmpQueuePageIndexData: CumulusPalletDmpQueuePageIndexData;
+    CumulusPalletParachainSystemCall: CumulusPalletParachainSystemCall;
+    CumulusPalletParachainSystemCodeUpgradeAuthorization: CumulusPalletParachainSystemCodeUpgradeAuthorization;
+    CumulusPalletParachainSystemError: CumulusPalletParachainSystemError;
+    CumulusPalletParachainSystemEvent: CumulusPalletParachainSystemEvent;
+    CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot: CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot;
+    CumulusPalletParachainSystemRelayStateSnapshotRelayDispatchQueueRemainingCapacity: CumulusPalletParachainSystemRelayStateSnapshotRelayDispatchQueueRemainingCapacity;
+    CumulusPalletParachainSystemUnincludedSegmentAncestor: CumulusPalletParachainSystemUnincludedSegmentAncestor;
+    CumulusPalletParachainSystemUnincludedSegmentHrmpChannelUpdate: CumulusPalletParachainSystemUnincludedSegmentHrmpChannelUpdate;
+    CumulusPalletParachainSystemUnincludedSegmentSegmentTracker: CumulusPalletParachainSystemUnincludedSegmentSegmentTracker;
+    CumulusPalletParachainSystemUnincludedSegmentUsedBandwidth: CumulusPalletParachainSystemUnincludedSegmentUsedBandwidth;
+    CumulusPalletXcmError: CumulusPalletXcmError;
+    CumulusPalletXcmEvent: CumulusPalletXcmEvent;
+    CumulusPalletXcmOrigin: CumulusPalletXcmOrigin;
+    CumulusPalletXcmpQueueCall: CumulusPalletXcmpQueueCall;
+    CumulusPalletXcmpQueueError: CumulusPalletXcmpQueueError;
+    CumulusPalletXcmpQueueEvent: CumulusPalletXcmpQueueEvent;
+    CumulusPalletXcmpQueueInboundChannelDetails: CumulusPalletXcmpQueueInboundChannelDetails;
+    CumulusPalletXcmpQueueInboundState: CumulusPalletXcmpQueueInboundState;
+    CumulusPalletXcmpQueueOutboundChannelDetails: CumulusPalletXcmpQueueOutboundChannelDetails;
+    CumulusPalletXcmpQueueOutboundState: CumulusPalletXcmpQueueOutboundState;
+    CumulusPalletXcmpQueueQueueConfigData: CumulusPalletXcmpQueueQueueConfigData;
+    CumulusPrimitivesParachainInherentParachainInherentData: CumulusPrimitivesParachainInherentParachainInherentData;
+    PalletCollatorSelectionCall: PalletCollatorSelectionCall;
+    PalletCollatorSelectionCandidateInfo: PalletCollatorSelectionCandidateInfo;
+    PalletCollatorSelectionError: PalletCollatorSelectionError;
+    PalletCollatorSelectionEvent: PalletCollatorSelectionEvent;
+    PolkadotParachainPrimitivesPrimitivesXcmpMessageFormat: PolkadotParachainPrimitivesPrimitivesXcmpMessageFormat;
+    PolkadotPrimitivesV6AbridgedHostConfiguration: PolkadotPrimitivesV6AbridgedHostConfiguration;
+    PolkadotPrimitivesV6AbridgedHrmpChannel: PolkadotPrimitivesV6AbridgedHrmpChannel;
+    PolkadotPrimitivesV6AsyncBackingAsyncBackingParams: PolkadotPrimitivesV6AsyncBackingAsyncBackingParams;
+    PolkadotPrimitivesV6PersistedValidationData: PolkadotPrimitivesV6PersistedValidationData;
+    PolkadotPrimitivesV6UpgradeGoAhead: PolkadotPrimitivesV6UpgradeGoAhead;
+    PolkadotPrimitivesV6UpgradeRestriction: PolkadotPrimitivesV6UpgradeRestriction;
+    PolkadotRuntimeCommonImplsVersionedLocatableAsset: PolkadotRuntimeCommonImplsVersionedLocatableAsset;
+    SpConsensusAuraSr25519AppSr25519Public: SpConsensusAuraSr25519AppSr25519Public;
+    SpTrieStorageProof: SpTrieStorageProof;
+    StagingXcmV3MultiLocation: StagingXcmV3MultiLocation;
+  } // InterfaceTypes
+} // declare module

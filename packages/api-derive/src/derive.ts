@@ -22,9 +22,10 @@ import * as society from './society/index.js';
 import * as staking from './staking/index.js';
 import * as technicalCommittee from './technicalCommittee/index.js';
 import * as treasury from './treasury/index.js';
+import * as fellowshipTreasury from './fellowshipTreasury/index.js';
 import * as tx from './tx/index.js';
 
-export const derive = { accounts, alliance, bagsList, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, tx };
+export const derive = { accounts, alliance, bagsList, balances, bounties, chain, contracts, council, crowdloan, democracy, elections, imOnline, membership, parachains, session, society, staking, technicalCommittee, treasury, fellowshipTreasury, tx };
 
 type DeriveSection<Section> = {
   [M in keyof Section]: Section[M] extends AnyFunction

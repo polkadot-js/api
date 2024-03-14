@@ -14,6 +14,7 @@ import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import staticKusama from '@polkadot/types-support/metadata/static-kusama';
 import staticPolkadot from '@polkadot/types-support/metadata/static-polkadot';
 import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
+import staticCollectives from '@polkadot/types-support/metadata/static-collectives';
 import { isString, stringify } from '@polkadot/util';
 
 import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util/index.js';
@@ -271,7 +272,9 @@ export function generateDefaultLookup (destDir = 'packages/types-augment/src/loo
       : [
         ['substrate', staticSubstrate],
         ['polkadot', staticPolkadot],
-        ['kusama', staticKusama]
+        ['kusama', staticKusama],
+        ['collectives', staticCollectives],
+
       ]
   );
 }
