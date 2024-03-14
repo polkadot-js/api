@@ -54,7 +54,7 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
     const isComplex = [TypeDefInfo.Option, TypeDefInfo.Range, TypeDefInfo.RangeInclusive, TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
 
     let lookupNameTmp;
-
+    // TODO: Give explanation for this!
     if (sub && !Array.isArray(sub) && type.includes(`${sub.type};`)) {
       lookupNameTmp = (sub).lookupName;
     }
