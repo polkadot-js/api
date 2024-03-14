@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { Bytes, Data } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { PalletIdentityIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
+import type { PalletIdentityLegacyIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { Option } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { DeriveAccountRegistration, DeriveApi, DeriveHasIdentity } from '../types.js';
@@ -15,7 +15,7 @@ import { isHex, u8aToString } from '@polkadot/util';
 
 import { firstMemo, memo } from '../util/index.js';
 
-type IdentityInfoAdditional = PalletIdentityIdentityInfo['additional'][0];
+type IdentityInfoAdditional = PalletIdentityLegacyIdentityInfo['additional'][0];
 
 const UNDEF_HEX = { toHex: () => undefined };
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance, EraIndex, RewardPoint } from '@polkadot/types/interfaces';
-import type { PalletStakingExposure, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposurePage } from '@polkadot/types/lookup';
+import type { PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposure, SpStakingExposurePage } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveSessionIndexes } from '../session/types.js';
 
@@ -41,9 +41,9 @@ export interface DeriveStakerPoints {
 }
 
 export interface DeriveOwnExposure {
-  clipped: PalletStakingExposure;
+  clipped: SpStakingExposure;
   era: EraIndex;
-  exposure: PalletStakingExposure;
+  exposure: SpStakingExposure;
 }
 
 export interface DeriveEraExposureNominating {
@@ -53,9 +53,9 @@ export interface DeriveEraExposureNominating {
 
 export type DeriveEraNominatorExposure = Record<string, DeriveEraExposureNominating[]>;
 
-export type DeriveEraValidatorExposure = Record<string, PalletStakingExposure>;
+export type DeriveEraValidatorExposure = Record<string, SpStakingExposure>;
 
-export type DeriveEraValidatorExposurePaged = Record<string, SpStakingExposurePage | PalletStakingExposure>;
+export type DeriveEraValidatorExposurePaged = Record<string, SpStakingExposurePage | SpStakingExposure>;
 
 export interface DeriveEraExposure {
   era: EraIndex;
@@ -115,7 +115,7 @@ export interface DeriveStakingValidators {
 
 export interface DeriveStakingStash {
   controllerId: AccountId | null;
-  exposure: PalletStakingExposure;
+  exposure: SpStakingExposure;
   nominators: AccountId[];
   rewardDestination: PalletStakingRewardDestination | null;
   stashId: AccountId;
