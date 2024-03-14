@@ -178,21 +178,21 @@ declare module '@polkadot/types/lookup' {
   interface StagingXcmV4Junctions extends Enum {
     readonly isHere: boolean;
     readonly isX1: boolean;
-    readonly asX1: Vec<Lookup71>;
+    readonly asX1: StagingXcmV4Junction;
     readonly isX2: boolean;
-    readonly asX2: Vec<Lookup71>;
+    readonly asX2: StagingXcmV4Junction;
     readonly isX3: boolean;
-    readonly asX3: Vec<Lookup71>;
+    readonly asX3: StagingXcmV4Junction;
     readonly isX4: boolean;
-    readonly asX4: Vec<Lookup71>;
+    readonly asX4: StagingXcmV4Junction;
     readonly isX5: boolean;
-    readonly asX5: Vec<Lookup71>;
+    readonly asX5: StagingXcmV4Junction;
     readonly isX6: boolean;
-    readonly asX6: Vec<Lookup71>;
+    readonly asX6: StagingXcmV4Junction;
     readonly isX7: boolean;
-    readonly asX7: Vec<Lookup71>;
+    readonly asX7: StagingXcmV4Junction;
     readonly isX8: boolean;
-    readonly asX8: Vec<Lookup71>;
+    readonly asX8: StagingXcmV4Junction;
     readonly type: 'Here' | 'X1' | 'X2' | 'X3' | 'X4' | 'X5' | 'X6' | 'X7' | 'X8';
   }
 
