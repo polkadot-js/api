@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-b
 import type { Bytes, Null, Option, Result, Vec, bool, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
-import type { BeefyEquivocationProof, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
+import type { BeefyAuthoritySet, BeefyEquivocationProof, BeefyNextAuthoritySet, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -103,6 +103,21 @@ declare module '@polkadot/api-base/types/calls' {
        * Return the current active BEEFY validator set
        **/
       validatorSet: AugmentedCall<ApiType, () => Observable<Option<ValidatorSet>>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x2a5e924655399e60/1 */
+    beefyMmrApi: {
+      /**
+       * Return the currently active BEEFY authority set proof.
+       **/
+      authoritySetProof: AugmentedCall<ApiType, () => Observable<BeefyAuthoritySet>>;
+      /**
+       * Return the next/queued BEEFY authority set proof.
+       **/
+      nextAuthoritySetProof: AugmentedCall<ApiType, () => Observable<BeefyNextAuthoritySet>>;
       /**
        * Generic call
        **/

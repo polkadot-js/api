@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { Option, StorageKey, u32 } from '@polkadot/types';
 import type { AccountId, AccountId32, EraIndex } from '@polkadot/types/interfaces';
-import type { PalletStakingExposure, SpStakingExposurePage } from '@polkadot/types/lookup';
+import type { SpStakingExposure, SpStakingExposurePage } from '@polkadot/types/lookup';
 import type { DeriveApi, DeriveEraExposurePaged, DeriveEraNominatorExposure, DeriveEraValidatorExposure, DeriveEraValidatorExposurePaged } from '../types.js';
 
 import { map, of } from 'rxjs';
@@ -13,7 +13,7 @@ import { memo } from '../util/index.js';
 import { getEraCache, setEraCache } from './cache.js';
 import { combineEras, erasHistoricApply, singleEra } from './util.js';
 
-type KeysAndExposures = [StorageKey<[EraIndex, AccountId]>, PalletStakingExposure][];
+type KeysAndExposures = [StorageKey<[EraIndex, AccountId]>, SpStakingExposure][];
 type KeysAndExposuresPaged = [StorageKey<[u32, AccountId32, u32]>, Option<SpStakingExposurePage>][];
 
 const CACHE_KEY = 'eraExposure';

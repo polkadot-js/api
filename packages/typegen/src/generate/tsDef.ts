@@ -49,12 +49,22 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
   const indent = withShortcut ? '  ' : '';
   const named = (sub as TypeDef[]).filter(({ name }) => !!name && !name.startsWith('__Unused'));
   const keys = named.map((def): string => {
-    const { info, lookupName, name = '', type } = def;
+    const { info, lookupName, name = '', sub, type } = def;
     const getter = stringPascalCase(name.replace(' ', '_'));
     const isComplex = [TypeDefInfo.Option, TypeDefInfo.Range, TypeDefInfo.RangeInclusive, TypeDefInfo.Result, TypeDefInfo.Struct, TypeDefInfo.Tuple, TypeDefInfo.Vec, TypeDefInfo.VecFixed].includes(info);
+
+    let extractedLookupName;
+
+    // When the parent type does not have a lookupName, and the sub type is the same
+    // type as the parent we can take the lookupName from the sub.
+    // see: https://github.com/polkadot-js/api/pull/5812
+    if (sub && !Array.isArray(sub) && type.includes(`${sub.type};`)) {
+      extractedLookupName = sub.lookupName;
+    }
+
     const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
       ? ''
-      : createGetter(definitions, `as${getter}`, lookupName || (isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports, withShortcut) : type), imports);
+      : createGetter(definitions, `as${getter}`, lookupName || extractedLookupName || (isComplex ? formatType(registry, definitions, info === TypeDefInfo.Struct ? def : type, imports, withShortcut) : type), imports);
     const isGetter = info === TypeDefInfo.DoNotConstruct
       ? ''
       : createGetter(definitions, `is${getter}`, 'boolean', imports);
