@@ -26,6 +26,7 @@ import type { AccountId, Balance, Block, BlockNumber, Call, Hash, Header, Index,
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
+import type { StagingXcmV3MultiLocation } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -49,15 +50,15 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Get pool reserves
        **/
-      getReserves: AugmentedCall<ApiType, (asset1: XcmV3MultiLocation, asset2: XcmV3MultiLocation) => Observable<Option<ITuple<[Balance, Balance]>>>>;
+      getReserves: AugmentedCall<ApiType, (asset1: StagingXcmV3MultiLocation, asset2: StagingXcmV3MultiLocation) => Observable<Option<ITuple<[Balance, Balance]>>>>;
       /**
        * Quote price: exact tokens for tokens
        **/
-      quotePriceExactTokensForTokens: AugmentedCall<ApiType, (asset1: XcmV3MultiLocation, asset2: XcmV3MultiLocation, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
+      quotePriceExactTokensForTokens: AugmentedCall<ApiType, (asset1: StagingXcmV3MultiLocation, asset2: StagingXcmV3MultiLocation, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
       /**
        * Quote price: tokens for exact tokens
        **/
-      quotePriceTokensForExactTokens: AugmentedCall<ApiType, (asset1: XcmV3MultiLocation, asset2: XcmV3MultiLocation, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
+      quotePriceTokensForExactTokens: AugmentedCall<ApiType, (asset1: StagingXcmV3MultiLocation, asset2: StagingXcmV3MultiLocation, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<Balance>>>;
       /**
        * Generic call
        **/
