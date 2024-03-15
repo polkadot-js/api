@@ -122,7 +122,7 @@ describe('runtime definitions', (): void => {
           for (const { methods, version } of versions) {
             describe(`version ${version}`, (): void => {
               const methodsEntries = Object.entries<DefinitionCall>(methods);
-              const skipInspectTypes = ['XcmV3MultiLocation', 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>', 'Result<XcmVersionedMultiAssets, FungiblesAccessError>'];
+              const skipInspectTypes = ['StagingXcmV3MultiLocation', 'StagingXcmV3MultiLocation', 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>', 'Result<XcmVersionedMultiAssets, FungiblesAccessError>'];
 
               for (const [key, { params, type }] of methodsEntries) {
                 describe(`${key}`, (): void => {
