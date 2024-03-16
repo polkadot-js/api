@@ -6,7 +6,7 @@
       19	Xiliang Chen                  	no warm for unknown signed extensions (#5601)
       15	Jeremías Díaz                 	feat(types): add correct tuple type to storage key (#3054)
       14	Nikos Kontakis                	Bump substrate connect to 0.7.16 (#5307)
-      13	Tarik Gul                     	Update polkadot runtime upgrade per block (#5822)
+      14	Tarik Gul                     	Update kusama runtime upgrade per block (#5823)
       11	Ian He                        	HttpProvider support clone() (#3949)
       10	Axel Chalon                   	Make Enum/Tuple constructor use value directly if instance (#1954)
        6	Andreea Eftene                	Update check for contract instantiation (#5699)
