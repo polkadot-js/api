@@ -85,7 +85,7 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
           MORTAL_PERIOD
             .div(
               api.consts.babe?.expectedBlockTime ||
-              api.consts.timestamp?.minimumPeriod.muln(2) ||
+              (!api.consts.timestamp?.minimumPeriod.isZero() && api.consts.timestamp.minimumPeriod.muln(2)) ||
               FALLBACK_PERIOD
             )
             .iadd(MAX_FINALITY_LAG)
