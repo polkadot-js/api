@@ -68,6 +68,7 @@
        1	David Duong                   	Avoid reserved words during named enum fields augmentation (#5203)
        1	Denis Tsai                    	realign AccountKey20Junction to polkadot xcm's Junction enum (#3770)
        1	djuanito.eth                  	Update fees to current constants (#2320)
+       1	Dominique                     	fix: add optional chaining operator in `toHuman` (#5825)
        1	Drew Stone                    	Update evm definitions to include vicinity (#2279)
        1	Dylan Galea                   	Updated users of the polkadot-js/api (#2027)
        1	Ermal Kaleci                  	fix cache key (rpc-provider) (#5745)
