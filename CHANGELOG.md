@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 10.12.3 Mar 18, 2024
+
+Contributed:
+
+- Bump @substrate/connect to 0.8.8 (Thanks to https://github.com/kratico)
+- Fix optional chaining operator in toHuman (Thanks to https://github.com/Imod7)
+- Fix check if minimumPeriod is zero (Thanks to https://github.com/pepoviola)
+
+Changes:
+
+- Fix api.derive.staking.eraExposure for compatibility
+- Fix invalid Lookup assignment on augmentation and update polkadot and kusama metadata
+- Update polkadot runtime upgrade per block
+- Update kusama runtime upgrade per block
+- Update westend runtime upgrade per block 
+
 ## 10.12.2 Mar 11, 2024
 
 Contributed:
