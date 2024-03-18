@@ -12,7 +12,7 @@ import { isNumber, isUndefined } from '@polkadot/util';
 
 import { unwrapBlockNumber } from '../util/index.js';
 import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants.js';
-import { AugmentedConsts } from '@polkadot/api-base/types';
+import type { AugmentedConsts } from '@polkadot/api-base/types';
 import { u64 } from '@polkadot/types';
 
 
