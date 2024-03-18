@@ -70,7 +70,7 @@ interface Aura {
   slotDuration: u64 & AugmentedConsts<'rxjs'>;
 }
 
-function babeOrAuraPeriod(api: DeriveApi) : AnyNumber|undefined {
+function babeOrAuraPeriod(api: DeriveApi) : BN | undefined {
   let period = api.consts.babe?.expectedBlockTime ||
     // this will be present ones https://github.com/paritytech/polkadot-sdk/pull/3732 is merged
     (api.consts['aura'] as unknown as Aura)?.slotDuration ||
