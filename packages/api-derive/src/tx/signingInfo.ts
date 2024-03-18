@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { AugmentedConsts } from '@polkadot/api-base/types';
+import type { u64 } from '@polkadot/types';
 import type { Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { DeriveApi } from '../types.js';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
@@ -12,9 +15,6 @@ import { isNumber, isUndefined } from '@polkadot/util';
 
 import { unwrapBlockNumber } from '../util/index.js';
 import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants.js';
-import type { AugmentedConsts } from '@polkadot/api-base/types';
-import { u64 } from '@polkadot/types';
-
 
 interface Result {
   header: Header | null;
@@ -70,14 +70,13 @@ interface Aura {
   slotDuration: u64 & AugmentedConsts<'rxjs'>;
 }
 
-function babeOrAuraPeriod(api: DeriveApi) : BN | undefined {
-  let period = api.consts.babe?.expectedBlockTime ||
+function babeOrAuraPeriod (api: DeriveApi): BN | undefined {
+  const period = api.consts.babe?.expectedBlockTime ||
     // this will be present ones https://github.com/paritytech/polkadot-sdk/pull/3732 is merged
     (api.consts['aura'] as unknown as Aura)?.slotDuration ||
     api.consts.timestamp?.minimumPeriod;
 
   return !period.isZero() ? period : undefined;
-
 }
 
 export function signingInfo (_instanceId: string, api: DeriveApi): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
