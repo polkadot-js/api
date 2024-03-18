@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { AugmentedConsts } from '@polkadot/api-base/types';
+import type { u64 } from '@polkadot/types';
 import type { Header, Index } from '@polkadot/types/interfaces';
 import type { AnyNumber, Codec, IExtrinsicEra } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { DeriveApi } from '../types.js';
 
 import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
@@ -63,6 +66,19 @@ function signingHeader (api: DeriveApi): Observable<Header> {
   );
 }
 
+interface Aura {
+  slotDuration: u64 & AugmentedConsts<'rxjs'>;
+}
+
+function babeOrAuraPeriod (api: DeriveApi): BN | undefined {
+  const period = api.consts.babe?.expectedBlockTime ||
+    // this will be present ones https://github.com/paritytech/polkadot-sdk/pull/3732 is merged
+    (api.consts['aura'] as unknown as Aura)?.slotDuration ||
+    api.consts.timestamp?.minimumPeriod;
+
+  return !period.isZero() ? period : undefined;
+}
+
 export function signingInfo (_instanceId: string, api: DeriveApi): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
   // no memo, we want to do this fresh on each run
   return (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number): Observable<Result> =>
@@ -83,11 +99,7 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
         mortalLength: Math.min(
           api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
           MORTAL_PERIOD
-            .div(
-              api.consts.babe?.expectedBlockTime ||
-              api.consts.timestamp?.minimumPeriod.muln(2) ||
-              FALLBACK_PERIOD
-            )
+            .div(babeOrAuraPeriod(api) || FALLBACK_PERIOD)
             .iadd(MAX_FINALITY_LAG)
             .toNumber()
         ),
