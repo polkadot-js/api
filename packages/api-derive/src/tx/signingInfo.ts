@@ -12,6 +12,9 @@ import { isNumber, isUndefined } from '@polkadot/util';
 
 import { unwrapBlockNumber } from '../util/index.js';
 import { FALLBACK_MAX_HASH_COUNT, FALLBACK_PERIOD, MAX_FINALITY_LAG, MORTAL_PERIOD } from './constants.js';
+import { AugmentedConsts } from '@polkadot/api-base/types';
+import { u64 } from '@polkadot/types';
+
 
 interface Result {
   header: Header | null;
@@ -63,6 +66,20 @@ function signingHeader (api: DeriveApi): Observable<Header> {
   );
 }
 
+interface Aura {
+  slotDuration: u64 & AugmentedConsts<'rxjs'>;
+}
+
+function babeOrAuraPeriod(api: DeriveApi) : AnyNumber|undefined {
+  let period = api.consts.babe?.expectedBlockTime ||
+    // this will be present ones https://github.com/paritytech/polkadot-sdk/pull/3732 is merged
+    (api.consts['aura'] as unknown as Aura)?.slotDuration ||
+    api.consts.timestamp?.minimumPeriod;
+
+  return !period.isZero() ? period : undefined;
+
+}
+
 export function signingInfo (_instanceId: string, api: DeriveApi): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
   // no memo, we want to do this fresh on each run
   return (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number): Observable<Result> =>
@@ -83,11 +100,7 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
         mortalLength: Math.min(
           api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
           MORTAL_PERIOD
-            .div(
-              (!api.consts.babe?.expectedBlockTime.isZero() && api.consts.babe.expectedBlockTime) ||
-              (!api.consts.aura?.slotDuration.isZero() && api.consts.aura.slotDuration) ||
-              FALLBACK_PERIOD
-            )
+            .div(babeOrAuraPeriod(api) || FALLBACK_PERIOD)
             .iadd(MAX_FINALITY_LAG)
             .toNumber()
         ),
