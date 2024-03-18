@@ -88,7 +88,7 @@ export class Json extends Map<string, any> implements Codec {
   }
 
   /**
-   * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   * @description Converts the Object to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
   public toHuman (): Record<string, AnyJson> {
     return [...this.entries()].reduce<Record<string, AnyJson>>((json, [key, value]): Record<string, AnyJson> => {
