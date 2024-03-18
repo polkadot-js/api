@@ -84,7 +84,7 @@ export function signingInfo (_instanceId: string, api: DeriveApi): (address: str
           api.consts.system?.blockHashCount?.toNumber() || FALLBACK_MAX_HASH_COUNT,
           MORTAL_PERIOD
             .div(
-              api.consts.babe?.expectedBlockTime ||
+              (!api.consts.babe?.expectedBlockTime.isZero() && api.consts.babe?.expectedBlockTime) ||
               (!api.consts.aura?.slotDuration.isZero() && api.consts.aura.slotDuration) ||
               FALLBACK_PERIOD
             )
