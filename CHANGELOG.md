@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 10.12.4 Mar 19, 2024
+
+Contributed:
+
+- Fix add muln(2) to signingInfo Derive (Thanks to https://github.com/pepoviola)
+
+
 ## 10.12.3 Mar 18, 2024
 
 Contributed:
