@@ -86,8 +86,10 @@ export interface Codec {
 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+   * @param isExtended When set, for some (e.g. call) it can add more info, e.g. metadata documentation. (Generally not needed in all cases, but can be useful in Events, Calls, ...)
+   * @param disableAscii When set, for some (e.g. `Raw` types) it will disable converting the value to ascii.
    */
-  toHuman (isExtended?: boolean, allowAscii?: boolean): AnyJson;
+  toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson;
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
@@ -96,8 +98,9 @@ export interface Codec {
 
   /**
    * @description Converts the value in a best-fit primitive form
+   * @param disableAscii
    */
-  toPrimitive (allowAscii?: boolean): AnyJson;
+  toPrimitive (disableAscii?: boolean): AnyJson;
 
   /**
    * @description Returns the base runtime type name for this instance
