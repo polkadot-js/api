@@ -110,8 +110,8 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (): AnyJson {
-    return this.toPrimitive();
+  public toHuman (_isExtended?: boolean, allowAscii?: boolean): AnyJson {
+    return this.toPrimitive(allowAscii);
   }
 
   /**
@@ -124,8 +124,8 @@ export class Raw extends Uint8Array implements IU8a {
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): AnyJson {
-    if (this.isAscii) {
+  public toPrimitive (allowAscii?: boolean): AnyJson {
+    if (this.isAscii && !!allowAscii) {
       const text = this.toUtf8();
 
       // ensure we didn't end up with multibyte codepoints

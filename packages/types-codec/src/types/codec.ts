@@ -87,7 +87,7 @@ export interface Codec {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  toHuman (isExtended?: boolean): AnyJson;
+  toHuman (isExtended?: boolean, allowAscii?: boolean): AnyJson;
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
@@ -97,7 +97,7 @@ export interface Codec {
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  toPrimitive (): AnyJson;
+  toPrimitive (allowAscii?: boolean): AnyJson;
 
   /**
    * @description Returns the base runtime type name for this instance
