@@ -153,12 +153,12 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): AnyJson {
+  public toPrimitive (disableAscii?: boolean): AnyJson {
     const count = this.length;
     const result = new Array<AnyJson>(count);
 
     for (let i = 0; i < count; i++) {
-      result[i] = this[i] && this[i].toPrimitive();
+      result[i] = this[i] && this[i].toPrimitive(disableAscii);
     }
 
     return result;

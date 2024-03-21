@@ -31,7 +31,7 @@ export interface INumber extends Codec {
   toBigInt (): bigint;
   toBn (): BN;
   toNumber (): number;
-  toPrimitive (): string | number;
+  toPrimitive (disableAscii?: boolean): string | number;
 }
 
 export interface IFloat extends Codec {
@@ -78,7 +78,7 @@ export interface IU8a extends Uint8Array, Codec {
   readonly isUtf8: boolean
 
   bitLength (): number;
-  toHuman (isExtended?: boolean): any;
+  toHuman (isExtended?: boolean, disableAscii?: boolean): any;
   toJSON (): any;
   toUtf8 (): string;
 }

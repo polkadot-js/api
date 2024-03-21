@@ -296,11 +296,11 @@ export class Struct<
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): Record<string, AnyJson> {
+  public toPrimitive (disableAscii?: boolean): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
 
     for (const [k, v] of this.entries()) {
-      json[k as string] = v.toPrimitive();
+      json[k as string] = v.toPrimitive(disableAscii);
     }
 
     return json;

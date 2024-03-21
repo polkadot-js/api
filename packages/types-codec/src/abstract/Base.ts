@@ -89,8 +89,8 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): AnyJson {
-    return this.#raw.toPrimitive();
+  public toPrimitive (disableAscii?: boolean): AnyJson {
+    return this.#raw.toPrimitive(disableAscii);
   }
 
   /**

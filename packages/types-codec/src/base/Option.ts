@@ -199,10 +199,10 @@ export class Option<T extends Codec> implements IOption<T> {
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): AnyJson {
+  public toPrimitive (disableAscii?: boolean): AnyJson {
     return this.isNone
       ? null
-      : this.#raw.toPrimitive();
+      : this.#raw.toPrimitive(disableAscii);
   }
 
   /**

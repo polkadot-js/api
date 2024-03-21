@@ -399,10 +399,10 @@ export class Enum implements IEnum {
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): AnyJson {
+  public toPrimitive (disableAscii?: boolean): AnyJson {
     return this.#isBasic
       ? this.type
-      : { [stringCamelCase(this.type)]: this.#raw.toPrimitive() };
+      : { [stringCamelCase(this.type)]: this.#raw.toPrimitive(disableAscii) };
   }
 
   /**
