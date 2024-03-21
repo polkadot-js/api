@@ -182,7 +182,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
 
     for (const [k, v] of this.entries()) {
       json[
-        k instanceof Raw && k.isAscii
+        k instanceof Raw && !disableAscii && k.isAscii
           ? k.toUtf8()
           : k.toString()
       ] = v.toHuman(isExtended, disableAscii);
