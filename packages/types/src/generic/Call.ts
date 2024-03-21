@@ -213,7 +213,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public override toHuman (isExpanded?: boolean): Record<string, AnyJson> {
+  public override toHuman (isExpanded?: boolean, disableAscii?: boolean): Record<string, AnyJson> {
     let call: CallFunction | undefined;
 
     try {
@@ -225,7 +225,7 @@ export class GenericCall<A extends AnyTuple = AnyTuple> extends Struct implement
     return objectSpread(
       {
         args: this.argsEntries.reduce<Record<string, AnyJson>>((args, [n, a]) =>
-          objectSpread(args, { [n]: a.toHuman(isExpanded) }), {}),
+          objectSpread(args, { [n]: a.toHuman(isExpanded, disableAscii) }), {}),
         method: call?.method,
         section: call?.section
       },

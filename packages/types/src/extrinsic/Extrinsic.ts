@@ -307,20 +307,20 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public override toHuman (isExpanded?: boolean): AnyJson {
+  public override toHuman (isExpanded?: boolean, disableAscii?: boolean): AnyJson {
     return objectSpread<Record<string, AnyJson>>(
       {},
       {
         isSigned: this.isSigned,
-        method: this.method.toHuman(isExpanded)
+        method: this.method.toHuman(isExpanded, disableAscii)
       },
       this.isSigned
         ? {
-          era: this.era.toHuman(isExpanded),
-          nonce: this.nonce.toHuman(isExpanded),
+          era: this.era.toHuman(isExpanded, disableAscii),
+          nonce: this.nonce.toHuman(isExpanded, disableAscii),
           signature: this.signature.toHex(),
-          signer: this.signer.toHuman(isExpanded),
-          tip: this.tip.toHuman(isExpanded)
+          signer: this.signer.toHuman(isExpanded, disableAscii),
+          tip: this.tip.toHuman(isExpanded, disableAscii)
         }
         : null
     );

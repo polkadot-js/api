@@ -177,15 +177,15 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): Record<string, AnyJson> {
+  public toHuman (isExtended?: boolean, disableAscii?: boolean): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
 
     for (const [k, v] of this.entries()) {
       json[
-        k instanceof Raw && k.isAscii
+        k instanceof Raw && !disableAscii && k.isAscii
           ? k.toUtf8()
           : k.toString()
-      ] = v.toHuman(isExtended);
+      ] = v.toHuman(isExtended, disableAscii);
     }
 
     return json;
@@ -207,15 +207,15 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): AnyJson {
+  public toPrimitive (disableAscii?: boolean): AnyJson {
     const json: Record<string, AnyJson> = {};
 
     for (const [k, v] of this.entries()) {
       json[
-        k instanceof Raw && k.isAscii
+        k instanceof Raw && !disableAscii && k.isAscii
           ? k.toUtf8()
           : k.toString()
-      ] = v.toPrimitive();
+      ] = v.toPrimitive(disableAscii);
     }
 
     return json;

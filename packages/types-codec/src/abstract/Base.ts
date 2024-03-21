@@ -75,8 +75,8 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
-    return this.#raw.toHuman(isExtended);
+  public toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson {
+    return this.#raw.toHuman(isExtended, disableAscii);
   }
 
   /**
@@ -89,8 +89,8 @@ export abstract class AbstractBase<T extends Codec> implements Codec {
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): AnyJson {
-    return this.#raw.toPrimitive();
+  public toPrimitive (disableAscii?: boolean): AnyJson {
+    return this.#raw.toPrimitive(disableAscii);
   }
 
   /**

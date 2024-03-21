@@ -84,19 +84,19 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public override toHuman (isExtended?: boolean): AnyJson {
+  public override toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson {
     return this.#decoded
-      ? this.#decoded.toHuman(isExtended)
-      : super.toHuman();
+      ? this.#decoded.toHuman(isExtended, disableAscii)
+      : super.toHuman(isExtended, disableAscii);
   }
 
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public override toPrimitive (): any {
+  public override toPrimitive (disableAscii?: boolean): any {
     return this.#decoded
-      ? this.#decoded.toPrimitive()
-      : super.toPrimitive();
+      ? this.#decoded.toPrimitive(disableAscii)
+      : super.toPrimitive(disableAscii);
   }
 
   /**

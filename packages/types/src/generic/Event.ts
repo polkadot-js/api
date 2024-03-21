@@ -106,12 +106,12 @@ export class GenericEventData extends Tuple implements IEventData {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public override toHuman (isExtended?: boolean): AnyJson {
+  public override toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson {
     if (this.#names !== null) {
       const json: Record<string, AnyJson> = {};
 
       for (let i = 0, count = this.#names.length; i < count; i++) {
-        json[this.#names[i]] = this[i].toHuman(isExtended);
+        json[this.#names[i]] = this[i].toHuman(isExtended, disableAscii);
       }
 
       return json;
@@ -185,7 +185,7 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public override toHuman (isExpanded?: boolean): Record<string, AnyJson> {
+  public override toHuman (isExpanded?: boolean, disableAscii?: boolean): Record<string, AnyJson> {
     return objectSpread(
       {
         method: this.method,
@@ -194,7 +194,7 @@ export class GenericEvent extends Struct implements IEvent<Codec[]> {
       isExpanded
         ? { docs: this.meta.docs.map((d) => d.toString()) }
         : null,
-      super.toHuman(isExpanded)
+      super.toHuman(isExpanded, disableAscii)
     );
   }
 }

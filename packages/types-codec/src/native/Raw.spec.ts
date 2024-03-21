@@ -82,6 +82,10 @@ describe('Raw', (): void => {
       expect(new Raw(registry, '0x2021222324').isAscii).toBe(true);
     });
 
+    it('has valid toHuman with disableAscii option set as true', (): void => {
+      expect(new Raw(registry, new Uint8Array([85, 85, 85, 85, 85, 85, 85, 85])).toHuman(undefined, true)).toEqual('0x5555555555555555');
+    });
+
     it('has valid toPrimitive', (): void => {
       expect(new Raw(registry, 'testing').toPrimitive()).toEqual('testing');
       expect(new Raw(registry, '0xe4bda0e5a5bd').toPrimitive()).toEqual('0xe4bda0e5a5bd');
