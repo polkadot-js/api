@@ -4,7 +4,7 @@
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
       20	Luke Schoen                   	fix: Fixes TypeError: Cannot read property 'vesting' of undefined (#1970)
       19	Xiliang Chen                  	no warm for unknown signed extensions (#5601)
-      17	Tarik Gul                     	10.12.4 (#5830)
+      18	Tarik Gul                     	Update westend runtime upgrade 1009000 (#5832)
       15	Jeremías Díaz                 	feat(types): add correct tuple type to storage key (#3054)
       14	Nikos Kontakis                	Bump substrate connect to 0.7.16 (#5307)
       11	Ian He                        	HttpProvider support clone() (#3949)
