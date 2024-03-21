@@ -177,7 +177,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): Record<string, AnyJson> {
+  public toHuman (isExtended?: boolean, disableAscii?: boolean): Record<string, AnyJson> {
     const json: Record<string, AnyJson> = {};
 
     for (const [k, v] of this.entries()) {
@@ -185,7 +185,7 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
         k instanceof Raw && k.isAscii
           ? k.toUtf8()
           : k.toString()
-      ] = v.toHuman(isExtended);
+      ] = v.toHuman(isExtended, disableAscii);
     }
 
     return json;

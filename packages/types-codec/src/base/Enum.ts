@@ -374,10 +374,10 @@ export class Enum implements IEnum {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
+  public toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson {
     return this.#isBasic || this.isNone
       ? this.type
-      : { [this.type]: this.#raw.toHuman(isExtended) };
+      : { [this.type]: this.#raw.toHuman(isExtended, disableAscii) };
   }
 
   /**

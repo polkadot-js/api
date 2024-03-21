@@ -84,9 +84,9 @@ export class WrapperKeepOpaque<T extends Codec> extends Bytes {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public override toHuman (isExtended?: boolean): AnyJson {
+  public override toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson {
     return this.#decoded
-      ? this.#decoded.toHuman(isExtended)
+      ? this.#decoded.toHuman(isExtended, disableAscii)
       : super.toHuman();
   }
 

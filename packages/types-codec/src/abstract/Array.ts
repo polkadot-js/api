@@ -123,12 +123,12 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
+  public toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson {
     const count = this.length;
     const result = new Array<AnyJson>(count);
 
     for (let i = 0; i < count; i++) {
-      result[i] = this[i] && this[i].toHuman(isExtended);
+      result[i] = this[i] && this[i].toHuman(isExtended, disableAscii);
     }
 
     return result;

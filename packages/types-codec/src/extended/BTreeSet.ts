@@ -163,11 +163,11 @@ export class BTreeSet<V extends Codec = Codec> extends Set<V> implements ISet<V>
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public toHuman (isExtended?: boolean): AnyJson {
+  public toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson {
     const json: AnyJson = [];
 
     for (const v of this.values()) {
-      json.push(v.toHuman(isExtended));
+      json.push(v.toHuman(isExtended, disableAscii));
     }
 
     return json;

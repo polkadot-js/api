@@ -134,8 +134,8 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public override toHuman (isExtended?: boolean): AnyJson {
-    return this.inner.toHuman(isExtended);
+  public override toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson {
+    return this.inner.toHuman(isExtended, disableAscii);
   }
 
   /**

@@ -60,7 +60,7 @@ export abstract class AbstractObject<T extends ToString> implements CodecObject<
   /**
    * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
    */
-  public abstract toHuman (isExtended?: boolean): AnyJson;
+  public abstract toHuman (isExtended?: boolean, disableAscii?: boolean): AnyJson;
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
