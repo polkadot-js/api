@@ -207,15 +207,15 @@ export class CodecMap<K extends Codec = Codec, V extends Codec = Codec> extends 
   /**
    * @description Converts the value in a best-fit primitive form
    */
-  public toPrimitive (): AnyJson {
+  public toPrimitive (disableAscii?: boolean): AnyJson {
     const json: Record<string, AnyJson> = {};
 
     for (const [k, v] of this.entries()) {
       json[
-        k instanceof Raw && k.isAscii
+        k instanceof Raw && !disableAscii && k.isAscii
           ? k.toUtf8()
           : k.toString()
-      ] = v.toPrimitive();
+      ] = v.toPrimitive(disableAscii);
     }
 
     return json;
