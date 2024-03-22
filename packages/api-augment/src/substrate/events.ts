@@ -1102,6 +1102,52 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    multiBlockMigrations: {
+      /**
+       * The set of historical migrations has been cleared.
+       **/
+      HistoricCleared: AugmentedEvent<ApiType, [nextCursor: Option<Bytes>], { nextCursor: Option<Bytes> }>;
+      /**
+       * A migration progressed.
+       **/
+      MigrationAdvanced: AugmentedEvent<ApiType, [index: u32, took: u32], { index: u32, took: u32 }>;
+      /**
+       * A Migration completed.
+       **/
+      MigrationCompleted: AugmentedEvent<ApiType, [index: u32, took: u32], { index: u32, took: u32 }>;
+      /**
+       * A Migration failed.
+       * 
+       * This implies that the whole upgrade failed and governance intervention is required.
+       **/
+      MigrationFailed: AugmentedEvent<ApiType, [index: u32, took: u32], { index: u32, took: u32 }>;
+      /**
+       * A migration was skipped since it was already executed in the past.
+       **/
+      MigrationSkipped: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
+      /**
+       * The current runtime upgrade completed.
+       * 
+       * This implies that all of its migrations completed successfully as well.
+       **/
+      UpgradeCompleted: AugmentedEvent<ApiType, []>;
+      /**
+       * Runtime upgrade failed.
+       * 
+       * This is very bad and will require governance intervention.
+       **/
+      UpgradeFailed: AugmentedEvent<ApiType, []>;
+      /**
+       * A Runtime upgrade started.
+       * 
+       * Its end is indicated by `UpgradeCompleted` or `UpgradeFailed`.
+       **/
+      UpgradeStarted: AugmentedEvent<ApiType, [migrations: u32], { migrations: u32 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     multisig: {
       /**
        * A multisig operation has been approved by someone.
@@ -2034,6 +2080,10 @@ declare module '@polkadot/api-base/types/events' {
        * An account has stopped participating as either a validator or nominator.
        **/
       Chilled: AugmentedEvent<ApiType, [stash: AccountId32], { stash: AccountId32 }>;
+      /**
+       * Report of a controller batch deprecation.
+       **/
+      ControllerBatchDeprecated: AugmentedEvent<ApiType, [failures: u32], { failures: u32 }>;
       /**
        * The era payout has been set; the first balance is the validator-payout; the second is
        * the remainder from the maximum amount of reward.
