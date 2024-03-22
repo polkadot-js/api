@@ -1134,6 +1134,25 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
+    multiBlockMigrations: {
+      /**
+       * The currently active migration to run and its cursor.
+       * 
+       * `None` indicates that no migration is running.
+       **/
+      cursor: AugmentedQuery<ApiType, () => Observable<Option<PalletMigrationsMigrationCursor>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Set of all successfully executed migrations.
+       * 
+       * This is used as blacklist, to not re-execute migrations that have not been removed from the
+       * codebase yet. Governance can regularly clear this out via `clear_historic`.
+       **/
+      historic: AugmentedQuery<ApiType, (arg: Bytes | string | Uint8Array) => Observable<Option<Null>>, [Bytes]> & QueryableStorageEntry<ApiType, [Bytes]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     multisig: {
       /**
        * The set of open multisig operations.
@@ -2175,6 +2194,10 @@ declare module '@polkadot/api-base/types/storage' {
        * Extrinsics data for the current block (maps an extrinsic's index to its data).
        **/
       extrinsicData: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Bytes>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * Whether all inherents have been applied.
+       **/
+      inherentsApplied: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Stores the `spec_version` and `spec_name` of when the last runtime upgrade happened.
        **/
