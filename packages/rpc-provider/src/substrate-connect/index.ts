@@ -118,7 +118,7 @@ export class ScProvider implements ProviderInterface {
       : this.#Sc.createScClient(config);
 
     if (!client) {
-      throw new Error('Unkown ScProvider!');
+      throw new Error('Unknown ScProvider!');
     }
 
     scClients.set(this, client);
