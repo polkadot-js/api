@@ -40,7 +40,11 @@ function _membersCurr (api: DeriveApi, accountIds: AccountId[]): Observable<Deri
     of(accountIds),
     api.query.society.members.multi(accountIds),
     api.query.society.payouts.multi(accountIds),
-    api.query.society.defenderVotes.multi(accountIds),
+    api.query.society.challengeRoundCount().pipe(
+      switchMap((round) =>
+        api.query.society.defenderVotes.multi(accountIds.map((accountId) => [round, accountId]))
+      )
+    ),
     api.query.society.suspendedMembers.multi(accountIds)
   ]).pipe(
     map(([accountIds, members, payouts, defenderVotes, suspendedMembers]) =>
@@ -49,9 +53,7 @@ function _membersCurr (api: DeriveApi, accountIds: AccountId[]): Observable<Deri
           members[index].isSome
             ? {
               accountId,
-              isDefenderVoter: defenderVotes[index].isSome
-                ? defenderVotes[index].unwrap().approve.isTrue
-                : false,
+              isDefenderVoter: defenderVotes[index].isSome,
               isSuspended: suspendedMembers[index].isSome,
               member: members[index].unwrap(),
               payouts: payouts[index].payouts
