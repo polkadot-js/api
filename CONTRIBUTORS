@@ -126,6 +126,7 @@
        1	serge                         	make WS provider timeout configurable (#4758)
        1	Sergei Pepyakin               	INK! -> ink! (#1347)
        1	Shunji Zhan                   	small polish (#5276)
+       1	Snoppy                        	chore: fix typos (#5835)
        1	Stephen Shelton               	Add transaction-payment runtime API V3 (#5430)
        1	Tim B                         	added EthRTApiV5 ifaces (#5680)
        1	WoeOm                         	adapt Darwinia, Crab Network types (#3498)
