@@ -92,6 +92,7 @@
        1	Kian Paimani                  	Update definitions.ts (#2514)
        1	Krzysztof Jelski              	Derive for bounties and descriptions (#2925)
        1	Lae                           	Make sure awaiting on an api object won't stuck forever on error (#1763)
+       1	Lauro Gripa                   	Fix multi call of `defenderVotes` and `isDefenderVoter` flag in `society.members` derivation (#5834)
        1	Lezek123                      	BTreeSet and BTreeMap - encoding and serialization fixes (#3789)
        1	Lovesh Harchandani            	Fix name of "getBlock" in package "api-derive" and export it in "index.ts" (#2857)
        1	Marc Fornós                   	add beefy compact signed commitment definition (#5781)
