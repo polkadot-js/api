@@ -244,6 +244,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   protected async _loadMeta (): Promise<boolean> {
     // on re-connection to the same chain, we don't want to re-do everything from chain again
     if (this._isReady) {
+      // on re-connection only re-subscribe to chain updates if we are not a clone
+      if (!this._options.source) {
+        this._subscribeUpdates();
+      }
+
       return true;
     }
 
