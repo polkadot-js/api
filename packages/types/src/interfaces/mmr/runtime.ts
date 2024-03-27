@@ -23,7 +23,7 @@ const MMR_V2: Record<string, DefinitionCall> = {
     params: [],
     type: 'Result<U64, MmrError>'
   },
-  root: {
+  mmr_root: {
     description: 'Return the on-chain MMR root hash.',
     params: [],
     type: 'Result<Hash, MmrError>'
