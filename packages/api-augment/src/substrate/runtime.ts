@@ -23,9 +23,10 @@ import type { NftCollectionId, NftItemId } from '@polkadot/types/interfaces/nfts
 import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { AccountId, Balance, Block, BlockNumber, Call, Hash, Header, Index, KeyTypeId, Slot, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
+import type { SpStatementStoreInvalidStatement, SpStatementStoreStatementSource, SpStatementStoreValidStatement } from '@polkadot/types/interfaces/statement';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
-import type { StagingXcmV3MultiLocation } from '@polkadot/types/lookup';
+import type { SpStatementStoreStatement, StagingXcmV3MultiLocation } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -393,6 +394,17 @@ declare module '@polkadot/api-base/types/calls' {
        * Query the output of the current WeightToFee given some input
        **/
       queryWeightToFee: AugmentedCall<ApiType, (weight: Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => Observable<Balance>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0xbe9fb0c91a8046cf/1 */
+    validateStatement: {
+      /**
+       * Validate the statement.
+       **/
+      valdateStatement: AugmentedCall<ApiType, (source: SpStatementStoreStatementSource | 'Chain' | 'Network' | 'Local' | number | Uint8Array, statement: SpStatementStoreStatement | { proof?: any; decryptionKey?: any; channel?: any; priority?: any; numTopics?: any; topics?: any; data?: any } | string | Uint8Array) => Observable<Result<SpStatementStoreValidStatement, SpStatementStoreInvalidStatement>>>;
       /**
        * Generic call
        **/

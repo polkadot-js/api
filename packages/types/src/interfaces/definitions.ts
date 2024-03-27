@@ -41,6 +41,7 @@ export { default as scheduler } from './scheduler/definitions.js';
 export { default as session } from './session/definitions.js';
 export { default as society } from './society/definitions.js';
 export { default as staking } from './staking/definitions.js';
+export { default as statement } from './statement/definitions.js';
 export { default as support } from './support/definitions.js';
 export { default as syncstate } from './syncstate/definitions.js';
 export { default as system } from './system/definitions.js';
