@@ -22,7 +22,7 @@ import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError } from '@polkadot/
 import type { NftCollectionId, NftItemId } from '@polkadot/types/interfaces/nfts';
 import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-import type { AccountId, Balance, Block, BlockNumber, Call, Hash, Header, Index, KeyTypeId, Slot, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, Block, BlockNumber, Call, ExtrinsicInclusionMode, Hash, Header, Index, KeyTypeId, Slot, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { StatementStoreInvalidStatement, StatementStoreStatementSource, StatementStoreValidStatement } from '@polkadot/types/interfaces/statement';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
