@@ -55,7 +55,7 @@ const CORE_V4_TO_V5: DefinitionsCallEntry['methods'] = {
         type: 'Header'
       }
     ],
-    type: 'Null'
+    type: 'ExtrinsicInclusionMode'
   }
 };
 
