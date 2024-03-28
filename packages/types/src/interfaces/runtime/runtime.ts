@@ -37,15 +37,40 @@ const CORE_V2_TO_V4: DefinitionsCallEntry['methods'] = {
   }
 };
 
+const CORE_V4_VERSION: DefinitionsCallEntry['methods'] = {
+  version: {
+    description: 'Returns the version of the runtime.',
+    params: [],
+    type: 'RuntimeVersion'
+  }
+};
+
+const CORE_V4_TO_V5: DefinitionsCallEntry['methods'] = {
+  ...CORE_V1_TO_V4,
+  initialize_block: {
+    description: 'Initialize a block with the given header.',
+    params: [
+      {
+        name: 'header',
+        type: 'Header'
+      }
+    ],
+    type: 'ExtrinsicInclusionMode'
+  }
+};
+
 export const runtime: DefinitionsCall = {
   Core: [
     {
       methods: {
-        version: {
-          description: 'Returns the version of the runtime.',
-          params: [],
-          type: 'RuntimeVersion'
-        },
+        ...CORE_V4_VERSION,
+        ...CORE_V4_TO_V5
+      },
+      version: 5
+    },
+    {
+      methods: {
+        ...CORE_V4_VERSION,
         ...CORE_V1_TO_V4,
         ...CORE_V2_TO_V4
       },

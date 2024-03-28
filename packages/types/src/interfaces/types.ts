@@ -62,6 +62,7 @@ export * from './session/types.js';
 export * from './society/types.js';
 export * from './staking/types.js';
 export * from './state/types.js';
+export * from './statement/types.js';
 export * from './support/types.js';
 export * from './syncstate/types.js';
 export * from './system/types.js';

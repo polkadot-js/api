@@ -226,6 +226,11 @@ export default {
     PreRuntime: '(ConsensusEngineId, Bytes)',
     SealV0: '(u64, Signature)',
     Seal: '(ConsensusEngineId, Bytes)',
-    Consensus: '(ConsensusEngineId, Bytes)'
+    Consensus: '(ConsensusEngineId, Bytes)',
+
+    // Type when core initialize_block went from v4 to v5
+    ExtrinsicInclusionMode: {
+      _enum: ['AllExtrinsics', 'OnlyInherents']
+    }
   }
 } as Definitions;

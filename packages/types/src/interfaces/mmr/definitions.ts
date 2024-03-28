@@ -20,7 +20,7 @@ export default {
     },
     MmrEncodableOpaqueLeaf: 'Bytes',
     MmrError: {
-      _enum: ['Push', 'GetRoot', 'Commit', 'GenerateProof', 'Verify', 'LeafNotFound', ' PalletNotIncluded', 'InvalidLeafIndex']
+      _enum: ['InvalidNumericOp', 'Push', 'GetRoot', 'Commit', 'GenerateProof', 'Verify', 'LeafNotFound', ' PalletNotIncluded', 'InvalidLeafIndex', 'InvalidBestKnownBlock']
     },
     MmrHash: 'Hash',
     MmrLeafBatchProof: {

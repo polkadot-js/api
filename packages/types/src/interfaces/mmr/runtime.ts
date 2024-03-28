@@ -18,7 +18,12 @@ const MMR_V2: Record<string, DefinitionCall> = {
     ],
     type: 'Result<(Vec<MmrEncodableOpaqueLeaf>, MmrBatchProof), MmrError>'
   },
-  root: {
+  mmr_leaf_count: {
+    description: 'Return the number of MMR blocks in the chain.',
+    params: [],
+    type: 'Result<U64, MmrError>'
+  },
+  mmr_root: {
     description: 'Return the on-chain MMR root hash.',
     params: [],
     type: 'Result<Hash, MmrError>'
