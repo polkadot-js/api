@@ -23,7 +23,7 @@ import type { NftCollectionId, NftItemId } from '@polkadot/types/interfaces/nfts
 import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { AccountId, Balance, Block, BlockNumber, Call, Hash, Header, Index, KeyTypeId, Slot, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
-import type { SpStatementStoreInvalidStatement, SpStatementStoreStatementSource, SpStatementStoreValidStatement } from '@polkadot/types/interfaces/statement';
+import type { StatementStoreInvalidStatement, StatementStoreStatementSource, StatementStoreValidStatement } from '@polkadot/types/interfaces/statement';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
 import type { SpStatementStoreStatement, StagingXcmV3MultiLocation } from '@polkadot/types/lookup';
@@ -404,7 +404,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Validate the statement.
        **/
-      valdateStatement: AugmentedCall<ApiType, (source: SpStatementStoreStatementSource | 'Chain' | 'Network' | 'Local' | number | Uint8Array, statement: SpStatementStoreStatement | { proof?: any; decryptionKey?: any; channel?: any; priority?: any; numTopics?: any; topics?: any; data?: any } | string | Uint8Array) => Observable<Result<SpStatementStoreValidStatement, SpStatementStoreInvalidStatement>>>;
+      valdateStatement: AugmentedCall<ApiType, (source: StatementStoreStatementSource | 'Chain' | 'Network' | 'Local' | number | Uint8Array, statement: SpStatementStoreStatement | { proof?: any; decryptionKey?: any; channel?: any; priority?: any; numTopics?: any; topics?: any; data?: any } | string | Uint8Array) => Observable<Result<StatementStoreValidStatement, StatementStoreInvalidStatement>>>;
       /**
        * Generic call
        **/

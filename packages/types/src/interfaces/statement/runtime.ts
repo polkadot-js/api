@@ -12,14 +12,14 @@ export const runtime: DefinitionsCall = {
           params: [
             {
               name: 'source',
-              type: 'SpStatementStoreStatementSource'
+              type: 'StatementStoreStatementSource'
             },
             {
               name: 'statement',
               type: 'SpStatementStoreStatement'
             }
           ],
-          type: 'Result<SpStatementStoreValidStatement, SpStatementStoreInvalidStatement>'
+          type: 'Result<StatementStoreValidStatement, StatementStoreInvalidStatement>'
         }
       },
       version: 1
