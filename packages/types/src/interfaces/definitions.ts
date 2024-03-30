@@ -30,6 +30,7 @@ export { default as grandpa } from './grandpa/definitions.js';
 export { default as identity } from './identity/definitions.js';
 export { default as imOnline } from './imOnline/definitions.js';
 export { default as lottery } from './lottery/definitions.js';
+export { default as mixnet } from './mixnet/definitions.js';
 export { default as mmr } from './mmr/definitions.js';
 export { default as nfts } from './nfts/definitions.js';
 export { default as nompools } from './nompools/definitions.js';

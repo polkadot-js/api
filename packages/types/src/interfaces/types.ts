@@ -39,6 +39,7 @@ export * from './identity/types.js';
 export * from './imOnline/types.js';
 export * from './lottery/types.js';
 export * from './metadata/types.js';
+export * from './mixnet/types.js';
 export * from './mmr/types.js';
 export * from './nfts/types.js';
 export * from './nimbus/types.js';
