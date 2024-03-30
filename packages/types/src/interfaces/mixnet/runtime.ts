@@ -24,7 +24,7 @@ export const runtime: DefinitionsCall = {
               type: 'Mixnode'
             }
           ],
-          type: 'boolean'
+          type: 'bool'
         },
         prev_mixnodes: {
           description: 'Get the index and phase of the current session.',
