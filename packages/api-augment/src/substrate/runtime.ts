@@ -18,6 +18,7 @@ import type { CodeSource, CodeUploadResult, ContractExecResult, ContractInstanti
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
+import type { Mixnode, MixnodesErr, SessionStatus } from '@polkadot/types/interfaces/mixnet';
 import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError } from '@polkadot/types/interfaces/mmr';
 import type { NftCollectionId, NftItemId } from '@polkadot/types/interfaces/nfts';
 import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
@@ -243,6 +244,29 @@ declare module '@polkadot/api-base/types/calls' {
        * Returns the supported metadata versions.
        **/
       metadataVersions: AugmentedCall<ApiType, () => Observable<Vec<u32>>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x6fd7c327202e4a8d/1 */
+    mixnetApi: {
+      /**
+       * Get the index and phase of the current session.
+       **/
+      currentMixnodes: AugmentedCall<ApiType, () => Observable<Result<Mixnode, MixnodesErr>>>;
+      /**
+       * Try to register a mixnode for the next session.
+       **/
+      maybeRegister: AugmentedCall<ApiType, (session_index: u32 | AnyNumber | Uint8Array, mixnode: Mixnode | { externalAddresses?: any; kxPublic?: any; peerId?: any } | string | Uint8Array) => Observable<boolean>>;
+      /**
+       * Get the index and phase of the current session.
+       **/
+      prevMixnodes: AugmentedCall<ApiType, () => Observable<Result<Mixnode, MixnodesErr>>>;
+      /**
+       * Get the index and phase of the current session.
+       **/
+      sessionStatus: AugmentedCall<ApiType, () => Observable<SessionStatus>>;
       /**
        * Generic call
        **/

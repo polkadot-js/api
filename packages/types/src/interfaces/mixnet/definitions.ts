@@ -3,13 +3,16 @@
 
 import type { Definitions } from '../../types/index.js';
 
+import { runtime } from './runtime.js';
+
 export default {
   rpc: {},
+  runtime,
   types: {
     Mixnode: {
       externalAddresses: 'Vec<Bytes>',
-      kxPublic: 'U8aFixed',
-      peerId: 'U8aFixed'
+      kxPublic: '[u8; 32]',
+      peerId: '[u8; 32]'
     },
     MixnodesErr: {
       _enum: {

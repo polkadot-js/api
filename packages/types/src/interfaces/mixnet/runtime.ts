@@ -20,8 +20,8 @@ export const runtime: DefinitionsCall = {
               type: 'u32'
             },
             {
-                name: 'mixnode',
-                type: 'Mixnode'
+              name: 'mixnode',
+              type: 'Mixnode'
             }
           ],
           type: 'boolean'
