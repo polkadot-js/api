@@ -6,7 +6,7 @@
 import '@polkadot/api-base/types/calls';
 
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
-import type { Bytes, Null, Option, Result, Vec, bool, u128, u32 } from '@polkadot/types-codec';
+import type { Bytes, Null, Option, Result, U64, Vec, bool, u128, u32 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
@@ -16,16 +16,20 @@ import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { CodeSource, CodeUploadResult, ContractExecResult, ContractInstantiateResult } from '@polkadot/types/interfaces/contracts';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
+import type { GenesisBuildErr } from '@polkadot/types/interfaces/genesisBuilder';
 import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
+import type { Mixnode, MixnodesErr, SessionStatus } from '@polkadot/types/interfaces/mixnet';
 import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError } from '@polkadot/types/interfaces/mmr';
 import type { NftCollectionId, NftItemId } from '@polkadot/types/interfaces/nfts';
 import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-import type { AccountId, Balance, Block, BlockNumber, Call, Hash, Header, Index, KeyTypeId, Slot, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, Block, BlockNumber, Call, ExtrinsicInclusionMode, Hash, Header, Index, KeyTypeId, Slot, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
+import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
+import type { StatementStoreInvalidStatement, StatementStoreStatementSource, StatementStoreValidStatement } from '@polkadot/types/interfaces/statement';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
-import type { StagingXcmV3MultiLocation } from '@polkadot/types/lookup';
+import type { SpStatementStoreStatement, StagingXcmV3MultiLocation } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -185,6 +189,40 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0xdf6acb689907609b/5 */
+    core: {
+      /**
+       * Execute the given block.
+       **/
+      executeBlock: AugmentedCall<ApiType, (block: Block | { header?: any; extrinsics?: any } | string | Uint8Array) => Observable<Null>>;
+      /**
+       * Initialize a block with the given header.
+       **/
+      initializeBlock: AugmentedCall<ApiType, (header: Header | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array) => Observable<ExtrinsicInclusionMode>>;
+      /**
+       * Returns the version of the runtime.
+       **/
+      version: AugmentedCall<ApiType, () => Observable<RuntimeVersion>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0xfbc577b9d747efd6/1 */
+    genesisBuilder: {
+      /**
+       * Build `RuntimeGenesisConfig` from a JSON blob not using any defaults and store it in the storage.
+       **/
+      buildConfig: AugmentedCall<ApiType, (json: Bytes | string | Uint8Array) => Observable<Result<ITuple<[]>, GenesisBuildErr>>>;
+      /**
+       * Creates the default `RuntimeGenesisConfig` and returns it as a JSON blob.
+       **/
+      createDefaultConfig: AugmentedCall<ApiType, () => Observable<Bytes>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
     /** 0xed99c5acb25eedf5/3 */
     grandpaApi: {
       /**
@@ -227,6 +265,29 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0x6fd7c327202e4a8d/1 */
+    mixnetApi: {
+      /**
+       * Get the index and phase of the current session.
+       **/
+      currentMixnodes: AugmentedCall<ApiType, () => Observable<Result<Mixnode, MixnodesErr>>>;
+      /**
+       * Try to register a mixnode for the next session.
+       **/
+      maybeRegister: AugmentedCall<ApiType, (session_index: u32 | AnyNumber | Uint8Array, mixnode: Mixnode | { externalAddresses?: any; kxPublic?: any; peerId?: any } | string | Uint8Array) => Observable<bool>>;
+      /**
+       * Get the index and phase of the current session.
+       **/
+      prevMixnodes: AugmentedCall<ApiType, () => Observable<Result<Mixnode, MixnodesErr>>>;
+      /**
+       * Get the index and phase of the current session.
+       **/
+      sessionStatus: AugmentedCall<ApiType, () => Observable<SessionStatus>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
     /** 0x91d5df18b0d2cf58/2 */
     mmrApi: {
       /**
@@ -234,9 +295,13 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       generateProof: AugmentedCall<ApiType, (blockNumbers: Vec<BlockNumber> | (BlockNumber | AnyNumber | Uint8Array)[], bestKnownBlockNumber: Option<BlockNumber> | null | Uint8Array | BlockNumber | AnyNumber) => Observable<Result<ITuple<[Vec<MmrEncodableOpaqueLeaf>, MmrBatchProof]>, MmrError>>>;
       /**
+       * Return the number of MMR blocks in the chain.
+       **/
+      mmrLeafCount: AugmentedCall<ApiType, () => Observable<Result<U64, MmrError>>>;
+      /**
        * Return the on-chain MMR root hash.
        **/
-      root: AugmentedCall<ApiType, () => Observable<Result<Hash, MmrError>>>;
+      mmrRoot: AugmentedCall<ApiType, () => Observable<Result<Hash, MmrError>>>;
       /**
        * Verify MMR proof against on-chain MMR.
        **/
@@ -389,6 +454,17 @@ declare module '@polkadot/api-base/types/calls' {
        * Query the output of the current WeightToFee given some input
        **/
       queryWeightToFee: AugmentedCall<ApiType, (weight: Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => Observable<Balance>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0xbe9fb0c91a8046cf/1 */
+    validateStatement: {
+      /**
+       * Validate the statement.
+       **/
+      valdateStatement: AugmentedCall<ApiType, (source: StatementStoreStatementSource | 'Chain' | 'Network' | 'Local' | number | Uint8Array, statement: SpStatementStoreStatement | { proof?: any; decryptionKey?: any; channel?: any; priority?: any; numTopics?: any; topics?: any; data?: any } | string | Uint8Array) => Observable<Result<StatementStoreValidStatement, StatementStoreInvalidStatement>>>;
       /**
        * Generic call
        **/
