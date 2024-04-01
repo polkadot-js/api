@@ -25,6 +25,7 @@ export { default as evm } from './evm/definitions.js';
 export { default as extrinsics } from './extrinsics/definitions.js';
 export { default as fungibles } from './fungibles/definitions.js';
 export { default as genericAsset } from './genericAsset/definitions.js';
+export { default as genesisBuilder } from './genesisBuilder/definitions.js';
 export { default as gilt } from './gilt/definitions.js';
 export { default as grandpa } from './grandpa/definitions.js';
 export { default as identity } from './identity/definitions.js';

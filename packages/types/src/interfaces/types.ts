@@ -33,6 +33,7 @@ export * from './extrinsics/types.js';
 export * from './finality/types.js';
 export * from './fungibles/types.js';
 export * from './genericAsset/types.js';
+export * from './genesisBuilder/types.js';
 export * from './gilt/types.js';
 export * from './grandpa/types.js';
 export * from './identity/types.js';
