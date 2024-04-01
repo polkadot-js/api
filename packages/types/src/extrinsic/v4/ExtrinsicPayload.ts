@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignOptions } from '@polkadot/keyring/types';
+import type { MultiLocation } from '@polkadot/types/interfaces';
 import type { Bytes } from '@polkadot/types-codec';
 import type { Inspect, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
@@ -104,7 +105,7 @@ export class GenericExtrinsicPayloadV4 extends Struct {
   /**
    * @description The (optional) asset id for this signature for chains that support transaction fees in assets
    */
-  public get assetId (): IOption<INumber> {
+  public get assetId (): IOption<INumber | MultiLocation> {
     return this.getT('assetId');
   }
 
