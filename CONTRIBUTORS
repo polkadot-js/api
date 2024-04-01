@@ -2,7 +2,7 @@
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
-      22	Tarik Gul                     	V15 Update substrate latest metadata (#5838)
+      23	Tarik Gul                     	Add Updated Runtime Defintions (#5837)
       20	Luke Schoen                   	fix: Fixes TypeError: Cannot read property 'vesting' of undefined (#1970)
       19	Xiliang Chen                  	no warm for unknown signed extensions (#5601)
       15	Jeremías Díaz                 	feat(types): add correct tuple type to storage key (#3054)
