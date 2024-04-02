@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## 10.12.5 Apr 2, 2024
+
+Contributed:
+
+- chore: fix typos in error (Thanks to https://github.com/xiaoxianBoy)
+
+Changes:
+
+- Upgrade westend types-known for 1009000
+- Add `disableAscii` option for toHuman, and toPrimitive 
+- V14 Update substrate latest metadata
+- V15 Update substrate latest metadata
+- Bump yarn to 4.1.1
+- Add `assetId` getter field to to necessary ExtrinsicPayloads
+- Add Updated Runtime Defintions
+  - ValidateStatement
+  - MMRApi
+    - mmr_root
+    - mmr_leaf_count
+  - Core v5
+  - GenesisBuilder
+  - MixnetApi
+
 ## 10.12.4 Mar 19, 2024
 
 Contributed:
