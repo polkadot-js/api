@@ -4,8 +4,8 @@
 import type { Text, Vec } from '@polkadot/types-codec';
 import type { AnyJson, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { Address, BlockHash, Call, ExtrinsicEra, Hash } from '../interfaces/index.js';
-import type { Codec, ICompact, INumber, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types/index.js';
+import type { Address, BlockHash, Call, ExtrinsicEra, Hash, MultiLocation } from '../interfaces/index.js';
+import type { Codec, ICompact, INumber, IOption, IRuntimeVersion, ISignerPayload, SignerPayloadJSON, SignerPayloadRaw } from '../types/index.js';
 
 import { Option, Struct } from '@polkadot/types-codec';
 import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';
@@ -104,6 +104,10 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('tip');
   }
 
+  get assetId (): IOption<INumber> | IOption<MultiLocation> {
+    return this.getT('assetId');
+  }
+
   get version (): INumber {
     return this.getT('version');
   }
@@ -135,6 +139,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       // the known defaults as managed explicitly and has different
       // formatting in cases, e.g. we mostly expose a hex format here
       address: this.address.toString(),
+      assetId: this.assetId.toHex(),
       blockHash: this.blockHash.toHex(),
       blockNumber: this.blockNumber.toHex(),
       era: this.era.toHex(),

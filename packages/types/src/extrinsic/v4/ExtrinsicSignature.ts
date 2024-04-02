@@ -1,10 +1,11 @@
 // Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { MultiLocation } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics/index.js';
 import type { Address, Call } from '../../interfaces/runtime/index.js';
-import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, Registry, SignatureOptions } from '../../types/index.js';
+import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, IOption, Registry, SignatureOptions } from '../../types/index.js';
 import type { ExtrinsicSignatureOptions } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
@@ -116,6 +117,13 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    */
   public get tip (): ICompact<INumber> {
     return this.getT('tip');
+  }
+
+  /**
+   * @description The [[u32]] or [[MultiLocation]] assetId
+   */
+  public get assetId (): IOption<INumber> | IOption<MultiLocation> {
+    return this.getT('assetId');
   }
 
   protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV4): IExtrinsicSignature {
