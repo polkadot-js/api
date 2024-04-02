@@ -6,7 +6,8 @@ import type { AnyJson, BareOpts, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { BlockHash } from '../interfaces/chain/index.js';
 import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics/index.js';
-import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber } from '../types/index.js';
+import type { MultiLocation } from '../interfaces/types.js';
+import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
@@ -107,6 +108,13 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
   public get transactionVersion (): INumber {
     // NOTE only v4+
     return this.inner.transactionVersion || this.registry.createTypeUnsafe('u32', []);
+  }
+
+  /**
+   * @description The (optional) asset id as a [[u32]] or [[MultiLocation]] for this payload
+   */
+  public get assetId (): IOption<INumber | IOption<MultiLocation>> {
+    return this.inner.assetId;
   }
 
   /**

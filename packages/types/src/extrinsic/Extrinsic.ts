@@ -1,11 +1,12 @@
 // Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod, Inspect } from '@polkadot/types-codec/types';
+import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod, Inspect, IOption } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics/index.js';
 import type { FunctionMetadataLatest } from '../interfaces/metadata/index.js';
 import type { Address, Call, CodecHash } from '../interfaces/runtime/index.js';
+import type { MultiLocation } from '../interfaces/types.js';
 import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic.js';
@@ -192,6 +193,13 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   }
 
   /**
+   * @description Forward compat
+   */
+  public get assetId (): IOption<INumber> | IOption<MultiLocation> {
+    return this.inner.signature.assetId;
+  }
+
+  /**
    * @description Returns the raw transaction version (not flagged with signing information)
   */
   public get type (): number {
@@ -316,6 +324,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
       },
       this.isSigned
         ? {
+          assetId: this.assetId.toHuman(isExpanded, disableAscii),
           era: this.era.toHuman(isExpanded, disableAscii),
           nonce: this.nonce.toHuman(isExpanded, disableAscii),
           signature: this.signature.toHex(),
