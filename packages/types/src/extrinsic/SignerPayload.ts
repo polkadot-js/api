@@ -139,7 +139,6 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       // the known defaults as managed explicitly and has different
       // formatting in cases, e.g. we mostly expose a hex format here
       address: this.address.toString(),
-      assetId: this.assetId.toHex(),
       blockHash: this.blockHash.toHex(),
       blockNumber: this.blockNumber.toHex(),
       era: this.era.toHex(),
