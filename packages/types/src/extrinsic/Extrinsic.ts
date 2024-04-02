@@ -193,7 +193,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   }
 
   /**
-   * @description Forwards comap
+   * @description Forward compat
    */
   public get assetId (): IOption<INumber> | IOption<MultiLocation> {
     return this.inner.signature.assetId;
