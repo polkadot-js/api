@@ -310,7 +310,7 @@ export const runtime: DefinitionsCall = {
         ...PH_V8,
         ...PH_V9
       },
-      version: 8
+      version: 9
     },
     {
       methods: {
