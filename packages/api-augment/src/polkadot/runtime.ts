@@ -357,7 +357,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Fetch the validation code used by a para, making the given `OccupiedCoreAssumption`.
        **/
-      validationCode: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array, assumption: OccupiedCoreAssumption | 'Included,' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<ValidationCode>>;
+      validationCode: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array, assumption: OccupiedCoreAssumption | 'Included,' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<Option<ValidationCode>>>;
       /**
        * Get the validation code from its hash.
        **/

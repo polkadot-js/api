@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { BTreeMap, BitVec, Bytes, Enum, Option, Struct, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types-codec';
+import type { BTreeMap, BitVec, Bytes, Enum, HashMap, Option, Struct, U8aFixed, Vec, bool, u32, u64 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { AccountId, Balance, BalanceOf, BlockNumber, H256, Hash, Header, StorageProof, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
@@ -42,6 +42,11 @@ export interface AbridgedHrmpChannel extends Struct {
   readonly mqcHead: Option<Hash>;
 }
 
+/** @name ApprovalVotingParams */
+export interface ApprovalVotingParams extends Struct {
+  readonly maxApprovalCoalesceCount: u32;
+}
+
 /** @name AssignmentId */
 export interface AssignmentId extends AccountId {}
 
@@ -51,6 +56,12 @@ export interface AssignmentKind extends Enum {
   readonly isParathread: boolean;
   readonly asParathread: ITuple<[CollatorId, u32]>;
   readonly type: 'Parachain' | 'Parathread';
+}
+
+/** @name AsyncBackingParams */
+export interface AsyncBackingParams extends Struct {
+  readonly maxCandidateDepth: u32;
+  readonly allowedAncestryLen: u32;
 }
 
 /** @name AttestedCandidate */
@@ -80,6 +91,12 @@ export interface BackedCandidate extends Struct {
   readonly candidate: CommittedCandidateReceipt;
   readonly validityVotes: Vec<ValidityAttestation>;
   readonly validatorIndices: BitVec;
+}
+
+/** @name BackingState */
+export interface BackingState extends Struct {
+  readonly constraints: Constraints;
+  readonly pendingAvailability: Vec<CandidatePendingAvailability>;
 }
 
 /** @name Bidder */
@@ -170,6 +187,24 @@ export interface CollatorSignature extends Signature {}
 export interface CommittedCandidateReceipt extends Struct {
   readonly descriptor: CandidateDescriptor;
   readonly commitments: CandidateCommitments;
+}
+
+/** @name Constraints */
+export interface Constraints extends Struct {
+  readonly minRelayParentNumber: BlockNumber;
+  readonly maxPovSize: u32;
+  readonly maxCodeSize: u32;
+  readonly umpRemaining: u32;
+  readonly umpRemainingBytes: u32;
+  readonly maxUmpNumPerCandidate: u32;
+  readonly dmpRemainingMessages: Vec<BlockNumber>;
+  readonly hrmpInbound: InboundHrmpLimitations;
+  readonly hrmpChannelsOut: HashMap<ParaId, OutboundHrmpChannelLimitations>;
+  readonly maxHrmpNumPerCandidate: u32;
+  readonly requiredParent: HeadData;
+  readonly validationCodeHash: ValidationCodeHash;
+  readonly upgradeRestriction: Option<UpgradeRestriction>;
+  readonly futureValidationCode: Option<ITuple<[BlockNumber, ValidationCodeHash]>>;
 }
 
 /** @name CoreAssignment */
@@ -401,6 +436,11 @@ export interface InboundDownwardMessage extends Struct {
   readonly pubMsg: DownwardMessage;
 }
 
+/** @name InboundHrmpLimitations */
+export interface InboundHrmpLimitations extends Struct {
+  readonly validWatermarks: Vec<BlockNumber>;
+}
+
 /** @name InboundHrmpMessage */
 export interface InboundHrmpMessage extends Struct {
   readonly sentAt: BlockNumber;
@@ -480,6 +520,9 @@ export interface NewBidder extends Struct {
   readonly sub: SubId;
 }
 
+/** @name NodeFeatures */
+export interface NodeFeatures extends BitVec {}
+
 /** @name OccupiedCore */
 export interface OccupiedCore extends Struct {
   readonly nextUpOnAvailable: Option<ScheduledCore>;
@@ -512,6 +555,12 @@ export interface OldV1SessionInfo extends Struct {
   readonly nDelayTranches: u32;
   readonly noShowSlots: u32;
   readonly neededApprovals: u32;
+}
+
+/** @name OutboundHrmpChannelLimitations */
+export interface OutboundHrmpChannelLimitations extends Struct {
+  readonly bytesRemaining: u32;
+  readonly messagesRemaining: u32;
 }
 
 /** @name OutboundHrmpMessage */
