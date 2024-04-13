@@ -231,6 +231,54 @@ const PH_V5: DefinitionsCallEntry['methods'] = {
   }
 };
 
+// const PH_V10: DefinitionsCallEntry['methods'] = {
+//   // Not sure which version it changed the return type from 'ValidationCode' to Option<ValidationCode>, but I noticed it when checking V10.
+//   validation_code: {
+//     description: 'Fetch the validation code used by a para, making the given `OccupiedCoreAssumption`.',
+//     params: [
+//       {
+//         name: 'paraId',
+//         type: 'ParaId'
+//       },
+//       {
+//         name: 'assumption',
+//         type: 'OccupiedCoreAssumption'
+//       }
+//     ],
+//     type: 'Option<ValidationCode>'
+//   },
+//   minimum_backing_votes: {
+//     description: '',
+//     params: [],
+//     type: 'u32'
+//   },
+//   para_backing_state: {
+//     description: '',
+//     params: [
+//       {
+//         name: 'paraId',
+//         type: 'ParaId'
+//       }
+//     ],
+//   },
+//   async_backing_params: {
+//     description: '',
+//     params: [],
+//   },
+//   approval_voting_params: {
+//     description: '',
+//     params: [],
+//   },
+//   disabled_validators: {
+//     description: '',
+//     params: [],
+//   },
+//   node_features: {
+//     description: '',
+//     params: [],
+//   }
+// }
+
 export const runtime: DefinitionsCall = {
   ParachainHost: [
     {
