@@ -192,15 +192,15 @@ export interface CommittedCandidateReceipt extends Struct {
 /** @name Constraints */
 export interface Constraints extends Struct {
   readonly minRelayParentNumber: BlockNumber;
-  readonly maxPovSize: Bytes;
-  readonly maxCodeSize: Bytes;
-  readonly umpRemaining: Bytes;
-  readonly umpRemainingBytes: Bytes;
-  readonly maxUmpNumPerCandidate: Bytes;
+  readonly maxPovSize: u32;
+  readonly maxCodeSize: u32;
+  readonly umpRemaining: u32;
+  readonly umpRemainingBytes: u32;
+  readonly maxUmpNumPerCandidate: u32;
   readonly dmpRemainingMessages: Vec<BlockNumber>;
   readonly hrmpInbound: InboundHrmpLimitations;
   readonly hrmpChannelsOut: HashMap<ParaId, OutboundHrmpChannelLimitations>;
-  readonly maxHrmpNumPerCandidate: Bytes;
+  readonly maxHrmpNumPerCandidate: u32;
   readonly requiredParent: HeadData;
   readonly validationCodeHash: ValidationCodeHash;
   readonly upgradeRestriction: Option<UpgradeRestriction>;
@@ -559,8 +559,8 @@ export interface OldV1SessionInfo extends Struct {
 
 /** @name OutboundHrmpChannelLimitations */
 export interface OutboundHrmpChannelLimitations extends Struct {
-  readonly bytesRemaining: Bytes;
-  readonly messagesRemaining: Bytes;
+  readonly bytesRemaining: u32;
+  readonly messagesRemaining: u32;
 }
 
 /** @name OutboundHrmpMessage */

@@ -228,15 +228,15 @@ export default {
     },
     Constraints: {
       minRelayParentNumber: 'BlockNumber',
-      maxPovSize: 'Bytes',
-      maxCodeSize: 'Bytes',
-      umpRemaining: 'Bytes',
-      umpRemainingBytes: 'Bytes',
-      maxUmpNumPerCandidate: 'Bytes',
+      maxPovSize: 'u32',
+      maxCodeSize: 'u32',
+      umpRemaining: 'u32',
+      umpRemainingBytes: 'u32',
+      maxUmpNumPerCandidate: 'u32',
       dmpRemainingMessages: 'Vec<BlockNumber>',
       hrmpInbound: 'InboundHrmpLimitations',
       hrmpChannelsOut: 'HashMap<ParaId, OutboundHrmpChannelLimitations>',
-      maxHrmpNumPerCandidate: 'Bytes',
+      maxHrmpNumPerCandidate: 'u32',
       requiredParent: 'HeadData',
       validationCodeHash: 'ValidationCodeHash',
       upgradeRestriction: 'Option<UpgradeRestriction>',
@@ -371,8 +371,8 @@ export default {
       _enum: ['Included,', 'TimedOut', 'Free']
     },
     OutboundHrmpChannelLimitations: {
-      bytesRemaining: 'Bytes',
-      messagesRemaining: 'Bytes'
+      bytesRemaining: 'u32',
+      messagesRemaining: 'u32'
     },
     OutboundHrmpMessage: {
       recipient: 'u32',
