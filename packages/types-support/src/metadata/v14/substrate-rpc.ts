@@ -127,6 +127,8 @@ export default {
     "system_version",
     "transactionWatch_unstable_submitAndWatch",
     "transactionWatch_unstable_unwatch",
+    "transaction_unstable_broadcast",
+    "transaction_unstable_stop",
     "unsubscribe_newHead"
   ]
 };

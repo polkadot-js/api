@@ -11,6 +11,9 @@ import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, PerU16, Perbill } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
+  /** @name SpCoreEd25519Public (54) */
+  interface SpCoreEd25519Public extends U8aFixed {}
+
   /** @name PolkadotRuntimeCommonImplsVersionedLocatableAsset (56) */
   interface PolkadotRuntimeCommonImplsVersionedLocatableAsset extends Enum {
     readonly isV3: boolean;
@@ -387,6 +390,9 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Voice' | 'Members' | 'Fraction' | 'AtLeastProportion' | 'MoreThanProportion';
   }
 
+  /** @name SpCoreSr25519Public (107) */
+  interface SpCoreSr25519Public extends U8aFixed {}
+
   /** @name PolkadotRuntimeSessionKeys (130) */
   interface PolkadotRuntimeSessionKeys extends Struct {
     readonly grandpa: SpConsensusGrandpaAppPublic;
@@ -402,6 +408,12 @@ declare module '@polkadot/types/lookup' {
 
   /** @name PolkadotPrimitivesV6AssignmentAppPublic (132) */
   interface PolkadotPrimitivesV6AssignmentAppPublic extends SpCoreSr25519Public {}
+
+  /** @name SpCoreEcdsaPublic (135) */
+  interface SpCoreEcdsaPublic extends U8aFixed {}
+
+  /** @name SpCoreEd25519Signature (143) */
+  interface SpCoreEd25519Signature extends U8aFixed {}
 
   /** @name PolkadotRuntimeOriginCaller (157) */
   interface PolkadotRuntimeOriginCaller extends Enum {
@@ -495,6 +507,12 @@ declare module '@polkadot/types/lookup' {
     readonly isSaft: boolean;
     readonly type: 'Regular' | 'Saft';
   }
+
+  /** @name SpCoreSr25519Signature (221) */
+  interface SpCoreSr25519Signature extends U8aFixed {}
+
+  /** @name SpCoreEcdsaSignature (222) */
+  interface SpCoreEcdsaSignature extends U8aFixed {}
 
   /** @name PolkadotRuntimeProxyType (226) */
   interface PolkadotRuntimeProxyType extends Enum {

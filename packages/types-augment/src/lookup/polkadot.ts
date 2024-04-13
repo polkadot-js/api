@@ -5,6 +5,10 @@
 
 export default {
   /**
+   * Lookup54: sp_core::ed25519::Public
+   **/
+  SpCoreEd25519Public: '[u8;32]',
+  /**
    * Lookup56: polkadot_runtime_common::impls::VersionedLocatableAsset
    **/
   PolkadotRuntimeCommonImplsVersionedLocatableAsset: {
@@ -346,6 +350,10 @@ export default {
     }
   },
   /**
+   * Lookup107: sp_core::sr25519::Public
+   **/
+  SpCoreSr25519Public: '[u8;32]',
+  /**
    * Lookup130: polkadot_runtime::SessionKeys
    **/
   PolkadotRuntimeSessionKeys: {
@@ -364,6 +372,14 @@ export default {
    * Lookup132: polkadot_primitives::v6::assignment_app::Public
    **/
   PolkadotPrimitivesV6AssignmentAppPublic: 'SpCoreSr25519Public',
+  /**
+   * Lookup135: sp_core::ecdsa::Public
+   **/
+  SpCoreEcdsaPublic: '[u8;33]',
+  /**
+   * Lookup143: sp_core::ed25519::Signature
+   **/
+  SpCoreEd25519Signature: '[u8;64]',
   /**
    * Lookup157: polkadot_runtime::OriginCaller
    **/
@@ -537,6 +553,14 @@ export default {
   PolkadotRuntimeCommonClaimsStatementKind: {
     _enum: ['Regular', 'Saft']
   },
+  /**
+   * Lookup221: sp_core::sr25519::Signature
+   **/
+  SpCoreSr25519Signature: '[u8;64]',
+  /**
+   * Lookup222: sp_core::ecdsa::Signature
+   **/
+  SpCoreEcdsaSignature: '[u8;65]',
   /**
    * Lookup226: polkadot_runtime::ProxyType
    **/
