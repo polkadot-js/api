@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyEquivocationProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyEquivocationProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -936,7 +936,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * This will waive the transaction fee if at least all but 10% of the accounts needed to
        * be upgraded. (We let some not have to be upgraded just in order to allow for the
-       * possibililty of churn).
+       * possibility of churn).
        **/
       upgradeAccounts: AugmentedSubmittable<(who: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<AccountId32>]>;
       /**
@@ -1112,7 +1112,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `origin`: Must be a Signed origin of the account which owns the Region `region_id`.
        * - `region_id`: The Region which was assigned to the Pool.
        * - `max_timeslices`: The maximum number of timeslices which should be processed. This may
-       * effect the weight of the call but should be ideally made equivalant to the length of
+       * effect the weight of the call but should be ideally made equivalent to the length of
        * the Region `region_id`. If it is less than this, then further dispatches will be
        * required with the `region_id` which makes up any remainders of the region to be
        * collected.
@@ -1243,6 +1243,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `core_count`: The number of cores which can be allocated.
        **/
       startSales: AugmentedSubmittable<(initialPrice: u128 | AnyNumber | Uint8Array, coreCount: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u16]>;
+      swapLeases: AugmentedSubmittable<(id: u32 | AnyNumber | Uint8Array, other: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
        * Transfer a Bulk Coretime Region to a new owner.
        * 
@@ -3808,7 +3809,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * In the case of `origin != other`, `origin` can only bond extra pending rewards of
        * `other` members assuming set_claim_permission for the given member is
-       * `PermissionlessAll` or `PermissionlessCompound`.
+       * `PermissionlessCompound` or `PermissionlessAll`.
        **/
       bondExtraOther: AugmentedSubmittable<(member: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, extra: PalletNominationPoolsBondExtra | { FreeBalance: any } | { Rewards: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, PalletNominationPoolsBondExtra]>;
       /**
@@ -3846,14 +3847,14 @@ declare module '@polkadot/api-base/types/submittable' {
        * The member will earn rewards pro rata based on the members stake vs the sum of the
        * members in the pools stake. Rewards do not "expire".
        * 
-       * See `claim_payout_other` to caim rewards on bahalf of some `other` pool member.
+       * See `claim_payout_other` to claim rewards on behalf of some `other` pool member.
        **/
       claimPayout: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
        * `origin` can claim payouts on some pool member `other`'s behalf.
        * 
-       * Pool member `other` must have a `PermissionlessAll` or `PermissionlessWithdraw` in order
-       * for this call to be successful.
+       * Pool member `other` must have a `PermissionlessWithdraw` or `PermissionlessAll` claim
+       * permission for this call to be successful.
        **/
       claimPayoutOther: AugmentedSubmittable<(other: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
@@ -3926,15 +3927,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * Allows a pool member to set a claim permission to allow or disallow permissionless
        * bonding and withdrawing.
        * 
-       * By default, this is `Permissioned`, which implies only the pool member themselves can
-       * claim their pending rewards. If a pool member wishes so, they can set this to
-       * `PermissionlessAll` to allow any account to claim their rewards and bond extra to the
-       * pool.
-       * 
        * # Arguments
        * 
        * * `origin` - Member of a pool.
-       * * `actor` - Account to claim reward. // improve this
+       * * `permission` - The permission to be applied.
        **/
       setClaimPermission: AugmentedSubmittable<(permission: PalletNominationPoolsClaimPermission | 'Permissioned' | 'PermissionlessCompound' | 'PermissionlessWithdraw' | 'PermissionlessAll' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletNominationPoolsClaimPermission]>;
       /**
@@ -3956,7 +3952,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Set or remove a pool's commission claim permission.
        * 
        * Determines who can claim the pool's pending commission. Only the `Root` role of the pool
-       * is able to conifigure commission claim permissions.
+       * is able to configure commission claim permissions.
        **/
       setCommissionClaimPermission: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, permission: Option<PalletNominationPoolsCommissionClaimPermission> | null | Uint8Array | PalletNominationPoolsCommissionClaimPermission | { Permissionless: any } | { Account: any } | string) => SubmittableExtrinsic<ApiType>, [u32, Option<PalletNominationPoolsCommissionClaimPermission>]>;
       /**
@@ -5854,7 +5850,7 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       forceUnstake: AugmentedSubmittable<(stash: AccountId32 | string | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32]>;
       /**
-       * Increments the ideal number of validators upto maximum of
+       * Increments the ideal number of validators up to maximum of
        * `ElectionProviderBase::MaxWinners`.
        * 
        * The dispatch origin must be Root.
@@ -5957,7 +5953,21 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       rebond: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>]>;
       /**
-       * Scale up the ideal number of validators by a factor upto maximum of
+       * Restores the state of a ledger which is in an inconsistent state.
+       * 
+       * The requirements to restore a ledger are the following:
+       * * The stash is bonded; or
+       * * The stash is not bonded but it has a staking lock left behind; or
+       * * If the stash has an associated ledger and its state is inconsistent; or
+       * * If the ledger is not corrupted *but* its staking lock is out of sync.
+       * 
+       * The `maybe_*` input parameters will overwrite the corresponding data and metadata of the
+       * ledger associated with the stash. If the input parameters are not set, the ledger will
+       * be reset values from on-chain state.
+       **/
+      restoreLedger: AugmentedSubmittable<(stash: AccountId32 | string | Uint8Array, maybeController: Option<AccountId32> | null | Uint8Array | AccountId32 | string, maybeTotal: Option<u128> | null | Uint8Array | u128 | AnyNumber, maybeUnlocking: Option<Vec<PalletStakingUnlockChunk>> | null | Uint8Array | Vec<PalletStakingUnlockChunk> | (PalletStakingUnlockChunk | { value?: any; era?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [AccountId32, Option<AccountId32>, Option<u128>, Option<Vec<PalletStakingUnlockChunk>>]>;
+      /**
+       * Scale up the ideal number of validators by a factor up to maximum of
        * `ElectionProviderBase::MaxWinners`.
        * 
        * The dispatch origin must be Root.
@@ -6097,7 +6107,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * this call results in a complete removal of all the data related to the stash account.
        * In this case, the `num_slashing_spans` must be larger or equal to the number of
        * slashing spans associated with the stash account in the [`SlashingSpans`] storage type,
-       * otherwise the call will fail. The call weight is directly propotional to
+       * otherwise the call will fail. The call weight is directly proportional to
        * `num_slashing_spans`.
        * 
        * ## Complexity
