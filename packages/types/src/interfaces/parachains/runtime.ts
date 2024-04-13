@@ -108,7 +108,7 @@ const PH_V1_TO_V2: DefinitionsCallEntry['methods'] = {
         type: 'OccupiedCoreAssumption'
       }
     ],
-    type: 'ValidationCode'
+    type: 'Option<ValidationCode>'
   },
   validation_code_by_hash: {
     description: 'Get the validation code from its hash.',
@@ -231,56 +231,123 @@ const PH_V5: DefinitionsCallEntry['methods'] = {
   }
 };
 
-// const PH_V10: DefinitionsCallEntry['methods'] = {
-//   // Not sure which version it changed the return type from 'ValidationCode' to Option<ValidationCode>, but I noticed it when checking V10.
-//   validation_code: {
-//     description: 'Fetch the validation code used by a para, making the given `OccupiedCoreAssumption`.',
-//     params: [
-//       {
-//         name: 'paraId',
-//         type: 'ParaId'
-//       },
-//       {
-//         name: 'assumption',
-//         type: 'OccupiedCoreAssumption'
-//       }
-//     ],
-//     type: 'Option<ValidationCode>'
-//   },
-//   minimum_backing_votes: {
-//     description: '',
-//     params: [],
-//     type: 'u32'
-//   },
-//   para_backing_state: {
-//     description: '',
-//     params: [
-//       {
-//         name: 'paraId',
-//         type: 'ParaId'
-//       }
-//     ],
-//   },
-//   async_backing_params: {
-//     description: '',
-//     params: [],
-//   },
-//   approval_voting_params: {
-//     description: '',
-//     params: [],
-//   },
-//   disabled_validators: {
-//     description: '',
-//     params: [],
-//   },
-//   node_features: {
-//     description: '',
-//     params: [],
-//   }
-// }
+const PH_V6: DefinitionsCallEntry['methods'] = {
+  minimum_backing_votes: {
+    description: 'Get the minimum number of backing votes for a parachain candidate. This is a staging method! Do not use on production runtimes!',
+    params: [],
+    type: 'u32'
+  }
+};
+
+const PH_V7: DefinitionsCallEntry['methods'] = {
+  async_backing_params: {
+    description: 'Returns candidate\'s acceptance limitations for asynchronous backing for a relay parent',
+    params: [],
+    type: 'AsyncBackingParams'
+  },
+  para_backing_state: {
+    description: 'Returns the state of parachain backing for a given para',
+    params: [
+      {
+        name: 'paraId',
+        type: 'ParaId'
+      }
+    ],
+    type: 'Option<BackingState>'
+  }
+};
+
+const PH_V8: DefinitionsCallEntry['methods'] = {
+  disabled_validators: {
+    description: 'Returns a list of all disabled validators at the given block',
+    params: [],
+    type: 'ValidatorIndex'
+  }
+};
+
+const PH_V9: DefinitionsCallEntry['methods'] = {
+  node_features: {
+    description: 'Get node features. This is a staging method! Do not use on production runtimes!',
+    params: [],
+    type: 'NodeFeatures'
+  }
+};
+
+const PH_V10: DefinitionsCallEntry['methods'] = {
+  approval_voting_params: {
+    description: 'Approval voting configuration parameters',
+    params: [],
+    type: 'ApprovalVotingParams'
+  }
+};
 
 export const runtime: DefinitionsCall = {
   ParachainHost: [
+    {
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3,
+        ...PH_V4,
+        ...PH_V5,
+        ...PH_V6,
+        ...PH_V7,
+        ...PH_V8,
+        ...PH_V9,
+        ...PH_V10
+      },
+      version: 10
+    },
+    {
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3,
+        ...PH_V4,
+        ...PH_V5,
+        ...PH_V6,
+        ...PH_V7,
+        ...PH_V8,
+        ...PH_V9
+      },
+      version: 8
+    },
+    {
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3,
+        ...PH_V4,
+        ...PH_V5,
+        ...PH_V6,
+        ...PH_V7,
+        ...PH_V8
+      },
+      version: 8
+    },
+    {
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3,
+        ...PH_V4,
+        ...PH_V5,
+        ...PH_V6,
+        ...PH_V7
+      },
+      version: 7
+    },
+    {
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3,
+        ...PH_V4,
+        ...PH_V5,
+        ...PH_V6
+      },
+      version: 6
+    },
     {
       methods: {
         ...PH_V1_TO_V2,

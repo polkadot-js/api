@@ -130,12 +130,19 @@ export default {
       totalSize: 'u32',
       mqcHead: 'Option<Hash>'
     },
+    ApprovalVotingParams: {
+      maxApprovalCoalesceCount: 'u32'
+    },
     AssignmentId: 'AccountId',
     AssignmentKind: {
       _enum: {
         Parachain: 'Null',
         Parathread: '(CollatorId, u32)'
       }
+    },
+    AsyncBackingParams: {
+      maxCandidateDepth: 'u32',
+      allowedAncestryLen: 'u32'
     },
     AttestedCandidate: {
       candidate: 'AbridgedCandidateReceipt',
@@ -152,6 +159,10 @@ export default {
       candidate: 'CommittedCandidateReceipt',
       validityVotes: 'Vec<ValidityAttestation>',
       validatorIndices: 'BitVec'
+    },
+    BackingState: {
+      constraints: 'Constraints',
+      pendingAvailability: 'Vec<CandidatePendingAvailability>'
     },
     BufferedSessionChange: {
       applyAt: 'BlockNumber',
@@ -214,6 +225,22 @@ export default {
     CommittedCandidateReceipt: {
       descriptor: 'CandidateDescriptor',
       commitments: 'CandidateCommitments'
+    },
+    Constraints: {
+      minRelayParentNumber: 'BlockNumber',
+      maxPovSize: 'Bytes',
+      maxCodeSize: 'Bytes',
+      umpRemaining: 'Bytes',
+      umpRemainingBytes: 'Bytes',
+      maxUmpNumPerCandidate: 'Bytes',
+      dmpRemainingMessages: 'Vec<BlockNumber>',
+      hrmpInbound: 'InboundHrmpLimitations',
+      hrmpChannelsOut: 'HashMap<ParaId, OutboundHrmpChannelLimitations>',
+      maxHrmpNumPerCandidate: 'Bytes',
+      requiredParent: 'HeadData',
+      validationCodeHash: 'ValidationCodeHash',
+      upgradeRestriction: 'Option<UpgradeRestriction>',
+      futureValidationCode: 'Option<(BlockNumber, ValidationCodeHash)>'
     },
     CoreAssignment: {
       core: 'CoreIndex',
@@ -315,6 +342,9 @@ export default {
       sentAt: 'BlockNumber',
       data: 'Bytes'
     },
+    InboundHrmpLimitations: {
+      validWatermarks: 'Vec<BlockNumber>'
+    },
     InboundHrmpMessages: 'Vec<InboundHrmpMessage>',
     LocalValidationData: {
       parentHead: 'HeadData',
@@ -326,6 +356,7 @@ export default {
       horizontalMessages: 'BTreeMap<ParaId, InboundHrmpMessages>'
     },
     MessageQueueChain: 'RelayChainHash',
+    NodeFeatures: 'BitVec',
     OccupiedCore: {
       nextUpOnAvailable: 'Option<ScheduledCore>',
       occupiedSince: 'BlockNumber',
@@ -338,6 +369,10 @@ export default {
     },
     OccupiedCoreAssumption: {
       _enum: ['Included,', 'TimedOut', 'Free']
+    },
+    OutboundHrmpChannelLimitations: {
+      bytesRemaining: 'Bytes',
+      messagesRemaining: 'Bytes'
     },
     OutboundHrmpMessage: {
       recipient: 'u32',
