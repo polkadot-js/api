@@ -67,8 +67,11 @@ function getModules (api: DeriveApi): [string, string | null] {
       : api.query.elections
         ? 'elections'
         : null;
+  // In some cases council here can refer to `generalCouncil` depending on what the chain specific override is.
+  // Therefore, we check to see if it exists in the query field. If it does not we default to `council`.
+  const resolvedCouncil = api.query[council] ? council : 'council';
 
-  return [council, elections];
+  return [resolvedCouncil, elections];
 }
 
 function queryAll (api: DeriveApi, council: string, elections: string): Observable<[AccountId32[], Candidate[], Member[], Member[]]> {
@@ -105,6 +108,8 @@ function queryCouncil (api: DeriveApi, council: string): Observable<[AccountId32
 export function info (instanceId: string, api: DeriveApi): () => Observable<DeriveElectionsInfo> {
   return memo(instanceId, (): Observable<DeriveElectionsInfo> => {
     const [council, elections] = getModules(api);
+
+    console.log(council, elections);
 
     return (
       elections
