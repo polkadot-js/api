@@ -109,8 +109,6 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
   return memo(instanceId, (): Observable<DeriveElectionsInfo> => {
     const [council, elections] = getModules(api);
 
-    console.log(council, elections);
-
     return (
       elections
         ? queryAll(api, council, elections)
