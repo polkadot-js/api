@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 10.13.1 Apr 16, 2024
+
+Changes:
+
+- Update CI actions and setup_node to v4
+- Update substrate metadata to latest
+- Support ParachainHost runtime api v6, 7, 8, 9, 10
+- Resolve correct module for council derive
+- Update westend types-known for 1010000
+- Update kusama types-known for 1001003
+
+
 ## 10.12.6 Apr 2, 2024
 
 **NOTE**: Because of a broken CI build for 10.12.5 -> 10.12.6 is a replacement
