@@ -10,7 +10,7 @@ export type DropLast<T extends readonly unknown[]> = T extends readonly [...infe
 
 export type ApiTypes = 'promise' | 'rxjs';
 
-// Returns the inner type of an Observable
+// Returns the inner type of Observable
 export type ObsInnerType<O extends Observable<any>> = O extends Observable<infer U> ? U : never;
 
 export type VoidFn = () => void;
@@ -73,6 +73,6 @@ export type ReturnCodec<F extends AnyFunction> = AsCodec<ObsInnerType<ReturnType
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface EmptyBase<_> {
-  // this is use to allow use to have unused vars in augmented interfaces,
+  // this is used to allow use to have unused vars in augmented interfaces,
   // so intentionally left empty
 }

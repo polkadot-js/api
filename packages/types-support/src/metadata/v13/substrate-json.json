@@ -7815,7 +7815,7 @@
               "name": "NewContractNotFunded",
               "docs": [
                 " The newly created contract is below the subsistence threshold after executing",
-                " its contructor. No contracts are allowed to exist below that threshold."
+                " its constructor. No contracts are allowed to exist below that threshold."
               ]
             },
             {

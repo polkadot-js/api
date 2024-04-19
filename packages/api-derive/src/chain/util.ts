@@ -96,7 +96,7 @@ export function getAuthorDetails (api: DeriveApi, header: Header, blockHash?: Ui
   // For on-chain state, we need to retrieve it as per the start
   // of the block being constructed, i.e. session validators would
   // be at the point of the block construction, not when all operations
-  // has been supplied.
+  // have been supplied.
   //
   // However for the first block (no parentHash available), we would
   // just use the as-is

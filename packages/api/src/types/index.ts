@@ -55,7 +55,7 @@ export interface ApiOptions extends RegisteredTypes {
    */
   initWasm?: boolean;
   /**
-   * @description Controls the checking of storage values once they have been contructed. When not specified this defaults to `true`. Set to `false` to forgo any checking on storage results.
+   * @description Controls the checking of storage values once they have been constructed. When not specified this defaults to `true`. Set to `false` to forgo any checking on storage results.
    */
   isPedantic?: boolean;
   /**

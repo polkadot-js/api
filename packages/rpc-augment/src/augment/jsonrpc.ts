@@ -385,7 +385,7 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        **/
       verifyProof: AugmentedRpc<(proof: MmrLeafBatchProof | { blockHash?: any; leaves?: any; proof?: any } | string | Uint8Array) => Observable<bool>>;
       /**
-       * Verify an MMR proof statelessly given an mmr_root
+       * Verify an MMR proof statelessly given a mmr_root
        **/
       verifyProofStateless: AugmentedRpc<(root: MmrHash | string | Uint8Array, proof: MmrLeafBatchProof | { blockHash?: any; leaves?: any; proof?: any } | string | Uint8Array) => Observable<bool>>;
     };

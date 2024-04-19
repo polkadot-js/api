@@ -131,8 +131,8 @@ export class ApiPromise extends ApiBase<'promise'> {
   }
 
   /**
-   * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
-   * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or a
+   * @description Creates an ApiPromise instance using the supplied provider. Returns a Promise containing the actual Api instance.
+   * @param options options that is passed to the class constructor. Can be either [[ApiOptions]] or a
    * provider (see the constructor arguments)
    * @example
    * <BR>
@@ -143,7 +143,7 @@ export class ApiPromise extends ApiBase<'promise'> {
    * Api.create().then(async (api) => {
    *   const timestamp = await api.query.timestamp.now();
    *
-   *   console.log(`lastest block timestamp ${timestamp}`);
+   *   console.log(`latest block timestamp ${timestamp}`);
    * });
    * ```
    */
