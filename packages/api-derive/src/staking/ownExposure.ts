@@ -24,7 +24,7 @@ export function _ownExposures (instanceId: string, api: DeriveApi): (accountId: 
         combineLatest(eras.map((e) => api.query.staking.erasStakersOverview(e, accountId)))
       ]).pipe(
         map(([clp, exp, paged, expMeta]): DeriveOwnExposure[] =>
-          eras.map((era, index) => ({ clipped: clp[index], era, exposure: exp[index], exposureMeta: expMeta[index], paged: paged[index] }))
+          eras.map((era, index) => ({ clipped: clp[index], era, exposure: exp[index], exposureMeta: expMeta[index], exposurePaged: paged[index] }))
         )
       )
       : of([]);
