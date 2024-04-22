@@ -42,9 +42,11 @@ export interface DeriveStakerPoints {
 }
 
 export interface DeriveOwnExposure {
-  clipped: Option<SpStakingExposurePage>;
+  clipped: SpStakingExposure;
+  paged: Option<SpStakingExposurePage>;
   era: EraIndex;
-  exposure: Option<SpStakingPagedExposureMetadata>;
+  exposure: SpStakingExposure;
+  exposureMeta: Option<SpStakingPagedExposureMetadata>;
 }
 
 export interface DeriveEraExposureNominating {
