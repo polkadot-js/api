@@ -14,13 +14,13 @@ import { firstMemo, memo } from '../util/index.js';
 import { erasHistoricApplyAccount } from './util.js';
 
 export function _ownExposures (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean, page: u32 | AnyNumber) => Observable<DeriveOwnExposure[]> {
-  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean, page?: u32 | AnyNumber): Observable<DeriveOwnExposure[]> => {
+  return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean, page: u32 | AnyNumber): Observable<DeriveOwnExposure[]> => {
     return eras.length
       ? combineLatest([
         // Backwards and forward compat for historical integrity when using `erasHistoricApplyAccount`
         combineLatest(eras.map((e) => api.query.staking.erasStakersClipped(e, accountId))),
         combineLatest(eras.map((e) => api.query.staking.erasStakers(e, accountId))),
-        combineLatest(eras.map((e) => api.query.staking.erasStakersPaged<Option<SpStakingExposurePage>>(e, accountId, page || 0))),
+        combineLatest(eras.map((e) => api.query.staking.erasStakersPaged<Option<SpStakingExposurePage>>(e, accountId, page))),
         combineLatest(eras.map((e) => api.query.staking.erasStakersOverview(e, accountId)))
       ]).pipe(
         map(([clp, exp, paged, expMeta]): DeriveOwnExposure[] =>
