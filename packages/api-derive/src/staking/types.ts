@@ -161,4 +161,5 @@ export interface StakingQueryFlags {
   withLedger?: boolean;
   withNominations?: boolean;
   withPrefs?: boolean;
+  withExposureMeta?: boolean;
 }
