@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 11.0.1 Apr 22, 2024
+
+Breaking Changes:
+
+Note! The following breaking changes only refer to `@polkadot/api-derive` calls under `api.derive.staking.*` due to the most recent breaking changes in runtime version 1.2. Please refer to the link next to the bullet point for more information.
+
+- Update api.derive.staking calls with breaking changes ([#5860](https://github.com/polkadot-js/api/pull/5860))
+
+Changes:
+
+- Update polkadot types-known for latest runtime upgrades
+
+
 ## 10.13.1 Apr 16, 2024
 
 Changes:
