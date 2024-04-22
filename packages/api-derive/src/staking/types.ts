@@ -1,8 +1,9 @@
 // Copyright 2017-2024 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Option } from '@polkadot/types';
 import type { AccountId, Balance, EraIndex, RewardPoint } from '@polkadot/types/interfaces';
-import type { PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposure, SpStakingExposurePage } from '@polkadot/types/lookup';
+import type { PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposure, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { DeriveSessionIndexes } from '../session/types.js';
 
@@ -115,7 +116,7 @@ export interface DeriveStakingValidators {
 
 export interface DeriveStakingStash {
   controllerId: AccountId | null;
-  exposure: SpStakingExposure;
+  exposure: Option<SpStakingPagedExposureMetadata>;
   nominators: AccountId[];
   rewardDestination: PalletStakingRewardDestination | null;
   stashId: AccountId;
