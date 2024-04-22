@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { Option } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
-import type { PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+import type { PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposurePage } from '@polkadot/types/lookup';
 import type { DeriveApi, DeriveStakingQuery, StakingQueryFlags } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
@@ -19,7 +19,7 @@ function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestinat
     : (rewardDestination as PalletStakingRewardDestination);
 }
 
-function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingPagedExposureMetadata>, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
+function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
   return {
     accountId: stashId,
     controllerId: controllerIdOpt?.unwrapOr(null) || null,
@@ -57,10 +57,10 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
   );
 }
 
-function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingPagedExposureMetadata>[]]> {
+function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }: StakingQueryFlags): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[]]> {
   const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
   const emptyRewa = api.registry.createType<Option<PalletStakingRewardDestination>>('RewardDestination');
-  const emptyExpo = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<SpStakingPagedExposureMetadata>');
+  const emptyExpo = api.registry.createType<Option<SpStakingExposurePage>>('Option<SpStakingExposurePage>');
   const emptyPrefs = api.registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs');
 
   return combineLatest([
@@ -77,7 +77,7 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
       ? combineLatest(stashIds.map((s) => api.query.staking.validators(s)))
       : of(stashIds.map(() => emptyPrefs)),
     withExposure
-      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview<Option<SpStakingPagedExposureMetadata>>(activeEra, s)))
+      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersPaged<Option<SpStakingExposurePage>>(activeEra, s)))
       : of(stashIds.map(() => emptyExpo))
   ]);
 }
