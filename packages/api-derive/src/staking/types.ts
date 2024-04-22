@@ -117,6 +117,7 @@ export interface DeriveStakingValidators {
 export interface DeriveStakingStash {
   controllerId: AccountId | null;
   exposure: Option<SpStakingExposurePage>;
+  exposureMeta: Option<SpStakingPagedExposureMetadata>;
   nominators: AccountId[];
   rewardDestination: PalletStakingRewardDestination | null;
   stashId: AccountId;

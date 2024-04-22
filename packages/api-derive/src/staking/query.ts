@@ -19,11 +19,12 @@ function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestinat
     : (rewardDestination as PalletStakingRewardDestination);
 }
 
-function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>): DeriveStakingQuery {
+function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>): DeriveStakingQuery {
   return {
     accountId: stashId,
     controllerId: controllerIdOpt?.unwrapOr(null) || null,
     exposure,
+    exposureMeta,
     nominators: nominatorsOpt.isSome
       ? nominatorsOpt.unwrap().targets
       : [],
@@ -88,11 +89,11 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
 
 function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags): Observable<DeriveStakingQuery[]> {
   return getStashInfo(api, stashIds, activeEra, flags).pipe(
-    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]): Observable<DeriveStakingQuery[]> =>
+    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta]): Observable<DeriveStakingQuery[]> =>
       getLedgers(api, controllerIdOpt, flags).pipe(
         map((stakingLedgerOpts) =>
           stashIds.map((stashId, index) =>
-            parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index])
+            parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index])
           )
         )
       )
