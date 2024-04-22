@@ -3,7 +3,9 @@
 
 import type { Observable } from 'rxjs';
 import type { ObsInnerType } from '@polkadot/api-base/types';
+import type { u32 } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
+import type { AnyNumber } from '@polkadot/types-codec/types';
 import type { ExactDerive } from '../derive.js';
 import type { DeriveApi } from '../types.js';
 
@@ -60,9 +62,9 @@ export function erasHistoricApplyAccount <F extends '_ownExposures' | '_ownSlash
   return (instanceId: string, api: DeriveApi) =>
     // Cannot quite get the typing right, but it is right in the code
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    memo(instanceId, (accountId: string | Uint8Array, withActive = false) =>
+    memo(instanceId, (accountId: string | Uint8Array, withActive = false, page?: u32 | AnyNumber) =>
       api.derive.staking.erasHistoric(withActive).pipe(
-        switchMap((e) => api.derive.staking[fn](accountId, e, withActive))
+        switchMap((e) => api.derive.staking[fn](accountId, e, withActive, page || 0))
       )
     ) as any;
 }
