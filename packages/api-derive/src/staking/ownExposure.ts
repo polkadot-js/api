@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
+import type { Option } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
+import type { SpStakingExposurePage } from '@polkadot/types/lookup';
 import type { DeriveApi, DeriveOwnExposure } from '../types.js';
 
 import { combineLatest, map, of } from 'rxjs';
@@ -14,8 +16,8 @@ export function _ownExposures (instanceId: string, api: DeriveApi): (accountId: 
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean): Observable<DeriveOwnExposure[]> =>
     eras.length
       ? combineLatest([
-        combineLatest(eras.map((e) => api.query.staking.erasStakersClipped(e, accountId))),
-        combineLatest(eras.map((e) => api.query.staking.erasStakers(e, accountId)))
+        combineLatest(eras.map((e) => api.query.staking.erasStakersPaged<Option<SpStakingExposurePage>>(e, accountId))),
+        combineLatest(eras.map((e) => api.query.staking.erasStakersOverview(e, accountId)))
       ]).pipe(
         map(([clp, exp]): DeriveOwnExposure[] =>
           eras.map((era, index) => ({ clipped: clp[index], era, exposure: exp[index] }))
