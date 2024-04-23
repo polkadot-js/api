@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, u32 } from '@polkadot/types';
+import type { Option, u32, Vec } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { AnyNumber } from '@polkadot/types-codec/types';
@@ -20,14 +20,14 @@ function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestinat
     : (rewardDestination as PalletStakingRewardDestination);
 }
 
-function filterClaimedRewards (cl: number[]): number[] {
-  return cl.filter((c) => c !== -1);
+function filterClaimedRewards (api: DeriveApi, cl: number[]): Vec<u32> {
+  return api.registry.createType('Vec<u32>', cl.filter((c) => c !== -1));
 }
 
-function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[]): DeriveStakingQuery {
+function parseDetails (api: DeriveApi, stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[]): DeriveStakingQuery {
   return {
     accountId: stashId,
-    claimedRewardsEras: filterClaimedRewards(claimedRewards),
+    claimedRewardsEras: filterClaimedRewards(api, claimedRewards),
     controllerId: controllerIdOpt?.unwrapOr(null) || null,
     exposureMeta,
     exposurePaged: exposure,
@@ -132,7 +132,7 @@ function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], f
       getLedgers(api, controllerIdOpt, flags).pipe(
         map((stakingLedgerOpts) =>
           stashIds.map((stashId, index) =>
-            parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index])
+            parseDetails(api, stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index])
           )
         )
       )
