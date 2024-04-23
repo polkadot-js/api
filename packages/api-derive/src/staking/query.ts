@@ -20,14 +20,14 @@ function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestinat
     : (rewardDestination as PalletStakingRewardDestination);
 }
 
-function filterClaimedRewards(cl: number[]): number[] {
-  console.log('CL: ', cl);
-  return cl.filter((c) => c !== -1)
+function filterClaimedRewards (cl: number[]): number[] {
+  return cl.filter((c) => c !== -1);
 }
 
 function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[]): DeriveStakingQuery {
   return {
     accountId: stashId,
+    claimedRewardsEras: filterClaimedRewards(claimedRewards),
     controllerId: controllerIdOpt?.unwrapOr(null) || null,
     exposureMeta,
     exposurePaged: exposure,
@@ -37,8 +37,7 @@ function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | 
     rewardDestination: rewardDestinationCompat(rewardDestinationOpts),
     stakingLedger: stakingLedgerOpt.unwrapOrDefault(),
     stashId,
-    validatorPrefs,
-    claimedRewardsEras: filterClaimedRewards(claimedRewards)
+    validatorPrefs
   };
 }
 
@@ -65,7 +64,7 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
   );
 }
 
-function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withExposureMeta, withLedger, withNominations, withPrefs, withClaimedRewardsEras }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][]]> {
+function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][]]> {
   const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
   const emptyRewa = api.registry.createType<Option<PalletStakingRewardDestination>>('RewardDestination');
   const emptyExpo = api.registry.createType<Option<SpStakingExposurePage>>('Option<SpStakingExposurePage>');
@@ -75,8 +74,11 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
 
   const depth = Number(api.consts.staking.historyDepth.toNumber());
   const eras = new Array(depth).fill(0).map((_, idx) => {
-    if (idx === 0) return activeEra.toNumber() - 1;
-    return activeEra.toNumber() - idx - 1
+    if (idx === 0) {
+      return activeEra.toNumber() - 1;
+    }
+
+    return activeEra.toNumber() - idx - 1;
   });
 
   return combineLatest([
@@ -99,23 +101,25 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
       ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview(activeEra, s)))
       : of(stashIds.map(() => emptyExpoMeta)),
     withClaimedRewardsEras
-      ? combineLatest(stashIds.map((s) => 
-          combineLatest(
-            eras.map((e) => api.query.staking.claimedRewards(e, s)), 
-          ))
-        ).pipe(
-          map((r) => {
-            return r.map((stashClaimedEras) => {
-              // stashClaimedEras length will match the length of eras
-              return stashClaimedEras.map((claimedReward, idx) => {
-                console.log('HIT THIS')
-                if (claimedReward.length) return eras[idx]
-                return -1
-              })
-            })
-          })
-        )
-      : of(stashIds.map(() => emptyClaimedRewards)),
+      ? combineLatest(stashIds.map((s) =>
+        combineLatest(
+          eras.map((e) => api.query.staking.claimedRewards(e, s))
+        ))
+      ).pipe(
+        map((r) => {
+          return r.map((stashClaimedEras) => {
+            // stashClaimedEras length will match the length of eras
+            return stashClaimedEras.map((claimedReward, idx) => {
+              if (claimedReward.length) {
+                return eras[idx];
+              }
+
+              return -1;
+            });
+          });
+        })
+      )
+      : of(stashIds.map(() => emptyClaimedRewards))
   ]);
 }
 
