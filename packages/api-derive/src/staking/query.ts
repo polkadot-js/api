@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, u32 } from '@polkadot/types';
+import type { Option, u32, Vec } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { AnyNumber } from '@polkadot/types-codec/types';
 import type { DeriveApi, DeriveStakingQuery, StakingQueryFlags } from '../types.js';
 
-import { combineLatest, map, of, switchMap } from 'rxjs';
+import { combineLatest, map, of, switchMap, concat, toArray } from 'rxjs';
 
 import { firstMemo, memo } from '../util/index.js';
 
@@ -21,6 +21,7 @@ function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestinat
 }
 
 function filterClaimedRewards (cl: number[]): number[] {
+  console.log(cl);
   return cl.filter((c) => c !== -1);
 }
 
@@ -81,6 +82,20 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
     return activeEra.toNumber() - idx - 1;
   });
 
+  const claimedRewardsCalls = 
+    stashIds.map((s) => {
+      return eras.map((e) => {
+        return api.query.staking.claimedRewards(e, s)
+      })
+    }).flat().flat()
+  
+  const erasOverviewCalls =
+    stashIds.map((s) => {
+      return eras.map((e) => {
+        return api.query.staking.erasStakersOverview(e, s)
+      })
+    }).flat().flat()
+
   return combineLatest([
     withController || withLedger
       ? combineLatest(stashIds.map((s) => api.query.staking.bonded(s)))
@@ -101,14 +116,20 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
       ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview(activeEra, s)))
       : of(stashIds.map(() => emptyExpoMeta)),
     withClaimedRewardsEras
-      ? combineLatest(stashIds.map((s) =>
-        combineLatest([
-          combineLatest(eras.map((e) => api.query.staking.claimedRewards(e, s))),
-          combineLatest(eras.map((e) => api.query.staking.erasStakersOverview(e, s)))
-        ]))
-      ).pipe(
-        map((r) => {
-          return r.map(([stashClaimedEras, overview]) => {
+      ? combineLatest([
+        concat(...claimedRewardsCalls).pipe(toArray()),
+        concat(...erasOverviewCalls).pipe(toArray())
+      ]).pipe(
+        map(([claimedRewards, overview]) => {
+          const reorg: [Vec<u32>[], Option<SpStakingPagedExposureMetadata>[]][] = [];
+          const chunkSize = eras.length;
+          for(let i = 0; i < claimedRewards.length; i += chunkSize) {
+            const chunk1 = claimedRewards.slice(i, i + chunkSize);
+            const chunk2 = overview.slice(i, i + chunkSize);
+            reorg.push([chunk1, chunk2])
+          }
+
+          return reorg.map(([stashClaimedEras, overview]) => {
             // stashClaimedEras length will match the length of eras
             return stashClaimedEras.map((claimedReward, idx) => {
               const o = overview[idx].isSome && overview[idx].unwrap();
