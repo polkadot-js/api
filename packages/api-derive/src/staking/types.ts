@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/api-derive authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
+import type { Option, u32, Vec } from '@polkadot/types';
 import type { AccountId, Balance, EraIndex, RewardPoint } from '@polkadot/types/interfaces';
 import type { PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposure, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
@@ -124,6 +124,7 @@ export interface DeriveStakingStash {
   rewardDestination: PalletStakingRewardDestination | null;
   stashId: AccountId;
   validatorPrefs: PalletStakingValidatorPrefs;
+  claimedRewardsEras: Vec<u32>
 }
 
 export interface DeriveStakingQuery extends DeriveStakingStash {
@@ -165,4 +166,5 @@ export interface StakingQueryFlags {
   withNominations?: boolean;
   withPrefs?: boolean;
   withExposureMeta?: boolean;
+  withClaimedRewardsEras?: boolean;
 }

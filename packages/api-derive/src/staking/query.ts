@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, u32 } from '@polkadot/types';
+import type { Option, u32, Vec } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { AnyNumber } from '@polkadot/types-codec/types';
@@ -20,9 +20,14 @@ function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestinat
     : (rewardDestination as PalletStakingRewardDestination);
 }
 
-function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>): DeriveStakingQuery {
+function filterClaimedRewards (api: DeriveApi, cl: number[]): Vec<u32> {
+  return api.registry.createType('Vec<u32>', cl.filter((c) => c !== -1));
+}
+
+function parseDetails (api: DeriveApi, stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[]): DeriveStakingQuery {
   return {
     accountId: stashId,
+    claimedRewardsEras: filterClaimedRewards(api, claimedRewards),
     controllerId: controllerIdOpt?.unwrapOr(null) || null,
     exposureMeta,
     exposurePaged: exposure,
@@ -59,12 +64,22 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
   );
 }
 
-function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[]]> {
+function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][]]> {
   const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
   const emptyRewa = api.registry.createType<Option<PalletStakingRewardDestination>>('RewardDestination');
   const emptyExpo = api.registry.createType<Option<SpStakingExposurePage>>('Option<SpStakingExposurePage>');
   const emptyPrefs = api.registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs');
   const emptyExpoMeta = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<SpStakingPagedExposureMetadata>');
+  const emptyClaimedRewards = [-1];
+
+  const depth = Number(api.consts.staking.historyDepth.toNumber());
+  const eras = new Array(depth).fill(0).map((_, idx) => {
+    if (idx === 0) {
+      return activeEra.toNumber() - 1;
+    }
+
+    return activeEra.toNumber() - idx - 1;
+  });
 
   return combineLatest([
     withController || withLedger
@@ -84,17 +99,40 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
       : of(stashIds.map(() => emptyExpo)),
     withExposureMeta
       ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview(activeEra, s)))
-      : of(stashIds.map(() => emptyExpoMeta))
+      : of(stashIds.map(() => emptyExpoMeta)),
+    withClaimedRewardsEras
+      ? combineLatest(stashIds.map((s) =>
+        combineLatest([
+          combineLatest(eras.map((e) => api.query.staking.claimedRewards(e, s))),
+          combineLatest(eras.map((e) => api.query.staking.erasStakersOverview(e, s)))
+        ]))
+      ).pipe(
+        map((r) => {
+          return r.map(([stashClaimedEras, overview]) => {
+            // stashClaimedEras length will match the length of eras
+            return stashClaimedEras.map((claimedReward, idx) => {
+              const o = overview[idx].isSome && overview[idx].unwrap();
+
+              if (claimedReward.length === (o && o.pageCount.toNumber())) {
+                return eras[idx];
+              }
+
+              return -1;
+            });
+          });
+        })
+      )
+      : of(stashIds.map(() => emptyClaimedRewards))
   ]);
 }
 
 function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags, page: u32 | AnyNumber): Observable<DeriveStakingQuery[]> {
   return getStashInfo(api, stashIds, activeEra, flags, page).pipe(
-    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta]): Observable<DeriveStakingQuery[]> =>
+    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta, claimedRewardsEras]): Observable<DeriveStakingQuery[]> =>
       getLedgers(api, controllerIdOpt, flags).pipe(
         map((stakingLedgerOpts) =>
           stashIds.map((stashId, index) =>
-            parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index])
+            parseDetails(api, stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index])
           )
         )
       )

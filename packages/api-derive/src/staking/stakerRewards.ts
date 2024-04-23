@@ -18,13 +18,15 @@ import { firstMemo, memo } from '../util/index.js';
 type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
 // handle compatibility between generations of structures
-function extractCompatRewards (ledger?: PalletStakingStakingLedger): u32[] {
-  return ledger
+function extractCompatRewards (claimedRewardsEras: Vec<u32>, ledger?: PalletStakingStakingLedger): u32[] {
+  const l = ledger
     ? (
       ledger.legacyClaimedRewards ||
-      (ledger as PalletStakingStakingLedger & { claimedRewards: Vec<u32> }).claimedRewards
-    )
-    : [];
+    (ledger as PalletStakingStakingLedger & { claimedRewards: Vec<u32> }).claimedRewards
+    ).toArray()
+    : [] as unknown as Vec<u32>;
+
+  return claimedRewardsEras.toArray().concat(l);
 }
 
 function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
@@ -111,7 +113,7 @@ function allUniqValidators (rewards: DeriveStakerReward[][]): [string[], string[
   }, [[], []]);
 }
 
-function removeClaimed (validators: string[], queryValidators: DeriveStakingQuery[], reward: DeriveStakerReward): void {
+function removeClaimed (validators: string[], queryValidators: DeriveStakingQuery[], reward: DeriveStakerReward, claimedRewardsEras: Vec<u32>): void {
   const rm: string[] = [];
 
   Object.keys(reward.validators).forEach((validatorId): void => {
@@ -120,7 +122,7 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
     if (index !== -1) {
       const valLedger = queryValidators[index].stakingLedger;
 
-      if (extractCompatRewards(valLedger).some((e) => reward.era.eq(e))) {
+      if (extractCompatRewards(claimedRewardsEras, valLedger).some((e) => reward.era.eq(e))) {
         rm.push(validatorId);
       }
     }
@@ -131,8 +133,8 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
   });
 }
 
-function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: PalletStakingStakingLedger }): DeriveStakerReward[] {
-  const filter = eras.filter((e) => !extractCompatRewards(stakingLedger).some((s) => s.eq(e)));
+function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { claimedRewardsEras, rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: PalletStakingStakingLedger, claimedRewardsEras: Vec<u32> }): DeriveStakerReward[] {
+  const filter = eras.filter((e) => !extractCompatRewards(claimedRewardsEras, stakingLedger).some((s) => s.eq(e)));
   const validators = valInfo.map(([v]) => v);
   const queryValidators = valInfo.map(([, q]) => q);
 
@@ -143,7 +145,7 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
         return false;
       }
 
-      removeClaimed(validators, queryValidators, reward);
+      removeClaimed(validators, queryValidators, reward, claimedRewardsEras);
 
       return true;
     })
@@ -173,8 +175,8 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
       api.derive.staking._stakerRewardsEras(eras, withActive)
     ]).pipe(
       switchMap(([queries, exposures, erasResult]): Observable<DeriveStakerReward[][]> => {
-        const allRewards = queries.map(({ stakingLedger, stashId }, index): DeriveStakerReward[] =>
-          (!stashId || !stakingLedger)
+        const allRewards = queries.map(({ claimedRewardsEras, stakingLedger, stashId }, index): DeriveStakerReward[] =>
+          (!stashId || (!stakingLedger && !claimedRewardsEras))
             ? []
             : parseRewards(api, stashId, erasResult, exposures[index])
         );
@@ -185,9 +187,9 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
 
         const [allValidators, stashValidators] = allUniqValidators(allRewards);
 
-        return api.derive.staking.queryMulti(allValidators, { withLedger: true }).pipe(
+        return api.derive.staking.queryMulti(allValidators, { withClaimedRewardsEras: true, withLedger: true }).pipe(
           map((queriedVals): DeriveStakerReward[][] =>
-            queries.map(({ stakingLedger }, index): DeriveStakerReward[] =>
+            queries.map(({ claimedRewardsEras, stakingLedger }, index): DeriveStakerReward[] =>
               filterRewards(
                 eras,
                 stashValidators[index]
@@ -197,6 +199,7 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
                   ])
                   .filter((v): v is [string, DeriveStakingQuery] => !!v[1]),
                 {
+                  claimedRewardsEras,
                   rewards: allRewards[index],
                   stakingLedger
                 }

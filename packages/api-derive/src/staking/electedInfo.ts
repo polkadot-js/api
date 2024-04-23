@@ -17,11 +17,11 @@ function combineAccounts (nextElected: AccountId[], validators: AccountId[]): Ac
   return arrayFlatten([nextElected, validators.filter((v) => !nextElected.find((n) => n.eq(v)))]);
 }
 
-export function electedInfo (instanceId: string, api: DeriveApi): (flags?: StakingQueryFlags) => Observable<DeriveStakingElected> {
-  return memo(instanceId, (flags: StakingQueryFlags = DEFAULT_FLAGS): Observable<DeriveStakingElected> =>
+export function electedInfo (instanceId: string, api: DeriveApi): (flags?: StakingQueryFlags, page?: number) => Observable<DeriveStakingElected> {
+  return memo(instanceId, (flags: StakingQueryFlags = DEFAULT_FLAGS, page = 0): Observable<DeriveStakingElected> =>
     api.derive.staking.validators().pipe(
       switchMap(({ nextElected, validators }): Observable<DeriveStakingElected> =>
-        api.derive.staking.queryMulti(combineAccounts(nextElected, validators), flags).pipe(
+        api.derive.staking.queryMulti(combineAccounts(nextElected, validators), flags, page).pipe(
           map((info): DeriveStakingElected => ({
             info,
             nextElected,
