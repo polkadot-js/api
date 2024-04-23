@@ -21,6 +21,7 @@ function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestinat
 }
 
 function filterClaimedRewards(cl: number[]): number[] {
+  console.log('CL: ', cl);
   return cl.filter((c) => c !== -1)
 }
 
@@ -107,6 +108,7 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
             return r.map((stashClaimedEras) => {
               // stashClaimedEras length will match the length of eras
               return stashClaimedEras.map((claimedReward, idx) => {
+                console.log('HIT THIS')
                 if (claimedReward.length) return eras[idx]
                 return -1
               })
@@ -119,11 +121,11 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
 
 function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags, page: u32 | AnyNumber): Observable<DeriveStakingQuery[]> {
   return getStashInfo(api, stashIds, activeEra, flags, page).pipe(
-    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta, claimedRewards]): Observable<DeriveStakingQuery[]> =>
+    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta, claimedRewardsEras]): Observable<DeriveStakingQuery[]> =>
       getLedgers(api, controllerIdOpt, flags).pipe(
         map((stakingLedgerOpts) =>
           stashIds.map((stashId, index) =>
-            parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewards[index])
+            parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index])
           )
         )
       )
