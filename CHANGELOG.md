@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 11.0.1 Apr 23, 2024
+
+Breaking Changes:
+
+Note! The following breaking changes only refer to `@polkadot/api-derive` calls under `api.derive.staking.*` due to the most recent breaking changes in runtime version v1.2. Please refer to the link next to the bullet points for more information.
+
+- Update` api.derive.staking` calls with breaking changes ([#5860](https://github.com/polkadot-js/api/pull/5860))
+- Add `claimedRewardsEra` to api.derive.staking.query for compatibility with legacyClaimedRewards ([#5862](https://github.com/polkadot-js/api/pull/5862))
+
+Contributed:
+
+- Bump @substrate/connect to 0.8.10 (Thanks to https://github.com/kratico)
+
+Changes:
+
+- Update polkadot types-known for latest runtime upgrades
+
+
 ## 10.13.1 Apr 16, 2024
 
 Changes:
