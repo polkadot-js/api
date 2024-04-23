@@ -102,15 +102,18 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
       : of(stashIds.map(() => emptyExpoMeta)),
     withClaimedRewardsEras
       ? combineLatest(stashIds.map((s) =>
-        combineLatest(
-          eras.map((e) => api.query.staking.claimedRewards(e, s))
-        ))
+        combineLatest([
+          combineLatest(eras.map((e) => api.query.staking.claimedRewards(e, s))),
+          combineLatest(eras.map((e) => api.query.staking.erasStakersOverview(e, s)))
+        ]))
       ).pipe(
         map((r) => {
-          return r.map((stashClaimedEras) => {
+          return r.map(([stashClaimedEras, overview]) => {
             // stashClaimedEras length will match the length of eras
             return stashClaimedEras.map((claimedReward, idx) => {
-              if (claimedReward.length) {
+              const o = overview[idx].isSome && overview[idx].unwrap();
+
+              if (claimedReward.length === (o && o.pageCount.toNumber())) {
                 return eras[idx];
               }
 
