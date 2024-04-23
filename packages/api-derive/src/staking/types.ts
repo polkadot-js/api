@@ -124,6 +124,7 @@ export interface DeriveStakingStash {
   rewardDestination: PalletStakingRewardDestination | null;
   stashId: AccountId;
   validatorPrefs: PalletStakingValidatorPrefs;
+  claimedRewardsEras: number[]
 }
 
 export interface DeriveStakingQuery extends DeriveStakingStash {
@@ -165,4 +166,5 @@ export interface StakingQueryFlags {
   withNominations?: boolean;
   withPrefs?: boolean;
   withExposureMeta?: boolean;
+  withClaimedRewardsEras?: boolean;
 }

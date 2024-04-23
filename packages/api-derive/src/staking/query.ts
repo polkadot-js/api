@@ -20,7 +20,11 @@ function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestinat
     : (rewardDestination as PalletStakingRewardDestination);
 }
 
-function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>): DeriveStakingQuery {
+function filterClaimedRewards(cl: number[]): number[] {
+  return cl.filter((c) => c !== -1)
+}
+
+function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[]): DeriveStakingQuery {
   return {
     accountId: stashId,
     controllerId: controllerIdOpt?.unwrapOr(null) || null,
@@ -32,7 +36,8 @@ function parseDetails (stashId: AccountId, controllerIdOpt: Option<AccountId> | 
     rewardDestination: rewardDestinationCompat(rewardDestinationOpts),
     stakingLedger: stakingLedgerOpt.unwrapOrDefault(),
     stashId,
-    validatorPrefs
+    validatorPrefs,
+    claimedRewardsEras: filterClaimedRewards(claimedRewards)
   };
 }
 
@@ -59,12 +64,19 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
   );
 }
 
-function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[]]> {
+function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withController, withDestination, withExposure, withExposureMeta, withLedger, withNominations, withPrefs, withClaimedRewardsEras }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][]]> {
   const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
   const emptyRewa = api.registry.createType<Option<PalletStakingRewardDestination>>('RewardDestination');
   const emptyExpo = api.registry.createType<Option<SpStakingExposurePage>>('Option<SpStakingExposurePage>');
   const emptyPrefs = api.registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs');
   const emptyExpoMeta = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<SpStakingPagedExposureMetadata>');
+  const emptyClaimedRewards = [-1];
+
+  const depth = Number(api.consts.staking.historyDepth.toNumber());
+  const eras = new Array(depth).fill(0).map((_, idx) => {
+    if (idx === 0) return activeEra.toNumber() - 1;
+    return activeEra.toNumber() - idx - 1
+  });
 
   return combineLatest([
     withController || withLedger
@@ -84,17 +96,34 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
       : of(stashIds.map(() => emptyExpo)),
     withExposureMeta
       ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview(activeEra, s)))
-      : of(stashIds.map(() => emptyExpoMeta))
+      : of(stashIds.map(() => emptyExpoMeta)),
+    withClaimedRewardsEras
+      ? combineLatest(stashIds.map((s) => 
+          combineLatest(
+            eras.map((e) => api.query.staking.claimedRewards(e, s)), 
+          ))
+        ).pipe(
+          map((r) => {
+            return r.map((stashClaimedEras) => {
+              // stashClaimedEras length will match the length of eras
+              return stashClaimedEras.map((claimedReward, idx) => {
+                if (claimedReward.length) return eras[idx]
+                return -1
+              })
+            })
+          })
+        )
+      : of(stashIds.map(() => emptyClaimedRewards)),
   ]);
 }
 
 function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags, page: u32 | AnyNumber): Observable<DeriveStakingQuery[]> {
   return getStashInfo(api, stashIds, activeEra, flags, page).pipe(
-    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta]): Observable<DeriveStakingQuery[]> =>
+    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta, claimedRewards]): Observable<DeriveStakingQuery[]> =>
       getLedgers(api, controllerIdOpt, flags).pipe(
         map((stakingLedgerOpts) =>
           stashIds.map((stashId, index) =>
-            parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index])
+            parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewards[index])
           )
         )
       )
