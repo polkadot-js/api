@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 11.0.2 Apr 24, 2024
+
+Changes
+
+- Fix type for TAssetConversion in Polkadot Asset hub
+
+
 ## 11.0.1 Apr 23, 2024
 
 Breaking Changes:
