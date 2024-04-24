@@ -47,10 +47,16 @@ export const versioned: OverrideVersionedType[] = [
   },
   {
     // metadata V14
-    minmax: [500, undefined],
+    minmax: [500, 1001003],
     types: {
       Weight: 'WeightV1',
       TAssetConversion: 'Option<AssetId>'
+    }
+  },
+  {
+    minmax: [1002000, undefined],
+    types: {
+      Weight: 'WeightV1'
     }
   }
   // ,
