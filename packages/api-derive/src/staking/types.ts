@@ -118,7 +118,9 @@ export interface DeriveStakingValidators {
 
 export interface DeriveStakingStash {
   controllerId: AccountId | null;
+  // Legacy Support for Clipped
   exposureClipped: SpStakingExposure,
+  // Legacy Support for erasStakers
   exposureEraStakers: SpStakingExposure;
   exposurePaged: Option<SpStakingExposurePage>;
   exposureMeta: Option<SpStakingPagedExposureMetadata>;
