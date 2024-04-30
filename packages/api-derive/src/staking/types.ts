@@ -118,6 +118,8 @@ export interface DeriveStakingValidators {
 
 export interface DeriveStakingStash {
   controllerId: AccountId | null;
+  exposureClipped: SpStakingExposure,
+  exposureEraStakers: SpStakingExposure;
   exposurePaged: Option<SpStakingExposurePage>;
   exposureMeta: Option<SpStakingPagedExposureMetadata>;
   nominators: AccountId[];
@@ -162,6 +164,8 @@ export interface StakingQueryFlags {
   withController?: boolean;
   withDestination?: boolean;
   withExposure?: boolean;
+  withExposureClippedLegacy?: boolean;
+  withExposureErasStakersLegacy?: boolean,
   withLedger?: boolean;
   withNominations?: boolean;
   withPrefs?: boolean;

@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { Option, u32, Vec } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
-import type { PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+import type { PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposure, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { AnyNumber } from '@polkadot/types-codec/types';
 import type { DeriveApi, DeriveStakingQuery, StakingQueryFlags } from '../types.js';
 
@@ -24,11 +24,13 @@ function filterClaimedRewards (api: DeriveApi, cl: number[]): Vec<u32> {
   return api.registry.createType('Vec<u32>', cl.filter((c) => c !== -1));
 }
 
-function parseDetails (api: DeriveApi, stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[]): DeriveStakingQuery {
+function parseDetails (api: DeriveApi, stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[], exposureClipped: SpStakingExposure, exposureEraStakers: SpStakingExposure): DeriveStakingQuery {
   return {
     accountId: stashId,
     claimedRewardsEras: filterClaimedRewards(api, claimedRewards),
     controllerId: controllerIdOpt?.unwrapOr(null) || null,
+    exposureClipped,
+    exposureEraStakers,
     exposureMeta,
     exposurePaged: exposure,
     nominators: nominatorsOpt.isSome
@@ -64,10 +66,12 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
   );
 }
 
-function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][]]> {
+function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureClippedLegacy, withExposureErasStakersLegacy, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][], SpStakingExposure[], SpStakingExposure[]]> {
   const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
   const emptyRewa = api.registry.createType<Option<PalletStakingRewardDestination>>('RewardDestination');
   const emptyExpo = api.registry.createType<Option<SpStakingExposurePage>>('Option<SpStakingExposurePage>');
+  const emptyExpoClipped = api.registry.createType<SpStakingExposure>('SpStakingExposure');
+  const emptyExpoEraStakers = api.registry.createType<SpStakingExposure>('SpStakingExposure');
   const emptyPrefs = api.registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs');
   const emptyExpoMeta = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<SpStakingPagedExposureMetadata>');
   const emptyClaimedRewards = [-1];
@@ -122,17 +126,23 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
           });
         })
       )
-      : of(stashIds.map(() => emptyClaimedRewards))
+      : of(stashIds.map(() => emptyClaimedRewards)),
+    withExposureClippedLegacy
+      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersClipped(activeEra, s)))
+      : of(stashIds.map(() => emptyExpoClipped)),
+    withExposureErasStakersLegacy
+      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakers(activeEra, s)))
+      : of(stashIds.map(() => emptyExpoEraStakers))
   ]);
 }
 
 function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags, page: u32 | AnyNumber): Observable<DeriveStakingQuery[]> {
   return getStashInfo(api, stashIds, activeEra, flags, page).pipe(
-    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta, claimedRewardsEras]): Observable<DeriveStakingQuery[]> =>
+    switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta, claimedRewardsEras, exposureClipped, exposureEraStakers]): Observable<DeriveStakingQuery[]> =>
       getLedgers(api, controllerIdOpt, flags).pipe(
         map((stakingLedgerOpts) =>
           stashIds.map((stashId, index) =>
-            parseDetails(api, stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index])
+            parseDetails(api, stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index], exposureClipped[index], exposureEraStakers[index])
           )
         )
       )
