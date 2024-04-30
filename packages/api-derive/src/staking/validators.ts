@@ -11,6 +11,7 @@ import { memo } from '../util/index.js';
 
 export function nextElected (instanceId: string, api: DeriveApi): () => Observable<AccountId[]> {
   return memo(instanceId, (): Observable<AccountId[]> =>
+    // Compatibility for future generation changes in staking. 
     api.query.staking.erasStakersPaged
       ? api.derive.session.indexes().pipe(
         // only populate for next era in the last session, so track both here - entries are not
@@ -18,7 +19,14 @@ export function nextElected (instanceId: string, api: DeriveApi): () => Observab
         switchMap(({ currentEra }) => api.query.staking.erasStakersPaged.keys(currentEra)),
         map((keys) => keys.map(({ args: [, accountId] }) => accountId))
       )
-      : api.query.staking['currentElected']<AccountId[]>()
+      : api.query.staking.erasStakers
+        ? api.derive.session.indexes().pipe(
+          // only populate for next era in the last session, so track both here - entries are not
+          // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
+          switchMap(({ currentEra }) => api.query.staking.erasStakers.keys(currentEra)),
+          map((keys) => keys.map(({ args: [, accountId] }) => accountId))
+        )
+        : api.query.staking['currentElected']<AccountId[]>()
   );
 }
 
