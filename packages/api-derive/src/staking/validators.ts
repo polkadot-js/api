@@ -11,7 +11,7 @@ import { memo } from '../util/index.js';
 
 export function nextElected (instanceId: string, api: DeriveApi): () => Observable<AccountId[]> {
   return memo(instanceId, (): Observable<AccountId[]> =>
-    // Compatibility for future generation changes in staking. 
+    // Compatibility for future generation changes in staking.
     api.query.staking.erasStakersPaged
       ? api.derive.session.indexes().pipe(
         // only populate for next era in the last session, so track both here - entries are not
