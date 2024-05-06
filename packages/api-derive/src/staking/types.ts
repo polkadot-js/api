@@ -118,8 +118,6 @@ export interface DeriveStakingValidators {
 
 export interface DeriveStakingStash {
   controllerId: AccountId | null;
-  // Legacy Support for Clipped
-  exposureClipped: SpStakingExposure,
   // Legacy Support for erasStakers
   exposureEraStakers: SpStakingExposure;
   exposurePaged: Option<SpStakingExposurePage>;
@@ -166,7 +164,6 @@ export interface StakingQueryFlags {
   withController?: boolean;
   withDestination?: boolean;
   withExposure?: boolean;
-  withExposureClippedLegacy?: boolean;
   withExposureErasStakersLegacy?: boolean,
   withLedger?: boolean;
   withNominations?: boolean;
