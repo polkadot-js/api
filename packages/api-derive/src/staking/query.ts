@@ -68,10 +68,12 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
 function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureErasStakersLegacy, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][], SpStakingExposure[]]> {
   const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
   const emptyRewa = api.registry.createType<Option<PalletStakingRewardDestination>>('RewardDestination');
-  const emptyExpo = api.registry.createType<Option<SpStakingExposurePage>>('Option<SpStakingExposurePage>');
-  const emptyExpoEraStakers = api.registry.createType<SpStakingExposure>('SpStakingExposure');
+  const emptyExpoEraStakers = api.registry.createType<SpStakingExposure>('Exposure');
   const emptyPrefs = api.registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs');
-  const emptyExpoMeta = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<SpStakingPagedExposureMetadata>');
+  // The reason we don't explicitly make the actual types is for compatibility. If the chain doesn't have the noted type it will fail
+  // on construction. Therefore we just make an empty option.
+  const emptyExpo = api.registry.createType<Option<SpStakingExposurePage>>('Option<Null>');
+  const emptyExpoMeta = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<Null>');
   const emptyClaimedRewards = [-1];
 
   const depth = Number(api.consts.staking.historyDepth.toNumber());
@@ -96,13 +98,13 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
     withPrefs
       ? combineLatest(stashIds.map((s) => api.query.staking.validators(s)))
       : of(stashIds.map(() => emptyPrefs)),
-    withExposure
+    withExposure && api.query.staking.erasStakersPaged
       ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersPaged<Option<SpStakingExposurePage>>(activeEra, s, page)))
       : of(stashIds.map(() => emptyExpo)),
-    withExposureMeta
+    withExposureMeta && api.query.staking.erasStakersOverview
       ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview(activeEra, s)))
       : of(stashIds.map(() => emptyExpoMeta)),
-    withClaimedRewardsEras
+    withClaimedRewardsEras && api.query.staking.claimedRewards
       ? combineLatest(stashIds.map((s) =>
         combineLatest([
           combineLatest(eras.map((e) => api.query.staking.claimedRewards(e, s))),
@@ -125,7 +127,7 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
         })
       )
       : of(stashIds.map(() => emptyClaimedRewards)),
-    withExposureErasStakersLegacy
+    withExposureErasStakersLegacy && api.query.staking.erasStakers
       ? combineLatest(stashIds.map((s) => api.query.staking.erasStakers(activeEra, s)))
       : of(stashIds.map(() => emptyExpoEraStakers))
   ]);
