@@ -170,7 +170,7 @@ export function _stakerRewardsEras (instanceId: string, api: DeriveApi): (eras: 
 export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive = false): Observable<DeriveStakerReward[][]> =>
     combineLatest([
-      api.derive.staking.queryMulti(accountIds, { withLedger: true }),
+      api.derive.staking.queryMulti(accountIds, { withClaimedRewardsEras: true, withLedger: true }),
       api.derive.staking._stakerExposures(accountIds, eras, withActive),
       api.derive.staking._stakerRewardsEras(eras, withActive)
     ]).pipe(
