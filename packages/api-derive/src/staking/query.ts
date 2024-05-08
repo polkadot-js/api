@@ -159,9 +159,7 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
         api.query.staking.claimedRewards.entries<Vec<u32>>(),
         api.query.staking.erasStakersOverview.entries<Option<SpStakingPagedExposureMetadata>>()
       ]).pipe(
-        map(([rewardsStorageVec, overviewStorageVec]) => {
-          return filterRewards(stashIds, eras, rewardsStorageVec, overviewStorageVec);
-        })
+        map(([rewardsStorageVec, overviewStorageVec]) => filterRewards(stashIds, eras, rewardsStorageVec, overviewStorageVec))
       )
       : of(stashIds.map(() => emptyClaimedRewards)),
     withExposureErasStakersLegacy && api.query.staking.erasStakers
