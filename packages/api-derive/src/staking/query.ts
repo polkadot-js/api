@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option, u32, Vec } from '@polkadot/types';
+import type { Option, StorageKey, u32, Vec } from '@polkadot/types';
 import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingNominations, PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposure, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { AnyNumber } from '@polkadot/types-codec/types';
@@ -22,6 +22,58 @@ function rewardDestinationCompat (rewardDestination: PalletStakingRewardDestinat
 
 function filterClaimedRewards (api: DeriveApi, cl: number[]): Vec<u32> {
   return api.registry.createType('Vec<u32>', cl.filter((c) => c !== -1));
+}
+
+function filterRewards (stashIds: AccountId[], eras: number[], claimedRewards: [StorageKey<[u32, AccountId]>, Vec<u32>][], stakersOverview: [StorageKey<[u32, AccountId]>, Option<SpStakingPagedExposureMetadata>][]): number[][] {
+  const claimedData: Record<string, Map<number, u32[]>> = {};
+  const overviewData: Record<string, Map<number, u32>> = {};
+  const ids = stashIds.map((i) => i.toString());
+
+  claimedRewards.forEach(([keys, rewards]) => {
+    const id = keys.args[1].toString();
+    const era = keys.args[0].toNumber();
+
+    if (ids.includes(id)) {
+      if (claimedData[id]) {
+        claimedData[id].set(era, rewards.toArray());
+      } else {
+        claimedData[id] = new Map();
+        claimedData[id].set(era, rewards.toArray());
+      }
+    }
+  });
+
+  stakersOverview.forEach(([keys, overview]) => {
+    const id = keys.args[1].toString();
+    const era = keys.args[0].toNumber();
+
+    if (ids.includes(id) && overview.isSome) {
+      if (overviewData[id]) {
+        overviewData[id].set(era, overview.unwrap().pageCount);
+      } else {
+        overviewData[id] = new Map();
+        overviewData[id].set(era, overview.unwrap().pageCount);
+      }
+    }
+  });
+
+  return stashIds.map((id) => {
+    const rewardsPerEra = claimedData[id.toString()];
+    const overviewPerEra = overviewData[id.toString()];
+
+    return eras.map((era) => {
+      if (rewardsPerEra && rewardsPerEra.has(era) && overviewPerEra && overviewPerEra.has(era)) {
+        const rewards = rewardsPerEra.get(era) as unknown as u32[];
+        const pageCount = overviewPerEra.get(era) as unknown as u32;
+
+        return rewards.length === pageCount.toNumber()
+          ? era
+          : -1;
+      }
+
+      return -1;
+    });
+  });
 }
 
 function parseDetails (api: DeriveApi, stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[], exposureEraStakers: SpStakingExposure): DeriveStakingQuery {
@@ -105,26 +157,11 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
       ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview(activeEra, s)))
       : of(stashIds.map(() => emptyExpoMeta)),
     withClaimedRewardsEras && api.query.staking.claimedRewards
-      ? combineLatest(stashIds.map((s) =>
-        combineLatest([
-          combineLatest(eras.map((e) => api.query.staking.claimedRewards(e, s))),
-          combineLatest(eras.map((e) => api.query.staking.erasStakersOverview(e, s)))
-        ]))
-      ).pipe(
-        map((r) => {
-          return r.map(([stashClaimedEras, overview]) => {
-            // stashClaimedEras length will match the length of eras
-            return stashClaimedEras.map((claimedReward, idx) => {
-              const o = overview[idx].isSome && overview[idx].unwrap();
-
-              if (claimedReward.length === (o && o.pageCount.toNumber())) {
-                return eras[idx];
-              }
-
-              return -1;
-            });
-          });
-        })
+      ? combineLatest([
+        api.query.staking.claimedRewards.entries<Vec<u32>>(),
+        api.query.staking.erasStakersOverview.entries<Option<SpStakingPagedExposureMetadata>>()
+      ]).pipe(
+        map(([rewardsStorageVec, overviewStorageVec]) => filterRewards(stashIds, eras, rewardsStorageVec, overviewStorageVec))
       )
       : of(stashIds.map(() => emptyClaimedRewards)),
     withExposureErasStakersLegacy && api.query.staking.erasStakers
