@@ -31,26 +31,28 @@ function filterRewards (stashIds: AccountId[], eras: number[], claimedRewards: [
 
   claimedRewards.forEach(([keys, rewards]) => {
     const id = keys.args[1].toString();
+    const era = keys.args[0].toNumber();
 
     if (ids.includes(id)) {
       if (claimedData[id]) {
-        claimedData[id].set(keys.args[0].toNumber(), rewards.toArray());
+        claimedData[id].set(era, rewards.toArray());
       } else {
         claimedData[id] = new Map();
-        claimedData[id].set(keys.args[0].toNumber(), rewards.toArray());
+        claimedData[id].set(era, rewards.toArray());
       }
     }
   });
 
   stakersOverview.forEach(([keys, overview]) => {
     const id = keys.args[1].toString();
+    const era = keys.args[0].toNumber();
 
     if (ids.includes(id) && overview.isSome) {
       if (overviewData[id]) {
-        overviewData[id].set(keys.args[0].toNumber(), overview.unwrap().pageCount);
+        overviewData[id].set(era, overview.unwrap().pageCount);
       } else {
         overviewData[id] = new Map();
-        overviewData[id].set(keys.args[0].toNumber(), overview.unwrap().pageCount);
+        overviewData[id].set(era, overview.unwrap().pageCount);
       }
     }
   });
