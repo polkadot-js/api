@@ -275,6 +275,33 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       swapTokensForExactTokens: AugmentedSubmittable<(path: Vec<FrameSupportTokensFungibleUnionOfNativeOrWithId> | (FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array)[], amountOut: u128 | AnyNumber | Uint8Array, amountInMax: u128 | AnyNumber | Uint8Array, sendTo: AccountId32 | string | Uint8Array, keepAlive: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Vec<FrameSupportTokensFungibleUnionOfNativeOrWithId>, u128, u128, AccountId32, bool]>;
       /**
+       * Touch an existing pool to fulfill prerequisites before providing liquidity, such as
+       * ensuring that the pool's accounts are in place. It is typically useful when a pool
+       * creator removes the pool's accounts and does not provide a liquidity. This action may
+       * involve holding assets from the caller as a deposit for creating the pool's accounts.
+       * 
+       * The origin must be Signed.
+       * 
+       * - `asset1`: The asset ID of an existing pool with a pair (asset1, asset2).
+       * - `asset2`: The asset ID of an existing pool with a pair (asset1, asset2).
+       * 
+       * Emits `Touched` event when successful.
+       **/
+      touch: AugmentedSubmittable<(asset1: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array, asset2: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    assetConversionMigration: {
+      /**
+       * Migrates an existing pool to a new account ID derivation method for a given asset pair.
+       * If the migration is successful, transaction fees are refunded to the caller.
+       * 
+       * Must be signed.
+       **/
+      migrateToNewAccount: AugmentedSubmittable<(asset1: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array, asset2: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId]>;
+      /**
        * Generic tx
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -1109,13 +1136,12 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Claim the revenue owed from inclusion in the Instantaneous Coretime Pool.
        * 
-       * - `origin`: Must be a Signed origin of the account which owns the Region `region_id`.
+       * - `origin`: Must be a Signed origin.
        * - `region_id`: The Region which was assigned to the Pool.
-       * - `max_timeslices`: The maximum number of timeslices which should be processed. This may
-       * effect the weight of the call but should be ideally made equivalent to the length of
-       * the Region `region_id`. If it is less than this, then further dispatches will be
-       * required with the `region_id` which makes up any remainders of the region to be
-       * collected.
+       * - `max_timeslices`: The maximum number of timeslices which should be processed. This
+       * must be greater than 0. This may affect the weight of the call but should be ideally
+       * made equivalent to the length of the Region `region_id`. If less, further dispatches
+       * will be required with the same `region_id` to claim revenue for the remainder.
        **/
       claimRevenue: AugmentedSubmittable<(regionId: PalletBrokerRegionId | { begin?: any; core?: any; mask?: any } | string | Uint8Array, maxTimeslices: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletBrokerRegionId, u32]>;
       /**
@@ -1240,9 +1266,13 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `origin`: Must be Root or pass `AdminOrigin`.
        * - `initial_price`: The price of Bulk Coretime in the first sale.
-       * - `core_count`: The number of cores which can be allocated.
+       * - `extra_cores`: Number of extra cores that should be requested on top of the cores
+       * required for `Reservations` and `Leases`.
+       * 
+       * This will call [`Self::request_core_count`] internally to set the correct core count on
+       * the relay chain.
        **/
-      startSales: AugmentedSubmittable<(initialPrice: u128 | AnyNumber | Uint8Array, coreCount: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u16]>;
+      startSales: AugmentedSubmittable<(initialPrice: u128 | AnyNumber | Uint8Array, extraCores: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u16]>;
       swapLeases: AugmentedSubmittable<(id: u32 | AnyNumber | Uint8Array, other: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
        * Transfer a Bulk Coretime Region to a new owner.
@@ -3965,7 +3995,7 @@ declare module '@polkadot/api-base/types/submittable' {
       setCommissionMax: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, maxCommission: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, Perbill]>;
       /**
        * Update configurations for the nomination pools. The origin for this call must be
-       * Root.
+       * [`Config::AdminOrigin`].
        * 
        * # Arguments
        * 
@@ -4075,7 +4105,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * The dispatch origin of this call must be `AdminOrigin` for the given `key`. Values be
        * deleted by setting them to `None`.
        **/
-      setParameter: AugmentedSubmittable<(keyValue: KitchensinkRuntimeRuntimeParameters | { Storage: any } | { Contract: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeRuntimeParameters]>;
+      setParameter: AugmentedSubmittable<(keyValue: KitchensinkRuntimeRuntimeParameters | { Storage: any } | { Contracts: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeRuntimeParameters]>;
       /**
        * Generic tx
        **/

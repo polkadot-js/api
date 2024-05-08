@@ -425,7 +425,7 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       leases: AugmentedQuery<ApiType, () => Observable<Vec<PalletBrokerLeaseRecordItem>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * The current (unassigned) Regions.
+       * The current (unassigned or provisionally assigend) Regions.
        **/
       regions: AugmentedQuery<ApiType, (arg: PalletBrokerRegionId | { begin?: any; core?: any; mask?: any } | string | Uint8Array) => Observable<Option<PalletBrokerRegionRecord>>, [PalletBrokerRegionId]> & QueryableStorageEntry<ApiType, [PalletBrokerRegionId]>;
       /**
@@ -1399,11 +1399,21 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
+    palletExampleMbms: {
+      /**
+       * Define a storage item to illustrate multi-block migrations.
+       **/
+      myMap: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<u64>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     parameters: {
       /**
        * Stored parameters.
        **/
-      parameters: AugmentedQuery<ApiType, (arg: KitchensinkRuntimeRuntimeParametersKey | { Storage: any } | { Contract: any } | string | Uint8Array) => Observable<Option<KitchensinkRuntimeRuntimeParametersValue>>, [KitchensinkRuntimeRuntimeParametersKey]> & QueryableStorageEntry<ApiType, [KitchensinkRuntimeRuntimeParametersKey]>;
+      parameters: AugmentedQuery<ApiType, (arg: KitchensinkRuntimeRuntimeParametersKey | { Storage: any } | { Contracts: any } | string | Uint8Array) => Observable<Option<KitchensinkRuntimeRuntimeParametersValue>>, [KitchensinkRuntimeRuntimeParametersKey]> & QueryableStorageEntry<ApiType, [KitchensinkRuntimeRuntimeParametersKey]>;
       /**
        * Generic query
        **/
@@ -1862,6 +1872,10 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       counterForValidators: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * Counter for the related counted storage map
+       **/
+      counterForVirtualStakers: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * The current era index.
        * 
        * This is the latest planned era, depending on how the Session pallet queues the validator
@@ -2094,6 +2108,15 @@ declare module '@polkadot/api-base/types/storage' {
        * and slash value of the era.
        **/
       validatorSlashInEra: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Option<ITuple<[Perbill, u128]>>>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      /**
+       * Stakers whose funds are managed by other pallets.
+       * 
+       * This pallet does not apply any locks on them, therefore they are only virtually bonded. They
+       * are expected to be keyless accounts and hence should not be allowed to mutate their ledger
+       * directly via this pallet. Instead, these accounts are managed by other pallets and accessed
+       * via low level apis. We keep track of them to do minimal integrity checks.
+       **/
+      virtualStakers: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<Null>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/
