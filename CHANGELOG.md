@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 11.0.3 May 8, 2024
+
+Changes
+
+- Make `api.derive.staking.*` backwards compatible
+- Fix `claimedRewards` regression in `api.derive.staking.queryMulti`
+- Update Substrate to latest
+
+
 ## 11.0.2 Apr 24, 2024
 
 Changes
