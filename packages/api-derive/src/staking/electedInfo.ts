@@ -14,6 +14,9 @@ import { memo } from '../util/index.js';
 const DEFAULT_FLAGS = { withController: true, withExposure: true, withPrefs: true };
 
 function combineAccounts (nextElected: AccountId[], validators: AccountId[]): AccountId[] {
+  console.log(nextElected.length);
+  console.log(validators.length);
+
   return arrayFlatten([nextElected, validators.filter((v) => !nextElected.find((n) => n.eq(v)))]);
 }
 
