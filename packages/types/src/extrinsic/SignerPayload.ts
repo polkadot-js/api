@@ -104,7 +104,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('tip');
   }
 
-  get assetId (): IOption<INumber> | IOption<MultiLocation> {
+  get assetId (): IOption<INumber | MultiLocation> {
     return this.getT('assetId');
   }
 

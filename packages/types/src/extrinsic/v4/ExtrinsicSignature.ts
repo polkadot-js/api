@@ -122,7 +122,7 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   /**
    * @description The [[u32]] or [[MultiLocation]] assetId
    */
-  public get assetId (): IOption<INumber> | IOption<MultiLocation> {
+  public get assetId (): IOption<INumber | MultiLocation> {
     return this.getT('assetId');
   }
 

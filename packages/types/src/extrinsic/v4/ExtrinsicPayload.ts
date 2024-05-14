@@ -105,7 +105,7 @@ export class GenericExtrinsicPayloadV4 extends Struct {
   /**
    * @description The (optional) asset id for this signature for chains that support transaction fees in assets
    */
-  public get assetId (): IOption<INumber | IOption<MultiLocation>> {
+  public get assetId (): IOption<INumber | MultiLocation> {
     return this.getT('assetId');
   }
 
