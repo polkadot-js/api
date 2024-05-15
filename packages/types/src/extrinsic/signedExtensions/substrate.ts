@@ -10,7 +10,7 @@ const CheckMetadataHash: ExtInfo = {
     metadataHash: 'MetadataHash'
   },
   payload: {}
-}
+};
 
 const CheckMortality: ExtInfo = {
   extrinsic: {
@@ -38,6 +38,7 @@ export const substrate: ExtDef = {
       genesisHash: 'Hash'
     }
   },
+  CheckMetadataHash,
   CheckMortality,
   CheckNonZeroSender: emptyCheck,
   CheckNonce: {
@@ -67,6 +68,5 @@ export const substrate: ExtDef = {
   CheckWeight: emptyCheck,
   LockStakingStatus: emptyCheck,
   SkipCheckIfFeeless: ChargeTransactionPayment,
-  ValidateEquivocationReport: emptyCheck,
-  CheckMetadataHash
+  ValidateEquivocationReport: emptyCheck
 };
