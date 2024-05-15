@@ -5,6 +5,13 @@ import type { ExtDef, ExtInfo } from './types.js';
 
 import { emptyCheck } from './emptyCheck.js';
 
+const CheckMetadataHash: ExtInfo = {
+  extrinsic: {
+    metadataHash: 'MetadataHash'
+  },
+  payload: {}
+}
+
 const CheckMortality: ExtInfo = {
   extrinsic: {
     era: 'ExtrinsicEra'
@@ -60,5 +67,6 @@ export const substrate: ExtDef = {
   CheckWeight: emptyCheck,
   LockStakingStatus: emptyCheck,
   SkipCheckIfFeeless: ChargeTransactionPayment,
-  ValidateEquivocationReport: emptyCheck
+  ValidateEquivocationReport: emptyCheck,
+  CheckMetadataHash
 };
