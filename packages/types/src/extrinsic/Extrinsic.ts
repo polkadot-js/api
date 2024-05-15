@@ -195,7 +195,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   /**
    * @description Forward compat
    */
-  public get assetId (): IOption<INumber> | IOption<MultiLocation> {
+  public get assetId (): IOption<INumber | MultiLocation> {
     return this.inner.signature.assetId;
   }
 
@@ -324,7 +324,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
       },
       this.isSigned
         ? {
-          assetId: this.assetId.toHuman(isExpanded, disableAscii),
+          assetId: this.assetId ? this.assetId.toHuman(isExpanded, disableAscii) : null,
           era: this.era.toHuman(isExpanded, disableAscii),
           nonce: this.nonce.toHuman(isExpanded, disableAscii),
           signature: this.signature.toHex(),
