@@ -13,6 +13,9 @@ export interface DeriveAccountRegistration {
   email?: string | undefined;
   image?: string | undefined;
   legal?: string | undefined;
+  matrix?: string | undefined;
+  github?: string | undefined;
+  discord?: string | undefined;
   other?: Record<string, string> | undefined;
   parent?: AccountId | undefined;
   pgp?: string | undefined;
