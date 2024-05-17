@@ -8,11 +8,14 @@ export type AccountIdAndIndex = [AccountId | undefined, AccountIndex | undefined
 export type AccountIndexes = Record<string, AccountIndex>;
 
 export interface DeriveAccountRegistration {
+  discord?: string | undefined;
   display?: string | undefined;
   displayParent?: string | undefined;
   email?: string | undefined;
+  github?: string | undefined;
   image?: string | undefined;
   legal?: string | undefined;
+  matrix?: string | undefined;
   other?: Record<string, string> | undefined;
   parent?: AccountId | undefined;
   pgp?: string | undefined;

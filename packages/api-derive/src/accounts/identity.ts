@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Bytes, Data } from '@polkadot/types';
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { Bytes, Data, Struct } from '@polkadot/types';
+import type { AccountId, H160 } from '@polkadot/types/interfaces';
 import type { PalletIdentityLegacyIdentityInfo, PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { Option } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
@@ -17,9 +17,26 @@ import { firstMemo, memo } from '../util/index.js';
 
 type IdentityInfoAdditional = PalletIdentityLegacyIdentityInfo['additional'][0];
 
+interface PeopleIdentityInfo extends Struct {
+  display: Data;
+  legal: Data;
+  web: Data;
+  matrix: Data;
+  email: Data;
+  pgpFingerprint: Option<H160>;
+  image: Data;
+  twitter: Data;
+  github: Data;
+  discord: Data;
+}
+
 const UNDEF_HEX = { toHex: () => undefined };
 
 function dataAsString (data: Data): string | undefined {
+  if (!data) {
+    return data;
+  }
+
   return data.isRaw
     ? u8aToString(data.asRaw.toU8a(true))
     : data.isNone
@@ -58,13 +75,16 @@ function extractIdentity (identityOfOpt?: Option<ITuple<[PalletIdentityRegistrat
   const topDisplay = dataAsString(info.display);
 
   return {
+    discord: dataAsString((info as unknown as PeopleIdentityInfo).discord),
     display: (superOf && dataAsString(superOf[1])) || topDisplay,
     displayParent: superOf && topDisplay,
     email: dataAsString(info.email),
+    github: dataAsString((info as unknown as PeopleIdentityInfo).github),
     image: dataAsString(info.image),
     judgements,
     legal: dataAsString(info.legal),
-    other: extractOther(info.additional),
+    matrix: dataAsString((info as unknown as PeopleIdentityInfo).matrix),
+    other: info.additional ? extractOther(info.additional) : {},
     parent: superOf?.[0],
     pgp: info.pgpFingerprint.unwrapOr(UNDEF_HEX).toHex(),
     riot: dataAsString(info.riot),
