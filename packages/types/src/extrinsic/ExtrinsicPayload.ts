@@ -6,7 +6,7 @@ import type { AnyJson, BareOpts, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { BlockHash } from '../interfaces/chain/index.js';
 import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics/index.js';
-import type { MultiLocation } from '../interfaces/types.js';
+import type { Hash, MultiLocation } from '../interfaces/types.js';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
 
@@ -115,6 +115,13 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
    */
   public get assetId (): IOption<INumber | MultiLocation> {
     return this.inner.assetId;
+  }
+
+  /**
+   * @description The (optional) [[Hash]] of the genesis metadata for this payload
+   */
+  public get metadataHash (): IOption<Hash> {
+    return this.inner.metadataHash;
   }
 
   /**

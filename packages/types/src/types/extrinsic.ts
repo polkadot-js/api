@@ -89,16 +89,6 @@ export interface SignerPayloadJSON {
    * @description The version of the extrinsic we are dealing with
    */
   version: number;
-
-  /**
-   * @description The mode of `CheckMetadataHash`
-   */
-  mode: number;
-
-  /**
-   * @description The hash passed to `CheckMetadataHash`, in hex
-   */
-  metadataHash: HexString;
 }
 
 export interface SignerPayloadRawBase {
@@ -197,7 +187,7 @@ export interface ExtrinsicPayloadValue {
   tip: AnyNumber;
   transactionVersion: AnyNumber;
   assetId?: AnyNumber | object;
-  mode: number;
+  mode?: number;
   metadataHash?: AnyU8a;
 }
 

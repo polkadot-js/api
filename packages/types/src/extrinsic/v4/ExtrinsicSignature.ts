@@ -4,7 +4,7 @@
 import type { MultiLocation } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature, Sr25519Signature } from '../../interfaces/extrinsics/index.js';
-import type { Address, Call } from '../../interfaces/runtime/index.js';
+import type { Address, Call, Hash } from '../../interfaces/runtime/index.js';
 import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, IOption, Registry, SignatureOptions } from '../../types/index.js';
 import type { ExtrinsicSignatureOptions } from '../types.js';
 
@@ -124,6 +124,13 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
    */
   public get assetId (): IOption<INumber | MultiLocation> {
     return this.getT('assetId');
+  }
+
+  /**
+   * @description The [[Hash]] for the metadata
+   */
+  public get metadataHash (): IOption<Hash> {
+    return this.getT('metadataHash');
   }
 
   protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV4): IExtrinsicSignature {
