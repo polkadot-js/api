@@ -32,14 +32,14 @@ const knownTypes: Record<string, string> = {
   blockNumber: 'BlockNumber',
   era: 'ExtrinsicEra',
   genesisHash: 'Hash',
+  metadataHash: 'Hash',
   method: 'Call',
+  mode: 'u8',
   nonce: 'Compact<Index>',
   runtimeVersion: 'RuntimeVersion',
   signedExtensions: 'Vec<Text>',
   tip: 'Compact<Balance>',
-  version: 'u8',
-  mode: 'u8',
-  metadataHash: 'Hash'
+  version: 'u8'
 
 };
 
@@ -118,11 +118,11 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
   }
 
   get mode (): INumber {
-    return this.getT('mode');    
+    return this.getT('mode');
   }
 
   get metadataHash (): Hash {
-    return this.getT('metadataHash');    
+    return this.getT('metadataHash');
   }
 
   /**
@@ -156,15 +156,15 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       blockNumber: this.blockNumber.toHex(),
       era: this.era.toHex(),
       genesisHash: this.genesisHash.toHex(),
+      metadataHash: this.metadataHash.toHex(),
       method: this.method.toHex(),
+      mode: this.mode.toNumber(),
       nonce: this.nonce.toHex(),
       signedExtensions: this.signedExtensions.map((e) => e.toString()),
       specVersion: this.runtimeVersion.specVersion.toHex(),
       tip: this.tip.toHex(),
       transactionVersion: this.runtimeVersion.transactionVersion.toHex(),
-      version: this.version.toNumber(),
-      mode: this.mode.toNumber(),
-      metadataHash: this.metadataHash.toHex(),
+      version: this.version.toNumber()
     });
   }
 
