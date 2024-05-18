@@ -22,6 +22,8 @@ export interface SignerPayloadType extends Codec {
   signedExtensions: Vec<Text>;
   tip: ICompact<INumber>;
   version: INumber;
+  mode: INumber;
+  metadataHash: Hash;
 }
 
 const knownTypes: Record<string, string> = {
@@ -35,7 +37,10 @@ const knownTypes: Record<string, string> = {
   runtimeVersion: 'RuntimeVersion',
   signedExtensions: 'Vec<Text>',
   tip: 'Compact<Balance>',
-  version: 'u8'
+  version: 'u8',
+  mode: 'u8',
+  metadataHash: 'Hash'
+
 };
 
 /**
@@ -112,6 +117,14 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('version');
   }
 
+  get mode (): INumber {
+    return this.getT('mode');    
+  }
+
+  get metadataHash (): Hash {
+    return this.getT('metadataHash');    
+  }
+
   /**
    * @description Creates an representation of the structure as an ISignerPayload JSON
    */
@@ -149,7 +162,9 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       specVersion: this.runtimeVersion.specVersion.toHex(),
       tip: this.tip.toHex(),
       transactionVersion: this.runtimeVersion.transactionVersion.toHex(),
-      version: this.version.toNumber()
+      version: this.version.toNumber(),
+      mode: this.mode.toNumber(),
+      metadataHash: this.metadataHash.toHex(),
     });
   }
 

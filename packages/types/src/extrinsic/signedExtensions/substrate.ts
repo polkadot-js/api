@@ -7,9 +7,11 @@ import { emptyCheck } from './emptyCheck.js';
 
 const CheckMetadataHash: ExtInfo = {
   extrinsic: {
-    metadataHash: 'MetadataHash'
+    mode: 'u8'
   },
-  payload: {}
+  payload: {
+    metadataHash: 'Option<Hash>'
+  }
 };
 
 const CheckMortality: ExtInfo = {

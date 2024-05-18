@@ -78,9 +78,6 @@ export default {
         V14: 'MetadataV14',
         V15: 'MetadataV15'
       }
-    },
-
-    // This is the CheckMetadataHash SignedExtension type.
-    MetadataHash: 'Option<Vec<u8>>'
+    }
   }
 } as Definitions;
