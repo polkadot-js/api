@@ -10,7 +10,7 @@ const CheckMetadataHash: ExtInfo = {
     mode: 'u8'
   },
   payload: {
-    metadataHash: 'Option<Hash>'
+    metadataHash: 'Option<[u8;32]>'
   }
 };
 
