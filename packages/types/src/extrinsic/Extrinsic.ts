@@ -333,7 +333,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
         ? {
           assetId: this.assetId ? this.assetId.toHuman(isExpanded, disableAscii) : null,
           era: this.era.toHuman(isExpanded, disableAscii),
-          metadataHash: this.metadataHash.toHex(),
+          metadataHash: this.metadataHash ? this.metadataHash.toHex() : null,
           nonce: this.nonce.toHuman(isExpanded, disableAscii),
           signature: this.signature.toHex(),
           signer: this.signer.toHuman(isExpanded, disableAscii),
