@@ -36,6 +36,11 @@ export interface SignerPayloadJSON {
   address: string;
 
   /**
+   * @description The id of the asset used to pay fees, in hex
+   */
+  assetId?: number | object;
+
+  /**
    * @description The checkpoint hash of the block, in hex
    */
   blockHash: HexString;
@@ -56,9 +61,19 @@ export interface SignerPayloadJSON {
   genesisHash: HexString;
 
   /**
+   * @description The metadataHash for the CheckMetadataHash SignedExtension, as hex
+   */
+  metadataHash?: HexString;
+
+  /**
    * @description The encoded method (with arguments) in hex
    */
   method: string;
+
+  /**
+   * @description The mode for the CheckMetadataHash SignedExtension, in hex
+   */
+  mode?: number;
 
   /**
    * @description The nonce for this transaction, in hex

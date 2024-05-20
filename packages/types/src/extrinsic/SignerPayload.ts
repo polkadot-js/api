@@ -12,11 +12,14 @@ import { objectProperty, objectSpread, u8aToHex } from '@polkadot/util';
 
 export interface SignerPayloadType extends Codec {
   address: Address;
+  assetId: IOption<INumber | MultiLocation>;
   blockHash: Hash;
   blockNumber: INumber;
   era: ExtrinsicEra;
   genesisHash: Hash;
+  metadataHash: IOption<Hash>;
   method: Call;
+  mode: INumber;
   nonce: ICompact<INumber>;
   runtimeVersion: IRuntimeVersion;
   signedExtensions: Vec<Text>;
@@ -26,17 +29,19 @@ export interface SignerPayloadType extends Codec {
 
 const knownTypes: Record<string, string> = {
   address: 'Address',
+  assetId: 'Option<TAssetConversion>',
   blockHash: 'Hash',
   blockNumber: 'BlockNumber',
   era: 'ExtrinsicEra',
   genesisHash: 'Hash',
+  metadataHash: 'Option<[u8;32]>',
   method: 'Call',
+  mode: 'u8',
   nonce: 'Compact<Index>',
   runtimeVersion: 'RuntimeVersion',
   signedExtensions: 'Vec<Text>',
   tip: 'Compact<Balance>',
   version: 'u8'
-
 };
 
 /**
@@ -148,11 +153,14 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       // the known defaults as managed explicitly and has different
       // formatting in cases, e.g. we mostly expose a hex format here
       address: this.address.toString(),
+      assetId: this.assetId ? this.assetId.toJSON() : null,
       blockHash: this.blockHash.toHex(),
       blockNumber: this.blockNumber.toHex(),
       era: this.era.toHex(),
       genesisHash: this.genesisHash.toHex(),
+      metadataHash: this.metadataHash.isSome ? this.metadataHash.toHex() : null,
       method: this.method.toHex(),
+      mode: this.mode.toNumber(),
       nonce: this.nonce.toHex(),
       signedExtensions: this.signedExtensions.map((e) => e.toString()),
       specVersion: this.runtimeVersion.specVersion.toHex(),
