@@ -179,7 +179,7 @@ export interface SignatureOptions {
   signer?: Signer;
   tip?: AnyNumber;
   assetId?: AnyNumber | object;
-  mode?: number;
+  mode?: AnyNumber;
   metadataHash?: Uint8Array | string;
 }
 
@@ -202,7 +202,7 @@ export interface ExtrinsicPayloadValue {
   tip: AnyNumber;
   transactionVersion: AnyNumber;
   assetId?: AnyNumber | object;
-  mode?: number;
+  mode?: AnyNumber;
   metadataHash?: AnyU8a;
 }
 
