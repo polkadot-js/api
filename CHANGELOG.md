@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 11.1.1 May 21, 2024
+
+Changes
+
+- Dedupe nextElected accountIds in `api.derive.staking.nextElected`
+- Bump @polkadot/dev to 0.79.1 w/ topo sort
+- Bump yarn to 4.2.2
+- fix: updated extrinsics' assetId `toHuman` (Thanks to https://github.com/bee344)
+- fix `api.derive.accounts.{info && identity}`
+- feat: Add support for `CheckMetadataHash` signedExtension (Thanks to https://github.com/bee344)
+
+
 ## 11.0.3 May 8, 2024
 
 Changes
