@@ -697,9 +697,6 @@ __metadata:
     mock-socket: "npm:^9.3.1"
     nock: "npm:^13.5.0"
     tslib: "npm:^2.6.2"
-  dependenciesMeta:
-    "@substrate/connect":
-      optional: true
   languageName: unknown
   linkType: soft
 

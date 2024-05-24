@@ -36,8 +36,5 @@
   },
   "devDependencies": {
     "@substrate/connect": "0.8.10"
-  },
-  "optionalDependencies": {
-    "@substrate/connect": "0.8.10"
   }
 }
