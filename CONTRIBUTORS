@@ -1,6 +1,6 @@
     3512	Jaco                          	Bump deps (#5785)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
-      49	Tarik Gul                     	11.1.1 (#5888)
+      50	Tarik Gul                     	Update kusama and westend block upgrades (#5892)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
       20	Luke Schoen                   	fix: Fixes TypeError: Cannot read property 'vesting' of undefined (#1970)
