@@ -75,6 +75,7 @@
        1	Ermal Kaleci                  	fix cache key (rpc-provider) (#5745)
        1	flex                          	Change BeefySignedCommitment signatures type to EcdsaSignature (#4204)
        1	Florian Franzen               	metadataMd: use endpoint for rpc and runtime details too (#5628)
+       1	Francis O'Brien               	fix: Re-subscribe to chain updates on reconnection if not a clone (#5794)
        1	Furqan A                      	fix: fixed 404 to the docs from the api readme (#3985)
        1	Gérard Dethier                	Fix LRUCache memory leak. (#4520)
        1	Gerben van de Wiel            	Adding some extra notes on changes in the specname (#2329)
