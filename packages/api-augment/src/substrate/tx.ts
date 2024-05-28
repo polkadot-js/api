@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyEquivocationProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyDoubleVotingProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -894,6 +894,16 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     balances: {
       /**
+       * Burn the specified liquid free balance from the origin account.
+       * 
+       * If the origin's account ends up below the existential deposit as a result
+       * of the burn and `keep_alive` is false, the account will be reaped.
+       * 
+       * Unlike sending funds to a _burn_ address, which merely makes the funds inaccessible,
+       * this `burn` operation will reduce total issuance by the amount _burned_.
+       **/
+      burn: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, keepAlive: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, bool]>;
+      /**
        * Adjust the total issuance in a saturating way.
        * 
        * Can only be called by root and always needs a positive `delta`.
@@ -978,7 +988,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * against the extracted offender. If both are valid, the offence
        * will be reported.
        **/
-      reportEquivocation: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyEquivocationProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyEquivocationProof, SpSessionMembershipProof]>;
+      reportEquivocation: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyDoubleVotingProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyDoubleVotingProof, SpSessionMembershipProof]>;
       /**
        * Report voter equivocation/misbehavior. This method will verify the
        * equivocation proof and validate the given key ownership proof
@@ -990,7 +1000,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * if the block author is defined it will be defined as the equivocation
        * reporter.
        **/
-      reportEquivocationUnsigned: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyEquivocationProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyEquivocationProof, SpSessionMembershipProof]>;
+      reportEquivocationUnsigned: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyDoubleVotingProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyDoubleVotingProof, SpSessionMembershipProof]>;
       /**
        * Reset BEEFY consensus by setting a new BEEFY genesis at `delay_in_blocks` blocks in the
        * future.
@@ -5737,7 +5747,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Three extra DB entries.
        * 
        * NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned
-       * unless the `origin` falls below _existential deposit_ and gets removed as dust.
+       * unless the `origin` falls below _existential deposit_ (or equal to 0) and gets removed
+       * as dust.
        **/
       bond: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, payee: PalletStakingRewardDestination | { Staked: any } | { Stash: any } | { Controller: any } | { Account: any } | { None: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, PalletStakingRewardDestination]>;
       /**
@@ -5958,6 +5969,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * 1. the `total_balance` of the stash is below existential deposit.
        * 2. or, the `ledger.total` of the stash is below existential deposit.
+       * 3. or, existential deposit is zero and either `total_balance` or `ledger.total` is zero.
        * 
        * The former can happen in cases like a slash; the latter when a fully unbonded account
        * is still receiving staking rewards in `RewardDestination::Staked`.

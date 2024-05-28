@@ -2874,6 +2874,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       TooManyValidators: AugmentedError<ApiType>;
       /**
+       * Operation not allowed for virtual stakers.
+       **/
+      VirtualStakerNotAllowed: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;

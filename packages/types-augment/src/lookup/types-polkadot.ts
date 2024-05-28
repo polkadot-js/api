@@ -2248,6 +2248,12 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Para';
   }
 
+  /** @name SpConsensusBeefyEquivocationProof (451) */
+  interface SpConsensusBeefyEquivocationProof extends Struct {
+    readonly first: SpConsensusBeefyVoteMessage;
+    readonly second: SpConsensusBeefyVoteMessage;
+  }
+
   /** @name PolkadotRuntimeCommonClaimsPalletEvent (466) */
   interface PolkadotRuntimeCommonClaimsPalletEvent extends Enum {
     readonly isClaimed: boolean;
