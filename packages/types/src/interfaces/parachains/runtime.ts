@@ -281,8 +281,32 @@ const PH_V10: DefinitionsCallEntry['methods'] = {
   }
 };
 
+const PH_V11: DefinitionsCallEntry['methods'] = {
+  claim_queue: {
+    description: 'Claim queue',
+    params: [],
+    type: 'BTreeMap<CoreIndex, Vec<u32>>'
+  }
+};
+
 export const runtime: DefinitionsCall = {
   ParachainHost: [
+    {
+      methods: {
+        ...PH_V1_TO_V2,
+        ...PH_V2_TO_V3,
+        ...PH_V3,
+        ...PH_V4,
+        ...PH_V5,
+        ...PH_V6,
+        ...PH_V7,
+        ...PH_V8,
+        ...PH_V9,
+        ...PH_V10,
+        ...PH_V11
+      },
+      version: 11
+    },
     {
       methods: {
         ...PH_V1_TO_V2,
