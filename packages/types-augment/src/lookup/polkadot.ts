@@ -2262,6 +2262,13 @@ export default {
     }
   },
   /**
+   * Lookup451: sp_consensus_beefy::EquivocationProof<Number, sp_consensus_beefy::ecdsa_crypto::Public, sp_consensus_beefy::ecdsa_crypto::Signature>
+   **/
+  SpConsensusBeefyEquivocationProof: {
+    first: 'SpConsensusBeefyVoteMessage',
+    second: 'SpConsensusBeefyVoteMessage'
+  },
+  /**
    * Lookup466: polkadot_runtime_common::claims::pallet::Event<T>
    **/
   PolkadotRuntimeCommonClaimsPalletEvent: {

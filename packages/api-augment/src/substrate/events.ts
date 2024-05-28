@@ -220,6 +220,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Created: AugmentedEvent<ApiType, [assetId: u32, creator: AccountId32, owner: AccountId32], { assetId: u32, creator: AccountId32, owner: AccountId32 }>;
       /**
+       * Some assets were deposited (e.g. for transaction fees).
+       **/
+      Deposited: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32, amount: u128], { assetId: u32, who: AccountId32, amount: u128 }>;
+      /**
        * An asset class was destroyed.
        **/
       Destroyed: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
@@ -272,6 +276,10 @@ declare module '@polkadot/api-base/types/events' {
        * the approved `delegate`.
        **/
       TransferredApproved: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, delegate: AccountId32, destination: AccountId32, amount: u128], { assetId: u32, owner: AccountId32, delegate: AccountId32, destination: AccountId32, amount: u128 }>;
+      /**
+       * Some assets were withdrawn from the account (e.g. for transaction fees).
+       **/
+      Withdrawn: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32, amount: u128], { assetId: u32, who: AccountId32, amount: u128 }>;
       /**
        * Generic event
        **/
@@ -1559,6 +1567,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Created: AugmentedEvent<ApiType, [assetId: u32, creator: AccountId32, owner: AccountId32], { assetId: u32, creator: AccountId32, owner: AccountId32 }>;
       /**
+       * Some assets were deposited (e.g. for transaction fees).
+       **/
+      Deposited: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32, amount: u128], { assetId: u32, who: AccountId32, amount: u128 }>;
+      /**
        * An asset class was destroyed.
        **/
       Destroyed: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
@@ -1611,6 +1623,10 @@ declare module '@polkadot/api-base/types/events' {
        * the approved `delegate`.
        **/
       TransferredApproved: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, delegate: AccountId32, destination: AccountId32, amount: u128], { assetId: u32, owner: AccountId32, delegate: AccountId32, destination: AccountId32, amount: u128 }>;
+      /**
+       * Some assets were withdrawn from the account (e.g. for transaction fees).
+       **/
+      Withdrawn: AugmentedEvent<ApiType, [assetId: u32, who: AccountId32, amount: u128], { assetId: u32, who: AccountId32, amount: u128 }>;
       /**
        * Generic event
        **/
