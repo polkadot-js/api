@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 11.2.1 May 28, 2024
+
+Contributed:
+
+- fix: Re-subscribe to chain updates on reconnection if not a clone (Thanks to https://github.com/F-OBrien)
+
+Changes:
+
+- Add support for AuraUnincludedSegmentApi (Thanks to https://github.com/bee344)
+- Add support for ParachainHost v11 Api
+- Update Kusama and Westend block upgrades
+- Update Substrate metadata to latest
+
+
 ## 11.1.1 May 21, 2024
 
 Changes
