@@ -76,7 +76,7 @@ function babeOrAuraPeriod (api: DeriveApi): BN | undefined {
     (api.consts['aura'] as unknown as Aura)?.slotDuration ||
     api.consts.timestamp?.minimumPeriod.muln(2);
 
-  return !period.isZero() ? period : undefined;
+  return period && period.isZero && !period.isZero() ? period : undefined;
 }
 
 export function signingInfo (_instanceId: string, api: DeriveApi): (address: string, nonce?: AnyNumber | Codec, era?: IExtrinsicEra | number) => Observable<Result> {
