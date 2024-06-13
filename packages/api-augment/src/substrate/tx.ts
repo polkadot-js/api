@@ -1275,14 +1275,14 @@ declare module '@polkadot/api-base/types/submittable' {
        * Begin the Bulk Coretime sales rotation.
        * 
        * - `origin`: Must be Root or pass `AdminOrigin`.
-       * - `initial_price`: The price of Bulk Coretime in the first sale.
+       * - `end_price`: The price after the leadin period of Bulk Coretime in the first sale.
        * - `extra_cores`: Number of extra cores that should be requested on top of the cores
        * required for `Reservations` and `Leases`.
        * 
        * This will call [`Self::request_core_count`] internally to set the correct core count on
        * the relay chain.
        **/
-      startSales: AugmentedSubmittable<(initialPrice: u128 | AnyNumber | Uint8Array, extraCores: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u16]>;
+      startSales: AugmentedSubmittable<(endPrice: u128 | AnyNumber | Uint8Array, extraCores: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u16]>;
       swapLeases: AugmentedSubmittable<(id: u32 | AnyNumber | Uint8Array, other: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
        * Transfer a Bulk Coretime Region to a new owner.
@@ -3831,6 +3831,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       adjustPoolDeposit: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
+       * Apply a pending slash on a member.
+       * 
+       * Fails unless [`crate::pallet::Config::StakeAdapter`] is of strategy type:
+       * [`adapter::StakeStrategyType::Delegate`].
+       * 
+       * This call can be dispatched permissionlessly (i.e. by any account). If the member has
+       * slash to be applied, caller may be rewarded with the part of the slash.
+       **/
+      applySlash: AugmentedSubmittable<(memberAccount: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
+      /**
        * Bond `extra` more funds from `origin` into the pool to which they already belong.
        * 
        * Additional funds can come from either the free balance of the account, of from the
@@ -3939,6 +3949,30 @@ declare module '@polkadot/api-base/types/submittable' {
        * * Only a pool with [`PoolState::Open`] can be joined
        **/
       join: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, u32]>;
+      /**
+       * Migrates delegated funds from the pool account to the `member_account`.
+       * 
+       * Fails unless [`crate::pallet::Config::StakeAdapter`] is of strategy type:
+       * [`adapter::StakeStrategyType::Delegate`].
+       * 
+       * This is a permission-less call and refunds any fee if claim is successful.
+       * 
+       * If the pool has migrated to delegation based staking, the staked tokens of pool members
+       * can be moved and held in their own account. See [`adapter::DelegateStake`]
+       **/
+      migrateDelegation: AugmentedSubmittable<(memberAccount: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
+      /**
+       * Migrate pool from [`adapter::StakeStrategyType::Transfer`] to
+       * [`adapter::StakeStrategyType::Delegate`].
+       * 
+       * Fails unless [`crate::pallet::Config::StakeAdapter`] is of strategy type:
+       * [`adapter::StakeStrategyType::Delegate`].
+       * 
+       * This call can be dispatched permissionlessly, and refunds any fee if successful.
+       * 
+       * If the pool has already migrated to delegation based staking, this call will fail.
+       **/
+      migratePoolToDelegateStake: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Nominate on behalf of the pool.
        * 
@@ -4100,7 +4134,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * # Note
        * 
-       * If the target is the depositor, the pool will be destroyed.
+       * - If the target is the depositor, the pool will be destroyed.
+       * - If the pool has any pending slash, we also try to slash the member before letting them
+       * withdraw. This calculation adds some weight overhead and is only defensive. In reality,
+       * pool slashes must have been already applied via permissionless [`Call::apply_slash`].
        **/
       withdrawUnbonded: AugmentedSubmittable<(memberAccount: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, numSlashingSpans: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, u32]>;
       /**
@@ -4115,7 +4152,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * The dispatch origin of this call must be `AdminOrigin` for the given `key`. Values be
        * deleted by setting them to `None`.
        **/
-      setParameter: AugmentedSubmittable<(keyValue: KitchensinkRuntimeRuntimeParameters | { Storage: any } | { Contracts: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeRuntimeParameters]>;
+      setParameter: AugmentedSubmittable<(keyValue: KitchensinkRuntimeRuntimeParameters | { Storage: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeRuntimeParameters]>;
       /**
        * Generic tx
        **/
