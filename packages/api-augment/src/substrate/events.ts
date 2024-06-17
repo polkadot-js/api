@@ -444,10 +444,6 @@ declare module '@polkadot/api-base/types/events' {
     };
     broker: {
       /**
-       * Some historical Instantaneous Core Pool payment record has been dropped.
-       **/
-      AllowedRenewalDropped: AugmentedEvent<ApiType, [when: u32, core: u16], { when: u32, core: u16 }>;
-      /**
        * A Region has been assigned to a particular task.
        **/
       Assigned: AugmentedEvent<ApiType, [regionId: PalletBrokerRegionId, duration: u32, task: u32], { regionId: PalletBrokerRegionId, duration: u32, task: u32 }>;
@@ -509,6 +505,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Pooled: AugmentedEvent<ApiType, [regionId: PalletBrokerRegionId, duration: u32], { regionId: PalletBrokerRegionId, duration: u32 }>;
       /**
+       * Some historical Instantaneous Core Pool payment record has been dropped.
+       **/
+      PotentialRenewalDropped: AugmentedEvent<ApiType, [when: u32, core: u16], { when: u32, core: u16 }>;
+      /**
        * A Region of Bulk Coretime has been purchased.
        **/
       Purchased: AugmentedEvent<ApiType, [who: AccountId32, regionId: PalletBrokerRegionId, price: u128, duration: u32], { who: AccountId32, regionId: PalletBrokerRegionId, price: u128, duration: u32 }>;
@@ -547,7 +547,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A new sale has been initialized.
        **/
-      SaleInitialized: AugmentedEvent<ApiType, [saleStart: u32, leadinLength: u32, startPrice: u128, regularPrice: u128, regionBegin: u32, regionEnd: u32, idealCoresSold: u16, coresOffered: u16], { saleStart: u32, leadinLength: u32, startPrice: u128, regularPrice: u128, regionBegin: u32, regionEnd: u32, idealCoresSold: u16, coresOffered: u16 }>;
+      SaleInitialized: AugmentedEvent<ApiType, [saleStart: u32, leadinLength: u32, startPrice: u128, endPrice: u128, regionBegin: u32, regionEnd: u32, idealCoresSold: u16, coresOffered: u16], { saleStart: u32, leadinLength: u32, startPrice: u128, endPrice: u128, regionBegin: u32, regionEnd: u32, idealCoresSold: u16, coresOffered: u16 }>;
       /**
        * The sale rotation has been started and a new sale is imminent.
        **/

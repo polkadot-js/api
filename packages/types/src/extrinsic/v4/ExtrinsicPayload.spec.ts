@@ -27,10 +27,12 @@ describe('ExtrinsicPayload', (): void => {
         { name: 'nonce', outer: [new Uint8Array([0])] },
         { name: 'tip', outer: [new Uint8Array([0])] },
         { name: 'assetId', outer: [new Uint8Array([0])] },
+        { name: 'mode', outer: [new Uint8Array([0])] },
         { name: 'specVersion', outer: [new Uint8Array([0, 0, 0, 0])] },
         { name: 'transactionVersion', outer: [new Uint8Array([0, 0, 0, 0])] },
         { name: 'genesisHash', outer: [new Uint8Array(32)] },
-        { name: 'blockHash', outer: [new Uint8Array(32)] }
+        { name: 'blockHash', outer: [new Uint8Array(32)] },
+        { name: 'metadataHash', outer: [new Uint8Array([0])] }
       ]
     });
   });

@@ -56,6 +56,7 @@ describe('ExtrinsicV4', (): void => {
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
+        mode: 0,
         nonce: 1,
         runtimeVersion: {
           apis: [],
@@ -73,9 +74,9 @@ describe('ExtrinsicV4', (): void => {
       '00' +
       'd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' +
       '00' + // ed25519
-      'eb58b10100923b73df92010db6f9363300ea3947d4c7c92ce669da93931853e8' +
-      'a2f21c8a7c73035b3ddd8cdd47ef5db3092aad09d15e6f5ed9d32d7864821409' +
-      '00040800' + // era. nonce, tip
+      'bac8e442c7d6e6827fe3b72a2dee6bd036e059e1b0a2a5cfb00ec39184d60536' +
+      'a4f3b5f3bfcd31e6e5b5cf6482914dc989fbe9483043a13c90376dfe28c5e00f' +
+      '0004080000' + // era. nonce, tip, mode
       '0600' +
       '00' +
       'd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' +
