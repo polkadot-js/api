@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 11.3.1 June 17, 2024
+
+Changes:
+
+- Fix period assumption on signingInfo (derive)
+- Bump dev to 0.79.3
+- Update {Polkadot, Kusama, Westend} types-known
+- Bump Substrate metadata to latest
+    - NOTE: Moving forward when bumping the metadata for {Polkadot, Kusama, Substrate} the version will
+    always be a minor bump since it can add, modify, remove augmented types.
+
+
 ## 11.2.1 May 28, 2024
 
 Contributed:
