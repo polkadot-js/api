@@ -56,6 +56,7 @@ describe('ExtrinsicV4', (): void => {
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
+        mode: 0,
         nonce: 1,
         runtimeVersion: {
           apis: [],
@@ -66,8 +67,7 @@ describe('ExtrinsicV4', (): void => {
           specVersion: new BN(123),
           transactionVersion: new BN(123)
         },
-        tip: 2,
-        mode: 0
+        tip: 2
       }).toHex()
     ).toEqual(
       '0x' +

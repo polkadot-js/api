@@ -32,7 +32,7 @@ describe('ExtrinsicPayload', (): void => {
         { name: 'transactionVersion', outer: [new Uint8Array([0, 0, 0, 0])] },
         { name: 'genesisHash', outer: [new Uint8Array(32)] },
         { name: 'blockHash', outer: [new Uint8Array(32)] },
-        { name: 'metadataHash', outer: [new Uint8Array([0])] },
+        { name: 'metadataHash', outer: [new Uint8Array([0])] }
       ]
     });
   });
