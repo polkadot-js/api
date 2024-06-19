@@ -168,11 +168,14 @@ export function _stakerRewardsEras (instanceId: string, api: DeriveApi): (eras: 
 }
 
 export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
-  return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive = false): Observable<DeriveStakerReward[][]> =>
-    combineLatest([
+  return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive = false): Observable<DeriveStakerReward[][]> => {
+    // Ensures that when number types are passed in they are sanitized
+    const sanitizedEras: EraIndex[] = eras.map((e) => typeof e === 'number' ? api.registry.createType('u32', e) : e);
+
+    return combineLatest([
       api.derive.staking.queryMulti(accountIds, { withClaimedRewardsEras: true, withLedger: true }),
-      api.derive.staking._stakerExposures(accountIds, eras, withActive),
-      api.derive.staking._stakerRewardsEras(eras, withActive)
+      api.derive.staking._stakerExposures(accountIds, sanitizedEras, withActive),
+      api.derive.staking._stakerRewardsEras(sanitizedEras, withActive)
     ]).pipe(
       switchMap(([queries, exposures, erasResult]): Observable<DeriveStakerReward[][]> => {
         const allRewards = queries.map(({ claimedRewardsEras, stakingLedger, stashId }, index): DeriveStakerReward[] =>
@@ -208,7 +211,8 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
           )
         );
       })
-    )
+    );
+  }
   );
 }
 
