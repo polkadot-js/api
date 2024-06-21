@@ -147,9 +147,9 @@ export interface SignerResult {
   signature: HexString;
 
   /**
-   * @description TODO: Write a description
+   * @description The resulting modified payload.
    */
-  txWithModeAndMetadataHash?: HexString;
+  signerPayloadJSON?: SignerPayloadJSON;
 }
 
 export interface Signer {

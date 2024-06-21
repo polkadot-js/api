@@ -326,8 +326,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       if (isFunction(signer.signPayload)) {
         result = await signer.signPayload(payload.toPayload());
 
-        if (result.txWithModeAndMetadataHash) {
-          const newPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [result.txWithModeAndMetadataHash]);
+        if (result.signerPayloadJSON) {
+          const newPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [result.signerPayloadJSON]);
 
           // This will throw an error if there is any discrepencies
           this.#validateResults(payload, newPayload);
