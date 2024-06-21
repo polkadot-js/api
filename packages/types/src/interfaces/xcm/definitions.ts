@@ -8,10 +8,10 @@ import type { Definitions } from '../../types/index.js';
 
 import { mapXcmTypes } from '@polkadot/types-create';
 
+import { runtime } from './runtime.js';
 import { v0 } from './v0.js';
 import { v1 } from './v1.js';
 import { v2 } from './v2.js';
-import { runtime } from './runtime.js';
 
 const XCM_LATEST = 'V2';
 
@@ -168,12 +168,12 @@ export default {
     XcmVersion: 'u32',
     XcmPaymentApiError: {
       _enum: {
-          Unimplemented: "Null",
-          VersionedConversionFailed: "Null",
-          WeightNotComputable: "Null",
-          UnhandledXcmVersion: "Null",
-          AssetNotFound: "Null",
-      },
-    },
+        Unimplemented: 'Null',
+        VersionedConversionFailed: 'Null',
+        WeightNotComputable: 'Null',
+        UnhandledXcmVersion: 'Null',
+        AssetNotFound: 'Null'
+      }
+    }
   }
 } as Definitions;
