@@ -332,6 +332,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
           // This will throw an error if there is any discrepencies
           this.#validateResults(payload, newPayload);
 
+          // Given that `#validateResults` does not throw an error we can replace the original payload with the
+          // new modified payload from the signer.
           super.addSignature(address, result.signature, newPayload.toPayload());
 
           return result.id;
