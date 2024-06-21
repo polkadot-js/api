@@ -89,6 +89,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
   class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
+    /**
+     * For signers that leverage sending back a modified `SignerPayloadJson`, this
+     * ensures that only certain keys are allowed to be modified.
+     */
+    readonly #whitelistedKeys: string[];
 
     #transformResult = identity<ISubmittableResult>;
 
@@ -96,6 +101,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       super(registry, extrinsic, { version: api.extrinsicType });
 
       this.#ignoreStatusCb = apiType === 'rxjs';
+      this.#whitelistedKeys = ['mode', 'metadataHash'];
     }
 
     public get hasDryRun (): boolean {
@@ -364,8 +370,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     };
 
     #validateResults = (originalPayload: SignerPayload, newPayload: SignerPayload): void => {
-      // Whitelisted keys are free to be modified
-      const whitelistedKeys = ['mode', 'metadataHash'];
       const newPayloadJSON = newPayload.toPayload();
       const originalPayloadJSON = originalPayload.toPayload();
       const keys = Object.keys(newPayload);
@@ -373,7 +377,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       // Validation process checks to make sure the type integrity from the original payload is maintianed.
       for (const key of keys) {
         // Whitelisted keys are free to be modified by the signer.
-        if (whitelistedKeys.includes(key)) {
+        if (this.#whitelistedKeys.includes(key)) {
           continue;
         }
 
