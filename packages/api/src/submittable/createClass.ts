@@ -325,6 +325,17 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
       if (isFunction(signer.signPayload)) {
         result = await signer.signPayload(payload.toPayload());
+
+        if (result.txWithModeAndMetadataHash) {
+          const newPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [result.txWithModeAndMetadataHash]);
+
+          // This will throw an error if there is any discrepencies
+          this.#validateResults(payload, newPayload);
+
+          super.addSignature(address, result.signature, newPayload.toPayload());
+
+          return result.id;
+        }
       } else if (isFunction(signer.signRaw)) {
         result = await signer.signRaw(payload.toRaw());
       } else {
@@ -348,6 +359,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
           signer.update(updateId, status);
         }
       }
+    };
+
+    #validateResults = (originalPayload: SignerPayload, newPayload: SignerPayload): void => {
+      if (newPayload.method.toHex() !== originalPayload.method.toHex()) {
+        throw new Error('Invalid Call received from Signer. It doesn\'t match the original payload');
+      }
+
+      // TODO - do we need more checks here?
     };
   }
 

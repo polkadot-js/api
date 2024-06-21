@@ -145,6 +145,11 @@ export interface SignerResult {
    * @description The resulting signature in hex
    */
   signature: HexString;
+
+  /**
+   * @description TODO: Write a description
+   */
+  txWithModeAndMetadataHash?: HexString;
 }
 
 export interface Signer {
