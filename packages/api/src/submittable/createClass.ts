@@ -6,7 +6,7 @@
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
 import type { Callback, Codec, CodecClass, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
-import type { Registry } from '@polkadot/types-codec/types';
+import type { AnyJson, Registry } from '@polkadot/types-codec/types';
 import type { ApiBase } from '../base/index.js';
 import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types/index.js';
 import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types.js';
@@ -327,7 +327,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         result = await signer.signPayload(payload.toPayload());
 
         if (result.signerPayloadJSON) {
-          const newPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [result.signerPayloadJSON]);
+          const newPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, result.signerPayloadJSON)]);
 
           // This will throw an error if there is any discrepencies
           this.#validateResults(payload, newPayload);
@@ -362,11 +362,48 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     };
 
     #validateResults = (originalPayload: SignerPayload, newPayload: SignerPayload): void => {
-      if (newPayload.method.toHex() !== originalPayload.method.toHex()) {
-        throw new Error('Invalid Call received from Signer. It doesn\'t match the original payload');
-      }
+      // Whitelisted keys are free to be modified
+      const whitelistedKeys = ['mode', 'metadataHash'];
+      const newPayloadJSON = newPayload.toPayload();
+      const originalPayloadJSON = originalPayload.toPayload();
+      const keys = Object.keys(newPayload);
 
-      // TODO - do we need more checks here?
+      // Validation process checks to make sure the type integrity from the original payload is maintianed.
+      for (const key of keys) {
+        // Whitelisted keys are free to be modified by the signer.
+        if (whitelistedKeys.includes(key)) {
+          continue;
+        }
+
+        const errMessage = `Key: ${key} does not match between new and old payloads`;
+        const newValue = (newPayloadJSON as unknown as Record<string, AnyJson>)[key];
+        const oldValue = (originalPayloadJSON as unknown as Record<string, AnyJson>)[key];
+
+        if ((typeof oldValue === 'string' || typeof oldValue === 'number') && newValue !== oldValue) {
+          throw new Error(errMessage);
+        }
+
+        // Currently the only field that can be treated as an array is `signedExtension`.
+        if (Array.isArray(oldValue)) {
+          if (!Array.isArray(newValue)) {
+            throw new Error(errMessage);
+          }
+
+          if (newValue.length !== oldValue.length) {
+            throw new Error(errMessage);
+          }
+
+          for (const item of oldValue) {
+            if (!newValue.includes(item)) {
+              throw new Error(errMessage);
+            }
+          }
+        }
+
+        if (typeof oldValue === 'object' && JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+          throw new Error(errMessage);
+        }
+      }
     };
   }
 
