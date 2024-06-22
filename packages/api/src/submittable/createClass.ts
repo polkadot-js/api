@@ -6,7 +6,8 @@
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
 import type { Callback, Codec, CodecClass, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
-import type { AnyJson, Registry } from '@polkadot/types-codec/types';
+import type { Registry } from '@polkadot/types-codec/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base/index.js';
 import type { ApiInterfaceRx, ApiTypes, PromiseOrObs, SignerResult } from '../types/index.js';
 import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, SubmittableExtrinsic, SubmittablePaymentResult, SubmittableResultResult, SubmittableResultSubscription } from './types.js';
@@ -28,6 +29,12 @@ interface SubmittableOptions<ApiType extends ApiTypes> {
 interface UpdateInfo {
   options: SignatureOptions;
   updateId: number;
+  signedTransaction: HexString | Uint8Array | null;
+}
+
+interface SignerInfo {
+  id: number;
+  signedTransaction?: HexString | Uint8Array;
 }
 
 function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions: Partial<SignerOptions>, { header, mortalLength, nonce }: { header: Header | null; mortalLength: number; nonce: Index }): SignatureOptions {
@@ -89,11 +96,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
   class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
-    /**
-     * For signers that leverage sending back a modified `SignerPayloadJson`, this
-     * ensures that only certain keys are allowed to be modified.
-     */
-    readonly #whitelistedKeys: string[];
 
     #transformResult = identity<ISubmittableResult>;
 
@@ -101,7 +103,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       super(registry, extrinsic, { version: api.extrinsicType });
 
       this.#ignoreStatusCb = apiType === 'rxjs';
-      this.#whitelistedKeys = ['mode', 'metadataHash'];
     }
 
     public get hasDryRun (): boolean {
@@ -252,14 +253,21 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         mergeMap(async (signingInfo): Promise<UpdateInfo> => {
           const eraOptions = makeEraOptions(api, this.registry, options, signingInfo);
           let updateId = -1;
+          let signedTx = null;
 
           if (isKeyringPair(account)) {
             this.sign(account, eraOptions);
           } else {
-            updateId = await this.#signViaSigner(address, eraOptions, signingInfo.header);
+            const { id, signedTransaction } = await this.#signViaSigner(address, eraOptions, signingInfo.header);
+
+            updateId = id;
+
+            if (signedTransaction) {
+              signedTx = signedTransaction;
+            }
           }
 
-          return { options: eraOptions, updateId };
+          return { options: eraOptions, signedTransaction: signedTx, updateId };
         })
       );
     };
@@ -295,7 +303,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     };
 
     #observeSend = (info: UpdateInfo): Observable<Hash> => {
-      return api.rpc.author.submitExtrinsic(this).pipe(
+      return api.rpc.author.submitExtrinsic(info.signedTransaction || this).pipe(
         tap((hash): void => {
           this.#updateSigner(hash, info);
         })
@@ -305,7 +313,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     #observeSubscribe = (info: UpdateInfo): Observable<ISubmittableResult> => {
       const txHash = this.hash;
 
-      return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
+      return api.rpc.author.submitAndWatchExtrinsic(info.signedTransaction || this).pipe(
         switchMap((status): Observable<ISubmittableResult> =>
           this.#observeStatus(txHash, status)
         ),
@@ -315,7 +323,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       );
     };
 
-    #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<number> => {
+    #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<SignerInfo> => {
       const signer = options.signer || api.signer;
 
       if (!signer) {
@@ -332,17 +340,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       if (isFunction(signer.signPayload)) {
         result = await signer.signPayload(payload.toPayload());
 
-        if (result.signerPayloadJSON) {
-          const newPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, result.signerPayloadJSON)]);
-
-          // This will throw an error if there is any discrepencies
-          this.#validateResults(payload, newPayload);
-
-          // Given that `#validateResults` does not throw an error we can replace the original payload with the
-          // new modified payload from the signer.
-          super.addSignature(address, result.signature, newPayload.toPayload());
-
-          return result.id;
+        // When the signedTransaction is included by the signer, we no longer add
+        // the signature to the parent class, but instead broadcast the signed transaction directly.
+        if (result.signedTransaction) {
+          return { id: result.id, signedTransaction: result.signedTransaction };
         }
       } else if (isFunction(signer.signRaw)) {
         result = await signer.signRaw(payload.toRaw());
@@ -355,7 +356,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       // payload data is not modified from our inputs, but the signer
       super.addSignature(address, result.signature, payload.toPayload());
 
-      return result.id;
+      return { id: result.id };
     };
 
     #updateSigner = (status: Hash | ISubmittableResult, info?: UpdateInfo): void => {
@@ -365,49 +366,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
         if (signer && isFunction(signer.update)) {
           signer.update(updateId, status);
-        }
-      }
-    };
-
-    #validateResults = (originalPayload: SignerPayload, newPayload: SignerPayload): void => {
-      const newPayloadJSON = newPayload.toPayload();
-      const originalPayloadJSON = originalPayload.toPayload();
-      const keys = Object.keys(newPayload);
-
-      // Validation process checks to make sure the type integrity from the original payload is maintianed.
-      for (const key of keys) {
-        // Whitelisted keys are free to be modified by the signer.
-        if (this.#whitelistedKeys.includes(key)) {
-          continue;
-        }
-
-        const errMessage = `Key: ${key} does not match between new and old payloads`;
-        const newValue = (newPayloadJSON as unknown as Record<string, AnyJson>)[key];
-        const oldValue = (originalPayloadJSON as unknown as Record<string, AnyJson>)[key];
-
-        if ((typeof oldValue === 'string' || typeof oldValue === 'number') && newValue !== oldValue) {
-          throw new Error(errMessage);
-        }
-
-        // Currently the only field that can be treated as an array is `signedExtension`.
-        if (Array.isArray(oldValue)) {
-          if (!Array.isArray(newValue)) {
-            throw new Error(errMessage);
-          }
-
-          if (newValue.length !== oldValue.length) {
-            throw new Error(errMessage);
-          }
-
-          for (const item of oldValue) {
-            if (!newValue.includes(item)) {
-              throw new Error(errMessage);
-            }
-          }
-        }
-
-        if (typeof oldValue === 'object' && JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-          throw new Error(errMessage);
         }
       }
     };

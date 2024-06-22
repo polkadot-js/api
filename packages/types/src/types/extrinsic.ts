@@ -147,9 +147,9 @@ export interface SignerResult {
   signature: HexString;
 
   /**
-   * @description The resulting modified payload.
+   * @description The payload constructed by the signer.
    */
-  signerPayloadJSON?: SignerPayloadJSON;
+  signedTransaction?: HexString | Uint8Array;
 }
 
 export interface Signer {
