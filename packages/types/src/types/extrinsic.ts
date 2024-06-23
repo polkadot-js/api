@@ -147,7 +147,8 @@ export interface SignerResult {
   signature: HexString;
 
   /**
-   * @description The payload constructed by the signer.
+   * @description The payload constructed by the signer. If the inputted
+   * Signed Transaction does not have a signature, it will fail with an error.
    */
   signedTransaction?: HexString | Uint8Array;
 }
