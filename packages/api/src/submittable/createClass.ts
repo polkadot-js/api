@@ -343,6 +343,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         // When the signedTransaction is included by the signer, we no longer add
         // the signature to the parent class, but instead broadcast the signed transaction directly.
         if (result.signedTransaction) {
+          const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction]);
+
+          if (!ext.isSigned) {
+            throw new Error(`When using the signedTransaction field, the transaction must be signed. Recieved isSigned: ${ext.isSigned}`);
+          }
+
+          this.#validateSignedTransaction(payload, ext);
+
           return { id: result.id, signedTransaction: result.signedTransaction };
         }
       } else if (isFunction(signer.signRaw)) {
@@ -367,6 +375,32 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         if (signer && isFunction(signer.update)) {
           signer.update(updateId, status);
         }
+      }
+    };
+
+    /**
+     * When a signer includes `signedTransaction` within the SignerResult this will validate
+     * specific fields within the signed extrinsic against the original payload that was passed
+     * to the signer.
+     */
+    #validateSignedTransaction = (signerPayload: SignerPayload, signedExt: Extrinsic): void => {
+      const payload = signerPayload.toPayload();
+      const errMsg = (field: string) => `signAndSend: ${field} does not match the original payload`;
+
+      if (payload.nonce !== signedExt.nonce.toHex()) {
+        throw new Error(errMsg('nonce'));
+      }
+
+      if (payload.era !== signedExt.era.toHex()) {
+        throw new Error(errMsg('era'));
+      }
+
+      if (payload.tip !== signedExt.tip.toHex()) {
+        throw new Error(errMsg('tip'));
+      }
+
+      if (payload.method !== signedExt.method.toHex()) {
+        throw new Error(errMsg('call data'));
       }
     };
   }
