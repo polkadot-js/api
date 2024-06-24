@@ -29,9 +29,13 @@ function latestNonce (api: DeriveApi, address: string): Observable<Index> {
 }
 
 function nextNonce (api: DeriveApi, address: string): Observable<Index> {
-  return api.rpc.system?.accountNextIndex
-    ? api.rpc.system.accountNextIndex(address)
-    : latestNonce(api, address);
+  if (api.call.accountNonceApi) {
+    return api.call.accountNonceApi.accountNonce(address);
+  } else {
+    return api.rpc.system?.accountNextIndex
+      ? api.rpc.system.accountNextIndex(address)
+      : latestNonce(api, address);
+  }
 }
 
 function signingHeader (api: DeriveApi): Observable<Header> {
