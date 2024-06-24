@@ -387,18 +387,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       const payload = signerPayload.toPayload();
       const errMsg = (field: string) => `signAndSend: ${field} does not match the original payload`;
 
-      if (payload.nonce !== signedExt.nonce.toHex()) {
-        throw new Error(errMsg('nonce'));
-      }
-
-      if (payload.era !== signedExt.era.toHex()) {
-        throw new Error(errMsg('era'));
-      }
-
-      if (payload.tip !== signedExt.tip.toHex()) {
-        throw new Error(errMsg('tip'));
-      }
-
       if (payload.method !== signedExt.method.toHex()) {
         throw new Error(errMsg('call data'));
       }
