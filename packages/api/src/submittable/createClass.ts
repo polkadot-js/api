@@ -258,12 +258,12 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
           if (isKeyringPair(account)) {
             this.sign(account, eraOptions);
           } else {
-            const { id, signedTransaction } = await this.#signViaSigner(address, eraOptions, signingInfo.header);
+            const result = await this.#signViaSigner(address, eraOptions, signingInfo.header);
 
-            updateId = id;
+            updateId = result.id;
 
-            if (signedTransaction) {
-              signedTx = signedTransaction;
+            if (result?.signedTransaction) {
+              signedTx = result.signedTransaction;
             }
           }
 
@@ -303,7 +303,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     };
 
     #observeSend = (info: UpdateInfo): Observable<Hash> => {
-      return api.rpc.author.submitExtrinsic(info.signedTransaction || this).pipe(
+      return api.rpc.author.submitExtrinsic(info?.signedTransaction || this).pipe(
         tap((hash): void => {
           this.#updateSigner(hash, info);
         })
@@ -313,7 +313,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     #observeSubscribe = (info: UpdateInfo): Observable<ISubmittableResult> => {
       const txHash = this.hash;
 
-      return api.rpc.author.submitAndWatchExtrinsic(info.signedTransaction || this).pipe(
+      return api.rpc.author.submitAndWatchExtrinsic(info?.signedTransaction || this).pipe(
         switchMap((status): Observable<ISubmittableResult> =>
           this.#observeStatus(txHash, status)
         ),
@@ -342,7 +342,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
         // When the signedTransaction is included by the signer, we no longer add
         // the signature to the parent class, but instead broadcast the signed transaction directly.
-        if (result.signedTransaction) {
+        if (result?.signedTransaction) {
           const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction]);
 
           if (!ext.isSigned) {
