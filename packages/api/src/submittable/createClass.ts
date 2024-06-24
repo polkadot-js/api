@@ -219,7 +219,16 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     // signAndSend with options and a callback
     public signAndSend (account: AddressOrPair, partialOptions: Partial<SignerOptions>, statusCb?: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
 
-    // signAndSend implementation for all 3 cases above
+    /**
+     * signAndSend implementation for all 3 cases above.
+     *
+     * @description Sign and broadcast the constructued transaction.
+     *
+     * Note for injected signers. The `SignerResult` type allows for the `signedTransaction` field
+     * for v12.0.1 and up. This allows the signer to input a signed transaction that will be directly broadcasted. This
+     * bypasses the api adding the signature to the payload. The api will ensure that the Call Data is not changed before it broadcasts the
+     * transaction.
+     */
     public signAndSend (account: AddressOrPair, partialOptions?: Partial<SignerOptions> | Callback<ISubmittableResult>, optionalStatusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const [options, statusCb] = makeSignAndSendOptions(partialOptions, optionalStatusCb);
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
