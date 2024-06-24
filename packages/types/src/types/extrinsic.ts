@@ -147,8 +147,12 @@ export interface SignerResult {
   signature: HexString;
 
   /**
-   * @description The payload constructed by the signer. If the inputted
-   * Signed Transaction is not actually signed, it will fail with an error.
+   * @description The payload constructed by the signer. This allows the
+   * inputted signed transaction to bypass `signAndSend` from adding the signature to the payload,
+   * and instead broadcasting the transaction directly. There is a small validation layer. Please refer
+   * to the implementation for more information. If the inputted signed transaction is not actually signed, it will fail with an error.
+   *
+   * NOTE: This is only implemented for `signPayload`.
    */
   signedTransaction?: HexString | Uint8Array;
 }
