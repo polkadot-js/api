@@ -127,6 +127,13 @@ export class GenericExtrinsicSignatureV4 extends Struct implements IExtrinsicSig
   }
 
   /**
+   * @description the [[u32]] mode
+   */
+  public get mode (): INumber {
+    return this.getT('mode');
+  }
+
+  /**
    * @description The [[Hash]] for the metadata
    */
   public get metadataHash (): IOption<Hash> {

@@ -207,6 +207,13 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   }
 
   /**
+   * @description Forward compat
+   */
+  public get mode (): INumber {
+    return this.inner.signature.mode;
+  }
+
+  /**
    * @description Returns the raw transaction version (not flagged with signing information)
   */
   public get type (): number {
@@ -334,6 +341,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
           assetId: this.assetId ? this.assetId.toHuman(isExpanded, disableAscii) : null,
           era: this.era.toHuman(isExpanded, disableAscii),
           metadataHash: this.metadataHash ? this.metadataHash.toHex() : null,
+          mode: this.mode.toHuman(),
           nonce: this.nonce.toHuman(isExpanded, disableAscii),
           signature: this.signature.toHex(),
           signer: this.signer.toHuman(isExpanded, disableAscii),
