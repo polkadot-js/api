@@ -262,7 +262,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
             updateId = result.id;
 
-            if (result?.signedTransaction) {
+            if (result.signedTransaction) {
               signedTx = result.signedTransaction;
             }
           }
@@ -342,7 +342,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
         // When the signedTransaction is included by the signer, we no longer add
         // the signature to the parent class, but instead broadcast the signed transaction directly.
-        if (result?.signedTransaction) {
+        if (result.signedTransaction) {
           const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction]);
 
           if (!ext.isSigned) {
