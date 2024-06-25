@@ -64,7 +64,10 @@ export { default as finality } from './finality/definitions.js';
 export { default as parachains } from './parachains/definitions.js';
 export { default as poll } from './poll/definitions.js';
 export { default as purchase } from './purchase/definitions.js';
+
+// XCM related types
 export { default as xcm } from './xcm/definitions.js';
+export { default as xcmRuntimeApi } from './xcmRuntimeApi/definitions.js';
 
 // other useful types
 export { default as contractsAbi } from './contractsAbi/definitions.js';
