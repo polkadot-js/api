@@ -169,8 +169,9 @@ export function _stakerRewardsEras (instanceId: string, api: DeriveApi): (eras: 
 
 export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[], withActive = false): Observable<DeriveStakerReward[][]> => {
-    // Ensures that when number types are passed in they are sanitized
-    const sanitizedEras: EraIndex[] = eras.map((e) => typeof e === 'number' ? api.registry.createType('u32', e) : e);
+    // Ensures that when number or string types are passed in they are sanitized
+    // Ref: https://github.com/polkadot-js/api/issues/5910
+    const sanitizedEras: EraIndex[] = eras.map((e) => typeof e === 'number' || typeof e === 'string' ? api.registry.createType('u32', e) : e);
 
     return combineLatest([
       api.derive.staking.queryMulti(accountIds, { withClaimedRewardsEras: true, withLedger: true }),
