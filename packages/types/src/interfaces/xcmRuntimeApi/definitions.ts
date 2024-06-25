@@ -13,15 +13,7 @@ export default {
   runtime,
   types: {
     Error: {
-      _enum: ['Unsupported']
-    },
-    Ss58: {
-      address: 'Text',
-      version: 'u16'
-    },
-    Account: {
-      id: 'Vec<u8>',
-      ss58: 'Ss58'
+      _enum: ['Unsupported', 'VersionedConversionFailed']
     }
   }
 } as Definitions;

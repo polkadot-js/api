@@ -13,13 +13,9 @@ export const runtime: DefinitionsCall = {
             {
               name: 'location',
               type: 'XcmVersionedLocation'
-            },
-            {
-              name: 'ss58_prefix',
-              type: 'Option<u16>'
             }
           ],
-          type: 'Result<Account, Error>'
+          type: 'Result<Vec<u8>, Error>'
         }
       },
       version: 1
