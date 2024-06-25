@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 12.0.1 June 24, 2024
+
+**Important Changes**:
+
+- Addition of an optional `signedTransaction` field to the [`SignerResult`](https://github.com/polkadot-js/api/blob/586f02f8310529f16e4047fd94e31bc6c6573366/packages/types/src/types/extrinsic.ts#L138-L158) response for injected signers. This only applies to the `signPayload` method exposed in the [`Signer`](https://github.com/polkadot-js/api/blob/586f02f8310529f16e4047fd94e31bc6c6573366/packages/types/src/types/extrinsic.ts#L160-L175) interface for polkadot-js. As the name suggests the field expects a signed transaction (extrinsic) when inputted. When its present, the api will not add the signature to the payload, but instead broadcast the inputted signed transaction. This means the signer may modify the payload it's given. The only part of the payload that may not be modified is the call data. This is verified on the api, and will throw an error if it does not match the initial payloads call data.
+  - This is very useful for signers that want to adjust the `mode` and `metadataHash` field for the `CheckMetadataHash` signed extension.
+  - Note that this is not your traditional breaking change since it more-so acts as an addition, but since this is a high magnitude change it is going to be considered a MAJOR bump.
+  - For more info please review the following PR [(#5914)](https://github.com/polkadot-js/api/pull/5914)
+
+Changes:
+
+- Replace `system_accountNextIndex` with runtime api call `accountNonceApi` for `api.derive.tx.signingInfo`
+- Sanitize `eras` for `api.derive.staking._stakerRewards`
+
+
 ## 11.3.1 June 17, 2024
 
 Changes:
