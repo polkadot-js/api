@@ -22,6 +22,6 @@ export default {
     Account: {
       id: 'Vec<u8>',
       ss58: 'Ss58'
-    },
+    }
   }
 } as Definitions;
