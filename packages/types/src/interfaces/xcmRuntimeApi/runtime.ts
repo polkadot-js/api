@@ -8,14 +8,14 @@ export const runtime: DefinitionsCall = {
     {
       methods: {
         convert_location: {
-          description: 'Converts `Location` to `Account` with `AccountId` and Ss58 representation',
+          description: 'Converts `Location` to `AccountId`',
           params: [
             {
               name: 'location',
               type: 'XcmVersionedLocation'
             }
           ],
-          type: 'Result<Vec<u8>, Error>'
+          type: 'Result<AccountId, Error>'
         }
       },
       version: 1
