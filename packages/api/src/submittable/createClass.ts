@@ -340,6 +340,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       if (isFunction(signer.signPayload)) {
         result = await signer.signPayload(payload.toPayload());
 
+        if (result.signedTransaction && !options.withSignedTransaction) {
+          throw new Error('The `signedTransaction` field may not be submitted when `withSignedTransaction` is disabled');
+        }
+
         if (result.signedTransaction && options.withSignedTransaction) {
           const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction]);
           const newSignerPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, {
