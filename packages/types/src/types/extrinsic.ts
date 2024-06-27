@@ -7,7 +7,7 @@ import type { ExtrinsicStatus } from '../interfaces/author/index.js';
 import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics/index.js';
 import type { Address, Call, H256, Hash } from '../interfaces/runtime/index.js';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system/index.js';
-import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } from './interfaces.js';
+import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase, IOption } from './interfaces.js';
 import type { Registry } from './registry.js';
 
 export interface ISubmittableResult {
@@ -104,6 +104,12 @@ export interface SignerPayloadJSON {
    * @description The version of the extrinsic we are dealing with
    */
   version: number;
+
+  /**
+   * @description Optional flag that enables the use of the `signedTransaction` field in
+   * `singAndSend`, `signAsync`, and `dryRun`.
+   */
+  withSignedTransaction?: boolean;
 }
 
 export interface SignerPayloadRawBase {
@@ -191,6 +197,7 @@ export interface SignatureOptions {
   assetId?: AnyNumber | object;
   mode?: AnyNumber;
   metadataHash?: Uint8Array | string;
+  withSignedTransaction?: boolean;
 }
 
 interface ExtrinsicSignatureBase {
