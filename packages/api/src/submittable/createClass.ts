@@ -344,12 +344,30 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         // the signature to the parent class, but instead broadcast the signed transaction directly.
         if (result.signedTransaction) {
           const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction]);
+          const newSignerPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, {
+            address,
+            assetId: ext.assetId,
+            blockHash: options.blockHash,
+            blockNumber: header ? header.number : 0,
+            era: ext.era,
+            genesisHash: options.genesisHash,
+            metadataHash: ext.metadataHash,
+            method: ext.method,
+            mode: ext.mode,
+            nonce: ext.nonce,
+            runtimeVersion: options.runtimeVersion,
+            signedExtension: options.signedExtensions,
+            tip: ext.tip,
+            version: ext.version
+          })]);
 
           if (!ext.isSigned) {
             throw new Error(`When using the signedTransaction field, the transaction must be signed. Recieved isSigned: ${ext.isSigned}`);
           }
 
           this.#validateSignedTransaction(payload, ext);
+
+          super.addSignature(address, ext.signature, newSignerPayload.toPayload());
 
           return { id: result.id, signedTransaction: result.signedTransaction };
         }
