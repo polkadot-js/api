@@ -31,7 +31,8 @@ describe('SignerPayload', (): void => {
     specVersion: '0x00000006',
     tip: '0x00000000000000000000000000005678',
     transactionVersion: '0x00000007',
-    version: 4
+    version: 4,
+    withSignedTransaction: false
   };
 
   it('creates a valid JSON output', (): void => {
@@ -50,7 +51,8 @@ describe('SignerPayload', (): void => {
         nonce: 0x1234,
         signedExtensions: ['CheckNonce'],
         tip: 0x5678,
-        version: 4
+        version: 4,
+        withSignedTransaction: true
       }).toPayload()
     ).toEqual({
       address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
@@ -68,7 +70,8 @@ describe('SignerPayload', (): void => {
       specVersion: '0x00000000',
       tip: '0x00000000000000000000000000005678',
       transactionVersion: '0x00000000',
-      version: 4
+      version: 4,
+      withSignedTransaction: true
     });
   });
 
@@ -164,7 +167,8 @@ describe('SignerPayload', (): void => {
     specVersion: '0x00000006',
     tip: '0x00000000000000000000000000005678',
     transactionVersion: '0x00000007',
-    version: 4
+    version: 4,
+    withSignedTransaction: false
   };
 
   it('can build SignerPayload without additional SignedExtensions', (): void => {
