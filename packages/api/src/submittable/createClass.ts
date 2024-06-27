@@ -340,25 +340,23 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       if (isFunction(signer.signPayload)) {
         result = await signer.signPayload(payload.toPayload());
 
-        // When the signedTransaction is included by the signer, we no longer add
-        // the signature to the parent class, but instead broadcast the signed transaction directly.
         if (result.signedTransaction) {
           const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction]);
           const newSignerPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, {
             address,
-            assetId: ext.assetId,
-            blockHash: options.blockHash,
+            assetId: ext.assetId ? ext.assetId.toHex() : null,
+            blockHash: payload.blockHash,
             blockNumber: header ? header.number : 0,
-            era: ext.era,
-            genesisHash: options.genesisHash,
-            metadataHash: ext.metadataHash,
-            method: ext.method,
-            mode: ext.mode,
-            nonce: ext.nonce,
-            runtimeVersion: options.runtimeVersion,
-            signedExtension: options.signedExtensions,
-            tip: ext.tip,
-            version: ext.version
+            era: ext.era.toHex(),
+            genesisHash: payload.genesisHash,
+            metadataHash: ext.metadataHash ? ext.metadataHash.toHex() : null,
+            method: ext.method.toHex(),
+            mode: ext.mode ? ext.mode.toHex() : null,
+            nonce: ext.nonce.toHex(),
+            runtimeVersion: payload.runtimeVersion,
+            signedExtensions: payload.signedExtensions,
+            tip: ext.tip.toHex(),
+            version: payload.version
           })]);
 
           if (!ext.isSigned) {
