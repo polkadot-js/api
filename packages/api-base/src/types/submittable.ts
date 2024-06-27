@@ -67,6 +67,15 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmi
 
   send (statusCb: Callback<R>): SubmittableResultSubscription<ApiType, R>;
 
+  /**
+   * @description Sign and broadcast the constructued transaction.
+   *
+   * Note for injected signers:
+   * As of v12.0.2 and up the `SignerResult` return type for `signPayload` allows for the `signedTransaction` field.
+   * This allows the signer to input a signed transaction that will modify the payload. This
+   * The api will ensure that the Call Data is not changed. This allows for the signer to modify the payload to add 
+   * things like `mode`, and `metadataHash` for signedExtensions such as `CheckMetadataHash`.
+   */
   signAsync (account: AddressOrPair, _options?: Partial<SignerOptions>): PromiseOrObs<ApiType, this>;
 
   /**
