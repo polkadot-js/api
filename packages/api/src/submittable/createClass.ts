@@ -364,8 +364,9 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
           }
 
           this.#validateSignedTransaction(payload, ext);
-
-          super.addSignature(address, ext.signature, newSignerPayload.toPayload());
+          // This is only used for signAsync - signAndSend does not need to adjust the super payload or
+          // add the signature.
+          super.addSignature(address, result.signature, newSignerPayload.toPayload());
 
           return { id: result.id, signedTransaction: result.signedTransaction };
         }
