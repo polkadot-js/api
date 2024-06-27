@@ -8,7 +8,6 @@ import type { Definitions } from '../../types/index.js';
 
 import { mapXcmTypes } from '@polkadot/types-create';
 
-import { runtime } from './runtime.js';
 import { v0 } from './v0.js';
 import { v1 } from './v1.js';
 import { v2 } from './v2.js';
@@ -82,7 +81,6 @@ const location = {
 
 export default {
   rpc: {},
-  runtime,
   types: {
     ...location,
     ...xcm,
@@ -165,15 +163,6 @@ export default {
         V2: 'XcmV2'
       }
     },
-    XcmVersion: 'u32',
-    XcmPaymentApiError: {
-      _enum: {
-        Unimplemented: 'Null',
-        VersionedConversionFailed: 'Null',
-        WeightNotComputable: 'Null',
-        UnhandledXcmVersion: 'Null',
-        AssetNotFound: 'Null'
-      }
-    }
+    XcmVersion: 'u32'
   }
 } as Definitions;

@@ -75,4 +75,5 @@ export * from './uniques/types.js';
 export * from './utility/types.js';
 export * from './vesting/types.js';
 export * from './xcm/types.js';
+export * from './xcmPaymentApi/types.js';
 export * from './xcmRuntimeApi/types.js';
