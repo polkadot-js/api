@@ -158,7 +158,9 @@ export interface SignerResult {
    * and instead broadcasting the transaction directly. There is a small validation layer. Please refer
    * to the implementation for more information. If the inputted signed transaction is not actually signed, it will fail with an error.
    *
-   * NOTE: This is only implemented for `signPayload`.
+   * This will also work for `signAsync`. The new payload will be added to the Extrinsic, and will be sent once the consumer calls `.send()`.
+   *
+   * NOTE: This is only implemented for `signPayload`, and will only work when the `withSignedTransaction` option is enabled as an option.
    */
   signedTransaction?: HexString | Uint8Array;
 }
