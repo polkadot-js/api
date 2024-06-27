@@ -18,12 +18,12 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "12.0.2-2-x",
+  "version": "12.0.2-3-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/rpc-core": "12.0.2-2-x",
-    "@polkadot/types": "12.0.2-2-x",
-    "@polkadot/types-codec": "12.0.2-2-x",
+    "@polkadot/rpc-core": "12.0.2-3-x",
+    "@polkadot/types": "12.0.2-3-x",
+    "@polkadot/types-codec": "12.0.2-3-x",
     "@polkadot/util": "^12.6.2",
     "tslib": "^2.6.2"
   }
