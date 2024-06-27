@@ -19,6 +19,7 @@ export interface SignerOptions {
   assetId?: AnyNumber | object;
   mode?: AnyNumber;
   metadataHash?: AnyU8a;
+  withSignedTransaction?: boolean;
 }
 
 export type SubmittableDryRunResult<ApiType extends ApiTypes> =
