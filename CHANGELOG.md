@@ -5,6 +5,7 @@
 **Important Changes**:
 
 - `withSignedTransaction`: This option has been added to `SignerOptions`. When using `signAndSend`, `signAsync`, and `dryRun` you may now enable or disable the use of the `signedTransaction` field by adding the `withSignedTransaction` option. When withSignedTransaction is not enabled but the signer adds a signedTransaction the api will error.
+  - Always disabled by default.
   - This ensures no big breaking changes happen to the interface of `signPayload`.
   - `withSignedTransaction` has also been added to the `SignerPayload` type which allows for `payload.toPayload()` to include the option.
 - `signAsync`: now accepts the `signedTransaction` field as well. This means that if `withSignedTransaction` is enabled, and `signedTransaction` is present the api will adjust the current payload attached to the SubmittableExtrinsic, and add the signature. Then the user can call `.send()` as they please.
