@@ -340,16 +340,37 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       if (isFunction(signer.signPayload)) {
         result = await signer.signPayload(payload.toPayload());
 
-        // When the signedTransaction is included by the signer, we no longer add
-        // the signature to the parent class, but instead broadcast the signed transaction directly.
-        if (result.signedTransaction) {
+        if (result.signedTransaction && !options.withSignedTransaction) {
+          throw new Error('The `signedTransaction` field may not be submitted when `withSignedTransaction` is disabled');
+        }
+
+        if (result.signedTransaction && options.withSignedTransaction) {
           const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction]);
+          const newSignerPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, {
+            address,
+            assetId: ext.assetId ? ext.assetId.toHex() : null,
+            blockHash: payload.blockHash,
+            blockNumber: header ? header.number : 0,
+            era: ext.era.toHex(),
+            genesisHash: payload.genesisHash,
+            metadataHash: ext.metadataHash ? ext.metadataHash.toHex() : null,
+            method: ext.method.toHex(),
+            mode: ext.mode ? ext.mode.toHex() : null,
+            nonce: ext.nonce.toHex(),
+            runtimeVersion: payload.runtimeVersion,
+            signedExtensions: payload.signedExtensions,
+            tip: ext.tip.toHex(),
+            version: payload.version
+          })]);
 
           if (!ext.isSigned) {
             throw new Error(`When using the signedTransaction field, the transaction must be signed. Recieved isSigned: ${ext.isSigned}`);
           }
 
           this.#validateSignedTransaction(payload, ext);
+          // This is only used for signAsync - signAndSend does not need to adjust the super payload or
+          // add the signature.
+          super.addSignature(address, result.signature, newSignerPayload.toPayload());
 
           return { id: result.id, signedTransaction: result.signedTransaction };
         }
