@@ -340,8 +340,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       if (isFunction(signer.signPayload)) {
         result = await signer.signPayload(payload.toPayload());
 
-        console.log(payload.toPayload());
-
         if (result.signedTransaction && !options.withSignedTransaction) {
           throw new Error('The `signedTransaction` field may not be submitted when `withSignedTransaction` is disabled');
         }
