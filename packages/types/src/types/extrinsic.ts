@@ -7,7 +7,7 @@ import type { ExtrinsicStatus } from '../interfaces/author/index.js';
 import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics/index.js';
 import type { Address, Call, H256, Hash } from '../interfaces/runtime/index.js';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system/index.js';
-import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase, IOption } from './interfaces.js';
+import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } from './interfaces.js';
 import type { Registry } from './registry.js';
 
 export interface ISubmittableResult {
