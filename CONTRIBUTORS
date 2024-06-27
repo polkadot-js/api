@@ -1,6 +1,6 @@
     3512	Jaco                          	Bump deps (#5785)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
-      64	Tarik Gul                     	12.0.1 (#5916)
+      65	Tarik Gul                     	Ensure signAsync and dryRun is fully compatible with signedTransaction, and add `withSignedTransaction` option (#5920)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
       20	Luke Schoen                   	fix: Fixes TypeError: Cannot read property 'vesting' of undefined (#1970)
