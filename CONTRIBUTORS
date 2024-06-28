@@ -79,6 +79,7 @@
        1	Furqan A                      	fix: fixed 404 to the docs from the api readme (#3985)
        1	Gérard Dethier                	Fix LRUCache memory leak. (#4520)
        1	Gerben van de Wiel            	Adding some extra notes on changes in the specname (#2329)
+       1	girazoki                      	Implement xcm payment api (#5911)
        1	HackFisher                    	fix OutboundLaneData types (#3992)
        1	Hoani Bryson                  	Multiple Endpoint support for WsProvider (#2234)
        1	Hyungsuk Kang                 	Update fees.ts (#1014)
