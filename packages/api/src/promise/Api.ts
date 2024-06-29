@@ -81,7 +81,7 @@ import { promiseTracker, toPromiseMethod } from './decorateMethod.js';
  *   api.tx.balances
  *     // create transfer
  *     transfer(keyring.bob.address, 12345)
- *     // sign the transcation
+ *     // sign the transaction
  *     .sign(keyring.alice, { nonce })
  *     // send the transaction (optional status callback)
  *     .send((status) => {
