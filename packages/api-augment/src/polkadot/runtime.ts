@@ -19,10 +19,11 @@ import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/t
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError } from '@polkadot/types/interfaces/mmr';
 import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
-import type { CandidateCommitments, CandidateEvent, CandidateHash, CommittedCandidateReceipt, CoreState, DisputeProof, DisputeState, ExecutorParams, GroupRotationInfo, InboundDownwardMessage, InboundHrmpMessage, OccupiedCoreAssumption, ParaId, ParaValidatorIndex, PendingSlashes, PersistedValidationData, PvfCheckStatement, ScrapedOnChainVotes, SessionInfo, ValidationCode, ValidationCodeHash, ValidatorSignature } from '@polkadot/types/interfaces/parachains';
+import type { ApprovalVotingParams, AsyncBackingParams, BackingState, CandidateCommitments, CandidateEvent, CandidateHash, CommittedCandidateReceipt, CoreState, DisputeProof, DisputeState, ExecutorParams, GroupRotationInfo, InboundDownwardMessage, InboundHrmpMessage, NodeFeatures, OccupiedCoreAssumption, ParaId, ParaValidatorIndex, PendingSlashes, PersistedValidationData, PvfCheckStatement, ScrapedOnChainVotes, SessionInfo, ValidationCode, ValidationCodeHash, ValidatorSignature } from '@polkadot/types/interfaces/parachains';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { AccountId, Balance, Block, BlockNumber, Call, Hash, Header, Index, KeyTypeId, Slot, ValidatorId, Weight } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
+import type { ValidatorIndex } from '@polkadot/types/interfaces/staking';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
@@ -280,12 +281,20 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0xaf2c0297a23e6d3d/5 */
+    /** 0xaf2c0297a23e6d3d/10 */
     parachainHost: {
+      /**
+       * Approval voting configuration parameters
+       **/
+      approvalVotingParams: AugmentedCall<ApiType, () => Observable<ApprovalVotingParams>>;
       /**
        * Returns the persisted validation data for the given `ParaId` along with the corresponding validation code hash.
        **/
       assumedValidationData: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array, hash: Hash | string | Uint8Array) => Observable<Option<ITuple<[PersistedValidationData, ValidationCodeHash]>>>>;
+      /**
+       * Returns candidate's acceptance limitations for asynchronous backing for a relay parent
+       **/
+      asyncBackingParams: AugmentedCall<ApiType, () => Observable<AsyncBackingParams>>;
       /**
        * Yields information on all availability cores as relevant to the child block.
        **/
@@ -303,6 +312,10 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       checkValidationOutputs: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array, outputs: CandidateCommitments | { upwardMessages?: any; horizontalMessages?: any; newValidationCode?: any; headData?: any; processedDownwardMessages?: any; hrmpWatermark?: any } | string | Uint8Array) => Observable<bool>>;
       /**
+       * Returns a list of all disabled validators at the given block
+       **/
+      disabledValidators: AugmentedCall<ApiType, () => Observable<ValidatorIndex>>;
+      /**
        * Returns all onchain disputes.
        **/
       disputes: AugmentedCall<ApiType, () => Observable<Vec<ITuple<[SessionIndex, CandidateHash, DisputeState]>>>>;
@@ -319,9 +332,21 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       keyOwnershipProof: AugmentedCall<ApiType, (validatorId: ValidatorId | string | Uint8Array) => Observable<Option<OpaqueKeyOwnershipProof>>>;
       /**
+       * Get the minimum number of backing votes for a parachain candidate. This is a staging method! Do not use on production runtimes!
+       **/
+      minimumBackingVotes: AugmentedCall<ApiType, () => Observable<u32>>;
+      /**
+       * Get node features. This is a staging method! Do not use on production runtimes!
+       **/
+      nodeFeatures: AugmentedCall<ApiType, () => Observable<NodeFeatures>>;
+      /**
        * Scrape dispute relevant from on-chain, backing votes and resolved disputes.
        **/
       onChainVotes: AugmentedCall<ApiType, () => Observable<Option<ScrapedOnChainVotes>>>;
+      /**
+       * Returns the state of parachain backing for a given para
+       **/
+      paraBackingState: AugmentedCall<ApiType, (paraId: ParaId | AnyNumber | Uint8Array) => Observable<Option<BackingState>>>;
       /**
        * Yields the persisted validation data for the given `ParaId` along with an assumption that should be used if the para currently occupies a core.
        **/
