@@ -370,47 +370,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    identity: {
-      /**
-       * The amount held on deposit for a registered identity.
-       **/
-      basicDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * The amount held on deposit per encoded byte for a registered identity.
-       **/
-      byteDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * Maxmimum number of registrars allowed in the system. Needed to bound the complexity
-       * of, e.g., updating judgements.
-       **/
-      maxRegistrars: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of sub-accounts allowed per identified account.
-       **/
-      maxSubAccounts: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum length of a suffix.
-       **/
-      maxSuffixLength: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum length of a username, including its suffix and any system-added delimiters.
-       **/
-      maxUsernameLength: u32 & AugmentedConst<ApiType>;
-      /**
-       * The number of blocks within which a username grant must be accepted.
-       **/
-      pendingUsernameExpiration: u32 & AugmentedConst<ApiType>;
-      /**
-       * The amount held on deposit for a registered subaccount. This should account for the fact
-       * that one storage item's value will increase by the size of an account ID, and there will
-       * be another trie item whose value is the size of an account ID plus 32 bytes.
-       **/
-      subAccountDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     indices: {
       /**
        * The deposit needed for reserving an index.
@@ -882,36 +841,6 @@ declare module '@polkadot/api-base/types/consts' {
        * should be applied immediately, without opportunity for intervention.
        **/
       slashDeferDuration: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    stateTrieMigration: {
-      /**
-       * Maximal number of bytes that a key can have.
-       * 
-       * FRAME itself does not limit the key length.
-       * The concrete value must therefore depend on your storage usage.
-       * A [`frame_support::storage::StorageNMap`] for example can have an arbitrary number of
-       * keys which are then hashed and concatenated, resulting in arbitrarily long keys.
-       * 
-       * Use the *state migration RPC* to retrieve the length of the longest key in your
-       * storage: <https://github.com/paritytech/substrate/issues/11642>
-       * 
-       * The migration will halt with a `Halted` event if this value is too small.
-       * Since there is no real penalty from over-estimating, it is advised to use a large
-       * value. The default is 512 byte.
-       * 
-       * Some key lengths for reference:
-       * - [`frame_support::storage::StorageValue`]: 32 byte
-       * - [`frame_support::storage::StorageMap`]: 64 byte
-       * - [`frame_support::storage::StorageDoubleMap`]: 96 byte
-       * 
-       * For more info see
-       * <https://www.shawntabrizi.com/blog/substrate/querying-substrate-storage-via-rpc/>
-       **/
-      maxKeyLen: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

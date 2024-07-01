@@ -5,7 +5,25 @@
 
 export default {
   /**
-   * Lookup121: staging_kusama_runtime::SessionKeys
+   * Lookup49: staging_kusama_runtime::pallet_im_online::pallet::Event<T>
+   **/
+  StagingKusamaRuntimePalletImOnlinePalletEvent: {
+    _enum: {
+      HeartbeatReceived: {
+        authorityId: 'StagingKusamaRuntimePalletImOnlineSr25519AppSr25519Public',
+      },
+      AllGood: 'Null',
+      SomeOffline: {
+        offline: 'Vec<(AccountId32,SpStakingExposure)>'
+      }
+    }
+  },
+  /**
+   * Lookup50: staging_kusama_runtime::pallet_im_online::sr25519::app_sr25519::Public
+   **/
+  StagingKusamaRuntimePalletImOnlineSr25519AppSr25519Public: 'SpCoreSr25519Public',
+  /**
+   * Lookup134: staging_kusama_runtime::SessionKeys
    **/
   StagingKusamaRuntimeSessionKeys: {
     grandpa: 'SpConsensusGrandpaAppPublic',
@@ -16,7 +34,7 @@ export default {
     beefy: 'SpConsensusBeefyEcdsaCryptoPublic'
   },
   /**
-   * Lookup148: staging_kusama_runtime::OriginCaller
+   * Lookup161: staging_kusama_runtime::OriginCaller
    **/
   StagingKusamaRuntimeOriginCaller: {
     _enum: {
@@ -123,19 +141,19 @@ export default {
     }
   },
   /**
-   * Lookup150: staging_kusama_runtime::governance::origins::pallet_custom_origins::Origin
+   * Lookup163: staging_kusama_runtime::governance::origins::pallet_custom_origins::Origin
    **/
   StagingKusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin: {
     _enum: ['StakingAdmin', 'Treasurer', 'FellowshipAdmin', 'GeneralAdmin', 'AuctionAdmin', 'LeaseAdmin', 'ReferendumCanceller', 'ReferendumKiller', 'SmallTipper', 'BigTipper', 'SmallSpender', 'MediumSpender', 'BigSpender', 'WhitelistedCaller', 'FellowshipInitiates', 'Fellows', 'FellowshipExperts', 'FellowshipMasters', 'Fellowship1Dan', 'Fellowship2Dan', 'Fellowship3Dan', 'Fellowship4Dan', 'Fellowship5Dan', 'Fellowship6Dan', 'Fellowship7Dan', 'Fellowship8Dan', 'Fellowship9Dan', 'WishForChange']
   },
   /**
-   * Lookup224: staging_kusama_runtime::ProxyType
+   * Lookup192: staging_kusama_runtime::ProxyType
    **/
   StagingKusamaRuntimeProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', 'IdentityJudgement', 'CancelProxy', 'Auction', 'Society', 'NominationPools']
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', '__Unused4', 'CancelProxy', 'Auction', 'Society', 'NominationPools']
   },
   /**
-   * Lookup234: staging_kusama_runtime::NposCompactSolution24
+   * Lookup202: staging_kusama_runtime::NposCompactSolution24
    **/
   StagingKusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -164,7 +182,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup391: polkadot_runtime_parachains::assigner_on_demand::pallet::Call<T>
+   * Lookup360: polkadot_runtime_parachains::assigner_on_demand::pallet::Call<T>
    **/
   PolkadotRuntimeParachainsAssignerOnDemandPalletCall: {
     _enum: {
@@ -179,7 +197,7 @@ export default {
     }
   },
   /**
-   * Lookup399: polkadot_runtime_parachains::coretime::pallet::Call<T>
+   * Lookup371: polkadot_runtime_parachains::coretime::pallet::Call<T>
    **/
   PolkadotRuntimeParachainsCoretimePalletCall: {
     _enum: {
@@ -198,7 +216,7 @@ export default {
     }
   },
   /**
-   * Lookup543: polkadot_runtime_parachains::assigner_on_demand::pallet::Event<T>
+   * Lookup512: polkadot_runtime_parachains::assigner_on_demand::pallet::Event<T>
    **/
   PolkadotRuntimeParachainsAssignerOnDemandPalletEvent: {
     _enum: {
@@ -212,7 +230,7 @@ export default {
     }
   },
   /**
-   * Lookup548: polkadot_runtime_parachains::coretime::pallet::Event<T>
+   * Lookup517: polkadot_runtime_parachains::coretime::pallet::Event<T>
    **/
   PolkadotRuntimeParachainsCoretimePalletEvent: {
     _enum: {
@@ -225,7 +243,7 @@ export default {
     }
   },
   /**
-   * Lookup600: staging_kusama_runtime::RuntimeHoldReason
+   * Lookup566: staging_kusama_runtime::RuntimeHoldReason
    **/
   StagingKusamaRuntimeRuntimeHoldReason: {
     _enum: {
@@ -267,71 +285,11 @@ export default {
       __Unused35: 'Null',
       __Unused36: 'Null',
       __Unused37: 'Null',
-      Nis: 'PalletNisHoldReason',
-      __Unused39: 'Null',
-      __Unused40: 'Null',
-      __Unused41: 'Null',
-      __Unused42: 'Null',
-      __Unused43: 'Null',
-      __Unused44: 'Null',
-      __Unused45: 'Null',
-      __Unused46: 'Null',
-      __Unused47: 'Null',
-      __Unused48: 'Null',
-      __Unused49: 'Null',
-      __Unused50: 'Null',
-      __Unused51: 'Null',
-      __Unused52: 'Null',
-      __Unused53: 'Null',
-      __Unused54: 'Null',
-      __Unused55: 'Null',
-      __Unused56: 'Null',
-      __Unused57: 'Null',
-      __Unused58: 'Null',
-      __Unused59: 'Null',
-      __Unused60: 'Null',
-      __Unused61: 'Null',
-      __Unused62: 'Null',
-      __Unused63: 'Null',
-      __Unused64: 'Null',
-      __Unused65: 'Null',
-      __Unused66: 'Null',
-      __Unused67: 'Null',
-      __Unused68: 'Null',
-      __Unused69: 'Null',
-      __Unused70: 'Null',
-      __Unused71: 'Null',
-      __Unused72: 'Null',
-      __Unused73: 'Null',
-      __Unused74: 'Null',
-      __Unused75: 'Null',
-      __Unused76: 'Null',
-      __Unused77: 'Null',
-      __Unused78: 'Null',
-      __Unused79: 'Null',
-      __Unused80: 'Null',
-      __Unused81: 'Null',
-      __Unused82: 'Null',
-      __Unused83: 'Null',
-      __Unused84: 'Null',
-      __Unused85: 'Null',
-      __Unused86: 'Null',
-      __Unused87: 'Null',
-      __Unused88: 'Null',
-      __Unused89: 'Null',
-      __Unused90: 'Null',
-      __Unused91: 'Null',
-      __Unused92: 'Null',
-      __Unused93: 'Null',
-      __Unused94: 'Null',
-      __Unused95: 'Null',
-      __Unused96: 'Null',
-      __Unused97: 'Null',
-      StateTrieMigration: 'PalletStateTrieMigrationHoldReason'
+      Nis: 'PalletNisHoldReason'
     }
   },
   /**
-   * Lookup607: staging_kusama_runtime::RuntimeFreezeReason
+   * Lookup572: staging_kusama_runtime::RuntimeFreezeReason
    **/
   StagingKusamaRuntimeRuntimeFreezeReason: {
     _enum: {
@@ -380,33 +338,33 @@ export default {
     }
   },
   /**
-   * Lookup800: pallet_balances::types::IdAmount<Id, Balance>
+   * Lookup742: pallet_balances::types::IdAmount<Id, Balance>
    **/
   PalletBalancesIdAmount: {
     id: 'Null',
     amount: 'u128'
   },
   /**
-   * Lookup899: polkadot_runtime_parachains::assigner_on_demand::EnqueuedOrder
+   * Lookup841: polkadot_runtime_parachains::assigner_on_demand::EnqueuedOrder
    **/
   PolkadotRuntimeParachainsAssignerOnDemandEnqueuedOrder: {
     paraId: 'u32'
   },
   /**
-   * Lookup900: polkadot_runtime_parachains::assigner_on_demand::CoreAffinityCount
+   * Lookup842: polkadot_runtime_parachains::assigner_on_demand::CoreAffinityCount
    **/
   PolkadotRuntimeParachainsAssignerOnDemandCoreAffinityCount: {
     coreIdx: 'u32',
     count: 'u32'
   },
   /**
-   * Lookup901: polkadot_runtime_parachains::assigner_on_demand::pallet::Error<T>
+   * Lookup843: polkadot_runtime_parachains::assigner_on_demand::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsAssignerOnDemandPalletError: {
     _enum: ['InvalidParaId', 'QueueFull', 'SpotPriceHigherThanMaxAmount']
   },
   /**
-   * Lookup903: polkadot_runtime_parachains::assigner_coretime::Schedule<N>
+   * Lookup845: polkadot_runtime_parachains::assigner_coretime::Schedule<N>
    **/
   PolkadotRuntimeParachainsAssignerCoretimeSchedule: {
     assignments: 'Vec<(PalletBrokerCoretimeInterfaceCoreAssignment,u16)>',
@@ -414,21 +372,21 @@ export default {
     nextSchedule: 'Option<u32>'
   },
   /**
-   * Lookup904: polkadot_runtime_parachains::assigner_coretime::CoreDescriptor<N>
+   * Lookup846: polkadot_runtime_parachains::assigner_coretime::CoreDescriptor<N>
    **/
   PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor: {
     queue: 'Option<PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor>',
     currentWork: 'Option<PolkadotRuntimeParachainsAssignerCoretimeWorkState>'
   },
   /**
-   * Lookup906: polkadot_runtime_parachains::assigner_coretime::QueueDescriptor<N>
+   * Lookup848: polkadot_runtime_parachains::assigner_coretime::QueueDescriptor<N>
    **/
   PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor: {
     first: 'u32',
     last: 'u32'
   },
   /**
-   * Lookup908: polkadot_runtime_parachains::assigner_coretime::WorkState<N>
+   * Lookup850: polkadot_runtime_parachains::assigner_coretime::WorkState<N>
    **/
   PolkadotRuntimeParachainsAssignerCoretimeWorkState: {
     assignments: 'Vec<(PalletBrokerCoretimeInterfaceCoreAssignment,PolkadotRuntimeParachainsAssignerCoretimeAssignmentState)>',
@@ -437,26 +395,26 @@ export default {
     step: 'u16'
   },
   /**
-   * Lookup911: polkadot_runtime_parachains::assigner_coretime::AssignmentState
+   * Lookup853: polkadot_runtime_parachains::assigner_coretime::AssignmentState
    **/
   PolkadotRuntimeParachainsAssignerCoretimeAssignmentState: {
     ratio: 'u16',
     remaining: 'u16'
   },
   /**
-   * Lookup912: polkadot_runtime_parachains::assigner_coretime::pallet::Error<T>
+   * Lookup854: polkadot_runtime_parachains::assigner_coretime::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsAssignerCoretimePalletError: {
     _enum: ['AssignmentsEmpty', 'OverScheduled', 'UnderScheduled', 'DisallowedInsert', 'DuplicateInsert', 'AssignmentsNotSorted']
   },
   /**
-   * Lookup926: polkadot_runtime_parachains::coretime::pallet::Error<T>
+   * Lookup868: polkadot_runtime_parachains::coretime::pallet::Error<T>
    **/
   PolkadotRuntimeParachainsCoretimePalletError: {
     _enum: ['NotBroker']
   },
   /**
-   * Lookup972: staging_kusama_runtime::Runtime
+   * Lookup915: staging_kusama_runtime::Runtime
    **/
   StagingKusamaRuntimeRuntime: 'Null'
 };

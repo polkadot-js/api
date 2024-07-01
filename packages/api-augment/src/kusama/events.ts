@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, PalletConvictionVotingTally, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletMultisigTimepoint, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletSocietyGroupParams, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV6CandidateReceipt, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, StagingKusamaRuntimeProxyType, StagingXcmV4AssetAssets, StagingXcmV4Location, StagingXcmV4Response, StagingXcmV4TraitsOutcome, StagingXcmV4Xcm, XcmV3TraitsError, XcmVersionedAssets, XcmVersionedLocation } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, PalletConvictionVotingTally, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletMultisigTimepoint, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletSocietyGroupParams, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV6CandidateReceipt, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, StagingKusamaRuntimeProxyType, StagingXcmV4AssetAssets, StagingXcmV4Location, StagingXcmV4Response, StagingXcmV4TraitsOutcome, StagingXcmV4Xcm, XcmV3TraitsError, XcmVersionedAssets, XcmVersionedLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -502,7 +502,7 @@ declare module '@polkadot/api-base/types/events' {
        **/
       HrmpChannelForceOpened: AugmentedEvent<ApiType, [sender: u32, recipient: u32, proposedMaxCapacity: u32, proposedMaxMessageSize: u32], { sender: u32, recipient: u32, proposedMaxCapacity: u32, proposedMaxMessageSize: u32 }>;
       /**
-       * An HRMP channel was opened between two system chains.
+       * An HRMP channel was opened with a system chain.
        **/
       HrmpSystemChannelOpened: AugmentedEvent<ApiType, [sender: u32, recipient: u32, proposedMaxCapacity: u32, proposedMaxMessageSize: u32], { sender: u32, recipient: u32, proposedMaxCapacity: u32, proposedMaxMessageSize: u32 }>;
       /**
@@ -521,82 +521,6 @@ declare module '@polkadot/api-base/types/events' {
        * Open HRMP channel requested.
        **/
       OpenChannelRequested: AugmentedEvent<ApiType, [sender: u32, recipient: u32, proposedMaxCapacity: u32, proposedMaxMessageSize: u32], { sender: u32, recipient: u32, proposedMaxCapacity: u32, proposedMaxMessageSize: u32 }>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    identity: {
-      /**
-       * A username authority was added.
-       **/
-      AuthorityAdded: AugmentedEvent<ApiType, [authority: AccountId32], { authority: AccountId32 }>;
-      /**
-       * A username authority was removed.
-       **/
-      AuthorityRemoved: AugmentedEvent<ApiType, [authority: AccountId32], { authority: AccountId32 }>;
-      /**
-       * A dangling username (as in, a username corresponding to an account that has removed its
-       * identity) has been removed.
-       **/
-      DanglingUsernameRemoved: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes], { who: AccountId32, username: Bytes }>;
-      /**
-       * A name was cleared, and the given balance returned.
-       **/
-      IdentityCleared: AugmentedEvent<ApiType, [who: AccountId32, deposit: u128], { who: AccountId32, deposit: u128 }>;
-      /**
-       * A name was removed and the given balance slashed.
-       **/
-      IdentityKilled: AugmentedEvent<ApiType, [who: AccountId32, deposit: u128], { who: AccountId32, deposit: u128 }>;
-      /**
-       * A name was set or reset (which will remove all judgements).
-       **/
-      IdentitySet: AugmentedEvent<ApiType, [who: AccountId32], { who: AccountId32 }>;
-      /**
-       * A judgement was given by a registrar.
-       **/
-      JudgementGiven: AugmentedEvent<ApiType, [target: AccountId32, registrarIndex: u32], { target: AccountId32, registrarIndex: u32 }>;
-      /**
-       * A judgement was asked from a registrar.
-       **/
-      JudgementRequested: AugmentedEvent<ApiType, [who: AccountId32, registrarIndex: u32], { who: AccountId32, registrarIndex: u32 }>;
-      /**
-       * A judgement request was retracted.
-       **/
-      JudgementUnrequested: AugmentedEvent<ApiType, [who: AccountId32, registrarIndex: u32], { who: AccountId32, registrarIndex: u32 }>;
-      /**
-       * A queued username passed its expiration without being claimed and was removed.
-       **/
-      PreapprovalExpired: AugmentedEvent<ApiType, [whose: AccountId32], { whose: AccountId32 }>;
-      /**
-       * A username was set as a primary and can be looked up from `who`.
-       **/
-      PrimaryUsernameSet: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes], { who: AccountId32, username: Bytes }>;
-      /**
-       * A registrar was added.
-       **/
-      RegistrarAdded: AugmentedEvent<ApiType, [registrarIndex: u32], { registrarIndex: u32 }>;
-      /**
-       * A sub-identity was added to an identity and the deposit paid.
-       **/
-      SubIdentityAdded: AugmentedEvent<ApiType, [sub: AccountId32, main: AccountId32, deposit: u128], { sub: AccountId32, main: AccountId32, deposit: u128 }>;
-      /**
-       * A sub-identity was removed from an identity and the deposit freed.
-       **/
-      SubIdentityRemoved: AugmentedEvent<ApiType, [sub: AccountId32, main: AccountId32, deposit: u128], { sub: AccountId32, main: AccountId32, deposit: u128 }>;
-      /**
-       * A sub-identity was cleared, and the given deposit repatriated from the
-       * main identity account to the sub-identity account.
-       **/
-      SubIdentityRevoked: AugmentedEvent<ApiType, [sub: AccountId32, main: AccountId32, deposit: u128], { sub: AccountId32, main: AccountId32, deposit: u128 }>;
-      /**
-       * A username was queued, but `who` must accept it prior to `expiration`.
-       **/
-      UsernameQueued: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes, expiration: u32], { who: AccountId32, username: Bytes, expiration: u32 }>;
-      /**
-       * A username was set for `who`.
-       **/
-      UsernameSet: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes], { who: AccountId32, username: Bytes }>;
       /**
        * Generic event
        **/
@@ -1297,6 +1221,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Chilled: AugmentedEvent<ApiType, [stash: AccountId32], { stash: AccountId32 }>;
       /**
+       * Report of a controller batch deprecation.
+       **/
+      ControllerBatchDeprecated: AugmentedEvent<ApiType, [failures: u32], { failures: u32 }>;
+      /**
        * The era payout has been set; the first balance is the validator-payout; the second is
        * the remainder from the maximum amount of reward.
        **/
@@ -1360,29 +1288,6 @@ declare module '@polkadot/api-base/types/events' {
        * from the unlocking queue.
        **/
       Withdrawn: AugmentedEvent<ApiType, [stash: AccountId32, amount: u128], { stash: AccountId32, amount: u128 }>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    stateTrieMigration: {
-      /**
-       * The auto migration task finished.
-       **/
-      AutoMigrationFinished: AugmentedEvent<ApiType, []>;
-      /**
-       * Migration got halted due to an error or miss-configuration.
-       **/
-      Halted: AugmentedEvent<ApiType, [error: PalletStateTrieMigrationError], { error: PalletStateTrieMigrationError }>;
-      /**
-       * Given number of `(top, child)` keys were migrated respectively, with the given
-       * `compute`.
-       **/
-      Migrated: AugmentedEvent<ApiType, [top: u32, child: u32, compute: PalletStateTrieMigrationMigrationCompute], { top: u32, child: u32, compute: PalletStateTrieMigrationMigrationCompute }>;
-      /**
-       * Some account got slashed by the given amount.
-       **/
-      Slashed: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
        * Generic event
        **/
