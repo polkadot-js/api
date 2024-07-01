@@ -783,116 +783,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    identity: {
-      /**
-       * Account ID is already named.
-       **/
-      AlreadyClaimed: AugmentedError<ApiType>;
-      /**
-       * Empty index.
-       **/
-      EmptyIndex: AugmentedError<ApiType>;
-      /**
-       * Fee is changed.
-       **/
-      FeeChanged: AugmentedError<ApiType>;
-      /**
-       * The index is invalid.
-       **/
-      InvalidIndex: AugmentedError<ApiType>;
-      /**
-       * Invalid judgement.
-       **/
-      InvalidJudgement: AugmentedError<ApiType>;
-      /**
-       * The signature on a username was not valid.
-       **/
-      InvalidSignature: AugmentedError<ApiType>;
-      /**
-       * The provided suffix is too long.
-       **/
-      InvalidSuffix: AugmentedError<ApiType>;
-      /**
-       * The target is invalid.
-       **/
-      InvalidTarget: AugmentedError<ApiType>;
-      /**
-       * The username does not meet the requirements.
-       **/
-      InvalidUsername: AugmentedError<ApiType>;
-      /**
-       * The provided judgement was for a different identity.
-       **/
-      JudgementForDifferentIdentity: AugmentedError<ApiType>;
-      /**
-       * Judgement given.
-       **/
-      JudgementGiven: AugmentedError<ApiType>;
-      /**
-       * Error that occurs when there is an issue paying for judgement.
-       **/
-      JudgementPaymentFailed: AugmentedError<ApiType>;
-      /**
-       * The authority cannot allocate any more usernames.
-       **/
-      NoAllocation: AugmentedError<ApiType>;
-      /**
-       * No identity found.
-       **/
-      NoIdentity: AugmentedError<ApiType>;
-      /**
-       * The username cannot be forcefully removed because it can still be accepted.
-       **/
-      NotExpired: AugmentedError<ApiType>;
-      /**
-       * Account isn't found.
-       **/
-      NotFound: AugmentedError<ApiType>;
-      /**
-       * Account isn't named.
-       **/
-      NotNamed: AugmentedError<ApiType>;
-      /**
-       * Sub-account isn't owned by sender.
-       **/
-      NotOwned: AugmentedError<ApiType>;
-      /**
-       * Sender is not a sub-account.
-       **/
-      NotSub: AugmentedError<ApiType>;
-      /**
-       * The sender does not have permission to issue a username.
-       **/
-      NotUsernameAuthority: AugmentedError<ApiType>;
-      /**
-       * The requested username does not exist.
-       **/
-      NoUsername: AugmentedError<ApiType>;
-      /**
-       * Setting this username requires a signature, but none was provided.
-       **/
-      RequiresSignature: AugmentedError<ApiType>;
-      /**
-       * Sticky judgement.
-       **/
-      StickyJudgement: AugmentedError<ApiType>;
-      /**
-       * Maximum amount of registrars reached. Cannot add any more.
-       **/
-      TooManyRegistrars: AugmentedError<ApiType>;
-      /**
-       * Too many subs-accounts.
-       **/
-      TooManySubAccounts: AugmentedError<ApiType>;
-      /**
-       * The username is already taken.
-       **/
-      UsernameTaken: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     indices: {
       /**
        * The index was not available.
@@ -2107,6 +1997,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CannotChillOther: AugmentedError<ApiType>;
       /**
+       * Cannot reset a ledger.
+       **/
+      CannotRestoreLedger: AugmentedError<ApiType>;
+      /**
        * Commission is too low. Must be at least `MinCommission`.
        **/
       CommissionTooLow: AugmentedError<ApiType>;
@@ -2190,42 +2084,6 @@ declare module '@polkadot/api-base/types/errors' {
        * staking settings to keep things safe for the runtime.
        **/
       TooManyValidators: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    stateTrieMigration: {
-      /**
-       * Bad child root provided.
-       **/
-      BadChildRoot: AugmentedError<ApiType>;
-      /**
-       * Bad witness data provided.
-       **/
-      BadWitness: AugmentedError<ApiType>;
-      /**
-       * A key was longer than the configured maximum.
-       * 
-       * This means that the migration halted at the current [`Progress`] and
-       * can be resumed with a larger [`crate::Config::MaxKeyLen`] value.
-       * Retrying with the same [`crate::Config::MaxKeyLen`] value will not work.
-       * The value should only be increased to avoid a storage migration for the currently
-       * stored [`crate::Progress::LastKey`].
-       **/
-      KeyTooLong: AugmentedError<ApiType>;
-      /**
-       * Max signed limits not respected.
-       **/
-      MaxSignedLimits: AugmentedError<ApiType>;
-      /**
-       * submitter does not have enough funds.
-       **/
-      NotEnoughFunds: AugmentedError<ApiType>;
-      /**
-       * Signed migration is not allowed because the maximum limit is not set yet.
-       **/
-      SignedMigrationNotAllowed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
