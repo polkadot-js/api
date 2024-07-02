@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 12.1.1 July 2, 2024
+
+Contributed:
+
+- Implement xcm payment api (Thanks to https://github.com/girazoki)
+
+Changes:
+
+- Update Augmented types for polkadot 1002005 
+- Update Augmented types for kusama 1002006
+  - Note: This removes type support for the Identity pallet for Kusama, and stateTrieMigration
+- Update upgrade blocks for {Kusama, Polkadot}
+
+
 ## 12.0.2 June 27, 2024
 
 **Important Changes**:
