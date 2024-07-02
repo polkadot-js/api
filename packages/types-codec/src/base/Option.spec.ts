@@ -93,17 +93,6 @@ describe('Option', (): void => {
     ).toEqual('hello');
   });
 
-  it('converts correctly from hex with toHex (Bytes)', (): void => {
-    // Option<Bytes> for a parachain head, however, this is effectively an
-    // Option<Option<Bytes>> (hence the length, since it is from storage)
-    const HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
-
-    // watch the hex prefix and length
-    expect(
-      new Option(registry, Bytes, HEX).toHex().substring(6)
-    ).toEqual(HEX.substring(2));
-  });
-
   it('converts correctly from hex with toNumber (U64)', (): void => {
     const HEX = '0x12345678';
 
@@ -124,8 +113,6 @@ describe('Option', (): void => {
   testDecode('string (without)', undefined, '');
   testDecode('Uint8Array (with)', Uint8Array.from([1, 12, 102, 111, 111]), 'foo');
   testDecode('Uint8Array (without)', Uint8Array.from([0]), '');
-
-  testEncode('toHex', '0x0c666f6f');
   testEncode('toString', 'foo');
   testEncode('toU8a', Uint8Array.from([1, 12, 102, 111, 111]));
 
@@ -175,6 +162,55 @@ describe('Option', (): void => {
     expect(
       new Option(registry, Text, 'abcde').toJSON()
     ).toEqual('abcde');
+  });
+
+  describe('toHex()', (): void => {
+    it('converts Option<U32> correctly', (): void => {
+      expect(
+        new Option(registry, U32, 0x1234).toHex()
+      ).toEqual('0x00001234');
+    });
+
+    it('converts Option<Option<U32>> correctly', (): void => {
+      expect(
+        new Option(registry, Option.with(U32), 0x1234).toHex()
+      ).toEqual('0x00001234');
+    });
+
+    it('constructs from hex Option<Option<U32>> correctly', (): void => {
+      expect(
+        new Option(registry, Option.with(U32), '0x00001234').toHex()
+      ).toEqual('0x00001234');
+    });
+
+    it('converts Option<Bytes> correctly', (): void => {
+      expect(
+        new Option(registry, Bytes, 'abcde').toHex()
+      ).toEqual('0x6162636465');
+    });
+
+    it('converts Option<Option<Bytes>> correctly', (): void => {
+      expect(
+        new Option(registry, Option.with(Bytes), 'abcde').toHex()
+      ).toEqual('0x6162636465');
+    });
+
+    it('constructs from hex Option<Option<Bytes>> correctly', (): void => {
+      expect(
+        new Option(registry, Option.with(Bytes), '0x6162636465').toHex()
+      ).toEqual('0x6162636465');
+    });
+
+    it('converts correctly from hex with toHex (Bytes)', (): void => {
+      // Option<Bytes> for a parachain head, however, this is effectively an
+      // Option<Option<Bytes>> (hence the length, since it is from storage)
+      const HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
+
+      // watch the hex prefix and length
+      expect(
+        new Option(registry, Bytes, HEX).toHex()
+      ).toEqual(HEX);
+    });
   });
 
   describe('utils', (): void => {
