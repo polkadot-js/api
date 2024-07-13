@@ -6,7 +6,7 @@
   },
   "homepage": "https://github.com/polkadot-js/api#readme",
   "license": "Apache-2.0",
-  "packageManager": "yarn@4.2.2",
+  "packageManager": "yarn@4.3.1",
   "private": true,
   "repository": {
     "type": "git",
