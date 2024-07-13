@@ -18,13 +18,13 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "12.1.1",
+  "version": "12.1.2-0-x",
   "main": "index.js",
   "dependencies": {
     "@polkadot/keyring": "^13.0.2",
-    "@polkadot/types-augment": "12.1.1",
-    "@polkadot/types-codec": "12.1.1",
-    "@polkadot/types-create": "12.1.1",
+    "@polkadot/types-augment": "12.1.2-0-x",
+    "@polkadot/types-codec": "12.1.2-0-x",
+    "@polkadot/types-create": "12.1.2-0-x",
     "@polkadot/util": "^13.0.2",
     "@polkadot/util-crypto": "^13.0.2",
     "rxjs": "^7.8.1",
@@ -32,6 +32,6 @@
   },
   "devDependencies": {
     "@polkadot/keyring": "^13.0.2",
-    "@polkadot/types-support": "12.1.1"
+    "@polkadot/types-support": "12.1.2-0-x"
   }
 }
