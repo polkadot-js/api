@@ -37,9 +37,9 @@
     "@polkadot/types-codec": "12.1.1",
     "@polkadot/types-create": "12.1.1",
     "@polkadot/types-support": "12.1.1",
-    "@polkadot/util": "^12.6.2",
-    "@polkadot/util-crypto": "^12.6.2",
-    "@polkadot/x-ws": "^12.6.2",
+    "@polkadot/util": "^13.0.2",
+    "@polkadot/util-crypto": "^13.0.2",
+    "@polkadot/x-ws": "^13.0.2",
     "handlebars": "^4.7.8",
     "tslib": "^2.6.2",
     "yargs": "^17.7.2"
