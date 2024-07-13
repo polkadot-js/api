@@ -26,14 +26,14 @@
     "@polkadot/types": "12.1.1",
     "@polkadot/types-codec": "12.1.1",
     "@polkadot/types-create": "12.1.1",
-    "@polkadot/util": "^12.6.2",
-    "@polkadot/util-crypto": "^12.6.2",
+    "@polkadot/util": "^13.0.2",
+    "@polkadot/util-crypto": "^13.0.2",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@polkadot/api-augment": "12.1.1",
-    "@polkadot/keyring": "^12.6.2",
+    "@polkadot/keyring": "^13.0.2",
     "@polkadot/types-support": "12.1.1"
   }
 }
