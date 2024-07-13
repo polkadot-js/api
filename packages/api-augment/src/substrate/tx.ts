@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsType, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyDoubleVotingProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyDoubleVotingProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -429,7 +429,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Parameters:
        * - `id`: The identifier of the new asset. This must not be currently in use to identify
-       * an existing asset.
+       * an existing asset. If [`NextAssetId`] is set, then this must be equal to it.
        * - `admin`: The admin of this class of assets. The admin is the initial address of each
        * member of the asset class's admin team.
        * - `min_balance`: The minimum balance of this new asset that any single account must
@@ -548,7 +548,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Unlike `create`, no funds are reserved.
        * 
        * - `id`: The identifier of the new asset. This must not be currently in use to identify
-       * an existing asset.
+       * an existing asset. If [`NextAssetId`] is set, then this must be equal to it.
        * - `owner`: The owner of this class of assets. The owner has full superuser permissions
        * over this asset, but may later change and configure the permissions using
        * `transfer_ownership` and `set_team`.
@@ -1202,6 +1202,7 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       interlace: AugmentedSubmittable<(regionId: PalletBrokerRegionId | { begin?: any; core?: any; mask?: any } | string | Uint8Array, pivot: PalletBrokerCoreMask | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletBrokerRegionId, PalletBrokerCoreMask]>;
       notifyCoreCount: AugmentedSubmittable<(coreCount: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16]>;
+      notifyRevenue: AugmentedSubmittable<(revenue: PalletBrokerOnDemandRevenueRecord | { until?: any; amount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletBrokerOnDemandRevenueRecord]>;
       /**
        * Split a Bulk Coretime Region into two non-overlapping Regions at a particular time into
        * the region.
@@ -1785,6 +1786,14 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       promote: AugmentedSubmittable<(who: AccountId32 | string | Uint8Array, toRank: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u16]>;
       /**
+       * Fast promotions can skip ranks and ignore the `min_promotion_period`.
+       * 
+       * This is useful for out-of-band promotions, hence it has its own `FastPromoteOrigin` to
+       * be (possibly) more restrictive than `PromoteOrigin`. Note that the member must already
+       * be inducted.
+       **/
+      promoteFast: AugmentedSubmittable<(who: AccountId32 | string | Uint8Array, toRank: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u16]>;
+      /**
        * Set whether a member is active or not.
        * 
        * - `origin`: A `Signed` origin of a member's account.
@@ -1797,7 +1806,17 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `origin`: An origin complying with `ParamsOrigin` or root.
        * - `params`: The new parameters for the pallet.
        **/
-      setParams: AugmentedSubmittable<(params: PalletCoreFellowshipParamsType | { activeSalary?: any; passiveSalary?: any; demotionPeriod?: any; minPromotionPeriod?: any; offboardTimeout?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletCoreFellowshipParamsType]>;
+      setParams: AugmentedSubmittable<(params: PalletCoreFellowshipParamsTypeU128 | { activeSalary?: any; passiveSalary?: any; demotionPeriod?: any; minPromotionPeriod?: any; offboardTimeout?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletCoreFellowshipParamsTypeU128]>;
+      /**
+       * Set the parameters partially.
+       * 
+       * - `origin`: An origin complying with `ParamsOrigin` or root.
+       * - `partial_params`: The new parameters for the pallet.
+       * 
+       * This update config with multiple arguments without duplicating
+       * the fields that does not need to update (set to None).
+       **/
+      setPartialParams: AugmentedSubmittable<(partialParams: PalletCoreFellowshipParamsTypeOption | { activeSalary?: any; passiveSalary?: any; demotionPeriod?: any; minPromotionPeriod?: any; offboardTimeout?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletCoreFellowshipParamsTypeOption]>;
       /**
        * Provide evidence that a rank is deserved.
        * 
@@ -2449,6 +2468,10 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     glutton: {
       /**
+       * Increase the block size by including the specified garbage bytes.
+       **/
+      bloat: AugmentedSubmittable<(garbage: Vec<U8aFixed>) => SubmittableExtrinsic<ApiType>, [Vec<U8aFixed>]>;
+      /**
        * Initialize the pallet. Should be called once, if no genesis state was provided.
        * 
        * `current_count` is the current number of elements in `TrashData`. This can be set to
@@ -2457,6 +2480,15 @@ declare module '@polkadot/api-base/types/submittable' {
        * Only callable by Root or `AdminOrigin`. A good default for `new_count` is `5_000`.
        **/
       initializePallet: AugmentedSubmittable<(newCount: u32 | AnyNumber | Uint8Array, witnessCount: Option<u32> | null | Uint8Array | u32 | AnyNumber) => SubmittableExtrinsic<ApiType>, [u32, Option<u32>]>;
+      /**
+       * Set how much of the block length should be filled with trash data on each block.
+       * 
+       * `1.0` means that all block should be filled. If set to `1.0`, storage proof size will
+       * be close to zero.
+       * 
+       * Only callable by Root or `AdminOrigin`.
+       **/
+      setBlockLength: AugmentedSubmittable<(blockLength: u64 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u64]>;
       /**
        * Set how much of the remaining `ref_time` weight should be consumed by `on_idle`.
        * 
@@ -4254,7 +4286,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Parameters:
        * - `id`: The identifier of the new asset. This must not be currently in use to identify
-       * an existing asset.
+       * an existing asset. If [`NextAssetId`] is set, then this must be equal to it.
        * - `admin`: The admin of this class of assets. The admin is the initial address of each
        * member of the asset class's admin team.
        * - `min_balance`: The minimum balance of this new asset that any single account must
@@ -4373,7 +4405,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Unlike `create`, no funds are reserved.
        * 
        * - `id`: The identifier of the new asset. This must not be currently in use to identify
-       * an existing asset.
+       * an existing asset. If [`NextAssetId`] is set, then this must be equal to it.
        * - `owner`: The owner of this class of assets. The owner has full superuser permissions
        * over this asset, but may later change and configure the permissions using
        * `transfer_ownership` and `set_team`.
@@ -6727,26 +6759,6 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     treasury: {
       /**
-       * Approve a proposal.
-       * 
-       * ## Dispatch Origin
-       * 
-       * Must be [`Config::ApproveOrigin`].
-       * 
-       * ## Details
-       * 
-       * At a later time, the proposal will be allocated to the beneficiary and the original
-       * deposit will be returned.
-       * 
-       * ### Complexity
-       * - O(1).
-       * 
-       * ## Events
-       * 
-       * No events are emitted from this dispatch.
-       **/
-      approveProposal: AugmentedSubmittable<(proposalId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
-      /**
        * Check the status of the spend and remove it from the storage if processed.
        * 
        * ## Dispatch Origin
@@ -6773,7 +6785,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * ## Dispatch Origin
        * 
-       * Must be signed.
+       * Must be signed
        * 
        * ## Details
        * 
@@ -6790,43 +6802,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * Emits [`Event::Paid`] if successful.
        **/
       payout: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
-      /**
-       * Put forward a suggestion for spending.
-       * 
-       * ## Dispatch Origin
-       * 
-       * Must be signed.
-       * 
-       * ## Details
-       * A deposit proportional to the value is reserved and slashed if the proposal is rejected.
-       * It is returned once the proposal is awarded.
-       * 
-       * ### Complexity
-       * - O(1)
-       * 
-       * ## Events
-       * 
-       * Emits [`Event::Proposed`] if successful.
-       **/
-      proposeSpend: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, beneficiary: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress]>;
-      /**
-       * Reject a proposed spend.
-       * 
-       * ## Dispatch Origin
-       * 
-       * Must be [`Config::RejectOrigin`].
-       * 
-       * ## Details
-       * The original deposit will be slashed.
-       * 
-       * ### Complexity
-       * - O(1)
-       * 
-       * ## Events
-       * 
-       * Emits [`Event::Rejected`] if successful.
-       **/
-      rejectProposal: AugmentedSubmittable<(proposalId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
        * Force a previously approved proposal to be removed from the approval queue.
        * 

@@ -2727,6 +2727,12 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Complete' | 'Incomplete' | 'Error';
   }
 
+  /** @name PalletBalancesIdAmountRuntimeHoldReason (578) */
+  interface PalletBalancesIdAmountRuntimeHoldReason extends Struct {
+    readonly id: PolkadotRuntimeRuntimeHoldReason;
+    readonly amount: u128;
+  }
+
   /** @name PolkadotRuntimeRuntimeHoldReason (579) */
   interface PolkadotRuntimeRuntimeHoldReason extends Enum {
     readonly isPreimage: boolean;
@@ -2734,6 +2740,12 @@ declare module '@polkadot/types/lookup' {
     readonly isStateTrieMigration: boolean;
     readonly asStateTrieMigration: PalletStateTrieMigrationHoldReason;
     readonly type: 'Preimage' | 'StateTrieMigration';
+  }
+
+  /** @name PalletBalancesIdAmountRuntimeFreezeReason (584) */
+  interface PalletBalancesIdAmountRuntimeFreezeReason extends Struct {
+    readonly id: PolkadotRuntimeRuntimeFreezeReason;
+    readonly amount: u128;
   }
 
   /** @name PolkadotRuntimeRuntimeFreezeReason (585) */

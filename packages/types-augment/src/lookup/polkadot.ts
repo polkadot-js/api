@@ -2699,6 +2699,13 @@ export default {
     }
   },
   /**
+   * Lookup578: pallet_balances::types::IdAmount<polkadot_runtime::RuntimeHoldReason, Balance>
+   **/
+  PalletBalancesIdAmountRuntimeHoldReason: {
+    id: 'PolkadotRuntimeRuntimeHoldReason',
+    amount: 'u128'
+  },
+  /**
    * Lookup579: polkadot_runtime::RuntimeHoldReason
    **/
   PolkadotRuntimeRuntimeHoldReason: {
@@ -2803,6 +2810,13 @@ export default {
       __Unused97: 'Null',
       StateTrieMigration: 'PalletStateTrieMigrationHoldReason'
     }
+  },
+  /**
+   * Lookup584: pallet_balances::types::IdAmount<polkadot_runtime::RuntimeFreezeReason, Balance>
+   **/
+  PalletBalancesIdAmountRuntimeFreezeReason: {
+    id: 'PolkadotRuntimeRuntimeFreezeReason',
+    amount: 'u128'
   },
   /**
    * Lookup585: polkadot_runtime::RuntimeFreezeReason
