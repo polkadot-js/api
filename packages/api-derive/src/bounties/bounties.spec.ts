@@ -147,7 +147,7 @@ describe('bounties derive', () => {
         council: {
           proposals: () => of([
             { proposal: createProposal(api.tx.bounties.approveBounty(1)) },
-            { proposal: createProposal(api.tx.treasury.approveProposal(1)) }] as DeriveCollectiveProposal[])
+            { proposal: api.tx.treasury['approveProposal'] && createProposal(api.tx.treasury['approveProposal'](1)) }] as DeriveCollectiveProposal[])
         }
       }
     } as unknown as DeriveApi;

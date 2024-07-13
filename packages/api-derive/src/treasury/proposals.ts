@@ -23,9 +23,11 @@ function parseResult (api: DeriveApi, { allIds, allProposals, approvalIds, counc
   const approvals: DeriveTreasuryProposal[] = [];
   const proposals: DeriveTreasuryProposal[] = [];
   const councilTreasury = councilProposals.filter(({ proposal }) =>
+    // FIXME `approveProposal` and `rejectProposal` have been removed in substrate and released in 1.14
+    // in favor of `spend`. See: https://github.com/paritytech/polkadot-sdk/pull/3820
     proposal && (
-      api.tx.treasury.approveProposal.is(proposal) ||
-      api.tx.treasury.rejectProposal.is(proposal)
+      (api.tx.treasury['approveProposal'] && api.tx.treasury['approveProposal'].is(proposal)) ||
+      (api.tx.treasury['rejectProposal'] && api.tx.treasury['rejectProposal'].is(proposal))
     )
   );
 
