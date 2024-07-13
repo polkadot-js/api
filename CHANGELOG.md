@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 12.2.1 July 13, 2024
+
+Changes:
+
+- Bump polkadot/common to 13.0.2
+  - This contains the latest changes to the Ledger interface in `@polkadot/hw-ledger`. For more info please see ([13.0.1](https://github.com/polkadot-js/common/releases/tag/v13.0.1))
+- Bump Substrate Metadata to Latest
+  - This includes additions and removals to the api's type augmentation. For more info please see ([#5936](https://github.com/polkadot-js/api/pull/5936))
+- Update Polkadot 1002006 types-known
+- Bump yarn to 4.3.1
+
+
 ## 12.1.1 July 2, 2024
 
 Contributed:
