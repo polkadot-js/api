@@ -389,7 +389,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   /**
    * @internal
-   * 
+   *
    * Tries to use runtime api calls to retrieve metadata. This ensures the api initializes with the latest metadata.
    * If the runtime call is not there it will use the rpc method.
    */
