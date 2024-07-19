@@ -125,9 +125,6 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   private async _createBlockRegistry (blockHash: Uint8Array, header: HeaderPartial, version: RuntimeVersionPartial): Promise<VersionedRegistry<ApiType>> {
     const registry = new TypeRegistry(blockHash);
-
-    console.log('hit _createBlockRegistry');
-    console.log('keys of _call: ', Object.keys(this._call.core));
     const metadata = new Metadata(registry,
       await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
     );
