@@ -4,7 +4,7 @@
 import type { Observable, Subscription } from 'rxjs';
 import type { Text, u32, Vec } from '@polkadot/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
-import type { ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersionApi, RuntimeVersionPartial } from '@polkadot/types/interfaces';
+import type { BlockHash, ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersionApi, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
@@ -125,9 +125,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   private async _createBlockRegistry (blockHash: Uint8Array, header: HeaderPartial, version: RuntimeVersionPartial): Promise<VersionedRegistry<ApiType>> {
     const registry = new TypeRegistry(blockHash);
-    const metadata = new Metadata(registry,
-      await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
-    );
+    const metadata = await this._retrieveMetadata(version.apis, header.parentHash);
     const runtimeChain = this._runtimeChain;
 
     if (!runtimeChain) {
@@ -393,7 +391,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
    * Tries to use runtime api calls to retrieve metadata. This ensures the api initializes with the latest metadata.
    * If the runtime call is not there it will use the rpc method.
    */
-  private async _retrieveMetadata (apis: Vec<RuntimeVersionApi>): Promise<Metadata> {
+  private async _retrieveMetadata (apis: Vec<RuntimeVersionApi>, at?: BlockHash | string | Uint8Array): Promise<Metadata> {
     let metadataVersion: u32 | null = null;
     const metadataApi = apis.find(([a]) => a.eq(blake2AsHex('Metadata', 64)));
 
@@ -401,11 +399,11 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (!metadataApi || metadataApi[1].toNumber() !== 2) {
       l.warn('MetadataApi not available, rpc::state::get_metadata will be used.');
 
-      return await firstValueFrom(this._rpcCore.state.getMetadata());
+      return await firstValueFrom(this._rpcCore.state.getMetadata(at));
     }
 
     try {
-      const metadataVersionsAsBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x'));
+      const metadataVersionsAsBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x', at));
       const versions = this.registry.createType('Vec<u32>', metadataVersionsAsBytes);
 
       metadataVersion = versions.reduce((largest, current) => current.gt(largest) ? current : largest);
@@ -415,7 +413,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     if (metadataVersion) {
       try {
-        const metadataBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a())));
+        const metadataBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a()), at));
         const opaqueMetadata = this.registry.createType('Option<OpaqueMetadata>', metadataBytes).unwrapOr(null);
 
         if (opaqueMetadata) {
