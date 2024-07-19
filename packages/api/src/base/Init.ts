@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable, Subscription } from 'rxjs';
-import type { Text } from '@polkadot/types';
+import type { Text, u32 } from '@polkadot/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
@@ -125,6 +125,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
   private async _createBlockRegistry (blockHash: Uint8Array, header: HeaderPartial, version: RuntimeVersionPartial): Promise<VersionedRegistry<ApiType>> {
     const registry = new TypeRegistry(blockHash);
+
+    console.log('hit _createBlockRegistry');
+    console.log('keys of _call: ', Object.keys(this._call.core));
     const metadata = new Metadata(registry,
       await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(header.parentHash))
     );
@@ -330,15 +333,12 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
   }
 
   private async _metaFromChain (optMetadata?: Record<string, HexString>): Promise<[Hash, Metadata]> {
-    const [genesisHash, runtimeVersion, chain, chainProps, rpcMethods, chainMetadata] = await Promise.all([
+    const [genesisHash, runtimeVersion, chain, chainProps, rpcMethods] = await Promise.all([
       firstValueFrom(this._rpcCore.chain.getBlockHash(0)),
       firstValueFrom(this._rpcCore.state.getRuntimeVersion()),
       firstValueFrom(this._rpcCore.system.chain()),
       firstValueFrom(this._rpcCore.system.properties()),
-      firstValueFrom(this._rpcCore.rpc.methods()),
-      optMetadata
-        ? Promise.resolve(null)
-        : firstValueFrom(this._rpcCore.state.getMetadata())
+      firstValueFrom(this._rpcCore.rpc.methods())
     ]);
 
     // set our chain version & genesisHash as returned
@@ -348,11 +348,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     // retrieve metadata, either from chain  or as pass-in via options
     const metadataKey = `${genesisHash.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
-    const metadata = chainMetadata || (
-      optMetadata?.[metadataKey]
-        ? new Metadata(this.registry, optMetadata[metadataKey])
-        : await firstValueFrom(this._rpcCore.state.getMetadata())
-    );
+    const metadata = optMetadata?.[metadataKey]
+      ? new Metadata(this.registry, optMetadata[metadataKey])
+      : await this._retrieveMetadata();
 
     // initializes the registry & RPC
     this._initRegistry(this.registry, chain, runtimeVersion, metadata, chainProps);
@@ -390,6 +388,37 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     this._derive = this._decorateDerive(this._decorateMethod);
 
     return true;
+  }
+
+  /**
+   * @internal
+   * 
+   * Tries to use runtime api calls to retrieve metadata. This ensures the api initializes with the latest metadata.
+   * If the runtime call is not there it will use the rpc method.
+   */
+  private async _retrieveMetadata (): Promise<Metadata> {
+    // TODO increase the safety of this call by checking the runtime api hashes to ensure metadata is there.
+    let metadataVersion: u32 | null = null;
+
+    try {
+      const metadataVersionsAsBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x'));
+      const versions = this.registry.createType('Vec<u32>', metadataVersionsAsBytes);
+
+      metadataVersion = versions.reduce((largest, current) => current.gt(largest) ? current : largest);
+    } catch {
+      l.warn('API-INIT: state_call::Metadata_metadata_versions not available, rpc::state::get_metadata will be used.');
+    }
+
+    if (metadataVersion) {
+      const metadataBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a())));
+      const opaqueMetadata = this.registry.createType('Option<OpaqueMetadata>', metadataBytes).unwrapOr(null);
+
+      if (opaqueMetadata) {
+        return new Metadata(this.registry, opaqueMetadata.toHex());
+      }
+    }
+
+    return await firstValueFrom(this._rpcCore.state.getMetadata());
   }
 
   private _subscribeHealth (): void {
