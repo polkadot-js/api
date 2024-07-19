@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable, Subscription } from 'rxjs';
-import type { Text, u32 } from '@polkadot/types';
+import type { Text, u32, Vec } from '@polkadot/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
-import type { ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersionPartial } from '@polkadot/types/interfaces';
+import type { ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersionApi, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
@@ -16,7 +16,7 @@ import { firstValueFrom, map, of, switchMap } from 'rxjs';
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assertReturn, BN_ZERO, isUndefined, logger, noop, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
-import { cryptoWaitReady } from '@polkadot/util-crypto';
+import { blake2AsHex, cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { Decorate } from './Decorate.js';
 
@@ -347,7 +347,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const metadataKey = `${genesisHash.toHex() || '0x'}-${runtimeVersion.specVersion.toString()}`;
     const metadata = optMetadata?.[metadataKey]
       ? new Metadata(this.registry, optMetadata[metadataKey])
-      : await this._retrieveMetadata();
+      : await this._retrieveMetadata(runtimeVersion.apis);
 
     // initializes the registry & RPC
     this._initRegistry(this.registry, chain, runtimeVersion, metadata, chainProps);
@@ -393,9 +393,16 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
    * Tries to use runtime api calls to retrieve metadata. This ensures the api initializes with the latest metadata.
    * If the runtime call is not there it will use the rpc method.
    */
-  private async _retrieveMetadata (): Promise<Metadata> {
-    // TODO increase the safety of this call by checking the runtime api hashes to ensure metadata is there.
+  private async _retrieveMetadata (apis: Vec<RuntimeVersionApi>): Promise<Metadata> {
     let metadataVersion: u32 | null = null;
+    const metadataApi = apis.find(([a]) => a.eq(blake2AsHex('Metadata', 64)));
+
+    // This chain does not have support for the metadataApi
+    if (!metadataApi) {
+      l.warn('API-INIT: MetadataApi not available, rpc::state::get_metadata will be used.');
+
+      return await firstValueFrom(this._rpcCore.state.getMetadata());
+    }
 
     try {
       const metadataVersionsAsBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x'));
@@ -407,11 +414,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     }
 
     if (metadataVersion) {
-      const metadataBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a())));
-      const opaqueMetadata = this.registry.createType('Option<OpaqueMetadata>', metadataBytes).unwrapOr(null);
+      try {
+        const metadataBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a())));
+        const opaqueMetadata = this.registry.createType('Option<OpaqueMetadata>', metadataBytes).unwrapOr(null);
 
-      if (opaqueMetadata) {
-        return new Metadata(this.registry, opaqueMetadata.toHex());
+        if (opaqueMetadata) {
+          return new Metadata(this.registry, opaqueMetadata.toHex());
+        }
+      } catch {
+        l.warn('API-INIT: state_call::Metadata_metadata_at_version not available, rpc::state::get_metadata will be used.');
       }
     }
 
