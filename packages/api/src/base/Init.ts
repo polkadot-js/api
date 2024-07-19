@@ -397,9 +397,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     let metadataVersion: u32 | null = null;
     const metadataApi = apis.find(([a]) => a.eq(blake2AsHex('Metadata', 64)));
 
-    // This chain does not have support for the metadataApi
-    if (!metadataApi) {
-      l.warn('API-INIT: MetadataApi not available, rpc::state::get_metadata will be used.');
+    // This chain does not have support for the metadataApi, or does not have the required version.
+    if (!metadataApi || metadataApi[1].toNumber() !== 2) {
+      l.warn('MetadataApi not available, rpc::state::get_metadata will be used.');
 
       return await firstValueFrom(this._rpcCore.state.getMetadata());
     }
@@ -410,7 +410,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
       metadataVersion = versions.reduce((largest, current) => current.gt(largest) ? current : largest);
     } catch {
-      l.warn('API-INIT: state_call::Metadata_metadata_versions not available, rpc::state::get_metadata will be used.');
+      l.warn('state_call::Metadata_metadata_versions not available, rpc::state::get_metadata will be used.');
     }
 
     if (metadataVersion) {
@@ -422,7 +422,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
           return new Metadata(this.registry, opaqueMetadata.toHex());
         }
       } catch {
-        l.warn('API-INIT: state_call::Metadata_metadata_at_version not available, rpc::state::get_metadata will be used.');
+        l.warn('state_call::Metadata_metadata_at_version not available, rpc::state::get_metadata will be used.');
       }
     }
 
