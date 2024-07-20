@@ -396,7 +396,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     const metadataApi = apis.find(([a]) => a.eq(blake2AsHex('Metadata', 64)));
 
     // This chain does not have support for the metadataApi, or does not have the required version.
-    if (!metadataApi || metadataApi[1].toNumber() >= 2) {
+    if (!metadataApi || metadataApi[1].toNumber() < 2) {
       l.warn('MetadataApi not available, rpc::state::get_metadata will be used.');
 
       return at
