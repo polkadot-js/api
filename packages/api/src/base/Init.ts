@@ -399,11 +399,15 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (!metadataApi || metadataApi[1].toNumber() !== 2) {
       l.warn('MetadataApi not available, rpc::state::get_metadata will be used.');
 
-      return await firstValueFrom(this._rpcCore.state.getMetadata(at));
+      return at
+        ? new Metadata(this.registry, await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(at)))
+        : await firstValueFrom(this._rpcCore.state.getMetadata());
     }
 
     try {
-      const metadataVersionsAsBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x', at));
+      const metadataVersionsAsBytes = at
+        ? await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x', at))
+        : await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x'));
       const versions = this.registry.createType('Vec<u32>', metadataVersionsAsBytes);
 
       metadataVersion = versions.reduce((largest, current) => current.gt(largest) ? current : largest);
@@ -413,7 +417,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     if (metadataVersion) {
       try {
-        const metadataBytes = await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a()), at));
+        const metadataBytes = at
+          ? await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a()), at))
+          : await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a())));
         const opaqueMetadata = this.registry.createType('Option<OpaqueMetadata>', metadataBytes).unwrapOr(null);
 
         if (opaqueMetadata) {
