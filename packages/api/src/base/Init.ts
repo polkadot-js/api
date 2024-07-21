@@ -14,6 +14,7 @@ import type { VersionedRegistry } from './types.js';
 import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
+import { SUPPORTED_METADATA_VERSIONS } from '@polkadot/types/metadata/versions';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assertReturn, BN_ZERO, isUndefined, logger, noop, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsHex, cryptoWaitReady } from '@polkadot/util-crypto';
@@ -416,6 +417,13 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       l.warn('error with state_call::Metadata_metadata_versions, rpc::state::get_metadata will be used');
     }
 
+    // When the metadata version does not align with the latest supported versions we ensure not to call the metadata runtime call.
+    // I noticed on some previous runtimes that have support for `Metadata_metadata_at_version` that very irregular versions were being returned.
+    // This was evident with runtime 1000000 - it return a very large number. This ensures we always stick within what is supported.
+    if (metadataVersion && !SUPPORTED_METADATA_VERSIONS.includes(metadataVersion.toNumber())) {
+      metadataVersion = null;
+    }
+
     if (metadataVersion) {
       try {
         const metadataBytes = at
@@ -438,7 +446,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       }
     }
 
-    return await firstValueFrom(this._rpcCore.state.getMetadata());
+    return at
+      ? new Metadata(this.registry, await firstValueFrom(this._rpcCore.state.getMetadata.raw<HexString>(at)))
+      : await firstValueFrom(this._rpcCore.state.getMetadata());
   }
 
   private _subscribeHealth (): void {
