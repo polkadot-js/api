@@ -309,7 +309,7 @@ declare module '@polkadot/api-base/types/consts' {
     };
     fastUnstake: {
       /**
-       * Deposit to take for unstaking, to make sure we're able to slash the it in order to cover
+       * Deposit to take for unstaking, to make sure we're able to slash it in order to cover
        * the costs of resources on unsuccessful unstake.
        **/
       deposit: u128 & AugmentedConst<ApiType>;
