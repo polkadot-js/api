@@ -485,7 +485,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       OcwCallWrongEra: AugmentedError<ApiType>;
       /**
-       * Sumission was prepared for a different round.
+       * Submission was prepared for a different round.
        **/
       PreDispatchDifferentRound: AugmentedError<ApiType>;
       /**
