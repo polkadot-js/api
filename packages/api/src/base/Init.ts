@@ -406,7 +406,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     try {
       const metadataVersionsAsBytes = at
-        ? await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x', at))
+        ? await firstValueFrom(this._rpcCore.state.call.raw('Metadata_metadata_versions', '0x', at))
         : await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x'));
       const versions = this.registry.createType('Vec<u32>', metadataVersionsAsBytes);
 
