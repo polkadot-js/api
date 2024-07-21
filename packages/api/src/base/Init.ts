@@ -412,7 +412,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
       metadataVersion = versions.reduce((largest, current) => current.gt(largest) ? current : largest);
     } catch (e) {
-      l.warn(`error with state_call::Metadata_metadata_versions, rpc::state::get_metadata will be used: ${(e as Error).message}`);
+      l.debug((e as Error).message);
+      l.warn('error with state_call::Metadata_metadata_versions, rpc::state::get_metadata will be used');
     }
 
     if (metadataVersion) {
@@ -432,7 +433,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
           return new Metadata(this.registry, opaqueMetadata.toHex());
         }
       } catch (e) {
-        l.warn(`error with state_call::Metadata_metadata_at_version, rpc::state::get_metadata will be used: ${(e as Error).message}`);
+        l.debug((e as Error).message);
+        l.warn('error with state_call::Metadata_metadata_at_version, rpc::state::get_metadata will be used');
       }
     }
 
