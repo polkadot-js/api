@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable, Subscription } from 'rxjs';
-import type { Text, u32, Vec } from '@polkadot/types';
+import type { Bytes, Text, u32, Vec } from '@polkadot/types';
 import type { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
 import type { BlockHash, ChainProperties, Hash, HeaderPartial, RuntimeVersion, RuntimeVersionApi, RuntimeVersionPartial } from '@polkadot/types/interfaces';
 import type { Registry } from '@polkadot/types/types';
@@ -411,22 +411,28 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       const versions = this.registry.createType('Vec<u32>', metadataVersionsAsBytes);
 
       metadataVersion = versions.reduce((largest, current) => current.gt(largest) ? current : largest);
-    } catch {
-      l.warn('state_call::Metadata_metadata_versions not available, rpc::state::get_metadata will be used.');
+    } catch (e) {
+      l.warn(`error with state_call::Metadata_metadata_versions, rpc::state::get_metadata will be used: ${(e as Error).message}`);
     }
 
     if (metadataVersion) {
       try {
         const metadataBytes = at
-          ? await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a()), at))
+          ? await firstValueFrom(this._rpcCore.state.call.raw<Bytes>('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a()), at))
           : await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_at_version', u8aToHex(metadataVersion.toU8a())));
-        const opaqueMetadata = this.registry.createType('Option<OpaqueMetadata>', metadataBytes).unwrapOr(null);
+        // When the metadata is called with `at` it is required to use `.raw`. Therefore since the length prefix is not present the
+        // need to create a `Raw` type is necessary before creating the `OpaqueMetadata` type or else there will be a magic number
+        // mismatch
+        const rawMeta = at
+          ? this.registry.createType('Raw', metadataBytes).toU8a()
+          : metadataBytes;
+        const opaqueMetadata = this.registry.createType('Option<OpaqueMetadata>', rawMeta).unwrapOr(null);
 
         if (opaqueMetadata) {
           return new Metadata(this.registry, opaqueMetadata.toHex());
         }
-      } catch {
-        l.warn('state_call::Metadata_metadata_at_version not available, rpc::state::get_metadata will be used.');
+      } catch (e) {
+        l.warn(`error with state_call::Metadata_metadata_at_version, rpc::state::get_metadata will be used: ${(e as Error).message}`);
       }
     }
 
