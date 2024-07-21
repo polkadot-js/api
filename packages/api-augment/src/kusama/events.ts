@@ -173,7 +173,7 @@ declare module '@polkadot/api-base/types/events' {
        **/
       BountyBecameActive: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
       /**
-       * A bounty is cancelled.
+       * A bounty is canceled.
        **/
       BountyCanceled: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
       /**
