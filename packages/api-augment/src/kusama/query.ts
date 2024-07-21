@@ -111,7 +111,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * The block numbers when the last and current epoch have started, respectively `N-1` and
        * `N`.
-       * NOTE: We track this is in order to annotate the block number when a given pool of
+       * NOTE: We track this in order to annotate the block number when a given pool of
        * entropy was fixed (i.e. it was known to chain observers). Since epochs are defined in
        * slots, which may be skipped, the block numbers may not line up with the slot numbers.
        **/
