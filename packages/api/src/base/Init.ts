@@ -14,7 +14,6 @@ import type { VersionedRegistry } from './types.js';
 import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
-import { SUPPORTED_METADATA_VERSIONS } from '@polkadot/types/metadata/versions';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assertReturn, BN_ZERO, isUndefined, logger, noop, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsHex, cryptoWaitReady } from '@polkadot/util-crypto';
@@ -23,6 +22,7 @@ import { Decorate } from './Decorate.js';
 
 const KEEPALIVE_INTERVAL = 10000;
 const WITH_VERSION_SHORTCUT = false;
+const SUPPORTED_METADATA_VERSIONS = [15, 14];
 
 const l = logger('api/init');
 

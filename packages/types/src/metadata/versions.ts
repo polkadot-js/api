@@ -5,8 +5,6 @@
 // NOTE: Keep from latest -> earliest, see the LATEST_VERSION 0 index
 export const KNOWN_VERSIONS = [15, 14, 13, 12, 11, 10, 9] as const;
 export const LATEST_VERSION = KNOWN_VERSIONS[0];
-// This is used for initializing the chain with the latest metadata.
-export const SUPPORTED_METADATA_VERSIONS = [15, 14];
 
 // This is part of migration. The toCallsOnly would be usede for esxtensions,
 // i.e. they need to be updated. To ensure that they are passed a known version
