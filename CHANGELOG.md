@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 12.2.2 July 25, 2024
+
+Changes:
+
+- Fix toHuman error on mode
+
+
 ## 12.2.1 July 13, 2024
 
 Changes:
