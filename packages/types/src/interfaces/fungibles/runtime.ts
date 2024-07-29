@@ -30,7 +30,7 @@ export const runtime: DefinitionsCall = {
               type: 'AccountId'
             }
           ],
-          type: 'Result<XcmVersionedMultiAssets, FungiblesAccessError>'
+          type: 'Result<XcmVersionedAssets, FungiblesAccessError>'
         }
       },
       version: 2
