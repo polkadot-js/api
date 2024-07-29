@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 12.2.3 July 29, 2024
+
+Contributed:
+
+- Fix Fungible Api (Thanks to https://github.com/bkontur)
+
+
 ## 12.2.2 July 25, 2024
 
 Changes:
