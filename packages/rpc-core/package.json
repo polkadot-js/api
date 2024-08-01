@@ -18,18 +18,18 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "12.2.4-1-x",
+  "version": "12.2.4-2-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/rpc-augment": "12.2.4-1-x",
-    "@polkadot/rpc-provider": "12.2.4-1-x",
-    "@polkadot/types": "12.2.4-1-x",
+    "@polkadot/rpc-augment": "12.2.4-2-x",
+    "@polkadot/rpc-provider": "12.2.4-2-x",
+    "@polkadot/types": "12.2.4-2-x",
     "@polkadot/util": "^13.0.2",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@polkadot/keyring": "^13.0.2",
-    "@polkadot/rpc-augment": "12.2.4-1-x"
+    "@polkadot/rpc-augment": "12.2.4-2-x"
   }
 }
