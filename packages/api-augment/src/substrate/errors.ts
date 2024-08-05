@@ -484,9 +484,21 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidConfiguration: AugmentedError<ApiType>;
       /**
-       * An equivocation proof provided as part of an equivocation report is invalid.
+       * A double voting proof provided as part of an equivocation report is invalid.
        **/
-      InvalidEquivocationProof: AugmentedError<ApiType>;
+      InvalidDoubleVotingProof: AugmentedError<ApiType>;
+      /**
+       * The session of the equivocation proof is invalid
+       **/
+      InvalidEquivocationProofSession: AugmentedError<ApiType>;
+      /**
+       * A fork voting proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidForkVotingProof: AugmentedError<ApiType>;
+      /**
+       * A future block voting proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidFutureBlockVotingProof: AugmentedError<ApiType>;
       /**
        * A key ownership proof provided as part of an equivocation report is invalid.
        **/
@@ -801,6 +813,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The executed contract exhausted its gas limit.
        **/
       OutOfGas: AugmentedError<ApiType>;
+      /**
+       * Can not add more data to transient storage.
+       **/
+      OutOfTransientStorage: AugmentedError<ApiType>;
       /**
        * The output buffer supplied to a contract API call was too small.
        **/
