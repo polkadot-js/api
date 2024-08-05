@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 12.3.1 Aug 5, 2024
+
+Contributed:
+
+- Revert alias for Noir types (Thanks to https://github.com/conr2d) ([#5946](https://github.com/polkadot-js/api/pull/5946))
+- Increase Vec Max Length (Thanks to https://github.com/rzadp) ([#5947](https://github.com/polkadot-js/api/pull/5947))
+
+Changes:
+
+- Upgrade known Polkadot and Westend CodeUpdated blocks ([#5948](https://github.com/polkadot-js/api/pull/5948))
+- Update substrate types via metadata ([#5949](https://github.com/polkadot-js/api/pull/5949))
+  - Note: Please review the above PR for any changes to the augmented types.
+- Support for BeefyApi v4 ([#5950](https://github.com/polkadot-js/api/pull/5950))
+
+
 ## 12.2.3 July 29, 2024
 
 Contributed:
