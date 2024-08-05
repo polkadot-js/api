@@ -10,7 +10,6 @@ import type { Bytes, Null, Option, Result, U64, Vec, bool, u128, u32 } from '@po
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { TAssetBalance } from '@polkadot/types/interfaces/assets';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
-import type { BeefyEquivocationProof, ValidatorSet, ValidatorSetId } from '@polkadot/types/interfaces/beefy';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
@@ -115,29 +114,6 @@ declare module '@polkadot/api-base/types/calls' {
        * Submits an unsigned extrinsic to report an equivocation.
        **/
       submitReportEquivocationUnsignedExtrinsic: AugmentedCall<ApiType, (equivocationProof: BabeEquivocationProof | { offender?: any; slotNumber?: any; firstHeader?: any; secondHeader?: any } | string | Uint8Array, keyOwnerProof: OpaqueKeyOwnershipProof | string | Uint8Array) => Observable<Option<Null>>>;
-      /**
-       * Generic call
-       **/
-      [key: string]: DecoratedCallBase<ApiType>;
-    };
-    /** 0x49eaaf1b548a0cb0/3 */
-    beefyApi: {
-      /**
-       * Return the block number where BEEFY consensus is enabled/started
-       **/
-      beefyGenesis: AugmentedCall<ApiType, () => Observable<Option<BlockNumber>>>;
-      /**
-       * Generates a proof of key ownership for the given authority in the given set.
-       **/
-      generateKeyOwnershipProof: AugmentedCall<ApiType, (setId: ValidatorSetId | AnyNumber | Uint8Array, authorityId: AuthorityId | string | Uint8Array) => Observable<Option<OpaqueKeyOwnershipProof>>>;
-      /**
-       * Submits an unsigned extrinsic to report an equivocation.
-       **/
-      submitReportEquivocationUnsignedExtrinsic: AugmentedCall<ApiType, (equivocationProof: BeefyEquivocationProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: OpaqueKeyOwnershipProof | string | Uint8Array) => Observable<Option<Null>>>;
-      /**
-       * Return the current active BEEFY validator set
-       **/
-      validatorSet: AugmentedCall<ApiType, () => Observable<Option<ValidatorSet>>>;
       /**
        * Generic call
        **/

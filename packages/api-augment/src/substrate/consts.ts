@@ -354,6 +354,11 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       maxStorageKeyLen: u32 & AugmentedConst<ApiType>;
       /**
+       * The maximum size of the transient storage in bytes.
+       * This includes keys, values, and previous entries used for storage rollback.
+       **/
+      maxTransientStorageSize: u32 & AugmentedConst<ApiType>;
+      /**
        * Cost schedule and limits.
        **/
       schedule: PalletContractsSchedule & AugmentedConst<ApiType>;

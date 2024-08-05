@@ -988,7 +988,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * against the extracted offender. If both are valid, the offence
        * will be reported.
        **/
-      reportEquivocation: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyDoubleVotingProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyDoubleVotingProof, SpSessionMembershipProof]>;
+      reportDoubleVoting: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyDoubleVotingProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyDoubleVotingProof, SpSessionMembershipProof]>;
       /**
        * Report voter equivocation/misbehavior. This method will verify the
        * equivocation proof and validate the given key ownership proof
@@ -1000,7 +1000,41 @@ declare module '@polkadot/api-base/types/submittable' {
        * if the block author is defined it will be defined as the equivocation
        * reporter.
        **/
-      reportEquivocationUnsigned: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyDoubleVotingProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyDoubleVotingProof, SpSessionMembershipProof]>;
+      reportDoubleVotingUnsigned: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyDoubleVotingProof | { first?: any; second?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyDoubleVotingProof, SpSessionMembershipProof]>;
+      /**
+       * Report fork voting equivocation. This method will verify the equivocation proof
+       * and validate the given key ownership proof against the extracted offender.
+       * If both are valid, the offence will be reported.
+       **/
+      reportForkVoting: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyForkVotingProof | { vote?: any; ancestryProof?: any; header?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyForkVotingProof, SpSessionMembershipProof]>;
+      /**
+       * Report fork voting equivocation. This method will verify the equivocation proof
+       * and validate the given key ownership proof against the extracted offender.
+       * If both are valid, the offence will be reported.
+       * 
+       * This extrinsic must be called unsigned and it is expected that only
+       * block authors will call it (validated in `ValidateUnsigned`), as such
+       * if the block author is defined it will be defined as the equivocation
+       * reporter.
+       **/
+      reportForkVotingUnsigned: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyForkVotingProof | { vote?: any; ancestryProof?: any; header?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyForkVotingProof, SpSessionMembershipProof]>;
+      /**
+       * Report future block voting equivocation. This method will verify the equivocation proof
+       * and validate the given key ownership proof against the extracted offender.
+       * If both are valid, the offence will be reported.
+       **/
+      reportFutureBlockVoting: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyFutureBlockVotingProof | { vote?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyFutureBlockVotingProof, SpSessionMembershipProof]>;
+      /**
+       * Report future block voting equivocation. This method will verify the equivocation proof
+       * and validate the given key ownership proof against the extracted offender.
+       * If both are valid, the offence will be reported.
+       * 
+       * This extrinsic must be called unsigned and it is expected that only
+       * block authors will call it (validated in `ValidateUnsigned`), as such
+       * if the block author is defined it will be defined as the equivocation
+       * reporter.
+       **/
+      reportFutureBlockVotingUnsigned: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyFutureBlockVotingProof | { vote?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyFutureBlockVotingProof, SpSessionMembershipProof]>;
       /**
        * Reset BEEFY consensus by setting a new BEEFY genesis at `delay_in_blocks` blocks in the
        * future.
