@@ -3,7 +3,7 @@
 
 import type { DefinitionCall, DefinitionsCall } from '../../types/index.js';
 
-const BEEFY_V1_V3: Record<string, DefinitionCall> = {
+const BEEFY_V3: Record<string, DefinitionCall> = {
   beefy_genesis: {
     description: 'Return the block number where BEEFY consensus is enabled/started',
     params: [],
@@ -23,6 +23,15 @@ const BEEFY_V1_V3: Record<string, DefinitionCall> = {
     ],
     type: 'Option<OpaqueKeyOwnershipProof>'
   },
+  validator_set: {
+    description: 'Return the current active BEEFY validator set',
+    params: [],
+    type: 'Option<ValidatorSet>'
+  }
+};
+
+const BEEFY_V1_V3: Record<string, DefinitionCall> = {
+  ...BEEFY_V3,
   submit_report_equivocation_unsigned_extrinsic: {
     description: 'Submits an unsigned extrinsic to report an equivocation.',
     params: [
@@ -36,11 +45,24 @@ const BEEFY_V1_V3: Record<string, DefinitionCall> = {
       }
     ],
     type: 'Option<Null>'
-  },
-  validator_set: {
-    description: 'Return the current active BEEFY validator set',
-    params: [],
-    type: 'Option<ValidatorSet>'
+  }
+};
+
+const BEEFY_V4: Record<string, DefinitionCall> = {
+  ...BEEFY_V3,
+  submit_report_double_voting_unsigned_extrinsic: {
+    description: 'Submits an unsigned extrinsic to report a double voting equivocation.',
+    params: [
+      {
+        name: 'equivocationProof',
+        type: 'SpConsensusBeefyDoubleVotingProof'
+      },
+      {
+        name: 'keyOwnerProof',
+        type: 'OpaqueKeyOwnershipProof'
+      }
+    ],
+    type: 'Option<Null>'
   }
 };
 
@@ -59,6 +81,10 @@ const BEEFY_MMR_V1: Record<string, DefinitionCall> = {
 
 export const runtime: DefinitionsCall = {
   BeefyApi: [
+    {
+      methods: BEEFY_V4,
+      version: 4
+    },
     {
       methods: BEEFY_V1_V3,
       version: 3
