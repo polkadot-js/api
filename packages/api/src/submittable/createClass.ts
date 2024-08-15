@@ -359,7 +359,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
             nonce: ext.nonce.toHex(),
             runtimeVersion: payload.runtimeVersion,
             signedExtensions: payload.signedExtensions,
-            tip: ext.tip.toHex(),
+            tip: ext.tip ? ext.tip.toHex() : null,
             version: payload.version
           })]);
 
