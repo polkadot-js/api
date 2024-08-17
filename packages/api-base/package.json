@@ -25,6 +25,6 @@
     "@polkadot/types": "12.3.2-1-x",
     "@polkadot/util": "^13.0.2",
     "rxjs": "^7.8.1",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.3"
   }
 }
