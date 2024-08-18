@@ -54,7 +54,7 @@ function calcLocked (api: DeriveApi, bestNumber: BlockNumber, locks: (PalletBala
 
 function calcShared (api: DeriveApi, bestNumber: BlockNumber, data: DeriveBalancesAccountData, locks: (PalletBalancesBalanceLock | BalanceLockTo212)[]): DeriveBalancesAllAccountData {
   const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
-  let transferable = null;
+  let transferable = new BN(0);
 
   if (data.frameSystemAccountInfo?.frozen) {
     const frozenReserveDiff = data.frameSystemAccountInfo.frozen.sub(data.reservedBalance);
