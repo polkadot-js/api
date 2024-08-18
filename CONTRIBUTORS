@@ -1,5 +1,5 @@
     3512	Jaco                          	Bump deps (#5785)
-      86	Tarik Gul                     	Update general deps (patch only) (#5954)
+      87	Tarik Gul                     	Rework api.derive.balance.{account, all} to work with the new frame account data (#5955)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
