@@ -47,7 +47,7 @@ export interface DeriveBalancesAllAccountData extends DeriveBalancesAccountData 
    *
    * ref: https://github.com/paritytech/polkadot-sdk/issues/1833
    */
-  transferable: Balance;
+  transferable: Balance | null;
   /**
    * Amount locked in vesting.
    */
