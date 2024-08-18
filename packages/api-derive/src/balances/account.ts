@@ -33,13 +33,13 @@ function getBalance (api: DeriveApi, [freeBalance, reservedBalance, frozenFeeOrF
 
   if (accType.isFrameAccountData) {
     return {
-      freeBalance,
-      frozenFee: api.registry.createType('Balance', 0),
-      frozenMisc: api.registry.createType('Balance', 0),
-      newFrameData: {
+      frameSystemAccountInfo: {
         flags: frozenMiscOrFlags,
         frozen: frozenFeeOrFrozen
       },
+      freeBalance,
+      frozenFee: api.registry.createType('Balance', 0),
+      frozenMisc: api.registry.createType('Balance', 0),
       reservedBalance,
       votingBalance
     };
@@ -49,7 +49,6 @@ function getBalance (api: DeriveApi, [freeBalance, reservedBalance, frozenFeeOrF
     freeBalance,
     frozenFee: frozenFeeOrFrozen,
     frozenMisc: frozenMiscOrFlags,
-    newFrameData: {},
     reservedBalance,
     votingBalance
   };

@@ -6,15 +6,15 @@ import type { PalletBalancesBalanceLock, PalletBalancesReserveData } from '@polk
 import type { BN } from '@polkadot/util';
 
 export interface DeriveBalancesAccountData {
+  frameSystemAccountInfo?: {
+    frozen: Balance;
+    flags: Balance;
+  }
   freeBalance: Balance;
   frozenFee: Balance;
   frozenMisc: Balance;
   reservedBalance: Balance;
   votingBalance: Balance;
-  newFrameData: {
-    frozen?: Balance;
-    flags?: Balance;
-  }
 }
 
 export interface DeriveBalancesAccount extends DeriveBalancesAccountData {
@@ -24,11 +24,34 @@ export interface DeriveBalancesAccount extends DeriveBalancesAccountData {
 }
 
 export interface DeriveBalancesAllAccountData extends DeriveBalancesAccountData {
+  /**
+   * Calculated available balance. This uses the formula: max(0, free - locked)
+   * This is only correct when the return type of `api.query.system.account` is `AccountInfo` which was replaced by `FrameSystemAccountInfo`.
+   * See `transferable` for the correct balance calculation.
+   *
+   * ref: https://github.com/paritytech/substrate/pull/12951
+   */
   availableBalance: Balance;
+  /**
+   * The amount of balance locked away.
+   */
   lockedBalance: Balance;
+  /**
+   * The breakdown of locked balances.
+   */
   lockedBreakdown: (PalletBalancesBalanceLock | BalanceLockTo212)[];
+  /**
+   * Calculated transferable balance. This uses the formula: free - max(frozen - reserve, ed)
+   * This is only correct when the return type of `api.query.system.account` is `FrameSystemAccountInfo`.
+   * Which is the most up to date calulcation for transferrable balances.
+   *
+   * ref: https://github.com/paritytech/polkadot-sdk/issues/1833
+   */
+  transferable: Balance | null;
+  /**
+   * Amount locked in vesting.
+   */
   vestingLocked: Balance;
-  transferable: Balance;
 }
 
 export interface DeriveBalancesVesting {
