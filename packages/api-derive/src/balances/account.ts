@@ -4,6 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { QueryableStorageEntry } from '@polkadot/api-base/types';
 import type { AccountData, AccountId, AccountIndex, AccountInfo, Address, Balance, Index } from '@polkadot/types/interfaces';
+import type { FrameSystemAccountInfo, PalletBalancesAccountData } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { DeriveApi, DeriveBalancesAccount, DeriveBalancesAccountData } from '../types.js';
 
@@ -15,7 +16,9 @@ import { memo } from '../util/index.js';
 
 type BalanceResult = [Balance, Balance, Balance, Balance];
 
-type Result = [Index, BalanceResult[]];
+type Result = [Index, BalanceResult[], AccountType];
+
+interface AccountType { isFrameAccountData: boolean }
 
 type DeriveCustomAccount = DeriveApi['derive'] & Record<string, {
   customAccount?: DeriveApi['query']['balances']['account']
@@ -25,24 +28,39 @@ function zeroBalance (api: DeriveApi) {
   return api.registry.createType('Balance');
 }
 
-function getBalance (api: DeriveApi, [freeBalance, reservedBalance, frozenFee, frozenMisc]: BalanceResult): DeriveBalancesAccountData {
+function getBalance (api: DeriveApi, [freeBalance, reservedBalance, frozenFeeOrFrozen, frozenMiscOrFlags]: BalanceResult, accType: AccountType): DeriveBalancesAccountData {
   const votingBalance = api.registry.createType('Balance', freeBalance.toBn());
+
+  if (accType.isFrameAccountData) {
+    return {
+      freeBalance,
+      frozenFee: api.registry.createType('Balance', 0),
+      frozenMisc: api.registry.createType('Balance', 0),
+      newFrameData: {
+        flags: frozenMiscOrFlags,
+        frozen: frozenFeeOrFrozen
+      },
+      reservedBalance,
+      votingBalance
+    };
+  }
 
   return {
     freeBalance,
-    frozenFee,
-    frozenMisc,
+    frozenFee: frozenFeeOrFrozen,
+    frozenMisc: frozenMiscOrFlags,
+    newFrameData: {},
     reservedBalance,
     votingBalance
   };
 }
 
-function calcBalances (api: DeriveApi, [accountId, [accountNonce, [primary, ...additional]]]: [AccountId, Result]): DeriveBalancesAccount {
+function calcBalances (api: DeriveApi, [accountId, [accountNonce, [primary, ...additional], accType]]: [AccountId, Result]): DeriveBalancesAccount {
   return objectSpread({
     accountId,
     accountNonce,
-    additional: additional.map((b) => getBalance(api, b))
-  }, getBalance(api, primary));
+    additional: additional.map((b) => getBalance(api, b, accType))
+  }, getBalance(api, primary, accType));
 }
 
 // old
@@ -54,7 +72,8 @@ function queryBalancesFree (api: DeriveApi, accountId: AccountId): Observable<Re
   ]).pipe(
     map(([freeBalance, reservedBalance, accountNonce]): Result => [
       accountNonce,
-      [[freeBalance, reservedBalance, zeroBalance(api), zeroBalance(api)]]
+      [[freeBalance, reservedBalance, zeroBalance(api), zeroBalance(api)]],
+      { isFrameAccountData: false }
     ])
   );
 }
@@ -62,7 +81,8 @@ function queryBalancesFree (api: DeriveApi, accountId: AccountId): Observable<Re
 function queryNonceOnly (api: DeriveApi, accountId: AccountId): Observable<Result> {
   const fill = (nonce: Index): Result => [
     nonce,
-    [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
+    [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]],
+    { isFrameAccountData: false }
   ];
 
   return isFunction(api.query.system.account)
@@ -83,7 +103,8 @@ function queryBalancesAccount (api: DeriveApi, accountId: AccountId, modules: st
 
   const extract = (nonce: Index, data: AccountData[]): Result => [
     nonce,
-    data.map(({ feeFrozen, free, miscFrozen, reserved }): BalanceResult => [free, reserved, feeFrozen, miscFrozen])
+    data.map(({ feeFrozen, free, miscFrozen, reserved }): BalanceResult => [free, reserved, feeFrozen, miscFrozen]),
+    { isFrameAccountData: false }
   ];
 
   // NOTE this is for the first case where we do have instances specified
@@ -106,7 +127,7 @@ function queryBalancesAccount (api: DeriveApi, accountId: AccountId, modules: st
 
 function querySystemAccount (api: DeriveApi, accountId: AccountId): Observable<Result> {
   // AccountInfo is current, support old, eg. Edgeware
-  return api.query.system.account<AccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
+  return api.query.system.account<AccountInfo | FrameSystemAccountInfo | ITuple<[Index, AccountData]>>(accountId).pipe(
     map((infoOrTuple): Result => {
       const data = (infoOrTuple as AccountInfo).nonce
         ? (infoOrTuple as AccountInfo).data
@@ -117,16 +138,30 @@ function querySystemAccount (api: DeriveApi, accountId: AccountId): Observable<R
       if (!data || data.isEmpty) {
         return [
           nonce,
-          [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
+          [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]],
+          { isFrameAccountData: false }
         ];
       }
 
-      const { feeFrozen, free, miscFrozen, reserved } = data;
+      const isFrameType = !!(infoOrTuple as FrameSystemAccountInfo).data.frozen;
 
-      return [
-        nonce,
-        [[free, reserved, feeFrozen, miscFrozen]]
-      ];
+      if (isFrameType) {
+        const { flags, free, frozen, reserved } = (data as unknown as PalletBalancesAccountData);
+
+        return [
+          nonce,
+          [[free, reserved, frozen, flags]],
+          { isFrameAccountData: true }
+        ];
+      } else {
+        const { feeFrozen, free, miscFrozen, reserved } = data;
+
+        return [
+          nonce,
+          [[free, reserved, feeFrozen, miscFrozen]],
+          { isFrameAccountData: false }
+        ];
+      }
     })
   );
 }
@@ -168,7 +203,8 @@ export function account (instanceId: string, api: DeriveApi): (address: AccountI
           ])
           : of([api.registry.createType('AccountId'), [
             api.registry.createType('Index'),
-            [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]]
+            [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]],
+            { isFrameAccountData: false }
           ]])
         )
       ),

@@ -11,6 +11,10 @@ export interface DeriveBalancesAccountData {
   frozenMisc: Balance;
   reservedBalance: Balance;
   votingBalance: Balance;
+  newFrameData: {
+    frozen?: Balance;
+    flags?: Balance;
+  }
 }
 
 export interface DeriveBalancesAccount extends DeriveBalancesAccountData {
@@ -24,6 +28,7 @@ export interface DeriveBalancesAllAccountData extends DeriveBalancesAccountData 
   lockedBalance: Balance;
   lockedBreakdown: (PalletBalancesBalanceLock | BalanceLockTo212)[];
   vestingLocked: Balance;
+  transferable: Balance;
 }
 
 export interface DeriveBalancesVesting {
