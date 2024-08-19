@@ -18,7 +18,7 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "12.3.2-5-x",
+  "version": "12.4.1",
   "main": "index.js",
   "bin": {
     "polkadot-types-chain-info": "./scripts/polkadot-types-chain-info.mjs",
@@ -28,15 +28,15 @@
     "polkadot-types-internal-metadata": "./scripts/polkadot-types-internal-metadata.mjs"
   },
   "dependencies": {
-    "@polkadot/api": "12.3.2-5-x",
-    "@polkadot/api-augment": "12.3.2-5-x",
-    "@polkadot/rpc-augment": "12.3.2-5-x",
-    "@polkadot/rpc-provider": "12.3.2-5-x",
-    "@polkadot/types": "12.3.2-5-x",
-    "@polkadot/types-augment": "12.3.2-5-x",
-    "@polkadot/types-codec": "12.3.2-5-x",
-    "@polkadot/types-create": "12.3.2-5-x",
-    "@polkadot/types-support": "12.3.2-5-x",
+    "@polkadot/api": "12.4.1",
+    "@polkadot/api-augment": "12.4.1",
+    "@polkadot/rpc-augment": "12.4.1",
+    "@polkadot/rpc-provider": "12.4.1",
+    "@polkadot/types": "12.4.1",
+    "@polkadot/types-augment": "12.4.1",
+    "@polkadot/types-codec": "12.4.1",
+    "@polkadot/types-create": "12.4.1",
+    "@polkadot/types-support": "12.4.1",
     "@polkadot/util": "^13.0.2",
     "@polkadot/util-crypto": "^13.0.2",
     "@polkadot/x-ws": "^13.0.2",
