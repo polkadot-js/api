@@ -63,9 +63,7 @@ function calcShared (api: DeriveApi, bestNumber: BlockNumber, data: DeriveBalanc
       'Balance',
       allLocked
         ? 0
-        : frameSystemAccountInfo.frozen.lte(reservedBalance)
-          ? freeBalance
-          : freeBalance.sub(frameSystemAccountInfo.frozen.sub(reservedBalance))
+        : freeBalance.sub(bnMax(new BN(0), frameSystemAccountInfo.frozen.sub(reservedBalance)))
     );
   }
 
