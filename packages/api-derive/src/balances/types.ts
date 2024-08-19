@@ -41,7 +41,8 @@ export interface DeriveBalancesAllAccountData extends DeriveBalancesAccountData 
    */
   lockedBreakdown: (PalletBalancesBalanceLock | BalanceLockTo212)[];
   /**
-   * Calculated transferable balance. This uses the formula: free - max(0, frozen - reserve)
+   * Calculated transferable balance. This uses the formula: free - max(maybeEd, frozen - reserve)
+   * Where `maybeEd` means if there is no frozen and reserves it will be zero, else it will be the existential deposit.
    * This is only correct when the return type of `api.query.system.account` is `FrameSystemAccountInfo`.
    * Which is the most up to date calulcation for transferrable balances.
    *

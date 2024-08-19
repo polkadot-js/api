@@ -58,12 +58,16 @@ function calcShared (api: DeriveApi, bestNumber: BlockNumber, data: DeriveBalanc
 
   if (data.frameSystemAccountInfo?.frozen) {
     const { frameSystemAccountInfo, freeBalance, reservedBalance } = data;
+    const noFrozenReserved = frameSystemAccountInfo.frozen.isZero() && reservedBalance.isZero();
+    const ED = api.consts.balances.existentialDeposit;
+    const maybeED = noFrozenReserved ? new BN(0) : ED;
+    const frozenReserveDif = frameSystemAccountInfo.frozen.sub(reservedBalance);
 
     transferable = api.registry.createType(
       'Balance',
       allLocked
         ? 0
-        : freeBalance.sub(bnMax(new BN(0), frameSystemAccountInfo.frozen.sub(reservedBalance)))
+        : freeBalance.sub(bnMax(maybeED, frozenReserveDif))
     );
   }
 
