@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 12.4.1 Aug 16, 2024
+
+Contributed:
+
+- Add a check for tip in Submittable (Thanks to https://github.com/gupnik) ([#5953](https://github.com/polkadot-js/api/pull/5953))
+
+Changes:
+
+- Bump yarn to 4.4.0 ([#5952](https://github.com/polkadot-js/api/pull/5952))
+- Update General Deps (patch only) ([#5954](https://github.com/polkadot-js/api/pull/5954))
+- Rework api.derive.balance.{account, all} to work with the new frame account data ([#5955](https://github.com/polkadot-js/api/pull/5955))
+- Revise api.derive.balances.all to include ED when necessary ([#5957](https://github.com/polkadot-js/api/pull/5957))
+  - Fixes the formula used for transferable balance
+
+
 ## 12.3.1 Aug 5, 2024
 
 Contributed:
