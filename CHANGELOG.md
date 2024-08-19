@@ -11,6 +11,7 @@ Changes:
 - Bump yarn to 4.4.0 ([#5952](https://github.com/polkadot-js/api/pull/5952))
 - Update General Deps (patch only) ([#5954](https://github.com/polkadot-js/api/pull/5954))
 - Rework api.derive.balance.{account, all} to work with the new frame account data ([#5955](https://github.com/polkadot-js/api/pull/5955))
+  - Adds `transferable` and `frameSystemAccountInfo` to the output of `api.derive.balance.all`
 - Revise api.derive.balances.all to include ED when necessary ([#5957](https://github.com/polkadot-js/api/pull/5957))
   - Fixes the formula used for transferable balance
 
