@@ -1,6 +1,13 @@
 # CHANGELOG
 
-## 12.4.1 Aug 16, 2024
+## 12.4.2 Aug 21, 2024
+
+Changes:
+
+- Fix derive.balances.all when data is undefined ([#5961](https://github.com/polkadot-js/api/pull/5961))
+
+
+## 12.4.1 Aug 19, 2024
 
 Contributed:
 
