@@ -56,7 +56,7 @@ function calcShared (api: DeriveApi, bestNumber: BlockNumber, data: DeriveBalanc
   const { allLocked, lockedBalance, lockedBreakdown, vestingLocked } = calcLocked(api, bestNumber, locks);
   let transferable = null;
 
-  if (data.frameSystemAccountInfo?.frozen) {
+  if (data?.frameSystemAccountInfo?.frozen) {
     const { frameSystemAccountInfo, freeBalance, reservedBalance } = data;
     const noFrozenReserved = frameSystemAccountInfo.frozen.isZero() && reservedBalance.isZero();
     const ED = api.consts.balances.existentialDeposit;
