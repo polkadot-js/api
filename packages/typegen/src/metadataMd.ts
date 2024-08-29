@@ -131,7 +131,7 @@ function renderPage (page: Page): string {
           md += `\n- **${bullet}**: ${
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             item[bullet] instanceof Vec
-              ? docsVecToMarkdown(item[bullet] as Vec<Text>, 2).toString()
+              ? docsVecToMarkdown(item[bullet], 2).toString()
               : item[bullet]
           }`;
         });
