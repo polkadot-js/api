@@ -24,6 +24,6 @@
     "@polkadot/types": "12.4.2",
     "@polkadot/types-codec": "12.4.2",
     "@polkadot/util": "^13.0.2",
-    "tslib": "^2.6.3"
+    "tslib": "^2.7.0"
   }
 }

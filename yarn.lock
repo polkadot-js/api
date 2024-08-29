@@ -457,7 +457,7 @@ __metadata:
     "@polkadot/types-augment": "npm:12.4.2"
     "@polkadot/types-codec": "npm:12.4.2"
     "@polkadot/util": "npm:^13.0.2"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -469,7 +469,7 @@ __metadata:
     "@polkadot/types": "npm:12.4.2"
     "@polkadot/util": "npm:^13.0.2"
     rxjs: "npm:^7.8.1"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -487,7 +487,7 @@ __metadata:
     "@polkadot/util": "npm:^13.0.2"
     "@polkadot/util-crypto": "npm:^13.0.2"
     rxjs: "npm:^7.8.1"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -507,7 +507,7 @@ __metadata:
     "@polkadot/util": "npm:^13.0.2"
     "@polkadot/util-crypto": "npm:^13.0.2"
     rxjs: "npm:^7.8.1"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -532,38 +532,38 @@ __metadata:
     "@polkadot/util-crypto": "npm:^13.0.2"
     eventemitter3: "npm:^5.0.1"
     rxjs: "npm:^7.8.1"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.79.3":
-  version: 0.79.3
-  resolution: "@polkadot/dev-test@npm:0.79.3"
+"@polkadot/dev-test@npm:^0.80.1":
+  version: 0.80.1
+  resolution: "@polkadot/dev-test@npm:0.80.1"
   dependencies:
     jsdom: "npm:^24.0.0"
-    tslib: "npm:^2.6.2"
-  checksum: 10/30c3145c174e09416d713bcd5eb93e13c6f90f71f2d75defbdc11aa09d87d88aad222ef8ca33e8372317692aa51eb976fbf60c9ccf0901f6db0275a550915c69
+    tslib: "npm:^2.7.0"
+  checksum: 10/bb9cce4ace945b820f2f7192c945a8fa1920f650e8415f3f5c00d7e8b1fd80807623944a8d05b127c51ae488d28345e9c876e4bff2f14e4ac824c09073b71d97
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.79.3":
-  version: 0.79.3
-  resolution: "@polkadot/dev-ts@npm:0.79.3"
+"@polkadot/dev-ts@npm:^0.80.1":
+  version: 0.80.1
+  resolution: "@polkadot/dev-ts@npm:0.80.1"
   dependencies:
     json5: "npm:^2.2.3"
-    tslib: "npm:^2.6.2"
-    typescript: "npm:^5.3.3"
-  checksum: 10/097d579647abda70fe71c98c5c9aa79488a25af27a5d17c754dc70aad33770a49637a1d297aa0d50863b6db2e606dffa005c4336886b0030c73eef34180c6863
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
+  checksum: 10/aa8f52edc0aae9d3ddfb7485fa15a4a370a236ce519761502904fbd3208e65ebd16ab7a501169a9ef26d4878255b27a330ebc779317eaeacf084884853a49209
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.79.3":
-  version: 0.79.3
-  resolution: "@polkadot/dev@npm:0.79.3"
+"@polkadot/dev@npm:^0.80.1":
+  version: 0.80.1
+  resolution: "@polkadot/dev@npm:0.80.1"
   dependencies:
     "@eslint/js": "npm:^8.56.0"
-    "@polkadot/dev-test": "npm:^0.79.3"
-    "@polkadot/dev-ts": "npm:^0.79.3"
+    "@polkadot/dev-test": "npm:^0.80.1"
+    "@polkadot/dev-ts": "npm:^0.80.1"
     "@rollup/plugin-alias": "npm:^5.1.0"
     "@rollup/plugin-commonjs": "npm:^25.0.7"
     "@rollup/plugin-dynamic-import-vars": "npm:^2.1.2"
@@ -596,8 +596,8 @@ __metadata:
     madge: "npm:^6.1.0"
     rollup: "npm:^4.9.6"
     rollup-plugin-cleanup: "npm:^3.2.1"
-    tslib: "npm:^2.6.2"
-    typescript: "npm:^5.3.3"
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
     webpack: "npm:^5.89.0"
     webpack-cli: "npm:^5.1.4"
     webpack-dev-server: "npm:^4.15.1"
@@ -628,7 +628,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 10/fa7b6834ce28e16f2287d26cad481e43ec047d015ba38ffb3b2953326e087191a7393d1d55cb5973dd3803bc07258312946dec98a2cf0956c657283a7c49341d
+  checksum: 10/f8fd42bd5a05db0d2cea92bdd5cd1ea8483c0afa1c92b58edac691d572df97bf4fff1e983b4e1a28e5881bcadc095726f6c661e277932137538c53699ed1dd02
   languageName: node
   linkType: hard
 
@@ -665,7 +665,7 @@ __metadata:
     "@polkadot/types": "npm:12.4.2"
     "@polkadot/types-codec": "npm:12.4.2"
     "@polkadot/util": "npm:^13.0.2"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -679,7 +679,7 @@ __metadata:
     "@polkadot/types": "npm:12.4.2"
     "@polkadot/util": "npm:^13.0.2"
     rxjs: "npm:^7.8.1"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -699,7 +699,7 @@ __metadata:
     eventemitter3: "npm:^5.0.1"
     mock-socket: "npm:^9.3.1"
     nock: "npm:^13.5.4"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   dependenciesMeta:
     "@substrate/connect":
       optional: true
@@ -724,7 +724,7 @@ __metadata:
     "@polkadot/x-ws": "npm:^13.0.2"
     "@types/yargs": "npm:^17.0.33"
     handlebars: "npm:^4.7.8"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
     yargs: "npm:^17.7.2"
   bin:
     polkadot-types-chain-info: ./scripts/polkadot-types-chain-info.mjs
@@ -742,7 +742,7 @@ __metadata:
     "@polkadot/types": "npm:12.4.2"
     "@polkadot/types-codec": "npm:12.4.2"
     "@polkadot/util": "npm:^13.0.2"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -756,7 +756,7 @@ __metadata:
     "@polkadot/util": "npm:^13.0.2"
     "@polkadot/util-crypto": "npm:^13.0.2"
     "@polkadot/x-bigint": "npm:^13.0.2"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -767,7 +767,7 @@ __metadata:
     "@polkadot/types": "npm:12.4.2"
     "@polkadot/types-codec": "npm:12.4.2"
     "@polkadot/util": "npm:^13.0.2"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -781,7 +781,7 @@ __metadata:
     "@polkadot/types-codec": "npm:12.4.2"
     "@polkadot/types-create": "npm:12.4.2"
     "@polkadot/util": "npm:^13.0.2"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -790,7 +790,7 @@ __metadata:
   resolution: "@polkadot/types-support@workspace:packages/types-support"
   dependencies:
     "@polkadot/util": "npm:^13.0.2"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -806,7 +806,7 @@ __metadata:
     "@polkadot/util": "npm:^13.0.2"
     "@polkadot/util-crypto": "npm:^13.0.2"
     rxjs: "npm:^7.8.1"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
@@ -7945,7 +7945,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@polkadot/dev": "npm:^0.79.3"
+    "@polkadot/dev": "npm:^0.80.1"
     "@polkadot/typegen": "workspace:packages/typegen"
     "@types/node": "npm:^20.15.0"
   languageName: unknown
@@ -8928,10 +8928,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.6.2, tslib@npm:^2.6.3":
-  version: 2.6.3
-  resolution: "tslib@npm:2.6.3"
-  checksum: 10/52109bb681f8133a2e58142f11a50e05476de4f075ca906d13b596ae5f7f12d30c482feb0bff167ae01cfc84c5803e575a307d47938999246f5a49d174fc558c
+"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.6.2, tslib@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "tslib@npm:2.7.0"
+  checksum: 10/9a5b47ddac65874fa011c20ff76db69f97cf90c78cff5934799ab8894a5342db2d17b4e7613a087046bc1d133d21547ddff87ac558abeec31ffa929c88b7fce6
   languageName: node
   linkType: hard
 
@@ -9074,23 +9074,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.3.3":
-  version: 5.3.3
-  resolution: "typescript@npm:5.3.3"
+"typescript@npm:^5.5.4":
+  version: 5.5.4
+  resolution: "typescript@npm:5.5.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/6e4e6a14a50c222b3d14d4ea2f729e79f972fa536ac1522b91202a9a65af3605c2928c4a790a4a50aa13694d461c479ba92cedaeb1e7b190aadaa4e4b96b8e18
+  checksum: 10/1689ccafef894825481fc3d856b4834ba3cc185a9c2878f3c76a9a1ef81af04194849840f3c69e7961e2312771471bb3b460ca92561e1d87599b26c37d0ffb6f
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>":
-  version: 5.3.3
-  resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
+"typescript@patch:typescript@npm%3A^5.5.4#optional!builtin<compat/typescript>":
+  version: 5.5.4
+  resolution: "typescript@patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/c93786fcc9a70718ba1e3819bab56064ead5817004d1b8186f8ca66165f3a2d0100fee91fa64c840dcd45f994ca5d615d8e1f566d39a7470fc1e014dbb4cf15d
+  checksum: 10/746fdd0865c5ce4f15e494c57ede03a9e12ede59cfdb40da3a281807853fe63b00ef1c912d7222143499aa82f18b8b472baa1830df8804746d09b55f6cf5b1cc
   languageName: node
   linkType: hard
 
