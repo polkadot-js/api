@@ -26,7 +26,7 @@
     "@polkadot/types": "12.4.2",
     "@polkadot/util": "^13.0.2",
     "rxjs": "^7.8.1",
-    "tslib": "^2.6.3"
+    "tslib": "^2.7.0"
   },
   "devDependencies": {
     "@polkadot/keyring": "^13.0.2",

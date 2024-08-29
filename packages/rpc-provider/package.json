@@ -32,7 +32,7 @@
     "eventemitter3": "^5.0.1",
     "mock-socket": "^9.3.1",
     "nock": "^13.5.4",
-    "tslib": "^2.6.3"
+    "tslib": "^2.7.0"
   },
   "devDependencies": {
     "@substrate/connect": "0.8.11"
