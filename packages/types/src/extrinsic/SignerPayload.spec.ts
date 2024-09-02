@@ -18,7 +18,7 @@ describe('SignerPayload', (): void => {
   const TEST = {
     address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
     // eslint-disable-next-line sort-keys
-    assetId: { parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] } },
+    assetId: '0x0002043205ed01',
     blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
     blockNumber: '0x00231d30',
     era: '0x0703',
@@ -57,7 +57,7 @@ describe('SignerPayload', (): void => {
     ).toEqual({
       address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
       // eslint-disable-next-line sort-keys
-      assetId: { parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] } },
+      assetId: '0x0002043205ed01',
       blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
       blockNumber: '0x00231d30',
       era: '0x0703',
@@ -88,12 +88,12 @@ describe('SignerPayload', (): void => {
     expect(
       test.toPayload().assetId
       // eslint-disable-next-line sort-keys
-    ).toEqual({ parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] } });
+    ).toEqual('0x0002043205ed01');
 
     expect(
       new SignerPayload(registry, { assetId: 0 }).toPayload().assetId
       // eslint-disable-next-line sort-keys
-    ).toEqual({ parents: 0, interior: { here: null } });
+    ).toEqual('0x0000');
   });
 
   it('re-constructs from JSON', (): void => {
