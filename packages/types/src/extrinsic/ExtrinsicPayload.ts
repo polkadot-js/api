@@ -36,6 +36,15 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
     return value.unwrap();
   }
 
+  /**
+   * HACK: In order to change the assetId from `number | object` to HexString (While maintaining the true type ie Option<TAssetConversion>),
+   * to allow for easier generalization of the SignerPayloadJSON interface the below check is necessary. The ExtrinsicPayloadV4 class does not like
+   * a value passed in as an Option, and can't decode it properly. Therefore, we ensure to convert the following below, and then pass the option as a unwrapped
+   * JSON value.
+   *
+   * ref: https://github.com/polkadot-js/api/pull/5968
+   * ref: https://github.com/polkadot-js/api/pull/5967
+   */
   if (value && (value as ExtrinsicPayloadValue).assetId && isHex((value as ExtrinsicPayloadValue).assetId)) {
     const adjustedPayload = {
       ...(value as ExtrinsicPayloadValue),
