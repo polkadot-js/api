@@ -348,7 +348,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
           const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction]);
           const newSignerPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, {
             address,
-            assetId: ext.assetId && ext.assetId.isSome ? ext.assetId.unwrap().toHex() : null,
+            assetId: ext.assetId && ext.assetId.isSome ? ext.assetId.toHex() : null,
             blockHash: payload.blockHash,
             blockNumber: header ? header.number : 0,
             era: ext.era.toHex(),
