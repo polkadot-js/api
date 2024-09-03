@@ -8,7 +8,7 @@ export const statemint: ExtDef = {
     extrinsic: {
       tip: 'Compact<Balance>',
       // eslint-disable-next-line sort-keys
-      assetId: 'Option<TAssetConversion>'
+      assetId: 'TAssetConversion'
     },
     payload: {}
   }
