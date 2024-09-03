@@ -220,7 +220,7 @@ export interface ExtrinsicPayloadValue {
   specVersion: AnyNumber;
   tip: AnyNumber;
   transactionVersion: AnyNumber;
-  assetId?: AnyNumber | object;
+  assetId?: HexString;
   mode?: AnyNumber;
   metadataHash?: AnyU8a;
 }

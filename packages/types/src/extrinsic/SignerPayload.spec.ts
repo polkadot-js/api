@@ -4,6 +4,7 @@
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
+import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../create/index.js';
 import { Metadata } from '../metadata/index.js';
@@ -124,9 +125,7 @@ describe('SignerPayload', (): void => {
 
   it('can be used as a feed to ExtrinsicPayload', (): void => {
     const signer = new SignerPayload(registry, {
-      ...TEST,
-      // eslint-disable-next-line sort-keys
-      assetId: { parents: 0, interior: { x2: [{ palletInstance: 50 }, { generalIndex: 123 }] } }
+      ...TEST
     }).toPayload();
     const payload = registry.createType('ExtrinsicPayload', signer, { version: signer.version });
 
@@ -135,11 +134,11 @@ describe('SignerPayload', (): void => {
     expect(payload.blockHash.toHex()).toEqual(TEST.blockHash);
     expect(payload.nonce.eq(TEST.nonce)).toBe(true);
     expect(payload.tip.eq(TEST.tip)).toBe(true);
-    expect(payload.assetId && payload.assetId.toJSON())
-      .toEqual(registry.createType('MultiLocation', {
+    expect(payload.assetId?.toHex())
+      .toEqual(u8aToHex(registry.createType('Option<MultiLocation>', {
         // eslint-disable-next-line sort-keys
         parents: 0, interior: { X2: [{ palletInstance: 50 }, { generalIndex: 123 }] }
-      }).toHex());
+      }).toU8a()));
   });
 
   const TEST_WITHOUT_CHECK = {
