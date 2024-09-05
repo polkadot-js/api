@@ -21,12 +21,12 @@ export default {
       executionResult: 'DispatchResultWithPostInfo',
       emittedEvents: 'Vec<Event>',
       localXcm: 'Option<XcmVersionedXcm>',
-      forwardedXcms: 'Vec<ITuple<[XcmVersionedLocation, Vec<XcmVersionedXcm>]>>',
+      forwardedXcms: 'Vec<(XcmVersionedLocation, Vec<XcmVersionedXcm>)>',
     },
     XcmDryRunEffects: {
 	  executionResult: 'Outcome',
 	  emittedEvents: 'Vec<Event>',
-	  forwardedXcms: 'Vec<Tuple<[XcmVersionedLocation, Vec<XcmVersionedXcm>]>>',
+	  forwardedXcms: 'Vec<(XcmVersionedLocation, Vec<XcmVersionedXcm>)>',
     },
     XcmDryRunApiError: {
       _enum: [

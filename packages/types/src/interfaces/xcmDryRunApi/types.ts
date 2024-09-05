@@ -12,7 +12,7 @@ export interface CallDryRunEffects extends Struct {
   readonly executionResult: DispatchResultWithPostInfo;
   readonly emittedEvents: Vec<Event>;
   readonly localXcm: Option<XcmVersionedXcm>;
-  readonly forwardedXcms: Vec<ITuple>;
+  readonly forwardedXcms: Vec<ITuple<[XcmVersionedLocation, Vec<XcmVersionedXcm>]>>;
 }
 
 /** @name DispatchResultWithPostInfo */
@@ -40,7 +40,7 @@ export interface XcmDryRunApiError extends Enum {
 export interface XcmDryRunEffects extends Struct {
   readonly executionResult: Outcome;
   readonly emittedEvents: Vec<Event>;
-  readonly forwardedXcms: Vec<ITuple>;
+  readonly forwardedXcms: Vec<ITuple<[XcmVersionedLocation, Vec<XcmVersionedXcm>]>>;
 }
 
 export type PHANTOM_XCMDRYRUNAPI = 'xcmDryRunApi';
