@@ -69,6 +69,8 @@ export { default as purchase } from './purchase/definitions.js';
 export { default as xcm } from './xcm/definitions.js';
 export { default as xcmPaymentApi } from './xcmPaymentApi/definitions.js';
 export { default as xcmRuntimeApi } from './xcmRuntimeApi/definitions.js';
+export { default as xcmDryRunApi } from './xcmDryRunApi/definitions.js';
+
 
 // other useful types
 export { default as contractsAbi } from './contractsAbi/definitions.js';
