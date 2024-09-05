@@ -26,7 +26,7 @@ export default {
     XcmDryRunEffects: {
 	  executionResult: 'Outcome',
 	  emittedEvents: 'Vec<Event>',
-	  forwardedXcms: 'Vec<ITuple<[XcmVersionedLocation, Vec<XcmVersionedXcm>]>>',
+	  forwardedXcms: 'Vec<Tuple<[XcmVersionedLocation, Vec<XcmVersionedXcm>]>>',
     },
     XcmDryRunApiError: {
       _enum: [
