@@ -11,7 +11,7 @@ import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } 
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
-import { u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 
 import { DEFAULT_VERSION } from './constants.js';
 
@@ -34,6 +34,24 @@ const VERSIONS = [
 function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
   if (value instanceof GenericExtrinsicPayload) {
     return value.unwrap();
+  }
+
+  /**
+   * HACK: In order to change the assetId from `number | object` to HexString (While maintaining the true type ie Option<TAssetConversion>),
+   * to allow for easier generalization of the SignerPayloadJSON interface the below check is necessary. The ExtrinsicPayloadV4 class does not like
+   * a value passed in as an Option, and can't decode it properly. Therefore, we ensure to convert the following below, and then pass the option as a unwrapped
+   * JSON value.
+   *
+   * ref: https://github.com/polkadot-js/api/pull/5968
+   * ref: https://github.com/polkadot-js/api/pull/5967
+   */
+  if (value && (value as ExtrinsicPayloadValue).assetId && isHex((value as ExtrinsicPayloadValue).assetId)) {
+    const adjustedPayload = {
+      ...(value as ExtrinsicPayloadValue),
+      assetId: registry.createType('TAssetConversion', hexToU8a((value as ExtrinsicPayloadValue).assetId)).toJSON()
+    };
+
+    return registry.createTypeUnsafe(VERSIONS[version] || VERSIONS[0], [adjustedPayload, { version }]);
   }
 
   return registry.createTypeUnsafe(VERSIONS[version] || VERSIONS[0], [value, { version }]);
