@@ -18,7 +18,7 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "12.4.3-2-x",
+  "version": "12.4.3-3-x",
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^13.0.2",
@@ -26,9 +26,9 @@
     "tslib": "^2.7.0"
   },
   "devDependencies": {
-    "@polkadot/types": "12.4.3-2-x",
-    "@polkadot/types-augment": "12.4.3-2-x",
-    "@polkadot/types-support": "12.4.3-2-x",
+    "@polkadot/types": "12.4.3-3-x",
+    "@polkadot/types-augment": "12.4.3-3-x",
+    "@polkadot/types-support": "12.4.3-3-x",
     "@polkadot/util-crypto": "^13.0.2"
   }
 }
