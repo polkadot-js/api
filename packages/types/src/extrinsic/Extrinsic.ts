@@ -19,6 +19,7 @@ import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './con
 
 interface CreateOptions {
   version?: number;
+  subVersionV5?: 'bare' | 'general' | 'signed' | number;
 }
 
 // NOTE The following 2 types, as well as the VERSION structure and the latest export

@@ -26,7 +26,7 @@ const signOptions = {
   }
 };
 
-describe('ExtrinsicSignatureV4', (): void => {
+describe('ExtrinsicSignatureV5', (): void => {
   const pairs = createTestPairs({ type: 'ed25519' });
 
   it('encodes to a sane Uint8Array (default)', (): void => {

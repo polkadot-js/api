@@ -19,7 +19,7 @@ registry.setMetadata(metadata);
 
 const tx = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 
-describe('ExtrinsicV4', (): void => {
+describe('ExtrinsicV5', (): void => {
   it('constructs a sane Uint8Array (default)', (): void => {
     const xt = new Extrinsic(registry);
 

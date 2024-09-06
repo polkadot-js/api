@@ -12,3 +12,9 @@ export const DEFAULT_VERSION = 4;
 export const IMMORTAL_ERA = new Uint8Array([0]);
 
 export const UNMASK_VERSION = 0b01111111;
+
+export const DISCRIMINATOR_V5_MAP = {
+    'bare': 0b00000100,
+    'signed': 0b10000100,
+    'general': 0b01000100
+}

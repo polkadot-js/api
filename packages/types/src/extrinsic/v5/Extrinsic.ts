@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
-import type { ExtrinsicSignatureV4 } from '../../interfaces/extrinsics/index.js';
+import type { ExtrinsicSignatureV5 } from '../../interfaces/extrinsics/index.js';
 import type { Address, Call } from '../../interfaces/runtime/index.js';
 import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types/index.js';
 import type { ExtrinsicOptions } from '../types.js';
@@ -10,11 +10,11 @@ import type { ExtrinsicOptions } from '../types.js';
 import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
 
-export const EXTRINSIC_VERSION = 4;
+export const EXTRINSIC_VERSION = 5;
 
 export interface ExtrinsicValueV5 {
   method?: Call;
-  signature?: ExtrinsicSignatureV4;
+  signature?: ExtrinsicSignatureV5;
 }
 
 /**
@@ -25,7 +25,7 @@ export interface ExtrinsicValueV5 {
 export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
   constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV5 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
-      signature: 'ExtrinsicSignatureV4',
+      signature: 'ExtrinsicSignatureV5',
       // eslint-disable-next-line sort-keys
       method: 'Call'
     }, GenericExtrinsicV5.decodeExtrinsic(registry, value, isSigned));
@@ -39,7 +39,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
       return { method: value };
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
-      const signature = registry.createTypeUnsafe<ExtrinsicSignatureV4>('ExtrinsicSignatureV4', [value, { isSigned }]);
+      const signature = registry.createTypeUnsafe<ExtrinsicSignatureV5>('ExtrinsicSignatureV5', [value, { isSigned }]);
       const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
 
       return {
@@ -66,9 +66,9 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
   }
 
   /**
-   * @description The [[ExtrinsicSignatureV4]]
+   * @description The [[ExtrinsicSignatureV5]]
    */
-  public get signature (): ExtrinsicSignatureV4 {
+  public get signature (): ExtrinsicSignatureV5 {
     return this.getT('signature');
   }
 
@@ -80,7 +80,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
   }
 
   /**
-   * @description Add an [[ExtrinsicSignatureV4]] to the extrinsic (already generated)
+   * @description Add an [[ExtrinsicSignatureV5]] to the extrinsic (already generated)
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
     this.signature.addSignature(signer, signature, payload);
