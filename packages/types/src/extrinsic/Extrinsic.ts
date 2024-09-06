@@ -9,13 +9,13 @@ import type { Address, Call, CodecHash, Hash } from '../interfaces/runtime/index
 import type { MultiLocation } from '../interfaces/types.js';
 import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
+import type { SubVersionV5 } from './types.js';
 import type { ExtrinsicValueV4 } from './v4/Extrinsic.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic.js';
-import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants.js';
+import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_V5_VERSION, DEFAULT_VERSION, EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION, UNMASK_VERSION } from './constants.js';
 
 interface CreateOptions {
   version?: number;
@@ -36,15 +36,12 @@ const VERSIONS = [
   'ExtrinsicV4'
 ];
 
-const DEFAULT_V5_VERSION = 'signed';
-
 const V5_VERSIONS = {
   bare: 'ExtrinsicV4',
+  // Not supported yet
   general: 'GeneralExtrinsicV5',
   signed: 'ExtrinsicV4'
 };
-
-type SubVersionV5 = 'signed' | 'bare' | 'general';
 
 export { LATEST_EXTRINSIC_VERSION };
 

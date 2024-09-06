@@ -21,3 +21,5 @@ export interface ExtrinsicExtraValue {
   nonce?: AnyNumber;
   tip?: AnyNumber;
 }
+
+export type SubVersionV5 = 'signed' | 'bare' | 'general';
