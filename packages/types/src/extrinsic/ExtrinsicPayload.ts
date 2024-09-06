@@ -27,6 +27,7 @@ const VERSIONS = [
   'ExtrinsicPayloadUnknown',
   'ExtrinsicPayloadUnknown',
   'ExtrinsicPayloadUnknown',
+  'ExtrinsicPayloadV4',
   'ExtrinsicPayloadV4'
 ];
 
