@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
+import rpcMetadata from '@polkadot/types-support/metadata/v14/substrate-hex-extrinsic-v5';
 
 import { TypeRegistry } from '../../create/index.js';
 import { decorateExtrinsics, Metadata } from '../../metadata/index.js';
