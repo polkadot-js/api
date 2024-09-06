@@ -32,7 +32,8 @@ const VERSIONS = [
   'ExtrinsicUnknown',
   'ExtrinsicUnknown',
   'ExtrinsicUnknown',
-  'ExtrinsicV4'
+  'ExtrinsicV4',
+  'ExtrinsicV5'
 ];
 
 export { LATEST_EXTRINSIC_VERSION };
