@@ -3,18 +3,19 @@
 
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod, Inspect, IOption } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics/index.js';
+import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV5, Sr25519Signature } from '../interfaces/extrinsics/index.js';
 import type { FunctionMetadataLatest } from '../interfaces/metadata/index.js';
 import type { Address, Call, CodecHash, Hash } from '../interfaces/runtime/index.js';
 import type { MultiLocation } from '../interfaces/types.js';
 import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
-import type { ExtrinsicValueV4 } from './v4/Extrinsic.js';
+// import type { ExtrinsicValueV4 } from './v4/Extrinsic.js';
+import type { ExtrinsicValueV5 } from './v5/Extrinsic.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic.js';
+import { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v5/Extrinsic.js';
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants.js';
 
 interface CreateOptions {
@@ -25,8 +26,8 @@ interface CreateOptions {
 // NOTE The following 2 types, as well as the VERSION structure and the latest export
 // is to be changed with the addition of a new extrinsic version
 
-type ExtrinsicVx = ExtrinsicV4;
-type ExtrinsicValue = ExtrinsicValueV4;
+type ExtrinsicVx = ExtrinsicV5;
+type ExtrinsicValue = ExtrinsicValueV5;
 
 const VERSIONS = [
   'ExtrinsicUnknown', // v0 is unknown
@@ -83,7 +84,7 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number): Ext
 }
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicVx | ExtrinsicUnknown> {
-  constructor (registry: Registry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
+  constructor (registry: Registry, value: ExtrinsicV5 | ExtrinsicUnknown, initialU8aLength?: number) {
     super(registry, value, initialU8aLength);
 
     const signKeys = Object.keys(registry.getSignedExtensionTypes());

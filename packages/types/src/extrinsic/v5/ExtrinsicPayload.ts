@@ -31,9 +31,6 @@ export class GenericExtrinsicPayloadV5 extends Struct {
       registry.getSignedExtensionExtra()
     ), value);
 
-    console.log('Signed Extension Types: ', registry.getSignedExtensionTypes());
-    console.log('Signed Extension Extra: ', registry.getSignedExtensionExtra());
-
     // Do detection for the type of extrinsic, in the case of MultiSignature
     // this is an enum, in the case of AnySignature, this is a Hash only
     // (which may be 64 or 65 bytes)

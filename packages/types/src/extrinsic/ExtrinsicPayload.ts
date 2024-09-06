@@ -27,7 +27,8 @@ const VERSIONS = [
   'ExtrinsicPayloadUnknown',
   'ExtrinsicPayloadUnknown',
   'ExtrinsicPayloadUnknown',
-  'ExtrinsicPayloadV4'
+  'ExtrinsicPayloadV4',
+  'ExtrinsicPayloadV5'
 ];
 
 /** @internal */
