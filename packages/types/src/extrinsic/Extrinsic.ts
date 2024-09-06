@@ -15,7 +15,7 @@ import type { ExtrinsicValueV4 } from './v4/Extrinsic.js';
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_V5_VERSION, DEFAULT_VERSION, EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION, UNMASK_VERSION } from './constants.js';
+import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_V5_VERSION, DEFAULT_VERSION, LATEST_EXTRINSIC_VERSION, UNMASK_VERSION } from './constants.js';
 
 interface CreateOptions {
   version?: number;
