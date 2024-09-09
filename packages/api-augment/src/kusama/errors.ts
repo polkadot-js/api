@@ -17,6 +17,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyExists: AugmentedError<ApiType>;
       /**
+       * Overflow ocurred when calculating the inverse rate.
+       **/
+      Overflow: AugmentedError<ApiType>;
+      /**
        * The given asset ID is unknown.
        **/
       UnknownAssetKind: AugmentedError<ApiType>;
@@ -274,7 +278,7 @@ declare module '@polkadot/api-base/types/errors' {
       AlreadyDelegating: AugmentedError<ApiType>;
       /**
        * The account currently has votes attached to it and the operation cannot succeed until
-       * these are removed, either through `unvote` or `reap_vote`.
+       * these are removed through `remove_vote`.
        **/
       AlreadyVoting: AugmentedError<ApiType>;
       /**
@@ -324,9 +328,18 @@ declare module '@polkadot/api-base/types/errors' {
     };
     coretime: {
       /**
+       * Failed to transfer assets to the coretime chain
+       **/
+      AssetTransferFailed: AugmentedError<ApiType>;
+      /**
        * The paraid making the call is not the coretime brokerage system parachain.
        **/
       NotBroker: AugmentedError<ApiType>;
+      /**
+       * Requested revenue information `when` parameter was in the future from the current
+       * block height.
+       **/
+      RequestedFutureRevenue: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -485,7 +498,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       OcwCallWrongEra: AugmentedError<ApiType>;
       /**
-       * Sumission was prepared for a different round.
+       * Submission was prepared for a different round.
        **/
       PreDispatchDifferentRound: AugmentedError<ApiType>;
       /**
@@ -599,6 +612,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       SameMember: AugmentedError<ApiType>;
       /**
+       * The max member count for the rank has been reached.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -648,6 +665,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The preimage does not exist.
        **/
       PreimageNotExist: AugmentedError<ApiType>;
+      /**
+       * The preimage is stored with a different length than the one provided.
+       **/
+      PreimageStoredWithDifferentLength: AugmentedError<ApiType>;
       /**
        * The queue of the track is empty.
        **/
@@ -950,7 +971,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DurationTooSmall: AugmentedError<ApiType>;
       /**
-       * The operation would result in a receipt worth an insignficant value.
+       * The operation would result in a receipt worth an insignificant value.
        **/
       MakesDust: AugmentedError<ApiType>;
       /**
@@ -1047,6 +1068,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountBelongsToOtherPool: AugmentedError<ApiType>;
       /**
+       * The pool or member delegation has already migrated to delegate stake.
+       **/
+      AlreadyMigrated: AugmentedError<ApiType>;
+      /**
        * Bonding extra is restricted to the exact pending reward amount.
        **/
       BondExtraRestricted: AugmentedError<ApiType>;
@@ -1138,9 +1163,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NothingToAdjust: AugmentedError<ApiType>;
       /**
+       * No slash pending that can be applied to the member.
+       **/
+      NothingToSlash: AugmentedError<ApiType>;
+      /**
        * Either a) the caller cannot make a valid kick or b) the pool is not destroying.
        **/
       NotKickerOrDestroying: AugmentedError<ApiType>;
+      /**
+       * The pool or member delegation has not migrated yet to delegate stake.
+       **/
+      NotMigrated: AugmentedError<ApiType>;
       /**
        * The caller does not have nominating permissions for the pool.
        **/
@@ -1149,6 +1182,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The pool is not open to join
        **/
       NotOpen: AugmentedError<ApiType>;
+      /**
+       * This call is not allowed in the current state of the pallet.
+       **/
+      NotSupported: AugmentedError<ApiType>;
       /**
        * The transaction could not be executed due to overflow risk for the pool.
        **/
@@ -1184,11 +1221,6 @@ declare module '@polkadot/api-base/types/errors' {
     };
     onDemandAssignmentProvider: {
       /**
-       * The `ParaId` supplied to the `place_order` call is not a valid `ParaThread`, making the
-       * call is invalid.
-       **/
-      InvalidParaId: AugmentedError<ApiType>;
-      /**
        * The order queue is full, `place_order` will not continue.
        **/
       QueueFull: AugmentedError<ApiType>;
@@ -1203,24 +1235,6 @@ declare module '@polkadot/api-base/types/errors' {
       [key: string]: AugmentedError<ApiType>;
     };
     paraInclusion: {
-      /**
-       * Bitfield consists of zeros only.
-       **/
-      BitfieldAllZeros: AugmentedError<ApiType>;
-      /**
-       * Multiple bitfields submitted by same validator or validators out of order by index.
-       **/
-      BitfieldDuplicateOrUnordered: AugmentedError<ApiType>;
-      /**
-       * A bitfield that references a freed core,
-       * either intentionally or as part of a concluded
-       * invalid dispute.
-       **/
-      BitfieldReferencesFreedCore: AugmentedError<ApiType>;
-      /**
-       * Candidate scheduled despite pending candidate already existing for the para.
-       **/
-      CandidateScheduledBeforeParaFree: AugmentedError<ApiType>;
       /**
        * The candidate's relay-parent was not allowed. Either it was
        * not recent enough or it didn't advance based on the last parachain block.
@@ -1251,10 +1265,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Invalid (bad signature, unknown validator, etc.) backing.
        **/
       InvalidBacking: AugmentedError<ApiType>;
-      /**
-       * Invalid signature
-       **/
-      InvalidBitfieldSignature: AugmentedError<ApiType>;
       /**
        * Invalid group index in core assignment.
        **/
@@ -1289,29 +1299,9 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PrematureCodeUpgrade: AugmentedError<ApiType>;
       /**
-       * Scheduled cores out of order.
-       **/
-      ScheduledOutOfOrder: AugmentedError<ApiType>;
-      /**
-       * A different relay parent was provided compared to the on-chain stored one.
-       **/
-      UnexpectedRelayParent: AugmentedError<ApiType>;
-      /**
        * Candidate submitted but para not scheduled.
        **/
       UnscheduledCandidate: AugmentedError<ApiType>;
-      /**
-       * Backed candidates are out of order (core index) or contain duplicates.
-       **/
-      UnsortedOrDuplicateBackedCandidates: AugmentedError<ApiType>;
-      /**
-       * Dispute statement sets are out of order or contain duplicates.
-       **/
-      UnsortedOrDuplicateDisputeStatementSet: AugmentedError<ApiType>;
-      /**
-       * Validator indices are out of order or contains duplicates.
-       **/
-      UnsortedOrDuplicateValidatorIndices: AugmentedError<ApiType>;
       /**
        * The validation data hash does not match expected.
        **/
@@ -1321,35 +1311,16 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ValidatorIndexOutOfBounds: AugmentedError<ApiType>;
       /**
-       * Availability bitfield has unexpected size.
-       **/
-      WrongBitfieldSize: AugmentedError<ApiType>;
-      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
     };
     paraInherent: {
       /**
-       * A candidate was backed by a disabled validator
+       * A candidate was filtered during inherent execution. This should have only been done
+       * during creation.
        **/
-      BackedByDisabled: AugmentedError<ApiType>;
-      /**
-       * A candidate was backed even though the paraid was not scheduled.
-       **/
-      BackedOnUnscheduledCore: AugmentedError<ApiType>;
-      /**
-       * Disputed candidate that was concluded invalid.
-       **/
-      CandidateConcludedInvalid: AugmentedError<ApiType>;
-      /**
-       * A dispute statement was invalid.
-       **/
-      DisputeInvalid: AugmentedError<ApiType>;
-      /**
-       * The ordering of dispute statements was invalid.
-       **/
-      DisputeStatementsUnsortedOrDuplicates: AugmentedError<ApiType>;
+      CandidatesFilteredDuringExecution: AugmentedError<ApiType>;
       /**
        * The data given to the inherent will result in an overweight block.
        **/
@@ -1393,6 +1364,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Parachain cannot currently schedule a code upgrade.
        **/
       CannotUpgradeCode: AugmentedError<ApiType>;
+      /**
+       * Invalid validation code size.
+       **/
+      InvalidCode: AugmentedError<ApiType>;
       /**
        * Para is not registered in our system.
        **/
@@ -1504,6 +1479,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Preimage has already been noted on-chain.
        **/
       AlreadyNoted: AugmentedError<ApiType>;
+      /**
+       * No ticket with a cost was returned by [`Config::Consideration`] to store the preimage.
+       **/
+      NoCost: AugmentedError<ApiType>;
       /**
        * The user is not authorized to perform this action.
        **/
@@ -1691,6 +1670,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PreimageNotExist: AugmentedError<ApiType>;
       /**
+       * The preimage is stored with a different length than the one provided.
+       **/
+      PreimageStoredWithDifferentLength: AugmentedError<ApiType>;
+      /**
        * The queue of the track is empty.
        **/
       QueueEmpty: AugmentedError<ApiType>;
@@ -1730,13 +1713,13 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CodeTooLarge: AugmentedError<ApiType>;
       /**
-       * Registering parachain with empty code is not allowed.
-       **/
-      EmptyCode: AugmentedError<ApiType>;
-      /**
        * Invalid para head data size.
        **/
       HeadDataTooLarge: AugmentedError<ApiType>;
+      /**
+       * The validation code is invalid.
+       **/
+      InvalidCode: AugmentedError<ApiType>;
       /**
        * The caller is not the owner of this Id.
        **/
@@ -2059,6 +2042,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotController: AugmentedError<ApiType>;
       /**
+       * Not enough funds available to withdraw.
+       **/
+      NotEnoughFunds: AugmentedError<ApiType>;
+      /**
        * Items are not sorted and unique.
        **/
       NotSortedAndUnique: AugmentedError<ApiType>;
@@ -2070,6 +2057,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Can not rebond without unlocking chunks.
        **/
       NoUnlockChunk: AugmentedError<ApiType>;
+      /**
+       * Provided reward destination is not allowed.
+       **/
+      RewardDestinationRestricted: AugmentedError<ApiType>;
       /**
        * There are too many nominators in the system. Governance needs to adjust the staking
        * settings to keep things safe for the runtime.
@@ -2084,6 +2075,10 @@ declare module '@polkadot/api-base/types/errors' {
        * staking settings to keep things safe for the runtime.
        **/
       TooManyValidators: AugmentedError<ApiType>;
+      /**
+       * Operation not allowed for virtual stakers.
+       **/
+      VirtualStakerNotAllowed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -2105,6 +2100,10 @@ declare module '@polkadot/api-base/types/errors' {
        * and the new runtime.
        **/
       InvalidSpecName: AugmentedError<ApiType>;
+      /**
+       * A multi-block migration is ongoing and prevents the current code from being replaced.
+       **/
+      MultiBlockMigrationsOngoing: AugmentedError<ApiType>;
       /**
        * Suicide called when the account has non-default composite data.
        **/
@@ -2153,10 +2152,6 @@ declare module '@polkadot/api-base/types/errors' {
        * amount to be spent.
        **/
       InsufficientPermission: AugmentedError<ApiType>;
-      /**
-       * Proposer's balance is too low.
-       **/
-      InsufficientProposersBalance: AugmentedError<ApiType>;
       /**
        * No proposal, bounty or spend at that index.
        **/
@@ -2305,10 +2300,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The unlock operation cannot succeed because there are still consumers of the lock.
        **/
       InUse: AugmentedError<ApiType>;
-      /**
-       * Invalid non-concrete asset.
-       **/
-      InvalidAssetNotConcrete: AugmentedError<ApiType>;
       /**
        * Invalid asset, reserve chain could not be determined for it.
        **/

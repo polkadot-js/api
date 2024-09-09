@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Bytes, Option, Vec, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec, ITuple } from '@polkadot/types-codec/types';
 import type { Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletReferendaTrackInfo, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletReferendaTrackInfo, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight, StagingXcmV4Junctions } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
@@ -80,10 +80,14 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The maximum number of locks that should exist on an account.
        * Not strictly enforced, but used for weight estimation.
+       * 
+       * Use of locks is deprecated in favour of freezes. See `https://github.com/paritytech/substrate/pull/12951/`
        **/
       maxLocks: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of named reserves that can exist on an account.
+       * 
+       * Use of reserves is deprecated in favour of holds. See `https://github.com/paritytech/substrate/pull/12951/`
        **/
       maxReserves: u32 & AugmentedConst<ApiType>;
       /**
@@ -204,9 +208,13 @@ declare module '@polkadot/api-base/types/consts' {
     };
     coretime: {
       /**
-       * The ParaId of the broker system parachain.
+       * The ParaId of the coretime chain.
        **/
       brokerId: u32 & AugmentedConst<ApiType>;
+      /**
+       * The coretime chain pot location.
+       **/
+      brokerPotLocation: StagingXcmV4Junctions & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -291,17 +299,9 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       signedMaxWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
-       * Duration of the signed phase.
-       **/
-      signedPhase: u32 & AugmentedConst<ApiType>;
-      /**
        * Base reward for a signed solution
        **/
       signedRewardBase: u128 & AugmentedConst<ApiType>;
-      /**
-       * Duration of the unsigned phase.
-       **/
-      unsignedPhase: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -390,6 +390,14 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       heapSize: u32 & AugmentedConst<ApiType>;
       /**
+       * The maximum amount of weight (if any) to be used from remaining weight `on_idle` which
+       * should be provided to the message queue for servicing enqueued items `on_idle`.
+       * Useful for parachains to process messages at the same block they are received.
+       * 
+       * If `None`, it will not call `ServiceQueues::service_queues` in `on_idle`.
+       **/
+      idleMaxServiceWeight: Option<SpWeightsWeightV2Weight> & AugmentedConst<ApiType>;
+      /**
        * The maximum number of stale pages (i.e. of overweight messages) allowed before culling
        * can happen. Once there are more stale pages than this, then historical pages may be
        * dropped, even if they contain unprocessed overweight messages.
@@ -397,10 +405,11 @@ declare module '@polkadot/api-base/types/consts' {
       maxStale: u32 & AugmentedConst<ApiType>;
       /**
        * The amount of weight (if any) which should be provided to the message queue for
-       * servicing enqueued items.
+       * servicing enqueued items `on_initialize`.
        * 
        * This may be legitimately `None` in the case that you will call
-       * `ServiceQueues::service_queues` manually.
+       * `ServiceQueues::service_queues` manually or set [`Self::IdleMaxServiceWeight`] to have
+       * it run in `on_idle`.
        **/
       serviceWeight: Option<SpWeightsWeightV2Weight> & AugmentedConst<ApiType>;
       /**
@@ -515,10 +524,14 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The maximum number of locks that should exist on an account.
        * Not strictly enforced, but used for weight estimation.
+       * 
+       * Use of locks is deprecated in favour of freezes. See `https://github.com/paritytech/substrate/pull/12951/`
        **/
       maxLocks: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of named reserves that can exist on an account.
+       * 
+       * Use of reserves is deprecated in favour of holds. See `https://github.com/paritytech/substrate/pull/12951/`
        **/
       maxReserves: u32 & AugmentedConst<ApiType>;
       /**
@@ -556,6 +569,15 @@ declare module '@polkadot/api-base/types/consts' {
       [key: string]: Codec;
     };
     onDemandAssignmentProvider: {
+      /**
+       * The maximum number of blocks some historical revenue
+       * information stored for.
+       **/
+      maxHistoricalRevenue: u32 & AugmentedConst<ApiType>;
+      /**
+       * Identifier for the internal revenue balance.
+       **/
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       /**
        * The default value for the spot traffic multiplier.
        **/
@@ -872,7 +894,7 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       ss58Prefix: u16 & AugmentedConst<ApiType>;
       /**
-       * Get the chain's current version.
+       * Get the chain's in-code version.
        **/
       version: SpVersionRuntimeVersion & AugmentedConst<ApiType>;
       /**
@@ -944,19 +966,6 @@ declare module '@polkadot/api-base/types/consts' {
        * The period during which an approved treasury spend has to be claimed.
        **/
       payoutPeriod: u32 & AugmentedConst<ApiType>;
-      /**
-       * Fraction of a proposal's value that should be bonded in order to place the proposal.
-       * An accepted proposal gets these back. A rejected proposal does not.
-       **/
-      proposalBond: Permill & AugmentedConst<ApiType>;
-      /**
-       * Maximum amount of funds that should be placed in a deposit for making a proposal.
-       **/
-      proposalBondMaximum: Option<u128> & AugmentedConst<ApiType>;
-      /**
-       * Minimum amount of funds that should be placed in a deposit for making a proposal.
-       **/
-      proposalBondMinimum: u128 & AugmentedConst<ApiType>;
       /**
        * Period between successive spends.
        **/
