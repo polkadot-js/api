@@ -1,5 +1,5 @@
     3512	Jaco                          	Bump deps (#5785)
-      96	Tarik Gul                     	Add kusama v1.3.0 upgrade (#5971)
+      97	Tarik Gul                     	Update Kusama augmented types to 1.3.0 (#5972)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
