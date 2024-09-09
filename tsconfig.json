@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./packages",
     "composite": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    // Rel: https://github.com/polkadot-js/api/issues/5977
+    "noUnusedLocals": false
   },
   "include": [
     "packages/**/src/**/*",

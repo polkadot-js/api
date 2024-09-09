@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    // Rel: https://github.com/polkadot-js/api/issues/5977
+    "noUnusedLocals": false
   },
   "files": [],
   "references": [
