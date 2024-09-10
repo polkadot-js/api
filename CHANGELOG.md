@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 13.0.1 Sep 10, 2024
+
+Breaking Changes:
+
+- Change assetId type in `SignerPayloadJSON` to HexString ([#5967](https://github.com/polkadot-js/api/pull/5967))
+- Keep assetId hex as an Option for `toPayload` ([#5968](https://github.com/polkadot-js/api/pull/5968))
+
+NOTE: This is part of the current change to generalize the SignerPayloadJSON in order to simplify its integration across other tools. The return value of `assetId` field with `toPayload` will always be its true type now, which in this case is `Option<TAssetConversion>` where `TAssetConversion` is equal to `MultiLocation | AssetId`.
+
+Changes:
+
+- Bump dev and typescript ([#5964](https://github.com/polkadot-js/api/pull/5964))
+- Bump yarn to 4.1.1 ([#5978](https://github.com/polkadot-js/api/pull/5978))
+- Add kusama types-known v1.3.0 upgrade ([#5971](https://github.com/polkadot-js/api/pull/5971))
+- Update Kusama augmented types to 1.3.0 ([#5972](https://github.com/polkadot-js/api/pull/5972))
+  - Please reference the PR above to view any changes in the runtime types
+
 ## 12.4.2 Aug 21, 2024
 
 Changes:
