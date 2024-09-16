@@ -7,25 +7,148 @@
 import type { DefinitionsTypes } from '../../types/index.js';
 
 export const v2: DefinitionsTypes = {
-  AssetInstanceV2: 'AssetInstanceV1',
-  FungibilityV2: 'FungibilityV1',
-  JunctionV2: 'JunctionV1',
-  JunctionsV2: 'JunctionsV1',
-  MultiAssetsV2: 'MultiAssetsV1',
-  MultiAssetV2: 'MultiAssetV1',
-  MultiAssetFilterV2: 'MultiAssetFilterV1',
-  MultiLocationV2: 'MultiLocationV1',
-  OriginKindV2: 'OriginKindV1',
-  WildFungibilityV2: 'WildFungibilityV1',
+  AssetIdV2: {
+    _enum: {
+      Concrete: 'MultiLocationV2',
+      Abstract: 'Bytes'
+    }
+  },
+  AssetInstanceV2: {
+    _enum: {
+      Undefined: 'Null',
+      Index: 'Compact<u128>',
+      Array4: '[u8;4]',
+      Array8: '[u8;8]',
+      Array16: '[u8;16]',
+      Array32: '[u8;32]',
+      Blob: 'Bytes'
+    }
+  },
+  BodyIdV2: {
+    _enum: {
+      Unit: 'Null',
+      Named: 'Bytes',
+      Index: 'Compact<u32>',
+      Executive: 'Null',
+      Technical: 'Null',
+      Legislative: 'Null',
+      Judicial: 'Null',
+      Defense: 'Null',
+      Administration: 'Null',
+      Treasury: 'Null'
+    }
+  },
+  BodyPartV2: {
+    _enum: {
+      Voice: 'Null',
+      Members: {
+        count: 'Compact<u32>'
+      },
+      Fraction: {
+        nom: 'Compact<u32>',
+        denom: 'Compact<u32>'
+      },
+      AtLeastProportion: {
+        nom: 'Compact<u32>',
+        denom: 'Compact<u32>'
+      },
+      MoreThanProportion: {
+        nom: 'Compact<u32>',
+        denom: 'Compact<u32>'
+      }
+    }
+  },
+  NetworkIdV2: {
+    _enum: {
+      Any: 'Null',
+      Named: 'Bytes',
+      Polkadot: 'Null',
+      Kusama: 'Null'
+    }
+  },
+  JunctionV2: {
+    _enum: {
+      Parachain: 'Compact<u32>',
+      AccountId32: {
+        network: 'NetworkIdV2',
+        id: '[u8; 32]'
+      },
+      AccountIndex64: {
+        network: 'NetworkIdV2',
+        index: 'Compact<u64>'
+      },
+      AccountKey20: {
+        network: 'NetworkIdV2',
+        key: '[u8; 20]'
+      },
+      PalletInstance: 'u8',
+      GeneralIndex: 'Compact<u128>',
+      GeneralKey: 'Bytes',
+      OnlyChild: 'Null',
+      Plurality: {
+        id: 'BodyIdV2',
+        part: 'BodyPartV2'
+      }
+    }
+  },
+  JunctionsV2: {
+    _enum: {
+      Here: 'Null',
+      X1: 'JunctionV2',
+      X2: '(JunctionV2, JunctionV2)',
+      X3: '(JunctionV2, JunctionV2, JunctionV2)',
+      X4: '(JunctionV2, JunctionV2, JunctionV2, JunctionV2)',
+      X5: '(JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2)',
+      X6: '(JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2)',
+      X7: '(JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2)',
+      X8: '(JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2, JunctionV2)'
+    }
+  },
+  FungibilityV2: {
+    _enum: {
+      Fungible: 'Compact<u128>',
+      NonFungible: 'AssetInstanceV2'
+    }
+  },
+  InteriorMultiLocationV2: 'JunctionsV2',
+  MultiAssetV2: {
+    id: 'AssetIdV2',
+    fun: 'FungibilityV2'
+  },
+  MultiAssetsV2: 'Vec<MultiAssetV2>',
+  MultiAssetFilterV2: {
+    _enum: {
+      Definite: 'MultiAssetsV2',
+      Wild: 'WildMultiAssetV2'
+    }
+  },
+  MultiLocationV2: {
+    parents: 'u8',
+    interior: 'JunctionsV2'
+  },
+  OriginKindV2: {
+    _enum: {
+      Native: 'Null',
+      SovereignAccount: 'Null',
+      Superuser: 'Null',
+      Xcm: 'Null'
+    }
+  },
+  WildFungibilityV2: {
+    _enum: {
+      Fungible: 'Null',
+      NonFungible: 'Null'
+    }
+  },
   ResponseV2: {
     _enum: {
       Null: 'Null',
       Assets: 'MultiAssetsV2',
-      ExecutionResult: 'ResponseV2Result'
+      ExecutionResult: 'Option<(u32, XcmErrorV2)>',
+      Version: 'u32'
     }
   },
   ResponseV2Error: '(u32, XcmErrorV2)',
-  ResponseV2Result: 'Result<Null, ResponseV2Error>',
   WeightLimitV2: {
     _enum: {
       Unlimited: 'Null',
@@ -52,8 +175,8 @@ export const v2: DefinitionsTypes = {
         xcm: 'XcmV2'
       },
       Transact: {
-        originType: 'OriginKindV2',
-        requireWeightAtMost: 'u64',
+        originType: 'XcmOriginKind',
+        requireWeightAtMost: 'Compact<u64>',
         call: 'DoubleEncodedCall'
       },
       HrmpNewChannelOpenRequest: {
@@ -70,7 +193,7 @@ export const v2: DefinitionsTypes = {
         recipient: 'Compact<u32>'
       },
       ClearOrigin: 'Null',
-      DescendOrigin: 'InteriorMultiLocation',
+      DescendOrigin: 'InteriorMultiLocationV2',
       ReportError: {
         queryId: 'Compact<u64>',
         dest: 'MultiLocationV2',
@@ -78,12 +201,12 @@ export const v2: DefinitionsTypes = {
       },
       DepositAsset: {
         assets: 'MultiAssetFilterV2',
-        maxAssets: 'u32',
+        maxAssets: 'Compact<u32>',
         beneficiary: 'MultiLocationV2'
       },
       DepositReserveAsset: {
         assets: 'MultiAssetFilterV2',
-        maxAssets: 'u32',
+        maxAssets: 'Compact<u32>',
         dest: 'MultiLocationV2',
         xcm: 'XcmV2'
       },
@@ -102,65 +225,69 @@ export const v2: DefinitionsTypes = {
         xcm: 'XcmV2'
       },
       QueryHolding: {
-        query_id: 'Compact<u64>',
+        queryId: 'Compact<u64>',
         dest: 'MultiLocationV2',
         assets: 'MultiAssetFilterV2',
-        maxResponse_Weight: 'Compact<u64>'
+        maxResponseWeight: 'Compact<u64>'
       },
       BuyExecution: {
         fees: 'MultiAssetV2',
         weightLimit: 'WeightLimitV2'
       },
       RefundSurplus: 'Null',
-      SetErrorHandler: 'XcmV2',
-      SetAppendix: 'XcmV2',
+      SetErrorHandler: 'XcmV2<RuntimeCall>',
+      SetAppendix: 'XcmV2<RuntimeCall>',
       ClearError: 'Null',
       ClaimAsset: {
         assets: 'MultiAssetsV2',
         ticket: 'MultiLocationV2'
       },
-      Trap: 'u64'
+      Trap: 'Compact<u64>',
+      SubscribeVersion: {
+        queryId: 'Compact<u64>',
+        maxResponseWeight: 'Compact<u64>'
+      },
+      UnsubscribeVersion: 'Null'
     }
   },
-  WildMultiAssetV2: 'WildMultiAssetV1',
+  WildMultiAssetV2: {
+    _enum: {
+      All: 'Null',
+      AllOf: {
+        id: 'AssetIdV2',
+        fun: 'WildFungibilityV2'
+      }
+    }
+  },
   XcmV2: 'Vec<InstructionV2>',
   XcmErrorV2: {
     _enum: {
-      Undefined: 'Null',
       Overflow: 'Null',
       Unimplemented: 'Null',
-      UnhandledXcmVersion: 'Null',
-      UnhandledXcmMessage: 'Null',
-      UnhandledEffect: 'Null',
-      EscalationOfPrivilege: 'Null',
       UntrustedReserveLocation: 'Null',
       UntrustedTeleportLocation: 'Null',
-      DestinationBufferOverflow: 'Null',
       MultiLocationFull: 'Null',
       MultiLocationNotInvertible: 'Null',
-      FailedToDecode: 'Null',
       BadOrigin: 'Null',
-      ExceedsMaxMessageSize: 'Null',
+      InvalidLocation: 'Null',
+      AssetNotFound: 'Null',
       FailedToTransactAsset: 'Null',
-      WeightLimitReached: 'Weight',
-      Wildcard: 'Null',
-      TooMuchWeightRequired: 'Null',
-      NotHoldingFees: 'Null',
-      WeightNotComputable: 'Null',
-      Barrier: 'Null',
       NotWithdrawable: 'Null',
       LocationCannotHold: 'Null',
-      TooExpensive: 'Null',
-      AssetNotFound: 'Null',
+      ExceedsMaxMessageSize: 'Null',
       DestinationUnsupported: 'Null',
-      RecursionLimitReached: 'Null',
       Transport: 'Null',
       Unroutable: 'Null',
-      UnknownWeightRequired: 'Null',
-      Trap: 'u64',
       UnknownClaim: 'Null',
-      InvalidLocation: 'Null'
+      FailedToDecode: 'Null',
+      MaxWeightInvalid: 'Null',
+      NotHoldingFees: 'Null',
+      TooExpensive: 'Null',
+      Trap: 'u64',
+      UnhandledXcmVersion: 'Null',
+      WeightLimitReached: 'Weight',
+      Barrier: 'Null',
+      WeightNotComputable: 'Null'
     }
-  },
-  XcmOrderV2: 'XcmOrderV1'
+  }
 };
