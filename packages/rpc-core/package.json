@@ -24,12 +24,12 @@
     "@polkadot/rpc-augment": "13.0.1",
     "@polkadot/rpc-provider": "13.0.1",
     "@polkadot/types": "13.0.1",
-    "@polkadot/util": "^13.0.2",
+    "@polkadot/util": "^13.1.1",
     "rxjs": "^7.8.1",
     "tslib": "^2.7.0"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^13.0.2",
+    "@polkadot/keyring": "^13.1.1",
     "@polkadot/rpc-augment": "13.0.1"
   }
 }
