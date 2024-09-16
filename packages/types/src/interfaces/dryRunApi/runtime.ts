@@ -26,7 +26,7 @@ export const runtime: DefinitionsCall = {
           params: [
             {
               name: 'originLocation',
-              type: 'VersionedLocation'
+              type: 'VersionedMultiLocation'
             },
             {
               name: 'xcm',

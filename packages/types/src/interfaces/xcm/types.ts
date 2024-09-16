@@ -1572,26 +1572,11 @@ export interface VersionMigrationStage extends Enum {
   readonly type: 'MigrateSupportedVersion' | 'MigrateVersionNotifiers' | 'NotifyCurrentTargets' | 'MigrateAndNotifyOldTargets';
 }
 
-/** @name VersionV2Xcm */
-export interface VersionV2Xcm extends Struct {
-  readonly V2: XcmV2;
-}
-
 /** @name VersionV3 */
 export interface VersionV3 extends u32 {}
 
-/** @name VersionV3Xcm */
-export interface VersionV3Xcm extends Struct {
-  readonly V3: XcmV3;
-}
-
 /** @name VersionV4 */
 export interface VersionV4 extends u32 {}
-
-/** @name VersionV4Xcm */
-export interface VersionV4Xcm extends Struct {
-  readonly V4: XcmV4;
-}
 
 /** @name WeightLimitV2 */
 export interface WeightLimitV2 extends Enum {
