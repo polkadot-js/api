@@ -16,24 +16,24 @@ export const runtime: DefinitionsCall = {
             },
             {
               name: 'call',
-              type: 'Call'
+              type: 'RuntimeCall'
             }
           ],
-          type: 'Result<CallDryRunEffects<Event>, XcmDryRunApiError>'
+          type: 'Result<CallDryRunEffects, XcmDryRunApiError>'
         },
         dry_run_xcm: {
           description: 'Dry run XCM program',
           params: [
             {
               name: 'originLocation',
-              type: 'XcmVersionedLocation'
+              type: 'VersionedLocation'
             },
             {
               name: 'xcm',
-              type: 'XcmVersionedXcm'
+              type: 'VersionedXcm'
             }
           ],
-          type: 'Result<XcmDryRunEffects<Event>, XcmDryRunApiError>'
+          type: 'Result<XcmDryRunEffects, XcmDryRunApiError>'
         }
       },
       version: 1

@@ -5,14 +5,14 @@ import type { Enum, Option, Result, Struct, Vec } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { Pays, Weight } from '@polkadot/types/interfaces/runtime';
 import type { DispatchError, Event } from '@polkadot/types/interfaces/system';
-import type { Outcome } from '@polkadot/types/interfaces/xcm';
+import type { OutcomeV4, VersionedMultiLocation, VersionedXcm } from '@polkadot/types/interfaces/xcm';
 
 /** @name CallDryRunEffects */
 export interface CallDryRunEffects extends Struct {
   readonly executionResult: DispatchResultWithPostInfo;
   readonly emittedEvents: Vec<Event>;
-  readonly localXcm: Option<XcmVersionedXcm>;
-  readonly forwardedXcms: Vec<ITuple<[XcmVersionedLocation, Vec<XcmVersionedXcm>]>>;
+  readonly localXcm: Option<VersionedXcm>;
+  readonly forwardedXcms: Vec<ITuple<[VersionedMultiLocation, Vec<VersionedXcm>]>>;
 }
 
 /** @name DispatchResultWithPostInfo */
@@ -38,9 +38,9 @@ export interface XcmDryRunApiError extends Enum {
 
 /** @name XcmDryRunEffects */
 export interface XcmDryRunEffects extends Struct {
-  readonly executionResult: Outcome;
+  readonly executionResult: OutcomeV4;
   readonly emittedEvents: Vec<Event>;
-  readonly forwardedXcms: Vec<ITuple<[XcmVersionedLocation, Vec<XcmVersionedXcm>]>>;
+  readonly forwardedXcms: Vec<ITuple<[VersionedMultiLocation, Vec<VersionedXcm>]>>;
 }
 
-export type PHANTOM_XCMDRYRUNAPI = 'xcmDryRunApi';
+export type PHANTOM_DRYRUNAPI = 'dryRunApi';

@@ -122,7 +122,7 @@ describe('runtime definitions', (): void => {
           for (const { methods, version } of versions) {
             describe(`version ${version}`, (): void => {
               const methodsEntries = Object.entries<DefinitionCall>(methods);
-              const skipInspectTypes = ['StagingXcmV3MultiLocation', 'StagingXcmV4Location', 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>', 'Result<XcmVersionedAssets, FungiblesAccessError>', 'XcmVersionedLocation', 'XcmVersionedAssetId', 'XcmVersionedXcm', 'Result<Vec<XcmVersionedAssetId>, XcmPaymentApiError>'];
+              const skipInspectTypes = ['StagingXcmV3MultiLocation', 'StagingXcmV4Location', 'Result<Vec<XcmV3MultiAsset>, FungiblesAccessError>', 'Result<XcmVersionedAssets, FungiblesAccessError>', 'XcmVersionedLocation', 'XcmVersionedAssetId', 'XcmVersionedXcm', 'Result<Vec<XcmVersionedAssetId>, XcmPaymentApiError>', 'CallDryRunEffects', 'XcmDryRunEffects', 'XcmDryRunApiError', 'Result<CallDryRunEffects, XcmDryRunApiError>', 'Result<XcmDryRunEffects, XcmDryRunApiError>'];
 
               for (const [key, { params, type }] of methodsEntries) {
                 describe(`${key}`, (): void => {

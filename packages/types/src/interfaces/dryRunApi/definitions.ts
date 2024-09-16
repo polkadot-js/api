@@ -14,19 +14,19 @@ export default {
   types: {
     PostDispatchInfo: {
       actualWeight: 'Option<Weight>',
-      paysFee: 'Pays',
+      paysFee: 'Pays'
     },
     DispatchResultWithPostInfo: 'Result<PostDispatchInfo, DispatchError>',
     CallDryRunEffects: {
       executionResult: 'DispatchResultWithPostInfo',
       emittedEvents: 'Vec<Event>',
-      localXcm: 'Option<XcmVersionedXcm>',
-      forwardedXcms: 'Vec<(XcmVersionedLocation, Vec<XcmVersionedXcm>)>',
+      localXcm: 'Option<VersionedXcm>',
+      forwardedXcms: 'Vec<(VersionedMultiLocation, Vec<VersionedXcm>)>'
     },
     XcmDryRunEffects: {
-	  executionResult: 'Outcome',
+	  executionResult: 'OutcomeV4',
 	  emittedEvents: 'Vec<Event>',
-	  forwardedXcms: 'Vec<(XcmVersionedLocation, Vec<XcmVersionedXcm>)>',
+	  forwardedXcms: 'Vec<(VersionedMultiLocation, Vec<VersionedXcm>)>'
     },
     XcmDryRunApiError: {
       _enum: [
@@ -36,4 +36,3 @@ export default {
     }
   }
 } as Definitions;
-
