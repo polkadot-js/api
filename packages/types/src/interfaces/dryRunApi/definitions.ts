@@ -24,9 +24,9 @@ export default {
       forwardedXcms: 'Vec<(VersionedMultiLocation, Vec<VersionedXcm>)>'
     },
     XcmDryRunEffects: {
-	  executionResult: 'OutcomeV4',
-	  emittedEvents: 'Vec<Event>',
-	  forwardedXcms: 'Vec<(VersionedMultiLocation, Vec<VersionedXcm>)>'
+      executionResult: 'OutcomeV4',
+      emittedEvents: 'Vec<Event>',
+      forwardedXcms: 'Vec<(VersionedMultiLocation, Vec<VersionedXcm>)>'
     },
     XcmDryRunApiError: {
       _enum: [
