@@ -147,8 +147,6 @@ function decodeEnum (registry: Registry, def: TypesDef, value?: unknown, index?:
 
     // nested, we don't want to match isObject below
     if (u8a.length) {
-      console.log('U8A has length:', u8a[0]);
-
       return createFromU8a(registry, def, u8a[0], u8a.subarray(1));
     }
   } else if (value instanceof Enum) {
