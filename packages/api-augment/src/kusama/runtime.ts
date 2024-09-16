@@ -13,6 +13,7 @@ import type { BeefyAuthoritySet, BeefyEquivocationProof, BeefyNextAuthoritySet, 
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import type { CallDryRunEffects, XcmDryRunApiError, XcmDryRunEffects } from '@polkadot/types/interfaces/dryRunApi';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { GenesisBuildErr } from '@polkadot/types/interfaces/genesisBuilder';
 import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/types/interfaces/grandpa';
@@ -21,12 +22,13 @@ import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError } from '@polkadot/
 import type { NpPoolId } from '@polkadot/types/interfaces/nompools';
 import type { ApprovalVotingParams, AsyncBackingParams, BackingState, CandidateCommitments, CandidateEvent, CandidateHash, CommittedCandidateReceipt, CoreIndex, CoreState, DisputeProof, DisputeState, ExecutorParams, GroupRotationInfo, InboundDownwardMessage, InboundHrmpMessage, NodeFeatures, OccupiedCoreAssumption, ParaId, ParaValidatorIndex, PendingSlashes, PersistedValidationData, PvfCheckStatement, ScrapedOnChainVotes, SessionInfo, ValidationCode, ValidationCodeHash, ValidatorSignature } from '@polkadot/types/interfaces/parachains';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-import type { AccountId, Balance, Block, BlockNumber, Call, ExtrinsicInclusionMode, Hash, Header, Index, KeyTypeId, Slot, ValidatorId, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, Block, BlockNumber, Call, ExtrinsicInclusionMode, Hash, Header, Index, KeyTypeId, OriginCaller, RuntimeCall, Slot, ValidatorId, Weight, WeightV2 } from '@polkadot/types/interfaces/runtime';
 import type { SessionIndex } from '@polkadot/types/interfaces/session';
 import type { ValidatorIndex } from '@polkadot/types/interfaces/staking';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
+import type { VersionedMultiLocation, VersionedXcm } from '@polkadot/types/interfaces/xcm';
 import type { XcmPaymentApiError } from '@polkadot/types/interfaces/xcmPaymentApi';
 import type { Error } from '@polkadot/types/interfaces/xcmRuntimeApi';
 import type { XcmVersionedAssetId, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
@@ -165,6 +167,21 @@ declare module '@polkadot/api-base/types/calls' {
        * Returns the version of the runtime.
        **/
       version: AugmentedCall<ApiType, () => Observable<RuntimeVersion>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x91b1c8b16328eb92/1 */
+    dryRunApi: {
+      /**
+       * Dry run call
+       **/
+      dryRunCall: AugmentedCall<ApiType, (origin: OriginCaller | { System: any } | string | Uint8Array, call: RuntimeCall | IMethod | string | Uint8Array) => Observable<Result<CallDryRunEffects, XcmDryRunApiError>>>;
+      /**
+       * Dry run XCM program
+       **/
+      dryRunXcm: AugmentedCall<ApiType, (originLocation: VersionedMultiLocation | { V0: any } | { V1: any } | { V2: any } | { V3: any } | { V4: any } | string | Uint8Array, xcm: VersionedXcm | { V0: any } | { V1: any } | { V2: any } | { V3: any } | { V4: any } | string | Uint8Array) => Observable<Result<XcmDryRunEffects, XcmDryRunApiError>>>;
       /**
        * Generic call
        **/

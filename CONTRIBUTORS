@@ -59,6 +59,7 @@
        1	Aleš Ferlan                   	fix: use H160 for address in getTransactionCount (#5472)
        1	Brad Larson                   	[NEW] Support for custom headers with providers (#2423)
        1	Btwiuse Arch                  	Add side effect check workaround (#4994) (#5009)
+       1	Cameron Marshall              	implement xcm dry run api (#5970)
        1	chriswmercer                  	little readme tweak (#279)
        1	codingsh                      	#2182 - add: search for docs (#2232)
        1	coolcorexix                   	Investigate 4559 v2 (#4608)
