@@ -96,7 +96,7 @@ function getEntryType (def: TypesDef, checkIdx: number): CodecClass {
     }
   }
 
-  throw new Error(`\n\nCheckIDX: ${checkIdx}\n\nDefinition: ${JSON.stringify(def)} \n\nValues:${JSON.stringify(values)} \n\nUnable to create Enum via index ${checkIdx}, in ${Object.keys(def).join(', ')}`);
+  throw new Error(`Unable to create Enum via index ${checkIdx}, in ${Object.keys(def).join(', ')}`);
 }
 
 function createFromU8a (registry: Registry, def: TypesDef, index: number, value: Uint8Array): Decoded {
