@@ -37,6 +37,8 @@ export function createCallFunction (registry: Registry, lookup: PortableRegistry
     );
   }
 
+  console.log('Variant: ', variant.toString());
+
   return createUnchecked(
     registry,
     sectionName,

@@ -5,6 +5,7 @@ import type { Registry } from '@polkadot/types-codec/types';
 import type { DecoratedMeta } from './types.js';
 
 import { Metadata } from '../Metadata.js';
+import { decorateCalls } from './calls/index.js';
 import { decorateConstants } from './constants/index.js';
 import { decorateErrors } from './errors/index.js';
 import { decorateEvents, filterEventsSome } from './events/index.js';
@@ -23,6 +24,7 @@ export function expandMetadata (registry: Registry, metadata: Metadata): Decorat
   const version = metadata.version;
 
   return {
+    calls: decorateCalls(registry, latest, version),
     consts: decorateConstants(registry, latest, version),
     errors: decorateErrors(registry, latest, version),
     events: decorateEvents(registry, latest, version),

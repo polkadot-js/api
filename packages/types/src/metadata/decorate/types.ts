@@ -30,6 +30,8 @@ export type ModuleEvents = Record<string, IsEvent<AnyTuple>>;
 
 export type ModuleExtrinsics = Record<string, CallFunction>;
 
+export type ModuleCalls = Record<string, CallFunction>;
+
 export type ModuleStorage = Record<string, StorageEntry>
 
 export type Constants = Record<string, ModuleConstants>;
@@ -42,11 +44,14 @@ export type Extrinsics = Record<string, ModuleExtrinsics>
 
 export type Storage = Record<string, ModuleStorage>;
 
+export type Calls = Record<string, ModuleCalls>
+
 export interface DecoratedMeta {
   readonly consts: Constants;
   readonly errors: Errors;
   readonly events: Events;
   readonly query: Storage;
   readonly registry: Registry;
-  readonly tx: Extrinsics
+  readonly tx: Extrinsics;
+  readonly calls: Calls;
 }
