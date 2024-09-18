@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 13.1.1 Sep 17, 2024
+
+Changes:
+
+- Upgrade polkadot/common to 13.1.1 ([#5982](https://github.com/polkadot-js/api/pull/5982))
+- Implement xcm dryRunApi ([#5970](https://github.com/polkadot-js/api/pull/5970))
+- Initialize the API with metadata V15 ([#5941](https://github.com/polkadot-js/api/pull/5941))
+- Bump yarn to 4.5.0 ([#5983](https://github.com/polkadot-js/api/pull/5983))
+
+
 ## 13.0.1 Sep 10, 2024
 
 Breaking Changes:
