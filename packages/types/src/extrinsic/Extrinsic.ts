@@ -40,7 +40,7 @@ const VERSIONS = [
 const V5_VERSIONS = {
   bare: 'ExtrinsicV5',
   // Not supported yet
-  general: 'GeneralExtrinsicV5',
+  general: 'ExtrinsicV5',
   signed: 'ExtrinsicV5'
 };
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SignOptions } from '@polkadot/keyring/types';
+import type { SignOptions, SignV5Options } from '@polkadot/keyring/types';
 import type { Hash, MultiLocation } from '@polkadot/types/interfaces';
 import type { Bytes } from '@polkadot/types-codec';
 import type { Inspect, Registry } from '@polkadot/types-codec/types';
@@ -13,7 +13,7 @@ import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } 
 import { Enum, Struct } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
-import { sign } from '../util.js';
+import { signV5 } from '../util.js';
 
 /**
  * @name GenericExtrinsicPayloadV5
@@ -22,7 +22,7 @@ import { sign } from '../util.js';
  * variable length based on the contents included
  */
 export class GenericExtrinsicPayloadV5 extends Struct {
-  #signOptions: SignOptions;
+  #signOptions: SignV5Options;
 
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | HexString) {
     super(registry, objectSpread(
@@ -116,6 +116,10 @@ export class GenericExtrinsicPayloadV5 extends Struct {
     return this.getT('metadataHash');
   }
 
+  public get subVersionV5 (): 'signed' | 'bare' | 'general' {
+    return this.getT('subVersionV5');
+  }
+
   /**
    * @description Sign the payload with the keypair
    */
@@ -125,6 +129,8 @@ export class GenericExtrinsicPayloadV5 extends Struct {
     // means that the data-as-signed is un-decodable, but is also doesn't need
     // the extra information, only the pure data (and is not decoded) ...
     // The same applies to V1..V3, if we have a V5, carry this comment
-    return sign(this.registry, signerPair, this.toU8a({ method: true }), this.#signOptions);
+    const subVersionV5 = this.subVersionV5;
+    const newOpts = objectSpread({} as SignV5Options, {...this.#signOptions, subVersionV5})
+    return signV5(this.registry, signerPair, this.toU8a({ method: true }), newOpts);
   }
 }

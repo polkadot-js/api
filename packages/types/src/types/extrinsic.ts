@@ -202,6 +202,10 @@ export interface SignatureOptions {
   withSignedTransaction?: boolean;
 }
 
+export interface SignatureV5Options extends SignatureOptions {
+  subVersionV5?: 'signed' | 'bare' | 'general'; 
+}
+
 interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
@@ -245,6 +249,13 @@ export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl> {
   readonly method: Call;
   readonly signature: IExtrinsicSignature;
   readonly version: number;
+}
+
+export interface IExtrinsicV5Impl extends IExtrinsicSignable<IExtrinsicV5Impl> {
+  readonly method: Call;
+  readonly signature: IExtrinsicSignature;
+  readonly version: number;
+  readonly subVersionV5: 'signed' | 'bare' | 'general'
 }
 
 export interface IExtrinsic<A extends AnyTuple = AnyTuple> extends IExtrinsicSignable<IExtrinsic<A>>, ExtrinsicSignatureBase, IMethod<A> {

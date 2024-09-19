@@ -5,7 +5,7 @@ import type { Bytes } from '@polkadot/types-codec';
 import type { AnyJson, BareOpts, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { BlockHash } from '../interfaces/chain/index.js';
-import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics/index.js';
+import type { ExtrinsicPayloadV4, ExtrinsicPayloadV5 } from '../interfaces/extrinsics/index.js';
 import type { Hash, MultiLocation } from '../interfaces/types.js';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
@@ -22,7 +22,7 @@ interface ExtrinsicPayloadOptions {
 }
 
 // all our known types that can be returned
-type ExtrinsicPayloadVx = ExtrinsicPayloadV4;
+type ExtrinsicPayloadVx = ExtrinsicPayloadV5;
 
 const VERSIONS = [
   'ExtrinsicPayloadUnknown', // v0 is unknown
@@ -36,7 +36,7 @@ const VERSIONS = [
 const V5_VERSIONS = {
   bare: 'ExtrinsicPayloadV5',
   // Not supported yet
-  general: 'GeneralExtrinsicPayloadV5',
+  general: 'ExtrinsicPayloadV5',
   signed: 'ExtrinsicPayloadV5'
 };
 

@@ -4,13 +4,11 @@
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicSignatureV5 } from '../../interfaces/extrinsics/index.js';
 import type { Address, Call } from '../../interfaces/runtime/index.js';
-import type { ExtrinsicPayloadValue, IExtrinsicImpl, IKeyringPair, Registry, SignatureOptions } from '../../types/index.js';
+import type { ExtrinsicPayloadValue, IExtrinsicV5Impl, IKeyringPair, Registry, SignatureV5Options } from '../../types/index.js';
 import type { ExtrinsicOptions } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
-import { isU8a } from '@polkadot/util';
-
-export const EXTRINSIC_VERSION = 4;
+import { isU8a, objectSpread } from '@polkadot/util';
 
 export interface ExtrinsicValueV5 {
   method?: Call;
@@ -22,7 +20,7 @@ export interface ExtrinsicValueV5 {
  * @description
  * The third generation of compact extrinsics
  */
-export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
+export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
   constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV5 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
     super(registry, {
       signature: 'ExtrinsicSignatureV5',
@@ -76,7 +74,11 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
    * @description The version for the signature
    */
   public get version (): number {
-    return EXTRINSIC_VERSION;
+    return this.getT('version');
+  }
+
+  public get subVersionV5 (): 'signed' | 'bare' | 'general' {
+    return this.getT('subVersionV5')
   }
 
   /**
@@ -91,8 +93,10 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
   /**
    * @description Sign the extrinsic with a specific keypair
    */
-  public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsicV5 {
-    this.signature.sign(this.method, account, options);
+  public sign (account: IKeyringPair, options: SignatureV5Options): GenericExtrinsicV5 {
+    const subVersionV5 = this.subVersionV5;
+    const newOpts = objectSpread({}, { ...options, subVersionV5}) as SignatureV5Options;
+    this.signature.sign(this.method, account, newOpts);
 
     return this;
   }
@@ -100,8 +104,10 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
   /**
    * @describe Adds a fake signature to the extrinsic
    */
-  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsicV5 {
-    this.signature.signFake(this.method, signer, options);
+  public signFake (signer: Address | Uint8Array | string, options: SignatureV5Options): GenericExtrinsicV5 {
+    const subVersionV5 = this.subVersionV5;
+    const newOpts = objectSpread({}, { ...options, subVersionV5}) as SignatureV5Options;
+    this.signature.signFake(this.method, signer, newOpts);
 
     return this;
   }
