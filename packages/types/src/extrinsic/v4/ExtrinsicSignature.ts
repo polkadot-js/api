@@ -17,7 +17,7 @@ import { GenericExtrinsicPayloadV4 } from './ExtrinsicPayload.js';
 // Ensure we have enough data for all types of signatures
 const FAKE_SIGNATURE = new Uint8Array(256).fill(1);
 
-function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
+export function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
   return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
 }
 

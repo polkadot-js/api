@@ -8,7 +8,7 @@ import type { ExtrinsicOptions } from '../types.js';
 
 import { GenericExtrinsicV4 } from '../v4/Extrinsic.js';
 
-const EXTRINSIC_VERSION = 5;
+export const EXTRINSIC_VERSION = 5;
 
 export interface ExtrinsicValueV4 {
   method?: Call;
