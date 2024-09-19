@@ -33,7 +33,8 @@ const VERSIONS = [
   'ExtrinsicUnknown',
   'ExtrinsicUnknown',
   'ExtrinsicUnknown',
-  'ExtrinsicV4'
+  'ExtrinsicV4',
+  'ExtrinsicV5'
 ];
 
 const V5_VERSIONS = {
@@ -269,7 +270,7 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   static LATEST_EXTRINSIC_VERSION = LATEST_EXTRINSIC_VERSION;
 
   constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { subVersionV5, version }: CreateOptions = {}) {
-    super(registry, decodeExtrinsic(registry, value, version, subVersionV5));
+    super(registry, decodeExtrinsic(registry, value, registry.metadata.extrinsic.version?.toNumber() || version, subVersionV5));
   }
 
   /**

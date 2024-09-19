@@ -11,3 +11,4 @@ export { GenericSignerPayload } from './SignerPayload.js';
 
 // all starred
 export * from './v4/index.js';
+export * from './v5/index.js';
