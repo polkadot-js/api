@@ -10,7 +10,7 @@ import type { ExtrinsicOptions } from '../types.js';
 import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
 
-export const EXTRINSIC_VERSION = 5;
+export const EXTRINSIC_VERSION = 4;
 
 export interface ExtrinsicValueV5 {
   method?: Call;
