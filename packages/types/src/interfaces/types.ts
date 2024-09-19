@@ -25,6 +25,7 @@ export * from './cumulus/types.js';
 export * from './democracy/types.js';
 export * from './dev/types.js';
 export * from './discovery/types.js';
+export * from './dryRunApi/types.js';
 export * from './elections/types.js';
 export * from './engine/types.js';
 export * from './eth/types.js';

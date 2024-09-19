@@ -18,17 +18,17 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "12.4.3-3-x",
+  "version": "13.1.2-0-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^13.0.2",
-    "@polkadot/x-bigint": "^13.0.2",
+    "@polkadot/util": "^13.1.1",
+    "@polkadot/x-bigint": "^13.1.1",
     "tslib": "^2.7.0"
   },
   "devDependencies": {
-    "@polkadot/types": "12.4.3-3-x",
-    "@polkadot/types-augment": "12.4.3-3-x",
-    "@polkadot/types-support": "12.4.3-3-x",
-    "@polkadot/util-crypto": "^13.0.2"
+    "@polkadot/types": "13.1.2-0-x",
+    "@polkadot/types-augment": "13.1.2-0-x",
+    "@polkadot/types-support": "13.1.2-0-x",
+    "@polkadot/util-crypto": "^13.1.1"
   }
 }

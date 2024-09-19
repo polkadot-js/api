@@ -4,11 +4,11 @@
 import type { Observable } from 'rxjs';
 import type { AugmentedCall, DeriveCustom, QueryableCalls } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
-import type { Metadata, StorageKey, Text, u64 } from '@polkadot/types';
-import type { Call, Hash, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { Metadata, StorageKey, Text, u64, Vec } from '@polkadot/types';
+import type { Call, Hash, RuntimeApiMethodMetadataV15, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
-import type { AnyFunction, AnyJson, AnyTuple, CallFunction, Codec, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, DefinitionsCallEntry, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
+import type { AnyFunction, AnyJson, AnyTuple, CallFunction, Codec, DefinitionCall, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, DefinitionsCallEntry, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../submittable/types.js';
 import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types/index.js';
@@ -492,12 +492,52 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return Object.entries(result);
   }
 
-  // pre-metadata decoration
+  // Helper for _getRuntimeDefsViaMetadata
+  protected _getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV15>) {
+    const result: Record<string, DefinitionCall> = {};
+
+    methods.forEach((m) => {
+      const { docs, inputs, name, output } = m;
+
+      result[name.toString()] = {
+        description: docs.map((d) => d.toString()).join(),
+        params: inputs.map(({ name, type }) => {
+          return { name: name.toString(), type: registry.lookup.getName(type) || registry.lookup.getTypeDef(type).type };
+        }),
+        type: registry.lookup.getName(output) || registry.lookup.getTypeDef(output).type
+      };
+    });
+
+    return result;
+  }
+
+  // Maintains the same structure as `_getRuntimeDefs` in order to make conversion easier.
+  protected _getRuntimeDefsViaMetadata (registry: Registry): [string, DefinitionsCallEntry[]][] {
+    const result: DefinitionsCall = {};
+    const { apis } = registry.metadata;
+
+    for (let i = 0, count = apis.length; i < count; i++) {
+      const { methods, name } = apis[i];
+
+      result[name.toString()] = [{
+        methods: this._getMethods(registry, methods),
+        // We set the version to 0 here since it will not be relevant when we are grabbing the runtime apis
+        // from the Metadata.
+        version: 0
+      }];
+    }
+
+    return Object.entries(result);
+  }
+
+  // When the calls are available in the metadata, it will generate them based off of the metadata.
+  // When they are not available it will use the hardcoded calls generated in the static types.
   protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName, specVersion } }: VersionedRegistry<any>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
     const result = {} as QueryableCalls<ApiType>;
     const named: Record<string, Record<string, DefinitionCallNamed>> = {};
     const hashes: Record<HexString, boolean> = {};
-    const sections = this._getRuntimeDefs(registry, specName, this._runtimeChain);
+    const isApiInMetadata = registry.metadata.apis.length > 0;
+    const sections = isApiInMetadata ? this._getRuntimeDefsViaMetadata(registry) : this._getRuntimeDefs(registry, specName, this._runtimeChain);
     const older: string[] = [];
     const implName = `${specName.toString()}/${specVersion.toString()}`;
     const hasLogged = this.#runtimeLog[implName] || false;
@@ -505,51 +545,71 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this.#runtimeLog[implName] = true;
 
     for (let i = 0, scount = sections.length; i < scount; i++) {
-      const [_section, secs] = sections[i];
-      const sectionHash = blake2AsHex(_section, 64);
-      const rtApi = apis.find(([a]) => a.eq(sectionHash));
+      if (isApiInMetadata) {
+        const [_section, secs] = sections[i];
+        const sec = secs[0];
+        const sectionHash = blake2AsHex(_section, 64);
 
-      hashes[sectionHash] = true;
+        const section = stringCamelCase(_section);
+        const methods = Object.entries(sec.methods);
 
-      if (rtApi) {
-        const all = secs.map(({ version }) => version).sort();
-        const sec = secs.find(({ version }) => rtApi[1].eq(version));
-
-        if (sec) {
-          const section = stringCamelCase(_section);
-          const methods = Object.entries(sec.methods);
-
-          if (methods.length) {
-            if (!named[section]) {
-              named[section] = {};
-            }
-
-            for (let m = 0, mcount = methods.length; m < mcount; m++) {
-              const [_method, def] = methods[m];
-              const method = stringCamelCase(_method);
-
-              named[section][method] = objectSpread({ method, name: `${_section}_${_method}`, section, sectionHash }, def);
-            }
-          }
-        } else {
-          older.push(`${_section}/${rtApi[1].toString()} (${all.join('/')} known)`);
+        if (!named[section]) {
+          named[section] = {};
         }
-      }
-    }
 
-    // find the runtimes that we don't have hashes for
-    const notFound = apis
-      .map(([a, v]): [HexString, string] => [a.toHex(), v.toString()])
-      .filter(([a]) => !hashes[a])
-      .map(([a, v]) => `${this._runtimeMap[a] || a}/${v}`);
+        for (let m = 0, mcount = methods.length; m < mcount; m++) {
+          const [_method, def] = methods[m];
+          const method = stringCamelCase(_method);
 
-    if (!this._options.noInitWarn && !hasLogged) {
-      if (older.length) {
-        l.warn(`${implName}: Not decorating runtime apis without matching versions: ${older.join(', ')}`);
-      }
+          named[section][method] = objectSpread({ method, name: `${_section}_${_method}`, section, sectionHash }, def);
+        }
+      } else {
+        const [_section, secs] = sections[i];
+        const sectionHash = blake2AsHex(_section, 64);
+        const rtApi = apis.find(([a]) => a.eq(sectionHash));
 
-      if (notFound.length) {
-        l.warn(`${implName}: Not decorating unknown runtime apis: ${notFound.join(', ')}`);
+        hashes[sectionHash] = true;
+
+        if (rtApi) {
+          const all = secs.map(({ version }) => version).sort();
+          const sec = secs.find(({ version }) => rtApi[1].eq(version));
+
+          if (sec) {
+            const section = stringCamelCase(_section);
+            const methods = Object.entries(sec.methods);
+
+            if (methods.length) {
+              if (!named[section]) {
+                named[section] = {};
+              }
+
+              for (let m = 0, mcount = methods.length; m < mcount; m++) {
+                const [_method, def] = methods[m];
+                const method = stringCamelCase(_method);
+
+                named[section][method] = objectSpread({ method, name: `${_section}_${_method}`, section, sectionHash }, def);
+              }
+            }
+          } else {
+            older.push(`${_section}/${rtApi[1].toString()} (${all.join('/')} known)`);
+          }
+        }
+
+        // find the runtimes that we don't have hashes for
+        const notFound = apis
+          .map(([a, v]): [HexString, string] => [a.toHex(), v.toString()])
+          .filter(([a]) => !hashes[a])
+          .map(([a, v]) => `${this._runtimeMap[a] || a}/${v}`);
+
+        if (!this._options.noInitWarn && !hasLogged) {
+          if (older.length) {
+            l.warn(`${implName}: Not decorating runtime apis without matching versions: ${older.join(', ')}`);
+          }
+
+          if (notFound.length) {
+            l.warn(`${implName}: Not decorating unknown runtime apis: ${notFound.join(', ')}`);
+          }
+        }
       }
     }
 
