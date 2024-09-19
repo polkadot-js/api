@@ -18,7 +18,7 @@ export interface ExtrinsicValueV5 {
 }
 
 /**
- * @name GenericExtrinsicV4
+ * @name GenericExtrinsicV5
  * @description
  * The third generation of compact extrinsics
  */
@@ -66,7 +66,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
   }
 
   /**
-   * @description The [[ExtrinsicSignatureV4]]
+   * @description The [[ExtrinsicSignatureV5]]
    */
   public get signature (): ExtrinsicSignatureV5 {
     return this.getT('signature');
@@ -80,7 +80,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicImpl {
   }
 
   /**
-   * @description Add an [[ExtrinsicSignatureV4]] to the extrinsic (already generated)
+   * @description Add an [[ExtrinsicSignatureV5]] to the extrinsic (already generated)
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
     this.signature.addSignature(signer, signature, payload);
