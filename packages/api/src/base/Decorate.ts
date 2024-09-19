@@ -492,6 +492,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return Object.entries(result);
   }
 
+  // Helper for _getRuntimeDefsViaMetadata
   protected _getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV15>) {
     const result: Record<string, DefinitionCall> = {};
 
@@ -510,6 +511,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return result;
   }
 
+  // Maintains the same structure as `_getRuntimeDefs` in order to make conversion easier.
   protected _getRuntimeDefsViaMetadata (registry: Registry): [string, DefinitionsCallEntry[]][] {
     const result: DefinitionsCall = {};
     const { apis } = registry.metadata;
@@ -528,13 +530,14 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     return Object.entries(result);
   }
 
-  // pre-metadata decoration
+  // When the calls are available in the metadata, it will generate them based off of the metadata.
+  // When they are not available it will use the hardcoded calls generated in the static types.
   protected _decorateCalls<ApiType extends ApiTypes> ({ registry, runtimeVersion: { apis, specName, specVersion } }: VersionedRegistry<any>, decorateMethod: DecorateMethod<ApiType>, blockHash?: Uint8Array | string | null): QueryableCalls<ApiType> {
     const result = {} as QueryableCalls<ApiType>;
     const named: Record<string, Record<string, DefinitionCallNamed>> = {};
     const hashes: Record<HexString, boolean> = {};
-    const isApiInRuntime = registry.metadata.apis.length > 0;
-    const sections = isApiInRuntime ? this._getRuntimeDefsViaMetadata(registry) : this._getRuntimeDefs(registry, specName, this._runtimeChain);
+    const isApiInMetadata = registry.metadata.apis.length > 0;
+    const sections = isApiInMetadata ? this._getRuntimeDefsViaMetadata(registry) : this._getRuntimeDefs(registry, specName, this._runtimeChain);
     const older: string[] = [];
     const implName = `${specName.toString()}/${specVersion.toString()}`;
     const hasLogged = this.#runtimeLog[implName] || false;
@@ -542,7 +545,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
     this.#runtimeLog[implName] = true;
 
     for (let i = 0, scount = sections.length; i < scount; i++) {
-      if (isApiInRuntime) {
+      if (isApiInMetadata) {
         const [_section, secs] = sections[i];
         const sec = secs[0];
         const sectionHash = blake2AsHex(_section, 64);
