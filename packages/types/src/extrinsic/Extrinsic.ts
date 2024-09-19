@@ -38,10 +38,10 @@ const VERSIONS = [
 ];
 
 const V5_VERSIONS = {
-  bare: 'ExtrinsicV4',
+  bare: 'ExtrinsicV5',
   // Not supported yet
   general: 'GeneralExtrinsicV5',
-  signed: 'ExtrinsicV4'
+  signed: 'ExtrinsicV5'
 };
 
 export { LATEST_EXTRINSIC_VERSION };

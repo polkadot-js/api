@@ -29,14 +29,15 @@ const VERSIONS = [
   'ExtrinsicPayloadUnknown',
   'ExtrinsicPayloadUnknown',
   'ExtrinsicPayloadUnknown',
-  'ExtrinsicPayloadV4'
+  'ExtrinsicPayloadV4',
+  'ExtrinsicPayloadV5'
 ];
 
 const V5_VERSIONS = {
-  bare: 'ExtrinsicPayloadV4',
+  bare: 'ExtrinsicPayloadV5',
   // Not supported yet
   general: 'GeneralExtrinsicPayloadV5',
-  signed: 'ExtrinsicPayloadV4'
+  signed: 'ExtrinsicPayloadV5'
 };
 
 /** @internal */
