@@ -1,7 +1,6 @@
 // Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SignOptions } from '@polkadot/keyring/types';
 import type { AnyNumber } from '@polkadot/types-codec/types';
 
 export interface ExtrinsicOptions {
@@ -24,7 +23,3 @@ export interface ExtrinsicExtraValue {
 }
 
 export type SubVersionV5 = 'signed' | 'bare' | 'general';
-
-export interface SignV5Options extends SignOptions {
-  subVersionV5?: SubVersionV5;
-}

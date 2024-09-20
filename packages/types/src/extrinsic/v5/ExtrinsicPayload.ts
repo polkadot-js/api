@@ -1,6 +1,7 @@
 // Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SignOptions } from '@polkadot/keyring/types';
 import type { Hash, MultiLocation } from '@polkadot/types/interfaces';
 import type { Bytes } from '@polkadot/types-codec';
 import type { Inspect, Registry } from '@polkadot/types-codec/types';
@@ -8,7 +9,6 @@ import type { HexString } from '@polkadot/util/types';
 import type { BlockHash } from '../../interfaces/chain/index.js';
 import type { ExtrinsicEra } from '../../interfaces/extrinsics/index.js';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../../types/index.js';
-import type { SignV5Options } from '../types.js';
 
 import { Enum, Struct } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
@@ -20,7 +20,7 @@ import { objectSpread } from '@polkadot/util';
  * variable length based on the contents included
  */
 export class GenericExtrinsicPayloadV5 extends Struct {
-  #signOptions: SignV5Options;
+  #signOptions: SignOptions;
 
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | HexString) {
     super(registry, objectSpread(
