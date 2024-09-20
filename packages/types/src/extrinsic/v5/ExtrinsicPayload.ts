@@ -8,8 +8,8 @@ import type { ExtrinsicPayloadValue, IKeyringPair } from '../../types/index.js';
 
 import { Enum } from '@polkadot/types-codec';
 
-import { GenericExtrinsicPayloadV4 } from '../v4/ExtrinsicPayload.js';
 import { signV5 } from '../util.js';
+import { GenericExtrinsicPayloadV4 } from '../v4/ExtrinsicPayload.js';
 
 /**
  * @name GenericExtrinsicPayloadV5
