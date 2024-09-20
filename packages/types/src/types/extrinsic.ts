@@ -203,7 +203,7 @@ export interface SignatureOptions {
 }
 
 export interface SignatureV5Options extends SignatureOptions {
-  subVersionV5?: 'signed' | 'bare' | 'general'; 
+  subVersionV5?: 'signed' | 'bare' | 'general';
 }
 
 interface ExtrinsicSignatureBase {

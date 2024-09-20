@@ -10,12 +10,12 @@ import type { MultiLocation } from '../interfaces/types.js';
 import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
 import type { SubVersionV5 } from './types.js';
+import type { ExtrinsicValueV5 } from './v5/Extrinsic.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_V5_VERSION, DEFAULT_VERSION, LATEST_EXTRINSIC_VERSION, UNMASK_VERSION } from './constants.js';
-import type { ExtrinsicValueV5 } from './v5/Extrinsic.js';
 
 interface CreateOptions {
   version?: number;

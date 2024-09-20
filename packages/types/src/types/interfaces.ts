@@ -1,8 +1,8 @@
 // Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SignV5Options } from '@polkadot/keyring/types';
 import type { AnyTuple, Codec, IMethod as IMethodBase, INumber, IText } from '@polkadot/types-codec/types';
+import type { SignV5Options } from '../extrinsic/types.js';
 import type { FunctionMetadataLatest, StorageEntryMetadataLatest } from '../interfaces/metadata/index.js';
 import type { Registry } from './registry.js';
 

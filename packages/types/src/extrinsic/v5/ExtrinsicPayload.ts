@@ -1,7 +1,6 @@
 // Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SignOptions, SignV5Options } from '@polkadot/keyring/types';
 import type { Hash, MultiLocation } from '@polkadot/types/interfaces';
 import type { Bytes } from '@polkadot/types-codec';
 import type { Inspect, Registry } from '@polkadot/types-codec/types';
@@ -9,6 +8,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { BlockHash } from '../../interfaces/chain/index.js';
 import type { ExtrinsicEra } from '../../interfaces/extrinsics/index.js';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../../types/index.js';
+import type { SignV5Options } from '../types.js';
 
 import { Enum, Struct } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
@@ -130,7 +130,8 @@ export class GenericExtrinsicPayloadV5 extends Struct {
     // the extra information, only the pure data (and is not decoded) ...
     // The same applies to V1..V3, if we have a V5, carry this comment
     const subVersionV5 = this.subVersionV5;
-    const newOpts = objectSpread({} as SignV5Options, {...this.#signOptions, subVersionV5})
+    const newOpts = objectSpread({} as SignV5Options, { ...this.#signOptions, subVersionV5 });
+
     return signV5(this.registry, signerPair, this.toU8a({ method: true }), newOpts);
   }
 }
