@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicSignatureV5 } from '../../interfaces/extrinsics/index.js';
 import type { Address, Call } from '../../interfaces/runtime/index.js';
 import type { ExtrinsicPayloadValue, IExtrinsicV5Impl, IKeyringPair, Registry, SignatureOptions } from '../../types/index.js';
-import type { ExtrinsicOptions } from '../types.js';
+import type { ExtrinsicOptions, Preamble } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
@@ -77,6 +77,10 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    */
   public get version (): number {
     return EXTRINSIC_VERSION;
+  }
+
+  public get preamble (): Preamble {
+    return this.getT('preamble');
   }
 
   /**

@@ -9,6 +9,7 @@ import type { ExtrinsicPayloadValue, IKeyringPair } from '../../types/index.js';
 import { Enum } from '@polkadot/types-codec';
 
 import { GenericExtrinsicPayloadV4 } from '../v4/ExtrinsicPayload.js';
+import { signV5 } from '../util.js';
 
 /**
  * @name GenericExtrinsicPayloadV5
@@ -39,6 +40,6 @@ export class GenericExtrinsicPayloadV5 extends GenericExtrinsicPayloadV4 {
     // means that the data-as-signed is un-decodable, but is also doesn't need
     // the extra information, only the pure data (and is not decoded) ...
     // The same applies to V1..V3, if we have a V6, carry this comment
-    return signerPair.sign(this.registry.hash(this.toU8a({ method: true })), this.#signOptions);
+    return signV5(this.registry, signerPair, this.toU8a({ method: true }), this.#signOptions);
   }
 }

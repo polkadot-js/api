@@ -9,17 +9,17 @@ import type { Address, Call, CodecHash, Hash } from '../interfaces/runtime/index
 import type { MultiLocation } from '../interfaces/types.js';
 import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
-import type { SubVersionV5 } from './types.js';
+import type { Preamble } from './types.js';
 import type { ExtrinsicValueV5 } from './v5/Extrinsic.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_V5_VERSION, DEFAULT_VERSION, LATEST_EXTRINSIC_VERSION, UNMASK_VERSION } from './constants.js';
+import { BARE_EXTRINSIC, BIT_SIGNED, BIT_UNSIGNED, DEFAULT_PREAMBLE, DEFAULT_VERSION, GENERAL_EXTRINSIC, LATEST_EXTRINSIC_VERSION, SIGNED_EXTRINSIC, UNMASK_VERSION } from './constants.js';
 
 interface CreateOptions {
   version?: number;
-  subVersionV5?: SubVersionV5;
+  preamble?: Preamble;
 }
 
 // NOTE The following 2 types, as well as the VERSION structure and the latest export
@@ -37,23 +37,29 @@ const VERSIONS = [
   'ExtrinsicV5'
 ];
 
-const V5_VERSIONS = {
+const PREAMBLE = {
   bare: 'ExtrinsicV5',
   // Not supported yet
   general: 'ExtrinsicV5',
   signed: 'ExtrinsicV5'
 };
 
+const PreambleMask = {
+  bare: BARE_EXTRINSIC,
+  general: GENERAL_EXTRINSIC,
+  signed: SIGNED_EXTRINSIC
+}
+
 export { LATEST_EXTRINSIC_VERSION };
 
 /** @internal */
-function newFromValue (registry: Registry, value: any, version: number, subVersionV5: SubVersionV5): ExtrinsicVx | ExtrinsicUnknown {
+function newFromValue (registry: Registry, value: any, version: number, preamble: Preamble): ExtrinsicVx | ExtrinsicUnknown {
   if (value instanceof GenericExtrinsic) {
     return value.unwrap();
   }
 
   const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-  const type = (version & UNMASK_VERSION) === 5 ? V5_VERSIONS[subVersionV5] : VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
+  const type = (version & UNMASK_VERSION) === 5 ? PREAMBLE[preamble] : VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
 
   // we cast here since the VERSION definition is incredibly broad - we don't have a
   // slice for "only add extrinsic types", and more string definitions become unwieldy
@@ -61,20 +67,20 @@ function newFromValue (registry: Registry, value: any, version: number, subVersi
 }
 
 /** @internal */
-function decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION, subVersionV5: SubVersionV5 = DEFAULT_V5_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+function decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION, preamble: Preamble = DEFAULT_PREAMBLE): ExtrinsicVx | ExtrinsicUnknown {
   if (isU8a(value) || Array.isArray(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), version, subVersionV5);
+    return decodeU8a(registry, u8aToU8a(value), version, preamble);
   } else if (value instanceof registry.createClassUnsafe('Call')) {
-    return newFromValue(registry, { method: value }, version, subVersionV5);
+    return newFromValue(registry, { method: value }, version, preamble);
   }
 
-  return newFromValue(registry, value, version, subVersionV5);
+  return newFromValue(registry, value, version, preamble);
 }
 
 /** @internal */
-function decodeU8a (registry: Registry, value: Uint8Array, version: number, subVersionV5: SubVersionV5): ExtrinsicVx | ExtrinsicUnknown {
+function decodeU8a (registry: Registry, value: Uint8Array, version: number, preamble: Preamble): ExtrinsicVx | ExtrinsicUnknown {
   if (!value.length) {
-    return newFromValue(registry, new Uint8Array(), version, subVersionV5);
+    return newFromValue(registry, new Uint8Array(), version, preamble);
   }
 
   const [offset, length] = compactFromU8a(value);
@@ -86,7 +92,7 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number, subV
 
   const data = value.subarray(offset, total);
 
-  return newFromValue(registry, data.subarray(1), data[0], subVersionV5);
+  return newFromValue(registry, data.subarray(1), data[0], preamble);
 }
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicVx | ExtrinsicUnknown> {
@@ -237,7 +243,13 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description Returns the encoded version flag
   */
   public get version (): number {
-    return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
+    if (this.type <= 4) {
+      console.log('bitmask', this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED))
+      return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED)
+    } else {
+      console.log('bitmask', this.inner.preamble )
+      return this.type | PreambleMask[this.inner.preamble];
+    }
   }
 
   /**
@@ -269,8 +281,8 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
 
   static LATEST_EXTRINSIC_VERSION = LATEST_EXTRINSIC_VERSION;
 
-  constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { subVersionV5, version }: CreateOptions = {}) {
-    super(registry, decodeExtrinsic(registry, value, registry.metadata.extrinsic.version?.toNumber() || version, subVersionV5));
+  constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { preamble, version }: CreateOptions = {}) {
+    super(registry, decodeExtrinsic(registry, value, registry.metadata.extrinsic.version?.toNumber() || version, preamble));
   }
 
   /**

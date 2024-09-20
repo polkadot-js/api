@@ -13,3 +13,10 @@ export function sign (registry: Registry, signerPair: IKeyringPair, u8a: Uint8Ar
 
   return signerPair.sign(encoded, options);
 }
+
+// a helper function for both types of payloads, Raw and metadata-known
+export function signV5 (registry: Registry, signerPair: IKeyringPair, u8a: Uint8Array, options?: SignOptions): Uint8Array {
+  const encoded = registry.hash(u8a)
+
+  return signerPair.sign(encoded, options);
+}

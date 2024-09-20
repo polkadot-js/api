@@ -22,4 +22,4 @@ export interface ExtrinsicExtraValue {
   tip?: AnyNumber;
 }
 
-export type SubVersionV5 = 'signed' | 'bare' | 'general';
+export type Preamble = 'signed' | 'bare' | 'general';

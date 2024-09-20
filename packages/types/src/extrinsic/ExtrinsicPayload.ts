@@ -9,16 +9,16 @@ import type { ExtrinsicPayloadV5 } from '../interfaces/extrinsics/index.js';
 import type { Hash, MultiLocation } from '../interfaces/types.js';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
-import type { SubVersionV5 } from './types.js';
+import type { Preamble } from './types.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 
-import { DEFAULT_V5_VERSION, DEFAULT_VERSION } from './constants.js';
+import { DEFAULT_PREAMBLE, DEFAULT_VERSION } from './constants.js';
 
 interface ExtrinsicPayloadOptions {
   version?: number;
-  subVersionV5?: SubVersionV5;
+  pramble?: Preamble;
 }
 
 // all our known types that can be returned
@@ -33,7 +33,7 @@ const VERSIONS = [
   'ExtrinsicPayloadV5'
 ];
 
-const V5_VERSIONS = {
+const PREAMBLES = {
   bare: 'ExtrinsicPayloadV5',
   // Not supported yet
   general: 'ExtrinsicPayloadV5',
@@ -41,12 +41,12 @@ const V5_VERSIONS = {
 };
 
 /** @internal */
-function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION, subVersionV5: SubVersionV5 = DEFAULT_V5_VERSION): ExtrinsicPayloadVx {
+function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION, preamble: Preamble = DEFAULT_PREAMBLE): ExtrinsicPayloadVx {
   if (value instanceof GenericExtrinsicPayload) {
     return value.unwrap();
   }
 
-  const extVersion = version === 5 ? V5_VERSIONS[subVersionV5] : VERSIONS[version] || VERSIONS[0];
+  const extVersion = version === 5 ? PREAMBLES[preamble] : VERSIONS[version] || VERSIONS[0];
 
   /**
    * HACK: In order to change the assetId from `number | object` to HexString (While maintaining the true type ie Option<TAssetConversion>),
@@ -76,8 +76,8 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
  * on the contents included
  */
 export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
-  constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { subVersionV5, version }: ExtrinsicPayloadOptions = {}) {
-    super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version, subVersionV5));
+  constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { pramble, version }: ExtrinsicPayloadOptions = {}) {
+    super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version, pramble));
   }
 
   /**
