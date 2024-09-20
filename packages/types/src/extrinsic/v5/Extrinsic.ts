@@ -10,6 +10,8 @@ import type { ExtrinsicOptions } from '../types.js';
 import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
 
+export const EXTRINSIC_VERSION = 5;
+
 export interface ExtrinsicValueV5 {
   method?: Call;
   signature?: ExtrinsicSignatureV5;
@@ -74,7 +76,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    * @description The version for the signature
    */
   public get version (): number {
-    return this.getT('version');
+    return EXTRINSIC_VERSION;
   }
 
   /**
