@@ -95,7 +95,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    */
   public sign (account: IKeyringPair, options: SignatureV5Options): GenericExtrinsicV5 {
     const subVersionV5 = this.subVersionV5;
-    const newOpts = objectSpread({}, { ...options, subVersionV5 });
+    const newOpts: SignatureV5Options = objectSpread({}, { ...options, subVersionV5 });
 
     this.signature.sign(this.method, account, newOpts);
 
@@ -107,7 +107,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    */
   public signFake (signer: Address | Uint8Array | string, options: SignatureV5Options): GenericExtrinsicV5 {
     const subVersionV5 = this.subVersionV5;
-    const newOpts = objectSpread({}, { ...options, subVersionV5 });
+    const newOpts: SignatureV5Options = objectSpread({}, { ...options, subVersionV5 });
 
     this.signature.signFake(this.method, signer, newOpts);
 
