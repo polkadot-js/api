@@ -13,8 +13,6 @@ import type { SignV5Options } from '../types.js';
 import { Enum, Struct } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
-import { signV5 } from '../util.js';
-
 /**
  * @name GenericExtrinsicPayloadV5
  * @description
@@ -128,10 +126,7 @@ export class GenericExtrinsicPayloadV5 extends Struct {
     // don't want the method (Bytes) to have the length prefix included. This
     // means that the data-as-signed is un-decodable, but is also doesn't need
     // the extra information, only the pure data (and is not decoded) ...
-    // The same applies to V1..V3, if we have a V5, carry this comment
-    const subVersionV5 = this.subVersionV5;
-    const newOpts = objectSpread({} as SignV5Options, { ...this.#signOptions, subVersionV5 });
-
-    return signV5(this.registry, signerPair, this.toU8a({ method: true }), newOpts);
+    // The same applies to V1..V3, if we have a V6, carry this comment
+    return signerPair.sign(this.registry.hash(this.toU8a({ method: true })), this.#signOptions);
   }
 }
