@@ -14,7 +14,7 @@ import type { Preamble } from './types.js';
 import { AbstractBase } from '@polkadot/types-codec';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 
-import { DEFAULT_PREAMBLE } from './constants.js';
+import { DEFAULT_PREAMBLE, LATEST_EXTRINSIC_VERSION } from './constants.js';
 
 interface ExtrinsicPayloadOptions {
   version?: number;
@@ -41,7 +41,7 @@ const PREAMBLES = {
 };
 
 /** @internal */
-function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version = 5, preamble: Preamble = DEFAULT_PREAMBLE): ExtrinsicPayloadVx {
+function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version = LATEST_EXTRINSIC_VERSION, preamble: Preamble = DEFAULT_PREAMBLE): ExtrinsicPayloadVx {
   if (value instanceof GenericExtrinsicPayload) {
     return value.unwrap();
   }
