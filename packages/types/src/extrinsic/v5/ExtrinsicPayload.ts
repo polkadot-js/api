@@ -114,10 +114,6 @@ export class GenericExtrinsicPayloadV5 extends Struct {
     return this.getT('metadataHash');
   }
 
-  public get subVersionV5 (): 'signed' | 'bare' | 'general' {
-    return this.getT('subVersionV5');
-  }
-
   /**
    * @description Sign the payload with the keypair
    */
