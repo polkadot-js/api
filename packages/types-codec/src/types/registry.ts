@@ -71,6 +71,7 @@ export interface Registry {
   getClassName (clazz: CodecClass): string | undefined;
   getOrThrow <T extends Codec = Codec, K extends string = string> (name: K, msg?: string): CodecClass<T>;
   getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): CodecClass<T>;
+  getSignedExtensionVersion (): Record<string, string>;
   getSignedExtensionExtra (): Record<string, string>;
   getSignedExtensionTypes (): Record<string, string>;
 

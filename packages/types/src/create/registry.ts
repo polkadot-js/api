@@ -441,6 +441,11 @@ export class TypeRegistry implements Registry {
     return this.get<T, K>(name, true) as unknown as CodecClass<R>;
   }
 
+  public getSignedExtensionVersion (): Record<string, string> {
+    // Default for now
+    return { version: 'u8' };
+  }
+
   public getSignedExtensionExtra (): Record<string, string> {
     return expandExtensionTypes(this.#signedExtensions, 'payload', this.#userExtensions);
   }
