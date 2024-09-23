@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 13.2.1 Sep 23, 2024
+
+Changes:
+
+- Generate Runtime Apis Dynamically ([#5986](https://github.com/polkadot-js/api/pull/5986))
+- Fix logging for older runtimes for runtime-api decoration ([#5988](https://github.com/polkadot-js/api/pull/5988))
+
+
 ## 13.1.1 Sep 17, 2024
 
 Changes:
