@@ -28,7 +28,7 @@ function toAddress (registry: Registry, address: Address | Uint8Array | string):
  */
 export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSignature {
   #signKeys: string[];
-  #signedExtensionVersion: number;
+  #transactionExtensionVersion: number;
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV5 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     const signTypes = registry.getSignedExtensionTypes();
@@ -38,13 +38,13 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
       registry,
       objectSpread(
         // eslint-disable-next-line sort-keys
-        { signer: 'Address', signature: 'ExtrinsicSignature', signedExtensionVersion: 'u8' },
+        { signer: 'Address', signature: 'ExtrinsicSignature', transactionExtensionVersion: 'u8' },
         signTypes
       ),
       GenericExtrinsicSignatureV5.decodeExtrinsicSignature(value, isSigned)
     );
 
-    this.#signedExtensionVersion = signedVersion;
+    this.#transactionExtensionVersion = signedVersion;
     this.#signKeys = Object.keys(signTypes);
 
     objectProperties(this, this.#signKeys, (k) => this.get(k));
@@ -146,8 +146,8 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
   /**
    * @description The [[u8]] for the TransactionExtension version
    */
-  public get signedExtensionVersion (): INumber {
-    return this.getT('signedExtensionVersion');
+  public get transactionExtensionVersion (): INumber {
+    return this.getT('transactionExtensionVersion');
   }
 
   protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV5): IExtrinsicSignature {
@@ -156,8 +156,8 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
       const k = this.#signKeys[i];
       const v = payload.get(k);
 
-      if (k === 'signedExtensionVersion') {
-        this.set(k, this.registry.createType('u8', this.#signedExtensionVersion));
+      if (k === 'transactionExtensionVersion') {
+        this.set(k, this.registry.createType('u8', this.#transactionExtensionVersion));
       } else if (!isUndefined(v)) {
         this.set(k, v);
       }
