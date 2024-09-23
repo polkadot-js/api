@@ -1,5 +1,5 @@
     3512	Jaco                          	Bump deps (#5785)
-     105	Tarik Gul                     	Fix logging for older runtimes for runtimeapi decoration (#5988)
+     106	Tarik Gul                     	13.2.1 (#5989)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
