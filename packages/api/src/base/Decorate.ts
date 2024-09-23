@@ -544,8 +544,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
     this.#runtimeLog[implName] = true;
 
-    for (let i = 0, scount = sections.length; i < scount; i++) {
-      if (isApiInMetadata) {
+    if (isApiInMetadata) {
+      for (let i = 0, scount = sections.length; i < scount; i++) {
         const [_section, secs] = sections[i];
         const sec = secs[0];
         const sectionHash = blake2AsHex(_section, 64);
@@ -563,7 +563,9 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
 
           named[section][method] = objectSpread({ method, name: `${_section}_${_method}`, section, sectionHash }, def);
         }
-      } else {
+      }
+    } else {
+      for (let i = 0, scount = sections.length; i < scount; i++) {
         const [_section, secs] = sections[i];
         const sectionHash = blake2AsHex(_section, 64);
         const rtApi = apis.find(([a]) => a.eq(sectionHash));
@@ -594,21 +596,21 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
             older.push(`${_section}/${rtApi[1].toString()} (${all.join('/')} known)`);
           }
         }
+      }
 
-        // find the runtimes that we don't have hashes for
-        const notFound = apis
-          .map(([a, v]): [HexString, string] => [a.toHex(), v.toString()])
-          .filter(([a]) => !hashes[a])
-          .map(([a, v]) => `${this._runtimeMap[a] || a}/${v}`);
+      // find the runtimes that we don't have hashes for
+      const notFound = apis
+        .map(([a, v]): [HexString, string] => [a.toHex(), v.toString()])
+        .filter(([a]) => !hashes[a])
+        .map(([a, v]) => `${this._runtimeMap[a] || a}/${v}`);
 
-        if (!this._options.noInitWarn && !hasLogged) {
-          if (older.length) {
-            l.warn(`${implName}: Not decorating runtime apis without matching versions: ${older.join(', ')}`);
-          }
+      if (!this._options.noInitWarn && !hasLogged) {
+        if (older.length) {
+          l.warn(`${implName}: Not decorating runtime apis without matching versions: ${older.join(', ')}`);
+        }
 
-          if (notFound.length) {
-            l.warn(`${implName}: Not decorating unknown runtime apis: ${notFound.join(', ')}`);
-          }
+        if (notFound.length) {
+          l.warn(`${implName}: Not decorating unknown runtime apis: ${notFound.join(', ')}`);
         }
       }
     }
