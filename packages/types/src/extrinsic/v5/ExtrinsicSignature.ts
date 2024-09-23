@@ -28,20 +28,23 @@ function toAddress (registry: Registry, address: Address | Uint8Array | string):
  */
 export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSignature {
   #signKeys: string[];
+  #signedExtensionVersion: number;
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV5 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     const signTypes = registry.getSignedExtensionTypes();
+    const signedVersion = registry.getSignedExtensionVersion();
 
     super(
       registry,
       objectSpread(
         // eslint-disable-next-line sort-keys
-        { signer: 'Address', signature: 'ExtrinsicSignature' },
+        { signer: 'Address', signature: 'ExtrinsicSignature', signedExtensionVersion: 'u8' },
         signTypes
       ),
       GenericExtrinsicSignatureV5.decodeExtrinsicSignature(value, isSigned)
     );
 
+    this.#signedExtensionVersion = signedVersion;
     this.#signKeys = Object.keys(signTypes);
 
     objectProperties(this, this.#signKeys, (k) => this.get(k));
@@ -140,13 +143,22 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
     return this.getT('metadataHash');
   }
 
+  /**
+   * @description The [[u8]] for the TransactionExtension version
+   */
+  public get signedExtensionVersion (): INumber {
+    return this.getT('signedExtensionVersion');
+  }
+
   protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV5): IExtrinsicSignature {
     // use the fields exposed to guide the getters
     for (let i = 0, count = this.#signKeys.length; i < count; i++) {
       const k = this.#signKeys[i];
       const v = payload.get(k);
 
-      if (!isUndefined(v)) {
+      if (k === 'signedExtensionVersion') {
+        this.set(k, this.registry.createType('u8', this.#signedExtensionVersion));
+      } else if (!isUndefined(v)) {
         this.set(k, v);
       }
     }
