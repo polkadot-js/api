@@ -32,7 +32,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV5 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     const signTypes = registry.getSignedExtensionTypes();
-    const signedVersion = registry.getSignedExtensionVersion();
+    const signedVersion = registry.getTransactionExtensionVersion();
 
     super(
       registry,

@@ -442,7 +442,7 @@ export class TypeRegistry implements Registry {
   }
 
   // Only used in extrinsic version 5
-  public getSignedExtensionVersion (): number {
+  public getTransactionExtensionVersion (): number {
     return 0;
   }
 
