@@ -42,6 +42,7 @@ describe('ExtrinsicSignatureV4', (): void => {
       0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
       0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
       0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
+      0x00, // TransactionExtension version
       // extra stuff
       0x00, // immortal,
       0x04, // nonce, compact
@@ -72,6 +73,7 @@ describe('ExtrinsicSignatureV4', (): void => {
       '01' +
       '0101010101010101010101010101010101010101010101010101010101010101' +
       '0101010101010101010101010101010101010101010101010101010101010101' +
+      '00' + // TransactionExtension version
       '00a5010000' +
       '00' // Mode
     );
@@ -100,6 +102,7 @@ describe('ExtrinsicSignatureV4', (): void => {
       // This is a prefix-less signature, anySignture as opposed to Multi above
       '0101010101010101010101010101010101010101010101010101010101010101' +
       '0101010101010101010101010101010101010101010101010101010101010101' +
+      '00' + // TransactionExtension version
       '00a5010000' +
       '00' // mode
     );
@@ -129,6 +132,7 @@ describe('ExtrinsicSignatureV4', (): void => {
       '01' +
       '0101010101010101010101010101010101010101010101010101010101010101' +
       '0101010101010101010101010101010101010101010101010101010101010101' +
+      '00' + // TransactionExtension version
       '00a5010000' +
       '00' // mode
     );
@@ -153,6 +157,7 @@ describe('ExtrinsicSignatureV4', (): void => {
       '01' +
       '0101010101010101010101010101010101010101010101010101010101010101' +
       '0101010101010101010101010101010101010101010101010101010101010101' +
+      '00' + // TransactionExtension version
       '00000000' +
       '00' // mode
     );

@@ -76,6 +76,7 @@ describe('ExtrinsicV4', (): void => {
       '00' + // ed25519
       '84181ebef350cc212e70e042b6ebcd33ca955bf9497711a64aa7c64e2b8c2732' +
       'ab837715364eab7be5cc76f74eefa36d3ba9ee698264ed28a286c8360fc9aa0c' +
+      '00' + // TransactionExtension version
       '0004080000' + // era. nonce, tip, mode
       '0600' +
       '00' +
