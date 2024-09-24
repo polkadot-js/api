@@ -2,8 +2,10 @@
 /* eslint-disable */
 
 import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV4, GenericExtrinsicPayloadV5, GenericExtrinsicSignatureV4, GenericExtrinsicSignatureV5, GenericExtrinsicUnknown, GenericExtrinsicV4, GenericExtrinsicV5, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types';
-import type { Enum, U8aFixed } from '@polkadot/types-codec';
-import type { H512 } from '@polkadot/types/interfaces/runtime';
+import type { Enum, Struct, Text, U8aFixed, u8 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
+import type { H512, MultiAddress } from '@polkadot/types/interfaces/runtime';
+import type { SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name AnySignature */
 export interface AnySignature extends H512 {}
@@ -16,6 +18,12 @@ export interface Ed25519Signature extends H512 {}
 
 /** @name Era */
 export interface Era extends ExtrinsicEra {}
+
+/** @name Extension */
+export interface Extension extends TransactionExtension {}
+
+/** @name ExtensionVersion */
+export interface ExtensionVersion extends u8 {}
 
 /** @name Extrinsic */
 export interface Extrinsic extends GenericExtrinsic {}
@@ -53,6 +61,9 @@ export interface ExtrinsicV4 extends GenericExtrinsicV4 {}
 /** @name ExtrinsicV5 */
 export interface ExtrinsicV5 extends GenericExtrinsicV5 {}
 
+/** @name ExtrinsicVersion */
+export interface ExtrinsicVersion extends u8 {}
+
 /** @name ImmortalEra */
 export interface ImmortalEra extends GenericImmortalEra {}
 
@@ -70,6 +81,17 @@ export interface MultiSignature extends Enum {
   readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
 }
 
+/** @name Preamble */
+export interface Preamble extends Enum {
+  readonly isBare: boolean;
+  readonly asBare: ExtrinsicVersion;
+  readonly isSigned: boolean;
+  readonly asSigned: ITuple<[MultiAddress, GenericExtrinsicSignatureV4, ExtensionVersion, Extension, ExtrinsicVersion]>;
+  readonly isGeneral: boolean;
+  readonly asGeneral: ITuple<[ExtensionVersion, Extension]>;
+  readonly type: 'Bare' | 'Signed' | 'General';
+}
+
 /** @name Signature */
 export interface Signature extends H512 {}
 
@@ -78,5 +100,12 @@ export interface SignerPayload extends GenericSignerPayload {}
 
 /** @name Sr25519Signature */
 export interface Sr25519Signature extends H512 {}
+
+/** @name TransactionExtension */
+export interface TransactionExtension extends Struct {
+  readonly identifier: Text;
+  readonly type: SiLookupTypeId;
+  readonly Implicit: SiLookupTypeId;
+}
 
 export type PHANTOM_EXTRINSICS = 'extrinsics';

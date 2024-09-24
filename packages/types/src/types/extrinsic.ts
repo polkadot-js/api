@@ -4,7 +4,7 @@
 import type { AnyJson, AnyNumber, AnyTuple, AnyU8a, Codec } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicStatus } from '../interfaces/author/index.js';
-import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics/index.js';
+import type { EcdsaSignature, Ed25519Signature, Preamble, Sr25519Signature } from '../interfaces/extrinsics/index.js';
 import type { Address, Call, H256, Hash } from '../interfaces/runtime/index.js';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system/index.js';
 import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } from './interfaces.js';
@@ -249,7 +249,7 @@ export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl> {
 
 export interface IExtrinsicV5Impl extends IExtrinsicSignable<IExtrinsicV5Impl> {
   readonly method: Call;
-  readonly signature: IExtrinsicSignature;
+  readonly preamble: Preamble;
   readonly version: number;
 }
 

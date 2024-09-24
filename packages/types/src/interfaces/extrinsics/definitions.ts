@@ -40,6 +40,21 @@ export default {
     SignerPayload: 'GenericSignerPayload',
     EcdsaSignature: '[u8; 65]',
     Ed25519Signature: 'H512',
-    Sr25519Signature: 'H512'
+    Sr25519Signature: 'H512',
+    ExtrinsicVersion: 'u8',
+    ExtensionVersion: 'u8',
+    TransactionExtension: {
+      identifier: 'Text',
+      type: 'SiLookupTypeId',
+      Implicit: 'SiLookupTypeId'
+    },
+    Extension: 'TransactionExtension',
+    Preamble: {
+      _enum: {
+        Bare: '(ExtrinsicVersion)',
+        Signed: '(MultiAddress, GenericExtrinsicSignatureV4, ExtensionVersion, Extension, ExtrinsicVersion)',
+        General: '(ExtensionVersion, Extension)',
+      }
+    }
   }
 } as Definitions;
