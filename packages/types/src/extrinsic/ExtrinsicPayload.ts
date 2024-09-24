@@ -18,7 +18,7 @@ import { DEFAULT_PREAMBLE, LATEST_EXTRINSIC_VERSION } from './constants.js';
 
 interface ExtrinsicPayloadOptions {
   version?: number;
-  pramble?: Preamble;
+  preamble?: Preamble;
 }
 
 // all our known types that can be returned
@@ -76,8 +76,8 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
  * on the contents included
  */
 export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
-  constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { pramble, version }: ExtrinsicPayloadOptions = {}) {
-    super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version, pramble));
+  constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { preamble, version }: ExtrinsicPayloadOptions = {}) {
+    super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version, preamble));
   }
 
   /**
