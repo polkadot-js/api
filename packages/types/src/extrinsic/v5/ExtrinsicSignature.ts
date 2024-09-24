@@ -38,7 +38,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
       registry,
       objectSpread(
         // eslint-disable-next-line sort-keys
-        { extrinsicFormatVersion: 'ExtrinsicVersion', signer: 'Address', signature: 'ExtrinsicSignature', transactionExtensionVersion: 'ExtensionVersion' },
+        { signer: 'Address', signature: 'ExtrinsicSignature', transactionExtensionVersion: 'u8' },
         signTypes
       ),
       GenericExtrinsicSignatureV5.decodeExtrinsicSignature(value, isSigned)

@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyNumber } from '@polkadot/types-codec/types';
-import type { Preamble } from '../interfaces/types.js';
 
 export interface ExtrinsicOptions {
   isSigned: boolean;
   version: number;
-  preambleKind: PreambleKind;
 }
 
 export interface ExtrinsicPayloadOptions {
@@ -24,4 +22,4 @@ export interface ExtrinsicExtraValue {
   tip?: AnyNumber;
 }
 
-export type PreambleKind = 'bare' | 'general' | 'signed';
+export type Preamble = 'signed' | 'bare' | 'general';

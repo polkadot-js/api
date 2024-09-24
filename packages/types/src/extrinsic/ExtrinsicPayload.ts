@@ -9,16 +9,16 @@ import type { ExtrinsicPayloadV5 } from '../interfaces/extrinsics/index.js';
 import type { Hash, MultiLocation } from '../interfaces/types.js';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
+import type { Preamble } from './types.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 
-import { DEFAULT_PREAMBLE_KIND, LATEST_EXTRINSIC_VERSION } from './constants.js';
-import type { PreambleKind } from './types.js';
+import { DEFAULT_PREAMBLE, LATEST_EXTRINSIC_VERSION } from './constants.js';
 
 interface ExtrinsicPayloadOptions {
   version?: number;
-  pramble?: PreambleKind;
+  pramble?: Preamble;
 }
 
 // all our known types that can be returned
@@ -41,12 +41,12 @@ const PREAMBLES = {
 };
 
 /** @internal */
-function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version = LATEST_EXTRINSIC_VERSION, preambleKind: PreambleKind = DEFAULT_PREAMBLE_KIND): ExtrinsicPayloadVx {
+function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version = LATEST_EXTRINSIC_VERSION, preamble: Preamble = DEFAULT_PREAMBLE): ExtrinsicPayloadVx {
   if (value instanceof GenericExtrinsicPayload) {
     return value.unwrap();
   }
 
-  const extVersion = version === 5 ? PREAMBLES[preambleKind] : VERSIONS[version] || VERSIONS[0];
+  const extVersion = version === 5 ? PREAMBLES[preamble] : VERSIONS[version] || VERSIONS[0];
 
   /**
    * HACK: In order to change the assetId from `number | object` to HexString (While maintaining the true type ie Option<TAssetConversion>),
