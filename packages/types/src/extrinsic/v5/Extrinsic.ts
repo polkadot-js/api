@@ -40,7 +40,8 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
     } else if (isU8a(value)) {
       // here we decode manually since we need to pull through the version information
       const signature = registry.createTypeUnsafe<ExtrinsicSignatureV5>('ExtrinsicSignatureV5', [value, { isSigned }]);
-      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
+      // We add 2 here since the length of the TransactionExtension Version needs to be accounted for
+      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength + 2)]);
 
       return {
         method,
