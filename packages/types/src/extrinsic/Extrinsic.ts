@@ -92,6 +92,10 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number, prea
 
   const data = value.subarray(offset, total);
 
+  if (version === 5) {
+    return newFromValue(registry, data.subarray(2), data[0], preamble);
+  }
+
   return newFromValue(registry, data.subarray(1), data[0], preamble);
 }
 
