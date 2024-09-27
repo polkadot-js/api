@@ -13,37 +13,37 @@ import { EMPTY_U8A, IMMORTAL_ERA } from '../constants.js';
 import { GenericExtrinsicPayloadV5 } from './ExtrinsicPayload.js';
 
 export class GeneralExtrinsicEncoded extends Struct {
-  #signKeys: string[];
+  #encodeKeys: string[];
   #transactionExtensionVersion: number;
 
   constructor (registry: Registry, value?: GeneralExtrinsicEncoded | Uint8Array) {
-    const signTypes = registry.getSignedExtensionTypes();
-    const signedVersion = registry.getTransactionExtensionVersion();
+    const encodeTypes = registry.getSignedExtensionTypes();
+    const transactionExtVersion = registry.getTransactionExtensionVersion();
 
     super(
       registry,
       objectSpread(
         { transactionExtensionVersion: 'u8' },
-        signTypes
+        encodeTypes
       ),
-      GeneralExtrinsicEncoded.decodeExtrinsicSignature(value)
+      GeneralExtrinsicEncoded.decodeGeneralExtrinsic(value)
     );
 
-    this.#transactionExtensionVersion = signedVersion;
-    this.#signKeys = Object.keys(signTypes);
+    this.#transactionExtensionVersion = transactionExtVersion;
+    this.#encodeKeys = Object.keys(encodeTypes);
 
-    objectProperties(this, this.#signKeys, (k) => this.get(k));
+    objectProperties(this, this.#encodeKeys, (k) => this.get(k));
   }
 
   /** @internal */
-  public static decodeExtrinsicSignature (value?: GeneralExtrinsicEncoded | Uint8Array): GeneralExtrinsicEncoded | Uint8Array {
+  public static decodeGeneralExtrinsic (value?: GeneralExtrinsicEncoded | Uint8Array): GeneralExtrinsicEncoded | Uint8Array {
     if (!value) {
       return EMPTY_U8A;
     } else if (value instanceof GeneralExtrinsicEncoded) {
       return value;
     }
 
-    return value
+    return value;
   }
 
   public override get encodedLength (): number {
@@ -79,8 +79,8 @@ export class GeneralExtrinsicEncoded extends Struct {
   }
 
   protected _buildEncoded (payload: GenericExtrinsicPayloadV5) {
-    for (let i = 0, count = this.#signKeys.length; i < count; i++) {
-      const k = this.#signKeys[i];
+    for (let i = 0, count = this.#encodeKeys.length; i < count; i++) {
+      const k = this.#encodeKeys[i];
       const v = payload.get(k);
 
       if (k === 'transactionExtensionVersion') {
