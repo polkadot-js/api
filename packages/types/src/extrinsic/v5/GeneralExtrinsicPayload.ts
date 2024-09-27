@@ -15,12 +15,12 @@ import { objectSpread } from '@polkadot/util';
 import { signGeneral } from '../util.js';
 
 /**
- * @name GenericExtrinsicPayloadV5
+ * @name GeneralExtrinsicPayload
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is
  * variable length based on the contents included
  */
-export class GenericExtrinsicPayloadV5 extends Struct {
+export class GeneralExtrinsicPayload extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | HexString) {
     super(registry, objectSpread(
       { method: 'Bytes' },
