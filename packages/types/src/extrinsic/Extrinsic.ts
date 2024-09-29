@@ -15,7 +15,7 @@ import type { ExtrinsicValueV5 } from './v5/Extrinsic.js';
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { BARE_EXTRINSIC, BIT_SIGNED, BIT_UNSIGNED, DEFAULT_PREAMBLE, GENERAL_EXTRINSIC, LATEST_EXTRINSIC_VERSION, LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION, SIGNED_EXTRINSIC, UNMASK_VERSION } from './constants.js';
+import { BARE_EXTRINSIC, BIT_SIGNED, BIT_UNSIGNED, DEFAULT_PREAMBLE, GENERAL_EXTRINSIC, LATEST_EXTRINSIC_VERSION, LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION, SIGNED_EXTRINSIC, TYPE_MASK, UNMASK_VERSION } from './constants.js';
 
 interface CreateOptions {
   version?: number;
@@ -48,6 +48,14 @@ const PreambleMask = {
   bare: BARE_EXTRINSIC,
   general: GENERAL_EXTRINSIC,
   signed: SIGNED_EXTRINSIC
+};
+
+const preambleUnMask: Record<string, Preamble> = {
+  0: 'bare',
+  // eslint-disable-next-line sort-keys
+  64: 'general',
+  // eslint-disable-next-line sort-keys
+  128: 'signed'
 };
 
 export { LATEST_EXTRINSIC_VERSION };
@@ -91,8 +99,9 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number, prea
   }
 
   const data = value.subarray(offset, total);
+  const unmaskedPreamble = data[0] & TYPE_MASK;
 
-  return newFromValue(registry, data.subarray(1), data[0], preamble);
+  return newFromValue(registry, data.subarray(1), data[0], preambleUnMask[`${unmaskedPreamble}`] || preamble);
 }
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicVx | ExtrinsicUnknown> {
