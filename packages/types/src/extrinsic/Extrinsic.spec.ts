@@ -60,6 +60,12 @@ describe('Extrinsic', (): void => {
       );
 
       expect(extrinsic.signer.toString()).toEqual('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY');
+      expect(extrinsic.era.toHuman()).toEqual({ MortalEra: { period: '64', phase: '39' } });
+      expect(extrinsic.nonce.toNumber()).toEqual(0);
+      expect(extrinsic.tip.toHuman()).toEqual('0');
+      expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 3]));
+      expect(extrinsic.args[0].toHex()).toEqual('0x008eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48');
+      expect(extrinsic.args[1].toHuman()).toEqual('10,000,000,000,000');
     });
   });
 });
