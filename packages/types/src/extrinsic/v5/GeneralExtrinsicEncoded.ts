@@ -10,7 +10,7 @@ import { Struct } from '@polkadot/types-codec';
 import { isUndefined, objectProperties, objectSpread } from '@polkadot/util';
 
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants.js';
-import { GenericExtrinsicPayloadV5 } from './ExtrinsicPayload.js';
+import { GeneralExtrinsicPayload } from './GeneralExtrinsicPayload.js';
 
 export class GeneralExtrinsicEncoded extends Struct {
   #encodeKeys: string[];
@@ -78,7 +78,7 @@ export class GeneralExtrinsicEncoded extends Struct {
     return this.getT('transactionExtensionVersion');
   }
 
-  protected _buildEncoded (payload: GenericExtrinsicPayloadV5) {
+  protected _buildEncoded (payload: GeneralExtrinsicPayload) {
     for (let i = 0, count = this.#encodeKeys.length; i < count; i++) {
       const k = this.#encodeKeys[i];
       const v = payload.get(k);
@@ -93,10 +93,10 @@ export class GeneralExtrinsicEncoded extends Struct {
     return this;
   }
 
-  public createPayload (method: Call, options: EncodingOptions): GenericExtrinsicPayloadV5 {
+  public createPayload (method: Call, options: EncodingOptions): GeneralExtrinsicPayload {
     const { era, runtimeVersion: { specVersion, transactionVersion } } = options;
 
-    return new GenericExtrinsicPayloadV5(this.registry, objectSpread<ExtrinsicPayloadValue>({}, options, {
+    return new GeneralExtrinsicPayload(this.registry, objectSpread<ExtrinsicPayloadValue>({}, options, {
       era: era || IMMORTAL_ERA,
       method: method.toHex(),
       specVersion,
