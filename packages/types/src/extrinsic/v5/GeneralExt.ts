@@ -6,7 +6,7 @@ import type { ExtrinsicPayloadValue, ICompact, INumber, IOption, Registry } from
 import type { HexString } from '@polkadot/util/types';
 
 import { Struct } from '@polkadot/types-codec';
-import { compactAddLength, isObject, objectSpread, u8aToHex } from '@polkadot/util';
+import { compactAddLength, isObject, objectSpread, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { EMPTY_U8A } from '../constants.js';
 import { GeneralExtrinsicEncoded } from './GeneralExtrinsicEncoded.js';
@@ -17,10 +17,8 @@ interface GeneralExtValue {
 }
 
 export class GeneralExt extends Struct {
-  #extTypes: string[];
-  #extraTypes: string[];
   #version: number;
-  #registry: Registry;
+
   constructor (registry: Registry, value?: GeneralExtValue) {
     const extTypes = registry.getSignedExtensionTypes();
     const extraTypes = registry.getSignedExtensionExtra();
@@ -40,9 +38,6 @@ export class GeneralExt extends Struct {
       extraTypes
     ), GeneralExt.decodeExtrinsic(registry, value));
 
-    this.#extTypes = Object.keys(extTypes);
-    this.#extraTypes = Object.keys(extraTypes);
-    this.#registry = registry;
     this.#version = 0b01000101; // Includes Preamble
   }
 
@@ -50,7 +45,7 @@ export class GeneralExt extends Struct {
   public static decodeExtrinsic (registry: Registry, value?: GeneralExtValue) {
     if (!value) {
       return EMPTY_U8A;
-    } else if (GeneralExtrinsicEncoded) {
+    } else if (value instanceof GeneralExtrinsicEncoded) {
       return value;
     } else if (isObject(value)) {
       const { payload, transactionExtensionVersion } = value;
@@ -115,6 +110,6 @@ export class GeneralExt extends Struct {
   }
 
   public encode () {
-    return super.toU8a({ method: true });
+    return u8aConcat(new Uint8Array([this.version]), super.toU8a({ method: true }));
   }
 }
