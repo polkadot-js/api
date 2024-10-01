@@ -66,6 +66,7 @@
        1	Dan Forbes                    	Add WeightToFeeCoefficient type (#2296)
        1	Daniel Maricic                	Fixed typo in README (#2402)
        1	Daniel Savu                   	fix: Generate custom type definitions (#4224)
+       1	Daria                         	choosing AccountId20 type if the address is 20 bytes (#5991)
        1	David                         	Don't log full error (#2952)
        1	David Duong                   	Avoid reserved words during named enum fields augmentation (#5203)
        1	Denis Tsai                    	realign AccountKey20Junction to polkadot xcm's Junction enum (#3770)
