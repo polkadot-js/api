@@ -6,9 +6,16 @@ import type { ExtrinsicPayloadValue, ICompact, INumber, IOption, Registry } from
 import type { HexString } from '@polkadot/util/types';
 
 import { Struct } from '@polkadot/types-codec';
-import { compactAddLength, compactFromU8a, hexToU8a, isHex, isObject, isU8a, objectSpread, u8aConcat, u8aToHex } from '@polkadot/util';
+import { compactAddLength, compactFromU8a, isHex, isObject, isU8a, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { EMPTY_U8A } from '../constants.js';
+import {createWriteStream} from 'fs'
+
+console.log = async (message: any) => {
+  const tty = createWriteStream('/dev/tty')
+  const msg = typeof message === 'string' ? message : JSON.stringify(message, null, 2)
+  return tty.write(msg + '\n')
+}
 
 interface GeneralExtValue {
   payload?: ExtrinsicPayloadValue;
@@ -17,13 +24,19 @@ interface GeneralExtValue {
 
 function decodeU8a (u8a: Uint8Array) {
   if (!u8a.length) {
-    return {};
+    return new Uint8Array();
   }
 
   const [offset, length] = compactFromU8a(u8a);
   const total = offset + length.toNumber();
 
-  return {};
+  if (total > u8a.length) {
+    throw new Error(`Extrinsic: length less than remainder, expected at least ${total}, found ${u8a.length}`);
+  }
+
+  const data = u8a.subarray(offset, total);
+
+  return data.subarray(1);
 }
 
 export class GeneralExt extends Struct {
@@ -40,7 +53,7 @@ export class GeneralExt extends Struct {
     super(registry, objectSpread(
       {
         // eslint-disable-next-line sort-keys
-        transactoinExtensionVersion: 'u8',
+        transactionExtensionVersion: 'u8',
         // eslint-disable-next-line sort-keys
         method: 'Call'
       },
@@ -48,6 +61,7 @@ export class GeneralExt extends Struct {
       extraTypes
     ), GeneralExt.decodeExtrinsic(registry, value));
 
+    // TODO check version and error if version !== 0b01000101 || 69
     this.#version = 0b01000101; // Includes Preamble
   }
 
@@ -57,10 +71,8 @@ export class GeneralExt extends Struct {
       return EMPTY_U8A;
     } else if (value instanceof GeneralExt) {
       return value;
-    } else if (isU8a(value)) {
-      return decodeU8a(value);
-    } else if (isHex(value)) {
-      return decodeU8a(hexToU8a(value));
+    } else if (isU8a(value) || Array.isArray(value) || isHex(value)) {
+      return decodeU8a(u8aToU8a(value));
     } else if (isObject(value)) {
       const { payload, transactionExtensionVersion } = value;
 
