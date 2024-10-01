@@ -9,7 +9,6 @@ import { Struct } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, hexToU8a, isHex, isObject, isU8a, objectSpread, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { EMPTY_U8A } from '../constants.js';
-import { GeneralExtrinsicEncoded } from './GeneralExtrinsicEncoded.js';
 
 interface GeneralExtValue {
   payload?: ExtrinsicPayloadValue;
@@ -56,7 +55,7 @@ export class GeneralExt extends Struct {
   public static decodeExtrinsic (registry: Registry, value?: GeneralExtValue | Uint8Array | HexString) {
     if (!value) {
       return EMPTY_U8A;
-    } else if (value instanceof GeneralExtrinsicEncoded) {
+    } else if (value instanceof GeneralExt) {
       return value;
     } else if (isU8a(value)) {
       return decodeU8a(value);
