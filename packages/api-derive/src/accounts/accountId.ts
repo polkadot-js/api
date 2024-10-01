@@ -24,7 +24,7 @@ export function accountId (instanceId: string, api: DeriveApi): (address?: Addre
       : decodeAddress((address || '').toString());
 
     if (decoded.length > 8) {
-      return of(api.registry.createType('AccountId', decoded));
+      return of(api.registry.createType(decoded.length === 20 ? 'AccountId20' : 'AccountId', decoded));
     }
 
     const accountIndex = api.registry.createType('AccountIndex', decoded);

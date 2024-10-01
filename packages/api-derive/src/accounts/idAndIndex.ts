@@ -34,7 +34,7 @@ export function idAndIndex (instanceId: string, api: DeriveApi): (address?: Addr
         : decodeAddress((address || '').toString());
 
       if (decoded.length > 8) {
-        const accountId = api.registry.createType('AccountId', decoded);
+        const accountId = api.registry.createType(decoded.length === 20 ? 'AccountId20' : 'AccountId', decoded);
 
         return api.derive.accounts.idToIndex(accountId).pipe(
           map((accountIndex): AccountIdAndIndex => [accountId, accountIndex])
