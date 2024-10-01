@@ -29,6 +29,11 @@ function decodeU8a (u8a: Uint8Array) {
 
   const data = u8a.subarray(offset, total);
 
+  // 69 denotes 0b01000101 which is the version and preamble for this Extrinsic
+  if (data[0] !== 69) {
+    throw new Error(`Extrinsic: incorrect version for General Transactions, expected 5, found ${data[0] & 0b01111111}`);
+  }
+
   return data.subarray(1);
 }
 
@@ -61,7 +66,6 @@ export class GeneralExt extends Struct {
     this.#version = 0b01000101; // Includes Preamble
   }
 
-  // FIXME: isObject is not returning the correct structure for the keys
   public static decodeExtrinsic (registry: Registry, value?: GeneralExtValue | Uint8Array | HexString) {
     if (!value) {
       return EMPTY_U8A;
@@ -76,7 +80,6 @@ export class GeneralExt extends Struct {
         transactionExtensionVersion: transactionExtensionVersion || registry.getTransactionExtensionVersion()
       });
     }
-    // TODO: Add decoding
 
     return {};
   }
