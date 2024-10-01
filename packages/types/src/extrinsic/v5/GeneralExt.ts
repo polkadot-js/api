@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ExtrinsicEra, Hash, MultiLocation } from '@polkadot/types/interfaces';
+import type { Call, ExtrinsicEra, Hash, MultiLocation } from '@polkadot/types/interfaces';
 import type { ExtrinsicPayloadValue, ICompact, INumber, IOption, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
@@ -9,13 +9,6 @@ import { Struct } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, isHex, isObject, isU8a, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { EMPTY_U8A } from '../constants.js';
-import {createWriteStream} from 'fs'
-
-console.log = async (message: any) => {
-  const tty = createWriteStream('/dev/tty')
-  const msg = typeof message === 'string' ? message : JSON.stringify(message, null, 2)
-  return tty.write(msg + '\n')
-}
 
 interface GeneralExtValue {
   payload?: ExtrinsicPayloadValue;
@@ -53,12 +46,15 @@ export class GeneralExt extends Struct {
     super(registry, objectSpread(
       {
         // eslint-disable-next-line sort-keys
-        transactionExtensionVersion: 'u8',
+        transactionExtensionVersion: 'u8'
         // eslint-disable-next-line sort-keys
-        method: 'Call'
+
       },
       extTypes,
-      extraTypes
+      extraTypes,
+      {
+        method: 'Call'
+      }
     ), GeneralExt.decodeExtrinsic(registry, value));
 
     // TODO check version and error if version !== 0b01000101 || 69
@@ -117,6 +113,10 @@ export class GeneralExt extends Struct {
     return this.getT('transactionExtensionVersion');
   }
 
+  public get method (): Call {
+    return this.getT('method');
+  }
+
   public get version () {
     return this.#version;
   }
@@ -136,6 +136,6 @@ export class GeneralExt extends Struct {
   }
 
   public encode () {
-    return u8aConcat(new Uint8Array([this.version]), super.toU8a({ method: true }));
+    return u8aConcat(new Uint8Array([this.version]), super.toU8a());
   }
 }
