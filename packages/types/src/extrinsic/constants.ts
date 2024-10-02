@@ -11,7 +11,7 @@ export const IMMORTAL_ERA = new Uint8Array([0]);
 
 export const UNMASK_VERSION = 0b01111111;
 
-export const DEFAULT_PREAMBLE = 'signed';
+export const DEFAULT_PREAMBLE = 'bare';
 
 // Latest extrinsic version is v5, which has backwards compatibility for v4 signed extrinsics
 export const LATEST_EXTRINSIC_VERSION = 5;
