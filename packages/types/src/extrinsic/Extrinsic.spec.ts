@@ -50,9 +50,13 @@ describe('Extrinsic', (): void => {
   });
 
   describe('V5', () => {
-    it('Signed Extrinsic', () => {
-      registry.setSignedExtensions(fallbackExtensions);
+    // Ensure it does not have its registry modified by the fallback extensions.
+    const registry = new TypeRegistry();
+    const metadata = new Metadata(registry, rpcMetadata);
 
+    registry.setMetadata(metadata);
+
+    it('Signed Extrinsic', () => {
       const extrinsic = new Extrinsic(
         registry,
         '0x51028500d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d011e0b7d9438899333c50121f8e10144952d51c3bb8d0ea11dd1f24940d8ff615ad351d95ed9f41f078748ed7cf182864a20b38eebfaef6629433365eb90c0148c007502000000000603008eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a480b00a0724e1809',
@@ -69,12 +73,6 @@ describe('Extrinsic', (): void => {
     });
 
     describe('GeneralExtrinsic', () => {
-      // Ensure it does not have its registry modified by the fallback extensions.
-      const registry = new TypeRegistry();
-      const metadata = new Metadata(registry, rpcMetadata);
-
-      registry.setMetadata(metadata);
-
       it('Should work when the version and preamble is passed in', () => {
         const extrinsic = new Extrinsic(
           registry,
