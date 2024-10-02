@@ -41,7 +41,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
       // here we decode manually since we need to pull through the version information
       const signature = registry.createTypeUnsafe<ExtrinsicSignatureV5>('ExtrinsicSignatureV5', [value, { isSigned }]);
       // We add 2 here since the length of the TransactionExtension Version needs to be accounted for
-      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength + 2)]);
+      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(isSigned ? signature.encodedLength + 2 : signature.encodedLength)]);
 
       return {
         method,
