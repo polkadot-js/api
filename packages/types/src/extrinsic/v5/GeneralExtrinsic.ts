@@ -39,6 +39,7 @@ function decodeU8a (u8a: Uint8Array) {
 
 export class GeneralExtrinsic extends Struct {
   #version: number;
+  #preamble: number;
 
   constructor (registry: Registry, value?: GeneralExtrinsicValue | Uint8Array | HexString) {
     const extTypes = registry.getSignedExtensionTypes();
@@ -62,8 +63,8 @@ export class GeneralExtrinsic extends Struct {
       }
     ), GeneralExtrinsic.decodeExtrinsic(registry, value));
 
-    // TODO check version and error if version !== 0b01000101 || 69
-    this.#version = 0b01000101; // Includes Preamble
+    this.#version = 0b00000101; // Includes Preamble
+    this.#preamble = 0b01000000;
   }
 
   public static decodeExtrinsic (registry: Registry, value?: GeneralExtrinsicValue | Uint8Array | HexString) {
@@ -124,6 +125,10 @@ export class GeneralExtrinsic extends Struct {
     return this.#version;
   }
 
+  public get preamble () {
+    return this.#preamble
+  }
+
   public override toHex (isBare?: boolean): HexString {
     return u8aToHex(this.toU8a(isBare));
   }
@@ -139,6 +144,6 @@ export class GeneralExtrinsic extends Struct {
   }
 
   public encode () {
-    return u8aConcat(new Uint8Array([this.version]), super.toU8a());
+    return u8aConcat(new Uint8Array([this.version | this.preamble]), super.toU8a());
   }
 }

@@ -20,7 +20,7 @@ describe('GeneralExt', (): void => {
   it('Can decode a general extrinsic', (): void => {
     const genExt = new GeneralExtrinsic(registry, extrinsic);
 
-    expect(genExt.version).toEqual(69);
+    expect(genExt.version).toEqual(5);
     expect(genExt.transactionExtensionVersion.toNumber()).toEqual(0);
     expect(genExt.method.toHuman()).toEqual({ args: { dest: { Id: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY' }, value: '10,000,000,000' }, method: 'transferAllowDeath', section: 'balances' });
     expect(genExt.era.toHuman()).toEqual({ MortalEra: { period: '64', phase: '6' } });
