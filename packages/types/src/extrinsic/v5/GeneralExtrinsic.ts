@@ -146,4 +146,20 @@ export class GeneralExtrinsic extends Struct {
   public encode () {
     return u8aConcat(new Uint8Array([this.version | this.preamble]), super.toU8a());
   }
+
+  public signFake () {
+    throw new Error('Extrinsic: Type GeneralExtrinsic does not have signFake implemented');
+  }
+
+  public addSignature () {
+    throw new Error('Extrinsic: Type GeneralExtrinsic does not have addSignature implemented');
+  }
+
+  public sign () {
+    throw new Error('Extrinsic: Type GeneralExtrinsic does not have sign implemented');
+  }
+
+  public signature () {
+    throw new Error('Extrinsic: Type GeneralExtrinsic does not have the signature getter');
+  }
 }
