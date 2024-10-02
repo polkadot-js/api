@@ -1,5 +1,16 @@
 # CHANGELOG
 
+Changes:
+
+- TransactionExtension, ExtrinsicV5
+  - This is a very large feature that gives support for Extrinsic V5. This is not a breaking change, but because of the impact it has it is a Major bump.
+  - This PR acts as a forward compatible feature that still focuses on v4, but allows for the use of v5 when:
+    a: The metadata extrinsic version is set to 5
+    b: The extrinsic version is set to 5 when manually constructing transactions.
+  - The PR allows the decoding of all v4, and v5 extrinsics including {bare, signed, general} transactions.
+- Address parsing issues for H160 accounts in api.derive.accounts.{*} ([#5991](https://github.com/polkadot-js/api/pull/5991))
+
+
 ## 13.2.1 Sep 23, 2024
 
 Changes:
