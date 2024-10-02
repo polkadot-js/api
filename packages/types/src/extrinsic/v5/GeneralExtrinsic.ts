@@ -126,7 +126,7 @@ export class GeneralExtrinsic extends Struct {
   }
 
   public get preamble () {
-    return this.#preamble
+    return this.#preamble;
   }
 
   public override toHex (isBare?: boolean): HexString {

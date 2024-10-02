@@ -107,7 +107,7 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number, prea
 abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicVx | ExtrinsicUnknown> {
   readonly #preamble: Preamble;
 
-  constructor (registry: Registry, value: ExtrinsicV5 | ExtrinsicUnknown, initialU8aLength?: number, preamble?: Preamble) {
+  constructor (registry: Registry, value: ExtrinsicVx | ExtrinsicUnknown, initialU8aLength?: number, preamble?: Preamble) {
     super(registry, value, initialU8aLength);
 
     const signKeys = Object.keys(registry.getSignedExtensionTypes());
