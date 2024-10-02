@@ -4,7 +4,4 @@
 export { GenericExtrinsicV5 } from './Extrinsic.js';
 export { GenericExtrinsicPayloadV5 } from './ExtrinsicPayload.js';
 export { GenericExtrinsicSignatureV5 } from './ExtrinsicSignature.js';
-export { GeneralExt } from './GeneralExt.js';
 export { GeneralExtrinsic } from './GeneralExtrinsic.js';
-export { GeneralExtrinsicEncoded } from './GeneralExtrinsicEncoded.js';
-export { GeneralExtrinsicPayload } from './GeneralExtrinsicPayload.js';
