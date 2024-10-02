@@ -3,48 +3,71 @@
 
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod, Inspect, IOption } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV4, Sr25519Signature } from '../interfaces/extrinsics/index.js';
+import type { GeneralExtrinsic } from '../index.types.js';
+import type { EcdsaSignature, Ed25519Signature, ExtrinsicSignatureV5, ExtrinsicUnknown, ExtrinsicV5, Sr25519Signature } from '../interfaces/extrinsics/index.js';
 import type { FunctionMetadataLatest } from '../interfaces/metadata/index.js';
 import type { Address, Call, CodecHash, Hash } from '../interfaces/runtime/index.js';
 import type { MultiLocation } from '../interfaces/types.js';
 import type { CallBase, ExtrinsicPayloadValue, ICompact, IExtrinsic, IKeyringPair, INumber, Registry, SignatureOptions } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
-import type { ExtrinsicValueV4 } from './v4/Extrinsic.js';
+import type { Preamble } from './types.js';
+import type { ExtrinsicValueV5 } from './v5/Extrinsic.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { EXTRINSIC_VERSION as LATEST_EXTRINSIC_VERSION } from './v4/Extrinsic.js';
-import { BIT_SIGNED, BIT_UNSIGNED, DEFAULT_VERSION, UNMASK_VERSION } from './constants.js';
+import { BARE_EXTRINSIC, BIT_SIGNED, BIT_UNSIGNED, DEFAULT_PREAMBLE, GENERAL_EXTRINSIC, LATEST_EXTRINSIC_VERSION, LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION, SIGNED_EXTRINSIC, TYPE_MASK, VERSION_MASK } from './constants.js';
 
 interface CreateOptions {
   version?: number;
+  preamble?: Preamble;
 }
 
 // NOTE The following 2 types, as well as the VERSION structure and the latest export
 // is to be changed with the addition of a new extrinsic version
 
-type ExtrinsicVx = ExtrinsicV4;
-type ExtrinsicValue = ExtrinsicValueV4;
+type ExtrinsicVx = ExtrinsicV5 | GeneralExtrinsic;
+type ExtrinsicValue = ExtrinsicValueV5;
 
 const VERSIONS = [
   'ExtrinsicUnknown', // v0 is unknown
   'ExtrinsicUnknown',
   'ExtrinsicUnknown',
   'ExtrinsicUnknown',
-  'ExtrinsicV4'
+  'ExtrinsicV4',
+  'ExtrinsicV5'
 ];
+
+const PREAMBLE = {
+  bare: 'ExtrinsicV5',
+  general: 'GeneralExtrinsic',
+  signed: 'ExtrinsicV5'
+};
+
+const PreambleMask = {
+  bare: BARE_EXTRINSIC,
+  general: GENERAL_EXTRINSIC,
+  signed: SIGNED_EXTRINSIC
+};
+
+const preambleUnMask: Record<string, Preamble> = {
+  0: 'bare',
+  // eslint-disable-next-line sort-keys
+  64: 'general',
+  // eslint-disable-next-line sort-keys
+  128: 'signed'
+};
 
 export { LATEST_EXTRINSIC_VERSION };
 
 /** @internal */
-function newFromValue (registry: Registry, value: any, version: number): ExtrinsicVx | ExtrinsicUnknown {
+function newFromValue (registry: Registry, value: any, version: number, preamble: Preamble): ExtrinsicVx | ExtrinsicUnknown {
   if (value instanceof GenericExtrinsic) {
     return value.unwrap();
   }
 
   const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-  const type = VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
+  const type = (version & VERSION_MASK) === 5 ? PREAMBLE[preamble] : VERSIONS[version & VERSION_MASK] || VERSIONS[0];
 
   // we cast here since the VERSION definition is incredibly broad - we don't have a
   // slice for "only add extrinsic types", and more string definitions become unwieldy
@@ -52,20 +75,20 @@ function newFromValue (registry: Registry, value: any, version: number): Extrins
 }
 
 /** @internal */
-function decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = DEFAULT_VERSION): ExtrinsicVx | ExtrinsicUnknown {
+function decodeExtrinsic (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, version: number = LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION, preamble: Preamble = DEFAULT_PREAMBLE): ExtrinsicVx | ExtrinsicUnknown {
   if (isU8a(value) || Array.isArray(value) || isHex(value)) {
-    return decodeU8a(registry, u8aToU8a(value), version);
+    return decodeU8a(registry, u8aToU8a(value), version, preamble);
   } else if (value instanceof registry.createClassUnsafe('Call')) {
-    return newFromValue(registry, { method: value }, version);
+    return newFromValue(registry, { method: value }, version, preamble);
   }
 
-  return newFromValue(registry, value, version);
+  return newFromValue(registry, value, version, preamble);
 }
 
 /** @internal */
-function decodeU8a (registry: Registry, value: Uint8Array, version: number): ExtrinsicVx | ExtrinsicUnknown {
+function decodeU8a (registry: Registry, value: Uint8Array, version: number, preamble: Preamble): ExtrinsicVx | ExtrinsicUnknown {
   if (!value.length) {
-    return newFromValue(registry, new Uint8Array(), version);
+    return newFromValue(registry, new Uint8Array(), version, preamble);
   }
 
   const [offset, length] = compactFromU8a(value);
@@ -76,22 +99,41 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number): Ext
   }
 
   const data = value.subarray(offset, total);
+  const unmaskedPreamble = data[0] & TYPE_MASK;
 
-  return newFromValue(registry, data.subarray(1), data[0]);
+  if (preambleUnMask[`${unmaskedPreamble}`] === 'general') {
+    // NOTE: GeneralExtrinsic needs to have the full data to validate the preamble and version
+    return newFromValue(registry, value, data[0], preambleUnMask[`${unmaskedPreamble}`] || preamble);
+  } else {
+    return newFromValue(registry, data.subarray(1), data[0], preambleUnMask[`${unmaskedPreamble}`] || preamble);
+  }
 }
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicVx | ExtrinsicUnknown> {
-  constructor (registry: Registry, value: ExtrinsicV4 | ExtrinsicUnknown, initialU8aLength?: number) {
+  readonly #preamble: Preamble;
+
+  constructor (registry: Registry, value: ExtrinsicVx | ExtrinsicUnknown, initialU8aLength?: number, preamble?: Preamble) {
     super(registry, value, initialU8aLength);
 
     const signKeys = Object.keys(registry.getSignedExtensionTypes());
-    const getter = (key: string) => this.inner.signature[key as 'signer'];
 
-    // This is on the abstract class, ensuring that hasOwnProperty operates
-    // correctly, i.e. it needs to be on the base class exposing it
-    for (let i = 0, count = signKeys.length; i < count; i++) {
-      objectProperty(this, signKeys[i], getter);
+    if (this.version === 5 && preamble !== 'general') {
+      const getter = (key: string) => (this.inner.signature as unknown as ExtrinsicSignatureV5)[key as 'signer'];
+
+      // This is on the abstract class, ensuring that hasOwnProperty operates
+      // correctly, i.e. it needs to be on the base class exposing it
+      for (let i = 0, count = signKeys.length; i < count; i++) {
+        objectProperty(this, signKeys[i], getter);
+      }
     }
+
+    const unmaskedPreamble = this.type & TYPE_MASK;
+
+    this.#preamble = preamble || preambleUnMask[`${unmaskedPreamble}`];
+  }
+
+  public isGeneral () {
+    return this.#preamble === 'general';
   }
 
   /**
@@ -126,7 +168,9 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description The era for this extrinsic
    */
   public get era (): GenericExtrinsicEra {
-    return this.inner.signature.era;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).era
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).era;
   }
 
   /**
@@ -140,7 +184,9 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    return this.inner.signature.isSigned;
+    return this.isGeneral()
+      ? false
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).isSigned;
   }
 
   /**
@@ -168,49 +214,67 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description The nonce for this extrinsic
    */
   public get nonce (): ICompact<INumber> {
-    return this.inner.signature.nonce;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).nonce
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).nonce;
   }
 
   /**
    * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
   public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature {
-    return this.inner.signature.signature;
+    if (this.isGeneral()) {
+      throw new Error('Extrinsic: GeneralExtrinsic does not have signature implemented');
+    }
+
+    return (this.inner.signature as unknown as ExtrinsicSignatureV5).signature;
   }
 
   /**
    * @description The [[Address]] that signed
    */
   public get signer (): Address {
-    return this.inner.signature.signer;
+    if (this.isGeneral()) {
+      throw new Error('Extrinsic: GeneralExtrinsic does not have signer implemented');
+    }
+
+    return (this.inner.signature as unknown as ExtrinsicSignatureV5).signer;
   }
 
   /**
    * @description Forwards compat
    */
   public get tip (): ICompact<INumber> {
-    return this.inner.signature.tip;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).tip
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).tip;
   }
 
   /**
    * @description Forward compat
    */
   public get assetId (): IOption<INumber | MultiLocation> {
-    return this.inner.signature.assetId;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).assetId
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).assetId;
   }
 
   /**
    * @description Forward compat
    */
   public get metadataHash (): IOption<Hash> {
-    return this.inner.signature.metadataHash;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).metadataHash
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).metadataHash;
   }
 
   /**
    * @description Forward compat
    */
   public get mode (): INumber {
-    return this.inner.signature.mode;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).mode
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).mode;
   }
 
   /**
@@ -228,7 +292,11 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description Returns the encoded version flag
   */
   public get version (): number {
-    return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
+    if (this.type <= LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION) {
+      return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
+    } else {
+      return this.type | (this.isSigned ? PreambleMask.signed : this.isGeneral() ? PreambleMask.general : PreambleMask.bare);
+    }
   }
 
   /**
@@ -260,8 +328,8 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
 
   static LATEST_EXTRINSIC_VERSION = LATEST_EXTRINSIC_VERSION;
 
-  constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { version }: CreateOptions = {}) {
-    super(registry, decodeExtrinsic(registry, value, version));
+  constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { preamble, version }: CreateOptions = {}) {
+    super(registry, decodeExtrinsic(registry, value, version || registry.metadata.extrinsic.version?.toNumber(), preamble), undefined, preamble);
   }
 
   /**

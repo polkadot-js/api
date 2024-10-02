@@ -247,6 +247,12 @@ export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl> {
   readonly version: number;
 }
 
+export interface IExtrinsicV5Impl extends IExtrinsicSignable<IExtrinsicV5Impl> {
+  readonly method: Call;
+  readonly signature: IExtrinsicSignature;
+  readonly version: number;
+}
+
 export interface IExtrinsic<A extends AnyTuple = AnyTuple> extends IExtrinsicSignable<IExtrinsic<A>>, ExtrinsicSignatureBase, IMethod<A> {
   readonly length: number;
   readonly method: IMethod<A>;

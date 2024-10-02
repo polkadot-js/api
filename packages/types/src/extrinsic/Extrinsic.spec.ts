@@ -48,4 +48,81 @@ describe('Extrinsic', (): void => {
       expect(extrinsic.toPrimitive()).toEqual({ method: { args: { dest: { id: '5DiuK2zR4asj2CEh77SKtUgTswTLkD8eiAKrByg5G3wL5w9b' }, value: 104560923320000 }, callIndex: '0x0600' }, signature: { era: { mortalEra: [1024, 186] }, nonce: 68, signature: { ed25519: '0xd99ffe3e610ad234e1414bda5831395a6df9098bf80b01561ce89a5065ae89d5c10e1619c6c99131b0bea4fb73ef04d07c07770e2ae9df5c325c331769ccb300' }, signer: { id: '5Hn8KKEp8qruCGWaN9MEsjTs4FXB4wv9xn7g1RWkNeKKNXCr' }, tip: 30000000000 } });
     });
   });
+
+  describe('V5', () => {
+    // Ensure it does not have its registry modified by the fallback extensions.
+    const registry = new TypeRegistry();
+    const metadata = new Metadata(registry, rpcMetadata);
+
+    registry.setMetadata(metadata);
+
+    describe('SignedExtrinsic', () => {
+      it('Should work when the version and preamble is passed in', () => {
+        const extrinsic = new Extrinsic(
+          registry,
+          '0x51028500d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d011e0b7d9438899333c50121f8e10144952d51c3bb8d0ea11dd1f24940d8ff615ad351d95ed9f41f078748ed7cf182864a20b38eebfaef6629433365eb90c0148c007502000000000603008eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a480b00a0724e1809',
+          { preamble: 'signed', version: 5 }
+        );
+
+        expect(extrinsic.signer.toString()).toEqual('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY');
+        expect(extrinsic.era.toHuman()).toEqual({ MortalEra: { period: '64', phase: '39' } });
+        expect(extrinsic.nonce.toNumber()).toEqual(0);
+        expect(extrinsic.tip.toHuman()).toEqual('0');
+        expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 3]));
+        expect(extrinsic.args[0].toHex()).toEqual('0x008eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48');
+        expect(extrinsic.args[1].toHuman()).toEqual('10,000,000,000,000');
+      });
+
+      it('Should work when the version and preamble is not passed in', () => {
+        const extrinsic = new Extrinsic(
+          registry,
+          '0x51028500d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d011e0b7d9438899333c50121f8e10144952d51c3bb8d0ea11dd1f24940d8ff615ad351d95ed9f41f078748ed7cf182864a20b38eebfaef6629433365eb90c0148c007502000000000603008eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a480b00a0724e1809'
+        );
+
+        expect(extrinsic.version).toEqual(133);
+        expect(extrinsic.signer.toString()).toEqual('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY');
+        expect(extrinsic.era.toHuman()).toEqual({ MortalEra: { period: '64', phase: '39' } });
+        expect(extrinsic.nonce.toNumber()).toEqual(0);
+        expect(extrinsic.tip.toHuman()).toEqual('0');
+        expect(extrinsic.callIndex).toEqual(new Uint8Array([6, 3]));
+        expect(extrinsic.args[0].toHex()).toEqual('0x008eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48');
+        expect(extrinsic.args[1].toHuman()).toEqual('10,000,000,000,000');
+      });
+    });
+
+    describe('GeneralExtrinsic', () => {
+      it('Should work when the version and preamble is passed in', () => {
+        const extrinsic = new Extrinsic(
+          registry,
+          '0xc44500650000000000060000d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d0700e40b5402',
+          { preamble: 'general', version: 5 }
+        );
+
+        expect(extrinsic.version).toEqual(69);
+        // expect(extrinsic.transactionExtensionVersion.toNumber()).toEqual(0);
+        expect(extrinsic.method.toHuman()).toEqual({ args: { dest: { Id: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY' }, value: '10,000,000,000' }, method: 'transferAllowDeath', section: 'balances' });
+        expect(extrinsic.era.toHuman()).toEqual({ MortalEra: { period: '64', phase: '6' } });
+        expect(extrinsic.tip.toNumber()).toEqual(0);
+        expect(extrinsic.mode.toNumber()).toEqual(0);
+        expect(extrinsic.assetId.toHuman()).toEqual(null);
+        expect(extrinsic.nonce.toNumber()).toEqual(0);
+      });
+
+      it('Should work when there is no version and preamble is passed in', () => {
+        const extrinsic = new Extrinsic(
+          registry,
+          '0xc44500650000000000060000d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d0700e40b5402'
+        );
+
+        expect(extrinsic.version).toEqual(69);
+        // expect(extrinsic.transactionExtensionVersion.toNumber()).toEqual(0);
+        expect(extrinsic.method.toHuman()).toEqual({ args: { dest: { Id: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY' }, value: '10,000,000,000' }, method: 'transferAllowDeath', section: 'balances' });
+        expect(extrinsic.era.toHuman()).toEqual({ MortalEra: { period: '64', phase: '6' } });
+        expect(extrinsic.tip.toNumber()).toEqual(0);
+        expect(extrinsic.mode.toNumber()).toEqual(0);
+        expect(extrinsic.assetId.toHuman()).toEqual(null);
+        expect(extrinsic.nonce.toNumber()).toEqual(0);
+      });
+    });
+  });
 });

@@ -5,36 +5,48 @@ import type { Bytes } from '@polkadot/types-codec';
 import type { AnyJson, BareOpts, Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { BlockHash } from '../interfaces/chain/index.js';
-import type { ExtrinsicPayloadV4 } from '../interfaces/extrinsics/index.js';
+import type { ExtrinsicPayloadV5 } from '../interfaces/extrinsics/index.js';
 import type { Hash, MultiLocation } from '../interfaces/types.js';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../types/index.js';
 import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
+import type { Preamble } from './types.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 
-import { DEFAULT_VERSION } from './constants.js';
+import { DEFAULT_PREAMBLE, LATEST_EXTRINSIC_VERSION } from './constants.js';
 
 interface ExtrinsicPayloadOptions {
   version?: number;
+  preamble?: Preamble;
 }
 
 // all our known types that can be returned
-type ExtrinsicPayloadVx = ExtrinsicPayloadV4;
+type ExtrinsicPayloadVx = ExtrinsicPayloadV5;
 
 const VERSIONS = [
   'ExtrinsicPayloadUnknown', // v0 is unknown
   'ExtrinsicPayloadUnknown',
   'ExtrinsicPayloadUnknown',
   'ExtrinsicPayloadUnknown',
-  'ExtrinsicPayloadV4'
+  'ExtrinsicPayloadV4',
+  'ExtrinsicPayloadV5'
 ];
 
+const PREAMBLES = {
+  bare: 'ExtrinsicPayloadV5',
+  // Not supported yet
+  general: 'ExtrinsicPayloadV5',
+  signed: 'ExtrinsicPayloadV5'
+};
+
 /** @internal */
-function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version: number = DEFAULT_VERSION): ExtrinsicPayloadVx {
+function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version = LATEST_EXTRINSIC_VERSION, preamble: Preamble = DEFAULT_PREAMBLE): ExtrinsicPayloadVx {
   if (value instanceof GenericExtrinsicPayload) {
     return value.unwrap();
   }
+
+  const extVersion = version === 5 ? PREAMBLES[preamble] : VERSIONS[version] || VERSIONS[0];
 
   /**
    * HACK: In order to change the assetId from `number | object` to HexString (While maintaining the true type ie Option<TAssetConversion>),
@@ -51,10 +63,10 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
       assetId: registry.createType('TAssetConversion', hexToU8a((value as ExtrinsicPayloadValue).assetId)).toJSON()
     };
 
-    return registry.createTypeUnsafe(VERSIONS[version] || VERSIONS[0], [adjustedPayload, { version }]);
+    return registry.createTypeUnsafe(extVersion, [adjustedPayload, { version }]);
   }
 
-  return registry.createTypeUnsafe(VERSIONS[version] || VERSIONS[0], [value, { version }]);
+  return registry.createTypeUnsafe(extVersion, [value, { version }]);
 }
 
 /**
@@ -64,8 +76,8 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
  * on the contents included
  */
 export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
-  constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { version }: ExtrinsicPayloadOptions = {}) {
-    super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version));
+  constructor (registry: Registry, value?: Partial<ExtrinsicPayloadValue> | Uint8Array | string, { preamble, version }: ExtrinsicPayloadOptions = {}) {
+    super(registry, decodeExtrinsicPayload(registry, value as ExtrinsicPayloadValue, version, preamble));
   }
 
   /**

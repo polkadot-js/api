@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV4, GenericExtrinsicSignatureV4, GenericExtrinsicUnknown, GenericExtrinsicV4, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types';
+import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV4, GenericExtrinsicPayloadV5, GenericExtrinsicSignatureV4, GenericExtrinsicSignatureV5, GenericExtrinsicUnknown, GenericExtrinsicV4, GenericExtrinsicV5, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types';
 import type { Enum, U8aFixed } from '@polkadot/types-codec';
 import type { H512 } from '@polkadot/types/interfaces/runtime';
 
@@ -32,17 +32,26 @@ export interface ExtrinsicPayloadUnknown extends GenericExtrinsicPayloadUnknown 
 /** @name ExtrinsicPayloadV4 */
 export interface ExtrinsicPayloadV4 extends GenericExtrinsicPayloadV4 {}
 
+/** @name ExtrinsicPayloadV5 */
+export interface ExtrinsicPayloadV5 extends GenericExtrinsicPayloadV5 {}
+
 /** @name ExtrinsicSignature */
 export interface ExtrinsicSignature extends MultiSignature {}
 
 /** @name ExtrinsicSignatureV4 */
 export interface ExtrinsicSignatureV4 extends GenericExtrinsicSignatureV4 {}
 
+/** @name ExtrinsicSignatureV5 */
+export interface ExtrinsicSignatureV5 extends GenericExtrinsicSignatureV5 {}
+
 /** @name ExtrinsicUnknown */
 export interface ExtrinsicUnknown extends GenericExtrinsicUnknown {}
 
 /** @name ExtrinsicV4 */
 export interface ExtrinsicV4 extends GenericExtrinsicV4 {}
+
+/** @name ExtrinsicV5 */
+export interface ExtrinsicV5 extends GenericExtrinsicV5 {}
 
 /** @name ImmortalEra */
 export interface ImmortalEra extends GenericImmortalEra {}

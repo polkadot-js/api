@@ -18,6 +18,9 @@ export default {
     ExtrinsicSignatureV4: 'GenericExtrinsicSignatureV4',
     ExtrinsicUnknown: 'GenericExtrinsicUnknown',
     ExtrinsicPayloadUnknown: 'GenericExtrinsicPayloadUnknown',
+    ExtrinsicV5: 'GenericExtrinsicV5',
+    ExtrinsicPayloadV5: 'GenericExtrinsicPayloadV5',
+    ExtrinsicSignatureV5: 'GenericExtrinsicSignatureV5',
 
     // eras
     Era: 'ExtrinsicEra',
