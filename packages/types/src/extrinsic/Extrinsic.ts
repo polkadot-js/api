@@ -3,7 +3,8 @@
 
 import type { AnyJson, AnyTuple, AnyU8a, ArgsDef, IMethod, Inspect, IOption } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { EcdsaSignature, Ed25519Signature, ExtrinsicUnknown, ExtrinsicV5, Sr25519Signature } from '../interfaces/extrinsics/index.js';
+import type { GeneralExtrinsic } from '../index.types.js';
+import type { EcdsaSignature, Ed25519Signature, ExtrinsicSignatureV5, ExtrinsicUnknown, ExtrinsicV5, Sr25519Signature } from '../interfaces/extrinsics/index.js';
 import type { FunctionMetadataLatest } from '../interfaces/metadata/index.js';
 import type { Address, Call, CodecHash, Hash } from '../interfaces/runtime/index.js';
 import type { MultiLocation } from '../interfaces/types.js';
@@ -25,7 +26,7 @@ interface CreateOptions {
 // NOTE The following 2 types, as well as the VERSION structure and the latest export
 // is to be changed with the addition of a new extrinsic version
 
-type ExtrinsicVx = ExtrinsicV5;
+type ExtrinsicVx = ExtrinsicV5 | GeneralExtrinsic;
 type ExtrinsicValue = ExtrinsicValueV5;
 
 const VERSIONS = [
@@ -111,15 +112,24 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
     super(registry, value, initialU8aLength);
 
     const signKeys = Object.keys(registry.getSignedExtensionTypes());
-    const getter = (key: string) => this.inner.signature[key as 'signer'];
 
-    // This is on the abstract class, ensuring that hasOwnProperty operates
-    // correctly, i.e. it needs to be on the base class exposing it
-    for (let i = 0, count = signKeys.length; i < count; i++) {
-      objectProperty(this, signKeys[i], getter);
+    if (this.version === 5 && preamble !== 'general') {
+      const getter = (key: string) => (this.inner.signature as unknown as ExtrinsicSignatureV5)[key as 'signer'];
+
+      // This is on the abstract class, ensuring that hasOwnProperty operates
+      // correctly, i.e. it needs to be on the base class exposing it
+      for (let i = 0, count = signKeys.length; i < count; i++) {
+        objectProperty(this, signKeys[i], getter);
+      }
     }
 
-    this.#preamble = preamble || DEFAULT_PREAMBLE;
+    const unmaskedPreamble = this.type & TYPE_MASK;
+
+    this.#preamble = preamble || preambleUnMask[`${unmaskedPreamble}`];
+  }
+
+  public isGeneral () {
+    return this.#preamble === 'general';
   }
 
   /**
@@ -154,7 +164,9 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description The era for this extrinsic
    */
   public get era (): GenericExtrinsicEra {
-    return this.inner.signature.era;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).era
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).era;
   }
 
   /**
@@ -168,7 +180,9 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    return this.inner.signature.isSigned;
+    return this.isGeneral()
+      ? false
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).isSigned;
   }
 
   /**
@@ -196,49 +210,67 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description The nonce for this extrinsic
    */
   public get nonce (): ICompact<INumber> {
-    return this.inner.signature.nonce;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).nonce
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).nonce;
   }
 
   /**
    * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
   public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature {
-    return this.inner.signature.signature;
+    if (this.isGeneral()) {
+      throw new Error('Extrinsic: GeneralExtrinsic does not have signature implemented');
+    }
+
+    return (this.inner.signature as unknown as ExtrinsicSignatureV5).signature;
   }
 
   /**
    * @description The [[Address]] that signed
    */
   public get signer (): Address {
-    return this.inner.signature.signer;
+    if (this.isGeneral()) {
+      throw new Error('Extrinsic: GeneralExtrinsic does not have signer implemented');
+    }
+
+    return (this.inner.signature as unknown as ExtrinsicSignatureV5).signer;
   }
 
   /**
    * @description Forwards compat
    */
   public get tip (): ICompact<INumber> {
-    return this.inner.signature.tip;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).tip
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).tip;
   }
 
   /**
    * @description Forward compat
    */
   public get assetId (): IOption<INumber | MultiLocation> {
-    return this.inner.signature.assetId;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).assetId
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).assetId;
   }
 
   /**
    * @description Forward compat
    */
   public get metadataHash (): IOption<Hash> {
-    return this.inner.signature.metadataHash;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).metadataHash
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).metadataHash;
   }
 
   /**
    * @description Forward compat
    */
   public get mode (): INumber {
-    return this.inner.signature.mode;
+    return this.isGeneral()
+      ? (this.inner as unknown as GeneralExtrinsic).mode
+      : (this.inner.signature as unknown as ExtrinsicSignatureV5).mode;
   }
 
   /**
