@@ -137,7 +137,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
   }
 
   /**
-   * @description The [[Hash]] for the metadata
+   * @description The (optional)  [[Hash]] for the metadata proof
    */
   public get metadataHash (): IOption<Hash> {
     return this.getT('metadataHash');

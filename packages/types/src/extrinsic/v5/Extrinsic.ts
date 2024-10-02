@@ -20,7 +20,7 @@ export interface ExtrinsicValueV5 {
 /**
  * @name GenericExtrinsicV5
  * @description
- * The third generation of compact extrinsics
+ * The fourth generation of compact extrinsics
  */
 export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
   constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV5 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
@@ -80,6 +80,9 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
     return EXTRINSIC_VERSION;
   }
 
+  /**
+   * @description The [[Preamble]] for the extrinsic
+   */
   public get preamble (): Preamble {
     return this.getT('preamble');
   }

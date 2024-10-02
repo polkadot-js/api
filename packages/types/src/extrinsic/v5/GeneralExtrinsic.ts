@@ -91,46 +91,79 @@ export class GeneralExtrinsic extends Struct {
     return {};
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   public override get encodedLength (): number {
     return super.encodedLength;
   }
 
+  /**
+   * @description The [[ExtrinsicEra]]
+   */
   public get era (): ExtrinsicEra {
     return this.getT('era');
   }
 
+  /**
+   * @description The [[Index]]
+   */
   public get nonce (): ICompact<INumber> {
     return this.getT('nonce');
   }
 
+  /**
+   * @description The tip [[Balance]]
+   */
   public get tip (): ICompact<INumber> {
     return this.getT('tip');
   }
 
+  /**
+   * @description The (optional) asset id for this signature for chains that support transaction fees in assets
+   */
   public get assetId (): IOption<INumber | MultiLocation> {
     return this.getT('assetId');
   }
 
+  /**
+   * @description The mode used for the CheckMetadataHash TransactionExtension
+   */
   public get mode (): INumber {
     return this.getT('mode');
   }
 
+  /**
+   * @description The (optional) [[Hash]] for the metadata proof
+   */
   public get metadataHash (): IOption<Hash> {
     return this.getT('metadataHash');
   }
 
+  /**
+   * @description The version of the TransactionExtensions used in this extrinsic
+   */
   public get transactionExtensionVersion (): INumber {
     return this.getT('transactionExtensionVersion');
   }
 
+  /**
+   * @description The [[Call]] this extrinsic wraps
+   */
   public get method (): Call {
     return this.getT('method');
   }
 
+  /**
+   * @description The extrinsic's version
+   */
   public get version () {
     return this.#version;
   }
 
+  /**
+   * @description The [[Preamble]] for the extrinsic
+   */
   public get preamble () {
     return this.#preamble;
   }
@@ -149,6 +182,10 @@ export class GeneralExtrinsic extends Struct {
     return 'GeneralExt';
   }
 
+  /**
+   *
+   * @description Returns an encoded GeneralExtrinsic
+   */
   public encode () {
     return u8aConcat(new Uint8Array([this.version | this.preamble]), super.toU8a());
   }

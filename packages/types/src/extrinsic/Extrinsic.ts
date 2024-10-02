@@ -40,7 +40,6 @@ const VERSIONS = [
 
 const PREAMBLE = {
   bare: 'ExtrinsicV5',
-  // Not supported yet
   general: 'GeneralExtrinsic',
   signed: 'ExtrinsicV5'
 };

@@ -110,7 +110,7 @@ export class GenericExtrinsicPayloadV5 extends Struct {
   }
 
   /**
-   * @description The (optional) asset id for this signature for chains that support transaction fees in assets
+   * @description The (optional) metadataHash proof for the CheckMetadataHash TransactionExtension
    */
   public get metadataHash (): IOption<Hash> {
     return this.getT('metadataHash');
