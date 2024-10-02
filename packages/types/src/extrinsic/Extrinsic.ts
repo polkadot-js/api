@@ -16,7 +16,7 @@ import type { ExtrinsicValueV5 } from './v5/Extrinsic.js';
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { BARE_EXTRINSIC, BIT_SIGNED, BIT_UNSIGNED, DEFAULT_PREAMBLE, GENERAL_EXTRINSIC, LATEST_EXTRINSIC_VERSION, LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION, SIGNED_EXTRINSIC, TYPE_MASK, UNMASK_VERSION } from './constants.js';
+import { BARE_EXTRINSIC, BIT_SIGNED, BIT_UNSIGNED, DEFAULT_PREAMBLE, GENERAL_EXTRINSIC, LATEST_EXTRINSIC_VERSION, LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION, SIGNED_EXTRINSIC, TYPE_MASK, VERSION_MASK } from './constants.js';
 
 interface CreateOptions {
   version?: number;
@@ -68,7 +68,7 @@ function newFromValue (registry: Registry, value: any, version: number, preamble
   }
 
   const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
-  const type = (version & UNMASK_VERSION) === 5 ? PREAMBLE[preamble] : VERSIONS[version & UNMASK_VERSION] || VERSIONS[0];
+  const type = (version & VERSION_MASK) === 5 ? PREAMBLE[preamble] : VERSIONS[version & VERSION_MASK] || VERSIONS[0];
 
   // we cast here since the VERSION definition is incredibly broad - we don't have a
   // slice for "only add extrinsic types", and more string definitions become unwieldy
@@ -102,7 +102,12 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number, prea
   const data = value.subarray(offset, total);
   const unmaskedPreamble = data[0] & TYPE_MASK;
 
-  return newFromValue(registry, data.subarray(1), data[0], preambleUnMask[`${unmaskedPreamble}`] || preamble);
+  if (preambleUnMask[`${unmaskedPreamble}`] === 'general') {
+    // NOTE: GeneralExtrinsic needs to have the full data to validate the preamble and version
+    return newFromValue(registry, value, data[0], preambleUnMask[`${unmaskedPreamble}`] || preamble);
+  } else {
+    return newFromValue(registry, data.subarray(1), data[0], preambleUnMask[`${unmaskedPreamble}`] || preamble);
+  }
 }
 
 abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicVx | ExtrinsicUnknown> {

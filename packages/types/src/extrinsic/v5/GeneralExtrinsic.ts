@@ -41,20 +41,13 @@ export class GeneralExtrinsic extends Struct {
   #version: number;
   #preamble: number;
 
-  constructor (registry: Registry, value?: GeneralExtrinsicValue | Uint8Array | HexString) {
+  constructor (registry: Registry, value?: GeneralExtrinsicValue | Uint8Array | HexString, opt?: { version: number }) {
     const extTypes = registry.getSignedExtensionTypes();
     const extraTypes = registry.getSignedExtensionExtra();
 
-    // Input ordering
-    // TransactionExtensionVersion
-    // Call data as method
-    // Payload
     super(registry, objectSpread(
       {
-        // eslint-disable-next-line sort-keys
         transactionExtensionVersion: 'u8'
-        // eslint-disable-next-line sort-keys
-
       },
       extTypes,
       extraTypes,
@@ -63,7 +56,7 @@ export class GeneralExtrinsic extends Struct {
       }
     ), GeneralExtrinsic.decodeExtrinsic(registry, value));
 
-    this.#version = 0b00000101; // Includes Preamble
+    this.#version = opt?.version || 0b00000101;
     this.#preamble = 0b01000000;
   }
 
