@@ -67,5 +67,27 @@ describe('Extrinsic', (): void => {
       expect(extrinsic.args[0].toHex()).toEqual('0x008eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48');
       expect(extrinsic.args[1].toHuman()).toEqual('10,000,000,000,000');
     });
+
+    it('General Extrinsic', () => {
+      // Ensure it does not have its registry modified by the fallback extensions.
+      const registry = new TypeRegistry();
+      const metadata = new Metadata(registry, rpcMetadata);
+
+      registry.setMetadata(metadata);
+      const extrinsic = new Extrinsic(
+        registry,
+        '0xe90145006500000000000c01000002000000fc39f7510a4c591e688532a6df54e856a77e92aee8a2372f0f194eea11c487393d5c33fd9c2370dfcb4941c7fe85fc19c31e5c9b0bd5ecb74d3923947c9c5ccf00060000d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d0700e40b5402',
+        { preamble: 'general', version: 5 }
+      );
+
+      expect(extrinsic.version).toEqual(69);
+      // expect(extrinsic.transactionExtensionVersion.toNumber()).toEqual(0);
+      expect(extrinsic.method.toHuman()).toEqual({ args: { dest: { Id: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY' }, value: '10,000,000,000' }, method: 'transferAllowDeath', section: 'balances' });
+      expect(extrinsic.era.toHuman()).toEqual({ MortalEra: { period: '64', phase: '6' } });
+      expect(extrinsic.tip.toNumber()).toEqual(0);
+      expect(extrinsic.mode.toNumber()).toEqual(0);
+      expect(extrinsic.assetId.toHuman()).toEqual(null);
+      expect(extrinsic.nonce.toNumber()).toEqual(0);
+    });
   });
 });
