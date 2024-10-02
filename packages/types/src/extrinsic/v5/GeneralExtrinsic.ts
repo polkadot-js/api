@@ -2,16 +2,31 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call, ExtrinsicEra, Hash, MultiLocation } from '@polkadot/types/interfaces';
-import type { ExtrinsicPayloadValue, ICompact, INumber, IOption, Registry } from '@polkadot/types/types';
+import type { AnyNumber, AnyU8a, ICompact, IExtrinsicEra, INumber, IOption, Registry } from '@polkadot/types/types';
+import type { AnyTuple, IMethod } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 
 import { Struct } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, isHex, isObject, isU8a, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { EMPTY_U8A } from '../constants.js';
+import { EMPTY_U8A, UNMASK_VERSION } from '../constants.js';
+
+interface TransactionExtensionValues {
+  era: AnyU8a | IExtrinsicEra;
+  nonce: AnyNumber;
+  tip: AnyNumber;
+  transactionVersion: AnyNumber;
+  assetId?: HexString;
+  mode?: AnyNumber;
+  metadataHash?: AnyU8a;
+}
+
+interface GeneralExtrinsicPayloadValues extends TransactionExtensionValues {
+  method: AnyU8a | IMethod<AnyTuple>;
+}
 
 interface GeneralExtrinsicValue {
-  payload?: ExtrinsicPayloadValue;
+  payload?: GeneralExtrinsicPayloadValues;
   transactionExtensionVersion?: number;
 }
 
@@ -31,7 +46,7 @@ function decodeU8a (u8a: Uint8Array) {
 
   // 69 denotes 0b01000101 which is the version and preamble for this Extrinsic
   if (data[0] !== 69) {
-    throw new Error(`Extrinsic: incorrect version for General Transactions, expected 5, found ${data[0] & 0b01111111}`);
+    throw new Error(`Extrinsic: incorrect version for General Transactions, expected 5, found ${data[0] & UNMASK_VERSION}`);
   }
 
   return data.subarray(1);
@@ -43,14 +58,12 @@ export class GeneralExtrinsic extends Struct {
 
   constructor (registry: Registry, value?: GeneralExtrinsicValue | Uint8Array | HexString, opt?: { version: number }) {
     const extTypes = registry.getSignedExtensionTypes();
-    const extraTypes = registry.getSignedExtensionExtra();
 
     super(registry, objectSpread(
       {
         transactionExtensionVersion: 'u8'
       },
       extTypes,
-      extraTypes,
       {
         method: 'Call'
       }
