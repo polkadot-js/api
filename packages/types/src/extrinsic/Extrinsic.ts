@@ -295,7 +295,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
     if (this.type <= LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION) {
       return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
     } else {
-      return this.type | PreambleMask[this.#preamble];
+      return this.type | (this.isSigned ? PreambleMask['signed'] : PreambleMask[this.#preamble] )
     }
   }
 
