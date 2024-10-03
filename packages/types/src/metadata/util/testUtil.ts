@@ -8,6 +8,7 @@
 import type { Registry } from '@polkadot/types-codec/types';
 import type { MetaVersionAll } from '../versions.js';
 import type { Check } from './types.js';
+import type { HexString } from '@polkadot/util/types';
 
 import fs from 'node:fs';
 
@@ -50,9 +51,26 @@ function readJson <T = unknown> (version: number, type: string, sub: 'json' | 't
   ) as unknown as T;
 }
 
+function handleMetadata(registry: Registry, version: MetaVersionAll, data: HexString): Metadata {
+  let metadata: Metadata;
+  if (version > 15) {
+    const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', data).toU8a()).unwrap();
+    metadata = new Metadata(registry, opaqueMetadata.toHex());
+  } else {
+    try {
+      metadata = new Metadata(registry, data);
+    } catch {
+      const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', data).toU8a()).unwrap();
+      metadata = new Metadata(registry, opaqueMetadata.toHex());
+    }
+  }
+
+  return metadata
+}
+
 /** @internal */
 export function decodeLatestMeta (registry: Registry, type: string, version: MetaVersionAll, { data }: Check): void {
-  const metadata = new Metadata(registry, data);
+  const metadata = handleMetadata(registry, version, data);
 
   registry.setMetadata(metadata);
 
@@ -96,7 +114,7 @@ export function decodeLatestMeta (registry: Registry, type: string, version: Met
 /** @internal */
 export function toLatest (registry: Registry, version: MetaVersionAll, { data }: Check, withThrow = true): void {
   it(`converts v${version} to latest`, (): void => {
-    const metadata = new Metadata(registry, data);
+    const metadata = handleMetadata(registry, version, data);
 
     registry.setMetadata(metadata);
 
@@ -109,9 +127,9 @@ export function toLatest (registry: Registry, version: MetaVersionAll, { data }:
 }
 
 /** @internal */
-export function defaultValues (registry: Registry, { data, fails = [] }: Check, withThrow = true, withFallbackCheck = false): void {
+export function defaultValues (registry: Registry, { data, fails = [] }: Check, withThrow = true, withFallbackCheck = false, version: MetaVersionAll): void {
   describe('storage with default values', (): void => {
-    const metadata = new Metadata(registry, data);
+    const metadata = handleMetadata(registry, version, data);
     const { pallets } = metadata.asLatest;
 
     pallets.filter(({ storage }) => storage.isSome).forEach(({ name, storage }): void => {
@@ -153,28 +171,30 @@ export function defaultValues (registry: Registry, { data, fails = [] }: Check, 
   });
 }
 
-function serialize (registry: Registry, { data }: Check): void {
-  const metadata = new Metadata(registry, data);
+function serialize (registry: Registry, { data }: Check, version: MetaVersionAll): void {
+  const metadata = handleMetadata(registry, version, data);
 
-  it('serializes to hex in the same form as retrieved', (): void => {
-    expect(metadata.toHex()).toEqual(data);
-  });
+  if (version < 15) {
+    it('serializes to hex in the same form as retrieved', (): void => {
+      expect(metadata.toHex()).toEqual(data);
+    });
 
-  // NOTE Assuming the first passes this is actually something that doesn't test
-  // anything new. If the first line in this function passed and the above values
-  // are equivalent, this would be as well.
-  it.skip('can construct from a re-serialized form', (): void => {
-    expect(
-      () => new Metadata(registry, metadata.toHex())
-    ).not.toThrow();
-  });
+    // NOTE Assuming the first passes this is actually something that doesn't test
+    // anything new. If the first line in this function passed and the above values
+    // are equivalent, this would be as well.
+    it.skip('can construct from a re-serialized form', (): void => {
+      expect(
+        () => new Metadata(registry, metadata.toHex())
+      ).not.toThrow();
+    });
 
-  // as used in the extension
-  it('can construct from asCallsOnly.toHex()', (): void => {
-    expect(
-      () => new Metadata(registry, metadata.asCallsOnly.toHex())
-    ).not.toThrow();
-  });
+    // as used in the extension
+    it('can construct from asCallsOnly.toHex()', (): void => {
+      expect(
+        () => new Metadata(registry, metadata.asCallsOnly.toHex())
+      ).not.toThrow();
+    });
+  }
 }
 
 export function testMeta (version: MetaVersionAll, matchers: Record<string, Check>, withFallback = true): void {
@@ -183,10 +203,10 @@ export function testMeta (version: MetaVersionAll, matchers: Record<string, Chec
       const registry = new TypeRegistry();
 
       describe(type, (): void => {
-        serialize(registry, matcher);
+        serialize(registry, matcher, version);
         decodeLatestMeta(registry, type, version, matcher);
         toLatest(registry, version, matcher);
-        defaultValues(registry, matcher, true, withFallback);
+        defaultValues(registry, matcher, true, withFallback, version);
       });
     }
   });
