@@ -5,9 +5,9 @@
 
 import type { HexString } from '@polkadot/util/types';
 
-import kusama from '@polkadot/types-support/metadata/static-kusama';
-import polkadot from '@polkadot/types-support/metadata/static-polkadot';
-import substrate from '@polkadot/types-support/metadata/static-substrate';
+import kusama from '@polkadot/types-support/metadata/v15/kusama-hex';
+import polkadot from '@polkadot/types-support/metadata/v15/polkadot-hex';
+import substrate from '@polkadot/types-support/metadata/v15/substrate-hex';
 
 import { TypeRegistry } from '../create/index.js';
 import { Metadata } from './Metadata.js';
@@ -20,15 +20,15 @@ const allData: Record<string, HexString> = {
 
 for (const type of ['kusama', 'polkadot', 'substrate'] as const) {
   describe(`${type}metadata`, (): void => {
-    // const registry = new TypeRegistry();
-    // const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', allData[type]).unwrap();
-    // const metadata = new Metadata(registry, opaqueMetadata.toHex());
+    const registry = new TypeRegistry();
+    const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', allData[type]).toU8a()).unwrap();
+    const metadata = new Metadata(registry, opaqueMetadata.toHex());
 
-    // it('allows creation from hex', (): void => {
-    //   expect(
-    //     new Metadata(new TypeRegistry(), metadata.toHex()).toJSON()
-    //   ).toEqual(metadata.toJSON());
-    // });
+    it('allows creation from hex', (): void => {
+      expect(
+        new Metadata(new TypeRegistry(), metadata.toHex()).toJSON()
+      ).toEqual(metadata.toJSON());
+    });
 
     // it('has a sane toCallsOnly', (): void => {
     //   const test = metadata.asCallsOnly;
