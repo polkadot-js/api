@@ -1,12 +1,12 @@
 // Copyright 2017-2024 @polkadot/types-known authors & contributors
-  // SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: Apache-2.0
 
-  // Auto-generated from on-chain data & manual definitions, do not edit
-  /* eslint-disable quotes, comma-spacing */
+// Auto-generated from on-chain data & manual definitions, do not edit
+/* eslint-disable quotes, comma-spacing */
 
-  import type { ChainUpgradesExpanded } from '../types.js';
+import type { ChainUpgradesExpanded } from '../types.js';
 
-  export const upgrades: ChainUpgradesExpanded = [
+export const upgrades: ChainUpgradesExpanded = [
   [
     0,
     0,
@@ -3710,4 +3710,3 @@
     ]
   ]
 ];
-  

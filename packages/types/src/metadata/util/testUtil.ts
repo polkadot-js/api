@@ -6,9 +6,9 @@
 /* global describe, it, expect */
 
 import type { Registry } from '@polkadot/types-codec/types';
+import type { HexString } from '@polkadot/util/types';
 import type { MetaVersionAll } from '../versions.js';
 import type { Check } from './types.js';
-import type { HexString } from '@polkadot/util/types';
 
 import fs from 'node:fs';
 
@@ -51,21 +51,24 @@ function readJson <T = unknown> (version: number, type: string, sub: 'json' | 't
   ) as unknown as T;
 }
 
-function handleMetadata(registry: Registry, version: MetaVersionAll, data: HexString): Metadata {
+function handleMetadata (registry: Registry, version: MetaVersionAll, data: HexString): Metadata {
   let metadata: Metadata;
+
   if (version > 15) {
     const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', data).toU8a()).unwrap();
+
     metadata = new Metadata(registry, opaqueMetadata.toHex());
   } else {
     try {
       metadata = new Metadata(registry, data);
     } catch {
       const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', data).toU8a()).unwrap();
+
       metadata = new Metadata(registry, opaqueMetadata.toHex());
     }
   }
 
-  return metadata
+  return metadata;
 }
 
 /** @internal */

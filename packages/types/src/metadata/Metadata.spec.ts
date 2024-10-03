@@ -5,6 +5,9 @@
 
 import type { HexString } from '@polkadot/util/types';
 
+import kusamaV14 from '@polkadot/types-support/metadata/static-kusama';
+import polkadotV14 from '@polkadot/types-support/metadata/static-polkadot';
+import substrateV14 from '@polkadot/types-support/metadata/static-substrate';
 import kusama from '@polkadot/types-support/metadata/v15/kusama-hex';
 import polkadot from '@polkadot/types-support/metadata/v15/polkadot-hex';
 import substrate from '@polkadot/types-support/metadata/v15/substrate-hex';
@@ -16,6 +19,12 @@ const allData: Record<string, HexString> = {
   kusama,
   polkadot,
   substrate
+};
+
+const allDataV14: Record<string, HexString> = {
+  kusamaV14,
+  polkadotV14,
+  substrateV14
 };
 
 for (const type of ['kusama', 'polkadot', 'substrate'] as const) {
@@ -30,18 +39,19 @@ for (const type of ['kusama', 'polkadot', 'substrate'] as const) {
       ).toEqual(metadata.toJSON());
     });
 
-    // it('has a sane toCallsOnly', (): void => {
-    //   const test = metadata.asCallsOnly;
+    it('has a sane toCallsOnly V14 only', (): void => {
+      const metadata = new Metadata(new TypeRegistry(), allDataV14[type]);
+      const test = metadata.asCallsOnly;
 
-    //   // it has a useful length
-    //   expect(
-    //     test.toU8a().length > 65536
-    //   ).toBe(true);
+      // it has a useful length
+      expect(
+        test.toU8a().length > 65536
+      ).toBe(true);
 
-    //   // it sets it to the correct version
-    //   expect(
-    //     test.version
-    //   ).toEqual(14);
-    // });
+      // it sets it to the correct version
+      expect(
+        test.version
+      ).toEqual(14);
+    });
   });
 }

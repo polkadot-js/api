@@ -27,7 +27,7 @@ async function get (method, params = []) {
       id: ++requestId,
       jsonrpc: '2.0',
       method,
-      params,
+      params
     }),
     headers: {
       Accept: 'application/json',
