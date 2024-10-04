@@ -13,12 +13,21 @@ interface Result {
   registry: TypeRegistry;
 }
 
+/**
+ * This helper method has been transitioned to work with V14, V15 and up.
+ */
 export function initMeta (staticMeta: HexString, extraTypes: ExtraTypes = {}): Result {
   const registry = new TypeRegistry();
 
   registerDefinitions(registry, extraTypes);
 
-  const metadata = new Metadata(registry, staticMeta);
+  let metadata: Metadata;
+  try {
+    const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', staticMeta).toU8a()).unwrap();
+    metadata = new Metadata(registry, opaqueMetadata.toHex());
+  } catch {
+    metadata = new Metadata(registry, staticMeta);
+  }
 
   registry.setMetadata(metadata);
 

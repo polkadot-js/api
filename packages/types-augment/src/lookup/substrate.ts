@@ -8378,46 +8378,392 @@ export default {
     _enum: ['InvalidAssetPair', 'PoolNotFound', 'ZeroBalance', 'PartialTransfer']
   },
   /**
-   * Lookup934: frame_system::extensions::check_non_zero_sender::CheckNonZeroSender<T>
+   * Lookup933: frame_system::extensions::check_non_zero_sender::CheckNonZeroSender<T>
    **/
   FrameSystemExtensionsCheckNonZeroSender: 'Null',
   /**
-   * Lookup935: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
+   * Lookup934: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
    **/
   FrameSystemExtensionsCheckSpecVersion: 'Null',
   /**
-   * Lookup936: frame_system::extensions::check_tx_version::CheckTxVersion<T>
+   * Lookup935: frame_system::extensions::check_tx_version::CheckTxVersion<T>
    **/
   FrameSystemExtensionsCheckTxVersion: 'Null',
   /**
-   * Lookup937: frame_system::extensions::check_genesis::CheckGenesis<T>
+   * Lookup936: frame_system::extensions::check_genesis::CheckGenesis<T>
    **/
   FrameSystemExtensionsCheckGenesis: 'Null',
   /**
-   * Lookup940: frame_system::extensions::check_nonce::CheckNonce<T>
+   * Lookup939: frame_system::extensions::check_nonce::CheckNonce<T>
    **/
   FrameSystemExtensionsCheckNonce: 'Compact<u32>',
   /**
-   * Lookup941: frame_system::extensions::check_weight::CheckWeight<T>
+   * Lookup940: frame_system::extensions::check_weight::CheckWeight<T>
    **/
   FrameSystemExtensionsCheckWeight: 'Null',
   /**
-   * Lookup942: pallet_asset_conversion_tx_payment::ChargeAssetTxPayment<T>
+   * Lookup941: pallet_asset_conversion_tx_payment::ChargeAssetTxPayment<T>
    **/
   PalletAssetConversionTxPaymentChargeAssetTxPayment: {
     tip: 'Compact<u128>',
     assetId: 'Option<u32>'
   },
   /**
-   * Lookup943: frame_metadata_hash_extension::CheckMetadataHash<T>
+   * Lookup942: frame_metadata_hash_extension::CheckMetadataHash<T>
    **/
   FrameMetadataHashExtensionCheckMetadataHash: {
     mode: 'FrameMetadataHashExtensionMode'
   },
   /**
-   * Lookup944: frame_metadata_hash_extension::Mode
+   * Lookup943: frame_metadata_hash_extension::Mode
    **/
   FrameMetadataHashExtensionMode: {
     _enum: ['Disabled', 'Enabled']
+  },
+  /**
+   * Lookup944: sp_runtime::generic::block::Block<sp_runtime::generic::header::Header<Number, Hash>, sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic<sp_runtime::multiaddress::MultiAddress<sp_core::crypto::AccountId32, AccountIndex>, kitchensink_runtime::RuntimeCall, sp_runtime::MultiSignature, Extra>>
+   **/
+  SpRuntimeBlock: {
+    header: 'SpRuntimeHeader',
+    extrinsics: 'Vec<Bytes>'
+  },
+  /**
+   * Lookup947: sp_runtime::ExtrinsicInclusionMode
+   **/
+  SpRuntimeExtrinsicInclusionMode: {
+    _enum: ['AllExtrinsics', 'OnlyInherents']
+  },
+  /**
+   * Lookup951: sp_runtime::transaction_validity::TransactionValidityError
+   **/
+  SpRuntimeTransactionValidityTransactionValidityError: {
+    _enum: {
+      Invalid: 'SpRuntimeTransactionValidityInvalidTransaction',
+      Unknown: 'SpRuntimeTransactionValidityUnknownTransaction'
+    }
+  },
+  /**
+   * Lookup952: sp_runtime::transaction_validity::InvalidTransaction
+   **/
+  SpRuntimeTransactionValidityInvalidTransaction: {
+    _enum: {
+      Call: 'Null',
+      Payment: 'Null',
+      Future: 'Null',
+      Stale: 'Null',
+      BadProof: 'Null',
+      AncientBirthBlock: 'Null',
+      ExhaustsResources: 'Null',
+      Custom: 'u8',
+      BadMandatory: 'Null',
+      MandatoryValidation: 'Null',
+      BadSigner: 'Null'
+    }
+  },
+  /**
+   * Lookup953: sp_runtime::transaction_validity::UnknownTransaction
+   **/
+  SpRuntimeTransactionValidityUnknownTransaction: {
+    _enum: {
+      CannotLookup: 'Null',
+      NoUnsignedValidator: 'Null',
+      Custom: 'u8'
+    }
+  },
+  /**
+   * Lookup954: sp_inherents::InherentData
+   **/
+  SpInherentsInherentData: {
+    data: 'BTreeMap<[u8;8], Bytes>'
+  },
+  /**
+   * Lookup958: sp_inherents::CheckInherentsResult
+   **/
+  SpInherentsCheckInherentsResult: {
+    okay: 'bool',
+    fatalError: 'bool',
+    errors: 'SpInherentsInherentData'
+  },
+  /**
+   * Lookup959: sp_runtime::transaction_validity::TransactionSource
+   **/
+  SpRuntimeTransactionValidityTransactionSource: {
+    _enum: ['InBlock', 'Local', 'External']
+  },
+  /**
+   * Lookup961: sp_runtime::transaction_validity::ValidTransaction
+   **/
+  SpRuntimeTransactionValidityValidTransaction: {
+    priority: 'u64',
+    requires: 'Vec<Bytes>',
+    provides: 'Vec<Bytes>',
+    longevity: 'u64',
+    propagate: 'bool'
+  },
+  /**
+   * Lookup962: sp_statement_store::runtime_api::StatementSource
+   **/
+  SpStatementStoreRuntimeApiStatementSource: {
+    _enum: ['Chain', 'Network', 'Local']
+  },
+  /**
+   * Lookup964: sp_statement_store::runtime_api::ValidStatement
+   **/
+  SpStatementStoreRuntimeApiValidStatement: {
+    maxCount: 'u32',
+    maxSize: 'u32'
+  },
+  /**
+   * Lookup965: sp_statement_store::runtime_api::InvalidStatement
+   **/
+  SpStatementStoreRuntimeApiInvalidStatement: {
+    _enum: ['BadProof', 'NoProof', 'InternalError']
+  },
+  /**
+   * Lookup969: sp_consensus_babe::BabeConfiguration
+   **/
+  SpConsensusBabeBabeConfiguration: {
+    slotDuration: 'u64',
+    epochLength: 'u64',
+    c: '(u64,u64)',
+    authorities: 'Vec<(SpConsensusBabeAppPublic,u64)>',
+    randomness: '[u8;32]',
+    allowedSlots: 'SpConsensusBabeAllowedSlots'
+  },
+  /**
+   * Lookup970: sp_consensus_babe::Epoch
+   **/
+  SpConsensusBabeEpoch: {
+    epochIndex: 'u64',
+    startSlot: 'u64',
+    duration: 'u64',
+    authorities: 'Vec<(SpConsensusBabeAppPublic,u64)>',
+    randomness: '[u8;32]',
+    config: 'SpConsensusBabeBabeEpochConfiguration'
+  },
+  /**
+   * Lookup975: pallet_contracts::primitives::ExecReturnValue
+   **/
+  PalletContractsPrimitivesExecReturnValue: {
+    flags: 'PalletContractsUapiFlagsReturnFlags',
+    data: 'Bytes'
+  },
+  /**
+   * Lookup976: pallet_contracts_uapi::flags::ReturnFlags
+   **/
+  PalletContractsUapiFlagsReturnFlags: {
+    bits: 'u32'
+  },
+  /**
+   * Lookup977: pallet_contracts::primitives::StorageDeposit<Balance>
+   **/
+  PalletContractsPrimitivesStorageDeposit: {
+    _enum: {
+      Refund: 'u128',
+      Charge: 'u128'
+    }
+  },
+  /**
+   * Lookup980: pallet_contracts::primitives::Code<primitive_types::H256>
+   **/
+  PalletContractsPrimitivesCode: {
+    _enum: {
+      Upload: 'Bytes',
+      Existing: 'H256'
+    }
+  },
+  /**
+   * Lookup981: pallet_contracts::primitives::ContractResult<Result<pallet_contracts::primitives::InstantiateReturnValue<sp_core::crypto::AccountId32>, sp_runtime::DispatchError>, Balance, frame_system::EventRecord<kitchensink_runtime::RuntimeEvent, primitive_types::H256>>
+   **/
+  PalletContractsPrimitivesContractResult: {
+    gasConsumed: 'SpWeightsWeightV2Weight',
+    gasRequired: 'SpWeightsWeightV2Weight',
+    storageDeposit: 'PalletContractsPrimitivesStorageDeposit',
+    debugMessage: 'Bytes',
+    result: 'Result<PalletContractsPrimitivesInstantiateReturnValue, SpRuntimeDispatchError>',
+    events: 'Option<Vec<FrameSystemEventRecord>>'
+  },
+  /**
+   * Lookup983: pallet_contracts::primitives::InstantiateReturnValue<sp_core::crypto::AccountId32>
+   **/
+  PalletContractsPrimitivesInstantiateReturnValue: {
+    result: 'PalletContractsPrimitivesExecReturnValue',
+    accountId: 'AccountId32'
+  },
+  /**
+   * Lookup985: pallet_contracts::primitives::CodeUploadReturnValue<primitive_types::H256, Balance>
+   **/
+  PalletContractsPrimitivesCodeUploadReturnValue: {
+    codeHash: 'H256',
+    deposit: 'u128'
+  },
+  /**
+   * Lookup987: pallet_contracts::primitives::ContractAccessError
+   **/
+  PalletContractsPrimitivesContractAccessError: {
+    _enum: ['DoesntExist', 'KeyDecodingFailed', 'MigrationInProgress']
+  },
+  /**
+   * Lookup988: pallet_transaction_payment::types::RuntimeDispatchInfo<Balance, sp_weights::weight_v2::Weight>
+   **/
+  PalletTransactionPaymentRuntimeDispatchInfo: {
+    weight: 'SpWeightsWeightV2Weight',
+    class: 'FrameSupportDispatchDispatchClass',
+    partialFee: 'u128'
+  },
+  /**
+   * Lookup989: pallet_transaction_payment::types::FeeDetails<Balance>
+   **/
+  PalletTransactionPaymentFeeDetails: {
+    inclusionFee: 'Option<PalletTransactionPaymentInclusionFee>',
+    tip: 'u128'
+  },
+  /**
+   * Lookup991: pallet_transaction_payment::types::InclusionFee<Balance>
+   **/
+  PalletTransactionPaymentInclusionFee: {
+    baseFee: 'u128',
+    lenFee: 'u128',
+    adjustedWeightFee: 'u128'
+  },
+  /**
+   * Lookup995: sp_consensus_beefy::ValidatorSet<sp_consensus_beefy::ecdsa_crypto::Public>
+   **/
+  SpConsensusBeefyValidatorSet: {
+    validators: 'Vec<SpConsensusBeefyEcdsaCryptoPublic>',
+    id: 'u64'
+  },
+  /**
+   * Lookup997: sp_mmr_primitives::Error
+   **/
+  SpMmrPrimitivesError: {
+    _enum: ['InvalidNumericOp', 'Push', 'GetRoot', 'Commit', 'GenerateProof', 'Verify', 'LeafNotFound', 'PalletNotIncluded', 'InvalidLeafIndex', 'InvalidBestKnownBlock']
+  },
+  /**
+   * Lookup1003: sp_mmr_primitives::LeafProof<primitive_types::H256>
+   **/
+  SpMmrPrimitivesLeafProof: {
+    leafIndices: 'Vec<u64>',
+    leafCount: 'u64',
+    items: 'Vec<H256>'
+  },
+  /**
+   * Lookup1005: sp_mixnet::types::SessionStatus
+   **/
+  SpMixnetSessionStatus: {
+    currentIndex: 'u32',
+    phase: 'SpMixnetSessionPhase'
+  },
+  /**
+   * Lookup1006: sp_mixnet::types::SessionPhase
+   **/
+  SpMixnetSessionPhase: {
+    _enum: ['CoverToCurrent', 'RequestsToCurrent', 'CoverToPrev', 'DisconnectFromPrev']
+  },
+  /**
+   * Lookup1009: sp_mixnet::types::Mixnode
+   **/
+  SpMixnetMixnode: {
+    kxPublic: '[u8;32]',
+    peerId: '[u8;32]',
+    externalAddresses: 'Vec<Bytes>'
+  },
+  /**
+   * Lookup1010: sp_mixnet::types::MixnodesErr
+   **/
+  SpMixnetMixnodesErr: {
+    _enum: {
+      InsufficientRegistrations: {
+        num: 'u32',
+        min: 'u32'
+      }
+    }
+  },
+  /**
+   * Lookup1017: kitchensink_runtime::RuntimeError
+   **/
+  KitchensinkRuntimeRuntimeError: {
+    _enum: {
+      System: 'FrameSystemError',
+      Utility: 'PalletUtilityError',
+      Babe: 'PalletBabeError',
+      __Unused3: 'Null',
+      __Unused4: 'Null',
+      Indices: 'PalletIndicesError',
+      Balances: 'PalletBalancesError',
+      __Unused7: 'Null',
+      __Unused8: 'Null',
+      __Unused9: 'Null',
+      ElectionProviderMultiPhase: 'PalletElectionProviderMultiPhaseError',
+      Staking: 'PalletStakingPalletError',
+      Session: 'PalletSessionError',
+      Democracy: 'PalletDemocracyError',
+      Council: 'PalletCollectiveError',
+      TechnicalCommittee: 'PalletCollectiveError',
+      Elections: 'PalletElectionsPhragmenError',
+      TechnicalMembership: 'PalletMembershipError',
+      Grandpa: 'PalletGrandpaError',
+      Treasury: 'PalletTreasuryError',
+      AssetRate: 'PalletAssetRateError',
+      Contracts: 'PalletContractsError',
+      Sudo: 'PalletSudoError',
+      ImOnline: 'PalletImOnlineError',
+      __Unused24: 'Null',
+      __Unused25: 'Null',
+      __Unused26: 'Null',
+      __Unused27: 'Null',
+      Identity: 'PalletIdentityError',
+      Society: 'PalletSocietyError',
+      Recovery: 'PalletRecoveryError',
+      Vesting: 'PalletVestingError',
+      Scheduler: 'PalletSchedulerError',
+      Glutton: 'PalletGluttonError',
+      Preimage: 'PalletPreimageError',
+      Proxy: 'PalletProxyError',
+      Multisig: 'PalletMultisigError',
+      Bounties: 'PalletBountiesError',
+      Tips: 'PalletTipsError',
+      Assets: 'PalletAssetsError',
+      PoolAssets: 'PalletAssetsError',
+      Beefy: 'PalletBeefyError',
+      __Unused42: 'Null',
+      __Unused43: 'Null',
+      Lottery: 'PalletLotteryError',
+      Nis: 'PalletNisError',
+      Uniques: 'PalletUniquesError',
+      Nfts: 'PalletNftsError',
+      NftFractionalization: 'PalletNftFractionalizationError',
+      Salary: 'PalletSalaryError',
+      CoreFellowship: 'PalletCoreFellowshipError',
+      TransactionStorage: 'PalletTransactionStorageError',
+      VoterList: 'PalletBagsListError',
+      StateTrieMigration: 'PalletStateTrieMigrationError',
+      ChildBounties: 'PalletChildBountiesError',
+      Referenda: 'PalletReferendaError',
+      Remark: 'PalletRemarkError',
+      __Unused57: 'Null',
+      ConvictionVoting: 'PalletConvictionVotingError',
+      Whitelist: 'PalletWhitelistError',
+      AllianceMotion: 'PalletCollectiveError',
+      Alliance: 'PalletAllianceError',
+      NominationPools: 'PalletNominationPoolsError',
+      RankedPolls: 'PalletReferendaError',
+      RankedCollective: 'PalletRankedCollectiveError',
+      AssetConversion: 'PalletAssetConversionError',
+      FastUnstake: 'PalletFastUnstakeError',
+      MessageQueue: 'PalletMessageQueueError',
+      __Unused68: 'Null',
+      TxPause: 'PalletTxPauseError',
+      SafeMode: 'PalletSafeModeError',
+      __Unused71: 'Null',
+      MultiBlockMigrations: 'PalletMigrationsError',
+      Broker: 'PalletBrokerError',
+      TasksExample: 'PalletExampleTasksError',
+      __Unused75: 'Null',
+      __Unused76: 'Null',
+      __Unused77: 'Null',
+      __Unused78: 'Null',
+      AssetConversionMigration: 'PalletAssetConversionOpsError'
+    }
   }
 };
