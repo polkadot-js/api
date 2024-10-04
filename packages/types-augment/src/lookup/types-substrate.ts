@@ -9130,40 +9130,427 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'InvalidAssetPair' | 'PoolNotFound' | 'ZeroBalance' | 'PartialTransfer';
   }
 
-  /** @name FrameSystemExtensionsCheckNonZeroSender (934) */
+  /** @name FrameSystemExtensionsCheckNonZeroSender (933) */
   type FrameSystemExtensionsCheckNonZeroSender = Null;
 
-  /** @name FrameSystemExtensionsCheckSpecVersion (935) */
+  /** @name FrameSystemExtensionsCheckSpecVersion (934) */
   type FrameSystemExtensionsCheckSpecVersion = Null;
 
-  /** @name FrameSystemExtensionsCheckTxVersion (936) */
+  /** @name FrameSystemExtensionsCheckTxVersion (935) */
   type FrameSystemExtensionsCheckTxVersion = Null;
 
-  /** @name FrameSystemExtensionsCheckGenesis (937) */
+  /** @name FrameSystemExtensionsCheckGenesis (936) */
   type FrameSystemExtensionsCheckGenesis = Null;
 
-  /** @name FrameSystemExtensionsCheckNonce (940) */
+  /** @name FrameSystemExtensionsCheckNonce (939) */
   interface FrameSystemExtensionsCheckNonce extends Compact<u32> {}
 
-  /** @name FrameSystemExtensionsCheckWeight (941) */
+  /** @name FrameSystemExtensionsCheckWeight (940) */
   type FrameSystemExtensionsCheckWeight = Null;
 
-  /** @name PalletAssetConversionTxPaymentChargeAssetTxPayment (942) */
+  /** @name PalletAssetConversionTxPaymentChargeAssetTxPayment (941) */
   interface PalletAssetConversionTxPaymentChargeAssetTxPayment extends Struct {
     readonly tip: Compact<u128>;
     readonly assetId: Option<u32>;
   }
 
-  /** @name FrameMetadataHashExtensionCheckMetadataHash (943) */
+  /** @name FrameMetadataHashExtensionCheckMetadataHash (942) */
   interface FrameMetadataHashExtensionCheckMetadataHash extends Struct {
     readonly mode: FrameMetadataHashExtensionMode;
   }
 
-  /** @name FrameMetadataHashExtensionMode (944) */
+  /** @name FrameMetadataHashExtensionMode (943) */
   interface FrameMetadataHashExtensionMode extends Enum {
     readonly isDisabled: boolean;
     readonly isEnabled: boolean;
     readonly type: 'Disabled' | 'Enabled';
+  }
+
+  /** @name SpRuntimeBlock (944) */
+  interface SpRuntimeBlock extends Struct {
+    readonly header: SpRuntimeHeader;
+    readonly extrinsics: Vec<Bytes>;
+  }
+
+  /** @name SpRuntimeExtrinsicInclusionMode (947) */
+  interface SpRuntimeExtrinsicInclusionMode extends Enum {
+    readonly isAllExtrinsics: boolean;
+    readonly isOnlyInherents: boolean;
+    readonly type: 'AllExtrinsics' | 'OnlyInherents';
+  }
+
+  /** @name SpRuntimeTransactionValidityTransactionValidityError (951) */
+  interface SpRuntimeTransactionValidityTransactionValidityError extends Enum {
+    readonly isInvalid: boolean;
+    readonly asInvalid: SpRuntimeTransactionValidityInvalidTransaction;
+    readonly isUnknown: boolean;
+    readonly asUnknown: SpRuntimeTransactionValidityUnknownTransaction;
+    readonly type: 'Invalid' | 'Unknown';
+  }
+
+  /** @name SpRuntimeTransactionValidityInvalidTransaction (952) */
+  interface SpRuntimeTransactionValidityInvalidTransaction extends Enum {
+    readonly isCall: boolean;
+    readonly isPayment: boolean;
+    readonly isFuture: boolean;
+    readonly isStale: boolean;
+    readonly isBadProof: boolean;
+    readonly isAncientBirthBlock: boolean;
+    readonly isExhaustsResources: boolean;
+    readonly isCustom: boolean;
+    readonly asCustom: u8;
+    readonly isBadMandatory: boolean;
+    readonly isMandatoryValidation: boolean;
+    readonly isBadSigner: boolean;
+    readonly type: 'Call' | 'Payment' | 'Future' | 'Stale' | 'BadProof' | 'AncientBirthBlock' | 'ExhaustsResources' | 'Custom' | 'BadMandatory' | 'MandatoryValidation' | 'BadSigner';
+  }
+
+  /** @name SpRuntimeTransactionValidityUnknownTransaction (953) */
+  interface SpRuntimeTransactionValidityUnknownTransaction extends Enum {
+    readonly isCannotLookup: boolean;
+    readonly isNoUnsignedValidator: boolean;
+    readonly isCustom: boolean;
+    readonly asCustom: u8;
+    readonly type: 'CannotLookup' | 'NoUnsignedValidator' | 'Custom';
+  }
+
+  /** @name SpInherentsInherentData (954) */
+  interface SpInherentsInherentData extends Struct {
+    readonly data: BTreeMap<U8aFixed, Bytes>;
+  }
+
+  /** @name SpInherentsCheckInherentsResult (958) */
+  interface SpInherentsCheckInherentsResult extends Struct {
+    readonly okay: bool;
+    readonly fatalError: bool;
+    readonly errors: SpInherentsInherentData;
+  }
+
+  /** @name SpRuntimeTransactionValidityTransactionSource (959) */
+  interface SpRuntimeTransactionValidityTransactionSource extends Enum {
+    readonly isInBlock: boolean;
+    readonly isLocal: boolean;
+    readonly isExternal: boolean;
+    readonly type: 'InBlock' | 'Local' | 'External';
+  }
+
+  /** @name SpRuntimeTransactionValidityValidTransaction (961) */
+  interface SpRuntimeTransactionValidityValidTransaction extends Struct {
+    readonly priority: u64;
+    readonly requires: Vec<Bytes>;
+    readonly provides: Vec<Bytes>;
+    readonly longevity: u64;
+    readonly propagate: bool;
+  }
+
+  /** @name SpStatementStoreRuntimeApiStatementSource (962) */
+  interface SpStatementStoreRuntimeApiStatementSource extends Enum {
+    readonly isChain: boolean;
+    readonly isNetwork: boolean;
+    readonly isLocal: boolean;
+    readonly type: 'Chain' | 'Network' | 'Local';
+  }
+
+  /** @name SpStatementStoreRuntimeApiValidStatement (964) */
+  interface SpStatementStoreRuntimeApiValidStatement extends Struct {
+    readonly maxCount: u32;
+    readonly maxSize: u32;
+  }
+
+  /** @name SpStatementStoreRuntimeApiInvalidStatement (965) */
+  interface SpStatementStoreRuntimeApiInvalidStatement extends Enum {
+    readonly isBadProof: boolean;
+    readonly isNoProof: boolean;
+    readonly isInternalError: boolean;
+    readonly type: 'BadProof' | 'NoProof' | 'InternalError';
+  }
+
+  /** @name SpConsensusBabeBabeConfiguration (969) */
+  interface SpConsensusBabeBabeConfiguration extends Struct {
+    readonly slotDuration: u64;
+    readonly epochLength: u64;
+    readonly c: ITuple<[u64, u64]>;
+    readonly authorities: Vec<ITuple<[SpConsensusBabeAppPublic, u64]>>;
+    readonly randomness: U8aFixed;
+    readonly allowedSlots: SpConsensusBabeAllowedSlots;
+  }
+
+  /** @name SpConsensusBabeEpoch (970) */
+  interface SpConsensusBabeEpoch extends Struct {
+    readonly epochIndex: u64;
+    readonly startSlot: u64;
+    readonly duration: u64;
+    readonly authorities: Vec<ITuple<[SpConsensusBabeAppPublic, u64]>>;
+    readonly randomness: U8aFixed;
+    readonly config: SpConsensusBabeBabeEpochConfiguration;
+  }
+
+  /** @name PalletContractsPrimitivesExecReturnValue (975) */
+  interface PalletContractsPrimitivesExecReturnValue extends Struct {
+    readonly flags: PalletContractsUapiFlagsReturnFlags;
+    readonly data: Bytes;
+  }
+
+  /** @name PalletContractsUapiFlagsReturnFlags (976) */
+  interface PalletContractsUapiFlagsReturnFlags extends Struct {
+    readonly bits: u32;
+  }
+
+  /** @name PalletContractsPrimitivesStorageDeposit (977) */
+  interface PalletContractsPrimitivesStorageDeposit extends Enum {
+    readonly isRefund: boolean;
+    readonly asRefund: u128;
+    readonly isCharge: boolean;
+    readonly asCharge: u128;
+    readonly type: 'Refund' | 'Charge';
+  }
+
+  /** @name PalletContractsPrimitivesCode (980) */
+  interface PalletContractsPrimitivesCode extends Enum {
+    readonly isUpload: boolean;
+    readonly asUpload: Bytes;
+    readonly isExisting: boolean;
+    readonly asExisting: H256;
+    readonly type: 'Upload' | 'Existing';
+  }
+
+  /** @name PalletContractsPrimitivesContractResult (981) */
+  interface PalletContractsPrimitivesContractResult extends Struct {
+    readonly gasConsumed: SpWeightsWeightV2Weight;
+    readonly gasRequired: SpWeightsWeightV2Weight;
+    readonly storageDeposit: PalletContractsPrimitivesStorageDeposit;
+    readonly debugMessage: Bytes;
+    readonly result: Result<PalletContractsPrimitivesInstantiateReturnValue, SpRuntimeDispatchError>;
+    readonly events: Option<Vec<FrameSystemEventRecord>>;
+  }
+
+  /** @name PalletContractsPrimitivesInstantiateReturnValue (983) */
+  interface PalletContractsPrimitivesInstantiateReturnValue extends Struct {
+    readonly result: PalletContractsPrimitivesExecReturnValue;
+    readonly accountId: AccountId32;
+  }
+
+  /** @name PalletContractsPrimitivesCodeUploadReturnValue (985) */
+  interface PalletContractsPrimitivesCodeUploadReturnValue extends Struct {
+    readonly codeHash: H256;
+    readonly deposit: u128;
+  }
+
+  /** @name PalletContractsPrimitivesContractAccessError (987) */
+  interface PalletContractsPrimitivesContractAccessError extends Enum {
+    readonly isDoesntExist: boolean;
+    readonly isKeyDecodingFailed: boolean;
+    readonly isMigrationInProgress: boolean;
+    readonly type: 'DoesntExist' | 'KeyDecodingFailed' | 'MigrationInProgress';
+  }
+
+  /** @name PalletTransactionPaymentRuntimeDispatchInfo (988) */
+  interface PalletTransactionPaymentRuntimeDispatchInfo extends Struct {
+    readonly weight: SpWeightsWeightV2Weight;
+    readonly class: FrameSupportDispatchDispatchClass;
+    readonly partialFee: u128;
+  }
+
+  /** @name PalletTransactionPaymentFeeDetails (989) */
+  interface PalletTransactionPaymentFeeDetails extends Struct {
+    readonly inclusionFee: Option<PalletTransactionPaymentInclusionFee>;
+    readonly tip: u128;
+  }
+
+  /** @name PalletTransactionPaymentInclusionFee (991) */
+  interface PalletTransactionPaymentInclusionFee extends Struct {
+    readonly baseFee: u128;
+    readonly lenFee: u128;
+    readonly adjustedWeightFee: u128;
+  }
+
+  /** @name SpConsensusBeefyValidatorSet (995) */
+  interface SpConsensusBeefyValidatorSet extends Struct {
+    readonly validators: Vec<SpConsensusBeefyEcdsaCryptoPublic>;
+    readonly id: u64;
+  }
+
+  /** @name SpMmrPrimitivesError (997) */
+  interface SpMmrPrimitivesError extends Enum {
+    readonly isInvalidNumericOp: boolean;
+    readonly isPush: boolean;
+    readonly isGetRoot: boolean;
+    readonly isCommit: boolean;
+    readonly isGenerateProof: boolean;
+    readonly isVerify: boolean;
+    readonly isLeafNotFound: boolean;
+    readonly isPalletNotIncluded: boolean;
+    readonly isInvalidLeafIndex: boolean;
+    readonly isInvalidBestKnownBlock: boolean;
+    readonly type: 'InvalidNumericOp' | 'Push' | 'GetRoot' | 'Commit' | 'GenerateProof' | 'Verify' | 'LeafNotFound' | 'PalletNotIncluded' | 'InvalidLeafIndex' | 'InvalidBestKnownBlock';
+  }
+
+  /** @name SpMmrPrimitivesLeafProof (1003) */
+  interface SpMmrPrimitivesLeafProof extends Struct {
+    readonly leafIndices: Vec<u64>;
+    readonly leafCount: u64;
+    readonly items: Vec<H256>;
+  }
+
+  /** @name SpMixnetSessionStatus (1005) */
+  interface SpMixnetSessionStatus extends Struct {
+    readonly currentIndex: u32;
+    readonly phase: SpMixnetSessionPhase;
+  }
+
+  /** @name SpMixnetSessionPhase (1006) */
+  interface SpMixnetSessionPhase extends Enum {
+    readonly isCoverToCurrent: boolean;
+    readonly isRequestsToCurrent: boolean;
+    readonly isCoverToPrev: boolean;
+    readonly isDisconnectFromPrev: boolean;
+    readonly type: 'CoverToCurrent' | 'RequestsToCurrent' | 'CoverToPrev' | 'DisconnectFromPrev';
+  }
+
+  /** @name SpMixnetMixnode (1009) */
+  interface SpMixnetMixnode extends Struct {
+    readonly kxPublic: U8aFixed;
+    readonly peerId: U8aFixed;
+    readonly externalAddresses: Vec<Bytes>;
+  }
+
+  /** @name SpMixnetMixnodesErr (1010) */
+  interface SpMixnetMixnodesErr extends Enum {
+    readonly isInsufficientRegistrations: boolean;
+    readonly asInsufficientRegistrations: {
+      readonly num: u32;
+      readonly min: u32;
+    } & Struct;
+    readonly type: 'InsufficientRegistrations';
+  }
+
+  /** @name KitchensinkRuntimeRuntimeError (1017) */
+  interface KitchensinkRuntimeRuntimeError extends Enum {
+    readonly isSystem: boolean;
+    readonly asSystem: FrameSystemError;
+    readonly isUtility: boolean;
+    readonly asUtility: PalletUtilityError;
+    readonly isBabe: boolean;
+    readonly asBabe: PalletBabeError;
+    readonly isIndices: boolean;
+    readonly asIndices: PalletIndicesError;
+    readonly isBalances: boolean;
+    readonly asBalances: PalletBalancesError;
+    readonly isElectionProviderMultiPhase: boolean;
+    readonly asElectionProviderMultiPhase: PalletElectionProviderMultiPhaseError;
+    readonly isStaking: boolean;
+    readonly asStaking: PalletStakingPalletError;
+    readonly isSession: boolean;
+    readonly asSession: PalletSessionError;
+    readonly isDemocracy: boolean;
+    readonly asDemocracy: PalletDemocracyError;
+    readonly isCouncil: boolean;
+    readonly asCouncil: PalletCollectiveError;
+    readonly isTechnicalCommittee: boolean;
+    readonly asTechnicalCommittee: PalletCollectiveError;
+    readonly isElections: boolean;
+    readonly asElections: PalletElectionsPhragmenError;
+    readonly isTechnicalMembership: boolean;
+    readonly asTechnicalMembership: PalletMembershipError;
+    readonly isGrandpa: boolean;
+    readonly asGrandpa: PalletGrandpaError;
+    readonly isTreasury: boolean;
+    readonly asTreasury: PalletTreasuryError;
+    readonly isAssetRate: boolean;
+    readonly asAssetRate: PalletAssetRateError;
+    readonly isContracts: boolean;
+    readonly asContracts: PalletContractsError;
+    readonly isSudo: boolean;
+    readonly asSudo: PalletSudoError;
+    readonly isImOnline: boolean;
+    readonly asImOnline: PalletImOnlineError;
+    readonly isIdentity: boolean;
+    readonly asIdentity: PalletIdentityError;
+    readonly isSociety: boolean;
+    readonly asSociety: PalletSocietyError;
+    readonly isRecovery: boolean;
+    readonly asRecovery: PalletRecoveryError;
+    readonly isVesting: boolean;
+    readonly asVesting: PalletVestingError;
+    readonly isScheduler: boolean;
+    readonly asScheduler: PalletSchedulerError;
+    readonly isGlutton: boolean;
+    readonly asGlutton: PalletGluttonError;
+    readonly isPreimage: boolean;
+    readonly asPreimage: PalletPreimageError;
+    readonly isProxy: boolean;
+    readonly asProxy: PalletProxyError;
+    readonly isMultisig: boolean;
+    readonly asMultisig: PalletMultisigError;
+    readonly isBounties: boolean;
+    readonly asBounties: PalletBountiesError;
+    readonly isTips: boolean;
+    readonly asTips: PalletTipsError;
+    readonly isAssets: boolean;
+    readonly asAssets: PalletAssetsError;
+    readonly isPoolAssets: boolean;
+    readonly asPoolAssets: PalletAssetsError;
+    readonly isBeefy: boolean;
+    readonly asBeefy: PalletBeefyError;
+    readonly isLottery: boolean;
+    readonly asLottery: PalletLotteryError;
+    readonly isNis: boolean;
+    readonly asNis: PalletNisError;
+    readonly isUniques: boolean;
+    readonly asUniques: PalletUniquesError;
+    readonly isNfts: boolean;
+    readonly asNfts: PalletNftsError;
+    readonly isNftFractionalization: boolean;
+    readonly asNftFractionalization: PalletNftFractionalizationError;
+    readonly isSalary: boolean;
+    readonly asSalary: PalletSalaryError;
+    readonly isCoreFellowship: boolean;
+    readonly asCoreFellowship: PalletCoreFellowshipError;
+    readonly isTransactionStorage: boolean;
+    readonly asTransactionStorage: PalletTransactionStorageError;
+    readonly isVoterList: boolean;
+    readonly asVoterList: PalletBagsListError;
+    readonly isStateTrieMigration: boolean;
+    readonly asStateTrieMigration: PalletStateTrieMigrationError;
+    readonly isChildBounties: boolean;
+    readonly asChildBounties: PalletChildBountiesError;
+    readonly isReferenda: boolean;
+    readonly asReferenda: PalletReferendaError;
+    readonly isRemark: boolean;
+    readonly asRemark: PalletRemarkError;
+    readonly isConvictionVoting: boolean;
+    readonly asConvictionVoting: PalletConvictionVotingError;
+    readonly isWhitelist: boolean;
+    readonly asWhitelist: PalletWhitelistError;
+    readonly isAllianceMotion: boolean;
+    readonly asAllianceMotion: PalletCollectiveError;
+    readonly isAlliance: boolean;
+    readonly asAlliance: PalletAllianceError;
+    readonly isNominationPools: boolean;
+    readonly asNominationPools: PalletNominationPoolsError;
+    readonly isRankedPolls: boolean;
+    readonly asRankedPolls: PalletReferendaError;
+    readonly isRankedCollective: boolean;
+    readonly asRankedCollective: PalletRankedCollectiveError;
+    readonly isAssetConversion: boolean;
+    readonly asAssetConversion: PalletAssetConversionError;
+    readonly isFastUnstake: boolean;
+    readonly asFastUnstake: PalletFastUnstakeError;
+    readonly isMessageQueue: boolean;
+    readonly asMessageQueue: PalletMessageQueueError;
+    readonly isTxPause: boolean;
+    readonly asTxPause: PalletTxPauseError;
+    readonly isSafeMode: boolean;
+    readonly asSafeMode: PalletSafeModeError;
+    readonly isMultiBlockMigrations: boolean;
+    readonly asMultiBlockMigrations: PalletMigrationsError;
+    readonly isBroker: boolean;
+    readonly asBroker: PalletBrokerError;
+    readonly isTasksExample: boolean;
+    readonly asTasksExample: PalletExampleTasksError;
+    readonly isAssetConversionMigration: boolean;
+    readonly asAssetConversionMigration: PalletAssetConversionOpsError;
+    readonly type: 'System' | 'Utility' | 'Babe' | 'Indices' | 'Balances' | 'ElectionProviderMultiPhase' | 'Staking' | 'Session' | 'Democracy' | 'Council' | 'TechnicalCommittee' | 'Elections' | 'TechnicalMembership' | 'Grandpa' | 'Treasury' | 'AssetRate' | 'Contracts' | 'Sudo' | 'ImOnline' | 'Identity' | 'Society' | 'Recovery' | 'Vesting' | 'Scheduler' | 'Glutton' | 'Preimage' | 'Proxy' | 'Multisig' | 'Bounties' | 'Tips' | 'Assets' | 'PoolAssets' | 'Beefy' | 'Lottery' | 'Nis' | 'Uniques' | 'Nfts' | 'NftFractionalization' | 'Salary' | 'CoreFellowship' | 'TransactionStorage' | 'VoterList' | 'StateTrieMigration' | 'ChildBounties' | 'Referenda' | 'Remark' | 'ConvictionVoting' | 'Whitelist' | 'AllianceMotion' | 'Alliance' | 'NominationPools' | 'RankedPolls' | 'RankedCollective' | 'AssetConversion' | 'FastUnstake' | 'MessageQueue' | 'TxPause' | 'SafeMode' | 'MultiBlockMigrations' | 'Broker' | 'TasksExample' | 'AssetConversionMigration';
   }
 
 } // declare module
