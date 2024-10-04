@@ -37,7 +37,8 @@ function extractImports ({ imports, types }: This): string[] {
     ...Object.keys(imports.extrinsicTypes),
     ...Object.keys(imports.genericTypes),
     ...Object.keys(imports.metadataTypes),
-    ...Object.keys(imports.primitiveTypes)
+    ...Object.keys(imports.primitiveTypes),
+    ...Object.keys(imports.lookupTypes)
   ];
 
   return [
