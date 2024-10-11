@@ -53,8 +53,8 @@ export class HttpProvider implements ProviderInterface {
     this.#coder = new RpcCoder();
     this.#endpoint = endpoint;
     this.#headers = headers;
-    this.#callCache = new LRUCache(cacheCapacity === 0 ? 0 : cacheCapacity|| DEFAULT_CAPACITY);
-    this.#cacheCapacity = cacheCapacity === 0 ? 0 : cacheCapacity|| DEFAULT_CAPACITY;
+    this.#callCache = new LRUCache(cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY);
+    this.#cacheCapacity = cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY;
 
     this.#stats = {
       active: { requests: 0, subscriptions: 0 },
@@ -133,7 +133,7 @@ export class HttpProvider implements ProviderInterface {
     if (this.#cacheCapacity === 0) {
       return this.#send(body);
     }
-    
+
     const cacheKey = isCacheable ? `${method}::${stringify(params)}` : '';
     let resultPromise: Promise<T> | null = isCacheable
       ? this.#callCache.get(cacheKey)

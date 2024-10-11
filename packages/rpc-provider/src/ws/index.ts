@@ -314,10 +314,11 @@ export class WsProvider implements ProviderInterface {
     this.#stats.total.requests++;
 
     const [id, body] = this.#coder.encodeJson(method, params);
+
     if (this.#cacheCapacity === 0) {
       return this.#send(id, body, method, params, subscription);
     }
-    
+
     const cacheKey = isCacheable ? `${method}::${stringify(params)}` : '';
     let resultPromise: Promise<T> | null = isCacheable
       ? this.#callCache.get(cacheKey)

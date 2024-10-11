@@ -21,14 +21,13 @@ class LRUNode {
     this.next = this.prev = this;
   }
 
-  public refresh(): void {
+  public refresh (): void {
     this.#lastAccess = Date.now();
   }
 
-  public get lastAccess(): number {
+  public get lastAccess (): number {
     return this.#lastAccess;
   }
-
 }
 
 // https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU
@@ -51,8 +50,11 @@ export class LRUCache {
     this.#ttl = ttl;
     this.#ttlInterval = ttlInterval;
     this.#head = this.#tail = new LRUNode('<empty>');
+
     // make sure the interval is not longer than the ttl
-    if (this.#ttlInterval > this.#ttl) this.#ttlInterval = this.#ttl;
+    if (this.#ttlInterval > this.#ttl) {
+      this.#ttlInterval = this.#ttl;
+    }
   }
 
   get ttl (): number {
@@ -144,7 +146,7 @@ export class LRUCache {
         this.#length += 1;
       }
     }
-    
+
     if (this.#ttl > 0 && !this.#ttlP) {
       this.#ttlP = setInterval(() => {
         this.#ttlClean();
@@ -154,10 +156,11 @@ export class LRUCache {
     this.#data.set(key, value);
   }
 
-  #ttlClean() {
+  #ttlClean () {
   // Find last node to keep
     const expires = Date.now() - this.#ttl;
-  // traverse map to find the lastAccessed 
+
+    // traverse map to find the lastAccessed
     while (this.#tail.lastAccess && this.#tail.lastAccess < expires && this.#length > 0) {
       if (this.#ttlP && this.#length === 0) {
         clearInterval(this.#ttlP);
@@ -175,6 +178,7 @@ export class LRUCache {
 
   #toHead (key: string): void {
     const ref = this.#refs.get(key);
+
     if (ref && ref !== this.#head) {
       ref.refresh();
       ref.prev.next = ref.next;

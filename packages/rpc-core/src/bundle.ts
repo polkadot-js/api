@@ -11,11 +11,11 @@ import type { RpcCoreStats, RpcInterfaceMethod } from './types/index.js';
 
 import { Observable, publishReplay, refCount } from 'rxjs';
 
+import { DEFAULT_CAPACITY, LRUCache } from '@polkadot/rpc-provider';
 import { rpcDefinitions } from '@polkadot/types';
 import { hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util/index.js';
-import { DEFAULT_CAPACITY, LRUCache } from "@polkadot/rpc-provider";
 
 export { packageInfo } from './packageInfo.js';
 export * from './util/index.js';
@@ -487,7 +487,7 @@ export class RpcCore {
       ? value
       : u8aToU8a(value);
     const codec = this._newType(registry, blockHash, key, input, isEmpty, entryIndex);
-    
+
     this._setToCache(hexKey, codec);
 
     return codec;
