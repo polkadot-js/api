@@ -4,6 +4,16 @@
 // Assuming all 1.5MB responses, we apply a default allowing for 192MB
 // cache space (depending on the historic queries this would vary, metadata
 // for Kusama/Polkadot/Substrate falls between 600-750K, 2x for estimate)
+
+import {createWriteStream} from 'fs'
+import { config } from 'process'
+
+console.log = async (message: any) => {
+  const tty = createWriteStream('/dev/tty')
+  const msg = typeof message === 'string' ? message : JSON.stringify(message, null, 2)
+  return tty.write(msg + '\n')
+}
+
 export const DEFAULT_CAPACITY = 64;
 
 class LRUNode {
@@ -43,7 +53,7 @@ export class LRUCache {
   // TTL
   readonly #ttl: number;
   readonly #ttlInterval: number;
-  #ttlP?: NodeJS.Timeout = undefined;
+  #ttlP: NodeJS.Timeout | undefined = undefined;
 
   constructor (capacity = DEFAULT_CAPACITY, ttl = 30000, ttlInterval = 15000) {
     this.capacity = capacity;
@@ -125,7 +135,6 @@ export class LRUCache {
       this.#toHead(key);
     } else {
       const node = new LRUNode(key);
-
       this.#refs.set(node.key, node);
 
       if (this.length === 0) {
@@ -154,6 +163,8 @@ export class LRUCache {
     }
 
     this.#data.set(key, value);
+
+    return;
   }
 
   #ttlClean () {
@@ -187,6 +198,14 @@ export class LRUCache {
 
       this.#head.prev = ref;
       this.#head = ref;
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async clearInterval (): Promise<void> {
+    if (this.#ttlP) {
+      clearInterval(this.#ttlP);
+      this.#ttlP = undefined;
     }
   }
 }
