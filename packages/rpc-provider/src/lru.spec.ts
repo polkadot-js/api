@@ -5,25 +5,24 @@
 
 import { LRUCache } from './lru.js';
 
-
-
 describe('LRUCache', (): void => {
   let lru: LRUCache | undefined;
+
   beforeEach((): void => {
     lru = new LRUCache(4);
   });
-  
   afterEach(async () => {
     await lru?.clearInterval();
     lru = undefined;
   });
-  
-  it('allows getting of items below capacity', async (): Promise<void> => {
-    const keys = ['1', '2', '3', '4'];
-    keys.forEach((k) => lru?.set(k, `${k}${k}${k}`));
-    let lruKeys = lru?.keys();
 
-    expect(lruKeys && lruKeys.join(', ')).toBe(keys.reverse().join(', '));
+  it('allows getting of items below capacity', (): void => {
+    const keys = ['1', '2', '3', '4'];
+
+    keys.forEach((k) => lru?.set(k, `${k}${k}${k}`));
+    const lruKeys = lru?.keys();
+
+    expect(lruKeys?.join(', ')).toBe(keys.reverse().join(', '));
     expect(lru?.length === lru?.lengthData && lru?.length === lru?.lengthRefs).toBe(true);
 
     keys.forEach((k) => expect(lru?.get(k)).toEqual(`${k}${k}${k}`));

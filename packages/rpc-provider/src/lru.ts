@@ -5,15 +5,6 @@
 // cache space (depending on the historic queries this would vary, metadata
 // for Kusama/Polkadot/Substrate falls between 600-750K, 2x for estimate)
 
-import {createWriteStream} from 'fs'
-import { config } from 'process'
-
-console.log = async (message: any) => {
-  const tty = createWriteStream('/dev/tty')
-  const msg = typeof message === 'string' ? message : JSON.stringify(message, null, 2)
-  return tty.write(msg + '\n')
-}
-
 export const DEFAULT_CAPACITY = 64;
 
 class LRUNode {
@@ -53,7 +44,7 @@ export class LRUCache {
   // TTL
   readonly #ttl: number;
   readonly #ttlInterval: number;
-  #ttlP: NodeJS.Timeout | undefined = undefined;
+  #ttlTimerId: ReturnType<typeof setInterval> | null = null;
 
   constructor (capacity = DEFAULT_CAPACITY, ttl = 30000, ttlInterval = 15000) {
     this.capacity = capacity;
@@ -135,6 +126,7 @@ export class LRUCache {
       this.#toHead(key);
     } else {
       const node = new LRUNode(key);
+
       this.#refs.set(node.key, node);
 
       if (this.length === 0) {
@@ -156,15 +148,13 @@ export class LRUCache {
       }
     }
 
-    if (this.#ttl > 0 && !this.#ttlP) {
-      this.#ttlP = setInterval(() => {
+    if (this.#ttl > 0 && !this.#ttlTimerId) {
+      this.#ttlTimerId = setInterval(() => {
         this.#ttlClean();
       }, this.#ttlInterval);
     }
 
     this.#data.set(key, value);
-
-    return;
   }
 
   #ttlClean () {
@@ -173,9 +163,9 @@ export class LRUCache {
 
     // traverse map to find the lastAccessed
     while (this.#tail.lastAccess && this.#tail.lastAccess < expires && this.#length > 0) {
-      if (this.#ttlP && this.#length === 0) {
-        clearInterval(this.#ttlP);
-        this.#ttlP = undefined;
+      if (this.#ttlTimerId && this.#length === 0) {
+        clearInterval(this.#ttlTimerId);
+        this.#ttlTimerId = null;
         this.#head = this.#tail = new LRUNode('<empty>');
       } else {
         this.#refs.delete(this.#tail.key);
@@ -203,9 +193,9 @@ export class LRUCache {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async clearInterval (): Promise<void> {
-    if (this.#ttlP) {
-      clearInterval(this.#ttlP);
-      this.#ttlP = undefined;
+    if (this.#ttlTimerId) {
+      clearInterval(this.#ttlTimerId);
+      this.#ttlTimerId = null;
     }
   }
 }
