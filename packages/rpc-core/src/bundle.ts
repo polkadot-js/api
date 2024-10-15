@@ -11,7 +11,7 @@ import type { RpcCoreStats, RpcInterfaceMethod } from './types/index.js';
 
 import { Observable, publishReplay, refCount } from 'rxjs';
 
-import { DEFAULT_CAPACITY, LRUCache } from '@polkadot/rpc-provider';
+import { DEFAULT_CAPACITY, LRUCache } from './lru.js';
 import { rpcDefinitions } from '@polkadot/types';
 import { hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aConcat, u8aToU8a } from '@polkadot/util';
 
