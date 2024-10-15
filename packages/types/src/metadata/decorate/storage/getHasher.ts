@@ -12,6 +12,7 @@ export type HasherInput = string | Buffer | Uint8Array;
 export type HasherFunction = (data: HasherInput) => Uint8Array;
 
 const DEFAULT_FN = (data: HasherInput): Uint8Array => xxhashAsU8a(data, 128);
+console
 
 const HASHERS: Record<keyof typeof AllHashers, HasherFunction> = {
   Blake2_128: (data: HasherInput) => // eslint-disable-line camelcase
