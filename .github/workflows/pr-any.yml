@@ -17,7 +17,7 @@ jobs:
         node-version: 'lts/*'
     - uses: denoland/setup-deno@v1
       with:
-        deno-version: vx.x.x
+        deno-version: v1.42.x
     - name: ${{ matrix.step }}
       if: always()
       run: |
