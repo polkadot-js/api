@@ -4,17 +4,30 @@
 // Assuming all 1.5MB responses, we apply a default allowing for 192MB
 // cache space (depending on the historic queries this would vary, metadata
 // for Kusama/Polkadot/Substrate falls between 600-750K, 2x for estimate)
-export const DEFAULT_CAPACITY = 128;
+
+export const DEFAULT_CAPACITY = 64;
 
 class LRUNode {
   readonly key: string;
+  #lastAccess: number;
+  readonly createdAt: number;
 
   public next: LRUNode;
   public prev: LRUNode;
 
   constructor (key: string) {
     this.key = key;
+    this.#lastAccess = Date.now();
+    this.createdAt = this.#lastAccess;
     this.next = this.prev = this;
+  }
+
+  public refresh (): void {
+    this.#lastAccess = Date.now();
+  }
+
+  public get lastAccess (): number {
+    return this.#lastAccess;
   }
 }
 
@@ -29,9 +42,28 @@ export class LRUCache {
   #head: LRUNode;
   #tail: LRUNode;
 
-  constructor (capacity = DEFAULT_CAPACITY) {
+  readonly #ttl: number;
+  readonly #ttlInterval: number;
+  #ttlTimerId: ReturnType<typeof setInterval> | null = null;
+
+  constructor (capacity = DEFAULT_CAPACITY, ttl = 30000, ttlInterval = 15000) {
     this.capacity = capacity;
+    this.#ttl = ttl;
+    this.#ttlInterval = ttlInterval;
     this.#head = this.#tail = new LRUNode('<empty>');
+
+    // make sure the interval is not longer than the ttl
+    if (this.#ttlInterval > this.#ttl) {
+      this.#ttlInterval = this.#ttl;
+    }
+  }
+
+  get ttl (): number {
+    return this.#ttl;
+  }
+
+  get ttlInterval (): number {
+    return this.#ttlInterval;
   }
 
   get length (): number {
@@ -116,19 +148,54 @@ export class LRUCache {
       }
     }
 
+    if (this.#ttl > 0 && !this.#ttlTimerId) {
+      this.#ttlTimerId = setInterval(() => {
+        this.#ttlClean();
+      }, this.#ttlInterval);
+    }
+
     this.#data.set(key, value);
+  }
+
+  #ttlClean () {
+  // Find last node to keep
+    const expires = Date.now() - this.#ttl;
+
+    // traverse map to find the lastAccessed
+    while (this.#tail.lastAccess && this.#tail.lastAccess < expires && this.#length > 0) {
+      if (this.#ttlTimerId && this.#length === 0) {
+        clearInterval(this.#ttlTimerId);
+        this.#ttlTimerId = null;
+        this.#head = this.#tail = new LRUNode('<empty>');
+      } else {
+        this.#refs.delete(this.#tail.key);
+        this.#data.delete(this.#tail.key);
+        this.#length -= 1;
+        this.#tail = this.#tail.prev;
+        this.#tail.next = this.#head;
+      }
+    }
   }
 
   #toHead (key: string): void {
     const ref = this.#refs.get(key);
 
     if (ref && ref !== this.#head) {
+      ref.refresh();
       ref.prev.next = ref.next;
       ref.next.prev = ref.prev;
       ref.next = this.#head;
 
       this.#head.prev = ref;
       this.#head = ref;
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async clearInterval (): Promise<void> {
+    if (this.#ttlTimerId) {
+      clearInterval(this.#ttlTimerId);
+      this.#ttlTimerId = null;
     }
   }
 }

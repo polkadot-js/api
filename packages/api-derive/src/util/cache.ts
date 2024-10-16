@@ -10,7 +10,7 @@ interface CacheValue<T> {
   x: number;
 }
 
-const CHACHE_EXPIRY = 7 * (24 * 60) * (60 * 1000);
+const CACHE_EXPIRY = 7 * (24 * 60) * (60 * 1000);
 
 let deriveCache: DeriveCache;
 
@@ -43,7 +43,7 @@ function clearCache (cache: DeriveCache): void {
   const all: string[] = [];
 
   cache.forEach((key: string, { x }: CacheValue<any>): void => {
-    ((now - x) > CHACHE_EXPIRY) && all.push(key);
+    ((now - x) > CACHE_EXPIRY) && all.push(key);
   });
 
   // don't do delete inside loop, just in-case
