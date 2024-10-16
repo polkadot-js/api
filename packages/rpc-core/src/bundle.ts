@@ -96,7 +96,6 @@ export class RpcCore {
   readonly #registryDefault: Registry;
   readonly #storageCache: LRUCache;
   #storageCacheHits = 0;
-  #storageCacheSize = 0;
 
   #getBlockRegistry?: (blockHash: Uint8Array) => Promise<{ registry: Registry }>;
   #getBlockHash?: (blockNumber: AnyNumber) => Promise<Uint8Array>;
@@ -163,7 +162,7 @@ export class RpcCore {
         ...stats,
         core: {
           cacheHits: this.#storageCacheHits,
-          cacheSize: this.#storageCacheSize
+          cacheSize: this.#storageCache.length,
         }
       }
       : undefined;

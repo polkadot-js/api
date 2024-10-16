@@ -41,7 +41,7 @@ export class LRUCache {
   #length = 0;
   #head: LRUNode;
   #tail: LRUNode;
-  // TTL
+
   readonly #ttl: number;
   readonly #ttlInterval: number;
   #ttlTimerId: ReturnType<typeof setInterval> | null = null;
