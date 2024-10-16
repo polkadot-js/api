@@ -162,7 +162,7 @@ export class RpcCore {
         ...stats,
         core: {
           cacheHits: this.#storageCacheHits,
-          cacheSize: this.#storageCache.length,
+          cacheSize: this.#storageCache.length
         }
       }
       : undefined;
