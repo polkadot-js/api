@@ -42,7 +42,7 @@
   "devDependencies": {
     "@polkadot/dev": "^0.80.1",
     "@polkadot/typegen": "workspace:packages/typegen",
-    "@types/node": "^20.15.0"
+    "@types/node": "^22.7.5"
   },
   "resolutions": {
     "typescript": "^5.5.4"
