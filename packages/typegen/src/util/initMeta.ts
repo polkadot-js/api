@@ -22,8 +22,10 @@ export function initMeta (staticMeta: HexString, extraTypes: ExtraTypes = {}): R
   registerDefinitions(registry, extraTypes);
 
   let metadata: Metadata;
+
   try {
     const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', staticMeta).toU8a()).unwrap();
+
     metadata = new Metadata(registry, opaqueMetadata.toHex());
   } catch {
     metadata = new Metadata(registry, staticMeta);

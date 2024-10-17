@@ -8,10 +8,12 @@ import '@polkadot/api-base/types/calls';
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, Struct, Text, Vec, bool, u128, u32, u64 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
+import type { OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
+import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
-import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, H256, RuntimeCall, Slot } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSystemEventRecord, PalletContractsPrimitivesCode, PalletContractsPrimitivesCodeUploadReturnValue, PalletContractsPrimitivesContractAccessError, PalletContractsPrimitivesContractResult, PalletContractsPrimitivesExecReturnValue, PalletContractsPrimitivesStorageDeposit, PalletContractsWasmDeterminism, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeConfiguration, SpConsensusBabeEpoch, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyValidatorSet, SpConsensusGrandpaAppPublic, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpMixnetMixnode, SpMixnetMixnodesErr, SpMixnetSessionStatus, SpMmrPrimitivesError, SpMmrPrimitivesLeafProof, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpStatementStoreRuntimeApiInvalidStatement, SpStatementStoreRuntimeApiStatementSource, SpStatementStoreRuntimeApiValidStatement, SpStatementStoreStatement, SpVersionRuntimeVersion, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
-import type { Observable } from '@polkadot/types/types';
+import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
 export type __DecoratedCallBase<ApiType extends ApiTypes> = DecoratedCallBase<ApiType>;
@@ -23,7 +25,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Get current account nonce of given `AccountId`.
        **/
-      accountNonce: AugmentedCall<ApiType, (account: SpCoreCryptoAccountId32 | string | Uint8Array) => Observable<u32>>;
+      accountNonce: AugmentedCall<ApiType, (account: AccountId32 | string | Uint8Array) => Observable<u32>>;
       /**
        * Generic call
        **/
@@ -53,7 +55,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns the list of `AssetId`s and corresponding balance that an `AccountId` has.
        **/
-      accountBalances: AugmentedCall<ApiType, (account: SpCoreCryptoAccountId32 | string | Uint8Array) => Observable<Vec<ITuple<[u32, u128]>>>>;
+      accountBalances: AugmentedCall<ApiType, (account: AccountId32 | string | Uint8Array) => Observable<Vec<ITuple<[u32, u128]>>>>;
       /**
        * Generic call
        **/
@@ -83,11 +85,11 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns the slot that started the current epoch.
        **/
-      currentEpochStart: AugmentedCall<ApiType, () => Observable<SpConsensusSlotsSlot>>;
+      currentEpochStart: AugmentedCall<ApiType, () => Observable<Slot>>;
       /**
        * Generates a proof of key ownership for the given authority in the, current epoch. An example usage of this module is coupled with the, session historical module to prove that a given authority key is, tied to a given staking identity during a specific session. Proofs, of key ownership are necessary for submitting equivocation reports., NOTE: even though the API takes a `slot` as parameter the current, implementations ignores this parameter and instead relies on this, method being called at the correct block height, i.e. any point at, which the epoch for the given slot is live on-chain. Future, implementations will instead use indexed data through an offchain, worker, not requiring older states to be available.
        **/
-      generateKeyOwnershipProof: AugmentedCall<ApiType, (slot: SpConsensusSlotsSlot | AnyNumber | Uint8Array, authority_id: SpConsensusBabeAppPublic | string | Uint8Array) => Observable<Option<Bytes>>>;
+      generateKeyOwnershipProof: AugmentedCall<ApiType, (slot: Slot | AnyNumber | Uint8Array, authority_id: SpConsensusBabeAppPublic | string | Uint8Array) => Observable<Option<Bytes>>>;
       /**
        * Returns information regarding the next epoch (which was already, previously announced).
        **/
@@ -95,7 +97,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Submits an unsigned extrinsic to report an equivocation. The caller, must provide the equivocation proof and a key ownership proof, (should be obtained using `generate_key_ownership_proof`). The, extrinsic will be unsigned and should only be accepted for local, authorship (not to be broadcast to the network). This method returns, `None` when creation of the extrinsic fails, e.g. if equivocation, reporting is disabled for the given runtime (i.e. this method is, hardcoded to return `None`). Only useful in an offchain context.
        **/
-      submitReportEquivocationUnsignedExtrinsic: AugmentedCall<ApiType, (equivocation_proof: SpConsensusSlotsEquivocationProof | { offender?: any; slot?: any; firstHeader?: any; secondHeader?: any } | string | Uint8Array, key_owner_proof: SpConsensusBabeOpaqueKeyOwnershipProof | string | Uint8Array) => Observable<Option<Null>>>;
+      submitReportEquivocationUnsignedExtrinsic: AugmentedCall<ApiType, (equivocation_proof: SpConsensusSlotsEquivocationProof | { offender?: any; slot?: any; firstHeader?: any; secondHeader?: any } | string | Uint8Array, key_owner_proof: OpaqueKeyOwnershipProof | string | Uint8Array) => Observable<Option<Null>>>;
       /**
        * Generic call
        **/
@@ -114,7 +116,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Submits an unsigned extrinsic to report a double voting equivocation. The caller, must provide the double voting proof and a key ownership proof, (should be obtained using `generate_key_ownership_proof`). The, extrinsic will be unsigned and should only be accepted for local, authorship (not to be broadcast to the network). This method returns, `None` when creation of the extrinsic fails, e.g. if equivocation, reporting is disabled for the given runtime (i.e. this method is, hardcoded to return `None`). Only useful in an offchain context.
        **/
-      submitReportDoubleVotingUnsignedExtrinsic: AugmentedCall<ApiType, (equivocation_proof: SpConsensusBeefyDoubleVotingProof | { first?: any; second?: any } | string | Uint8Array, key_owner_proof: SpRuntimeOpaqueValue | string | Uint8Array) => Observable<Option<Null>>>;
+      submitReportDoubleVotingUnsignedExtrinsic: AugmentedCall<ApiType, (equivocation_proof: SpConsensusBeefyDoubleVotingProof | { first?: any; second?: any } | string | Uint8Array, key_owner_proof: Bytes | string | Uint8Array) => Observable<Option<Null>>>;
       /**
        * Return the current active BEEFY validator set
        **/
@@ -129,7 +131,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Apply the given extrinsic.,, Returns an inclusion outcome which specifies if this extrinsic is included in, this block or not.
        **/
-      applyExtrinsic: AugmentedCall<ApiType, (extrinsic: SpRuntimeUncheckedExtrinsic | string | Uint8Array) => Observable<Result<Result<Null, SpRuntimeDispatchError>, SpRuntimeTransactionValidityTransactionValidityError>>>;
+      applyExtrinsic: AugmentedCall<ApiType, (extrinsic: Extrinsic | IExtrinsic | string | Uint8Array) => Observable<Result<Result<Null, SpRuntimeDispatchError>, SpRuntimeTransactionValidityTransactionValidityError>>>;
       /**
        * Check that the inherents are valid. The inherent data will vary from chain to chain.
        **/
@@ -152,7 +154,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Perform a call from a specified account to a given contract.,, See [`crate::Pallet::bare_call`].
        **/
-      call: AugmentedCall<ApiType, (origin: SpCoreCryptoAccountId32 | string | Uint8Array, dest: SpCoreCryptoAccountId32 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, input_data: Bytes | string | Uint8Array) => Observable<{
+      call: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, dest: AccountId32 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, input_data: Bytes | string | Uint8Array) => Observable<{
     readonly gasConsumed: SpWeightsWeightV2Weight;
     readonly gasRequired: SpWeightsWeightV2Weight;
     readonly storageDeposit: PalletContractsPrimitivesStorageDeposit;
@@ -163,15 +165,15 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Query a given storage key in a given contract.,, Returns `Ok(Some(Vec<u8>))` if the storage value exists under the given key in the, specified account and `Ok(None)` if it doesn't. If the account specified by the address, doesn't exist, or doesn't have a contract then `Err` is returned.
        **/
-      getStorage: AugmentedCall<ApiType, (address: SpCoreCryptoAccountId32 | string | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Result<Option<Bytes>, PalletContractsPrimitivesContractAccessError>>>;
+      getStorage: AugmentedCall<ApiType, (address: AccountId32 | string | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Result<Option<Bytes>, PalletContractsPrimitivesContractAccessError>>>;
       /**
        * Instantiate a new contract.,, See `[crate::Pallet::bare_instantiate]`.
        **/
-      instantiate: AugmentedCall<ApiType, (origin: SpCoreCryptoAccountId32 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, code: PalletContractsPrimitivesCode | { Upload: any } | { Existing: any } | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => Observable<PalletContractsPrimitivesContractResult>>;
+      instantiate: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, code: PalletContractsPrimitivesCode | { Upload: any } | { Existing: any } | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => Observable<PalletContractsPrimitivesContractResult>>;
       /**
        * Upload new code without instantiating a contract from it.,, See [`crate::Pallet::bare_upload_code`].
        **/
-      uploadCode: AugmentedCall<ApiType, (origin: SpCoreCryptoAccountId32 | string | Uint8Array, code: Bytes | string | Uint8Array, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, determinism: PalletContractsWasmDeterminism | 'Enforced' | 'Relaxed' | number | Uint8Array) => Observable<Result<PalletContractsPrimitivesCodeUploadReturnValue, SpRuntimeDispatchError>>>;
+      uploadCode: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, code: Bytes | string | Uint8Array, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, determinism: PalletContractsWasmDeterminism | 'Enforced' | 'Relaxed' | number | Uint8Array) => Observable<Result<PalletContractsPrimitivesCodeUploadReturnValue, SpRuntimeDispatchError>>>;
       /**
        * Generic call
        **/
@@ -232,7 +234,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Submits an unsigned extrinsic to report an equivocation. The caller, must provide the equivocation proof and a key ownership proof, (should be obtained using `generate_key_ownership_proof`). The, extrinsic will be unsigned and should only be accepted for local, authorship (not to be broadcast to the network). This method returns, `None` when creation of the extrinsic fails, e.g. if equivocation, reporting is disabled for the given runtime (i.e. this method is, hardcoded to return `None`). Only useful in an offchain context.
        **/
-      submitReportEquivocationUnsignedExtrinsic: AugmentedCall<ApiType, (equivocation_proof: SpConsensusGrandpaEquivocationProof | { setId?: any; equivocation?: any } | string | Uint8Array, key_owner_proof: SpRuntimeOpaqueValue | string | Uint8Array) => Observable<Option<Null>>>;
+      submitReportEquivocationUnsignedExtrinsic: AugmentedCall<ApiType, (equivocation_proof: SpConsensusGrandpaEquivocationProof | { setId?: any; equivocation?: any } | string | Uint8Array, key_owner_proof: Bytes | string | Uint8Array) => Observable<Option<Null>>>;
       /**
        * Generic call
        **/
@@ -243,7 +245,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns the metadata of a runtime.
        **/
-      metadata: AugmentedCall<ApiType, () => Observable<SpCoreOpaqueMetadata>>;
+      metadata: AugmentedCall<ApiType, () => Observable<OpaqueMetadata>>;
       /**
        * Returns the metadata at a given version.,, If the given `version` isn't supported, this will return `None`., Use [`Self::metadata_versions`] to find out about supported metadata version of the runtime.
        **/
@@ -301,7 +303,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Verify MMR proof against given root hash for a batch of leaves.,, Note this function does not require any on-chain storage - the, proof is verified against given MMR root hash.,, Note, the leaves should be sorted such that corresponding leaves and leaf indices have the, same position in both the `leaves` vector and the `leaf_indices` vector contained in the [LeafProof]
        **/
-      verifyProofStateless: AugmentedCall<ApiType, (root: PrimitiveTypesH256 | string | Uint8Array, leaves: Vec<Bytes> | (Bytes | string | Uint8Array)[], proof: SpMmrPrimitivesLeafProof | { leafIndices?: any; leafCount?: any; items?: any } | string | Uint8Array) => Observable<Result<Null, SpMmrPrimitivesError>>>;
+      verifyProofStateless: AugmentedCall<ApiType, (root: H256 | string | Uint8Array, leaves: Vec<Bytes> | (Bytes | string | Uint8Array)[], proof: SpMmrPrimitivesLeafProof | { leafIndices?: any; leafCount?: any; items?: any } | string | Uint8Array) => Observable<Result<Null, SpMmrPrimitivesError>>>;
       /**
        * Generic call
        **/
@@ -324,7 +326,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * 
        **/
-      customAttribute: AugmentedCall<ApiType, (account: SpCoreCryptoAccountId32 | string | Uint8Array, collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Option<Bytes>>>;
+      customAttribute: AugmentedCall<ApiType, (account: AccountId32 | string | Uint8Array, collection: u32 | AnyNumber | Uint8Array, item: u32 | AnyNumber | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Option<Bytes>>>;
       /**
        * 
        **/
@@ -347,15 +349,15 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns true if the delegated funds of the pool `member` needs migration.,, Once a pool has successfully migrated to the strategy, [`DelegateStake`](pallet_nomination_pools::adapter::DelegateStake), the funds of the, member can be migrated from pool account to the member's account. Use, [`migrate_delegation`](pallet_nomination_pools::Call::migrate_delegation), to migrate the funds of the pool member.
        **/
-      memberNeedsDelegateMigration: AugmentedCall<ApiType, (member: SpCoreCryptoAccountId32 | string | Uint8Array) => Observable<bool>>;
+      memberNeedsDelegateMigration: AugmentedCall<ApiType, (member: AccountId32 | string | Uint8Array) => Observable<bool>>;
       /**
        * Returns the pending slash for a given pool member.
        **/
-      memberPendingSlash: AugmentedCall<ApiType, (member: SpCoreCryptoAccountId32 | string | Uint8Array) => Observable<u128>>;
+      memberPendingSlash: AugmentedCall<ApiType, (member: AccountId32 | string | Uint8Array) => Observable<u128>>;
       /**
        * Returns the pending rewards for the member that the AccountId was given for.
        **/
-      pendingRewards: AugmentedCall<ApiType, (who: SpCoreCryptoAccountId32 | string | Uint8Array) => Observable<u128>>;
+      pendingRewards: AugmentedCall<ApiType, (who: AccountId32 | string | Uint8Array) => Observable<u128>>;
       /**
        * Returns the equivalent balance of `points` for a given pool.
        **/
@@ -404,7 +406,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns the page count of exposures for a validator `account` in a given era.
        **/
-      erasStakersPageCount: AugmentedCall<ApiType, (era: u32 | AnyNumber | Uint8Array, account: SpCoreCryptoAccountId32 | string | Uint8Array) => Observable<u32>>;
+      erasStakersPageCount: AugmentedCall<ApiType, (era: u32 | AnyNumber | Uint8Array, account: AccountId32 | string | Uint8Array) => Observable<u32>>;
       /**
        * Returns the nominations quota for a nominator with a given balance.
        **/
@@ -412,7 +414,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns true if validator `account` has pages to be claimed for the given era.
        **/
-      pendingRewards: AugmentedCall<ApiType, (era: u32 | AnyNumber | Uint8Array, account: SpCoreCryptoAccountId32 | string | Uint8Array) => Observable<bool>>;
+      pendingRewards: AugmentedCall<ApiType, (era: u32 | AnyNumber | Uint8Array, account: AccountId32 | string | Uint8Array) => Observable<bool>>;
       /**
        * Generic call
        **/
@@ -423,7 +425,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Validate the transaction.,, This method is invoked by the transaction pool to learn details about given transaction., The implementation should make sure to verify the correctness of the transaction, against current state. The given `block_hash` corresponds to the hash of the block, that is used as current state.,, Note that this call may be performed by the pool multiple times and transactions, might be verified in any possible order.
        **/
-      validateTransaction: AugmentedCall<ApiType, (source: SpRuntimeTransactionValidityTransactionSource | 'InBlock' | 'Local' | 'External' | number | Uint8Array, tx: SpRuntimeUncheckedExtrinsic | string | Uint8Array, block_hash: PrimitiveTypesH256 | string | Uint8Array) => Observable<Result<SpRuntimeTransactionValidityValidTransaction, SpRuntimeTransactionValidityTransactionValidityError>>>;
+      validateTransaction: AugmentedCall<ApiType, (source: SpRuntimeTransactionValidityTransactionSource | 'InBlock' | 'Local' | 'External' | number | Uint8Array, tx: Extrinsic | IExtrinsic | string | Uint8Array, block_hash: H256 | string | Uint8Array) => Observable<Result<SpRuntimeTransactionValidityValidTransaction, SpRuntimeTransactionValidityTransactionValidityError>>>;
       /**
        * Generic call
        **/
@@ -434,11 +436,11 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * 
        **/
-      queryFeeDetails: AugmentedCall<ApiType, (uxt: SpRuntimeUncheckedExtrinsic | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentFeeDetails>>;
+      queryFeeDetails: AugmentedCall<ApiType, (uxt: Extrinsic | IExtrinsic | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentFeeDetails>>;
       /**
        * 
        **/
-      queryInfo: AugmentedCall<ApiType, (uxt: SpRuntimeUncheckedExtrinsic | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentRuntimeDispatchInfo>>;
+      queryInfo: AugmentedCall<ApiType, (uxt: Extrinsic | IExtrinsic | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentRuntimeDispatchInfo>>;
       /**
        * 
        **/
@@ -457,11 +459,11 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Query fee details of a given encoded `Call`.
        **/
-      queryCallFeeDetails: AugmentedCall<ApiType, (call: KitchensinkRuntimeRuntimeCall | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentFeeDetails>>;
+      queryCallFeeDetails: AugmentedCall<ApiType, (call: RuntimeCall | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentFeeDetails>>;
       /**
        * Query information of a dispatch class, weight, and fee of a given encoded `Call`.
        **/
-      queryCallInfo: AugmentedCall<ApiType, (call: KitchensinkRuntimeRuntimeCall | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentRuntimeDispatchInfo>>;
+      queryCallInfo: AugmentedCall<ApiType, (call: RuntimeCall | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentRuntimeDispatchInfo>>;
       /**
        * Query the output of the current `LengthToFee` given some input.
        **/
