@@ -13,6 +13,10 @@ const CMD = {
   'substrate-contracts-node': `${PREAMBLE}// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`
 };
 
+// V15
+const META_VERSION_HEX = '0x0f000000'
+const META_VERSION = 15;
+
 let requestId = 0;
 
 /**
@@ -43,14 +47,14 @@ async function get (method, params = []) {
 /** @type {[string[], string, { specName: 'polkadot' | 'kusama' | 'node'; specVersion: string; }]} */
 const [methods, metadata, version] = await Promise.all([
   get('rpc_methods'),
-  get('state_call', ['Metadata_metadata_at_version', '0x0f000000']),
+  get('state_call', ['Metadata_metadata_at_version', META_VERSION_HEX]),
   get('state_getRuntimeVersion')
 ]);
 const chain = version.specName === 'node'
   ? 'substrate'
   : version.specName;
 const metaVer = parseInt(metadata.substring(10, 12), 16);
-const path = `packages/types-support/src/metadata/v${15}/${chain}`;
+const path = `packages/types-support/src/metadata/v${META_VERSION}/${chain}`;
 
 fs.writeFileSync(`${path}-hex.ts`, `${CMD[chain]} '${metadata}';\n`);
 fs.writeFileSync(`${path}-rpc.ts`, `${CMD[chain]} ${JSON.stringify(methods, null, 2)};\n`);
