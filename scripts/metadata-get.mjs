@@ -14,7 +14,7 @@ const CMD = {
 };
 
 // V15
-const META_VERSION_HEX = '0x0f000000'
+const META_VERSION_HEX = '0x0f000000';
 const META_VERSION = 15;
 
 let requestId = 0;
