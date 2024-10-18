@@ -57,8 +57,9 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
 
     // When the parent type does not have a lookupName, and the sub type is the same
     // type as the parent we can take the lookupName from the sub.
+    // This is specific to `StagingXcmV4Junction`.
     // see: https://github.com/polkadot-js/api/pull/5812
-    if (sub && !Array.isArray(sub) && type.includes(`${sub.type};`)) {
+    if (sub && !Array.isArray(sub) && type.includes(`${sub.type};`) && sub.lookupName === 'StagingXcmV4Junction') {
       extractedLookupName = sub.lookupName;
     }
 
