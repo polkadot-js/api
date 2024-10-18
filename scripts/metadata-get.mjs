@@ -26,7 +26,7 @@ let requestId = 0;
  * @returns {Promise<any>}
  */
 async function get (method, params = []) {
-  const res = await fetch('https://rpc.polkadot.io', {
+  const res = await fetch('http://127.0.0.1:9944', {
     body: JSON.stringify({
       id: ++requestId,
       jsonrpc: '2.0',
