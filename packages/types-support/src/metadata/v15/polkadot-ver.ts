@@ -9,9 +9,13 @@ export default {
   "specName": "polkadot",
   "implName": "parity-polkadot",
   "authoringVersion": 0,
-  "specVersion": 1003000,
+  "specVersion": 1003003,
   "implVersion": 0,
   "apis": [
+    [
+      "0xc51ff1fa3f5d0cca",
+      1
+    ],
     [
       "0xdf6acb689907609b",
       5

@@ -210,12 +210,6 @@ declare module '@polkadot/types/lookup' {
   /** @name StagingKusamaRuntimeRuntime (928) */
   type StagingKusamaRuntimeRuntime = Null;
 
-  /** @name RelayCommonApisInflationInfo (929) */
-  interface RelayCommonApisInflationInfo extends Struct {
-    readonly inflation: Perquintill;
-    readonly nextMint: ITuple<[u128, u128]>;
-  }
-
   /** @name StagingKusamaRuntimeRuntimeError (1040) */
   interface StagingKusamaRuntimeRuntimeError extends Enum {
     readonly isSystem: boolean;

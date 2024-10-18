@@ -344,13 +344,6 @@ export default {
    **/
   StagingKusamaRuntimeRuntime: 'Null',
   /**
-   * Lookup929: relay_common::apis::InflationInfo
-   **/
-  RelayCommonApisInflationInfo: {
-    inflation: 'Perquintill',
-    nextMint: '(u128,u128)'
-  },
-  /**
    * Lookup1040: staging_kusama_runtime::RuntimeError
    **/
   StagingKusamaRuntimeRuntimeError: {

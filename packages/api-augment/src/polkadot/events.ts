@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, PalletConvictionVotingTally, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletMultisigTimepoint, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV7CandidateReceipt, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, PolkadotRuntimeProxyType, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, StagingXcmV4AssetAssets, StagingXcmV4Location, StagingXcmV4Response, StagingXcmV4TraitsOutcome, StagingXcmV4Xcm, XcmV3TraitsError, XcmVersionedAssets, XcmVersionedLocation } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, PalletConvictionVotingTally, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletMultisigTimepoint, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV7CandidateReceipt, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, PolkadotRuntimeProxyType, PolkadotRuntimeRuntimeParametersKey, PolkadotRuntimeRuntimeParametersValue, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, StagingXcmV4AssetAssets, StagingXcmV4Location, StagingXcmV4Response, StagingXcmV4TraitsOutcome, StagingXcmV4Xcm, XcmV3TraitsError, XcmVersionedAssets, XcmVersionedLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -636,6 +636,18 @@ declare module '@polkadot/api-base/types/events' {
        * Some upward messages have been received and will be processed.
        **/
       UpwardMessagesReceived: AugmentedEvent<ApiType, [from: u32, count: u32], { from: u32, count: u32 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    parameters: {
+      /**
+       * A Parameter was set.
+       * 
+       * Is also emitted when the value was not changed.
+       **/
+      Updated: AugmentedEvent<ApiType, [key: PolkadotRuntimeRuntimeParametersKey, oldValue: Option<PolkadotRuntimeRuntimeParametersValue>, newValue: Option<PolkadotRuntimeRuntimeParametersValue>], { key: PolkadotRuntimeRuntimeParametersKey, oldValue: Option<PolkadotRuntimeRuntimeParametersValue>, newValue: Option<PolkadotRuntimeRuntimeParametersValue> }>;
       /**
        * Generic event
        **/
