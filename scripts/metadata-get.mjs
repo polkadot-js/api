@@ -13,26 +13,31 @@ const CMD = {
   'substrate-contracts-node': `${PREAMBLE}// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`
 };
 
+// V15
+const META_VERSION_HEX = '0x0f000000';
+const META_VERSION = 15;
+
 let requestId = 0;
 
 /**
  *
- * @param {'rpc_methods' | 'state_getMetadata' | 'state_getRuntimeVersion'} method
+ * @param {'rpc_methods' | 'state_getMetadata' | 'state_getRuntimeVersion' | 'state_call'} method
+ * @param {string[]} params
  * @returns {Promise<any>}
  */
-async function get (method) {
+async function get (method, params = []) {
   const res = await fetch('http://127.0.0.1:9944', {
     body: JSON.stringify({
       id: ++requestId,
       jsonrpc: '2.0',
       method,
-      params: []
+      params
     }),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },
-    method: 'post'
+    method: 'POST'
   });
   const body = await res.json();
 
@@ -42,14 +47,14 @@ async function get (method) {
 /** @type {[string[], string, { specName: 'polkadot' | 'kusama' | 'node'; specVersion: string; }]} */
 const [methods, metadata, version] = await Promise.all([
   get('rpc_methods'),
-  get('state_getMetadata'),
+  get('state_call', ['Metadata_metadata_at_version', META_VERSION_HEX]),
   get('state_getRuntimeVersion')
 ]);
 const chain = version.specName === 'node'
   ? 'substrate'
   : version.specName;
 const metaVer = parseInt(metadata.substring(10, 12), 16);
-const path = `packages/types-support/src/metadata/v${metaVer}/${chain}`;
+const path = `packages/types-support/src/metadata/v${META_VERSION}/${chain}`;
 
 fs.writeFileSync(`${path}-hex.ts`, `${CMD[chain]} '${metadata}';\n`);
 fs.writeFileSync(`${path}-rpc.ts`, `${CMD[chain]} ${JSON.stringify(methods, null, 2)};\n`);

@@ -11,9 +11,9 @@ import Handlebars from 'handlebars';
 import path from 'node:path';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
-import staticKusama from '@polkadot/types-support/metadata/static-kusama';
-import staticPolkadot from '@polkadot/types-support/metadata/static-polkadot';
-import staticSubstrate from '@polkadot/types-support/metadata/static-substrate';
+import staticKusama from '@polkadot/types-support/metadata/v15/kusama-hex';
+import staticPolkadot from '@polkadot/types-support/metadata/v15/polkadot-hex';
+import staticSubstrate from '@polkadot/types-support/metadata/v15/substrate-hex';
 import { isString, stringify } from '@polkadot/util';
 
 import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util/index.js';

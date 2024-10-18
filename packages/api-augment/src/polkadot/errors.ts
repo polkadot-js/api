@@ -17,6 +17,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyExists: AugmentedError<ApiType>;
       /**
+       * Overflow ocurred when calculating the inverse rate.
+       **/
+      Overflow: AugmentedError<ApiType>;
+      /**
        * The given asset ID is unknown.
        **/
       UnknownAssetKind: AugmentedError<ApiType>;
@@ -274,7 +278,7 @@ declare module '@polkadot/api-base/types/errors' {
       AlreadyDelegating: AugmentedError<ApiType>;
       /**
        * The account currently has votes attached to it and the operation cannot succeed until
-       * these are removed, either through `unvote` or `reap_vote`.
+       * these are removed through `remove_vote`.
        **/
       AlreadyVoting: AugmentedError<ApiType>;
       /**
@@ -317,6 +321,53 @@ declare module '@polkadot/api-base/types/errors' {
        * The given account did not vote on the poll.
        **/
       NotVoter: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    coretime: {
+      /**
+       * Failed to transfer assets to the coretime chain
+       **/
+      AssetTransferFailed: AugmentedError<ApiType>;
+      /**
+       * The paraid making the call is not the coretime brokerage system parachain.
+       **/
+      NotBroker: AugmentedError<ApiType>;
+      /**
+       * Requested revenue information `when` parameter was in the future from the current
+       * block height.
+       **/
+      RequestedFutureRevenue: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    coretimeAssignmentProvider: {
+      AssignmentsEmpty: AugmentedError<ApiType>;
+      /**
+       * Tried to add an unsorted set of assignments
+       **/
+      AssignmentsNotSorted: AugmentedError<ApiType>;
+      /**
+       * assign_core is only allowed to append new assignments at the end of already existing
+       * ones.
+       **/
+      DisallowedInsert: AugmentedError<ApiType>;
+      /**
+       * Tried to insert a schedule for the same core and block number as an existing schedule
+       **/
+      DuplicateInsert: AugmentedError<ApiType>;
+      /**
+       * Assignments together exceeded 57600.
+       **/
+      OverScheduled: AugmentedError<ApiType>;
+      /**
+       * Assignments together less than 57600
+       **/
+      UnderScheduled: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -447,7 +498,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       OcwCallWrongEra: AugmentedError<ApiType>;
       /**
-       * Sumission was prepared for a different round.
+       * Submission was prepared for a different round.
        **/
       PreDispatchDifferentRound: AugmentedError<ApiType>;
       /**
@@ -641,116 +692,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    identity: {
-      /**
-       * Account ID is already named.
-       **/
-      AlreadyClaimed: AugmentedError<ApiType>;
-      /**
-       * Empty index.
-       **/
-      EmptyIndex: AugmentedError<ApiType>;
-      /**
-       * Fee is changed.
-       **/
-      FeeChanged: AugmentedError<ApiType>;
-      /**
-       * The index is invalid.
-       **/
-      InvalidIndex: AugmentedError<ApiType>;
-      /**
-       * Invalid judgement.
-       **/
-      InvalidJudgement: AugmentedError<ApiType>;
-      /**
-       * The signature on a username was not valid.
-       **/
-      InvalidSignature: AugmentedError<ApiType>;
-      /**
-       * The provided suffix is too long.
-       **/
-      InvalidSuffix: AugmentedError<ApiType>;
-      /**
-       * The target is invalid.
-       **/
-      InvalidTarget: AugmentedError<ApiType>;
-      /**
-       * The username does not meet the requirements.
-       **/
-      InvalidUsername: AugmentedError<ApiType>;
-      /**
-       * The provided judgement was for a different identity.
-       **/
-      JudgementForDifferentIdentity: AugmentedError<ApiType>;
-      /**
-       * Judgement given.
-       **/
-      JudgementGiven: AugmentedError<ApiType>;
-      /**
-       * Error that occurs when there is an issue paying for judgement.
-       **/
-      JudgementPaymentFailed: AugmentedError<ApiType>;
-      /**
-       * The authority cannot allocate any more usernames.
-       **/
-      NoAllocation: AugmentedError<ApiType>;
-      /**
-       * No identity found.
-       **/
-      NoIdentity: AugmentedError<ApiType>;
-      /**
-       * The username cannot be forcefully removed because it can still be accepted.
-       **/
-      NotExpired: AugmentedError<ApiType>;
-      /**
-       * Account isn't found.
-       **/
-      NotFound: AugmentedError<ApiType>;
-      /**
-       * Account isn't named.
-       **/
-      NotNamed: AugmentedError<ApiType>;
-      /**
-       * Sub-account isn't owned by sender.
-       **/
-      NotOwned: AugmentedError<ApiType>;
-      /**
-       * Sender is not a sub-account.
-       **/
-      NotSub: AugmentedError<ApiType>;
-      /**
-       * The sender does not have permission to issue a username.
-       **/
-      NotUsernameAuthority: AugmentedError<ApiType>;
-      /**
-       * The requested username does not exist.
-       **/
-      NoUsername: AugmentedError<ApiType>;
-      /**
-       * Setting this username requires a signature, but none was provided.
-       **/
-      RequiresSignature: AugmentedError<ApiType>;
-      /**
-       * Sticky judgement.
-       **/
-      StickyJudgement: AugmentedError<ApiType>;
-      /**
-       * Maximum amount of registrars reached. Cannot add any more.
-       **/
-      TooManyRegistrars: AugmentedError<ApiType>;
-      /**
-       * Too many subs-accounts.
-       **/
-      TooManySubAccounts: AugmentedError<ApiType>;
-      /**
-       * The username is already taken.
-       **/
-      UsernameTaken: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     indices: {
       /**
        * The index was not available.
@@ -894,6 +835,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountBelongsToOtherPool: AugmentedError<ApiType>;
       /**
+       * The pool or member delegation has already migrated to delegate stake.
+       **/
+      AlreadyMigrated: AugmentedError<ApiType>;
+      /**
        * Bonding extra is restricted to the exact pending reward amount.
        **/
       BondExtraRestricted: AugmentedError<ApiType>;
@@ -985,9 +930,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NothingToAdjust: AugmentedError<ApiType>;
       /**
+       * No slash pending that can be applied to the member.
+       **/
+      NothingToSlash: AugmentedError<ApiType>;
+      /**
        * Either a) the caller cannot make a valid kick or b) the pool is not destroying.
        **/
       NotKickerOrDestroying: AugmentedError<ApiType>;
+      /**
+       * The pool or member delegation has not migrated yet to delegate stake.
+       **/
+      NotMigrated: AugmentedError<ApiType>;
       /**
        * The caller does not have nominating permissions for the pool.
        **/
@@ -996,6 +949,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The pool is not open to join
        **/
       NotOpen: AugmentedError<ApiType>;
+      /**
+       * This call is not allowed in the current state of the pallet.
+       **/
+      NotSupported: AugmentedError<ApiType>;
       /**
        * The transaction could not be executed due to overflow risk for the pool.
        **/
@@ -1029,25 +986,22 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    onDemand: {
+      /**
+       * The order queue is full, `place_order` will not continue.
+       **/
+      QueueFull: AugmentedError<ApiType>;
+      /**
+       * The current spot price is higher than the max amount specified in the `place_order`
+       * call, making it invalid.
+       **/
+      SpotPriceHigherThanMaxAmount: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     paraInclusion: {
-      /**
-       * Bitfield consists of zeros only.
-       **/
-      BitfieldAllZeros: AugmentedError<ApiType>;
-      /**
-       * Multiple bitfields submitted by same validator or validators out of order by index.
-       **/
-      BitfieldDuplicateOrUnordered: AugmentedError<ApiType>;
-      /**
-       * A bitfield that references a freed core,
-       * either intentionally or as part of a concluded
-       * invalid dispute.
-       **/
-      BitfieldReferencesFreedCore: AugmentedError<ApiType>;
-      /**
-       * Candidate scheduled despite pending candidate already existing for the para.
-       **/
-      CandidateScheduledBeforeParaFree: AugmentedError<ApiType>;
       /**
        * The candidate's relay-parent was not allowed. Either it was
        * not recent enough or it didn't advance based on the last parachain block.
@@ -1078,10 +1032,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Invalid (bad signature, unknown validator, etc.) backing.
        **/
       InvalidBacking: AugmentedError<ApiType>;
-      /**
-       * Invalid signature
-       **/
-      InvalidBitfieldSignature: AugmentedError<ApiType>;
       /**
        * Invalid group index in core assignment.
        **/
@@ -1116,29 +1066,9 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PrematureCodeUpgrade: AugmentedError<ApiType>;
       /**
-       * Scheduled cores out of order.
-       **/
-      ScheduledOutOfOrder: AugmentedError<ApiType>;
-      /**
-       * A different relay parent was provided compared to the on-chain stored one.
-       **/
-      UnexpectedRelayParent: AugmentedError<ApiType>;
-      /**
        * Candidate submitted but para not scheduled.
        **/
       UnscheduledCandidate: AugmentedError<ApiType>;
-      /**
-       * Backed candidates are out of order (core index) or contain duplicates.
-       **/
-      UnsortedOrDuplicateBackedCandidates: AugmentedError<ApiType>;
-      /**
-       * Dispute statement sets are out of order or contain duplicates.
-       **/
-      UnsortedOrDuplicateDisputeStatementSet: AugmentedError<ApiType>;
-      /**
-       * Validator indices are out of order or contains duplicates.
-       **/
-      UnsortedOrDuplicateValidatorIndices: AugmentedError<ApiType>;
       /**
        * The validation data hash does not match expected.
        **/
@@ -1148,35 +1078,16 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ValidatorIndexOutOfBounds: AugmentedError<ApiType>;
       /**
-       * Availability bitfield has unexpected size.
-       **/
-      WrongBitfieldSize: AugmentedError<ApiType>;
-      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
     };
     paraInherent: {
       /**
-       * A candidate was backed by a disabled validator
+       * A candidate was filtered during inherent execution. This should have only been done
+       * during creation.
        **/
-      BackedByDisabled: AugmentedError<ApiType>;
-      /**
-       * A candidate was backed even though the paraid was not scheduled.
-       **/
-      BackedOnUnscheduledCore: AugmentedError<ApiType>;
-      /**
-       * Disputed candidate that was concluded invalid.
-       **/
-      CandidateConcludedInvalid: AugmentedError<ApiType>;
-      /**
-       * A dispute statement was invalid.
-       **/
-      DisputeInvalid: AugmentedError<ApiType>;
-      /**
-       * The ordering of dispute statements was invalid.
-       **/
-      DisputeStatementsUnsortedOrDuplicates: AugmentedError<ApiType>;
+      CandidatesFilteredDuringExecution: AugmentedError<ApiType>;
       /**
        * The data given to the inherent will result in an overweight block.
        **/
@@ -1220,6 +1131,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Parachain cannot currently schedule a code upgrade.
        **/
       CannotUpgradeCode: AugmentedError<ApiType>;
+      /**
+       * Invalid validation code size.
+       **/
+      InvalidCode: AugmentedError<ApiType>;
       /**
        * Para is not registered in our system.
        **/
@@ -1331,6 +1246,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Preimage has already been noted on-chain.
        **/
       AlreadyNoted: AugmentedError<ApiType>;
+      /**
+       * No ticket with a cost was returned by [`Config::Consideration`] to store the preimage.
+       **/
+      NoCost: AugmentedError<ApiType>;
       /**
        * The user is not authorized to perform this action.
        **/
@@ -1448,6 +1367,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PreimageNotExist: AugmentedError<ApiType>;
       /**
+       * The preimage is stored with a different length than the one provided.
+       **/
+      PreimageStoredWithDifferentLength: AugmentedError<ApiType>;
+      /**
        * The queue of the track is empty.
        **/
       QueueEmpty: AugmentedError<ApiType>;
@@ -1487,13 +1410,13 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CodeTooLarge: AugmentedError<ApiType>;
       /**
-       * Registering parachain with empty code is not allowed.
-       **/
-      EmptyCode: AugmentedError<ApiType>;
-      /**
        * Invalid para head data size.
        **/
       HeadDataTooLarge: AugmentedError<ApiType>;
+      /**
+       * The validation code is invalid.
+       **/
+      InvalidCode: AugmentedError<ApiType>;
       /**
        * The caller is not the owner of this Id.
        **/
@@ -1682,6 +1605,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotController: AugmentedError<ApiType>;
       /**
+       * Not enough funds available to withdraw.
+       **/
+      NotEnoughFunds: AugmentedError<ApiType>;
+      /**
        * Items are not sorted and unique.
        **/
       NotSortedAndUnique: AugmentedError<ApiType>;
@@ -1693,6 +1620,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Can not rebond without unlocking chunks.
        **/
       NoUnlockChunk: AugmentedError<ApiType>;
+      /**
+       * Provided reward destination is not allowed.
+       **/
+      RewardDestinationRestricted: AugmentedError<ApiType>;
       /**
        * There are too many nominators in the system. Governance needs to adjust the staking
        * settings to keep things safe for the runtime.
@@ -1707,6 +1638,10 @@ declare module '@polkadot/api-base/types/errors' {
        * staking settings to keep things safe for the runtime.
        **/
       TooManyValidators: AugmentedError<ApiType>;
+      /**
+       * Operation not allowed for virtual stakers.
+       **/
+      VirtualStakerNotAllowed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1765,6 +1700,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidSpecName: AugmentedError<ApiType>;
       /**
+       * A multi-block migration is ongoing and prevents the current code from being replaced.
+       **/
+      MultiBlockMigrationsOngoing: AugmentedError<ApiType>;
+      /**
        * Suicide called when the account has non-default composite data.
        **/
       NonDefaultComposite: AugmentedError<ApiType>;
@@ -1812,10 +1751,6 @@ declare module '@polkadot/api-base/types/errors' {
        * amount to be spent.
        **/
       InsufficientPermission: AugmentedError<ApiType>;
-      /**
-       * Proposer's balance is too low.
-       **/
-      InsufficientProposersBalance: AugmentedError<ApiType>;
       /**
        * No proposal, bounty or spend at that index.
        **/
@@ -1964,10 +1899,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The unlock operation cannot succeed because there are still consumers of the lock.
        **/
       InUse: AugmentedError<ApiType>;
-      /**
-       * Invalid non-concrete asset.
-       **/
-      InvalidAssetNotConcrete: AugmentedError<ApiType>;
       /**
        * Invalid asset, reserve chain could not be determined for it.
        **/

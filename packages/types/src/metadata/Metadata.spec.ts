@@ -5,9 +5,12 @@
 
 import type { HexString } from '@polkadot/util/types';
 
-import kusama from '@polkadot/types-support/metadata/static-kusama';
-import polkadot from '@polkadot/types-support/metadata/static-polkadot';
-import substrate from '@polkadot/types-support/metadata/static-substrate';
+import kusamaV14 from '@polkadot/types-support/metadata/v14/kusama-hex';
+import polkadotV14 from '@polkadot/types-support/metadata/v14/polkadot-hex';
+import substrateV14 from '@polkadot/types-support/metadata/v14/substrate-hex';
+import kusama from '@polkadot/types-support/metadata/v15/kusama-hex';
+import polkadot from '@polkadot/types-support/metadata/v15/polkadot-hex';
+import substrate from '@polkadot/types-support/metadata/v15/substrate-hex';
 
 import { TypeRegistry } from '../create/index.js';
 import { Metadata } from './Metadata.js';
@@ -18,9 +21,17 @@ const allData: Record<string, HexString> = {
   substrate
 };
 
+const allDataV14: Record<string, HexString> = {
+  kusama: kusamaV14,
+  polkadot: polkadotV14,
+  substrate: substrateV14
+};
+
 for (const type of ['kusama', 'polkadot', 'substrate'] as const) {
   describe(`${type}metadata`, (): void => {
-    const metadata = new Metadata(new TypeRegistry(), allData[type]);
+    const registry = new TypeRegistry();
+    const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', allData[type]).toU8a()).unwrap();
+    const metadata = new Metadata(registry, opaqueMetadata.toHex());
 
     it('allows creation from hex', (): void => {
       expect(
@@ -28,8 +39,9 @@ for (const type of ['kusama', 'polkadot', 'substrate'] as const) {
       ).toEqual(metadata.toJSON());
     });
 
-    it('has a sane toCallsOnly', (): void => {
-      const test = metadata.asCallsOnly;
+    it('has a sane toCallsOnly V14 only', (): void => {
+      const metadatav14 = new Metadata(new TypeRegistry(), allDataV14[type]);
+      const test = metadatav14.asCallsOnly;
 
       // it has a useful length
       expect(

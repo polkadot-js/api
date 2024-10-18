@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { QueryableStorage } from '@polkadot/api-base/types';
 import type { Compact, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Header } from '@polkadot/types/interfaces';
-import type { SpCoreSr25519Public } from '@polkadot/types/lookup';
+import type { PalletImOnlineSr25519AppSr25519Public } from '@polkadot/types/lookup';
 import type { Codec, IOption } from '@polkadot/types/types';
 import type { DeriveApi } from '../types.js';
 
@@ -16,7 +16,7 @@ import { memo, unwrapBlockNumber } from '../util/index.js';
 export type BlockNumberDerive = (instanceId: string, api: DeriveApi) => () => Observable<BlockNumber>;
 
 type OptionMapping = IOption<{ account: AccountId } & Codec>;
-type OptionNimbus = IOption<{ nimbus: SpCoreSr25519Public } & Codec>;
+type OptionNimbus = IOption<{ nimbus: PalletImOnlineSr25519AppSr25519Public } & Codec>;
 
 export function createBlockNumberDerive <T extends { number: Compact<BlockNumber> | BlockNumber }> (fn: (api: DeriveApi) => Observable<T>): BlockNumberDerive {
   return (instanceId: string, api: DeriveApi) =>

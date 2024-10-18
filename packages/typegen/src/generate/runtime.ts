@@ -1,8 +1,10 @@
 // Copyright 2017-2024 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { RuntimeApiMethodMetadataV15, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
-import type { DefinitionCallNamed, Definitions, Registry } from '@polkadot/types/types';
+import type { DefinitionCall, DefinitionCallNamed, Definitions, DefinitionsCall, Registry } from '@polkadot/types/types';
+import type { Vec } from '@polkadot/types-codec';
 import type { HexString } from '@polkadot/util/types';
 import type { ExtraTypes } from './types.js';
 
@@ -19,45 +21,136 @@ type Apis = [HexString, number][];
 
 const generateCallsTypesTemplate = Handlebars.compile(readTemplate('calls'));
 
+// This works similar to the PATHS_ALIAS set from the PortableRegistry
+const aliases: Record<string, string> = {
+  KitchensinkRuntimeRuntimeCall: 'RuntimeCall',
+  OpaqueValue: 'Bytes',
+  PolkadotParachainPrimitivesPrimitivesId: 'ParaId',
+  PolkadotParachainPrimitivesPrimitivesValidationCodeHash: 'ValidationCodeHash',
+  PolkadotPrimitivesV7SlashingOpaqueKeyOwnershipProof: 'OpaqueKeyOwnershipProof',
+  PolkadotRuntimeRuntimeCall: 'RuntimeCall',
+  PrimitiveTypesH256: 'H256',
+  SpConsensusBabeOpaqueKeyOwnershipProof: 'OpaqueKeyOwnershipProof',
+  SpConsensusSlotsSlot: 'Slot',
+  SpCoreCryptoAccountId32: 'AccountId32',
+  SpCoreOpaqueMetadata: 'OpaqueMetadata',
+  SpRuntimeOpaqueValue: 'Bytes',
+  SpRuntimeUncheckedExtrinsic: 'Extrinsic',
+  StagingKusamaRuntimeRuntimeCall: 'RuntimeCall'
+};
+
+const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {
+  const typeName = registry.lookup.getName(id) || registry.lookup.getTypeDef(id).type;
+
+  if (aliases[typeName]) {
+    return aliases[typeName];
+  }
+
+  return typeName;
+};
+
 /** @internal */
-function getDefs (apis: Apis | null, defs: Record<string, Definitions>): Record<string, Record<string, DefinitionCallNamed>> {
+function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV15>) {
+  const result: Record<string, DefinitionCall> = {};
+
+  methods.forEach((m) => {
+    const { docs, inputs, name, output } = m;
+
+    result[name.toString()] = {
+      description: docs.map((d) => d.toString()).join(),
+      params: inputs.map(({ name, type }) => {
+        return { name: name.toString(), type: getTypesViaAlias(registry, type) };
+      }),
+      type: getTypesViaAlias(registry, output)
+    };
+  });
+
+  return result;
+}
+
+/** @internal */
+function getRuntimeDefViaMetadata (registry: Registry) {
+  const result: DefinitionsCall = {};
+  const { apis } = registry.metadata;
+
+  for (let i = 0, count = apis.length; i < count; i++) {
+    const { methods, name } = apis[i];
+
+    result[name.toString()] = [{
+      methods: getMethods(registry, methods),
+      // We set the version to 0 here since it will not be relevant when we are grabbing the runtime apis
+      // from the Metadata.
+      version: 0
+    }];
+  }
+
+  return Object.entries(result);
+}
+
+/** @internal */
+function getDefs (apis: Apis | null, defs: Record<string, Definitions>, registry: Registry): Record<string, Record<string, DefinitionCallNamed>> {
   const named: Record<string, Record<string, DefinitionCallNamed>> = {};
   const all = Object.values(defs);
+  const isApiInMetadata = registry.metadata.apis.length > 0;
 
-  for (let j = 0, jcount = all.length; j < jcount; j++) {
-    const set = all[j].runtime;
+  if (isApiInMetadata) {
+    const sections = getRuntimeDefViaMetadata(registry);
 
-    if (set) {
-      const sections = Object.entries(set);
+    for (let j = 0, jcount = sections.length; j < jcount; j++) {
+      const [_section, secs] = sections[j];
+      const sec = secs[0];
+      const sectionHash = blake2AsHex(_section, 64);
 
-      for (let i = 0, scount = sections.length; i < scount; i++) {
-        const [_section, sec] = sections[i];
-        const sectionHash = blake2AsHex(_section, 64);
-        const api = apis?.find(([h]) => h === sectionHash);
+      const section = stringCamelCase(_section);
+      const methods = Object.entries(sec.methods);
 
-        if (api) {
-          const ver = sec.find(({ version }) => version === api[1]);
+      if (!named[section]) {
+        named[section] = {};
+      }
 
-          if (ver) {
-            const methods = Object.entries(ver.methods);
-            const mcount = methods.length;
+      for (let m = 0, mcount = methods.length; m < mcount; m++) {
+        const [_method, def] = methods[m];
+        const method = stringCamelCase(_method);
 
-            if (mcount) {
-              const section = stringCamelCase(_section);
+        named[section][method] = objectSpread({ method, name: `${_section}_${_method}`, section, sectionHash }, def);
+      }
+    }
+  } else {
+    for (let j = 0, jcount = all.length; j < jcount; j++) {
+      const set = all[j].runtime;
 
-              if (!named[section]) {
-                named[section] = {};
+      if (set) {
+        const sections = Object.entries(set);
+
+        for (let i = 0, scount = sections.length; i < scount; i++) {
+          const [_section, sec] = sections[i];
+          const sectionHash = blake2AsHex(_section, 64);
+          const api = apis?.find(([h]) => h === sectionHash);
+
+          if (api) {
+            const ver = sec.find(({ version }) => version === api[1]);
+
+            if (ver) {
+              const methods = Object.entries(ver.methods);
+              const mcount = methods.length;
+
+              if (mcount) {
+                const section = stringCamelCase(_section);
+
+                if (!named[section]) {
+                  named[section] = {};
+                }
+
+                for (let m = 0; m < mcount; m++) {
+                  const [_method, def] = methods[m];
+                  const method = stringCamelCase(_method);
+
+                  named[section][method] = objectSpread({ method, name: `${_section}_${method}`, section, sectionHash, version: ver.version }, def);
+                }
               }
-
-              for (let m = 0; m < mcount; m++) {
-                const [_method, def] = methods[m];
-                const method = stringCamelCase(_method);
-
-                named[section][method] = objectSpread({ method, name: `${_section}_${method}`, section, sectionHash, version: ver.version }, def);
-              }
+            } else {
+              console.warn(`Unable to find matching version for runtime ${_section}, expected ${api[1]}`);
             }
-          } else {
-            console.warn(`Unable to find matching version for runtime ${_section}, expected ${api[1]}`);
           }
         }
       }
@@ -101,7 +194,7 @@ export function generateCallTypes (registry: Registry, meta: Metadata, dest: str
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
-    const definitions = getDefs(apis, imports.definitions as Record<string, Definitions>);
+    const definitions = getDefs(apis, imports.definitions as Record<string, Definitions>, registry);
     const callKeys = Object.keys(definitions);
 
     const modules = callKeys.map((section) => {
