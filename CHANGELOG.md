@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 14.1.1 Oct 21, 2024
+
+Changes:
+
+- Fix deno build in CI to version 1.42.x ([#5999](https://github.com/polkadot-js/api/pull/5999))
+- Add LRU TTL cache implementation ([#5997](https://github.com/polkadot-js/api/pull/5997))
+  - This focuses on performance advancements and less memory usage
+- Update non-pjs deps ([#6000](https://github.com/polkadot-js/api/pull/6000))
+- Set static metadata to v15 and update typegen to generate runtime apis and use v15 metadata ([#5987](https://github.com/polkadot-js/api/pull/5987))
+  - Additionally: This does update the static types to be inline with polkadot 1003003
+- Bump dev to 0.81.2 ([#6001](https://github.com/polkadot-js/api/pull/6001))
+  - Allows for correct CJS targetting
+- Bump common to 13.2.1 ([#6002](https://github.com/polkadot-js/api/pull/6002))
+
+
 ## 14.0.1 Oct 2, 2024
 
 Changes:
