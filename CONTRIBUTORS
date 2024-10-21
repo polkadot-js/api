@@ -1,5 +1,5 @@
     3512	Jaco                          	Bump deps (#5785)
-     113	Tarik Gul                     	Bump dev to 0.81.2 (#6001)
+     114	Tarik Gul                     	Bump common to 13.2.1 (#6002)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
