@@ -29,7 +29,7 @@ function extractCompatRewards (claimedRewardsEras: Vec<u32>, ledger?: PalletStak
   return claimedRewardsEras.toArray().concat(l);
 }
 
-function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[]): DeriveStakerReward[] {
+function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[], claimedRewardsEras: Vec<u32>): DeriveStakerReward[] {
   return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }): DeriveStakerReward => {
     const { eraPoints, validators: allValPoints } = erasPoints.find((p) => p.era.eq(era)) || { eraPoints: BN_ZERO, validators: {} as DeriveEraValPoints };
     const { eraReward } = erasRewards.find((r) => r.era.eq(era)) || { eraReward: api.registry.createType('Balance') };
@@ -84,7 +84,7 @@ function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPref
     return {
       era,
       eraReward,
-      isClaimed: false,
+      isClaimed: claimedRewardsEras.some((c) => c.eq(era)),
       isEmpty,
       isValidator,
       nominating,
@@ -184,7 +184,7 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
         const allRewards = queries.map(({ claimedRewardsEras, stakingLedger, stashId }, index): DeriveStakerReward[] =>
           (!stashId || (!stakingLedger && !claimedRewardsEras))
             ? []
-            : parseRewards(api, stashId, erasResult, exposures[index])
+            : parseRewards(api, stashId, erasResult, exposures[index], claimedRewardsEras)
         );
 
         if (withActive) {
