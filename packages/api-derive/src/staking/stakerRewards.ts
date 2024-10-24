@@ -84,6 +84,7 @@ function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPref
     return {
       era,
       eraReward,
+      isClaimed: false,
       isEmpty,
       isValidator,
       nominating,
@@ -152,6 +153,7 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
     .filter(({ validators }) => Object.keys(validators).length !== 0)
     .map((reward) =>
       objectSpread({}, reward, {
+        isClaimed: filter.some((f) => reward.era.eq(f)),
         nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
       })
     );
