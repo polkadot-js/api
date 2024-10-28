@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 14.2.1 Oct 28, 2024
+
+Changes:
+
+- Add isClaimed field to api.derive.staking._stakerRewards ([#6007](https://github.com/polkadot-js/api/pull/6007))
+- Upgrade polkadot/common to 13.1.2 ([#6008](https://github.com/polkadot-js/api/pull/6008))
+- Bump yarn to 4.5.1 ([#6005](https://github.com/polkadot-js/api/pull/6005))
+
+
 ## 14.1.1 Oct 21, 2024
 
 Changes:
