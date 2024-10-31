@@ -9,11 +9,7 @@ describe('LRUCache', (): void => {
   let lru: LRUCache | undefined;
 
   beforeEach((): void => {
-    lru = new LRUCache(4);
-  });
-  afterEach(async () => {
-    await lru?.clearInterval();
-    lru = undefined;
+    lru = new LRUCache(4, 500);
   });
 
   it('allows getting of items below capacity', (): void => {
@@ -61,5 +57,18 @@ describe('LRUCache', (): void => {
 
     expect(lru?.entries()).toEqual([['6', '666'], ['4', '4433'], ['3', '333'], ['5', '555']]);
     expect(lru?.length === lru?.lengthData && lru?.length === lru?.lengthRefs).toBe(true);
+  });
+
+  it('evicts items with TTL', (): void => {
+    const keys = ['1', '2', '3', '4', '5'];
+
+    keys.forEach((k) => lru?.set(k, `${k}${k}${k}`));
+
+    expect(lru?.entries()).toEqual([['5', '555'], ['4', '444'], ['3', '333'], ['2', '222']]);
+
+    setTimeout((): void => {
+      lru?.get('3');
+      expect(lru?.entries()).toEqual([['3', '333']]);
+    }, 800);
   });
 });

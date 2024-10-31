@@ -9,25 +9,27 @@ export const DEFAULT_CAPACITY = 64;
 
 class LRUNode {
   readonly key: string;
-  #lastAccess: number;
+  #expires: number;
+  #ttl: number;
   readonly createdAt: number;
 
   public next: LRUNode;
   public prev: LRUNode;
 
-  constructor (key: string) {
+  constructor (key: string, ttl: number) {
     this.key = key;
-    this.#lastAccess = Date.now();
-    this.createdAt = this.#lastAccess;
+    this.#ttl = ttl;
+    this.#expires = Date.now() + ttl;
+    this.createdAt = Date.now();
     this.next = this.prev = this;
   }
 
   public refresh (): void {
-    this.#lastAccess = Date.now();
+    this.#expires = Date.now() + this.#ttl;
   }
 
-  public get lastAccess (): number {
-    return this.#lastAccess;
+  public get expiry (): number {
+    return this.#expires;
   }
 }
 
@@ -43,27 +45,15 @@ export class LRUCache {
   #tail: LRUNode;
 
   readonly #ttl: number;
-  readonly #ttlInterval: number;
-  #ttlTimerId: ReturnType<typeof setInterval> | null = null;
 
-  constructor (capacity = DEFAULT_CAPACITY, ttl = 30000, ttlInterval = 15000) {
+  constructor (capacity = DEFAULT_CAPACITY, ttl = 30000) {
     this.capacity = capacity;
     this.#ttl = ttl;
-    this.#ttlInterval = ttlInterval;
-    this.#head = this.#tail = new LRUNode('<empty>');
-
-    // make sure the interval is not longer than the ttl
-    if (this.#ttlInterval > this.#ttl) {
-      this.#ttlInterval = this.#ttl;
-    }
+    this.#head = this.#tail = new LRUNode('<empty>', ttl);
   }
 
   get ttl (): number {
     return this.#ttl;
-  }
-
-  get ttlInterval (): number {
-    return this.#ttlInterval;
   }
 
   get length (): number {
@@ -115,8 +105,13 @@ export class LRUCache {
     if (data) {
       this.#toHead(key);
 
+      // Evict TTL once data is refreshed
+      this.#evictTTL();
+
       return data as T;
     }
+
+    this.#evictTTL();
 
     return null;
   }
@@ -125,7 +120,7 @@ export class LRUCache {
     if (this.#data.has(key)) {
       this.#toHead(key);
     } else {
-      const node = new LRUNode(key);
+      const node = new LRUNode(key, this.#ttl);
 
       this.#refs.set(node.key, node);
 
@@ -148,32 +143,25 @@ export class LRUCache {
       }
     }
 
-    if (this.#ttl > 0 && !this.#ttlTimerId) {
-      this.#ttlTimerId = setInterval(() => {
-        this.#ttlClean();
-      }, this.#ttlInterval);
-    }
+    // Evict TTL once data is refreshed or added
+    this.#evictTTL();
 
     this.#data.set(key, value);
   }
 
-  #ttlClean () {
+  #evictTTL () {
   // Find last node to keep
-    const expires = Date.now() - this.#ttl;
+    // traverse map to find the expired nodes
+    while (this.#tail.expiry && this.#tail.expiry < Date.now() && this.#length > 0) {
+      this.#refs.delete(this.#tail.key);
+      this.#data.delete(this.#tail.key);
+      this.#length -= 1;
+      this.#tail = this.#tail.prev;
+      this.#tail.next = this.#head;
+    }
 
-    // traverse map to find the lastAccessed
-    while (this.#tail.lastAccess && this.#tail.lastAccess < expires && this.#length > 0) {
-      if (this.#ttlTimerId && this.#length === 0) {
-        clearInterval(this.#ttlTimerId);
-        this.#ttlTimerId = null;
-        this.#head = this.#tail = new LRUNode('<empty>');
-      } else {
-        this.#refs.delete(this.#tail.key);
-        this.#data.delete(this.#tail.key);
-        this.#length -= 1;
-        this.#tail = this.#tail.prev;
-        this.#tail.next = this.#head;
-      }
+    if (this.#length === 0) {
+      this.#head = this.#tail = new LRUNode('<empty>', this.#ttl);
     }
   }
 
@@ -188,14 +176,6 @@ export class LRUCache {
 
       this.#head.prev = ref;
       this.#head = ref;
-    }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/require-await
-  public async clearInterval (): Promise<void> {
-    if (this.#ttlTimerId) {
-      clearInterval(this.#ttlTimerId);
-      this.#ttlTimerId = null;
     }
   }
 }
