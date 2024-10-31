@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 14.2.2 Oct 31, 2024
+
+Changes:
+
+- fix: update LRUcache to not keep thread ([#6013](https://github.com/polkadot-js/api/pull/6013))
+- Adjust `api.derive.staking.nextElected` to use erasStakersOverview ([#6011](https://github.com/polkadot-js/api/pull/6011))
+
+
 ## 14.2.1 Oct 28, 2024
 
 Changes:
