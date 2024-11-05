@@ -24,7 +24,9 @@ jobs:
         token: ${{ secrets.GH_PAT_BOT }}
     - uses: actions/setup-node@v4
       with:
-        node-version: 'lts/*'
+        # This will default to using v20 so that CI will pass.
+        # ref: https://github.com/polkadot-js/api/issues/6017
+        node-version: 'lts/iron'
     - name: ${{ matrix.step }}
       run: |
         yarn install --immutable
