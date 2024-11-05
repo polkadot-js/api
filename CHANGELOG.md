@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 14.2.3 Nov 5, 2024
+
+Changes:
+
+- Increase RPC-CORE default cache capacity ([#6016](https://github.com/polkadot-js/api/pull/6016))
+- Set CI to use Node.js Iron (v20) ([#6018](https://github.com/polkadot-js/api/pull/6018))
+
+
 ## 14.2.2 Oct 31, 2024
 
 Changes:
