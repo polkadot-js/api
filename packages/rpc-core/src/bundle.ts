@@ -123,7 +123,7 @@ export class RpcCore {
 
     // these are the base keys (i.e. part of jsonrpc)
     this.sections.push(...sectionNames);
-    this.#storageCache = new LRUCache(DEFAULT_CAPACITY);
+    this.#storageCache = new LRUCache(DEFAULT_CAPACITY * 10 * 10);
     // decorate all interfaces, defined and user on this instance
     this.addUserInterfaces(userRpc);
   }

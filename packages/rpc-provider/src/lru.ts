@@ -5,7 +5,7 @@
 // cache space (depending on the historic queries this would vary, metadata
 // for Kusama/Polkadot/Substrate falls between 600-750K, 2x for estimate)
 
-export const DEFAULT_CAPACITY = 64;
+export const DEFAULT_CAPACITY = 1024;
 
 class LRUNode {
   readonly key: string;
