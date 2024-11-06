@@ -81,6 +81,10 @@ export interface ApiOptions extends RegisteredTypes {
    */
   rpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
   /**
+   * @description Defines the size of the cache for the rpc-core. Defaults to 1024 * 10 * 10.
+   */
+  rpcCacheCapacity?: number;
+  /**
    * @description Overrides for state_call usage (this will be removed in some future version)
    */
   runtime?: DefinitionsCall;
