@@ -7,6 +7,8 @@ import { fetch } from '@polkadot/x-fetch';
 
 const PREAMBLE = '// Copyright 2017-2024 @polkadot/types-support authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n/* eslint-disable */\n\n';
 const CMD = {
+  'asset-hub-kusama': `${PREAMBLE}//To run a asset-hub-kusama node please refer to types-support/src/metadata/README.md\n\nexport default`,
+  'asset-hub-polkadot': `${PREAMBLE}//To run a asset-hub-polkadot node please refer to types-support/src/metadata/README.md\n\nexport default`,
   kusama: `${PREAMBLE}// cargo run --release -- purge-chain -y --chain kusama-dev  && cargo run --release -- --chain kusama-dev --alice --force-authoring\n\nexport default`,
   polkadot: `${PREAMBLE}// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`,
   substrate: `${PREAMBLE}// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`,
@@ -16,6 +18,25 @@ const CMD = {
 // V15
 const META_VERSION_HEX = '0x0f000000';
 const META_VERSION = 15;
+
+/**
+ * Parse the specName given any exceptions.
+ * 
+ * @param {'polkadot' | 'kusama' | 'node' | 'statemint' | 'statemine'} specName
+ * @returns {'polkadot' | 'kusama' | 'substrate' | 'asset-hub-kusama' | 'asset-hub-polkadot'} 
+ */
+const parseChainName = (specName) => {
+  switch(specName) {
+    case 'node':
+      return 'substrate';
+    case 'statemine':
+      return 'asset-hub-kusama';
+    case 'statemint':
+      return 'asset-hub-polkadot';
+    default:
+      return specName;
+  }
+}
 
 /**
  * Small CLI parser.
@@ -64,16 +85,14 @@ const main = async () => {
     return body.result;
   }
 
-  /** @type {[string[], string, { specName: 'polkadot' | 'kusama' | 'node'; specVersion: string; }]} */
+  /** @type {[string[], string, { specName: 'polkadot' | 'kusama' | 'node' | 'statemine' | 'statemint'; specVersion: string; }]} */
   const [methods, metadata, version] = await Promise.all([
     get('rpc_methods'),
     get('state_call', ['Metadata_metadata_at_version', META_VERSION_HEX]),
     get('state_getRuntimeVersion')
   ]);
-  const chain = version.specName === 'node'
-    ? 'substrate'
-    : version.specName;
-  const metaVer = parseInt(metadata.substring(10, 12), 16);
+  const chain = parseChainName(version.specName);
+  const metaVer = parseInt(metadata.substring(20, 22), 16);
   const path = `packages/types-support/src/metadata/v${META_VERSION}/${chain}`;
 
   fs.writeFileSync(`${path}-hex.ts`, `${CMD[chain]} '${metadata}';\n`);
