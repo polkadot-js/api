@@ -16,6 +16,8 @@ import * as allGen from './index.js';
 
 const keys = ['kusama', 'polkadot', 'westend'] as const;
 const urls = {
+  'asset-hub-kusama': 'wss://kusama-asset-hub-rpc.polkadot.io',
+  'asset-hub-polkadot': 'wss://polkadot-asset-hub-rpc.polkadot.io',
   kusama: 'wss://kusama-rpc.polkadot.io',
   polkadot: 'wss://rpc.polkadot.io',
   westend: 'wss://westend-rpc.polkadot.io'

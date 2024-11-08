@@ -1,0 +1,4378 @@
+{
+  "magicNumber": 1635018093,
+  "metadata": {
+    "v15": {
+      "pallets": [
+        {
+          "name": "System",
+          "storage": {
+            "prefix": "System",
+            "items": [
+              {
+                "name": "Account",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 3
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080",
+                "docs": [
+                  " The full account information for a particular account ID."
+                ]
+              },
+              {
+                "name": "ExtrinsicCount",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Total extrinsics count for the current block."
+                ]
+              },
+              {
+                "name": "InherentsApplied",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Whether all inherents have been applied."
+                ]
+              },
+              {
+                "name": "BlockWeight",
+                "modifier": "Default",
+                "type": {
+                  "plain": 9
+                },
+                "fallback": "0x000000000000",
+                "docs": [
+                  " The current weight for the block."
+                ]
+              },
+              {
+                "name": "AllExtrinsicsLen",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Total length (in bytes) for all extrinsics put together, for the current block."
+                ]
+              },
+              {
+                "name": "BlockHash",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 13
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Map of block numbers to block hashes."
+                ]
+              },
+              {
+                "name": "ExtrinsicData",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 4,
+                    "value": 14
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Extrinsics data for the current block (maps an extrinsic's index to its data)."
+                ]
+              },
+              {
+                "name": "Number",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The current block number being processed. Set by `execute_block`."
+                ]
+              },
+              {
+                "name": "ParentHash",
+                "modifier": "Default",
+                "type": {
+                  "plain": 13
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " Hash of the previous block."
+                ]
+              },
+              {
+                "name": "Digest",
+                "modifier": "Default",
+                "type": {
+                  "plain": 15
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Digest of the current block, also part of the block header."
+                ]
+              },
+              {
+                "name": "Events",
+                "modifier": "Default",
+                "type": {
+                  "plain": 19
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Events deposited for the current block.",
+                  "",
+                  " NOTE: The item is unbound and should therefore never be read on chain.",
+                  " It could otherwise inflate the PoV size of a block.",
+                  "",
+                  " Events have a large in-memory size. Box the events to not go out-of-memory",
+                  " just in case someone still reads them from within the runtime."
+                ]
+              },
+              {
+                "name": "EventCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The number of events in the `Events<T>` list."
+                ]
+              },
+              {
+                "name": "EventTopics",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 13,
+                    "value": 154
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Mapping between a topic (represented by T::Hash) and a vector of indexes",
+                  " of events in the `<Events<T>>` list.",
+                  "",
+                  " All topic vectors have deterministic storage locations depending on the topic. This",
+                  " allows light-clients to leverage the changes trie storage tracking mechanism and",
+                  " in case of changes fetch the list of events of interest.",
+                  "",
+                  " The value has the type `(BlockNumberFor<T>, EventIndex)` because if we used only just",
+                  " the `EventIndex` then in case if the topic has the same contents on the next block",
+                  " no notification will be triggered thus the event might be lost."
+                ]
+              },
+              {
+                "name": "LastRuntimeUpgrade",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 156
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Stores the `spec_version` and `spec_name` of when the last runtime upgrade happened."
+                ]
+              },
+              {
+                "name": "UpgradedToU32RefCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " True if we have upgraded so that `type RefCount` is `u32`. False (default) if not."
+                ]
+              },
+              {
+                "name": "UpgradedToTripleRefCount",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " True if we have upgraded so that AccountInfo contains three types of `RefCount`. False",
+                  " (default) if not."
+                ]
+              },
+              {
+                "name": "ExecutionPhase",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 152
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The execution phase of the block."
+                ]
+              },
+              {
+                "name": "AuthorizedUpgrade",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 158
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " `Some` if a code upgrade has been authorized."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 159
+          },
+          "events": {
+            "type": 22
+          },
+          "constants": [
+            {
+              "name": "BlockWeights",
+              "type": 163,
+              "value": "0x0700f2052a0100070088526a74020040010265cd1d000107c0d22c76510200e000010700e6bd4f570200f0000100000265cd1d000107c074c1906e0200300101070088526a7402004001010700a2941a1d020050000265cd1d00000000",
+              "docs": [
+                " Block & extrinsics weights: base values and limits."
+              ]
+            },
+            {
+              "name": "BlockLength",
+              "type": 167,
+              "value": "0x00003c000000500000005000",
+              "docs": [
+                " The maximum length of a block (in bytes)."
+              ]
+            },
+            {
+              "name": "BlockHashCount",
+              "type": 4,
+              "value": "0x00100000",
+              "docs": [
+                " Maximum number of block number to block hash mappings to keep (oldest pruned first)."
+              ]
+            },
+            {
+              "name": "DbWeight",
+              "type": 169,
+              "value": "0x40787d010000000000e1f50500000000",
+              "docs": [
+                " The weight of runtime database operations the runtime can invoke."
+              ]
+            },
+            {
+              "name": "Version",
+              "type": 170,
+              "value": "0x2473746174656d696e742473746174656d696e7401000000fb4d0f000000000048dd718d5cc53262d401000000d7bdd8a272ca0d6501000000df6acb689907609b0500000037e397fc7c91f5e40200000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a804000000f3ff14d5ab527059030000006ff52ee858e6c5bd0100000091b1c8b16328eb92010000009ffb505aa738d69c01000000de92b8a0426b9bf602000000ea93e3f16f3d696202000000fbc577b9d747efd6010000008a8047a53a8277ec010000000f00000000",
+              "docs": [
+                " Get the chain's in-code version."
+              ]
+            },
+            {
+              "name": "SS58Prefix",
+              "type": 129,
+              "value": "0x0000",
+              "docs": [
+                " The designated SS58 prefix of this chain.",
+                "",
+                " This replaces the \"ss58Format\" property declared in the chain spec. Reason is",
+                " that the runtime should know about the prefix in order to make use of it as",
+                " an identifier of the chain."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 174
+          },
+          "index": 0,
+          "docs": []
+        },
+        {
+          "name": "ParachainSystem",
+          "storage": {
+            "prefix": "ParachainSystem",
+            "items": [
+              {
+                "name": "UnincludedSegment",
+                "modifier": "Default",
+                "type": {
+                  "plain": 175
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Latest included block descendants the runtime accepted. In other words, these are",
+                  " ancestors of the currently executing block which have not been included in the observed",
+                  " relay-chain state.",
+                  "",
+                  " The segment length is limited by the capacity returned from the [`ConsensusHook`] configured",
+                  " in the pallet."
+                ]
+              },
+              {
+                "name": "AggregatedUnincludedSegment",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 185
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage field that keeps track of bandwidth used by the unincluded segment along with the",
+                  " latest HRMP watermark. Used for limiting the acceptance of new blocks with",
+                  " respect to relay chain constraints."
+                ]
+              },
+              {
+                "name": "PendingValidationCode",
+                "modifier": "Default",
+                "type": {
+                  "plain": 14
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " In case of a scheduled upgrade, this storage field contains the validation code to be",
+                  " applied.",
+                  "",
+                  " As soon as the relay chain gives us the go-ahead signal, we will overwrite the",
+                  " [`:code`][sp_core::storage::well_known_keys::CODE] which will result the next block process",
+                  " with the new validation code. This concludes the upgrade process."
+                ]
+              },
+              {
+                "name": "NewValidationCode",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 14
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Validation code that is set by the parachain and is to be communicated to collator and",
+                  " consequently the relay-chain.",
+                  "",
+                  " This will be cleared in `on_initialize` of each new block if no other pallet already set",
+                  " the value."
+                ]
+              },
+              {
+                "name": "ValidationData",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 186
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The [`PersistedValidationData`] set for this block.",
+                  " This value is expected to be set only once per block and it's never stored",
+                  " in the trie."
+                ]
+              },
+              {
+                "name": "DidSetValidationCode",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Were the validation data set to notify the relay chain?"
+                ]
+              },
+              {
+                "name": "LastRelayChainBlockNumber",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The relay chain block number associated with the last parachain block.",
+                  "",
+                  " This is updated in `on_finalize`."
+                ]
+              },
+              {
+                "name": "UpgradeRestrictionSignal",
+                "modifier": "Default",
+                "type": {
+                  "plain": 188
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " An option which indicates if the relay-chain restricts signalling a validation code upgrade.",
+                  " In other words, if this is `Some` and [`NewValidationCode`] is `Some` then the produced",
+                  " candidate will be invalid.",
+                  "",
+                  " This storage item is a mirror of the corresponding value for the current parachain from the",
+                  " relay-chain. This value is ephemeral which means it doesn't hit the storage. This value is",
+                  " set after the inherent."
+                ]
+              },
+              {
+                "name": "UpgradeGoAhead",
+                "modifier": "Default",
+                "type": {
+                  "plain": 183
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Optional upgrade go-ahead signal from the relay-chain.",
+                  "",
+                  " This storage item is a mirror of the corresponding value for the current parachain from the",
+                  " relay-chain. This value is ephemeral which means it doesn't hit the storage. This value is",
+                  " set after the inherent."
+                ]
+              },
+              {
+                "name": "RelayStateProof",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 190
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The state proof for the last relay parent block.",
+                  "",
+                  " This field is meant to be updated each block with the validation data inherent. Therefore,",
+                  " before processing of the inherent, e.g. in `on_initialize` this data may be stale.",
+                  "",
+                  " This data is also absent from the genesis."
+                ]
+              },
+              {
+                "name": "RelevantMessagingState",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 192
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The snapshot of some state related to messaging relevant to the current parachain as per",
+                  " the relay parent.",
+                  "",
+                  " This field is meant to be updated each block with the validation data inherent. Therefore,",
+                  " before processing of the inherent, e.g. in `on_initialize` this data may be stale.",
+                  "",
+                  " This data is also absent from the genesis."
+                ]
+              },
+              {
+                "name": "HostConfiguration",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 197
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The parachain host configuration that was obtained from the relay parent.",
+                  "",
+                  " This field is meant to be updated each block with the validation data inherent. Therefore,",
+                  " before processing of the inherent, e.g. in `on_initialize` this data may be stale.",
+                  "",
+                  " This data is also absent from the genesis."
+                ]
+              },
+              {
+                "name": "LastDmqMqcHead",
+                "modifier": "Default",
+                "type": {
+                  "plain": 199
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " The last downward message queue chain head we have observed.",
+                  "",
+                  " This value is loaded before and saved after processing inbound downward messages carried",
+                  " by the system inherent."
+                ]
+              },
+              {
+                "name": "LastHrmpMqcHeads",
+                "modifier": "Default",
+                "type": {
+                  "plain": 200
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The message queue chain heads we have observed per each channel incoming channel.",
+                  "",
+                  " This value is loaded before and saved after processing inbound downward messages carried",
+                  " by the system inherent."
+                ]
+              },
+              {
+                "name": "ProcessedDownwardMessages",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Number of downward messages processed in a block.",
+                  "",
+                  " This will be cleared in `on_initialize` of each new block."
+                ]
+              },
+              {
+                "name": "HrmpWatermark",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " HRMP watermark that was set in a block.",
+                  "",
+                  " This will be cleared in `on_initialize` of each new block."
+                ]
+              },
+              {
+                "name": "HrmpOutboundMessages",
+                "modifier": "Default",
+                "type": {
+                  "plain": 203
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " HRMP messages that were sent in a block.",
+                  "",
+                  " This will be cleared in `on_initialize` of each new block."
+                ]
+              },
+              {
+                "name": "UpwardMessages",
+                "modifier": "Default",
+                "type": {
+                  "plain": 162
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Upward messages that were sent in a block.",
+                  "",
+                  " This will be cleared in `on_initialize` of each new block."
+                ]
+              },
+              {
+                "name": "PendingUpwardMessages",
+                "modifier": "Default",
+                "type": {
+                  "plain": 162
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Upward messages that are still pending and not yet send to the relay chain."
+                ]
+              },
+              {
+                "name": "UpwardDeliveryFeeFactor",
+                "modifier": "Default",
+                "type": {
+                  "plain": 205
+                },
+                "fallback": "0x000064a7b3b6e00d0000000000000000",
+                "docs": [
+                  " The factor to multiply the base delivery fee by for UMP."
+                ]
+              },
+              {
+                "name": "AnnouncedHrmpMessagesPerCandidate",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The number of HRMP messages we observed in `on_initialize` and thus used that number for",
+                  " announcing the weight of `on_initialize` and `on_finalize`."
+                ]
+              },
+              {
+                "name": "ReservedXcmpWeightOverride",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 10
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The weight we reserve at the beginning of the block for processing XCMP messages. This",
+                  " overrides the amount set in the Config trait."
+                ]
+              },
+              {
+                "name": "ReservedDmpWeightOverride",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 10
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The weight we reserve at the beginning of the block for processing DMP messages. This",
+                  " overrides the amount set in the Config trait."
+                ]
+              },
+              {
+                "name": "CustomValidationHeadData",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 14
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A custom head data that should be returned as result of `validate_block`.",
+                  "",
+                  " See `Pallet::set_custom_validation_head_data` for more information."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 206
+          },
+          "events": {
+            "type": 31
+          },
+          "constants": [
+            {
+              "name": "SelfParaId",
+              "type": 120,
+              "value": "0xe8030000",
+              "docs": [
+                " Returns the parachain ID we are running with."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 215
+          },
+          "index": 1,
+          "docs": []
+        },
+        {
+          "name": "Timestamp",
+          "storage": {
+            "prefix": "Timestamp",
+            "items": [
+              {
+                "name": "Now",
+                "modifier": "Default",
+                "type": {
+                  "plain": 12
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " The current time for the current block."
+                ]
+              },
+              {
+                "name": "DidUpdate",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Whether the timestamp has been updated in this block.",
+                  "",
+                  " This value is updated to `true` upon successful submission of a timestamp by a node.",
+                  " It is then checked at the end of each block execution in the `on_finalize` hook."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 216
+          },
+          "events": null,
+          "constants": [
+            {
+              "name": "MinimumPeriod",
+              "type": 12,
+              "value": "0x7017000000000000",
+              "docs": [
+                " The minimum period between blocks.",
+                "",
+                " Be aware that this is different to the *expected* period that the block production",
+                " apparatus provides. Your chosen consensus system will generally work with this to",
+                " determine a sensible block time. For example, in the Aura pallet it will be double this",
+                " period on default settings."
+              ]
+            }
+          ],
+          "errors": null,
+          "index": 3,
+          "docs": []
+        },
+        {
+          "name": "ParachainInfo",
+          "storage": {
+            "prefix": "ParachainInfo",
+            "items": [
+              {
+                "name": "ParachainId",
+                "modifier": "Default",
+                "type": {
+                  "plain": 120
+                },
+                "fallback": "0x64000000",
+                "docs": []
+              }
+            ]
+          },
+          "calls": {
+            "type": 217
+          },
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 4,
+          "docs": []
+        },
+        {
+          "name": "Balances",
+          "storage": {
+            "prefix": "Balances",
+            "items": [
+              {
+                "name": "TotalIssuance",
+                "modifier": "Default",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " The total units issued in the system."
+                ]
+              },
+              {
+                "name": "InactiveIssuance",
+                "modifier": "Default",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " The total units of outstanding deactivated balance in the system."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 5
+                  }
+                },
+                "fallback": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080",
+                "docs": [
+                  " The Balances pallet example of storing the balance of an account.",
+                  "",
+                  " # Example",
+                  "",
+                  " ```nocompile",
+                  "  impl pallet_balances::Config for Runtime {",
+                  "    type AccountStore = StorageMapShim<Self::Account<Runtime>, frame_system::Provider<Runtime>, AccountId, Self::AccountData<Balance>>",
+                  "  }",
+                  " ```",
+                  "",
+                  " You can also store the balance of an account in the `System` pallet.",
+                  "",
+                  " # Example",
+                  "",
+                  " ```nocompile",
+                  "  impl pallet_balances::Config for Runtime {",
+                  "   type AccountStore = System",
+                  "  }",
+                  " ```",
+                  "",
+                  " But this comes with tradeoffs, storing account balances in the system pallet stores",
+                  " `frame_system` data alongside the account data contrary to storing account balances in the",
+                  " `Balances` pallet, which uses a `StorageMap` to store balances data only.",
+                  " NOTE: This is only used in the case that this pallet is used to store balances."
+                ]
+              },
+              {
+                "name": "Locks",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 218
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Any liquidity locks on some account balances.",
+                  " NOTE: Should only be accessed when setting, changing and freeing a lock.",
+                  "",
+                  " Use of locks is deprecated in favour of freezes. See `https://github.com/paritytech/substrate/pull/12951/`"
+                ]
+              },
+              {
+                "name": "Reserves",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 222
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Named reserves on some account balances.",
+                  "",
+                  " Use of reserves is deprecated in favour of holds. See `https://github.com/paritytech/substrate/pull/12951/`"
+                ]
+              },
+              {
+                "name": "Holds",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 225
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Holds on account balances."
+                ]
+              },
+              {
+                "name": "Freezes",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 229
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Freeze locks on account balances."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 232
+          },
+          "events": {
+            "type": 33
+          },
+          "constants": [
+            {
+              "name": "ExistentialDeposit",
+              "type": 6,
+              "value": "0x00e1f505000000000000000000000000",
+              "docs": [
+                " The minimum amount required to keep an account open. MUST BE GREATER THAN ZERO!",
+                "",
+                " If you *really* need it to be zero, you can enable the feature `insecure_zero_ed` for",
+                " this pallet. However, you do so at your own risk: this will open up a major DoS vector.",
+                " In case you have multiple sources of provider references, you may also get unexpected",
+                " behaviour if you set this to zero.",
+                "",
+                " Bottom line: Do yourself a favour and make it at least one!"
+              ]
+            },
+            {
+              "name": "MaxLocks",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum number of locks that should exist on an account.",
+                " Not strictly enforced, but used for weight estimation.",
+                "",
+                " Use of locks is deprecated in favour of freezes. See `https://github.com/paritytech/substrate/pull/12951/`"
+              ]
+            },
+            {
+              "name": "MaxReserves",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum number of named reserves that can exist on an account.",
+                "",
+                " Use of reserves is deprecated in favour of holds. See `https://github.com/paritytech/substrate/pull/12951/`"
+              ]
+            },
+            {
+              "name": "MaxFreezes",
+              "type": 4,
+              "value": "0x00000000",
+              "docs": [
+                " The maximum number of individual freeze locks that can exist on an account at any time."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 236
+          },
+          "index": 10,
+          "docs": []
+        },
+        {
+          "name": "TransactionPayment",
+          "storage": {
+            "prefix": "TransactionPayment",
+            "items": [
+              {
+                "name": "NextFeeMultiplier",
+                "modifier": "Default",
+                "type": {
+                  "plain": 205
+                },
+                "fallback": "0x000064a7b3b6e00d0000000000000000",
+                "docs": []
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "plain": 237
+                },
+                "fallback": "0x00",
+                "docs": []
+              }
+            ]
+          },
+          "calls": null,
+          "events": {
+            "type": 35
+          },
+          "constants": [
+            {
+              "name": "OperationalFeeMultiplier",
+              "type": 2,
+              "value": "0x05",
+              "docs": [
+                " A fee multiplier for `Operational` extrinsics to compute \"virtual tip\" to boost their",
+                " `priority`",
+                "",
+                " This value is multiplied by the `final_fee` to obtain a \"virtual tip\" that is later",
+                " added to a tip component in regular `priority` calculations.",
+                " It means that a `Normal` transaction can front-run a similarly-sized `Operational`",
+                " extrinsic (with no tip), by including a tip value greater than the virtual tip.",
+                "",
+                " ```rust,ignore",
+                " // For `Normal`",
+                " let priority = priority_calc(tip);",
+                "",
+                " // For `Operational`",
+                " let virtual_tip = (inclusion_fee + tip) * OperationalFeeMultiplier;",
+                " let priority = priority_calc(tip + virtual_tip);",
+                " ```",
+                "",
+                " Note that since we use `final_fee` the multiplier applies also to the regular `tip`",
+                " sent with the transaction. So, not only does the transaction get a priority bump based",
+                " on the `inclusion_fee`, but we also amplify the impact of tips applied to `Operational`",
+                " transactions."
+              ]
+            }
+          ],
+          "errors": null,
+          "index": 11,
+          "docs": []
+        },
+        {
+          "name": "AssetTxPayment",
+          "storage": null,
+          "calls": null,
+          "events": {
+            "type": 36
+          },
+          "constants": [],
+          "errors": null,
+          "index": 13,
+          "docs": []
+        },
+        {
+          "name": "Vesting",
+          "storage": {
+            "prefix": "Vesting",
+            "items": [
+              {
+                "name": "Vesting",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 238
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Information regarding the vesting of a given account."
+                ]
+              },
+              {
+                "name": "StorageVersion",
+                "modifier": "Default",
+                "type": {
+                  "plain": 241
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Storage version of the pallet.",
+                  "",
+                  " New networks start with latest version, as determined by the genesis build."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 242
+          },
+          "events": {
+            "type": 47
+          },
+          "constants": [
+            {
+              "name": "MinVestedTransfer",
+              "type": 6,
+              "value": "0x00e1f505000000000000000000000000",
+              "docs": [
+                " The minimum amount transferred to call `vested_transfer`."
+              ]
+            },
+            {
+              "name": "MaxVestingSchedules",
+              "type": 4,
+              "value": "0x1c000000",
+              "docs": []
+            }
+          ],
+          "errors": {
+            "type": 243
+          },
+          "index": 14,
+          "docs": []
+        },
+        {
+          "name": "Authorship",
+          "storage": {
+            "prefix": "Authorship",
+            "items": [
+              {
+                "name": "Author",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 0
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Author of current block."
+                ]
+              }
+            ]
+          },
+          "calls": null,
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 20,
+          "docs": []
+        },
+        {
+          "name": "CollatorSelection",
+          "storage": {
+            "prefix": "CollatorSelection",
+            "items": [
+              {
+                "name": "Invulnerables",
+                "modifier": "Default",
+                "type": {
+                  "plain": 244
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The invulnerable, permissioned collators. This list must be sorted."
+                ]
+              },
+              {
+                "name": "CandidateList",
+                "modifier": "Default",
+                "type": {
+                  "plain": 245
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The (community, limited) collation candidates. `Candidates` and `Invulnerables` should be",
+                  " mutually exclusive.",
+                  "",
+                  " This list is sorted in ascending order by deposit and when the deposits are equal, the least",
+                  " recently updated is considered greater."
+                ]
+              },
+              {
+                "name": "LastAuthoredBlock",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Last block authored by collator."
+                ]
+              },
+              {
+                "name": "DesiredCandidates",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Desired number of candidates.",
+                  "",
+                  " This should ideally always be less than [`Config::MaxCandidates`] for weights to be correct."
+                ]
+              },
+              {
+                "name": "CandidacyBond",
+                "modifier": "Default",
+                "type": {
+                  "plain": 6
+                },
+                "fallback": "0x00000000000000000000000000000000",
+                "docs": [
+                  " Fixed amount to deposit to become a collator.",
+                  "",
+                  " When a collator calls `leave_intent` they immediately receive the deposit back."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 248
+          },
+          "events": {
+            "type": 48
+          },
+          "constants": [],
+          "errors": {
+            "type": 249
+          },
+          "index": 21,
+          "docs": []
+        },
+        {
+          "name": "Session",
+          "storage": {
+            "prefix": "Session",
+            "items": [
+              {
+                "name": "Validators",
+                "modifier": "Default",
+                "type": {
+                  "plain": 49
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current set of validators."
+                ]
+              },
+              {
+                "name": "CurrentIndex",
+                "modifier": "Default",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " Current index of the session."
+                ]
+              },
+              {
+                "name": "QueuedChanged",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " True if the underlying economic identities or weighting behind the validators",
+                  " has changed in the queued validator set."
+                ]
+              },
+              {
+                "name": "QueuedKeys",
+                "modifier": "Default",
+                "type": {
+                  "plain": 250
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The queued keys for the next session. When the next session begins, these keys",
+                  " will be used to determine the validator's session keys."
+                ]
+              },
+              {
+                "name": "DisabledValidators",
+                "modifier": "Default",
+                "type": {
+                  "plain": 133
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Indices of disabled validators.",
+                  "",
+                  " The vec is always kept sorted so that we can find whether a given validator is",
+                  " disabled using binary search. It gets cleared when `on_session_ending` returns",
+                  " a new set of identities."
+                ]
+              },
+              {
+                "name": "NextKeys",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 252
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The next session keys for a validator."
+                ]
+              },
+              {
+                "name": "KeyOwner",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 254,
+                    "value": 0
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The owner of a key. The key is the `KeyTypeId` + the encoded key."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 256
+          },
+          "events": {
+            "type": 50
+          },
+          "constants": [],
+          "errors": {
+            "type": 257
+          },
+          "index": 22,
+          "docs": []
+        },
+        {
+          "name": "Aura",
+          "storage": {
+            "prefix": "Aura",
+            "items": [
+              {
+                "name": "Authorities",
+                "modifier": "Default",
+                "type": {
+                  "plain": 258
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current authority set."
+                ]
+              },
+              {
+                "name": "CurrentSlot",
+                "modifier": "Default",
+                "type": {
+                  "plain": 260
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " The current slot of this block.",
+                  "",
+                  " This will be set in `on_initialize`."
+                ]
+              }
+            ]
+          },
+          "calls": null,
+          "events": null,
+          "constants": [
+            {
+              "name": "SlotDuration",
+              "type": 12,
+              "value": "0xe02e000000000000",
+              "docs": [
+                " The slot duration Aura should run with, expressed in milliseconds.",
+                " The effective value of this type should not change while the chain is running.",
+                "",
+                " For backwards compatibility either use [`MinimumPeriodTimesTwo`] or a const."
+              ]
+            }
+          ],
+          "errors": null,
+          "index": 23,
+          "docs": []
+        },
+        {
+          "name": "AuraExt",
+          "storage": {
+            "prefix": "AuraExt",
+            "items": [
+              {
+                "name": "Authorities",
+                "modifier": "Default",
+                "type": {
+                  "plain": 258
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Serves as cache for the authorities.",
+                  "",
+                  " The authorities in AuRa are overwritten in `on_initialize` when we switch to a new session,",
+                  " but we require the old authorities to verify the seal when validating a PoV. This will",
+                  " always be updated to the latest AuRa authorities in `on_finalize`."
+                ]
+              },
+              {
+                "name": "SlotInfo",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 261
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Current slot paired with a number of authored blocks.",
+                  "",
+                  " Updated on each block initialization."
+                ]
+              }
+            ]
+          },
+          "calls": null,
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 24,
+          "docs": []
+        },
+        {
+          "name": "XcmpQueue",
+          "storage": {
+            "prefix": "XcmpQueue",
+            "items": [
+              {
+                "name": "InboundXcmpSuspended",
+                "modifier": "Default",
+                "type": {
+                  "plain": 262
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The suspended inbound XCMP channels. All others are not suspended.",
+                  "",
+                  " This is a `StorageValue` instead of a `StorageMap` since we expect multiple reads per block",
+                  " to different keys with a one byte payload. The access to `BoundedBTreeSet` will be cached",
+                  " within the block and therefore only included once in the proof size.",
+                  "",
+                  " NOTE: The PoV benchmarking cannot know this and will over-estimate, but the actual proof",
+                  " will be smaller."
+                ]
+              },
+              {
+                "name": "OutboundXcmpStatus",
+                "modifier": "Default",
+                "type": {
+                  "plain": 265
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The non-empty XCMP channels in order of becoming non-empty, and the index of the first",
+                  " and last outbound message. If the two indices are equal, then it indicates an empty",
+                  " queue and there must be a non-`Ok` `OutboundStatus`. We assume queues grow no greater",
+                  " than 65535 items. Queue indices for normal messages begin at one; zero is reserved in",
+                  " case of the need to send a high-priority signal message this block.",
+                  " The bool is true if there is a signal message waiting to be sent."
+                ]
+              },
+              {
+                "name": "OutboundXcmpMessages",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 269,
+                    "value": 270
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The messages outbound in a given XCMP channel."
+                ]
+              },
+              {
+                "name": "SignalMessages",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 120,
+                    "value": 270
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Any signal messages waiting to be sent."
+                ]
+              },
+              {
+                "name": "QueueConfig",
+                "modifier": "Default",
+                "type": {
+                  "plain": 271
+                },
+                "fallback": "0x200000003000000008000000",
+                "docs": [
+                  " The configuration which controls the dynamics of the outbound queue."
+                ]
+              },
+              {
+                "name": "QueueSuspended",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Whether or not the XCMP queue is suspended from executing incoming XCMs or not."
+                ]
+              },
+              {
+                "name": "DeliveryFeeFactor",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 120,
+                    "value": 205
+                  }
+                },
+                "fallback": "0x000064a7b3b6e00d0000000000000000",
+                "docs": [
+                  " The factor to multiply the base delivery fee by."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 272
+          },
+          "events": {
+            "type": 51
+          },
+          "constants": [
+            {
+              "name": "MaxInboundSuspended",
+              "type": 4,
+              "value": "0xe8030000",
+              "docs": [
+                " The maximum number of inbound XCMP channels that can be suspended simultaneously.",
+                "",
+                " Any further channel suspensions will fail and messages may get dropped without further",
+                " notice. Choosing a high value (1000) is okay; the trade-off that is described in",
+                " [`InboundXcmpSuspended`] still applies at that scale."
+              ]
+            },
+            {
+              "name": "MaxActiveOutboundChannels",
+              "type": 4,
+              "value": "0x80000000",
+              "docs": [
+                " Maximal number of outbound XCMP channels that can have messages queued at the same time.",
+                "",
+                " If this is reached, then no further messages can be sent to channels that do not yet",
+                " have a message queued. This should be set to the expected maximum of outbound channels",
+                " which is determined by [`Self::ChannelInfo`]. It is important to set this large enough,",
+                " since otherwise the congestion control protocol will not work as intended and messages",
+                " may be dropped. This value increases the PoV and should therefore not be picked too",
+                " high. Governance needs to pay attention to not open more channels than this value."
+              ]
+            },
+            {
+              "name": "MaxPageSize",
+              "type": 4,
+              "value": "0x009c0100",
+              "docs": [
+                " The maximal page size for HRMP message pages.",
+                "",
+                " A lower limit can be set dynamically, but this is the hard-limit for the PoV worst case",
+                " benchmarking. The limit for the size of a message is slightly below this, since some",
+                " overhead is incurred for encoding the format."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 273
+          },
+          "index": 30,
+          "docs": []
+        },
+        {
+          "name": "PolkadotXcm",
+          "storage": {
+            "prefix": "PolkadotXcm",
+            "items": [
+              {
+                "name": "QueryCounter",
+                "modifier": "Default",
+                "type": {
+                  "plain": 12
+                },
+                "fallback": "0x0000000000000000",
+                "docs": [
+                  " The latest available query index."
+                ]
+              },
+              {
+                "name": "Queries",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 12,
+                    "value": 274
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The ongoing queries."
+                ]
+              },
+              {
+                "name": "AssetTraps",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Identity"
+                    ],
+                    "key": 13,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00000000",
+                "docs": [
+                  " The existing asset traps.",
+                  "",
+                  " Key is the blake2 256 hash of (origin, versioned `Assets`) pair. Value is the number of",
+                  " times this pair has been trapped (usually just 1 if it exists at all)."
+                ]
+              },
+              {
+                "name": "SafeXcmVersion",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Default version to encode XCM when latest version of destination is unknown. If `None`,",
+                  " then the destinations whose XCM version is unknown are considered unreachable."
+                ]
+              },
+              {
+                "name": "SupportedVersion",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 288,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The Latest versions that we know various locations support."
+                ]
+              },
+              {
+                "name": "VersionNotifiers",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 288,
+                    "value": 12
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " All locations that we have requested version notifications from."
+                ]
+              },
+              {
+                "name": "VersionNotifyTargets",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 288,
+                    "value": 289
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The target locations that are subscribed to our version changes, as well as the most recent",
+                  " of our versions we informed them of."
+                ]
+              },
+              {
+                "name": "VersionDiscoveryQueue",
+                "modifier": "Default",
+                "type": {
+                  "plain": 290
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Destinations whose latest XCM version we would like to know. Duplicates not allowed, and",
+                  " the `u32` counter is the number of times that a send to the destination has been attempted,",
+                  " which is used as a prioritization."
+                ]
+              },
+              {
+                "name": "CurrentMigration",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 293
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The current migration's stage, if any."
+                ]
+              },
+              {
+                "name": "RemoteLockedFungibles",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 295,
+                    "value": 297
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Fungible assets which we know are locked on a remote chain."
+                ]
+              },
+              {
+                "name": "LockedFungibles",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 301
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Fungible assets which we know are locked on this chain."
+                ]
+              },
+              {
+                "name": "XcmExecutionSuspended",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Global suspension state of the XCM executor."
+                ]
+              },
+              {
+                "name": "ShouldRecordXcm",
+                "modifier": "Default",
+                "type": {
+                  "plain": 8
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Whether or not incoming XCMs (both executed locally and received) should be recorded.",
+                  " Only one XCM program will be recorded at a time.",
+                  " This is meant to be used in runtime APIs, and it's advised it stays false",
+                  " for all other use cases, so as to not degrade regular performance.",
+                  "",
+                  " Only relevant if this pallet is being used as the [`xcm_executor::traits::RecordXcm`]",
+                  " implementation in the XCM executor configuration."
+                ]
+              },
+              {
+                "name": "RecordedXcm",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 68
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " If [`ShouldRecordXcm`] is set to true, then the last XCM program executed locally",
+                  " will be stored here.",
+                  " Runtime APIs can fetch the XCM that was executed by accessing this value.",
+                  "",
+                  " Only relevant if this pallet is being used as the [`xcm_executor::traits::RecordXcm`]",
+                  " implementation in the XCM executor configuration."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 304
+          },
+          "events": {
+            "type": 52
+          },
+          "constants": [],
+          "errors": {
+            "type": 334
+          },
+          "index": 31,
+          "docs": []
+        },
+        {
+          "name": "CumulusXcm",
+          "storage": null,
+          "calls": {
+            "type": 335
+          },
+          "events": {
+            "type": 117
+          },
+          "constants": [],
+          "errors": null,
+          "index": 32,
+          "docs": []
+        },
+        {
+          "name": "ToKusamaXcmRouter",
+          "storage": {
+            "prefix": "ToKusamaXcmRouter",
+            "items": [
+              {
+                "name": "Bridge",
+                "modifier": "Default",
+                "type": {
+                  "plain": 336
+                },
+                "fallback": "0x000064a7b3b6e00d000000000000000000",
+                "docs": [
+                  " Bridge that we are using.",
+                  "",
+                  " **bridges-v1** assumptions: all outbound messages through this router are using single lane",
+                  " and to single remote consensus. If there is some other remote consensus that uses the same",
+                  " bridge hub, the separate pallet instance shall be used, In `v2` we'll have all required",
+                  " primitives (lane-id aka bridge-id, derived from XCM locations) to support multiple  bridges",
+                  " by the same pallet instance."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 337
+          },
+          "events": null,
+          "constants": [],
+          "errors": null,
+          "index": 34,
+          "docs": []
+        },
+        {
+          "name": "MessageQueue",
+          "storage": {
+            "prefix": "MessageQueue",
+            "items": [
+              {
+                "name": "BookStateFor",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 119,
+                    "value": 338
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000000000000000000000",
+                "docs": [
+                  " The index of the first and last (non-empty) pages."
+                ]
+              },
+              {
+                "name": "ServiceHead",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 119
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The origin at which we should begin servicing."
+                ]
+              },
+              {
+                "name": "Pages",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Twox64Concat"
+                    ],
+                    "key": 341,
+                    "value": 342
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The map of page indices to pages."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 344
+          },
+          "events": {
+            "type": 118
+          },
+          "constants": [
+            {
+              "name": "HeapSize",
+              "type": 4,
+              "value": "0x00000100",
+              "docs": [
+                " The size of the page; this implies the maximum message size which can be sent.",
+                "",
+                " A good value depends on the expected message sizes, their weights, the weight that is",
+                " available for processing them and the maximal needed message size. The maximal message",
+                " size is slightly lower than this as defined by [`MaxMessageLenOf`]."
+              ]
+            },
+            {
+              "name": "MaxStale",
+              "type": 4,
+              "value": "0x08000000",
+              "docs": [
+                " The maximum number of stale pages (i.e. of overweight messages) allowed before culling",
+                " can happen. Once there are more stale pages than this, then historical pages may be",
+                " dropped, even if they contain unprocessed overweight messages."
+              ]
+            },
+            {
+              "name": "ServiceWeight",
+              "type": 166,
+              "value": "0x01070016d0be2802007000",
+              "docs": [
+                " The amount of weight (if any) which should be provided to the message queue for",
+                " servicing enqueued items `on_initialize`.",
+                "",
+                " This may be legitimately `None` in the case that you will call",
+                " `ServiceQueues::service_queues` manually or set [`Self::IdleMaxServiceWeight`] to have",
+                " it run in `on_idle`."
+              ]
+            },
+            {
+              "name": "IdleMaxServiceWeight",
+              "type": 166,
+              "value": "0x010700e876481702004000",
+              "docs": [
+                " The maximum amount of weight (if any) to be used from remaining weight `on_idle` which",
+                " should be provided to the message queue for servicing enqueued items `on_idle`.",
+                " Useful for parachains to process messages at the same block they are received.",
+                "",
+                " If `None`, it will not call `ServiceQueues::service_queues` in `on_idle`."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 345
+          },
+          "index": 35,
+          "docs": []
+        },
+        {
+          "name": "Utility",
+          "storage": null,
+          "calls": {
+            "type": 346
+          },
+          "events": {
+            "type": 122
+          },
+          "constants": [
+            {
+              "name": "batched_calls_limit",
+              "type": 4,
+              "value": "0xaa2a0000",
+              "docs": [
+                " The limit on the number of batched calls."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 388
+          },
+          "index": 40,
+          "docs": []
+        },
+        {
+          "name": "Multisig",
+          "storage": {
+            "prefix": "Multisig",
+            "items": [
+              {
+                "name": "Multisigs",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 389,
+                    "value": 390
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The set of open multisig operations."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 349
+          },
+          "events": {
+            "type": 125
+          },
+          "constants": [
+            {
+              "name": "DepositBase",
+              "type": 6,
+              "value": "0x00dbbb77000000000000000000000000",
+              "docs": [
+                " The base amount of currency needed to reserve for creating a multisig execution or to",
+                " store a dispatch call for later.",
+                "",
+                " This is held for an additional storage item whose value size is",
+                " `4 + sizeof((BlockNumber, Balance, AccountId))` bytes and whose key size is",
+                " `32 + sizeof(AccountId)` bytes."
+              ]
+            },
+            {
+              "name": "DepositFactor",
+              "type": 6,
+              "value": "0x00d43000000000000000000000000000",
+              "docs": [
+                " The amount of currency needed per unit threshold when creating a multisig execution.",
+                "",
+                " This is held for adding 32 bytes more into a pre-existing storage value."
+              ]
+            },
+            {
+              "name": "MaxSignatories",
+              "type": 4,
+              "value": "0x64000000",
+              "docs": [
+                " The maximum amount of signatories allowed in the multisig."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 392
+          },
+          "index": 41,
+          "docs": []
+        },
+        {
+          "name": "Proxy",
+          "storage": {
+            "prefix": "Proxy",
+            "items": [
+              {
+                "name": "Proxies",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 393
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000",
+                "docs": [
+                  " The set of account proxies. Maps the account which has delegated to the accounts",
+                  " which are being delegated to, together with the amount held on deposit."
+                ]
+              },
+              {
+                "name": "Announcements",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Twox64Concat"
+                    ],
+                    "key": 0,
+                    "value": 397
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000",
+                "docs": [
+                  " The announcements made by the proxy (key)."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 351
+          },
+          "events": {
+            "type": 127
+          },
+          "constants": [
+            {
+              "name": "ProxyDepositBase",
+              "type": 6,
+              "value": "0x009d7277000000000000000000000000",
+              "docs": [
+                " The base amount of currency needed to reserve for creating a proxy.",
+                "",
+                " This is held for an additional storage item whose value size is",
+                " `sizeof(Balance)` bytes and whose key size is `sizeof(AccountId)` bytes."
+              ]
+            },
+            {
+              "name": "ProxyDepositFactor",
+              "type": 6,
+              "value": "0xa05a3200000000000000000000000000",
+              "docs": [
+                " The amount of currency needed per proxy added.",
+                "",
+                " This is held for adding 32 bytes plus an instance of `ProxyType` more into a",
+                " pre-existing storage value. Thus, when configuring `ProxyDepositFactor` one should take",
+                " into account `32 + proxy_type.encode().len()` bytes of data."
+              ]
+            },
+            {
+              "name": "MaxProxies",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": [
+                " The maximum amount of proxies allowed for a single account."
+              ]
+            },
+            {
+              "name": "MaxPending",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": [
+                " The maximum amount of time-delayed announcements that are allowed to be pending."
+              ]
+            },
+            {
+              "name": "AnnouncementDepositBase",
+              "type": 6,
+              "value": "0x00d27e77000000000000000000000000",
+              "docs": [
+                " The base amount of currency needed to reserve for creating an announcement.",
+                "",
+                " This is held when a new storage item holding a `Balance` is created (typically 16",
+                " bytes)."
+              ]
+            },
+            {
+              "name": "AnnouncementDepositFactor",
+              "type": 6,
+              "value": "0x40b56400000000000000000000000000",
+              "docs": [
+                " The amount of currency needed per announcement made.",
+                "",
+                " This is held for adding an `AccountId`, `Hash` and `BlockNumber` (typically 68 bytes)",
+                " into a pre-existing storage value."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 401
+          },
+          "index": 42,
+          "docs": []
+        },
+        {
+          "name": "Assets",
+          "storage": {
+            "prefix": "Assets",
+            "items": [
+              {
+                "name": "Asset",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 402
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Details of an asset."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 404,
+                    "value": 405
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The holdings of a specific account for a specific asset."
+                ]
+              },
+              {
+                "name": "Approvals",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 408,
+                    "value": 409
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Approved balance transfers. First balance is the amount approved for transfer. Second",
+                  " is the amount of `T::Currency` reserved for storing this.",
+                  " First key is the asset ID, second key is the owner and third key is the delegate."
+                ]
+              },
+              {
+                "name": "Metadata",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 410
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000",
+                "docs": [
+                  " Metadata of an asset."
+                ]
+              },
+              {
+                "name": "NextAssetId",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The asset ID enforced for the next asset creation, if any present. Otherwise, this storage",
+                  " item has no effect.",
+                  "",
+                  " This can be useful for setting up constraints for IDs of the new assets. For example, by",
+                  " providing an initial [`NextAssetId`] and using the [`crate::AutoIncAssetId`] callback, an",
+                  " auto-increment model can be applied to all new asset IDs.",
+                  "",
+                  " The initial next asset ID can be set using the [`GenesisConfig`] or the",
+                  " [SetNextAssetId](`migration::next_asset_id::SetNextAssetId`) migration."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 353
+          },
+          "events": {
+            "type": 130
+          },
+          "constants": [
+            {
+              "name": "RemoveItemsLimit",
+              "type": 4,
+              "value": "0xe8030000",
+              "docs": [
+                " Max number of items to destroy per `destroy_accounts` and `destroy_approvals` call.",
+                "",
+                " Must be configured to result in a weight that makes each call fit in a block."
+              ]
+            },
+            {
+              "name": "AssetDeposit",
+              "type": 6,
+              "value": "0xc07e5778000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an asset."
+              ]
+            },
+            {
+              "name": "AssetAccountDeposit",
+              "type": 6,
+              "value": "0x00fe4d77000000000000000000000000",
+              "docs": [
+                " The amount of funds that must be reserved for a non-provider asset account to be",
+                " maintained."
+              ]
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": 6,
+              "value": "0x80569d77000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding metadata to your asset."
+              ]
+            },
+            {
+              "name": "MetadataDepositPerByte",
+              "type": 6,
+              "value": "0xa0860100000000000000000000000000",
+              "docs": [
+                " The additional funds that must be reserved for the number of bytes you store in your",
+                " metadata."
+              ]
+            },
+            {
+              "name": "ApprovalDeposit",
+              "type": 6,
+              "value": "0x00e1f505000000000000000000000000",
+              "docs": [
+                " The amount of funds that must be reserved when creating a new approval."
+              ]
+            },
+            {
+              "name": "StringLimit",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum length of a name or symbol stored on-chain."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 412
+          },
+          "index": 50,
+          "docs": []
+        },
+        {
+          "name": "Uniques",
+          "storage": {
+            "prefix": "Uniques",
+            "items": [
+              {
+                "name": "Class",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 413
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Details of a collection."
+                ]
+              },
+              {
+                "name": "OwnershipAcceptance",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The collection, if any, of which an account is willing to take ownership."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 414,
+                    "value": 124
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The items held by any given account; set out this way so that items owned by a single",
+                  " account can be enumerated."
+                ]
+              },
+              {
+                "name": "ClassAccount",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 415,
+                    "value": 124
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The collections owned by any given account; set out this way so that collections owned by",
+                  " a single account can be enumerated."
+                ]
+              },
+              {
+                "name": "Asset",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 155,
+                    "value": 416
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The items in existence and their ownership details."
+                ]
+              },
+              {
+                "name": "ClassMetadataOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 417
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Metadata of a collection."
+                ]
+              },
+              {
+                "name": "InstanceMetadataOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 155,
+                    "value": 418
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Metadata of an item."
+                ]
+              },
+              {
+                "name": "Attribute",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 419,
+                    "value": 420
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Attributes of a collection."
+                ]
+              },
+              {
+                "name": "ItemPriceOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 155,
+                    "value": 421
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Price of an asset instance."
+                ]
+              },
+              {
+                "name": "CollectionMaxSupply",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Keeps track of the number of items a collection might have."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 354
+          },
+          "events": {
+            "type": 131
+          },
+          "constants": [
+            {
+              "name": "CollectionDeposit",
+              "type": 6,
+              "value": "0x00e87648170000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for collection."
+              ]
+            },
+            {
+              "name": "ItemDeposit",
+              "type": 6,
+              "value": "0x00e1f505000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an item."
+              ]
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": 6,
+              "value": "0xa06afa77000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding metadata to your item."
+              ]
+            },
+            {
+              "name": "AttributeDepositBase",
+              "type": 6,
+              "value": "0x00943577000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding an attribute to an item."
+              ]
+            },
+            {
+              "name": "DepositPerByte",
+              "type": 6,
+              "value": "0xa0860100000000000000000000000000",
+              "docs": [
+                " The additional funds that must be reserved for the number of bytes store in metadata,",
+                " either \"normal\" metadata or attribute metadata."
+              ]
+            },
+            {
+              "name": "StringLimit",
+              "type": 4,
+              "value": "0x80000000",
+              "docs": [
+                " The maximum length of data stored on-chain."
+              ]
+            },
+            {
+              "name": "KeyLimit",
+              "type": 4,
+              "value": "0x20000000",
+              "docs": [
+                " The maximum length of an attribute key."
+              ]
+            },
+            {
+              "name": "ValueLimit",
+              "type": 4,
+              "value": "0x40000000",
+              "docs": [
+                " The maximum length of an attribute value."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 422
+          },
+          "index": 51,
+          "docs": []
+        },
+        {
+          "name": "Nfts",
+          "storage": {
+            "prefix": "Nfts",
+            "items": [
+              {
+                "name": "Collection",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 423
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Details of a collection."
+                ]
+              },
+              {
+                "name": "OwnershipAcceptance",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 0,
+                    "value": 4
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The collection, if any, of which an account is willing to take ownership."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 414,
+                    "value": 124
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The items held by any given account; set out this way so that items owned by a single",
+                  " account can be enumerated."
+                ]
+              },
+              {
+                "name": "CollectionAccount",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 415,
+                    "value": 124
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The collections owned by any given account; set out this way so that collections owned by",
+                  " a single account can be enumerated."
+                ]
+              },
+              {
+                "name": "CollectionRoleOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 404,
+                    "value": 424
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The items in existence and their ownership details.",
+                  " Stores collection roles as per account."
+                ]
+              },
+              {
+                "name": "Item",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 155,
+                    "value": 426
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The items in existence and their ownership details."
+                ]
+              },
+              {
+                "name": "CollectionMetadataOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 432
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Metadata of a collection."
+                ]
+              },
+              {
+                "name": "ItemMetadataOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 155,
+                    "value": 433
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Metadata of an item."
+                ]
+              },
+              {
+                "name": "Attribute",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 435,
+                    "value": 436
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Attributes of a collection."
+                ]
+              },
+              {
+                "name": "ItemPriceOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 155,
+                    "value": 421
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " A price of an item."
+                ]
+              },
+              {
+                "name": "ItemAttributesApprovalsOf",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 155,
+                    "value": 438
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Item attribute approvals."
+                ]
+              },
+              {
+                "name": "NextCollectionId",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Stores the `CollectionId` that is going to be used for the next collection.",
+                  " This gets incremented whenever a new collection is created."
+                ]
+              },
+              {
+                "name": "PendingSwapOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 155,
+                    "value": 440
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Handles all the pending swaps."
+                ]
+              },
+              {
+                "name": "CollectionConfigOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 359
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Config of a collection."
+                ]
+              },
+              {
+                "name": "ItemConfigOf",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 155,
+                    "value": 369
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Config of an item."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 358
+          },
+          "events": {
+            "type": 138
+          },
+          "constants": [
+            {
+              "name": "CollectionDeposit",
+              "type": 6,
+              "value": "0x40f1fb77000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for collection."
+              ]
+            },
+            {
+              "name": "ItemDeposit",
+              "type": 6,
+              "value": "0x10320103000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an item."
+              ]
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": 6,
+              "value": "0x1071ff0b000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding metadata to your item."
+              ]
+            },
+            {
+              "name": "AttributeDepositBase",
+              "type": 6,
+              "value": "0x00c2eb0b000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding an attribute to an item."
+              ]
+            },
+            {
+              "name": "DepositPerByte",
+              "type": 6,
+              "value": "0xa0860100000000000000000000000000",
+              "docs": [
+                " The additional funds that must be reserved for the number of bytes store in metadata,",
+                " either \"normal\" metadata or attribute metadata."
+              ]
+            },
+            {
+              "name": "StringLimit",
+              "type": 4,
+              "value": "0x00010000",
+              "docs": [
+                " The maximum length of data stored on-chain."
+              ]
+            },
+            {
+              "name": "KeyLimit",
+              "type": 4,
+              "value": "0x40000000",
+              "docs": [
+                " The maximum length of an attribute key."
+              ]
+            },
+            {
+              "name": "ValueLimit",
+              "type": 4,
+              "value": "0x00010000",
+              "docs": [
+                " The maximum length of an attribute value."
+              ]
+            },
+            {
+              "name": "ApprovalsLimit",
+              "type": 4,
+              "value": "0x14000000",
+              "docs": [
+                " The maximum approvals an item could have."
+              ]
+            },
+            {
+              "name": "ItemAttributesApprovalsLimit",
+              "type": 4,
+              "value": "0x1e000000",
+              "docs": [
+                " The maximum attributes approvals an item could have."
+              ]
+            },
+            {
+              "name": "MaxTips",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": [
+                " The max number of tips a user could send."
+              ]
+            },
+            {
+              "name": "MaxDeadlineDuration",
+              "type": 4,
+              "value": "0x008d2700",
+              "docs": [
+                " The max duration in blocks for deadlines."
+              ]
+            },
+            {
+              "name": "MaxAttributesPerCall",
+              "type": 4,
+              "value": "0x0a000000",
+              "docs": [
+                " The max number of attributes a user could set per call."
+              ]
+            },
+            {
+              "name": "Features",
+              "type": 441,
+              "value": "0x0000000000000000",
+              "docs": [
+                " Disables some of pallet's features."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 443
+          },
+          "index": 52,
+          "docs": []
+        },
+        {
+          "name": "ForeignAssets",
+          "storage": {
+            "prefix": "ForeignAssets",
+            "items": [
+              {
+                "name": "Asset",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 37,
+                    "value": 402
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Details of an asset."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 444,
+                    "value": 405
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The holdings of a specific account for a specific asset."
+                ]
+              },
+              {
+                "name": "Approvals",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 445,
+                    "value": 409
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Approved balance transfers. First balance is the amount approved for transfer. Second",
+                  " is the amount of `T::Currency` reserved for storing this.",
+                  " First key is the asset ID, second key is the owner and third key is the delegate."
+                ]
+              },
+              {
+                "name": "Metadata",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 37,
+                    "value": 446
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000",
+                "docs": [
+                  " Metadata of an asset."
+                ]
+              },
+              {
+                "name": "NextAssetId",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 37
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The asset ID enforced for the next asset creation, if any present. Otherwise, this storage",
+                  " item has no effect.",
+                  "",
+                  " This can be useful for setting up constraints for IDs of the new assets. For example, by",
+                  " providing an initial [`NextAssetId`] and using the [`crate::AutoIncAssetId`] callback, an",
+                  " auto-increment model can be applied to all new asset IDs.",
+                  "",
+                  " The initial next asset ID can be set using the [`GenesisConfig`] or the",
+                  " [SetNextAssetId](`migration::next_asset_id::SetNextAssetId`) migration."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 379
+          },
+          "events": {
+            "type": 145
+          },
+          "constants": [
+            {
+              "name": "RemoveItemsLimit",
+              "type": 4,
+              "value": "0xe8030000",
+              "docs": [
+                " Max number of items to destroy per `destroy_accounts` and `destroy_approvals` call.",
+                "",
+                " Must be configured to result in a weight that makes each call fit in a block."
+              ]
+            },
+            {
+              "name": "AssetDeposit",
+              "type": 6,
+              "value": "0xc07e5778000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an asset."
+              ]
+            },
+            {
+              "name": "AssetAccountDeposit",
+              "type": 6,
+              "value": "0x00fe4d77000000000000000000000000",
+              "docs": [
+                " The amount of funds that must be reserved for a non-provider asset account to be",
+                " maintained."
+              ]
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": 6,
+              "value": "0x80569d77000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding metadata to your asset."
+              ]
+            },
+            {
+              "name": "MetadataDepositPerByte",
+              "type": 6,
+              "value": "0xa0860100000000000000000000000000",
+              "docs": [
+                " The additional funds that must be reserved for the number of bytes you store in your",
+                " metadata."
+              ]
+            },
+            {
+              "name": "ApprovalDeposit",
+              "type": 6,
+              "value": "0x00e1f505000000000000000000000000",
+              "docs": [
+                " The amount of funds that must be reserved when creating a new approval."
+              ]
+            },
+            {
+              "name": "StringLimit",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum length of a name or symbol stored on-chain."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 448
+          },
+          "index": 53,
+          "docs": []
+        },
+        {
+          "name": "PoolAssets",
+          "storage": {
+            "prefix": "PoolAssets",
+            "items": [
+              {
+                "name": "Asset",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 402
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Details of an asset."
+                ]
+              },
+              {
+                "name": "Account",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 404,
+                    "value": 405
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The holdings of a specific account for a specific asset."
+                ]
+              },
+              {
+                "name": "Approvals",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat",
+                      "Blake2_128Concat",
+                      "Blake2_128Concat"
+                    ],
+                    "key": 408,
+                    "value": 409
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Approved balance transfers. First balance is the amount approved for transfer. Second",
+                  " is the amount of `T::Currency` reserved for storing this.",
+                  " First key is the asset ID, second key is the owner and third key is the delegate."
+                ]
+              },
+              {
+                "name": "Metadata",
+                "modifier": "Default",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 4,
+                    "value": 449
+                  }
+                },
+                "fallback": "0x0000000000000000000000000000000000000000",
+                "docs": [
+                  " Metadata of an asset."
+                ]
+              },
+              {
+                "name": "NextAssetId",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The asset ID enforced for the next asset creation, if any present. Otherwise, this storage",
+                  " item has no effect.",
+                  "",
+                  " This can be useful for setting up constraints for IDs of the new assets. For example, by",
+                  " providing an initial [`NextAssetId`] and using the [`crate::AutoIncAssetId`] callback, an",
+                  " auto-increment model can be applied to all new asset IDs.",
+                  "",
+                  " The initial next asset ID can be set using the [`GenesisConfig`] or the",
+                  " [SetNextAssetId](`migration::next_asset_id::SetNextAssetId`) migration."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 380
+          },
+          "events": {
+            "type": 146
+          },
+          "constants": [
+            {
+              "name": "RemoveItemsLimit",
+              "type": 4,
+              "value": "0xe8030000",
+              "docs": [
+                " Max number of items to destroy per `destroy_accounts` and `destroy_approvals` call.",
+                "",
+                " Must be configured to result in a weight that makes each call fit in a block."
+              ]
+            },
+            {
+              "name": "AssetDeposit",
+              "type": 6,
+              "value": "0x00000000000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved for an asset."
+              ]
+            },
+            {
+              "name": "AssetAccountDeposit",
+              "type": 6,
+              "value": "0x00fe4d77000000000000000000000000",
+              "docs": [
+                " The amount of funds that must be reserved for a non-provider asset account to be",
+                " maintained."
+              ]
+            },
+            {
+              "name": "MetadataDepositBase",
+              "type": 6,
+              "value": "0x00000000000000000000000000000000",
+              "docs": [
+                " The basic amount of funds that must be reserved when adding metadata to your asset."
+              ]
+            },
+            {
+              "name": "MetadataDepositPerByte",
+              "type": 6,
+              "value": "0x00000000000000000000000000000000",
+              "docs": [
+                " The additional funds that must be reserved for the number of bytes you store in your",
+                " metadata."
+              ]
+            },
+            {
+              "name": "ApprovalDeposit",
+              "type": 6,
+              "value": "0x00e1f505000000000000000000000000",
+              "docs": [
+                " The amount of funds that must be reserved when creating a new approval."
+              ]
+            },
+            {
+              "name": "StringLimit",
+              "type": 4,
+              "value": "0x32000000",
+              "docs": [
+                " The maximum length of a name or symbol stored on-chain."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 451
+          },
+          "index": 54,
+          "docs": []
+        },
+        {
+          "name": "AssetConversion",
+          "storage": {
+            "prefix": "AssetConversion",
+            "items": [
+              {
+                "name": "Pools",
+                "modifier": "Optional",
+                "type": {
+                  "map": {
+                    "hashers": [
+                      "Blake2_128Concat"
+                    ],
+                    "key": 148,
+                    "value": 452
+                  }
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Map from `PoolAssetId` to `PoolInfo`. This establishes whether a pool has been officially",
+                  " created rather than people sending tokens directly to a pool's public account."
+                ]
+              },
+              {
+                "name": "NextPoolAssetId",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 4
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " Stores the `PoolAssetId` that is going to be used for the next lp token.",
+                  " This gets incremented whenever a new lp pool is created."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 381
+          },
+          "events": {
+            "type": 147
+          },
+          "constants": [
+            {
+              "name": "LPFee",
+              "type": 4,
+              "value": "0x03000000",
+              "docs": [
+                " A % the liquidity providers will take of every swap. Represents 10ths of a percent."
+              ]
+            },
+            {
+              "name": "PoolSetupFee",
+              "type": 6,
+              "value": "0x402d93ef000000000000000000000000",
+              "docs": [
+                " A one-time fee to setup the pool."
+              ]
+            },
+            {
+              "name": "PoolSetupFeeAsset",
+              "type": 37,
+              "value": "0x0100",
+              "docs": [
+                " Asset class from [`Config::Assets`] used to pay the [`Config::PoolSetupFee`]."
+              ]
+            },
+            {
+              "name": "LiquidityWithdrawalFee",
+              "type": 149,
+              "value": "0x00000000",
+              "docs": [
+                " A fee to withdraw the liquidity."
+              ]
+            },
+            {
+              "name": "MintMinLiquidity",
+              "type": 6,
+              "value": "0x64000000000000000000000000000000",
+              "docs": [
+                " The minimum LP token amount that could be minted. Ameliorates rounding errors."
+              ]
+            },
+            {
+              "name": "MaxSwapPathLength",
+              "type": 4,
+              "value": "0x03000000",
+              "docs": [
+                " The max number of hops in a swap."
+              ]
+            },
+            {
+              "name": "PalletId",
+              "type": 453,
+              "value": "0x70792f6173636f6e",
+              "docs": [
+                " The pallet's id, used for deriving its sovereign account ID."
+              ]
+            }
+          ],
+          "errors": {
+            "type": 454
+          },
+          "index": 55,
+          "docs": []
+        }
+      ],
+      "extrinsic": {
+        "version": 4,
+        "addressType": 233,
+        "callType": 348,
+        "signatureType": 375,
+        "extraType": 455,
+        "signedExtensions": [
+          {
+            "identifier": "CheckNonZeroSender",
+            "type": 456,
+            "additionalSigned": 124
+          },
+          {
+            "identifier": "CheckSpecVersion",
+            "type": 457,
+            "additionalSigned": 4
+          },
+          {
+            "identifier": "CheckTxVersion",
+            "type": 458,
+            "additionalSigned": 4
+          },
+          {
+            "identifier": "CheckGenesis",
+            "type": 459,
+            "additionalSigned": 13
+          },
+          {
+            "identifier": "CheckMortality",
+            "type": 460,
+            "additionalSigned": 13
+          },
+          {
+            "identifier": "CheckNonce",
+            "type": 462,
+            "additionalSigned": 124
+          },
+          {
+            "identifier": "CheckWeight",
+            "type": 463,
+            "additionalSigned": 124
+          },
+          {
+            "identifier": "ChargeAssetTxPayment",
+            "type": 464,
+            "additionalSigned": 124
+          },
+          {
+            "identifier": "CheckMetadataHash",
+            "type": 465,
+            "additionalSigned": 32
+          }
+        ]
+      },
+      "type": 467,
+      "apis": [
+        {
+          "name": "AuraApi",
+          "methods": [
+            {
+              "name": "slot_duration",
+              "inputs": [],
+              "output": 468,
+              "docs": [
+                " Returns the slot duration for Aura.",
+                "",
+                " Currently, only the value provided by this type at genesis will be used."
+              ]
+            },
+            {
+              "name": "authorities",
+              "inputs": [],
+              "output": 259,
+              "docs": [
+                " Return the current set of authorities."
+              ]
+            }
+          ],
+          "docs": [
+            " API necessary for block authorship with aura."
+          ]
+        },
+        {
+          "name": "AuraUnincludedSegmentApi",
+          "methods": [
+            {
+              "name": "can_build_upon",
+              "inputs": [
+                {
+                  "name": "included_hash",
+                  "type": 13
+                },
+                {
+                  "name": "slot",
+                  "type": 260
+                }
+              ],
+              "output": 8,
+              "docs": [
+                " Whether it is legal to extend the chain, assuming the given block is the most",
+                " recently included one as-of the relay parent that will be built against, and",
+                " the given slot.",
+                "",
+                " This should be consistent with the logic the runtime uses when validating blocks to",
+                " avoid issues.",
+                "",
+                " When the unincluded segment is empty, i.e. `included_hash == at`, where at is the block",
+                " whose state we are querying against, this must always return `true` as long as the slot",
+                " is more recent than the included block itself."
+              ]
+            }
+          ],
+          "docs": [
+            " This runtime API is used to inform potential block authors whether they will",
+            " have the right to author at a slot, assuming they have claimed the slot.",
+            "",
+            " In particular, this API allows Aura-based parachains to regulate their \"unincluded segment\",",
+            " which is the section of the head of the chain which has not yet been made available in the",
+            " relay chain.",
+            "",
+            " When the unincluded segment is short, Aura chains will allow authors to create multiple",
+            " blocks per slot in order to build a backlog. When it is saturated, this API will limit",
+            " the amount of blocks that can be created."
+          ]
+        },
+        {
+          "name": "Core",
+          "methods": [
+            {
+              "name": "version",
+              "inputs": [],
+              "output": 170,
+              "docs": [
+                " Returns the version of the runtime."
+              ]
+            },
+            {
+              "name": "execute_block",
+              "inputs": [
+                {
+                  "name": "block",
+                  "type": 469
+                }
+              ],
+              "output": 124,
+              "docs": [
+                " Execute the given block."
+              ]
+            },
+            {
+              "name": "initialize_block",
+              "inputs": [
+                {
+                  "name": "header",
+                  "type": 470
+                }
+              ],
+              "output": 473,
+              "docs": [
+                " Initialize a block with the given header and return the runtime executive mode."
+              ]
+            }
+          ],
+          "docs": [
+            " The `Core` runtime api that every Substrate runtime needs to implement."
+          ]
+        },
+        {
+          "name": "Metadata",
+          "methods": [
+            {
+              "name": "metadata",
+              "inputs": [],
+              "output": 474,
+              "docs": [
+                " Returns the metadata of a runtime."
+              ]
+            },
+            {
+              "name": "metadata_at_version",
+              "inputs": [
+                {
+                  "name": "version",
+                  "type": 4
+                }
+              ],
+              "output": 475,
+              "docs": [
+                " Returns the metadata at a given version.",
+                "",
+                " If the given `version` isn't supported, this will return `None`.",
+                " Use [`Self::metadata_versions`] to find out about supported metadata version of the runtime."
+              ]
+            },
+            {
+              "name": "metadata_versions",
+              "inputs": [],
+              "output": 133,
+              "docs": [
+                " Returns the supported metadata versions.",
+                "",
+                " This can be used to call `metadata_at_version`."
+              ]
+            }
+          ],
+          "docs": [
+            " The `Metadata` api trait that returns metadata for the runtime."
+          ]
+        },
+        {
+          "name": "BlockBuilder",
+          "methods": [
+            {
+              "name": "apply_extrinsic",
+              "inputs": [
+                {
+                  "name": "extrinsic",
+                  "type": 471
+                }
+              ],
+              "output": 476,
+              "docs": [
+                " Apply the given extrinsic.",
+                "",
+                " Returns an inclusion outcome which specifies if this extrinsic is included in",
+                " this block or not."
+              ]
+            },
+            {
+              "name": "finalize_block",
+              "inputs": [],
+              "output": 470,
+              "docs": [
+                " Finish the current block."
+              ]
+            },
+            {
+              "name": "inherent_extrinsics",
+              "inputs": [
+                {
+                  "name": "inherent",
+                  "type": 480
+                }
+              ],
+              "output": 472,
+              "docs": [
+                " Generate inherent extrinsics. The inherent data will vary from chain to chain."
+              ]
+            },
+            {
+              "name": "check_inherents",
+              "inputs": [
+                {
+                  "name": "block",
+                  "type": 469
+                },
+                {
+                  "name": "data",
+                  "type": 480
+                }
+              ],
+              "output": 484,
+              "docs": [
+                " Check that the inherents are valid. The inherent data will vary from chain to chain."
+              ]
+            }
+          ],
+          "docs": [
+            " The `BlockBuilder` api trait that provides the required functionality for building a block."
+          ]
+        },
+        {
+          "name": "TaggedTransactionQueue",
+          "methods": [
+            {
+              "name": "validate_transaction",
+              "inputs": [
+                {
+                  "name": "source",
+                  "type": 485
+                },
+                {
+                  "name": "tx",
+                  "type": 471
+                },
+                {
+                  "name": "block_hash",
+                  "type": 13
+                }
+              ],
+              "output": 486,
+              "docs": [
+                " Validate the transaction.",
+                "",
+                " This method is invoked by the transaction pool to learn details about given transaction.",
+                " The implementation should make sure to verify the correctness of the transaction",
+                " against current state. The given `block_hash` corresponds to the hash of the block",
+                " that is used as current state.",
+                "",
+                " Note that this call may be performed by the pool multiple times and transactions",
+                " might be verified in any possible order."
+              ]
+            }
+          ],
+          "docs": [
+            " The `TaggedTransactionQueue` api trait for interfering with the transaction queue."
+          ]
+        },
+        {
+          "name": "OffchainWorkerApi",
+          "methods": [
+            {
+              "name": "offchain_worker",
+              "inputs": [
+                {
+                  "name": "header",
+                  "type": 470
+                }
+              ],
+              "output": 124,
+              "docs": [
+                " Starts the off-chain task for given block header."
+              ]
+            }
+          ],
+          "docs": [
+            " The offchain worker api."
+          ]
+        },
+        {
+          "name": "SessionKeys",
+          "methods": [
+            {
+              "name": "generate_session_keys",
+              "inputs": [
+                {
+                  "name": "seed",
+                  "type": 294
+                }
+              ],
+              "output": 14,
+              "docs": [
+                " Generate a set of session keys with optionally using the given seed.",
+                " The keys should be stored within the keystore exposed via runtime",
+                " externalities.",
+                "",
+                " The seed needs to be a valid `utf8` string.",
+                "",
+                " Returns the concatenated SCALE encoded public keys."
+              ]
+            },
+            {
+              "name": "decode_session_keys",
+              "inputs": [
+                {
+                  "name": "encoded",
+                  "type": 14
+                }
+              ],
+              "output": 488,
+              "docs": [
+                " Decode the given public session keys.",
+                "",
+                " Returns the list of public raw public keys + key type."
+              ]
+            }
+          ],
+          "docs": [
+            " Session keys runtime api."
+          ]
+        },
+        {
+          "name": "AccountNonceApi",
+          "methods": [
+            {
+              "name": "account_nonce",
+              "inputs": [
+                {
+                  "name": "account",
+                  "type": 0
+                }
+              ],
+              "output": 4,
+              "docs": [
+                " Get current account nonce of given `AccountId`."
+              ]
+            }
+          ],
+          "docs": [
+            " The API to query account nonce."
+          ]
+        },
+        {
+          "name": "TransactionPaymentApi",
+          "methods": [
+            {
+              "name": "query_info",
+              "inputs": [
+                {
+                  "name": "uxt",
+                  "type": 471
+                },
+                {
+                  "name": "len",
+                  "type": 4
+                }
+              ],
+              "output": 491,
+              "docs": []
+            },
+            {
+              "name": "query_fee_details",
+              "inputs": [
+                {
+                  "name": "uxt",
+                  "type": 471
+                },
+                {
+                  "name": "len",
+                  "type": 4
+                }
+              ],
+              "output": 492,
+              "docs": []
+            },
+            {
+              "name": "query_weight_to_fee",
+              "inputs": [
+                {
+                  "name": "weight",
+                  "type": 10
+                }
+              ],
+              "output": 6,
+              "docs": []
+            },
+            {
+              "name": "query_length_to_fee",
+              "inputs": [
+                {
+                  "name": "length",
+                  "type": 4
+                }
+              ],
+              "output": 6,
+              "docs": []
+            }
+          ],
+          "docs": []
+        },
+        {
+          "name": "TransactionPaymentCallApi",
+          "methods": [
+            {
+              "name": "query_call_info",
+              "inputs": [
+                {
+                  "name": "call",
+                  "type": 348
+                },
+                {
+                  "name": "len",
+                  "type": 4
+                }
+              ],
+              "output": 491,
+              "docs": [
+                " Query information of a dispatch class, weight, and fee of a given encoded `Call`."
+              ]
+            },
+            {
+              "name": "query_call_fee_details",
+              "inputs": [
+                {
+                  "name": "call",
+                  "type": 348
+                },
+                {
+                  "name": "len",
+                  "type": 4
+                }
+              ],
+              "output": 492,
+              "docs": [
+                " Query fee details of a given encoded `Call`."
+              ]
+            },
+            {
+              "name": "query_weight_to_fee",
+              "inputs": [
+                {
+                  "name": "weight",
+                  "type": 10
+                }
+              ],
+              "output": 6,
+              "docs": [
+                " Query the output of the current `WeightToFee` given some input."
+              ]
+            },
+            {
+              "name": "query_length_to_fee",
+              "inputs": [
+                {
+                  "name": "length",
+                  "type": 4
+                }
+              ],
+              "output": 6,
+              "docs": [
+                " Query the output of the current `LengthToFee` given some input."
+              ]
+            }
+          ],
+          "docs": []
+        },
+        {
+          "name": "XcmPaymentApi",
+          "methods": [
+            {
+              "name": "query_acceptable_payment_assets",
+              "inputs": [
+                {
+                  "name": "xcm_version",
+                  "type": 4
+                }
+              ],
+              "output": 495,
+              "docs": [
+                " Returns a list of acceptable payment assets.",
+                "",
+                " # Arguments",
+                "",
+                " * `xcm_version`: Version."
+              ]
+            },
+            {
+              "name": "query_xcm_weight",
+              "inputs": [
+                {
+                  "name": "message",
+                  "type": 305
+                }
+              ],
+              "output": 498,
+              "docs": [
+                " Returns a weight needed to execute a XCM.",
+                "",
+                " # Arguments",
+                "",
+                " * `message`: `VersionedXcm`."
+              ]
+            },
+            {
+              "name": "query_weight_to_asset_fee",
+              "inputs": [
+                {
+                  "name": "weight",
+                  "type": 10
+                },
+                {
+                  "name": "asset",
+                  "type": 296
+                }
+              ],
+              "output": 499,
+              "docs": [
+                " Converts a weight into a fee for the specified `AssetId`.",
+                "",
+                " # Arguments",
+                "",
+                " * `weight`: convertible `Weight`.",
+                " * `asset`: `VersionedAssetId`."
+              ]
+            },
+            {
+              "name": "query_delivery_fees",
+              "inputs": [
+                {
+                  "name": "destination",
+                  "type": 116
+                },
+                {
+                  "name": "message",
+                  "type": 305
+                }
+              ],
+              "output": 500,
+              "docs": [
+                " Get delivery fees for sending a specific `message` to a `destination`.",
+                " These always come in a specific asset, defined by the chain.",
+                "",
+                " # Arguments",
+                " * `message`: The message that'll be sent, necessary because most delivery fees are based on the",
+                "   size of the message.",
+                " * `destination`: The destination to send the message to. Different destinations may use",
+                "   different senders that charge different fees."
+              ]
+            }
+          ],
+          "docs": [
+            " A trait of XCM payment API.",
+            "",
+            " API provides functionality for obtaining:",
+            "",
+            " * the weight required to execute an XCM message,",
+            " * a list of acceptable `AssetId`s for message execution payment,",
+            " * the cost of the weight in the specified acceptable `AssetId`.",
+            " * the fees for an XCM message delivery.",
+            "",
+            " To determine the execution weight of the calls required for",
+            " [`xcm::latest::Instruction::Transact`] instruction, `TransactionPaymentCallApi` can be used."
+          ]
+        },
+        {
+          "name": "DryRunApi",
+          "methods": [
+            {
+              "name": "dry_run_call",
+              "inputs": [
+                {
+                  "name": "origin",
+                  "type": 383
+                },
+                {
+                  "name": "call",
+                  "type": 348
+                }
+              ],
+              "output": 501,
+              "docs": [
+                " Dry run call."
+              ]
+            },
+            {
+              "name": "dry_run_xcm",
+              "inputs": [
+                {
+                  "name": "origin_location",
+                  "type": 116
+                },
+                {
+                  "name": "xcm",
+                  "type": 322
+                }
+              ],
+              "output": 512,
+              "docs": [
+                " Dry run XCM program"
+              ]
+            }
+          ],
+          "docs": [
+            " API for dry-running extrinsics and XCM programs to get the programs that need to be passed to the fees API.",
+            "",
+            " All calls return a vector of tuples (location, xcm) where each \"xcm\" is executed in \"location\".",
+            " If there's local execution, the location will be \"Here\".",
+            " This vector can be used to calculate both execution and delivery fees.",
+            "",
+            " Calls or XCMs might fail when executed, this doesn't mean the result of these calls will be an `Err`.",
+            " In those cases, there might still be a valid result, with the execution error inside it.",
+            " The only reasons why these calls might return an error are listed in the [`Error`] enum."
+          ]
+        },
+        {
+          "name": "LocationToAccountApi",
+          "methods": [
+            {
+              "name": "convert_location",
+              "inputs": [
+                {
+                  "name": "location",
+                  "type": 116
+                }
+              ],
+              "output": 514,
+              "docs": [
+                " Converts `Location` to `AccountId`."
+              ]
+            }
+          ],
+          "docs": [
+            " API for useful conversions between XCM `Location` and `AccountId`."
+          ]
+        },
+        {
+          "name": "FungiblesApi",
+          "methods": [
+            {
+              "name": "query_account_balances",
+              "inputs": [
+                {
+                  "name": "account",
+                  "type": 0
+                }
+              ],
+              "output": 516,
+              "docs": [
+                " Returns the list of all [`Asset`] that an `AccountId` has."
+              ]
+            }
+          ],
+          "docs": [
+            " The API for querying account's balances from runtime."
+          ]
+        },
+        {
+          "name": "CollectCollationInfo",
+          "methods": [
+            {
+              "name": "collect_collation_info",
+              "inputs": [
+                {
+                  "name": "header",
+                  "type": 470
+                }
+              ],
+              "output": 518,
+              "docs": [
+                " Collect information about a collation.",
+                "",
+                " The given `header` is the header of the built block for that",
+                " we are collecting the collation info for."
+              ]
+            }
+          ],
+          "docs": [
+            " Runtime api to collect information about a collation."
+          ]
+        },
+        {
+          "name": "GenesisBuilder",
+          "methods": [
+            {
+              "name": "build_state",
+              "inputs": [
+                {
+                  "name": "json",
+                  "type": 14
+                }
+              ],
+              "output": 521,
+              "docs": [
+                " Build `RuntimeGenesisConfig` from a JSON blob not using any defaults and store it in the",
+                " storage.",
+                "",
+                " In the case of a FRAME-based runtime, this function deserializes the full `RuntimeGenesisConfig` from the given JSON blob and",
+                " puts it into the storage. If the provided JSON blob is incorrect or incomplete or the",
+                " deserialization fails, an error is returned.",
+                "",
+                " Please note that provided JSON blob must contain all `RuntimeGenesisConfig` fields, no",
+                " defaults will be used."
+              ]
+            },
+            {
+              "name": "get_preset",
+              "inputs": [
+                {
+                  "name": "id",
+                  "type": 522
+                }
+              ],
+              "output": 294,
+              "docs": [
+                " Returns a JSON blob representation of the built-in `RuntimeGenesisConfig` identified by",
+                " `id`.",
+                "",
+                " If `id` is `None` the function returns JSON blob representation of the default",
+                " `RuntimeGenesisConfig` struct of the runtime. Implementation must provide default",
+                " `RuntimeGenesisConfig`.",
+                "",
+                " Otherwise function returns a JSON representation of the built-in, named",
+                " `RuntimeGenesisConfig` preset identified by `id`, or `None` if such preset does not",
+                " exists. Returned `Vec<u8>` contains bytes of JSON blob (patch) which comprises a list of",
+                " (potentially nested) key-value pairs that are intended for customizing the default",
+                " runtime genesis config. The patch shall be merged (rfc7386) with the JSON representation",
+                " of the default `RuntimeGenesisConfig` to create a comprehensive genesis config that can",
+                " be used in `build_state` method."
+              ]
+            },
+            {
+              "name": "preset_names",
+              "inputs": [],
+              "output": 523,
+              "docs": [
+                " Returns a list of identifiers for available builtin `RuntimeGenesisConfig` presets.",
+                "",
+                " The presets from the list can be queried with [`GenesisBuilder::get_preset`] method. If",
+                " no named presets are provided by the runtime the list is empty."
+              ]
+            }
+          ],
+          "docs": [
+            " API to interact with RuntimeGenesisConfig for the runtime"
+          ]
+        },
+        {
+          "name": "AssetConversionApi",
+          "methods": [
+            {
+              "name": "quote_price_tokens_for_exact_tokens",
+              "inputs": [
+                {
+                  "name": "asset1",
+                  "type": 37
+                },
+                {
+                  "name": "asset2",
+                  "type": 37
+                },
+                {
+                  "name": "amount",
+                  "type": 6
+                },
+                {
+                  "name": "include_fee",
+                  "type": 8
+                }
+              ],
+              "output": 357,
+              "docs": [
+                " Provides a quote for [`Pallet::swap_tokens_for_exact_tokens`].",
+                "",
+                " Note that the price may have changed by the time the transaction is executed.",
+                " (Use `amount_in_max` to control slippage.)"
+              ]
+            },
+            {
+              "name": "quote_price_exact_tokens_for_tokens",
+              "inputs": [
+                {
+                  "name": "asset1",
+                  "type": 37
+                },
+                {
+                  "name": "asset2",
+                  "type": 37
+                },
+                {
+                  "name": "amount",
+                  "type": 6
+                },
+                {
+                  "name": "include_fee",
+                  "type": 8
+                }
+              ],
+              "output": 357,
+              "docs": [
+                " Provides a quote for [`Pallet::swap_exact_tokens_for_tokens`].",
+                "",
+                " Note that the price may have changed by the time the transaction is executed.",
+                " (Use `amount_out_min` to control slippage.)"
+              ]
+            },
+            {
+              "name": "get_reserves",
+              "inputs": [
+                {
+                  "name": "asset1",
+                  "type": 37
+                },
+                {
+                  "name": "asset2",
+                  "type": 37
+                }
+              ],
+              "output": 524,
+              "docs": [
+                " Returns the size of the liquidity pool for the given asset pair."
+              ]
+            }
+          ],
+          "docs": [
+            " This runtime api allows people to query the size of the liquidity pools",
+            " and quote prices for swaps."
+          ]
+        }
+      ],
+      "outerEnums": {
+        "callType": 348,
+        "eventType": 21,
+        "errorType": 526
+      },
+      "custom": {
+        "map": {}
+      }
+    }
+  }
+}
