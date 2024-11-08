@@ -24,6 +24,8 @@ const generateCallsTypesTemplate = Handlebars.compile(readTemplate('calls'));
 // This works similar to the PATHS_ALIAS set from the PortableRegistry
 const aliases: Record<string, string> = {
   KitchensinkRuntimeRuntimeCall: 'RuntimeCall',
+  AssetHubKusamaRuntimeRuntimeCall: 'RuntimeCall',
+  AssetHubPolkadotRuntimeRuntimeCall: 'RuntimeCall',
   OpaqueValue: 'Bytes',
   PolkadotParachainPrimitivesPrimitivesId: 'ParaId',
   PolkadotParachainPrimitivesPrimitivesValidationCodeHash: 'ValidationCodeHash',
@@ -32,6 +34,7 @@ const aliases: Record<string, string> = {
   PrimitiveTypesH256: 'H256',
   SpConsensusBabeOpaqueKeyOwnershipProof: 'OpaqueKeyOwnershipProof',
   SpConsensusSlotsSlot: 'Slot',
+  SpConsensusSlotsSlotDuration: 'SlotDuration',
   SpCoreCryptoAccountId32: 'AccountId32',
   SpCoreOpaqueMetadata: 'OpaqueMetadata',
   SpRuntimeOpaqueValue: 'Bytes',
