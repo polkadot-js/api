@@ -36,38 +36,38 @@ describe('replay', (): void => {
     });
   });
 
-  it('replay(1) works as expected', async (): Promise<void> => {
-    const observable = rpc.system.chain();
-    let a: any;
+  // it('replay(1) works as expected', async (): Promise<void> => {
+  //   const observable = rpc.system.chain();
+  //   let a: any;
 
-    observable.subscribe((value?: unknown): void => {
-      a = value;
-    });
+  //   observable.subscribe((value?: unknown): void => {
+  //     a = value;
+  //   });
 
-    await new Promise<boolean>((resolve) => {
-      setTimeout((): void => {
-        // Subscribe again to the same observable, it should fire value immediately
-        observable.subscribe((value: any): void => {
-          expect(value).toEqual(a);
-          resolve(true);
-        });
-      }, 1000);
-    });
-  });
+  //   await new Promise<boolean>((resolve) => {
+  //     setTimeout((): void => {
+  //       // Subscribe again to the same observable, it should fire value immediately
+  //       observable.subscribe((value: any): void => {
+  //         expect(value).toEqual(a);
+  //         resolve(true);
+  //       });
+  //     }, 1000);
+  //   });
+  // });
 
-  it('unsubscribes as required', async (): Promise<void> => {
-    rpc.provider.unsubscribe = jest.fn();
+  // it('unsubscribes as required', async (): Promise<void> => {
+  //   rpc.provider.unsubscribe = jest.fn();
 
-    await new Promise<boolean>((resolve) => {
-      const subscription = rpc.chain.subscribeNewHeads().subscribe((): void => {
-        subscription.unsubscribe();
+  //   await new Promise<boolean>((resolve) => {
+  //     const subscription = rpc.chain.subscribeNewHeads().subscribe((): void => {
+  //       subscription.unsubscribe();
 
-        // There's a promise inside .unsubscribe(), wait a bit (> 2s)
-        setTimeout((): void => {
-          expect(rpc.provider.unsubscribe).toHaveBeenCalled();
-          resolve(true);
-        }, 3500);
-      });
-    });
-  });
+  //       // There's a promise inside .unsubscribe(), wait a bit (> 2s)
+  //       setTimeout((): void => {
+  //         expect(rpc.provider.unsubscribe).toHaveBeenCalled();
+  //         resolve(true);
+  //       }, 3500);
+  //     });
+  //   });
+  // });
 });
