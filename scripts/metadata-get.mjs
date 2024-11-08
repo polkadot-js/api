@@ -21,12 +21,12 @@ const META_VERSION = 15;
 
 /**
  * Parse the specName given any exceptions.
- * 
+ *
  * @param {'polkadot' | 'kusama' | 'node' | 'statemint' | 'statemine'} specName
- * @returns {'polkadot' | 'kusama' | 'substrate' | 'asset-hub-kusama' | 'asset-hub-polkadot'} 
+ * @returns {'polkadot' | 'kusama' | 'substrate' | 'asset-hub-kusama' | 'asset-hub-polkadot'}
  */
 const parseChainName = (specName) => {
-  switch(specName) {
+  switch (specName) {
     case 'node':
       return 'substrate';
     case 'statemine':
@@ -36,7 +36,7 @@ const parseChainName = (specName) => {
     default:
       return specName;
   }
-}
+};
 
 /**
  * Small CLI parser.
