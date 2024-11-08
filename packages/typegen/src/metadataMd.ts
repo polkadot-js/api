@@ -17,6 +17,8 @@ import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
 import { unwrapStorageType } from '@polkadot/types/util';
+import assetHubKusamaMeta, { rpc as assetHubKusamaRpc, version as assetHubKusamaVer } from '@polkadot/types-support/metadata/static-asset-hub-kusama';
+import assetHubPolkadotMeta, { rpc as assetHubPolkadotRpc, version as assetHubPolkadotVer } from '@polkadot/types-support/metadata/static-asset-hub-polkadot';
 import kusamaMeta, { rpc as kusamaRpc, version as kusamaVer } from '@polkadot/types-support/metadata/static-kusama';
 import polkadotMeta, { rpc as polkadotRpc, version as polkadotVer } from '@polkadot/types-support/metadata/static-polkadot';
 import substrateMeta from '@polkadot/types-support/metadata/static-substrate';
@@ -56,7 +58,14 @@ const headerFn = (runtimeDesc: string) => `\n\n(NOTE: These were generated from 
 
 const ALL_STATIC: Record<string, StaticDef> = {
   'asset-hub-kusama': {
-    
+    meta: assetHubKusamaMeta,
+    rpc: assetHubKusamaRpc,
+    ver: assetHubKusamaVer as unknown as { apis: ApiDef[] }
+  },
+  'asset-hub-polkadot': {
+    meta: assetHubPolkadotMeta,
+    rpc: assetHubPolkadotRpc,
+    ver: assetHubPolkadotVer as unknown as { apis: ApiDef[] }
   },
   kusama: {
     meta: kusamaMeta,
