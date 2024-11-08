@@ -55,6 +55,9 @@ interface StaticDef {
 const headerFn = (runtimeDesc: string) => `\n\n(NOTE: These were generated from a static/snapshot view of a recent ${runtimeDesc}. Some items may not be available in older nodes, or in any customized implementations.)`;
 
 const ALL_STATIC: Record<string, StaticDef> = {
+  'asset-hub-kusama': {
+    
+  },
   kusama: {
     meta: kusamaMeta,
     rpc: kusamaRpc,
