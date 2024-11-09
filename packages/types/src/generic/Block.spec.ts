@@ -8,7 +8,7 @@
 
 import type { BlockValue } from './Block.js';
 
-import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json' with { type: 'json' };
+import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json' assert { type: 'json' };
 import metadataStatic from '@polkadot/types-support/metadata/static-substrate';
 import { stringify } from '@polkadot/util';
 

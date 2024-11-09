@@ -11,7 +11,7 @@ import { ApiPromise } from '@polkadot/api';
 import { BlueprintPromise, ContractPromise } from '@polkadot/api-contract';
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
 
-import abiIncrementer from './test/contracts/ink/v0/incrementer.json' with { type: 'json' };
+import abiIncrementer from './test/contracts/ink/v0/incrementer.json' assert { type: 'json' };
 
 async function checkBlueprint (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<void> {
   const blueprint = new BlueprintPromise(api, abiIncrementer as Record<string, unknown>, '0x1234');

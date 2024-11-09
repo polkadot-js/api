@@ -5,11 +5,11 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import json1 from '@polkadot/types-support/json/Header.001.json' with { type: 'json' };
-import json2 from '@polkadot/types-support/json/Header.002.json' with { type: 'json' };
-import json3 from '@polkadot/types-support/json/Header.003.json' with { type: 'json' };
-import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json' with { type: 'json' };
-import block00301 from '@polkadot/types-support/json/SignedBlock.003.01.json' with { type: 'json' };
+import json1 from '@polkadot/types-support/json/Header.001.json' assert { type: 'json' };
+import json2 from '@polkadot/types-support/json/Header.002.json' assert { type: 'json' };
+import json3 from '@polkadot/types-support/json/Header.003.json' assert { type: 'json' };
+import block00300 from '@polkadot/types-support/json/SignedBlock.003.00.json' assert { type: 'json' };
+import block00301 from '@polkadot/types-support/json/SignedBlock.003.01.json' assert { type: 'json' };
 import { BN } from '@polkadot/util';
 
 import { TypeRegistry } from '../../create/index.js';
