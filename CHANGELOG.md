@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 14.3.1 Nov 11, 2024
+
+Changes:
+
+- Add rpcCacheCapacity option to ApiOptions ([#6020](https://github.com/polkadot-js/api/pull/6020))
+- Update metadata script for types-support ([#6021](https://github.com/polkadot-js/api/pull/6021))
+- Add AssetHub to types-support and test generation ([#6022](https://github.com/polkadot-js/api/pull/6022))
+- Fix node v22 testing compatibility w/ dev bump ([#6024](https://github.com/polkadot-js/api/pull/6024))
+- Fix isClaimed for edgecase with non validator Ids ([#6027](https://github.com/polkadot-js/api/pull/6027))
+- Fix isClaimed in api.derive.staking.{stakerRewards, stakerRewardsMultiEras, stakerRewardsMulti} ([#6026](https://github.com/polkadot-js/api/pull/6026))
+- Upgrade common to 13.2.3 ([#6025](https://github.com/polkadot-js/api/pull/6025))
+
+
 ## 14.2.3 Nov 5, 2024
 
 Changes:
