@@ -84,6 +84,8 @@ function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPref
     return {
       era,
       eraReward,
+      // This might not always be accurate as you need validator account information in order to see if the rewards have been claimed.
+      // This is possibly adjusted in `filterRewards` when need be.
       isClaimed: claimedRewardsEras.some((c) => c.eq(era)),
       isEmpty,
       isValidator,
@@ -151,12 +153,26 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
       return true;
     })
     .filter(({ validators }) => Object.keys(validators).length !== 0)
-    .map((reward) =>
-      objectSpread({}, reward, {
-        isClaimed: reward.isClaimed,
+    .map((reward) => {
+      let isClaimed = reward.isClaimed;
+      const valKeys = Object.keys(reward.validators);
+
+      if (!reward.isClaimed && valKeys.length) {
+        for (const key of valKeys) {
+          const info = queryValidators.find((i) => i.accountId.toString() === key);
+
+          if (info) {
+            isClaimed = info.claimedRewardsEras.toArray().some((era) => era.eq(reward.era));
+            break;
+          }
+        }
+      }
+
+      return objectSpread({}, reward, {
+        isClaimed,
         nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
-      })
-    );
+      });
+    });
 }
 
 export function _stakerRewardsEras (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive?: boolean) => Observable<ErasResult> {
