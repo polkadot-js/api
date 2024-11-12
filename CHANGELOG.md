@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 14.2.4 Nov 11, 2024
+
+Changes:
+
+- Fix isClaimed for edgecase with non validator Ids ([#6027](https://github.com/polkadot-js/api/pull/6027))
+- Fix isClaimed in api.derive.staking.{stakerRewards, stakerRewardsMultiEras, stakerRewardsMulti} ([#6026](https://github.com/polkadot-js/api/pull/6026))
+- Upgrade common to 13.2.3 ([#6025](https://github.com/polkadot-js/api/pull/6025))
+
+
 ## 14.2.3 Nov 5, 2024
 
 Changes:
