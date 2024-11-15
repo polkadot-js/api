@@ -1,7 +1,6 @@
 // Copyright 2017-2024 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SignOptions } from '@polkadot/keyring/types';
 import type { Hash, MultiLocation } from '@polkadot/types/interfaces';
 import type { Bytes } from '@polkadot/types-codec';
 import type { Inspect, Registry } from '@polkadot/types-codec/types';
@@ -10,10 +9,8 @@ import type { BlockHash } from '../../interfaces/chain/index.js';
 import type { ExtrinsicEra } from '../../interfaces/extrinsics/index.js';
 import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } from '../../types/index.js';
 
-import { Enum, Struct } from '@polkadot/types-codec';
+import { Struct } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
-
-import { signV5 } from '../util.js';
 
 /**
  * @name GenericExtrinsicPayloadV5
@@ -22,21 +19,12 @@ import { signV5 } from '../util.js';
  * variable length based on the contents included
  */
 export class GenericExtrinsicPayloadV5 extends Struct {
-  #signOptions: SignOptions;
-
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | HexString) {
     super(registry, objectSpread(
       { method: 'Bytes' },
       registry.getSignedExtensionTypes(),
       registry.getSignedExtensionExtra()
     ), value);
-
-    // Do detection for the type of extrinsic, in the case of MultiSignature
-    // this is an enum, in the case of AnySignature, this is a Hash only
-    // (which may be 64 or 65 bytes)
-    this.#signOptions = {
-      withType: registry.createTypeUnsafe('ExtrinsicSignature', []) instanceof Enum
-    };
   }
 
   /**
@@ -119,12 +107,7 @@ export class GenericExtrinsicPayloadV5 extends Struct {
   /**
    * @description Sign the payload with the keypair
    */
-  public sign (signerPair: IKeyringPair): Uint8Array {
-    // NOTE The `toU8a({ method: true })` argument is absolutely critical, we
-    // don't want the method (Bytes) to have the length prefix included. This
-    // means that the data-as-signed is un-decodable, but is also doesn't need
-    // the extra information, only the pure data (and is not decoded) ...
-    // The same applies to V1..V3, if we have a V6, carry this comment
-    return signV5(this.registry, signerPair, this.toU8a({ method: true }), this.#signOptions);
+  public sign (_signerPair: IKeyringPair): Uint8Array {
+    throw new Error('ExtrinsicV5 does not include signing support');
   }
 }
