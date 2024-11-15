@@ -16,7 +16,7 @@ import type { ExtrinsicValueV5 } from './v5/Extrinsic.js';
 import { AbstractBase } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, compactToU8a, isHex, isU8a, objectProperty, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { BARE_EXTRINSIC, BIT_SIGNED, BIT_UNSIGNED, DEFAULT_PREAMBLE, GENERAL_EXTRINSIC, LATEST_EXTRINSIC_VERSION, LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION, SIGNED_EXTRINSIC, TYPE_MASK, VERSION_MASK } from './constants.js';
+import { BARE_EXTRINSIC, BIT_SIGNED, BIT_UNSIGNED, DEFAULT_PREAMBLE, GENERAL_EXTRINSIC, LATEST_EXTRINSIC_VERSION, LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION, TYPE_MASK, VERSION_MASK } from './constants.js';
 
 interface CreateOptions {
   version?: number;
@@ -40,14 +40,12 @@ const VERSIONS = [
 
 const PREAMBLE = {
   bare: 'ExtrinsicV5',
-  general: 'GeneralExtrinsic',
-  signed: 'ExtrinsicV5'
+  general: 'GeneralExtrinsic'
 };
 
 const PreambleMask = {
   bare: BARE_EXTRINSIC,
-  general: GENERAL_EXTRINSIC,
-  signed: SIGNED_EXTRINSIC
+  general: GENERAL_EXTRINSIC
 };
 
 const preambleUnMask: Record<string, Preamble> = {
@@ -293,7 +291,11 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
     if (this.type <= LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION) {
       return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
     } else {
-      return this.type | (this.isSigned ? PreambleMask.signed : this.isGeneral() ? PreambleMask.general : PreambleMask.bare);
+      if (this.isSigned) {
+        throw new Error('Signed Extrinsics are currently only available for ExtrinsicV4');
+      }
+
+      return this.type | (this.isGeneral() ? PreambleMask.general : PreambleMask.bare);
     }
   }
 
