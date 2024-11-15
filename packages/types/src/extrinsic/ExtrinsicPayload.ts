@@ -36,8 +36,7 @@ const VERSIONS = [
 const PREAMBLES = {
   bare: 'ExtrinsicPayloadV5',
   // Not supported yet
-  general: 'ExtrinsicPayloadV5',
-  signed: 'ExtrinsicPayloadV5'
+  general: 'ExtrinsicPayloadV5'
 };
 
 /** @internal */
