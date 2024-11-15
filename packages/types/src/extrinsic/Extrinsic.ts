@@ -53,9 +53,7 @@ const PreambleMask = {
 const preambleUnMask: Record<string, Preamble> = {
   0: 'bare',
   // eslint-disable-next-line sort-keys
-  64: 'general',
-  // eslint-disable-next-line sort-keys
-  128: 'signed'
+  64: 'general'
 };
 
 export { LATEST_EXTRINSIC_VERSION };
