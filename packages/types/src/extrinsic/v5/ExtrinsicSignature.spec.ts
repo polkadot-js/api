@@ -61,25 +61,15 @@ describe('ExtrinsicSignatureV4', (): void => {
     registry.setMetadata(metadata);
 
     expect(
-      new ExtrinsicSignature(registry).signFake(
+      () => new ExtrinsicSignature(registry).signFake(
         registry.createType('Call'),
         pairs.alice.publicKey,
         signOptions
       ).toHex()
-    ).toEqual(
-      '0x' +
-      '00' + // MultiAddress
-      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
-      '01' +
-      '0101010101010101010101010101010101010101010101010101010101010101' +
-      '0101010101010101010101010101010101010101010101010101010101010101' +
-      '00' + // TransactionExtension version
-      '00a5010000' +
-      '00' // Mode
-    );
+    ).toThrow('Extrinsic: ExtrinsicV5 does not include signing support');
   });
 
-  it('fake signs default (AccountId address)', (): void => {
+  it('Errors on fake sign', (): void => {
     const registry = new TypeRegistry();
     const metadata = new Metadata(registry, metadataStatic);
 
@@ -90,76 +80,26 @@ describe('ExtrinsicSignatureV4', (): void => {
     });
 
     expect(
-      new ExtrinsicSignature(registry).signFake(
+      () => new ExtrinsicSignature(registry).signFake(
         registry.createType('Call'),
         pairs.alice.address,
         signOptions
       ).toHex()
-    ).toEqual(
-      '0x' +
-      // Address = AccountId, no prefix
-      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
-      // This is a prefix-less signature, anySignture as opposed to Multi above
-      '0101010101010101010101010101010101010101010101010101010101010101' +
-      '0101010101010101010101010101010101010101010101010101010101010101' +
-      '00' + // TransactionExtension version
-      '00a5010000' +
-      '00' // mode
-    );
+    ).toThrow('Extrinsic: ExtrinsicV5 does not include signing support');
   });
 
-  it('fake signs with non-enum signature', (): void => {
-    const registry = new TypeRegistry();
-    const metadata = new Metadata(registry, metadataStatic);
-
-    registry.setMetadata(metadata);
-    registry.register({
-      Address: 'AccountId',
-      ExtrinsicSignature: '[u8;65]'
-    });
-
-    expect(
-      new ExtrinsicSignature(registry).signFake(
-        registry.createType('Call'),
-        pairs.alice.address,
-        signOptions
-      ).toHex()
-    ).toEqual(
-      '0x' +
-      // Address = AccountId, no prefix
-      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
-      // 65 bytes here
-      '01' +
-      '0101010101010101010101010101010101010101010101010101010101010101' +
-      '0101010101010101010101010101010101010101010101010101010101010101' +
-      '00' + // TransactionExtension version
-      '00a5010000' +
-      '00' // mode
-    );
-  });
-
-  it('injects a signature', (): void => {
+  it('Errors on injecting a signature', (): void => {
     const registry = new TypeRegistry();
     const metadata = new Metadata(registry, metadataStatic);
 
     registry.setMetadata(metadata);
 
     expect(
-      new ExtrinsicSignature(registry).addSignature(
+      () => new ExtrinsicSignature(registry).addSignature(
         pairs.alice.publicKey,
         new Uint8Array(65).fill(1),
         new Uint8Array(0)
       ).toHex()
-    ).toEqual(
-      '0x' +
-      '00' + // MultiAddress
-      'd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d' +
-      '01' +
-      '0101010101010101010101010101010101010101010101010101010101010101' +
-      '0101010101010101010101010101010101010101010101010101010101010101' +
-      '00' + // TransactionExtension version
-      '00000000' +
-      '00' // mode
-    );
+    ).toThrow('Extrinsic: ExtrinsicV5 does not include signing support');
   });
 });
