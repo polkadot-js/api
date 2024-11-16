@@ -89,7 +89,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
 
   /**
    * @description Add an [[ExtrinsicSignatureV5]] to the extrinsic (already generated)
-   * 
+   *
    * [Disabled for ExtrinsicV5]
    */
   public addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
@@ -98,7 +98,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
 
   /**
    * @description Sign the extrinsic with a specific keypair
-   * 
+   *
    * [Disabled for ExtrinsicV5]
    */
   public sign (_account: IKeyringPair, _options: SignatureOptions): GenericExtrinsicV5 {
@@ -107,7 +107,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
 
   /**
    * @describe Adds a fake signature to the extrinsic
-   * 
+   *
    * [Disabled for ExtrinsicV5]
    */
   public signFake (_signer: Address | Uint8Array | string, _options: SignatureOptions): GenericExtrinsicV5 {

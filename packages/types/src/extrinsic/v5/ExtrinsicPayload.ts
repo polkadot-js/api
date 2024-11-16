@@ -106,7 +106,7 @@ export class GenericExtrinsicPayloadV5 extends Struct {
 
   /**
    * @description Sign the payload with the keypair
-   * 
+   *
    * [Disabled for ExtrinsicV5]
    */
   public sign (_signerPair: IKeyringPair): Uint8Array {

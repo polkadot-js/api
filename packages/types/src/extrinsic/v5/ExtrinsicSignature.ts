@@ -9,17 +9,10 @@ import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair
 import type { ExtrinsicSignatureOptions } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
-import { isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
+import { objectProperties, objectSpread } from '@polkadot/util';
 
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants.js';
 import { GenericExtrinsicPayloadV5 } from './ExtrinsicPayload.js';
-
-// Ensure we have enough data for all types of signatures
-const FAKE_SIGNATURE = new Uint8Array(256).fill(1);
-
-function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
-  return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
-}
 
 /**
  * @name GenericExtrinsicSignatureV5
@@ -156,7 +149,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
 
   /**
    * @description Adds a raw signature
-   * 
+   *
    * [Disabled for ExtrinsicV5]
    */
   public addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): IExtrinsicSignature {
@@ -179,7 +172,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
 
   /**
    * @description Generate a payload and applies the signature from a keypair
-   * 
+   *
    * [Disabled for ExtrinsicV5]
    */
   public sign (_method: Call, _account: IKeyringPair, _options: SignatureOptions): IExtrinsicSignature {
@@ -188,7 +181,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
 
   /**
    * @description Generate a payload and applies a fake signature
-   * 
+   *
    * [Disabled for ExtrinsicV5]
    */
   public signFake (_method: Call, _address: Address | Uint8Array | string, _options: SignatureOptions): IExtrinsicSignature {
