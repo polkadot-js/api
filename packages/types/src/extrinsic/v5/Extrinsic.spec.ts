@@ -69,6 +69,6 @@ describe('ExtrinsicV5', (): void => {
         },
         tip: 2
       }).toHex()
-    ).toThrow('ExtrinsicV5 does not include signing support');
+    ).toThrow('Extrinsic: ExtrinsicV5 does not include signing support');
   });
 });

@@ -91,20 +91,20 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    * @description Add an [[ExtrinsicSignatureV5]] to the extrinsic (already generated)
    */
   public addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
-    throw new Error('ExtrinsicV5 does not include signing support');
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 
   /**
    * @description Sign the extrinsic with a specific keypair
    */
   public sign (_account: IKeyringPair, _options: SignatureOptions): GenericExtrinsicV5 {
-    throw new Error('ExtrinsicV5 does not include signing support');
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 
   /**
    * @describe Adds a fake signature to the extrinsic
    */
   public signFake (_signer: Address | Uint8Array | string, _options: SignatureOptions): GenericExtrinsicV5 {
-    throw new Error('ExtrinsicV5 does not include signing support');
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 }

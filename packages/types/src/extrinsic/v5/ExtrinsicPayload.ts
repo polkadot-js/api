@@ -108,6 +108,6 @@ export class GenericExtrinsicPayloadV5 extends Struct {
    * @description Sign the payload with the keypair
    */
   public sign (_signerPair: IKeyringPair): Uint8Array {
-    throw new Error('ExtrinsicV5 does not include signing support');
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 }
