@@ -367,7 +367,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
             throw new Error(`When using the signedTransaction field, the transaction must be signed. Recieved isSigned: ${ext.isSigned}`);
           }
 
-          this.#validateSignedTransaction(payload, ext);
           // This is only used for signAsync - signAndSend does not need to adjust the super payload or
           // add the signature.
           super.addSignature(address, result.signature, newSignerPayload.toPayload());
@@ -396,20 +395,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         if (signer && isFunction(signer.update)) {
           signer.update(updateId, status);
         }
-      }
-    };
-
-    /**
-     * When a signer includes `signedTransaction` within the SignerResult this will validate
-     * specific fields within the signed extrinsic against the original payload that was passed
-     * to the signer.
-     */
-    #validateSignedTransaction = (signerPayload: SignerPayload, signedExt: Extrinsic): void => {
-      const payload = signerPayload.toPayload();
-      const errMsg = (field: string) => `signAndSend: ${field} does not match the original payload`;
-
-      if (payload.method !== signedExt.method.toHex()) {
-        throw new Error(errMsg('call data'));
       }
     };
   }
