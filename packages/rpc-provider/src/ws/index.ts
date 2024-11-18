@@ -104,10 +104,11 @@ export class WsProvider implements ProviderInterface {
   #timeout: number;
 
   /**
-   * @param {string | string[]}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
+   * @param {string | string[]} endpoint The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`, may provide an array of endpoint strings.
    * @param {number | false} autoConnectMs Whether to connect automatically or not (default). Provided value is used as a delay between retries.
    * @param {Record<string, string>} headers The headers provided to the underlying WebSocket
    * @param {number} [timeout] Custom timeout value used per request . Defaults to `DEFAULT_TIMEOUT_MS`
+   * @param {number} [cacheCapacity] Custom size of the WsProvider LRUCache. Defaults to `DEFAULT_CAPACITY` (1024)
    */
   constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number, cacheCapacity?: number) {
     const endpoints = Array.isArray(endpoint)
