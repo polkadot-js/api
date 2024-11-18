@@ -89,28 +89,28 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
 
   /**
    * @description Add an [[ExtrinsicSignatureV5]] to the extrinsic (already generated)
+   *
+   * [Disabled for ExtrinsicV5]
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
-    this.signature.addSignature(signer, signature, payload);
-
-    return this;
+  public addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 
   /**
    * @description Sign the extrinsic with a specific keypair
+   *
+   * [Disabled for ExtrinsicV5]
    */
-  public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsicV5 {
-    this.signature.sign(this.method, account, options);
-
-    return this;
+  public sign (_account: IKeyringPair, _options: SignatureOptions): GenericExtrinsicV5 {
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 
   /**
    * @describe Adds a fake signature to the extrinsic
+   *
+   * [Disabled for ExtrinsicV5]
    */
-  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsicV5 {
-    this.signature.signFake(this.method, signer, options);
-
-    return this;
+  public signFake (_signer: Address | Uint8Array | string, _options: SignatureOptions): GenericExtrinsicV5 {
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 }

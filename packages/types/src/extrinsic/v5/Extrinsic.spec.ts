@@ -48,9 +48,9 @@ describe('ExtrinsicV5', (): void => {
     );
   });
 
-  it('creates a signed extrinsic', (): void => {
+  it('Errors when creating a signed Extrinsic', (): void => {
     expect(
-      new Extrinsic(
+      () => new Extrinsic(
         registry,
         tx['balances']['transferAllowDeath'](keyring.bob.publicKey, 6969n)
       ).sign(keyring.alice, {
@@ -69,19 +69,6 @@ describe('ExtrinsicV5', (): void => {
         },
         tip: 2
       }).toHex()
-    ).toEqual(
-      '0x' +
-      '00' +
-      'd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' +
-      '00' + // ed25519
-      '84181ebef350cc212e70e042b6ebcd33ca955bf9497711a64aa7c64e2b8c2732' +
-      'ab837715364eab7be5cc76f74eefa36d3ba9ee698264ed28a286c8360fc9aa0c' +
-      '00' + // TransactionExtension version
-      '0004080000' + // era. nonce, tip, mode
-      '0600' +
-      '00' +
-      'd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' +
-      'e56c'
-    );
+    ).toThrow('Extrinsic: ExtrinsicV5 does not include signing support');
   });
 });

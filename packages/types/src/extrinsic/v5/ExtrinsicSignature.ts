@@ -9,17 +9,10 @@ import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair
 import type { ExtrinsicSignatureOptions } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
-import { isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
+import { objectProperties, objectSpread } from '@polkadot/util';
 
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants.js';
 import { GenericExtrinsicPayloadV5 } from './ExtrinsicPayload.js';
-
-// Ensure we have enough data for all types of signatures
-const FAKE_SIGNATURE = new Uint8Array(256).fill(1);
-
-function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
-  return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
-}
 
 /**
  * @name GenericExtrinsicSignatureV5
@@ -28,11 +21,9 @@ function toAddress (registry: Registry, address: Address | Uint8Array | string):
  */
 export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSignature {
   #signKeys: string[];
-  #transactionExtensionVersion: number;
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV5 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     const signTypes = registry.getSignedExtensionTypes();
-    const signedVersion = registry.getTransactionExtensionVersion();
 
     super(
       registry,
@@ -44,7 +35,6 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
       GenericExtrinsicSignatureV5.decodeExtrinsicSignature(value, isSigned)
     );
 
-    this.#transactionExtensionVersion = signedVersion;
     this.#signKeys = Object.keys(signTypes);
 
     objectProperties(this, this.#signKeys, (k) => this.get(k));
@@ -150,35 +140,20 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
     return this.getT('transactionExtensionVersion');
   }
 
-  protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV5): IExtrinsicSignature {
-    // use the fields exposed to guide the getters
-    for (let i = 0, count = this.#signKeys.length; i < count; i++) {
-      const k = this.#signKeys[i];
-      const v = payload.get(k);
-
-      if (k === 'transactionExtensionVersion') {
-        this.set(k, this.registry.createType('u8', this.#transactionExtensionVersion));
-      } else if (!isUndefined(v)) {
-        this.set(k, v);
-      }
-    }
-
-    // additional fields (exposed in struct itself)
-    this.set('signer', signer);
-    this.set('signature', signature);
-
-    return this;
+  /**
+   * [Disabled for ExtrinsicV5]
+   */
+  protected _injectSignature (_signer: Address, _signature: ExtrinsicSignature, _payload: GenericExtrinsicPayloadV5): IExtrinsicSignature {
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 
   /**
    * @description Adds a raw signature
+   *
+   * [Disabled for ExtrinsicV5]
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): IExtrinsicSignature {
-    return this._injectSignature(
-      toAddress(this.registry, signer),
-      this.registry.createTypeUnsafe('ExtrinsicSignature', [signature]),
-      new GenericExtrinsicPayloadV5(this.registry, payload)
-    );
+  public addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): IExtrinsicSignature {
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 
   /**
@@ -197,36 +172,20 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
 
   /**
    * @description Generate a payload and applies the signature from a keypair
+   *
+   * [Disabled for ExtrinsicV5]
    */
-  public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
-    if (!account?.addressRaw) {
-      throw new Error(`Expected a valid keypair for signing, found ${stringify(account)}`);
-    }
-
-    const payload = this.createPayload(method, options);
-
-    return this._injectSignature(
-      toAddress(this.registry, account.addressRaw),
-      this.registry.createTypeUnsafe('ExtrinsicSignature', [payload.sign(account)]),
-      payload
-    );
+  public sign (_method: Call, _account: IKeyringPair, _options: SignatureOptions): IExtrinsicSignature {
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 
   /**
    * @description Generate a payload and applies a fake signature
+   *
+   * [Disabled for ExtrinsicV5]
    */
-  public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
-    if (!address) {
-      throw new Error(`Expected a valid address for signing, found ${stringify(address)}`);
-    }
-
-    const payload = this.createPayload(method, options);
-
-    return this._injectSignature(
-      toAddress(this.registry, address),
-      this.registry.createTypeUnsafe('ExtrinsicSignature', [FAKE_SIGNATURE]),
-      payload
-    );
+  public signFake (_method: Call, _address: Address | Uint8Array | string, _options: SignatureOptions): IExtrinsicSignature {
+    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
   }
 
   /**
