@@ -33,6 +33,9 @@ type MemoizedRpcInterfaceMethod = Memoized<RpcInterfaceMethod> & {
 interface Options {
   isPedantic?: boolean;
   provider: ProviderInterface;
+  /**
+   * Custom size of the rpc LRUCache capacity. Defaults to `RPC_CORE_DEFAULT_CAPACITY` (1024 * 10 * 10)
+   */
   rpcCacheCapacity?: number;
   userRpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
 }
@@ -110,7 +113,9 @@ export class RpcCore {
   /**
    * @constructor
    * Default constructor for the core RPC handler
-   * @param  {ProviderInterface} provider An API provider using any of the supported providers (HTTP, SC or WebSocket)
+   * @param {Registry} registry Type Registry
+   * @param {ProviderInterface} options.provider An API provider using any of the supported providers (HTTP, SC or WebSocket)
+   * @param {number} [options.rpcCacheCapacity] Custom size of the rpc LRUCache capacity. Defaults to `RPC_CORE_DEFAULT_CAPACITY` (1024 * 10 * 10)
    */
   constructor (instanceId: string, registry: Registry, { isPedantic = true, provider, rpcCacheCapacity, userRpc = {} }: Options) {
     if (!provider || !isFunction(provider.send)) {
