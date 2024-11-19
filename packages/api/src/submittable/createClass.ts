@@ -325,7 +325,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
     #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<SignerInfo> => {
       const signer = options.signer || api.signer;
-      const allowCallDataAlteration = options.allowCallDataAlteration || true;
+      const allowCallDataAlteration = options.allowCallDataAlteration ?? true;
 
       if (!signer) {
         throw new Error('No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
