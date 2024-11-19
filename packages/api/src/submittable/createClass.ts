@@ -404,10 +404,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     };
 
     /**
-   * When a signer includes `signedTransaction` within the SignerResult this will validate
-   * specific fields within the signed extrinsic against the original payload that was passed
-   * to the signer.
-   */
+    * When a signer includes `signedTransaction` within the SignerResult this will validate
+    * specific fields within the signed extrinsic against the original payload that was passed
+    * to the signer.
+    */
     #validateSignedTransaction = (signerPayload: SignerPayload, signedExt: Extrinsic): void => {
       const payload = signerPayload.toPayload();
       const errMsg = (field: string) => `signAndSend: ${field} does not match the original payload`;
