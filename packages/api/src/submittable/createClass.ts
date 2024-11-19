@@ -325,6 +325,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
     #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<SignerInfo> => {
       const signer = options.signer || api.signer;
+      const allowCallDataAlteration = options.allowCallDataAlteration ?? true;
 
       if (!signer) {
         throw new Error('No signer specified, either via api.setSigner or via sign options. You possibly need to pass through an explicit keypair for the origin so it can be used for signing.');
@@ -367,7 +368,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
             throw new Error(`When using the signedTransaction field, the transaction must be signed. Recieved isSigned: ${ext.isSigned}`);
           }
 
-          this.#validateSignedTransaction(payload, ext);
+          if (!allowCallDataAlteration) {
+            this.#validateSignedTransaction(payload, ext);
+          }
+
           // This is only used for signAsync - signAndSend does not need to adjust the super payload or
           // add the signature.
           super.addSignature(address, result.signature, newSignerPayload.toPayload());
