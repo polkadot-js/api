@@ -188,6 +188,7 @@ export interface IExtrinsicEra extends Codec {
 }
 
 export interface SignatureOptions {
+  allowCallDataAlteration?: boolean;
   blockHash: Uint8Array | string;
   era?: IExtrinsicEra;
   genesisHash: Uint8Array | string;
