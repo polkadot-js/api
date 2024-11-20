@@ -1,5 +1,5 @@
     3512	Jaco                          	Bump deps (#5785)
-     134	Tarik Gul                     	Update docs for WsProvider, and RpcCore (#6031)
+     135	Tarik Gul                     	Add testing for assetId access from ExtrinsicPayload (#6033)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
