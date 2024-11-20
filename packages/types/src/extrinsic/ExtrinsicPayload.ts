@@ -62,8 +62,6 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
       assetId: registry.createType('TAssetConversion', hexToU8a((value as ExtrinsicPayloadValue).assetId)).toJSON()
     };
 
-    console.log(JSON.stringify(registry.createType('TAssetConversion', hexToU8a((value as ExtrinsicPayloadValue).assetId)).toJSON(), null, 4));
-
     return registry.createTypeUnsafe(extVersion, [adjustedPayload, { version }]);
   }
 
