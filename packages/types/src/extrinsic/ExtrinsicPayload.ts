@@ -12,7 +12,7 @@ import type { GenericExtrinsicEra } from './ExtrinsicEra.js';
 import type { Preamble } from './types.js';
 
 import { AbstractBase } from '@polkadot/types-codec';
-import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
+import { u8aToHex } from '@polkadot/util';
 
 import { DEFAULT_PREAMBLE, LATEST_EXTRINSIC_VERSION } from './constants.js';
 
@@ -46,24 +46,6 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
   }
 
   const extVersion = version === 5 ? PREAMBLES[preamble] : VERSIONS[version] || VERSIONS[0];
-
-  /**
-   * HACK: In order to change the assetId from `number | object` to HexString (While maintaining the true type ie Option<TAssetConversion>),
-   * to allow for easier generalization of the SignerPayloadJSON interface the below check is necessary. The ExtrinsicPayloadV4 class does not like
-   * a value passed in as an Option, and can't decode it properly. Therefore, we ensure to convert the following below, and then pass the option as a unwrapped
-   * JSON value.
-   *
-   * ref: https://github.com/polkadot-js/api/pull/5968
-   * ref: https://github.com/polkadot-js/api/pull/5967
-   */
-  if (value && (value as ExtrinsicPayloadValue).assetId && isHex((value as ExtrinsicPayloadValue).assetId)) {
-    const adjustedPayload = {
-      ...(value as ExtrinsicPayloadValue),
-      assetId: registry.createType('TAssetConversion', hexToU8a((value as ExtrinsicPayloadValue).assetId)).toJSON()
-    };
-
-    return registry.createTypeUnsafe(extVersion, [adjustedPayload, { version }]);
-  }
 
   return registry.createTypeUnsafe(extVersion, [value, { version }]);
 }
@@ -143,13 +125,7 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
    * @description The (optional) asset id as a [[u32]] or [[MultiLocation]] for this payload
    */
   public get assetId (): IOption<INumber | MultiLocation> {
-    const type = this.registry.getDefinition('AssetIdV4') ||
-      this.registry.getDefinition('AssetIdV3') ||
-      this.registry.getDefinition('AssetIdV2') ||
-      this.registry.getDefinition('AssetId') ||
-      'MultiLocation';
-
-    return this.registry.createType(type, this.inner.assetId);
+    return this.inner.assetId;
   }
 
   /**
