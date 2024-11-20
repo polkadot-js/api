@@ -565,6 +565,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyExpired: AugmentedError<ApiType>;
       /**
+       * Attempted to disable auto-renewal for a core that didn't have it enabled.
+       **/
+      AutoRenewalNotEnabled: AugmentedError<ApiType>;
+      /**
        * The pivot mask for the interlacing is complete (and therefore not a strict subset).
        **/
       CompletePivot: AugmentedError<ApiType>;
@@ -593,6 +597,14 @@ declare module '@polkadot/api-base/types/errors' {
        * The history item does not exist.
        **/
       NoHistory: AugmentedError<ApiType>;
+      /**
+       * Only cores which are assigned to a task can be auto-renewed.
+       **/
+      NonTaskAutoRenewal: AugmentedError<ApiType>;
+      /**
+       * The caller doesn't have the permission to enable or disable auto-renewal.
+       **/
+      NoPermission: AugmentedError<ApiType>;
       /**
        * There is no sale happening currently.
        **/
@@ -626,6 +638,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       SoldOut: AugmentedError<ApiType>;
       /**
+       * Failed to get the sovereign account of a task.
+       **/
+      SovereignAccountNotFound: AugmentedError<ApiType>;
+      /**
        * An item cannot be dropped because it is still valid.
        **/
       StillValid: AugmentedError<ApiType>;
@@ -633,6 +649,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The purchase cannot happen yet as the sale period is yet to begin.
        **/
       TooEarly: AugmentedError<ApiType>;
+      /**
+       * We reached the limit for auto-renewals.
+       **/
+      TooManyAutoRenewals: AugmentedError<ApiType>;
       /**
        * The maximum amount of leases has already been reached.
        **/
@@ -2189,10 +2209,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyNoted: AugmentedError<ApiType>;
       /**
-       * No ticket with a cost was returned by [`Config::Consideration`] to store the preimage.
-       **/
-      NoCost: AugmentedError<ApiType>;
-      /**
        * The user is not authorized to perform this action.
        **/
       NotAuthorized: AugmentedError<ApiType>;
@@ -2516,6 +2532,182 @@ declare module '@polkadot/api-base/types/errors' {
        * Attempting to store empty data.
        **/
       Empty: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    revive: {
+      /**
+       * Can not add a delegate dependency to the code hash of the contract itself.
+       **/
+      CannotAddSelfAsDelegateDependency: AugmentedError<ApiType>;
+      /**
+       * No code info could be found at the supplied code hash.
+       **/
+      CodeInfoNotFound: AugmentedError<ApiType>;
+      /**
+       * Code removal was denied because the code is still in use by at least one contract.
+       **/
+      CodeInUse: AugmentedError<ApiType>;
+      /**
+       * No code could be found at the supplied code hash.
+       **/
+      CodeNotFound: AugmentedError<ApiType>;
+      /**
+       * The contract failed to compile or is missing the correct entry points.
+       * 
+       * A more detailed error can be found on the node console if debug messages are enabled
+       * by supplying `-lruntime::revive=debug`.
+       **/
+      CodeRejected: AugmentedError<ApiType>;
+      /**
+       * The code supplied to `instantiate_with_code` exceeds the limit specified in the
+       * current schedule.
+       **/
+      CodeTooLarge: AugmentedError<ApiType>;
+      /**
+       * No contract was found at the specified address.
+       **/
+      ContractNotFound: AugmentedError<ApiType>;
+      /**
+       * The contract ran to completion but decided to revert its storage changes.
+       * Please note that this error is only returned from extrinsics. When called directly
+       * or via RPC an `Ok` will be returned. In this case the caller needs to inspect the flags
+       * to determine whether a reversion has taken place.
+       **/
+      ContractReverted: AugmentedError<ApiType>;
+      /**
+       * Contract trapped during execution.
+       **/
+      ContractTrapped: AugmentedError<ApiType>;
+      /**
+       * Input passed to a contract API function failed to decode as expected type.
+       **/
+      DecodingFailed: AugmentedError<ApiType>;
+      /**
+       * The contract already depends on the given delegate dependency.
+       **/
+      DelegateDependencyAlreadyExists: AugmentedError<ApiType>;
+      /**
+       * The dependency was not found in the contract's delegate dependencies.
+       **/
+      DelegateDependencyNotFound: AugmentedError<ApiType>;
+      /**
+       * A contract with the same AccountId already exists.
+       **/
+      DuplicateContract: AugmentedError<ApiType>;
+      /**
+       * PolkaVM failed during code execution. Probably due to a malformed program.
+       **/
+      ExecutionFailed: AugmentedError<ApiType>;
+      /**
+       * `seal_call` forwarded this contracts input. It therefore is no longer available.
+       **/
+      InputForwarded: AugmentedError<ApiType>;
+      /**
+       * Invalid combination of flags supplied to `seal_call` or `seal_delegate_call`.
+       **/
+      InvalidCallFlags: AugmentedError<ApiType>;
+      /**
+       * Invalid schedule supplied, e.g. with zero weight of a basic operation.
+       **/
+      InvalidSchedule: AugmentedError<ApiType>;
+      /**
+       * Invalid storage flags were passed to one of the storage syscalls.
+       **/
+      InvalidStorageFlags: AugmentedError<ApiType>;
+      /**
+       * The contract tried to call a syscall which does not exist (at its current api level).
+       **/
+      InvalidSyscall: AugmentedError<ApiType>;
+      /**
+       * Performing a call was denied because the calling depth reached the limit
+       * of what is specified in the schedule.
+       **/
+      MaxCallDepthReached: AugmentedError<ApiType>;
+      /**
+       * The contract has reached its maximum number of delegate dependencies.
+       **/
+      MaxDelegateDependenciesReached: AugmentedError<ApiType>;
+      /**
+       * A pending migration needs to complete before the extrinsic can be called.
+       **/
+      MigrationInProgress: AugmentedError<ApiType>;
+      /**
+       * The chain does not provide a chain extension. Calling the chain extension results
+       * in this error. Note that this usually  shouldn't happen as deploying such contracts
+       * is rejected.
+       **/
+      NoChainExtension: AugmentedError<ApiType>;
+      /**
+       * Migrate dispatch call was attempted but no migration was performed.
+       **/
+      NoMigrationPerformed: AugmentedError<ApiType>;
+      /**
+       * A buffer outside of sandbox memory was passed to a contract API function.
+       **/
+      OutOfBounds: AugmentedError<ApiType>;
+      /**
+       * The executed contract exhausted its gas limit.
+       **/
+      OutOfGas: AugmentedError<ApiType>;
+      /**
+       * Can not add more data to transient storage.
+       **/
+      OutOfTransientStorage: AugmentedError<ApiType>;
+      /**
+       * The output buffer supplied to a contract API call was too small.
+       **/
+      OutputBufferTooSmall: AugmentedError<ApiType>;
+      /**
+       * A contract called into the runtime which then called back into this pallet.
+       **/
+      ReenteredPallet: AugmentedError<ApiType>;
+      /**
+       * A call tried to invoke a contract that is flagged as non-reentrant.
+       **/
+      ReentranceDenied: AugmentedError<ApiType>;
+      /**
+       * A contract attempted to invoke a state modifying API while being in read-only mode.
+       **/
+      StateChangeDenied: AugmentedError<ApiType>;
+      /**
+       * More storage was created than allowed by the storage deposit limit.
+       **/
+      StorageDepositLimitExhausted: AugmentedError<ApiType>;
+      /**
+       * Origin doesn't have enough balance to pay the required storage deposits.
+       **/
+      StorageDepositNotEnoughFunds: AugmentedError<ApiType>;
+      /**
+       * A contract self destructed in its constructor.
+       * 
+       * This can be triggered by a call to `seal_terminate`.
+       **/
+      TerminatedInConstructor: AugmentedError<ApiType>;
+      /**
+       * Termination of a contract is not allowed while the contract is already
+       * on the call stack. Can be triggered by `seal_terminate`.
+       **/
+      TerminatedWhileReentrant: AugmentedError<ApiType>;
+      /**
+       * The amount of topics passed to `seal_deposit_events` exceeds the limit.
+       **/
+      TooManyTopics: AugmentedError<ApiType>;
+      /**
+       * Performing the requested transfer failed. Probably because there isn't enough
+       * free balance in the sender's account.
+       **/
+      TransferFailed: AugmentedError<ApiType>;
+      /**
+       * The size defined in `T::MaxValueSize` was exceeded.
+       **/
+      ValueTooLarge: AugmentedError<ApiType>;
+      /**
+       * Failed to decode the XCM program.
+       **/
+      XCMDecodeFailed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

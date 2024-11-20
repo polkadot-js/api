@@ -69,6 +69,10 @@ export default {
       2
     ],
     [
+      "0x8c403e5c4a9fd442",
+      1
+    ],
+    [
       "0x37c8bb1350a9a2a8",
       4
     ],
@@ -86,7 +90,7 @@ export default {
     ],
     [
       "0x49eaaf1b548a0cb0",
-      4
+      5
     ],
     [
       "0x91d5df18b0d2cf58",

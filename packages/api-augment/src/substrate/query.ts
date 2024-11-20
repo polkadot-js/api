@@ -409,6 +409,12 @@ declare module '@polkadot/api-base/types/storage' {
     };
     broker: {
       /**
+       * Keeping track of cores which have auto-renewal enabled.
+       * 
+       * Sorted by `CoreIndex` to make the removal of cores from auto-renewal more efficient.
+       **/
+      autoRenewals: AugmentedQuery<ApiType, () => Observable<Vec<PalletBrokerAutoRenewalRecord>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * The current configuration of this pallet.
        **/
       configuration: AugmentedQuery<ApiType, () => Observable<Option<PalletBrokerConfigRecord>>, []> & QueryableStorageEntry<ApiType, []>;
@@ -1670,6 +1676,41 @@ declare module '@polkadot/api-base/types/storage' {
        * This should be empty if `DecidingCount` is less than `TrackInfo::max_deciding`.
        **/
       trackQueue: AugmentedQuery<ApiType, (arg: u16 | AnyNumber | Uint8Array) => Observable<Vec<ITuple<[u32, u128]>>>, [u16]> & QueryableStorageEntry<ApiType, [u16]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    revive: {
+      /**
+       * A mapping from a contract's code hash to its code info.
+       **/
+      codeInfoOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletReviveWasmCodeInfo>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      /**
+       * The code associated with a given account.
+       **/
+      contractInfoOf: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletReviveStorageContractInfo>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Evicted contracts that await child trie deletion.
+       * 
+       * Child trie deletion is a heavy operation depending on the amount of storage items
+       * stored in said trie. Therefore this operation is performed lazily in `on_idle`.
+       **/
+      deletionQueue: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Bytes>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * A pair of monotonic counters used to track the latest contract marked for deletion
+       * and the latest deleted contract in queue.
+       **/
+      deletionQueueCounter: AugmentedQuery<ApiType, () => Observable<PalletReviveStorageDeletionQueueManager>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * A migration can span across multiple blocks. This storage defines a cursor to track the
+       * progress of the migration, enabling us to resume from the last completed position.
+       **/
+      migrationInProgress: AugmentedQuery<ApiType, () => Observable<Option<Bytes>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * A mapping from a contract's code hash to its code.
+       **/
+      pristineCode: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Bytes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
        * Generic query
        **/
