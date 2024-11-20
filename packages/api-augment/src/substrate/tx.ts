@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerOnDemandRevenueRecord, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsTypeOption, PalletCoreFellowshipParamsTypeU128, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyForkVotingProof, SpConsensusBeefyFutureBlockVotingProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerOnDemandRevenueRecord, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsTypeOption, PalletCoreFellowshipParamsTypeU128, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyFutureBlockVotingProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -240,7 +240,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * calls to render the liquidity withdrawable and rectify the exchange rate.
        * 
        * Once liquidity is added, someone may successfully call
-       * [`Pallet::swap_exact_tokens_for_tokens`] successfully.
+       * [`Pallet::swap_exact_tokens_for_tokens`].
        **/
       addLiquidity: AugmentedSubmittable<(asset1: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array, asset2: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array, amount1Desired: u128 | AnyNumber | Uint8Array, amount2Desired: u128 | AnyNumber | Uint8Array, amount1Min: u128 | AnyNumber | Uint8Array, amount2Min: u128 | AnyNumber | Uint8Array, mintTo: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId, u128, u128, u128, u128, AccountId32]>;
       /**
@@ -726,8 +726,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
-       * 
-       * The asset class must be frozen before calling `start_destroy`.
        **/
       startDestroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
@@ -801,6 +799,25 @@ declare module '@polkadot/api-base/types/submittable' {
        * `target`.
        **/
       transfer: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, Compact<u128>]>;
+      /**
+       * Transfer the entire transferable balance from the caller asset account.
+       * 
+       * NOTE: This function only attempts to transfer _transferable_ balances. This means that
+       * any held, frozen, or minimum balance (when `keep_alive` is `true`), will not be
+       * transferred by this function. To ensure that this function results in a killed account,
+       * you might need to prepare the account by removing any reference counters, storage
+       * deposits, etc...
+       * 
+       * The dispatch origin of this call must be Signed.
+       * 
+       * - `id`: The identifier of the asset for the account holding a deposit.
+       * - `dest`: The recipient of the transfer.
+       * - `keep_alive`: A boolean to determine if the `transfer_all` operation should send all
+       * of the funds the asset account has, causing the sender asset account to be killed
+       * (false), or transfer everything except at least the minimum balance, which will
+       * guarantee to keep the sender asset account alive (true).
+       **/
+      transferAll: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, keepAlive: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, bool]>;
       /**
        * Transfer some asset balance from a previously delegated account to some third-party
        * account.
@@ -1006,7 +1023,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * and validate the given key ownership proof against the extracted offender.
        * If both are valid, the offence will be reported.
        **/
-      reportForkVoting: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyForkVotingProof | { vote?: any; ancestryProof?: any; header?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyForkVotingProof, SpSessionMembershipProof]>;
+      reportForkVoting: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyForkVotingProofAncestryProof | { vote?: any; ancestryProof?: any; header?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyForkVotingProofAncestryProof, SpSessionMembershipProof]>;
       /**
        * Report fork voting equivocation. This method will verify the equivocation proof
        * and validate the given key ownership proof against the extracted offender.
@@ -1017,7 +1034,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * if the block author is defined it will be defined as the equivocation
        * reporter.
        **/
-      reportForkVotingUnsigned: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyForkVotingProof | { vote?: any; ancestryProof?: any; header?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyForkVotingProof, SpSessionMembershipProof]>;
+      reportForkVotingUnsigned: AugmentedSubmittable<(equivocationProof: SpConsensusBeefyForkVotingProofAncestryProof | { vote?: any; ancestryProof?: any; header?: any } | string | Uint8Array, keyOwnerProof: SpSessionMembershipProof | { session?: any; trieNodes?: any; validatorCount?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpConsensusBeefyForkVotingProofAncestryProof, SpSessionMembershipProof]>;
       /**
        * Report future block voting equivocation. This method will verify the equivocation proof
        * and validate the given key ownership proof against the extracted offender.
@@ -1196,6 +1213,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       configure: AugmentedSubmittable<(config: PalletBrokerConfigRecord | { advanceNotice?: any; interludeLength?: any; leadinLength?: any; regionLength?: any; idealBulkProportion?: any; limitCoresOffered?: any; renewalBump?: any; contributionTimeout?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletBrokerConfigRecord]>;
       /**
+       * Extrinsic for disabling auto renewal.
+       * 
+       * Callable by the sovereign account of the task on the specified core.
+       * 
+       * - `origin`: Must be the sovereign account of the task.
+       * - `core`: The core for which we want to disable auto renewal.
+       * - `task`: The task for which we want to disable auto renewal.
+       **/
+      disableAutoRenew: AugmentedSubmittable<(core: u16 | AnyNumber | Uint8Array, task: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, u32]>;
+      /**
        * Drop an expired Instantaneous Pool Contribution record from the chain.
        * 
        * - `origin`: Can be any kind of origin.
@@ -1224,6 +1251,20 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `when`: The timeslice to which the expired renewal refers. This must have passed.
        **/
       dropRenewal: AugmentedSubmittable<(core: u16 | AnyNumber | Uint8Array, when: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, u32]>;
+      /**
+       * Extrinsic for enabling auto renewal.
+       * 
+       * Callable by the sovereign account of the task on the specified core. This account
+       * will be charged at the start of every bulk period for renewing core time.
+       * 
+       * - `origin`: Must be the sovereign account of the task
+       * - `core`: The core to which the task to be renewed is currently assigned.
+       * - `task`: The task for which we want to enable auto renewal.
+       * - `workload_end_hint`: should be used when enabling auto-renewal for a core that is not
+       * expiring in the upcoming bulk period (e.g., due to holding a lease) since it would be
+       * inefficient to look up when the core expires to schedule the next renewal.
+       **/
+      enableAutoRenew: AugmentedSubmittable<(core: u16 | AnyNumber | Uint8Array, task: u32 | AnyNumber | Uint8Array, workloadEndHint: Option<u32> | null | Uint8Array | u32 | AnyNumber) => SubmittableExtrinsic<ApiType>, [u16, u32, Option<u32>]>;
       /**
        * Split a Bulk Coretime Region into two wholly-overlapping Regions with complementary
        * interlace masks which together make up the original Region's interlace mask.
@@ -2732,7 +2773,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `max_fee`: The maximum fee that may be paid. This should just be auto-populated as:
        * 
        * ```nocompile
-       * Self::registrars().get(reg_index).unwrap().fee
+       * Registrars::<T>::get().get(reg_index).unwrap().fee
        * ```
        * 
        * Emits `JudgementRequested` if successful.
@@ -4003,8 +4044,13 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       createWithPoolId: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, bouncer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress, u32]>;
       /**
-       * Stake funds with a pool. The amount to bond is transferred from the member to the
-       * pools account and immediately increases the pools bond.
+       * Stake funds with a pool. The amount to bond is transferred from the member to the pool
+       * account and immediately increases the pools bond.
+       * 
+       * The method of transferring the amount to the pool account is determined by
+       * [`adapter::StakeStrategyType`]. If the pool is configured to use
+       * [`adapter::StakeStrategyType::Delegate`], the funds remain in the account of
+       * the `origin`, while the pool gains the right to use these funds for staking.
        * 
        * # Note
        * 
@@ -4617,8 +4663,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
-       * 
-       * The asset class must be frozen before calling `start_destroy`.
        **/
       startDestroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
@@ -4692,6 +4736,25 @@ declare module '@polkadot/api-base/types/submittable' {
        * `target`.
        **/
       transfer: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, Compact<u128>]>;
+      /**
+       * Transfer the entire transferable balance from the caller asset account.
+       * 
+       * NOTE: This function only attempts to transfer _transferable_ balances. This means that
+       * any held, frozen, or minimum balance (when `keep_alive` is `true`), will not be
+       * transferred by this function. To ensure that this function results in a killed account,
+       * you might need to prepare the account by removing any reference counters, storage
+       * deposits, etc...
+       * 
+       * The dispatch origin of this call must be Signed.
+       * 
+       * - `id`: The identifier of the asset for the account holding a deposit.
+       * - `dest`: The recipient of the transfer.
+       * - `keep_alive`: A boolean to determine if the `transfer_all` operation should send all
+       * of the funds the asset account has, causing the sender asset account to be killed
+       * (false), or transfer everything except at least the minimum balance, which will
+       * guarantee to keep the sender asset account alive (true).
+       **/
+      transferAll: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, keepAlive: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, bool]>;
       /**
        * Transfer some asset balance from a previously delegated account to some third-party
        * account.
@@ -5350,6 +5413,109 @@ declare module '@polkadot/api-base/types/submittable' {
        * Index and store data off chain.
        **/
       store: AugmentedSubmittable<(remark: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    revive: {
+      /**
+       * Makes a call to an account, optionally transferring some balance.
+       * 
+       * # Parameters
+       * 
+       * * `dest`: Address of the contract to call.
+       * * `value`: The balance to transfer from the `origin` to `dest`.
+       * * `gas_limit`: The gas limit enforced when executing the constructor.
+       * * `storage_deposit_limit`: The maximum amount of balance that can be charged from the
+       * caller to pay for the storage consumed.
+       * * `data`: The input data to pass to the contract.
+       * 
+       * * If the account is a smart-contract account, the associated code will be
+       * executed and any value will be transferred.
+       * * If the account is a regular account, any value will be transferred.
+       * * If no account exists and the call value is not less than `existential_deposit`,
+       * a regular account will be created and any value will be transferred.
+       **/
+      call: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>, SpWeightsWeightV2Weight, Compact<u128>, Bytes]>;
+      /**
+       * Instantiates a contract from a previously deployed wasm binary.
+       * 
+       * This function is identical to [`Self::instantiate_with_code`] but without the
+       * code deployment step. Instead, the `code_hash` of an on-chain deployed wasm binary
+       * must be supplied.
+       **/
+      instantiate: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array, codeHash: H256 | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, SpWeightsWeightV2Weight, Compact<u128>, H256, Bytes, Bytes]>;
+      /**
+       * Instantiates a new contract from the supplied `code` optionally transferring
+       * some balance.
+       * 
+       * This dispatchable has the same effect as calling [`Self::upload_code`] +
+       * [`Self::instantiate`]. Bundling them together provides efficiency gains. Please
+       * also check the documentation of [`Self::upload_code`].
+       * 
+       * # Parameters
+       * 
+       * * `value`: The balance to transfer from the `origin` to the newly created contract.
+       * * `gas_limit`: The gas limit enforced when executing the constructor.
+       * * `storage_deposit_limit`: The maximum amount of balance that can be charged/reserved
+       * from the caller to pay for the storage consumed.
+       * * `code`: The contract code to deploy in raw bytes.
+       * * `data`: The input data to pass to the contract constructor.
+       * * `salt`: Used for the address derivation. See [`Pallet::contract_address`].
+       * 
+       * Instantiation is executed as follows:
+       * 
+       * - The supplied `code` is deployed, and a `code_hash` is created for that code.
+       * - If the `code_hash` already exists on the chain the underlying `code` will be shared.
+       * - The destination address is computed based on the sender, code_hash and the salt.
+       * - The smart-contract account is created at the computed address.
+       * - The `value` is transferred to the new account.
+       * - The `deploy` function is executed in the context of the newly-created account.
+       **/
+      instantiateWithCode: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array, code: Bytes | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, SpWeightsWeightV2Weight, Compact<u128>, Bytes, Bytes, Bytes]>;
+      /**
+       * When a migration is in progress, this dispatchable can be used to run migration steps.
+       * Calls that contribute to advancing the migration have their fees waived, as it's helpful
+       * for the chain. Note that while the migration is in progress, the pallet will also
+       * leverage the `on_idle` hooks to run migration steps.
+       **/
+      migrate: AugmentedSubmittable<(weightLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpWeightsWeightV2Weight]>;
+      /**
+       * Remove the code stored under `code_hash` and refund the deposit to its owner.
+       * 
+       * A code can only be removed by its original uploader (its owner) and only if it is
+       * not used by any contract.
+       **/
+      removeCode: AugmentedSubmittable<(codeHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      /**
+       * Privileged function that changes the code of an existing contract.
+       * 
+       * This takes care of updating refcounts and all other necessary operations. Returns
+       * an error if either the `code_hash` or `dest` do not exist.
+       * 
+       * # Note
+       * 
+       * This does **not** change the address of the contract in question. This means
+       * that the contract address is no longer derived from its code hash after calling
+       * this dispatchable.
+       **/
+      setCode: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, codeHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, H256]>;
+      /**
+       * Upload new `code` without instantiating a contract from it.
+       * 
+       * If the code does not already exist a deposit is reserved from the caller
+       * and unreserved only when [`Self::remove_code`] is called. The size of the reserve
+       * depends on the size of the supplied `code`.
+       * 
+       * # Note
+       * 
+       * Anyone can instantiate a contract from any uploaded code and thus prevent its removal.
+       * To avoid this situation a constructor could employ access control so that it can
+       * only be instantiated by permissioned entities. The same is true when uploading
+       * through [`Self::instantiate_with_code`].
+       **/
+      uploadCode: AugmentedSubmittable<(code: Bytes | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, Compact<u128>]>;
       /**
        * Generic tx
        **/

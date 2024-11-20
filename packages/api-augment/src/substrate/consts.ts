@@ -256,6 +256,7 @@ declare module '@polkadot/api-base/types/consts' {
       [key: string]: Codec;
     };
     broker: {
+      maxAutoRenewals: u32 & AugmentedConst<ApiType>;
       /**
        * Maximum number of legacy leases.
        **/
@@ -1230,6 +1231,56 @@ declare module '@polkadot/api-base/types/consts' {
        * Once this passes, then anyone may cancel the referendum.
        **/
       undecidingTimeout: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    revive: {
+      apiVersion: u16 & AugmentedConst<ApiType>;
+      /**
+       * The percentage of the storage deposit that should be held for using a code hash.
+       * Instantiating a contract, or calling [`chain_extension::Ext::lock_delegate_dependency`]
+       * protects the code from being removed. In order to prevent abuse these actions are
+       * protected with a percentage of the code deposit.
+       **/
+      codeHashLockupDepositPercent: Perbill & AugmentedConst<ApiType>;
+      /**
+       * The amount of balance a caller has to pay for each byte of storage.
+       * 
+       * # Note
+       * 
+       * It is safe to chage this value on a live chain as all refunds are pro rata.
+       **/
+      depositPerByte: u128 & AugmentedConst<ApiType>;
+      /**
+       * The amount of balance a caller has to pay for each storage item.
+       * 
+       * # Note
+       * 
+       * It is safe to chage this value on a live chain as all refunds are pro rata.
+       **/
+      depositPerItem: u128 & AugmentedConst<ApiType>;
+      /**
+       * The maximum length of a contract code in bytes.
+       * 
+       * This value hugely affects the memory requirements of this pallet since all the code of
+       * all contracts on the call stack will need to be held in memory. Setting of a correct
+       * value will be enforced in [`Pallet::integrity_test`].
+       **/
+      maxCodeLen: u32 & AugmentedConst<ApiType>;
+      /**
+       * Make contract callable functions marked as `#[unstable]` available.
+       * 
+       * Contracts that use `#[unstable]` functions won't be able to be uploaded unless
+       * this is set to `true`. This is only meant for testnets and dev nodes in order to
+       * experiment with new features.
+       * 
+       * # Warning
+       * 
+       * Do **not** set to `true` on productions chains.
+       **/
+      unsafeUnstableInterface: bool & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
