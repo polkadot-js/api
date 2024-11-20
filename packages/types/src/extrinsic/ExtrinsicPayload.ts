@@ -143,7 +143,13 @@ export class GenericExtrinsicPayload extends AbstractBase<ExtrinsicPayloadVx> {
    * @description The (optional) asset id as a [[u32]] or [[MultiLocation]] for this payload
    */
   public get assetId (): IOption<INumber | MultiLocation> {
-    return this.inner.assetId;
+    const type = this.registry.getDefinition('AssetIdV4') ||
+      this.registry.getDefinition('AssetIdV3') ||
+      this.registry.getDefinition('AssetIdV2') ||
+      this.registry.getDefinition('AssetId') ||
+      'MultiLocation';
+
+    return this.registry.createType(type, this.inner.assetId);
   }
 
   /**
