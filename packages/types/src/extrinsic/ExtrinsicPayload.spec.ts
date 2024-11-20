@@ -24,7 +24,7 @@ describe('ExtrinsicPayload', (): void => {
 
   const TEST_WITH_ASSET = {
     address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
-    assetId: '0x0002043205011f' as `0x${string}`,
+    assetId: '0x010002043205011f' as `0x${string}`,
     blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
     era: '0x0703',
     genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
