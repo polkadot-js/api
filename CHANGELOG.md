@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## 15.0.1 Nov 25, 2024
+
+Breaking Changes:
+
+- Allow external signers to modify the payload ([#6030](https://github.com/polkadot-js/api/pull/6030))
+  - Add `allowCallDataAlteration` to `SignatureOptions`. This will default to true when its not inputted. This is strictly tied to signing payloads via external signers. In order to disable the ability to alter the call data pass in the option as follows:
+
+  ```
+  api.signAndSend(tx, { allowCallDataAlteration: false })
+  ```
+
+Contributed:
+
+- fix(ExtrinsicPayload): decode assetId with and without option ([#6037](https://github.com/polkadot-js/api/pull/6037))
+
+Changes:
+
+- Adjust ExtrinsicV5 to fit current spec ([#6029](https://github.com/polkadot-js/api/pull/6029))
+  - This removes the `signed` functionality for ExtrinsicV5 since it is no longer supported
+- Update docs for WsProvider, and RpcCore ([#6031](https://github.com/polkadot-js/api/pull/6031))
+- Add testing for assetId access from ExtrinsicPayload ([#6033](https://github.com/polkadot-js/api/pull/6033))
+- Update Substrate types to 1.16.2 ([#6034](https://github.com/polkadot-js/api/pull/6034))
+
+
 ## 14.3.1 Nov 11, 2024
 
 Changes:
