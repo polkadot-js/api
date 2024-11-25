@@ -5,11 +5,7 @@
 Breaking Changes:
 
 - Allow external signers to modify the payload ([#6030](https://github.com/polkadot-js/api/pull/6030))
-  - Add `allowCallDataAlteration` to `SignatureOptions`. This will default to true when its not inputted. This is strictly tied to signing payloads via external signers. In order to disable the ability to alter the call data pass in the option as follows:
-
-  ```
-  api.signAndSend(tx, { allowCallDataAlteration: false })
-  ```
+  - Add `allowCallDataAlteration` to `SignatureOptions`, and `SignerOptions`. This will default to true when its not inputted. This is strictly tied to signing payloads via external signers.
 
 Contributed:
 
