@@ -55,6 +55,8 @@ describe('ExtrinsicPayload', (): void => {
 
     reg.setSignedExtensions(fallbackExtensions.concat(['ChargeAssetTxPayment']));
     const ext = new ExtrinsicPayload(reg, TEST_WITH_ASSET, { version: 4 });
+    // remove option byte
+    const ext2 = new ExtrinsicPayload(reg, { ...TEST_WITH_ASSET, assetId: `0x${TEST_WITH_ASSET.assetId.slice(4)}` }, { version: 4 });
 
     expect(ext.assetId.toJSON()).toEqual({
       interior: {
@@ -69,6 +71,7 @@ describe('ExtrinsicPayload', (): void => {
       },
       parents: 0
     });
+    expect(ext.assetId.toJSON()).toEqual(ext2.assetId.toJSON());
   });
 
   it('handles toU8a(true) correctly', (): void => {
