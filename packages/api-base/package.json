@@ -18,11 +18,11 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "14.3.2-4-x",
+  "version": "14.3.2-5-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/rpc-core": "14.3.2-4-x",
-    "@polkadot/types": "14.3.2-4-x",
+    "@polkadot/rpc-core": "14.3.2-5-x",
+    "@polkadot/types": "14.3.2-5-x",
     "@polkadot/util": "^13.2.3",
     "rxjs": "^7.8.1",
     "tslib": "^2.8.0"
