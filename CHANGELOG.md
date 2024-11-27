@@ -1,15 +1,15 @@
 # CHANGELOG
 
-## 15.0.1 Nov 25, 2024
+## 15.0.1 Nov 27, 2024
 
 Breaking Changes:
 
-- Allow external signers to modify the payload ([#6030](https://github.com/polkadot-js/api/pull/6030))
+- Allow external signers to modify the payload ([#6030](https://github.com/polkadot-js/api/pull/6030)) (Thanks to https://github.com/Tbaut)
   - Add `allowCallDataAlteration` to `SignatureOptions`, and `SignerOptions`. This will default to true when its not inputted. This is strictly tied to signing payloads via external signers.
 
 Contributed:
 
-- fix(ExtrinsicPayload): decode assetId with and without option ([#6037](https://github.com/polkadot-js/api/pull/6037))
+- fix(ExtrinsicPayload): decode assetId with and without option ([#6037](https://github.com/polkadot-js/api/pull/6037)) (Thanks to https://github.com/carlosala)
 
 Changes:
 
