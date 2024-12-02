@@ -1,56 +1,62 @@
-// Copyright 2017-2024 @polkadot/types-codec authors & contributors
+// Copyright 2017-2023 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AnyNumber, Inspect, INumber, IU8a, Registry, ToBn, UIntBitLength } from '../types/index.js';
+import type { AnyNumber, Inspect, INumber, Registry, ToBigInt, UIntBitLength } from '../types/index.js';
 
-import { BN, BN_BILLION, BN_HUNDRED, BN_MILLION, BN_QUINTILL, bnToBn, bnToHex, bnToU8a, formatBalance, formatNumber, hexToBn, isBigInt, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, u8aToBn, u8aToNumber } from '@polkadot/util';
+import { _0n, _1Bn, _1Mn, _1Qn, _100n, bnToBn, formatBalance, formatNumber, hexToBigInt, isBigInt, isBn, isFunction, isHex, isNumber, isObject, isString, isU8a, nToBigInt, nToHex, nToU8a, u8aToBigInt } from '@polkadot/util';
+import { BigInt } from '@polkadot/x-bigint';
+
+import { AbstractObject } from './Object.js';
 
 export const DEFAULT_UINT_BITS = 64;
 
 // Maximum allowed integer for JS is 2^53 - 1, set limit at 52
 // In this case however, we always print any >32 as hex
 const MAX_NUMBER_BITS = 52;
-const MUL_P = new BN(1_00_00);
+const MUL_P = BigInt(1_00_00);
 
-const FORMATTERS: [string, BN][] = [
-  ['Perquintill', BN_QUINTILL],
-  ['Perbill', BN_BILLION],
-  ['Permill', BN_MILLION],
-  ['Percent', BN_HUNDRED]
-];
+const FORMATTERS: Record<string, bigint> = {
+  Perbill: _1Bn,
+  Percent: _100n,
+  Permill: _1Mn,
+  Perquintill: _1Qn
+};
 
-function isToBn (value: unknown): value is ToBn {
-  return isFunction((value as ToBn).toBn);
+function isToBigInt (value: unknown): value is ToBigInt {
+  return isFunction((value as ToBigInt).toBigInt);
 }
 
-function toPercentage (value: BN, divisor: BN): string {
-  return `${(value.mul(MUL_P).div(divisor).toNumber() / 100).toFixed(2)}%`;
+function toPercentage (value: bigint, divisor: bigint): string {
+  return `${(Number((value * MUL_P) / divisor) / 100).toFixed(2)}%`;
 }
 
 /** @internal */
-function decodeBN (value: Exclude<AnyNumber, Uint8Array> | Record<string, string> | ToBn | null, isNegative: boolean): string | number {
-  if (isNumber(value)) {
+function decodeBigInt (value: Exclude<AnyNumber, Uint8Array> | Record<string, string>, isNegative: boolean): bigint {
+  if (isBigInt(value)) {
+    return value;
+  } else if (isNumber(value)) {
     if (!Number.isInteger(value) || value > Number.MAX_SAFE_INTEGER || value < Number.MIN_SAFE_INTEGER) {
       throw new Error('Number needs to be an integer <= Number.MAX_SAFE_INTEGER, i.e. 2 ^ 53 - 1');
     }
 
-    return value;
+    return BigInt(value);
   } else if (isString(value)) {
     if (isHex(value, -1, true)) {
-      return hexToBn(value, { isLe: false, isNegative }).toString();
+      return hexToBigInt(value, { isLe: false, isNegative });
     }
 
     if (value.includes('.') || value.includes(',') || value.includes('e')) {
       throw new Error('String should not contain decimal points or scientific notation');
     }
 
-    return value;
-  } else if (isBn(value) || isBigInt(value)) {
-    return value.toString();
+    return BigInt(value);
+  } else if (isBn(value)) {
+    return BigInt(value.toString());
   } else if (isObject(value)) {
-    if (isToBn(value)) {
-      return value.toBn().toString();
+    if (isToBigInt(value)) {
+      return value.toBigInt();
     }
 
     // Allow the construction from an object with a single top-level key. This means that
@@ -62,91 +68,75 @@ function decodeBN (value: Exclude<AnyNumber, Uint8Array> | Record<string, string
       throw new Error('Unable to construct number from multi-key object');
     }
 
-    return decodeBN(value[keys[0]], isNegative);
-  } else if (!value) {
-    return 0;
+    return decodeBigInt(value[keys[0]], isNegative);
   }
 
-  throw new Error(`Unable to create BN from unknown type ${typeof value}`);
+  throw new Error(`Unable to create BigInt from unknown type ${typeof value}`);
 }
 
 /**
- * @name AbstractInt
+ * @name AbstractBigInt
  * @ignore
  * @noInheritDoc
  */
-export abstract class AbstractInt extends BN implements INumber {
-  readonly registry: Registry;
-  readonly encodedLength: number;
+export abstract class AbstractBigInt extends AbstractObject<bigint> implements INumber {
   readonly isUnsigned: boolean;
 
-  public createdAtHash?: IU8a;
-  public initialU8aLength?: number;
-  public isStorageFallback?: boolean;
-
   readonly #bitLength: UIntBitLength;
+  readonly #bitLengthInitial: number;
+  readonly #encodedLength: number;
 
-  constructor (registry: Registry, value: AnyNumber | null = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
-    // Construct via a string/number, which will be passed in the BN constructor.
-    // It would be ideal to actually return a BN, but there is an issue:
-    // https://github.com/indutny/bn.js/issues/206
+  constructor (registry: Registry, value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isSigned = false) {
     super(
+      registry,
       // shortcut isU8a as used in SCALE decoding
       isU8a(value)
-        ? bitLength <= 48
-          ? u8aToNumber(value.subarray(0, bitLength / 8), { isNegative: isSigned })
-          : u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned }).toString()
-        : decodeBN(value, isSigned)
+        ? u8aToBigInt(value.subarray(0, bitLength / 8), { isLe: true, isNegative: isSigned })
+        : decodeBigInt(value, isSigned),
+      bitLength / 8
     );
 
-    this.registry = registry;
     this.#bitLength = bitLength;
-    this.encodedLength = this.#bitLength / 8;
-    this.initialU8aLength = this.#bitLength / 8;
+    this.#bitLengthInitial = this.$.toString(2).length;
+    this.#encodedLength = this.#bitLength / 8;
     this.isUnsigned = !isSigned;
 
-    const isNegative = this.isNeg();
+    const isNegative = this.$ < _0n;
     const maxBits = bitLength - (isSigned && !isNegative ? 1 : 0);
 
     if (isNegative && !isSigned) {
       throw new Error(`${this.toRawType()}: Negative number passed to unsigned type`);
-    } else if (super.bitLength() > maxBits) {
-      throw new Error(`${this.toRawType()}: Input too large. Found input with ${super.bitLength()} bits, expected ${maxBits}`);
+    } else if (this.#bitLengthInitial > maxBits) {
+      throw new Error(`${this.toRawType()}: Input too large. Found input with ${this.#bitLengthInitial} bits, expected ${maxBits}`);
     }
   }
 
-  /**
-   * @description returns a hash of the contents
-   */
-  public get hash (): IU8a {
-    return this.registry.hash(this.toU8a());
+  public override get encodedLength (): number {
+    return this.#encodedLength;
   }
 
   /**
    * @description Checks if the value is a zero value (align elsewhere)
    */
   public get isEmpty (): boolean {
-    return this.isZero();
+    return this.$ === _0n;
   }
 
   /**
    * @description Returns the number of bits in the value
    */
-  public override bitLength (): number {
+  public bitLength (): number {
     return this.#bitLength;
   }
 
   /**
    * @description Compares the value of the input to see if there is a match
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public override eq (other?: unknown): boolean {
-    // Here we are actually overriding the built-in .eq to take care of both
-    // number and BN inputs (no `.eqn` needed) - numbers will be converted
-    return super.eq(
+    return this.$ === (
       isHex(other)
-        ? hexToBn(other.toString(), { isLe: false, isNegative: !this.isUnsigned })
-        : bnToBn(other as string)
+        ? hexToBigInt(other.toString(), { isLe: false, isNegative: !this.isUnsigned })
+        : nToBigInt(other as string)
     );
   }
 
@@ -172,14 +162,14 @@ export abstract class AbstractInt extends BN implements INumber {
    * @description Returns a BigInt representation of the number
    */
   public toBigInt (): bigint {
-    return BigInt(this.toString());
+    return this.$;
   }
 
   /**
    * @description Returns the BN representation of the number. (Compatibility)
    */
   public toBn (): BN {
-    return this;
+    return bnToBn(this.$);
   }
 
   /**
@@ -187,7 +177,7 @@ export abstract class AbstractInt extends BN implements INumber {
    */
   public toHex (isLe = false): HexString {
     // For display/JSON, this is BE, for compare, use isLe
-    return bnToHex(this, {
+    return nToHex(this.$, {
       bitLength: this.bitLength(),
       isLe,
       isNegative: !this.isUnsigned
@@ -212,31 +202,37 @@ export abstract class AbstractInt extends BN implements INumber {
         });
     }
 
-    const [, divisor] = FORMATTERS.find(([type]) => type === rawType) || [];
+    const divisor = FORMATTERS[rawType];
 
     return divisor
-      ? toPercentage(this, divisor)
-      : formatNumber(this);
+      ? toPercentage(this.$, divisor)
+      : formatNumber(this.$);
   }
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  public override toJSON (onlyHex = false): any {
-    // FIXME this return type should by string | number, however BN returns string
+  public override toJSON (onlyHex = false): string | number {
     // Options here are
-    //   - super.bitLength() - the actual used bits, use hex when close to MAX_SAFE_INTEGER
-    //   - this.#bitLength - the max used bits, use hex when larger than native Rust type
-    return onlyHex || (this.#bitLength > 128) || (super.bitLength() > MAX_NUMBER_BITS)
+    //   - this.#bitLengthInitial - the actual used bits
+    //   - this.#bitLength - the type bits (this should be used, however contracts RPC is problematic)
+    return onlyHex || (this.#bitLength > 128) || (this.#bitLengthInitial > MAX_NUMBER_BITS)
       ? this.toHex()
       : this.toNumber();
+  }
+
+  /**
+   * @description Returns the number representation of this value (only for < MAX_SAFE_INTEGER)
+   */
+  public toNumber (): number {
+    return Number(this.$);
   }
 
   /**
    * @description Returns the value in a primitive form, either number when <= 52 bits, or string otherwise
    */
   public toPrimitive (): number | string {
-    return super.bitLength() > MAX_NUMBER_BITS
+    return this.#bitLengthInitial > MAX_NUMBER_BITS
       ? this.toString()
       : this.toNumber();
   }
@@ -259,14 +255,15 @@ export abstract class AbstractInt extends BN implements INumber {
    */
   public override toString (base?: number): string {
     // only included here since we do not inherit docs
-    return super.toString(base);
+    return this.$.toString(base);
   }
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public toU8a (_isBare?: boolean): Uint8Array {
-    return bnToU8a(this, {
+    return nToU8a(this.$, {
       bitLength: this.bitLength(),
       isLe: true,
       isNegative: !this.isUnsigned
