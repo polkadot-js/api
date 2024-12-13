@@ -412,7 +412,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
         : await firstValueFrom(this._rpcCore.state.call('Metadata_metadata_versions', '0x'));
       const versions = typeRegistry.createType('Vec<u32>', metadataVersionsAsBytes);
 
-      metadataVersion = versions.reduce((largest, current) => current.gt(largest) ? current : largest);
+      // Previously, for unstable versions of the metadata, it was set to u32 MAX in the runtime. This ensures on supported stable versions are used.
+      metadataVersion = versions.filter((ver) => SUPPORTED_METADATA_VERSIONS.includes(ver.toNumber())).reduce((largest, current) => current.gt(largest) ? current : largest);
     } catch (e) {
       l.debug((e as Error).message);
       l.warn('error with state_call::Metadata_metadata_versions, rpc::state::get_metadata will be used');
