@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 15.0.2 Dec 13, 2024
+
+Changes:
+
+- Fix metadata on init when its value is u32 max ([#6043](https://github.com/polkadot-js/api/pull/6043))
+  - This ensures runtime api information is correctly generated and the correct metadata is used as part of the registry. At the moment this is only an issue on westend asset hub, as reported by users.
+
+
 ## 15.0.1 Nov 27, 2024
 
 Breaking Changes:
