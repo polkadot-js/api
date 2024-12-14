@@ -18,21 +18,21 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "15.0.2",
+  "version": "15.0.3-0-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api-augment": "15.0.2",
-    "@polkadot/api-base": "15.0.2",
-    "@polkadot/api-derive": "15.0.2",
+    "@polkadot/api-augment": "15.0.3-0-x",
+    "@polkadot/api-base": "15.0.3-0-x",
+    "@polkadot/api-derive": "15.0.3-0-x",
     "@polkadot/keyring": "^13.2.3",
-    "@polkadot/rpc-augment": "15.0.2",
-    "@polkadot/rpc-core": "15.0.2",
-    "@polkadot/rpc-provider": "15.0.2",
-    "@polkadot/types": "15.0.2",
-    "@polkadot/types-augment": "15.0.2",
-    "@polkadot/types-codec": "15.0.2",
-    "@polkadot/types-create": "15.0.2",
-    "@polkadot/types-known": "15.0.2",
+    "@polkadot/rpc-augment": "15.0.3-0-x",
+    "@polkadot/rpc-core": "15.0.3-0-x",
+    "@polkadot/rpc-provider": "15.0.3-0-x",
+    "@polkadot/types": "15.0.3-0-x",
+    "@polkadot/types-augment": "15.0.3-0-x",
+    "@polkadot/types-codec": "15.0.3-0-x",
+    "@polkadot/types-create": "15.0.3-0-x",
+    "@polkadot/types-known": "15.0.3-0-x",
     "@polkadot/util": "^13.2.3",
     "@polkadot/util-crypto": "^13.2.3",
     "eventemitter3": "^5.0.1",
@@ -40,7 +40,7 @@
     "tslib": "^2.8.0"
   },
   "devDependencies": {
-    "@polkadot/api-augment": "15.0.2",
-    "@polkadot/types-support": "15.0.2"
+    "@polkadot/api-augment": "15.0.3-0-x",
+    "@polkadot/types-support": "15.0.3-0-x"
   }
 }
