@@ -290,7 +290,7 @@
             {
               "name": "Version",
               "type": 170,
-              "value": "0x2473746174656d696e742473746174656d696e7401000000fb4d0f000000000048dd718d5cc53262d401000000d7bdd8a272ca0d6501000000df6acb689907609b0500000037e397fc7c91f5e40200000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a804000000f3ff14d5ab527059030000006ff52ee858e6c5bd0100000091b1c8b16328eb92010000009ffb505aa738d69c01000000de92b8a0426b9bf602000000ea93e3f16f3d696202000000fbc577b9d747efd6010000008a8047a53a8277ec010000000f00000000",
+              "value": "0x2473746174656d696e742473746174656d696e7401000000fc4d0f000000000048dd718d5cc53262d401000000d7bdd8a272ca0d6501000000df6acb689907609b0500000037e397fc7c91f5e40200000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a804000000f3ff14d5ab527059030000006ff52ee858e6c5bd0100000091b1c8b16328eb92010000009ffb505aa738d69c01000000de92b8a0426b9bf602000000ea93e3f16f3d696202000000fbc577b9d747efd6010000008a8047a53a8277ec010000000f00000000",
               "docs": [
                 " Get the chain's in-code version."
               ]
@@ -1068,7 +1068,7 @@
             "type": 242
           },
           "events": {
-            "type": 47
+            "type": 55
           },
           "constants": [
             {
@@ -1197,7 +1197,7 @@
             "type": 248
           },
           "events": {
-            "type": 48
+            "type": 56
           },
           "constants": [],
           "errors": {
@@ -1215,7 +1215,7 @@
                 "name": "Validators",
                 "modifier": "Default",
                 "type": {
-                  "plain": 49
+                  "plain": 57
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1312,7 +1312,7 @@
             "type": 256
           },
           "events": {
-            "type": 50
+            "type": 58
           },
           "constants": [],
           "errors": {
@@ -1532,7 +1532,7 @@
             "type": 272
           },
           "events": {
-            "type": 51
+            "type": 59
           },
           "constants": [
             {
@@ -1793,7 +1793,7 @@
                 "name": "RecordedXcm",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 68
+                  "plain": 63
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1811,7 +1811,7 @@
             "type": 304
           },
           "events": {
-            "type": 52
+            "type": 60
           },
           "constants": [],
           "errors": {
