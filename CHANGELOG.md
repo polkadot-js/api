@@ -201,7 +201,7 @@ Contributed:
 
 Changes:
 
-- Update Augmented types for polkadot 1002005 
+- Update Augmented types for polkadot 1002005
 - Update Augmented types for kusama 1002006
   - Note: This removes type support for the Identity pallet for Kusama, and stateTrieMigration
 - Update upgrade blocks for {Kusama, Polkadot}
@@ -333,11 +333,11 @@ Contributed:
 Changes:
 
 - Upgrade westend types-known for 1009000
-- Add `disableAscii` option for toHuman, and toPrimitive 
+- Add `disableAscii` option for toHuman, and toPrimitive
 - V14 Update substrate latest metadata
 - V15 Update substrate latest metadata
 - Bump yarn to 4.1.1
-- Add `assetId` getter field to to necessary ExtrinsicPayloads
+- Add `assetId` getter field to necessary ExtrinsicPayloads
 - Add Updated Runtime Defintions
   - ValidateStatement
   - MMRApi
@@ -357,11 +357,11 @@ Contributed:
 Changes:
 
 - Upgrade westend types-known for 1009000
-- Add `disableAscii` option for toHuman, and toPrimitive 
+- Add `disableAscii` option for toHuman, and toPrimitive
 - V14 Update substrate latest metadata
 - V15 Update substrate latest metadata
 - Bump yarn to 4.1.1
-- Add `assetId` getter field to to necessary ExtrinsicPayloads
+- Add `assetId` getter field to necessary ExtrinsicPayloads
 - Add Updated Runtime Defintions
   - ValidateStatement
   - MMRApi
@@ -393,7 +393,7 @@ Changes:
 - Fix invalid Lookup assignment on augmentation and update polkadot and kusama metadata
 - Update polkadot runtime upgrade per block
 - Update kusama runtime upgrade per block
-- Update westend runtime upgrade per block 
+- Update westend runtime upgrade per block
 
 ## 10.12.2 Mar 11, 2024
 
@@ -3856,7 +3856,7 @@ Changes:
 
 ## 0.100.1 Jan 13, 2020
 
-- **Important** This will the the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chains, dependent libraries such as sr25519 may not be compatible.
+- **Important** This will the last API version with Substrate 1.x support. Although you will still be able to use subsequent versions with older chains, dependent libraries such as sr25519 may not be compatible.
 
 Contributed:
 
