@@ -12,7 +12,7 @@ import type { OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { AccountId32, H160, H256, RuntimeCall, Slot } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSystemEventRecord, PalletContractsPrimitivesCode, PalletContractsPrimitivesCodeUploadReturnValue, PalletContractsPrimitivesContractAccessError, PalletContractsPrimitivesContractResult, PalletContractsPrimitivesExecReturnValue, PalletContractsPrimitivesStorageDeposit, PalletContractsWasmDeterminism, PalletRevivePrimitivesCode, PalletRevivePrimitivesCodeUploadReturnValue, PalletRevivePrimitivesContractAccessError, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeConfiguration, SpConsensusBabeEpoch, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyForkVotingProofOpaqueValue, SpConsensusBeefyFutureBlockVotingProof, SpConsensusBeefyValidatorSet, SpConsensusGrandpaAppPublic, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpMixnetMixnode, SpMixnetMixnodesErr, SpMixnetSessionStatus, SpMmrPrimitivesError, SpMmrPrimitivesLeafProof, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpStatementStoreRuntimeApiInvalidStatement, SpStatementStoreRuntimeApiStatementSource, SpStatementStoreRuntimeApiValidStatement, SpStatementStoreStatement, SpVersionRuntimeVersion, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSystemEventRecord, PalletContractsPrimitivesCode, PalletContractsPrimitivesCodeUploadReturnValue, PalletContractsPrimitivesContractAccessError, PalletContractsPrimitivesContractResult, PalletContractsPrimitivesExecReturnValue, PalletContractsPrimitivesStorageDeposit, PalletContractsWasmDeterminism, PalletRevivePrimitivesCode, PalletRevivePrimitivesCodeUploadReturnValue, PalletRevivePrimitivesContractAccessError, PalletRevivePrimitivesContractResultExecReturnValue, PalletRevivePrimitivesContractResultInstantiateReturnValue, PalletRevivePrimitivesEthContractResult, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeConfiguration, SpConsensusBabeEpoch, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyForkVotingProofOpaqueValue, SpConsensusBeefyFutureBlockVotingProof, SpConsensusBeefyValidatorSet, SpConsensusGrandpaAppPublic, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpMixnetMixnode, SpMixnetMixnodesErr, SpMixnetSessionStatus, SpMmrPrimitivesError, SpMmrPrimitivesLeafProof, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpStatementStoreRuntimeApiInvalidStatement, SpStatementStoreRuntimeApiStatementSource, SpStatementStoreRuntimeApiValidStatement, SpStatementStoreStatement, SpVersionRuntimeVersion, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -415,19 +415,19 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns the free balance of the given `[H160]` address.
        **/
-      balance: AugmentedCall<ApiType, (address: PrimitiveTypesH160 | string | Uint8Array) => Observable<u128>>;
+      balance: AugmentedCall<ApiType, (address: H160 | string | Uint8Array) => Observable<u128>>;
       /**
        * Perform a call from a specified account to a given contract.,, See [`crate::Pallet::bare_call`].
        **/
-      call: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, dest: PrimitiveTypesH160 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, input_data: Bytes | string | Uint8Array) => Observable<PalletRevivePrimitivesContractResultExecReturnValue>>;
+      call: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, dest: H160 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, input_data: Bytes | string | Uint8Array) => Observable<PalletRevivePrimitivesContractResultExecReturnValue>>;
       /**
        * Perform an Ethereum call.,, See [`crate::Pallet::bare_eth_transact`]
        **/
-      ethTransact: AugmentedCall<ApiType, (origin: PrimitiveTypesH160 | string | Uint8Array, dest: Option<H160> | null | Uint8Array | H160 | string, value: u128 | AnyNumber | Uint8Array, input: Bytes | string | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber) => Observable<PalletRevivePrimitivesEthContractResult>>;
+      ethTransact: AugmentedCall<ApiType, (origin: H160 | string | Uint8Array, dest: Option<H160> | null | Uint8Array | H160 | string, value: u128 | AnyNumber | Uint8Array, input: Bytes | string | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber) => Observable<PalletRevivePrimitivesEthContractResult>>;
       /**
        * Query a given storage key in a given contract.,, Returns `Ok(Some(Vec<u8>))` if the storage value exists under the given key in the, specified account and `Ok(None)` if it doesn't. If the account specified by the address, doesn't exist, or doesn't have a contract then `Err` is returned.
        **/
-      getStorage: AugmentedCall<ApiType, (address: PrimitiveTypesH160 | string | Uint8Array, key: U8aFixed | string | Uint8Array) => Observable<Result<Option<Bytes>, PalletRevivePrimitivesContractAccessError>>>;
+      getStorage: AugmentedCall<ApiType, (address: H160 | string | Uint8Array, key: U8aFixed | string | Uint8Array) => Observable<Result<Option<Bytes>, PalletRevivePrimitivesContractAccessError>>>;
       /**
        * Instantiate a new contract.,, See `[crate::Pallet::bare_instantiate]`.
        **/
@@ -435,7 +435,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns the nonce of the given `[H160]` address.
        **/
-      nonce: AugmentedCall<ApiType, (address: PrimitiveTypesH160 | string | Uint8Array) => Observable<u32>>;
+      nonce: AugmentedCall<ApiType, (address: H160 | string | Uint8Array) => Observable<u32>>;
       /**
        * Upload new code without instantiating a contract from it.,, See [`crate::Pallet::bare_upload_code`].
        **/
