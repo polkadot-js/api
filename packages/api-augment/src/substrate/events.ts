@@ -8,8 +8,8 @@ import '@polkadot/api-base/types/events';
 import type { ApiTypes, AugmentedEvent } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, H256, Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchDispatchInfo, FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensMiscBalanceStatus, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParametersKey, KitchensinkRuntimeRuntimeParametersValue, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletBrokerCoretimeInterfaceCoreAssignment, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsOrigin, PalletConvictionVotingTally, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsTypeU128, PalletCoreFellowshipWish, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsPalletAttributes, PalletNftsPriceWithDirection, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletReviveExecOrigin, PalletSafeModeExitReason, PalletSocietyGroupParams, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpStakingExposure, SpStatementStoreStatement, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { AccountId32, H160, H256, Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensMiscBalanceStatus, FrameSystemDispatchEventInfo, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParametersKey, KitchensinkRuntimeRuntimeParametersValue, PalletAllianceCid, PalletAllianceUnscrupulousItem, PalletBrokerCoretimeInterfaceCoreAssignment, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsOrigin, PalletConvictionVotingTally, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsTypeU128, PalletCoreFellowshipWish, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletImOnlineSr25519AppSr25519Public, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsPalletAttributes, PalletNftsPriceWithDirection, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletReviveExecOrigin, PalletSafeModeExitReason, PalletSocietyGroupParams, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpStakingExposure, SpStatementStoreStatement, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -91,9 +91,21 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Executed: AugmentedEvent<ApiType, [proposalHash: H256, result: Result<Null, SpRuntimeDispatchError>], { proposalHash: H256, result: Result<Null, SpRuntimeDispatchError> }>;
       /**
+       * A proposal was killed.
+       **/
+      Killed: AugmentedEvent<ApiType, [proposalHash: H256], { proposalHash: H256 }>;
+      /**
        * A single member did some action; result will be `Ok` if it returned without error.
        **/
       MemberExecuted: AugmentedEvent<ApiType, [proposalHash: H256, result: Result<Null, SpRuntimeDispatchError>], { proposalHash: H256, result: Result<Null, SpRuntimeDispatchError> }>;
+      /**
+       * Some cost for storing a proposal was burned.
+       **/
+      ProposalCostBurned: AugmentedEvent<ApiType, [proposalHash: H256, who: AccountId32], { proposalHash: H256, who: AccountId32 }>;
+      /**
+       * Some cost for storing a proposal was released.
+       **/
+      ProposalCostReleased: AugmentedEvent<ApiType, [proposalHash: H256, who: AccountId32], { proposalHash: H256, who: AccountId32 }>;
       /**
        * A motion (given hash) has been proposed (by given account) with a threshold (given
        * `MemberCount`).
@@ -166,9 +178,9 @@ declare module '@polkadot/api-base/types/events' {
       [key: string]: AugmentedEvent<ApiType>;
     };
     assetRate: {
-      AssetRateCreated: AugmentedEvent<ApiType, [assetKind: u32, rate: u128], { assetKind: u32, rate: u128 }>;
-      AssetRateRemoved: AugmentedEvent<ApiType, [assetKind: u32], { assetKind: u32 }>;
-      AssetRateUpdated: AugmentedEvent<ApiType, [assetKind: u32, old: u128, new_: u128], { assetKind: u32, old: u128, new_: u128 }>;
+      AssetRateCreated: AugmentedEvent<ApiType, [assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId, rate: u128], { assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId, rate: u128 }>;
+      AssetRateRemoved: AugmentedEvent<ApiType, [assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId], { assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId }>;
+      AssetRateUpdated: AugmentedEvent<ApiType, [assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId, old: u128, new_: u128], { assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId, old: u128, new_: u128 }>;
       /**
        * Generic event
        **/
@@ -741,9 +753,21 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Executed: AugmentedEvent<ApiType, [proposalHash: H256, result: Result<Null, SpRuntimeDispatchError>], { proposalHash: H256, result: Result<Null, SpRuntimeDispatchError> }>;
       /**
+       * A proposal was killed.
+       **/
+      Killed: AugmentedEvent<ApiType, [proposalHash: H256], { proposalHash: H256 }>;
+      /**
        * A single member did some action; result will be `Ok` if it returned without error.
        **/
       MemberExecuted: AugmentedEvent<ApiType, [proposalHash: H256, result: Result<Null, SpRuntimeDispatchError>], { proposalHash: H256, result: Result<Null, SpRuntimeDispatchError> }>;
+      /**
+       * Some cost for storing a proposal was burned.
+       **/
+      ProposalCostBurned: AugmentedEvent<ApiType, [proposalHash: H256, who: AccountId32], { proposalHash: H256, who: AccountId32 }>;
+      /**
+       * Some cost for storing a proposal was released.
+       **/
+      ProposalCostReleased: AugmentedEvent<ApiType, [proposalHash: H256, who: AccountId32], { proposalHash: H256, who: AccountId32 }>;
       /**
        * A motion (given hash) has been proposed (by given account) with a threshold (given
        * `MemberCount`).
@@ -1034,6 +1058,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       RegistrarAdded: AugmentedEvent<ApiType, [registrarIndex: u32], { registrarIndex: u32 }>;
       /**
+       * An account's sub-identities were set (in bulk).
+       **/
+      SubIdentitiesSet: AugmentedEvent<ApiType, [main: AccountId32, numberOfSubs: u32, newDeposit: u128], { main: AccountId32, numberOfSubs: u32, newDeposit: u128 }>;
+      /**
        * A sub-identity was added to an identity and the deposit paid.
        **/
       SubIdentityAdded: AugmentedEvent<ApiType, [sub: AccountId32, main: AccountId32, deposit: u128], { sub: AccountId32, main: AccountId32, deposit: u128 }>;
@@ -1042,18 +1070,34 @@ declare module '@polkadot/api-base/types/events' {
        **/
       SubIdentityRemoved: AugmentedEvent<ApiType, [sub: AccountId32, main: AccountId32, deposit: u128], { sub: AccountId32, main: AccountId32, deposit: u128 }>;
       /**
+       * A given sub-account's associated name was changed by its super-identity.
+       **/
+      SubIdentityRenamed: AugmentedEvent<ApiType, [sub: AccountId32, main: AccountId32], { sub: AccountId32, main: AccountId32 }>;
+      /**
        * A sub-identity was cleared, and the given deposit repatriated from the
        * main identity account to the sub-identity account.
        **/
       SubIdentityRevoked: AugmentedEvent<ApiType, [sub: AccountId32, main: AccountId32, deposit: u128], { sub: AccountId32, main: AccountId32, deposit: u128 }>;
       /**
+       * A username has been killed.
+       **/
+      UsernameKilled: AugmentedEvent<ApiType, [username: Bytes], { username: Bytes }>;
+      /**
        * A username was queued, but `who` must accept it prior to `expiration`.
        **/
       UsernameQueued: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes, expiration: u32], { who: AccountId32, username: Bytes, expiration: u32 }>;
       /**
+       * A username has been removed.
+       **/
+      UsernameRemoved: AugmentedEvent<ApiType, [username: Bytes], { username: Bytes }>;
+      /**
        * A username was set for `who`.
        **/
       UsernameSet: AugmentedEvent<ApiType, [who: AccountId32, username: Bytes], { who: AccountId32, username: Bytes }>;
+      /**
+       * A username has been unbound.
+       **/
+      UsernameUnbound: AugmentedEvent<ApiType, [username: Bytes], { username: Bytes }>;
       /**
        * Generic event
        **/
@@ -1906,23 +1950,23 @@ declare module '@polkadot/api-base/types/events' {
        * calls. This is because on failure all storage changes including events are
        * rolled back.
        **/
-      Called: AugmentedEvent<ApiType, [caller: PalletReviveExecOrigin, contract: AccountId32], { caller: PalletReviveExecOrigin, contract: AccountId32 }>;
+      Called: AugmentedEvent<ApiType, [caller: PalletReviveExecOrigin, contract: H160], { caller: PalletReviveExecOrigin, contract: H160 }>;
       /**
        * A code with the specified hash was removed.
        **/
-      CodeRemoved: AugmentedEvent<ApiType, [codeHash: H256, depositReleased: u128, remover: AccountId32], { codeHash: H256, depositReleased: u128, remover: AccountId32 }>;
+      CodeRemoved: AugmentedEvent<ApiType, [codeHash: H256, depositReleased: u128, remover: H160], { codeHash: H256, depositReleased: u128, remover: H160 }>;
       /**
        * Code with the specified hash has been stored.
        **/
-      CodeStored: AugmentedEvent<ApiType, [codeHash: H256, depositHeld: u128, uploader: AccountId32], { codeHash: H256, depositHeld: u128, uploader: AccountId32 }>;
+      CodeStored: AugmentedEvent<ApiType, [codeHash: H256, depositHeld: u128, uploader: H160], { codeHash: H256, depositHeld: u128, uploader: H160 }>;
       /**
        * A contract's code was updated.
        **/
-      ContractCodeUpdated: AugmentedEvent<ApiType, [contract: AccountId32, newCodeHash: H256, oldCodeHash: H256], { contract: AccountId32, newCodeHash: H256, oldCodeHash: H256 }>;
+      ContractCodeUpdated: AugmentedEvent<ApiType, [contract: H160, newCodeHash: H256, oldCodeHash: H256], { contract: H160, newCodeHash: H256, oldCodeHash: H256 }>;
       /**
        * A custom event emitted by the contract.
        **/
-      ContractEmitted: AugmentedEvent<ApiType, [contract: AccountId32, data: Bytes], { contract: AccountId32, data: Bytes }>;
+      ContractEmitted: AugmentedEvent<ApiType, [contract: H160, data: Bytes, topics: Vec<H256>], { contract: H160, data: Bytes, topics: Vec<H256> }>;
       /**
        * A contract delegate called a code hash.
        * 
@@ -1932,19 +1976,19 @@ declare module '@polkadot/api-base/types/events' {
        * calls. This is because on failure all storage changes including events are
        * rolled back.
        **/
-      DelegateCalled: AugmentedEvent<ApiType, [contract: AccountId32, codeHash: H256], { contract: AccountId32, codeHash: H256 }>;
+      DelegateCalled: AugmentedEvent<ApiType, [contract: H160, codeHash: H256], { contract: H160, codeHash: H256 }>;
       /**
        * Contract deployed by address at the specified address.
        **/
-      Instantiated: AugmentedEvent<ApiType, [deployer: AccountId32, contract: AccountId32], { deployer: AccountId32, contract: AccountId32 }>;
+      Instantiated: AugmentedEvent<ApiType, [deployer: H160, contract: H160], { deployer: H160, contract: H160 }>;
       /**
        * Some funds have been transferred and held as storage deposit.
        **/
-      StorageDepositTransferredAndHeld: AugmentedEvent<ApiType, [from: AccountId32, to: AccountId32, amount: u128], { from: AccountId32, to: AccountId32, amount: u128 }>;
+      StorageDepositTransferredAndHeld: AugmentedEvent<ApiType, [from: H160, to: H160, amount: u128], { from: H160, to: H160, amount: u128 }>;
       /**
        * Some storage deposit funds have been transferred and released.
        **/
-      StorageDepositTransferredAndReleased: AugmentedEvent<ApiType, [from: AccountId32, to: AccountId32, amount: u128], { from: AccountId32, to: AccountId32, amount: u128 }>;
+      StorageDepositTransferredAndReleased: AugmentedEvent<ApiType, [from: H160, to: H160, amount: u128], { from: H160, to: H160, amount: u128 }>;
       /**
        * Contract has been removed.
        * 
@@ -1953,7 +1997,7 @@ declare module '@polkadot/api-base/types/events' {
        * The only way for a contract to be removed and emitting this event is by calling
        * `seal_terminate`.
        **/
-      Terminated: AugmentedEvent<ApiType, [contract: AccountId32, beneficiary: AccountId32], { contract: AccountId32, beneficiary: AccountId32 }>;
+      Terminated: AugmentedEvent<ApiType, [contract: H160, beneficiary: H160], { contract: H160, beneficiary: H160 }>;
       /**
        * Generic event
        **/
@@ -2095,7 +2139,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A transaction fee was skipped.
        **/
-      FeeSkipped: AugmentedEvent<ApiType, [who: AccountId32], { who: AccountId32 }>;
+      FeeSkipped: AugmentedEvent<ApiType, [origin: KitchensinkRuntimeOriginCaller], { origin: KitchensinkRuntimeOriginCaller }>;
       /**
        * Generic event
        **/
@@ -2213,9 +2257,9 @@ declare module '@polkadot/api-base/types/events' {
        **/
       OldSlashingReportDiscarded: AugmentedEvent<ApiType, [sessionIndex: u32], { sessionIndex: u32 }>;
       /**
-       * The stakers' rewards are getting paid.
+       * A Page of stakers rewards are getting paid. `next` is `None` if all pages are claimed.
        **/
-      PayoutStarted: AugmentedEvent<ApiType, [eraIndex: u32, validatorStash: AccountId32], { eraIndex: u32, validatorStash: AccountId32 }>;
+      PayoutStarted: AugmentedEvent<ApiType, [eraIndex: u32, validatorStash: AccountId32, page: u32, next: Option<u32>], { eraIndex: u32, validatorStash: AccountId32, page: u32, next: Option<u32> }>;
       /**
        * The nominator has been rewarded by this amount to this destination.
        **/
@@ -2326,11 +2370,11 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * An extrinsic failed.
        **/
-      ExtrinsicFailed: AugmentedEvent<ApiType, [dispatchError: SpRuntimeDispatchError, dispatchInfo: FrameSupportDispatchDispatchInfo], { dispatchError: SpRuntimeDispatchError, dispatchInfo: FrameSupportDispatchDispatchInfo }>;
+      ExtrinsicFailed: AugmentedEvent<ApiType, [dispatchError: SpRuntimeDispatchError, dispatchInfo: FrameSystemDispatchEventInfo], { dispatchError: SpRuntimeDispatchError, dispatchInfo: FrameSystemDispatchEventInfo }>;
       /**
        * An extrinsic completed successfully.
        **/
-      ExtrinsicSuccess: AugmentedEvent<ApiType, [dispatchInfo: FrameSupportDispatchDispatchInfo], { dispatchInfo: FrameSupportDispatchDispatchInfo }>;
+      ExtrinsicSuccess: AugmentedEvent<ApiType, [dispatchInfo: FrameSystemDispatchEventInfo], { dispatchInfo: FrameSystemDispatchEventInfo }>;
       /**
        * An account was reaped.
        **/
@@ -2370,9 +2414,21 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Executed: AugmentedEvent<ApiType, [proposalHash: H256, result: Result<Null, SpRuntimeDispatchError>], { proposalHash: H256, result: Result<Null, SpRuntimeDispatchError> }>;
       /**
+       * A proposal was killed.
+       **/
+      Killed: AugmentedEvent<ApiType, [proposalHash: H256], { proposalHash: H256 }>;
+      /**
        * A single member did some action; result will be `Ok` if it returned without error.
        **/
       MemberExecuted: AugmentedEvent<ApiType, [proposalHash: H256, result: Result<Null, SpRuntimeDispatchError>], { proposalHash: H256, result: Result<Null, SpRuntimeDispatchError> }>;
+      /**
+       * Some cost for storing a proposal was burned.
+       **/
+      ProposalCostBurned: AugmentedEvent<ApiType, [proposalHash: H256, who: AccountId32], { proposalHash: H256, who: AccountId32 }>;
+      /**
+       * Some cost for storing a proposal was released.
+       **/
+      ProposalCostReleased: AugmentedEvent<ApiType, [proposalHash: H256, who: AccountId32], { proposalHash: H256, who: AccountId32 }>;
       /**
        * A motion (given hash) has been proposed (by given account) with a threshold (given
        * `MemberCount`).
@@ -2477,7 +2533,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A new asset spend proposal has been approved.
        **/
-      AssetSpendApproved: AugmentedEvent<ApiType, [index: u32, assetKind: u32, amount: u128, beneficiary: AccountId32, validFrom: u32, expireAt: u32], { index: u32, assetKind: u32, amount: u128, beneficiary: AccountId32, validFrom: u32, expireAt: u32 }>;
+      AssetSpendApproved: AugmentedEvent<ApiType, [index: u32, assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId, amount: u128, beneficiary: AccountId32, validFrom: u32, expireAt: u32], { index: u32, assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId, amount: u128, beneficiary: AccountId32, validFrom: u32, expireAt: u32 }>;
       /**
        * An approved spend was voided.
        **/

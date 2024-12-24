@@ -12,6 +12,13 @@ import type { AccountId32, H256, PerU16, Perbill, Perquintill } from '@polkadot/
 import type { Event } from '@polkadot/types/interfaces/system';
 
 declare module '@polkadot/types/lookup' {
+  /** @name FrameSupportDispatchDispatchInfo (23) */
+  interface FrameSupportDispatchDispatchInfo extends Struct {
+    readonly weight: SpWeightsWeightV2Weight;
+    readonly class: FrameSupportDispatchDispatchClass;
+    readonly paysFee: FrameSupportDispatchPays;
+  }
+
   /** @name PolkadotRuntimeCommonImplsVersionedLocatableAsset (55) */
   interface PolkadotRuntimeCommonImplsVersionedLocatableAsset extends Enum {
     readonly isV3: boolean;

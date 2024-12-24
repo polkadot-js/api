@@ -136,6 +136,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PrimeAccountNotMember: AugmentedError<ApiType>;
       /**
+       * Proposal is still active.
+       **/
+      ProposalActive: AugmentedError<ApiType>;
+      /**
        * Proposal must exist
        **/
       ProposalMissing: AugmentedError<ApiType>;
@@ -1018,6 +1022,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PrimeAccountNotMember: AugmentedError<ApiType>;
       /**
+       * Proposal is still active.
+       **/
+      ProposalActive: AugmentedError<ApiType>;
+      /**
        * Proposal must exist
        **/
       ProposalMissing: AugmentedError<ApiType>;
@@ -1379,6 +1387,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyClaimed: AugmentedError<ApiType>;
       /**
+       * The username cannot be unbound because it is already unbinding.
+       **/
+      AlreadyUnbinding: AugmentedError<ApiType>;
+      /**
        * Empty index.
        **/
       EmptyIndex: AugmentedError<ApiType>;
@@ -1386,6 +1398,11 @@ declare module '@polkadot/api-base/types/errors' {
        * Fee is changed.
        **/
       FeeChanged: AugmentedError<ApiType>;
+      /**
+       * The action cannot be performed because of insufficient privileges (e.g. authority
+       * trying to unbind a username provided by the system).
+       **/
+      InsufficientPrivileges: AugmentedError<ApiType>;
       /**
        * The index is invalid.
        **/
@@ -1451,6 +1468,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotSub: AugmentedError<ApiType>;
       /**
+       * The username cannot be removed because it is not unbinding.
+       **/
+      NotUnbinding: AugmentedError<ApiType>;
+      /**
        * The sender does not have permission to issue a username.
        **/
       NotUsernameAuthority: AugmentedError<ApiType>;
@@ -1466,6 +1487,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Sticky judgement.
        **/
       StickyJudgement: AugmentedError<ApiType>;
+      /**
+       * The username cannot be removed because it's still in the grace period.
+       **/
+      TooEarly: AugmentedError<ApiType>;
       /**
        * Maximum amount of registrars reached. Cannot add any more.
        **/
@@ -2539,6 +2564,28 @@ declare module '@polkadot/api-base/types/errors' {
     };
     revive: {
       /**
+       * Tried to map an account that is already mapped.
+       **/
+      AccountAlreadyMapped: AugmentedError<ApiType>;
+      /**
+       * An `AccountID32` account tried to interact with the pallet without having a mapping.
+       * 
+       * Call [`Pallet::map_account`] in order to create a mapping for the account.
+       **/
+      AccountUnmapped: AugmentedError<ApiType>;
+      /**
+       * Failed to convert a U256 to a Balance.
+       **/
+      BalanceConversionFailed: AugmentedError<ApiType>;
+      /**
+       * The program contains a basic block that is larger than allowed.
+       **/
+      BasicBlockTooLarge: AugmentedError<ApiType>;
+      /**
+       * The code blob supplied is larger than [`limits::code::BLOB_BYTES`].
+       **/
+      BlobTooLarge: AugmentedError<ApiType>;
+      /**
        * Can not add a delegate dependency to the code hash of the contract itself.
        **/
       CannotAddSelfAsDelegateDependency: AugmentedError<ApiType>;
@@ -2561,11 +2608,6 @@ declare module '@polkadot/api-base/types/errors' {
        * by supplying `-lruntime::revive=debug`.
        **/
       CodeRejected: AugmentedError<ApiType>;
-      /**
-       * The code supplied to `instantiate_with_code` exceeds the limit specified in the
-       * current schedule.
-       **/
-      CodeTooLarge: AugmentedError<ApiType>;
       /**
        * No contract was found at the specified address.
        **/
@@ -2610,6 +2652,15 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidCallFlags: AugmentedError<ApiType>;
       /**
+       * Immutable data can only be set during deploys and only be read during calls.
+       * Additionally, it is only valid to set the data once and it must not be empty.
+       **/
+      InvalidImmutableAccess: AugmentedError<ApiType>;
+      /**
+       * The program contains an invalid instruction.
+       **/
+      InvalidInstruction: AugmentedError<ApiType>;
+      /**
        * Invalid schedule supplied, e.g. with zero weight of a basic operation.
        **/
       InvalidSchedule: AugmentedError<ApiType>;
@@ -2631,19 +2682,11 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       MaxDelegateDependenciesReached: AugmentedError<ApiType>;
       /**
-       * A pending migration needs to complete before the extrinsic can be called.
-       **/
-      MigrationInProgress: AugmentedError<ApiType>;
-      /**
        * The chain does not provide a chain extension. Calling the chain extension results
        * in this error. Note that this usually  shouldn't happen as deploying such contracts
        * is rejected.
        **/
       NoChainExtension: AugmentedError<ApiType>;
-      /**
-       * Migrate dispatch call was attempted but no migration was performed.
-       **/
-      NoMigrationPerformed: AugmentedError<ApiType>;
       /**
        * A buffer outside of sandbox memory was passed to a contract API function.
        **/
@@ -2657,10 +2700,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       OutOfTransientStorage: AugmentedError<ApiType>;
       /**
-       * The output buffer supplied to a contract API call was too small.
-       **/
-      OutputBufferTooSmall: AugmentedError<ApiType>;
-      /**
        * A contract called into the runtime which then called back into this pallet.
        **/
       ReenteredPallet: AugmentedError<ApiType>;
@@ -2672,6 +2711,11 @@ declare module '@polkadot/api-base/types/errors' {
        * A contract attempted to invoke a state modifying API while being in read-only mode.
        **/
       StateChangeDenied: AugmentedError<ApiType>;
+      /**
+       * The static memory consumption of the blob will be larger than
+       * [`limits::code::STATIC_MEMORY_BYTES`].
+       **/
+      StaticMemoryTooLarge: AugmentedError<ApiType>;
       /**
        * More storage was created than allowed by the storage deposit limit.
        **/
@@ -3249,6 +3293,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Prime account is not a member
        **/
       PrimeAccountNotMember: AugmentedError<ApiType>;
+      /**
+       * Proposal is still active.
+       **/
+      ProposalActive: AugmentedError<ApiType>;
       /**
        * Proposal must exist
        **/
