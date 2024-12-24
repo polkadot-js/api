@@ -5,6 +5,14 @@
 
 export default {
   /**
+   * Lookup23: frame_support::dispatch::DispatchInfo
+   **/
+  FrameSupportDispatchDispatchInfo: {
+    weight: 'SpWeightsWeightV2Weight',
+    class: 'FrameSupportDispatchDispatchClass',
+    paysFee: 'FrameSupportDispatchPays'
+  },
+  /**
    * Lookup55: polkadot_runtime_common::impls::VersionedLocatableAsset
    **/
   PolkadotRuntimeCommonImplsVersionedLocatableAsset: {

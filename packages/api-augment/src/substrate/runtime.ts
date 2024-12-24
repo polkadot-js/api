@@ -6,13 +6,13 @@
 import '@polkadot/api-base/types/calls';
 
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
-import type { Bytes, Null, Option, Result, Struct, Text, Vec, bool, u128, u32, u64 } from '@polkadot/types-codec';
+import type { Bytes, Null, Option, Result, Struct, Text, U8aFixed, Vec, bool, u128, u32, u64 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
-import type { AccountId32, H256, RuntimeCall, Slot } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSystemEventRecord, PalletContractsPrimitivesCode, PalletContractsPrimitivesCodeUploadReturnValue, PalletContractsPrimitivesContractAccessError, PalletContractsPrimitivesContractResult, PalletContractsPrimitivesExecReturnValue, PalletContractsPrimitivesStorageDeposit, PalletContractsWasmDeterminism, PalletRevivePrimitivesCode, PalletRevivePrimitivesCodeUploadReturnValue, PalletRevivePrimitivesContractAccessError, PalletRevivePrimitivesContractResult, PalletRevivePrimitivesExecReturnValue, PalletRevivePrimitivesStorageDeposit, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeConfiguration, SpConsensusBabeEpoch, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyForkVotingProofOpaqueValue, SpConsensusBeefyFutureBlockVotingProof, SpConsensusBeefyValidatorSet, SpConsensusGrandpaAppPublic, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpMixnetMixnode, SpMixnetMixnodesErr, SpMixnetSessionStatus, SpMmrPrimitivesError, SpMmrPrimitivesLeafProof, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpStatementStoreRuntimeApiInvalidStatement, SpStatementStoreRuntimeApiStatementSource, SpStatementStoreRuntimeApiValidStatement, SpStatementStoreStatement, SpVersionRuntimeVersion, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { AccountId32, H160, H256, RuntimeCall, Slot } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSystemEventRecord, PalletContractsPrimitivesCode, PalletContractsPrimitivesCodeUploadReturnValue, PalletContractsPrimitivesContractAccessError, PalletContractsPrimitivesContractResult, PalletContractsPrimitivesExecReturnValue, PalletContractsPrimitivesStorageDeposit, PalletContractsWasmDeterminism, PalletRevivePrimitivesCode, PalletRevivePrimitivesCodeUploadReturnValue, PalletRevivePrimitivesContractAccessError, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeConfiguration, SpConsensusBabeEpoch, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyForkVotingProofOpaqueValue, SpConsensusBeefyFutureBlockVotingProof, SpConsensusBeefyValidatorSet, SpConsensusGrandpaAppPublic, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpMixnetMixnode, SpMixnetMixnodesErr, SpMixnetSessionStatus, SpMmrPrimitivesError, SpMmrPrimitivesLeafProof, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpStatementStoreRuntimeApiInvalidStatement, SpStatementStoreRuntimeApiStatementSource, SpStatementStoreRuntimeApiValidStatement, SpStatementStoreStatement, SpVersionRuntimeVersion, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -213,11 +213,11 @@ declare module '@polkadot/api-base/types/calls' {
     /** 0xfbc577b9d747efd6/ */
     genesisBuilder: {
       /**
-       * Build `RuntimeGenesisConfig` from a JSON blob not using any defaults and store it in the, storage.,, In the case of a FRAME-based runtime, this function deserializes the full `RuntimeGenesisConfig` from the given JSON blob and, puts it into the storage. If the provided JSON blob is incorrect or incomplete or the, deserialization fails, an error is returned.,, Please note that provided JSON blob must contain all `RuntimeGenesisConfig` fields, no, defaults will be used.
+       * Build `RuntimeGenesisConfig` from a JSON blob not using any defaults and store it in the, storage.,, In the case of a FRAME-based runtime, this function deserializes the full, `RuntimeGenesisConfig` from the given JSON blob and puts it into the storage. If the, provided JSON blob is incorrect or incomplete or the deserialization fails, an error, is returned.,, Please note that provided JSON blob must contain all `RuntimeGenesisConfig` fields, no, defaults will be used.
        **/
       buildState: AugmentedCall<ApiType, (json: Bytes | string | Uint8Array) => Observable<Result<Null, Text>>>;
       /**
-       * Returns a JSON blob representation of the built-in `RuntimeGenesisConfig` identified by, `id`.,, If `id` is `None` the function returns JSON blob representation of the default, `RuntimeGenesisConfig` struct of the runtime. Implementation must provide default, `RuntimeGenesisConfig`.,, Otherwise function returns a JSON representation of the built-in, named, `RuntimeGenesisConfig` preset identified by `id`, or `None` if such preset does not, exist. Returned `Vec<u8>` contains bytes of JSON blob (patch) which comprises a list of, (potentially nested) key-value pairs that are intended for customizing the default, runtime genesis config. The patch shall be merged (rfc7386) with the JSON representation, of the default `RuntimeGenesisConfig` to create a comprehensive genesis config that can, be used in `build_state` method.
+       * Returns a JSON blob representation of the built-in `RuntimeGenesisConfig` identified by, `id`.,, If `id` is `None` the function should return JSON blob representation of the default, `RuntimeGenesisConfig` struct of the runtime. Implementation must provide default, `RuntimeGenesisConfig`.,, Otherwise function returns a JSON representation of the built-in, named, `RuntimeGenesisConfig` preset identified by `id`, or `None` if such preset does not, exist. Returned `Vec<u8>` contains bytes of JSON blob (patch) which comprises a list of, (potentially nested) key-value pairs that are intended for customizing the default, runtime genesis config. The patch shall be merged (rfc7386) with the JSON representation, of the default `RuntimeGenesisConfig` to create a comprehensive genesis config that can, be used in `build_state` method.
        **/
       getPreset: AugmentedCall<ApiType, (id: Option<Text> | null | Uint8Array | Text | string) => Observable<Option<Bytes>>>;
       /**
@@ -379,6 +379,10 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       pointsToBalance: AugmentedCall<ApiType, (pool_id: u32 | AnyNumber | Uint8Array, points: u128 | AnyNumber | Uint8Array) => Observable<u128>>;
       /**
+       * Returns the bonded account and reward account associated with the pool_id.
+       **/
+      poolAccounts: AugmentedCall<ApiType, (pool_id: u32 | AnyNumber | Uint8Array) => Observable<ITuple<[AccountId32, AccountId32]>>>;
+      /**
        * Total balance contributed to the pool.
        **/
       poolBalance: AugmentedCall<ApiType, (pool_id: u32 | AnyNumber | Uint8Array) => Observable<u128>>;
@@ -409,24 +413,29 @@ declare module '@polkadot/api-base/types/calls' {
     /** 0x8c403e5c4a9fd442/ */
     reviveApi: {
       /**
+       * Returns the free balance of the given `[H160]` address.
+       **/
+      balance: AugmentedCall<ApiType, (address: PrimitiveTypesH160 | string | Uint8Array) => Observable<u128>>;
+      /**
        * Perform a call from a specified account to a given contract.,, See [`crate::Pallet::bare_call`].
        **/
-      call: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, dest: AccountId32 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, input_data: Bytes | string | Uint8Array) => Observable<{
-    readonly gasConsumed: SpWeightsWeightV2Weight;
-    readonly gasRequired: SpWeightsWeightV2Weight;
-    readonly storageDeposit: PalletRevivePrimitivesStorageDeposit;
-    readonly debugMessage: Bytes;
-    readonly result: Result<PalletRevivePrimitivesExecReturnValue, SpRuntimeDispatchError>;
-    readonly events: Option<Vec<FrameSystemEventRecord>>;
-  } & Struct>>;
+      call: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, dest: PrimitiveTypesH160 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, input_data: Bytes | string | Uint8Array) => Observable<PalletRevivePrimitivesContractResultExecReturnValue>>;
+      /**
+       * Perform an Ethereum call.,, See [`crate::Pallet::bare_eth_transact`]
+       **/
+      ethTransact: AugmentedCall<ApiType, (origin: PrimitiveTypesH160 | string | Uint8Array, dest: Option<H160> | null | Uint8Array | H160 | string, value: u128 | AnyNumber | Uint8Array, input: Bytes | string | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber) => Observable<PalletRevivePrimitivesEthContractResult>>;
       /**
        * Query a given storage key in a given contract.,, Returns `Ok(Some(Vec<u8>))` if the storage value exists under the given key in the, specified account and `Ok(None)` if it doesn't. If the account specified by the address, doesn't exist, or doesn't have a contract then `Err` is returned.
        **/
-      getStorage: AugmentedCall<ApiType, (address: AccountId32 | string | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Result<Option<Bytes>, PalletRevivePrimitivesContractAccessError>>>;
+      getStorage: AugmentedCall<ApiType, (address: PrimitiveTypesH160 | string | Uint8Array, key: U8aFixed | string | Uint8Array) => Observable<Result<Option<Bytes>, PalletRevivePrimitivesContractAccessError>>>;
       /**
        * Instantiate a new contract.,, See `[crate::Pallet::bare_instantiate]`.
        **/
-      instantiate: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, code: PalletRevivePrimitivesCode | { Upload: any } | { Existing: any } | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => Observable<PalletRevivePrimitivesContractResult>>;
+      instantiate: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, code: PalletRevivePrimitivesCode | { Upload: any } | { Existing: any } | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Option<U8aFixed> | null | Uint8Array | U8aFixed | string) => Observable<PalletRevivePrimitivesContractResultInstantiateReturnValue>>;
+      /**
+       * Returns the nonce of the given `[H160]` address.
+       **/
+      nonce: AugmentedCall<ApiType, (address: PrimitiveTypesH160 | string | Uint8Array) => Observable<u32>>;
       /**
        * Upload new code without instantiating a contract from it.,, See [`crate::Pallet::bare_upload_code`].
        **/

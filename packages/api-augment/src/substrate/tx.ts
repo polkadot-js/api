@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedSubmittable, SubmittableExtrinsic, SubmittableE
 import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, Call, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, Call, H160, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerOnDemandRevenueRecord, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsTypeOption, PalletCoreFellowshipParamsTypeU128, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyForkVotingProofAncestryProof, SpConsensusBeefyFutureBlockVotingProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
@@ -165,6 +165,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       execute: AugmentedSubmittable<(proposal: Call | IMethod | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call, Compact<u32>]>;
       /**
+       * Disapprove the proposal and burn the cost held for storing this proposal.
+       * 
+       * Parameters:
+       * - `origin`: must be the `KillOrigin`.
+       * - `proposal_hash`: The hash of the proposal that should be killed.
+       * 
+       * Emits `Killed` and `ProposalCostBurned` if any cost was held for a given proposal.
+       **/
+      kill: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      /**
        * Add a new proposal to either be voted on or executed directly.
        * 
        * Requires the sender to be member.
@@ -181,6 +191,18 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `P2` is proposals-count (code-bounded) (`threshold >= 2`)
        **/
       propose: AugmentedSubmittable<(threshold: Compact<u32> | AnyNumber | Uint8Array, proposal: Call | IMethod | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Call, Compact<u32>]>;
+      /**
+       * Release the cost held for storing a proposal once the given proposal is completed.
+       * 
+       * If there is no associated cost for the given proposal, this call will have no effect.
+       * 
+       * Parameters:
+       * - `origin`: must be `Signed` or `Root`.
+       * - `proposal_hash`: The hash of the proposal.
+       * 
+       * Emits `ProposalCostReleased` if any cost held for a given proposal.
+       **/
+      releaseProposalCost: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
       /**
        * Set the collective's membership.
        * 
@@ -313,21 +335,21 @@ declare module '@polkadot/api-base/types/submittable' {
        * ## Complexity
        * - O(1)
        **/
-      create: AugmentedSubmittable<(assetKind: u32 | AnyNumber | Uint8Array, rate: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u128]>;
+      create: AugmentedSubmittable<(assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array, rate: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportTokensFungibleUnionOfNativeOrWithId, u128]>;
       /**
        * Remove an existing conversion rate to native balance for the given asset.
        * 
        * ## Complexity
        * - O(1)
        **/
-      remove: AugmentedSubmittable<(assetKind: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      remove: AugmentedSubmittable<(assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportTokensFungibleUnionOfNativeOrWithId]>;
       /**
        * Update the conversion rate to native balance for the given asset.
        * 
        * ## Complexity
        * - O(1)
        **/
-      update: AugmentedSubmittable<(assetKind: u32 | AnyNumber | Uint8Array, rate: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u128]>;
+      update: AugmentedSubmittable<(assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array, rate: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [FrameSupportTokensFungibleUnionOfNativeOrWithId, u128]>;
       /**
        * Generic tx
        **/
@@ -1085,6 +1107,20 @@ declare module '@polkadot/api-base/types/submittable' {
        * - O(1).
        **/
       approveBounty: AugmentedSubmittable<(bountyId: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
+      /**
+       * Approve bountry and propose a curator simultaneously.
+       * This call is a shortcut to calling `approve_bounty` and `propose_curator` separately.
+       * 
+       * May only be called from `T::SpendOrigin`.
+       * 
+       * - `bounty_id`: Bounty ID to approve.
+       * - `curator`: The curator account whom will manage this bounty.
+       * - `fee`: The curator fee.
+       * 
+       * ## Complexity
+       * - O(1).
+       **/
+      approveBountyWithCurator: AugmentedSubmittable<(bountyId: Compact<u32> | AnyNumber | Uint8Array, curator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, fee: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, MultiAddress, Compact<u128>]>;
       /**
        * Award bounty to a beneficiary account. The beneficiary will be able to claim the funds
        * after a delay.
@@ -1964,6 +2000,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       execute: AugmentedSubmittable<(proposal: Call | IMethod | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call, Compact<u32>]>;
       /**
+       * Disapprove the proposal and burn the cost held for storing this proposal.
+       * 
+       * Parameters:
+       * - `origin`: must be the `KillOrigin`.
+       * - `proposal_hash`: The hash of the proposal that should be killed.
+       * 
+       * Emits `Killed` and `ProposalCostBurned` if any cost was held for a given proposal.
+       **/
+      kill: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      /**
        * Add a new proposal to either be voted on or executed directly.
        * 
        * Requires the sender to be member.
@@ -1980,6 +2026,18 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `P2` is proposals-count (code-bounded) (`threshold >= 2`)
        **/
       propose: AugmentedSubmittable<(threshold: Compact<u32> | AnyNumber | Uint8Array, proposal: Call | IMethod | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Call, Compact<u32>]>;
+      /**
+       * Release the cost held for storing a proposal once the given proposal is completed.
+       * 
+       * If there is no associated cost for the given proposal, this call will have no effect.
+       * 
+       * Parameters:
+       * - `origin`: must be `Signed` or `Root`.
+       * - `proposal_hash`: The hash of the proposal.
+       * 
+       * Emits `ProposalCostReleased` if any cost held for a given proposal.
+       **/
+      releaseProposalCost: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
       /**
        * Set the collective's membership.
        * 
@@ -2654,8 +2712,9 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Add an `AccountId` with permission to grant usernames with a given `suffix` appended.
        * 
-       * The authority can grant up to `allocation` usernames. To top up their allocation, they
-       * should just issue (or request via governance) a new `add_username_authority` call.
+       * The authority can grant up to `allocation` usernames. To top up the allocation or
+       * change the account used to grant usernames, this call can be used with the updated
+       * parameters to overwrite the existing configuration.
        **/
       addUsernameAuthority: AugmentedSubmittable<(authority: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, suffix: Bytes | string | Uint8Array, allocation: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Bytes, u32]>;
       /**
@@ -2698,6 +2757,11 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       killIdentity: AugmentedSubmittable<(target: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
       /**
+       * Call with [ForceOrigin](crate::Config::ForceOrigin) privileges which deletes a username
+       * and slashes any deposit associated with it.
+       **/
+      killUsername: AugmentedSubmittable<(username: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
+      /**
        * Provide a judgement for an account's identity.
        * 
        * The dispatch origin for this call must be _Signed_ and the sender must be the account
@@ -2729,11 +2793,6 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       quitSub: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
-       * Remove a username that corresponds to an account with no identity. Exists when a user
-       * gets a username but then calls `clear_identity`.
-       **/
-      removeDanglingUsername: AugmentedSubmittable<(username: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
-      /**
        * Remove an expired username approval. The username was approved by an authority but never
        * accepted by the user and must now be beyond its expiration. The call must include the
        * full username, as in `username.suffix`.
@@ -2750,9 +2809,14 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       removeSub: AugmentedSubmittable<(sub: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
       /**
+       * Permanently delete a username which has been unbinding for longer than the grace period.
+       * Caller is refunded the fee if the username expired and the removal was successful.
+       **/
+      removeUsername: AugmentedSubmittable<(username: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
+      /**
        * Remove `authority` from the username authorities.
        **/
-      removeUsernameAuthority: AugmentedSubmittable<(authority: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
+      removeUsernameAuthority: AugmentedSubmittable<(suffix: Bytes | string | Uint8Array, authority: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, MultiAddress]>;
       /**
        * Alter the associated name of the given sub-account.
        * 
@@ -2841,7 +2905,11 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Set the username for `who`. Must be called by a username authority.
        * 
-       * The authority must have an `allocation`. Users can either pre-sign their usernames or
+       * If `use_allocation` is set, the authority must have a username allocation available to
+       * spend. Otherwise, the authority will need to put up a deposit for registering the
+       * username.
+       * 
+       * Users can either pre-sign their usernames or
        * accept them later.
        * 
        * Usernames must:
@@ -2849,7 +2917,13 @@ declare module '@polkadot/api-base/types/submittable' {
        * - When combined with the suffix of the issuing authority be _less than_ the
        * `MaxUsernameLength`.
        **/
-      setUsernameFor: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, username: Bytes | string | Uint8Array, signature: Option<SpRuntimeMultiSignature> | null | Uint8Array | SpRuntimeMultiSignature | { Ed25519: any } | { Sr25519: any } | { Ecdsa: any } | string) => SubmittableExtrinsic<ApiType>, [MultiAddress, Bytes, Option<SpRuntimeMultiSignature>]>;
+      setUsernameFor: AugmentedSubmittable<(who: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, username: Bytes | string | Uint8Array, signature: Option<SpRuntimeMultiSignature> | null | Uint8Array | SpRuntimeMultiSignature | { Ed25519: any } | { Sr25519: any } | { Ecdsa: any } | string, useAllocation: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Bytes, Option<SpRuntimeMultiSignature>, bool]>;
+      /**
+       * Start the process of removing a username by placing it in the unbinding usernames map.
+       * Once the grace period has passed, the username can be deleted by calling
+       * [remove_username](crate::Call::remove_username).
+       **/
+      unbindUsername: AugmentedSubmittable<(username: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**
        * Generic tx
        **/
@@ -5437,7 +5511,33 @@ declare module '@polkadot/api-base/types/submittable' {
        * * If no account exists and the call value is not less than `existential_deposit`,
        * a regular account will be created and any value will be transferred.
        **/
-      call: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>, SpWeightsWeightV2Weight, Compact<u128>, Bytes]>;
+      call: AugmentedSubmittable<(dest: H160 | string | Uint8Array, value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array, data: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H160, Compact<u128>, SpWeightsWeightV2Weight, Compact<u128>, Bytes]>;
+      /**
+       * Dispatch an `call` with the origin set to the callers fallback address.
+       * 
+       * Every `AccountId32` can control its corresponding fallback account. The fallback account
+       * is the `AccountId20` with the last 12 bytes set to `0xEE`. This is essentially a
+       * recovery function in case an `AccountId20` was used without creating a mapping first.
+       **/
+      dispatchAsFallbackAccount: AugmentedSubmittable<(call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call]>;
+      /**
+       * A raw EVM transaction, typically dispatched by an Ethereum JSON-RPC server.
+       * 
+       * # Parameters
+       * 
+       * * `payload`: The RLP-encoded [`crate::evm::TransactionLegacySigned`].
+       * * `gas_limit`: The gas limit enforced during contract execution.
+       * * `storage_deposit_limit`: The maximum balance that can be charged to the caller for
+       * storage usage.
+       * 
+       * # Note
+       * 
+       * This call cannot be dispatched directly; attempting to do so will result in a failed
+       * transaction. It serves as a wrapper for an Ethereum transaction. When submitted, the
+       * runtime converts it into a [`sp_runtime::generic::CheckedExtrinsic`] by recovering the
+       * signer and validating the transaction.
+       **/
+      ethTransact: AugmentedSubmittable<(payload: Bytes | string | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, SpWeightsWeightV2Weight, Compact<u128>]>;
       /**
        * Instantiates a contract from a previously deployed wasm binary.
        * 
@@ -5445,7 +5545,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * code deployment step. Instead, the `code_hash` of an on-chain deployed wasm binary
        * must be supplied.
        **/
-      instantiate: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array, codeHash: H256 | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, SpWeightsWeightV2Weight, Compact<u128>, H256, Bytes, Bytes]>;
+      instantiate: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array, codeHash: H256 | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Option<U8aFixed> | null | Uint8Array | U8aFixed | string) => SubmittableExtrinsic<ApiType>, [Compact<u128>, SpWeightsWeightV2Weight, Compact<u128>, H256, Bytes, Option<U8aFixed>]>;
       /**
        * Instantiates a new contract from the supplied `code` optionally transferring
        * some balance.
@@ -5462,7 +5562,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * from the caller to pay for the storage consumed.
        * * `code`: The contract code to deploy in raw bytes.
        * * `data`: The input data to pass to the contract constructor.
-       * * `salt`: Used for the address derivation. See [`Pallet::contract_address`].
+       * * `salt`: Used for the address derivation. If `Some` is supplied then `CREATE2`
+       * semantics are used. If `None` then `CRATE1` is used.
+       * 
        * 
        * Instantiation is executed as follows:
        * 
@@ -5473,14 +5575,14 @@ declare module '@polkadot/api-base/types/submittable' {
        * - The `value` is transferred to the new account.
        * - The `deploy` function is executed in the context of the newly-created account.
        **/
-      instantiateWithCode: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array, code: Bytes | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, SpWeightsWeightV2Weight, Compact<u128>, Bytes, Bytes, Bytes]>;
+      instantiateWithCode: AugmentedSubmittable<(value: Compact<u128> | AnyNumber | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array, code: Bytes | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Option<U8aFixed> | null | Uint8Array | U8aFixed | string) => SubmittableExtrinsic<ApiType>, [Compact<u128>, SpWeightsWeightV2Weight, Compact<u128>, Bytes, Bytes, Option<U8aFixed>]>;
       /**
-       * When a migration is in progress, this dispatchable can be used to run migration steps.
-       * Calls that contribute to advancing the migration have their fees waived, as it's helpful
-       * for the chain. Note that while the migration is in progress, the pallet will also
-       * leverage the `on_idle` hooks to run migration steps.
+       * Register the callers account id so that it can be used in contract interactions.
+       * 
+       * This will error if the origin is already mapped or is a eth native `Address20`. It will
+       * take a deposit that can be released by calling [`Self::unmap_account`].
        **/
-      migrate: AugmentedSubmittable<(weightLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [SpWeightsWeightV2Weight]>;
+      mapAccount: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
        * Remove the code stored under `code_hash` and refund the deposit to its owner.
        * 
@@ -5500,7 +5602,14 @@ declare module '@polkadot/api-base/types/submittable' {
        * that the contract address is no longer derived from its code hash after calling
        * this dispatchable.
        **/
-      setCode: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, codeHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, H256]>;
+      setCode: AugmentedSubmittable<(dest: H160 | string | Uint8Array, codeHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H160, H256]>;
+      /**
+       * Unregister the callers account id in order to free the deposit.
+       * 
+       * There is no reason to ever call this function other than freeing up the deposit.
+       * This is only useful when the account should no longer be used.
+       **/
+      unmapAccount: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
        * Upload new `code` without instantiating a contract from it.
        * 
@@ -6364,7 +6473,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Schedule a portion of the stash to be unlocked ready for transfer out after the bond
        * period ends. If this leaves an amount actively bonded less than
-       * T::Currency::minimum_balance(), then it is increased to the full amount.
+       * [`asset::existential_deposit`], then it is increased to the full amount.
        * 
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
        * 
@@ -6665,6 +6774,16 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       execute: AugmentedSubmittable<(proposal: Call | IMethod | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call, Compact<u32>]>;
       /**
+       * Disapprove the proposal and burn the cost held for storing this proposal.
+       * 
+       * Parameters:
+       * - `origin`: must be the `KillOrigin`.
+       * - `proposal_hash`: The hash of the proposal that should be killed.
+       * 
+       * Emits `Killed` and `ProposalCostBurned` if any cost was held for a given proposal.
+       **/
+      kill: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
+      /**
        * Add a new proposal to either be voted on or executed directly.
        * 
        * Requires the sender to be member.
@@ -6681,6 +6800,18 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `P2` is proposals-count (code-bounded) (`threshold >= 2`)
        **/
       propose: AugmentedSubmittable<(threshold: Compact<u32> | AnyNumber | Uint8Array, proposal: Call | IMethod | string | Uint8Array, lengthBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, Call, Compact<u32>]>;
+      /**
+       * Release the cost held for storing a proposal once the given proposal is completed.
+       * 
+       * If there is no associated cost for the given proposal, this call will have no effect.
+       * 
+       * Parameters:
+       * - `origin`: must be `Signed` or `Root`.
+       * - `proposal_hash`: The hash of the proposal.
+       * 
+       * Emits `ProposalCostReleased` if any cost held for a given proposal.
+       **/
+      releaseProposalCost: AugmentedSubmittable<(proposalHash: H256 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [H256]>;
       /**
        * Set the collective's membership.
        * 
@@ -7054,7 +7185,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Emits [`Event::AssetSpendApproved`] if successful.
        **/
-      spend: AugmentedSubmittable<(assetKind: u32 | AnyNumber | Uint8Array, amount: Compact<u128> | AnyNumber | Uint8Array, beneficiary: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, validFrom: Option<u32> | null | Uint8Array | u32 | AnyNumber) => SubmittableExtrinsic<ApiType>, [u32, Compact<u128>, MultiAddress, Option<u32>]>;
+      spend: AugmentedSubmittable<(assetKind: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array, amount: Compact<u128> | AnyNumber | Uint8Array, beneficiary: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, validFrom: Option<u32> | null | Uint8Array | u32 | AnyNumber) => SubmittableExtrinsic<ApiType>, [FrameSupportTokensFungibleUnionOfNativeOrWithId, Compact<u128>, MultiAddress, Option<u32>]>;
       /**
        * Propose and approve a spend of treasury funds.
        * 
