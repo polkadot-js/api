@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 15.1.1 Dec 30, 2024
+
+Changes:
+
+- Update AssetHub types-support metadata ([#6046](https://github.com/polkadot-js/api/pull/6046))
+- Update Polkadot and Kusama types-support metadata ([#6047](https://github.com/polkadot-js/api/pull/6047))
+- Update Substrate types with polkadot-stable2412 ([#6048](https://github.com/polkadot-js/api/pull/6048))
+
+
 ## 15.0.2 Dec 13, 2024
 
 Changes:
