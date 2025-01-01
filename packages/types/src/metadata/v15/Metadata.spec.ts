@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/types authors & contributors
+// Copyright 2017-2025 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import assetHubKusamaData from '@polkadot/types-support/metadata/v15/asset-hub-kusama-hex';

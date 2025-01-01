@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/types-known authors & contributors
+// Copyright 2017-2025 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable sort-keys */
@@ -194,7 +194,7 @@ export const versioned: OverrideVersionedType[] = [
     }
   },
   {
-    minmax: [2023, 2024],
+    minmax: [2023, 2025],
     types: {
       ...sharedTypes,
       ...addrAccountIdTypes,

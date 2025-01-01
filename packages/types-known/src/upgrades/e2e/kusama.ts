@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/types-known authors & contributors
+// Copyright 2017-2025 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Auto-generated from on-chain data & manual definitions, do not edit
@@ -1953,7 +1953,7 @@ export const upgrades: ChainUpgradesExpanded = [
   ],
   [
     4143129,
-    2024,
+    2025,
     [
       [
         "0xdf6acb689907609b",
