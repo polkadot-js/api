@@ -5,7 +5,7 @@ import fs from 'node:fs';
 
 import { fetch } from '@polkadot/x-fetch';
 
-const PREAMBLE = '// Copyright 2017-2024 @polkadot/types-support authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n/* eslint-disable */\n\n';
+const PREAMBLE = '// Copyright 2017-2025 @polkadot/types-support authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n/* eslint-disable */\n\n';
 const CMD = {
   'asset-hub-kusama': `${PREAMBLE}//To run a asset-hub-kusama node please refer to types-support/src/metadata/README.md\n\nexport default`,
   'asset-hub-polkadot': `${PREAMBLE}//To run a asset-hub-polkadot node please refer to types-support/src/metadata/README.md\n\nexport default`,
