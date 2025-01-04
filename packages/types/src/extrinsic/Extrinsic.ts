@@ -177,7 +177,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   }
 
   /**
-   * @description `true` id the extrinsic is signed
+   * @description `true` if the extrinsic is signed
    */
   public get isSigned (): boolean {
     return this.isGeneral()
