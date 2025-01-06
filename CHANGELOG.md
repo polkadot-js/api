@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 15.2.1 Jan 6, 2024
+
+- Give compatibility for nodejs v22
+  - Update common to 13.3.1 ([#6057](https://github.com/polkadot-js/api/pull/6057))
+    - Fixes an issue with `getSeparator` for nodejs 22.12
+- Bump dev to 0.82.4 ([#6056](https://github.com/polkadot-js/api/pull/6056))
+- Update Headers to 2025 ([#6052](https://github.com/polkadot-js/api/pull/6052))
+- Bump yarn to 4.6.0 ([#6050](https://github.com/polkadot-js/api/pull/6050))
+
+
 ## 15.1.1 Dec 30, 2024
 
 Changes:
