@@ -17,9 +17,13 @@ import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
 import { unwrapStorageType } from '@polkadot/types/util';
-import kusamaMeta, { rpc as kusamaRpc, version as kusamaVer } from '@polkadot/types-support/metadata/static-kusama';
-import polkadotMeta, { rpc as polkadotRpc, version as polkadotVer } from '@polkadot/types-support/metadata/static-polkadot';
-import substrateMeta from '@polkadot/types-support/metadata/static-substrate';
+import kusamaMeta from '@polkadot/types-support/metadata/v15/kusama-hex';
+import kusamaRpc from '@polkadot/types-support/metadata/v15/kusama-rpc';
+import kusamaVer from '@polkadot/types-support/metadata/v15/kusama-ver';
+import polkadotMeta from '@polkadot/types-support/metadata/v15/polkadot-hex';
+import polkadotRpc from '@polkadot/types-support/metadata/v15/polkadot-rpc';
+import polkadotVer from '@polkadot/types-support/metadata/v15/polkadot-ver';
+import substrateMeta from '@polkadot/types-support/metadata/v15/substrate-hex';
 import { isHex, stringCamelCase, stringLowerFirst } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
@@ -504,7 +508,8 @@ async function mainPromise (): Promise<void> {
   }
 
   const registry = new TypeRegistry();
-  const metadata = new Metadata(registry, metaHex);
+  const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', metaHex).toU8a()).unwrap();
+  const metadata = new Metadata(registry, opaqueMetadata.toHex());
 
   registry.setMetadata(metadata);
 
