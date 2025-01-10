@@ -1,5 +1,5 @@
     3512	Jaco                          	Bump deps (#5785)
-     149	Tarik Gul                     	Set typegen scripts for Docs to use v15  (#6060)
+     150	Tarik Gul                     	Add Asset hub options to polkadot-types-internal-metadata (#6062)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
