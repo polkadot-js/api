@@ -1,10 +1,10 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { MetadataLatest, RuntimeApiMethodMetadataV15, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { PortableRegistry } from '@polkadot/types/metadata';
 import type { Text } from '@polkadot/types/primitive';
-import type { Codec, DefinitionRpcParam } from '@polkadot/types/types';
+import type { Codec, DefinitionCall, DefinitionRpcParam, DefinitionsCall, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
 import fs from 'node:fs';
@@ -25,9 +25,8 @@ import polkadotRpc from '@polkadot/types-support/metadata/v15/polkadot-rpc';
 import polkadotVer from '@polkadot/types-support/metadata/v15/polkadot-ver';
 import substrateMeta from '@polkadot/types-support/metadata/v15/substrate-hex';
 import { isHex, stringCamelCase, stringLowerFirst } from '@polkadot/util';
-import { blake2AsHex } from '@polkadot/util-crypto';
 
-import { assertFile, getMetadataViaWs, getRpcMethodsViaWs, getRuntimeVersionViaWs } from './util/index.js';
+import { assertFile, getMetadataViaWs, getRpcMethodsViaWs } from './util/index.js';
 
 interface SectionItem {
   link?: string;
@@ -222,58 +221,83 @@ function addRpc (_runtimeDesc: string, rpcMethods?: string[]): string {
 }
 
 /** @internal */
-function addRuntime (_runtimeDesc: string, apis?: ApiDef[]): string {
+function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV15>) {
+  const result: Record<string, DefinitionCall> = {};
+
+  methods.forEach((m) => {
+    const { docs, inputs, name, output } = m;
+
+    result[name.toString()] = {
+      description: docs.map((d) => d.toString()).join(),
+      params: inputs.map(({ name, type }) => {
+        return { name: name.toString(), type: registry.lookup.getName(type) || registry.lookup.getTypeDef(type).type };
+      }),
+      type: registry.lookup.getName(output) || registry.lookup.getTypeDef(output).type
+    };
+  });
+
+  return result;
+}
+
+/** @internal */
+function getRuntimeDefViaMetadata (registry: Registry) {
+  const result: DefinitionsCall = {};
+  const { apis } = registry.metadata;
+
+  for (let i = 0, count = apis.length; i < count; i++) {
+    const { methods, name } = apis[i];
+
+    result[name.toString()] = [{
+      methods: getMethods(registry, methods),
+      // We set the version to 0 here since it will not be relevant when we are grabbing the runtime apis
+      // from the Metadata.
+      version: 0
+    }];
+  }
+
+  return Object.entries(result);
+}
+
+function runtimeSections (registry: Registry) {
+  const sections = getRuntimeDefViaMetadata(registry);
+  const all = [];
+
+  for (let j = 0, jcount = sections.length; j < jcount; j++) {
+    const [_section, secs] = sections[j];
+    const sec = secs[0];
+
+    const section = stringCamelCase(_section);
+    const methods = Object.entries(sec.methods);
+
+    const container: Section = { items: [], name: section };
+
+    all.push(container);
+
+    methods
+      .sort(([a], [b]) => a.localeCompare(b))
+      .forEach(([methodName, { description, params, type }]): void => {
+        const args = params.map(({ name, type }): string => {
+          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+          return name + ': `' + type + '`';
+        }).join(', ');
+
+        container.items.push({
+          interface: '`' + `api.call.${stringCamelCase(section)}.${stringCamelCase(methodName)}` + '`',
+          name: `${stringCamelCase(methodName)}(${args}): ${'`' + type + '`'}`,
+          runtime: '`' + `${section}_${methodName}` + '`',
+          summary: description
+        });
+      });
+  }
+
+  return all.sort(sortByName);
+}
+
+/** @internal */
+function addRuntime (_runtimeDesc: string, registry: Registry): string {
   return renderPage({
     description: 'The following section contains known runtime calls that may be available on specific runtimes (depending on configuration and available pallets). These call directly into the WASM runtime for queries and operations.',
-    sections: Object
-      .keys(definitions)
-      .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0)
-      .sort()
-      .reduce((all: Section[], _sectionName): Section[] => {
-        Object
-          .entries(definitions[_sectionName as 'babe'].runtime || {})
-          .forEach(([apiName, versions]) => {
-            versions
-              .sort((a, b) => b.version - a.version)
-              .forEach(({ methods, version }, index) => {
-                if (apis) {
-                  // if we are passing the api hashes and we cannot find this one, skip it
-                  const apiHash = blake2AsHex(apiName, 64);
-                  const api = apis.find(([hash]) => hash === apiHash);
-
-                  if (!api || api[1] !== version) {
-                    return;
-                  }
-                } else if (index) {
-                  // we only want the highest version
-                  return;
-                }
-
-                const container: Section = { items: [], name: apiName };
-
-                all.push(container);
-
-                Object
-                  .entries(methods)
-                  .sort(([a], [b]) => a.localeCompare(b))
-                  .forEach(([methodName, { description, params, type }]): void => {
-                    const args = params.map(({ name, type }): string => {
-                      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-                      return name + ': `' + type + '`';
-                    }).join(', ');
-
-                    container.items.push({
-                      interface: '`' + `api.call.${stringCamelCase(apiName)}.${stringCamelCase(methodName)}` + '`',
-                      name: `${stringCamelCase(methodName)}(${args}): ${'`' + type + '`'}`,
-                      runtime: '`' + `${apiName}_${methodName}` + '`',
-                      summary: description
-                    });
-                  });
-              });
-          });
-
-        return all;
-      }, []).sort(sortByName),
+    sections: runtimeSections(registry),
     title: 'Runtime'
   });
 }
@@ -481,13 +505,11 @@ async function mainPromise (): Promise<void> {
   const chainName = chain || 'Substrate';
   let metaHex: HexString;
   let rpcMethods: string[] | undefined;
-  let runtimeApis: ApiDef[] | undefined;
 
   if (endpoint) {
     if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
       metaHex = await getMetadataViaWs(endpoint);
       rpcMethods = await getRpcMethodsViaWs(endpoint);
-      runtimeApis = await getRuntimeVersionViaWs(endpoint);
     } else {
       metaHex = (
         JSON.parse(
@@ -502,7 +524,6 @@ async function mainPromise (): Promise<void> {
   } else if (ALL_STATIC[chainName.toLowerCase()]) {
     metaHex = ALL_STATIC[chainName.toLowerCase()].meta;
     rpcMethods = ALL_STATIC[chainName.toLowerCase()].rpc?.methods;
-    runtimeApis = ALL_STATIC[chainName.toLowerCase()].ver?.apis;
   } else {
     metaHex = substrateMeta;
   }
@@ -519,7 +540,7 @@ async function mainPromise (): Promise<void> {
 
   writeFile(`${docRoot}/rpc.md`, addRpc(runtimeDesc, rpcMethods));
 
-  writeFile(`${docRoot}/runtime.md`, addRuntime(runtimeDesc, runtimeApis));
+  writeFile(`${docRoot}/runtime.md`, addRuntime(runtimeDesc, registry));
 
   writeFile(`${docRoot}/constants.md`, addConstants(runtimeDesc, latest));
   writeFile(`${docRoot}/storage.md`, addStorage(runtimeDesc, latest));
