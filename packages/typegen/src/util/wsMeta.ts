@@ -4,10 +4,11 @@
 import type { HexString } from '@polkadot/util/types';
 
 import { promiseTracker } from '@polkadot/api/promise/decorateMethod';
-import { stringify } from '@polkadot/util';
+import { TypeRegistry } from '@polkadot/types';
+import { stringify, u8aToHex } from '@polkadot/util';
 import { WebSocket } from '@polkadot/x-ws';
 
-async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_getMetadata' | 'state_getRuntimeVersion'): Promise<T> {
+async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_call' | 'state_getMetadata' | 'state_getRuntimeVersion', params?: string[]): Promise<T> {
   return new Promise((resolve, reject): void => {
     const tracker = promiseTracker<T>(resolve, reject);
 
@@ -26,7 +27,9 @@ async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_g
 
       websocket.onopen = (): void => {
         console.log('connected');
-        websocket.send(`{"id":"1","jsonrpc":"2.0","method":"${method}","params":[]}`);
+        params
+          ? websocket.send(`{"id":"1","jsonrpc":"2.0","method":"${method}","params":[${params.map((param) => `"${param}"`).join(',')}]}`)
+          : websocket.send(`{"id":"1","jsonrpc":"2.0","method":"${method}","params":[]}`);
       };
 
       websocket.onmessage = (message: { data: string }): void => {
@@ -44,8 +47,14 @@ async function getWsData <T> (endpoint: string, method: 'rpc_methods' | 'state_g
   });
 }
 
-export async function getMetadataViaWs (endpoint: string): Promise<HexString> {
-  return getWsData<HexString>(endpoint, 'state_getMetadata');
+export async function getMetadataViaWs (endpoint: string, metadataVer?: number): Promise<HexString> {
+  const registry = new TypeRegistry();
+
+  if (metadataVer) {
+    return await getWsData<HexString>(endpoint, 'state_call', ['Metadata_metadata_at_version', u8aToHex(registry.createType('u32', metadataVer).toU8a())]);
+  } else {
+    return await getWsData<HexString>(endpoint, 'state_getMetadata');
+  }
 }
 
 export async function getRpcMethodsViaWs (endpoint: string): Promise<string[]> {
