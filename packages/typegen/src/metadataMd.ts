@@ -31,8 +31,9 @@ import polkadotRpc from '@polkadot/types-support/metadata/v15/polkadot-rpc';
 import polkadotVer from '@polkadot/types-support/metadata/v15/polkadot-ver';
 import substrateMeta from '@polkadot/types-support/metadata/v15/substrate-hex';
 import { isHex, stringCamelCase, stringLowerFirst } from '@polkadot/util';
+import { blake2AsHex } from '@polkadot/util-crypto';
 
-import { assertFile, getMetadataViaWs, getRpcMethodsViaWs } from './util/index.js';
+import { assertFile, getMetadataViaWs, getRpcMethodsViaWs, getRuntimeVersionViaWs } from './util/index.js';
 
 interface SectionItem {
   link?: string;
@@ -319,6 +320,63 @@ function addRuntime (_runtimeDesc: string, registry: Registry): string {
 }
 
 /** @internal */
+function addLegacyRuntime (_runtimeDesc: string, _registry: Registry, apis?: ApiDef[]) {
+  return renderPage({
+    description: 'The following section contains known runtime calls that may be available on specific runtimes (depending on configuration and available pallets). These call directly into the WASM runtime for queries and operations.',
+    sections: Object
+      .keys(definitions)
+      .filter((key) => Object.keys(definitions[key as 'babe'].runtime || {}).length !== 0)
+      .sort()
+      .reduce((all: Section[], _sectionName): Section[] => {
+        Object
+          .entries(definitions[_sectionName as 'babe'].runtime || {})
+          .forEach(([apiName, versions]) => {
+            versions
+              .sort((a, b) => b.version - a.version)
+              .forEach(({ methods, version }, index) => {
+                if (apis) {
+                  // if we are passing the api hashes and we cannot find this one, skip it
+                  const apiHash = blake2AsHex(apiName, 64);
+                  const api = apis.find(([hash]) => hash === apiHash);
+
+                  if (!api || api[1] !== version) {
+                    return;
+                  }
+                } else if (index) {
+                  // we only want the highest version
+                  return;
+                }
+
+                const container: Section = { items: [], name: apiName };
+
+                all.push(container);
+
+                Object
+                  .entries(methods)
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .forEach(([methodName, { description, params, type }]): void => {
+                    const args = params.map(({ name, type }): string => {
+                      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                      return name + ': `' + type + '`';
+                    }).join(', ');
+
+                    container.items.push({
+                      interface: '`' + `api.call.${stringCamelCase(apiName)}.${stringCamelCase(methodName)}` + '`',
+                      name: `${stringCamelCase(methodName)}(${args}): ${'`' + type + '`'}`,
+                      runtime: '`' + `${apiName}_${methodName}` + '`',
+                      summary: description
+                    });
+                  });
+              });
+          });
+
+        return all;
+      }, []).sort(sortByName),
+    title: 'Runtime'
+  });
+}
+
+/** @internal */
 function addConstants (runtimeDesc: string, { lookup, pallets }: MetadataLatest): string {
   return renderPage({
     description: `The following sections contain the module constants, also known as parameter types. These can only be changed as part of a runtime upgrade. On the api, these are exposed via \`api.consts.<module>.<method>\`. ${headerFn(runtimeDesc)}`,
@@ -504,10 +562,10 @@ function writeFile (name: string, ...chunks: any[]): void {
   writeStream.end();
 }
 
-interface ArgV { chain?: string; endpoint?: string; }
+interface ArgV { chain?: string; endpoint?: string; metadataVer?: number; }
 
 async function mainPromise (): Promise<void> {
-  const { chain, endpoint } = yargs(hideBin(process.argv)).strict().options({
+  const { chain, endpoint, metadataVer } = yargs(hideBin(process.argv)).strict().options({
     chain: {
       description: 'The chain name to use for the output (defaults to "Substrate")',
       type: 'string'
@@ -515,17 +573,29 @@ async function mainPromise (): Promise<void> {
     endpoint: {
       description: 'The endpoint to connect to (e.g. wss://kusama-rpc.polkadot.io) or relative path to a file containing the JSON output of an RPC state_getMetadata call',
       type: 'string'
+    },
+    metadataVer: {
+      description: 'The metadata version to use for generating type information. This will use state_call::Metadata_metadata_at_version to query metadata',
+      type: 'number'
     }
   }).argv as ArgV;
 
+  /**
+   * This is unique to when the endpoint arg is used. Since the endpoint requires us to query the chain, it may query the chains
+   * rpc state_getMetadata method to get metadata, but this restricts us to v14 only. Therefore we must also check if the `metadataVer` is passed
+   * in as well. These checks will help us decide if we are using v14 or newer.
+   */
+  const useV14Metadata = endpoint && ((metadataVer && metadataVer < 15) || !metadataVer);
   const chainName = chain || 'Substrate';
   let metaHex: HexString;
   let rpcMethods: string[] | undefined;
+  let runtimeApis: ApiDef[] | undefined;
 
   if (endpoint) {
     if (endpoint.startsWith('wss://') || endpoint.startsWith('ws://')) {
-      metaHex = await getMetadataViaWs(endpoint);
+      metaHex = await getMetadataViaWs(endpoint, metadataVer);
       rpcMethods = await getRpcMethodsViaWs(endpoint);
+      runtimeApis = await getRuntimeVersionViaWs(endpoint);
     } else {
       metaHex = (
         JSON.parse(
@@ -544,9 +614,16 @@ async function mainPromise (): Promise<void> {
     metaHex = substrateMeta;
   }
 
+  let metadata: Metadata;
   const registry = new TypeRegistry();
-  const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', metaHex).toU8a()).unwrap();
-  const metadata = new Metadata(registry, opaqueMetadata.toHex());
+
+  if (useV14Metadata) {
+    metadata = new Metadata(registry, metaHex);
+  } else {
+    const opaqueMetadata = registry.createType('Option<OpaqueMetadata>', registry.createType('Raw', metaHex).toU8a()).unwrap();
+
+    metadata = new Metadata(registry, opaqueMetadata.toHex());
+  }
 
   registry.setMetadata(metadata);
 
@@ -556,7 +633,9 @@ async function mainPromise (): Promise<void> {
 
   writeFile(`${docRoot}/rpc.md`, addRpc(runtimeDesc, rpcMethods));
 
-  writeFile(`${docRoot}/runtime.md`, addRuntime(runtimeDesc, registry));
+  useV14Metadata
+    ? writeFile(`${docRoot}/runtime.md`, addLegacyRuntime(runtimeDesc, registry, runtimeApis))
+    : writeFile(`${docRoot}/runtime.md`, addRuntime(runtimeDesc, registry));
 
   writeFile(`${docRoot}/constants.md`, addConstants(runtimeDesc, latest));
   writeFile(`${docRoot}/storage.md`, addStorage(runtimeDesc, latest));
