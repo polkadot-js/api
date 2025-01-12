@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 15.3.1 Jan 11, 2024
+
+- Set typegen scripts for Docs to use v15 ([#6060](https://github.com/polkadot-js/api/pull/6060))
+- Add Asset hub options to polkadot-types-internal-metadata ([#6062](https://github.com/polkadot-js/api/pull/6062))
+- Add metadataVer cli arg for polkadot-types-internal-metadata, and ensure backwards compatibility with v14 ([#](https://github.com/polkadot-js/api/pull/6063))
+  - This adds `--metadataVer` to `polkadot-types-internal-metadata`. It is meant to be used along side `--endpoint` which will allow for the use of metadata versions above v14.
+
+
 ## 15.2.1 Jan 6, 2024
 
 - Give compatibility for nodejs v22
