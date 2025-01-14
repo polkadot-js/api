@@ -145,7 +145,7 @@ export function identity (instanceId: string, api: DeriveApi): (accountId?: Acco
 
 // if an account has no parents it will extract its subidentities
 // otherwise if the account is a subidentity, obtain all subidentities of its parent.
-function getSubIdentities(identity: DeriveAccountRegistration, api: DeriveApi, accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> {
+function getSubIdentities (identity: DeriveAccountRegistration, api: DeriveApi, accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> {
   const targetAccount = identity.parent || accountId;
 
   if (!targetAccount) {
@@ -156,12 +156,13 @@ function getSubIdentities(identity: DeriveAccountRegistration, api: DeriveApi, a
   return api.query.identity.subsOf(targetAccount).pipe(
     map((subsResponse) => {
       const subs = subsResponse[1];
+
       return {
         ...identity,
         subs
-      }
+      };
     })
-  )
+  );
 }
 
 export const hasIdentity = /*#__PURE__*/ firstMemo(

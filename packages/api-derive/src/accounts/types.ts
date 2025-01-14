@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, RegistrationJudgement } from '@polkadot/types/interfaces';
+import type { Vec } from '@polkadot/types-codec';
 
 export type AccountIdAndIndex = [AccountId | undefined, AccountIndex | undefined];
 
@@ -18,9 +19,9 @@ export interface DeriveAccountRegistration {
   matrix?: string | undefined;
   other?: Record<string, string> | undefined;
   parent?: AccountId | undefined;
-  subs?: AccountId[] | undefined;
   pgp?: string | undefined;
   riot?: string | undefined;
+  subs?: Vec<AccountId> | undefined;
   twitter?: string | undefined;
   web?: string | undefined;
   judgements: RegistrationJudgement[];
