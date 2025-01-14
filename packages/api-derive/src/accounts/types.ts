@@ -18,6 +18,7 @@ export interface DeriveAccountRegistration {
   matrix?: string | undefined;
   other?: Record<string, string> | undefined;
   parent?: AccountId | undefined;
+  subs?: AccountId[] | undefined;
   pgp?: string | undefined;
   riot?: string | undefined;
   twitter?: string | undefined;
