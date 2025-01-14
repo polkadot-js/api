@@ -138,6 +138,7 @@
        1	Snoppy                        	chore: fix typos (#5835)
        1	Stephen Shelton               	Add transaction-payment runtime API V3 (#5430)
        1	Tim B                         	added EthRTApiV5 ifaces (#5680)
+       1	Valentin Fernandez            	Allow api.derive.accounts.identity() to obtain SubIdentities (#6066)
        1	WoeOm                         	adapt Darwinia, Crab Network types (#3498)
        1	Xat_MassacrE                  	Fix packages/types/src/codec/utils/encodeTypes.ts encodeSubTypes bug (#1544)
        1	xiaolou86                     	Fix typos (#5747)
