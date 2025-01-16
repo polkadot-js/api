@@ -117,6 +117,13 @@ export interface ElectionResult extends Struct {
   readonly exposures: Vec<ITuple<[AccountId, Exposure]>>;
 }
 
+/** @name ElectionResultToSpec10 */
+export interface ElectionResultToSpec10 extends Struct {
+  readonly electedStashes: Vec<AccountId>;
+  readonly exposures: Vec<ITuple<[AccountId, Exposure]>>;
+  readonly compute: ElectionCompute;
+}
+
 /** @name ElectionScore */
 export interface ElectionScore extends Vec<u128> {}
 
