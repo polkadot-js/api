@@ -67,6 +67,7 @@ export default {
     "mmr_root",
     "mmr_verifyProof",
     "mmr_verifyProofStateless",
+    "offchain_localStorageClear",
     "offchain_localStorageGet",
     "offchain_localStorageSet",
     "payment_queryFeeDetails",
