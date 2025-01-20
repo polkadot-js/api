@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 15.4.1 Jan 20, 2024
+
+- Allow api.derive.accounts.identity() to obtain SubIdentities ([#6066](https://github.com/polkadot-js/api/pull/6066))
+  - Adds a new field `subs` to the `DeriveAccountRegistration` output of `api.derive.accounts.identity()`
+- Add ElectionResult type override ([#6067](https://github.com/polkadot-js/api/pull/6067))
+- Bump dev to 0.83.2 ([#6069](https://github.com/polkadot-js/api/pull/6069))
+  - Increases performance of the test-runner, both locally, and in the CI
+
+
 ## 15.3.1 Jan 11, 2024
 
 - Set typegen scripts for Docs to use v15 ([#6060](https://github.com/polkadot-js/api/pull/6060))
