@@ -81,7 +81,15 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       '@polkadot/types/interfaces': defaultDefs,
       ...extraTypes
     };
-    const imports = createImports(allTypes);
+
+    // Incorrect type assignment in StagingXcmV4Xcm.
+    // Temporarily ignore this type to prevent import errors.
+    //
+    // See https://github.com/polkadot-js/api/issues/5977
+    // for more details
+    const ignoreTypes = {types: {StagingXcmV4Xcm: undefined}};
+
+    const imports = createImports(allTypes, ignoreTypes );
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
