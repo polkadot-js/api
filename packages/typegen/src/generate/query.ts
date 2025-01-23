@@ -87,9 +87,9 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     //
     // See https://github.com/polkadot-js/api/issues/5977
     // for more details
-    const ignoreTypes = {types: {StagingXcmV4Xcm: undefined}};
+    const ignoreTypes = { types: { StagingXcmV4Xcm: undefined } };
 
-    const imports = createImports(allTypes, ignoreTypes );
+    const imports = createImports(allTypes, ignoreTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});

@@ -2,7 +2,6 @@
   "extends": "@polkadot/dev/config/tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    // Rel: https://github.com/polkadot-js/api/issues/5977
     "noUnusedLocals": true,
     "paths": {
       "@polkadot/api": ["api/src/index.ts"],
