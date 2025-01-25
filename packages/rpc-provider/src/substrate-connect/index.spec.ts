@@ -82,12 +82,37 @@ function healthCheckerFactory () {
   };
 }
 
-function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
+function getFakeChain (spec: string, callback: (response: string) => void): MockChain {
   const _receivedRequests: string[] = [];
   let _isTerminated = false;
 
   let terminateInterceptor = Function.prototype;
   let sendJsonRpcInterceptor = Function.prototype;
+
+  const addChain: Sc.AddChain = async (chainSpec, options) => {
+    return getFakeChain(chainSpec, noop);
+  };
+
+  const nextJsonRpcResponse = async (): Promise<string> => {
+    return '';
+  };
+
+  const jsonRpcResponses: AsyncIterableIterator<string> = {
+    next: () => Promise.resolve({ done: true, value: undefined }),
+    [Symbol.asyncIterator]() { return this; },
+    return: () => Promise.resolve({ done: true, value: undefined }),
+    throw: () => Promise.resolve({ done: true, value: undefined })
+  };
+
+  const remove = (): void => {
+    terminateInterceptor();
+    _isTerminated = true;
+  };
+
+  const sendJsonRpc = (rpc: string): void => {
+    sendJsonRpcInterceptor(rpc);
+    _receivedRequests.push(rpc);
+  };
 
   return {
     _getLatestRequest: () => _receivedRequests[_receivedRequests.length - 1],
@@ -107,16 +132,11 @@ function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
           : stringify(response)
       );
     },
-    addChain: (chainSpec, jsonRpcCallback) =>
-      Promise.resolve(getFakeChain(chainSpec, jsonRpcCallback ?? noop)),
-    remove: () => {
-      terminateInterceptor();
-      _isTerminated = true;
-    },
-    sendJsonRpc: (rpc) => {
-      sendJsonRpcInterceptor(rpc);
-      _receivedRequests.push(rpc);
-    }
+    addChain,
+    nextJsonRpcResponse,
+    jsonRpcResponses,
+    remove,
+    sendJsonRpc
   };
 }
 
@@ -124,6 +144,20 @@ function getFakeClient () {
   const chains: MockChain[] = [];
   let addChainInterceptor: Promise<void> = Promise.resolve();
   let addWellKnownChainInterceptor: Promise<void> = Promise.resolve();
+
+  const addChain: Sc.AddChain = async (chainSpec, options) => {
+    await addChainInterceptor;
+    const result = getFakeChain(chainSpec, noop);
+    chains.push(result);
+    return result;
+  };
+
+  const addWellKnownChain: Sc.AddWellKnownChain = async (wellKnownChain, options) => {
+    await addWellKnownChainInterceptor;
+    const result = getFakeChain(wellKnownChain, noop);
+    chains.push(result);
+    return result;
+  };
 
   return {
     _chains: () => chains,
@@ -133,25 +167,8 @@ function getFakeClient () {
     _setAddWellKnownChainInterceptor: (interceptor: Promise<void>) => {
       addWellKnownChainInterceptor = interceptor;
     },
-    addChain: (chainSpec: string, cb: Sc.JsonRpcCallback): Promise<MockChain> =>
-      addChainInterceptor.then(() => {
-        const result = getFakeChain(chainSpec, cb);
-
-        chains.push(result);
-
-        return result;
-      }),
-    addWellKnownChain: (
-      wellKnownChain: string,
-      cb: Sc.JsonRpcCallback
-    ): Promise<MockChain> =>
-      addWellKnownChainInterceptor.then(() => {
-        const result = getFakeChain(wellKnownChain, cb);
-
-        chains.push(result);
-
-        return result;
-      })
+    addChain,
+    addWellKnownChain
   };
 }
 
