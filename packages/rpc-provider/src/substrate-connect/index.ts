@@ -64,7 +64,7 @@ export class ScProvider implements ProviderInterface {
   #chain: Promise<ScType.Chain> | null = null;
   #isChainReady = false;
 
-  public constructor (Sc: SubstrateConnect, spec: string | ScType.WellKnownChain, sharedSandbox?: ScProvider) {
+  public constructor (Sc: SubstrateConnect, spec: ScType.WellKnownChain | (string & {}), sharedSandbox?: ScProvider) {
     if (!isObject(Sc) || !isObject(Sc.WellKnownChain) || !isFunction(Sc.createScClient)) {
       throw new Error('Expected an @substrate/connect interface as first parameter to ScProvider');
     }
@@ -133,13 +133,13 @@ export class ScProvider implements ProviderInterface {
       }
 
       const response = JSON.parse(hcRes) as JsonRpcResponse<string>;
-      let decodedResponse: string | Error;
+        let decodedResponse: string | Error;
 
-      try {
-        decodedResponse = this.#coder.decodeResponse(response);
-      } catch (e) {
-        decodedResponse = e as Error;
-      }
+        try {
+          decodedResponse = this.#coder.decodeResponse(response);
+        } catch (e) {
+          decodedResponse = e as Error;
+        }
 
       // It's not a subscription message, but rather a standar RPC response
       if (response.params?.subscription === undefined || !response.method) {
@@ -166,7 +166,19 @@ export class ScProvider implements ProviderInterface {
         ? client.addWellKnownChain
         : client.addChain;
 
-    this.#chain = addChain(this.#spec as ScType.WellKnownChain, onResponse).then((chain) => {
+    this.#chain = addChain(this.#spec as ScType.WellKnownChain).then((chain) => {
+      // Process JSON-RPC responses
+      void (async () => {
+        try {
+          for await (const response of chain.jsonRpcResponses) {
+            onResponse(response);
+          }
+        } catch (error) {
+          l.error('Error processing JSON-RPC responses:', error);
+          this.#eventemitter.emit('error', error);
+        }
+      })();
+
       hc.setSendJsonRpc(chain.sendJsonRpc);
 
       this.#isChainReady = false;
