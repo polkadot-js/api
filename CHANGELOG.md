@@ -1,6 +1,21 @@
 # CHANGELOG
 
-## 15.4.1 Jan 20, 2024
+## 15.5.1 Jan 27, 2025
+
+Contributed:
+
+- Add `offchain_localStorageClear` RPC method ([#6070](https://github.com/polkadot-js/api/pull/6070)) (Thanks to https://github.com/khssnv)
+
+Changes:
+
+- Update polkadot, kusama types-support for rpc, and ver ([#6078](https://github.com/polkadot-js/api/pull/6078))
+- Update Asset-Hub types-support rpc, and ver ([#6077](https://github.com/polkadot-js/api/pull/6077))
+- Patch typegen query to prevent it from adding invalid import ([#6073](https://github.com/polkadot-js/api/pull/6073))
+- Extend `GenericAccountId` description ([#6072](https://github.com/polkadot-js/api/pull/6072))
+
+## 15.4.1 Jan 20, 2025
+
+Changes:
 
 - Allow api.derive.accounts.identity() to obtain SubIdentities ([#6066](https://github.com/polkadot-js/api/pull/6066))
   - Adds a new field `subs` to the `DeriveAccountRegistration` output of `api.derive.accounts.identity()`
@@ -9,7 +24,9 @@
   - Increases performance of the test-runner, both locally, and in the CI
 
 
-## 15.3.1 Jan 11, 2024
+## 15.3.1 Jan 11, 2025
+
+Changes:
 
 - Set typegen scripts for Docs to use v15 ([#6060](https://github.com/polkadot-js/api/pull/6060))
 - Add Asset hub options to polkadot-types-internal-metadata ([#6062](https://github.com/polkadot-js/api/pull/6062))
@@ -17,7 +34,9 @@
   - This adds `--metadataVer` to `polkadot-types-internal-metadata`. It is meant to be used along side `--endpoint` which will allow for the use of metadata versions above v14.
 
 
-## 15.2.1 Jan 6, 2024
+## 15.2.1 Jan 6, 2025
+
+Changes:
 
 - Give compatibility for nodejs v22
   - Update common to 13.3.1 ([#6057](https://github.com/polkadot-js/api/pull/6057))
