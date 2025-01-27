@@ -10,187 +10,203 @@ import { noop, stringify } from '@polkadot/util';
 
 import { ScProvider } from './index.js';
 
-interface MockChain extends Sc.Chain {
-  _spec: () => string;
-  _recevedRequests: () => string[];
+// Well known chain constants
+const mockWellKnownChain = {
+  polkadot: 'polkadot',
+  ksmcc3: 'ksmcc3',
+  rococo_v2_2: 'rococo_v2_2',
+  westend2: 'westend2',
+  paseo: 'paseo'
+} as const;
+
+interface MockChain {
+  sendJsonRpc: (rpc: string) => void;
+  remove: () => void;
+  nextJsonRpcResponse: () => Promise<string>;
+  jsonRpcResponses: AsyncIterableIterator<string>;
+  addChain: Sc.AddChain;
+  _requests: string[];
+  _terminated: boolean;
+  _callback: (response: string) => void;
+  _interceptor: ((rpc: string) => void) | null;
+  _setInterceptor: (fn: ((rpc: string) => void) | null) => void;
+  _getLatestRequest: () => string | undefined;
+  _triggerCallback: (response: unknown) => void;
   _isTerminated: () => boolean;
-  _triggerCallback: (response: string | object) => void;
-  _setTerminateInterceptor: (fn: () => void) => void;
-  _setSendJsonRpcInterceptor: (fn: (rpc: string) => void) => void;
-  _getLatestRequest: () => string;
+  _setSendJsonRpcInterceptor: (fn: ((rpc: string) => void) | null) => void;
+  _recevedRequests: () => string[];
 }
 
-interface MockedHealthChecker extends HealthChecker {
-  _isActive: () => boolean;
-  _triggerHealthUpdate: (update: SmoldotHealth) => void;
+// Helper function to wait for a specified number of milliseconds
+const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+
+function createMockChain (callback: (response: string) => void): MockChain {
+  const requests: string[] = [];
+  let terminated = false;
+  let interceptor: ((rpc: string) => void) | null = null;
+  let responseQueue: string[] = [];
+
+  const nextJsonRpcResponse: MockChain['nextJsonRpcResponse'] = async () => {
+    if (responseQueue.length === 0) {
+      return new Promise<string>((resolve) => {
+        const checkQueue = () => {
+          if (responseQueue.length > 0) {
+            resolve(responseQueue.shift()!);
+          } else {
+            setTimeout(checkQueue, 10);
+          }
+        };
+        checkQueue();
+      });
+    }
+    return responseQueue.shift()!;
+  }
+
+  const jsonRpcResponses: MockChain['jsonRpcResponses'] = {
+    async next() {
+      const value = await nextJsonRpcResponse();
+      return { done: false, value };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    return: () => Promise.resolve({ done: true, value: undefined }),
+    throw: () => Promise.resolve({ done: true, value: undefined })
+  }
+
+  const chain: MockChain = {
+    _requests: requests,
+    _terminated: terminated,
+    _callback: (response: string) => {
+      responseQueue.push(response);
+      callback(response);
+    },
+    _interceptor: null,
+    _setInterceptor: (fn: ((rpc: string) => void) | null) => {
+      interceptor = fn;
+    },
+    _getLatestRequest: () => requests[requests.length - 1],
+    sendJsonRpc: (rpc: string) => {
+      if (terminated) {
+        throw new Error('Chain terminated');
+      }
+
+      if (interceptor) {
+        interceptor(rpc);
+      }
+
+      requests.push(rpc);
+    },
+    remove: () => {
+      terminated = true;
+    },
+    nextJsonRpcResponse,
+    jsonRpcResponses,
+    addChain: async () => createMockChain(noop),
+    _triggerCallback: (response: unknown) => {
+      callback(stringify(response));
+    },
+    _isTerminated: () => terminated,
+    _setSendJsonRpcInterceptor: (fn: ((rpc: string) => void) | null) => {
+      interceptor = fn;
+    },
+    _recevedRequests: () => requests
+  };
+
+  return chain;
 }
 
-type MockSc = typeof Sc & {
-  latestChain: () => MockChain;
+function createMockClient () {
+  const chains: MockChain[] = [];
+  let interceptor: Promise<void> = Promise.resolve();
+
+  return {
+    addChain: async (spec: string) => {
+      await interceptor;
+      const chain = createMockChain(noop);
+
+      chains.push(chain);
+
+      return chain;
+    },
+    addWellKnownChain: async (chain: string) => {
+      await interceptor;
+      const mockChain = createMockChain(noop);
+
+      chains.push(mockChain);
+
+      return mockChain;
+    },
+    _chains: chains,
+    _setInterceptor: (p: Promise<void>) => {
+      interceptor = p;
+    },
+    latestChain: () => chains[chains.length - 1]
+  };
+}
+
+// Mock client instance that will be shared
+let mockClient = createMockClient();
+
+// Mock Sc client with mockClient instance
+const mockSc = {
+  createScClient: () => {
+    mockClient = createMockClient();
+    return mockClient;
+  },
+  WellKnownChain: mockWellKnownChain,
+  latestChain: () => mockClient.latestChain()
 };
 
-enum WellKnownChain {
-  polkadot = 'polkadot',
-  ksmcc3 = 'ksmcc3',
-  rococo_v2_2 = 'rococo_v2_2',
-  westend2 = 'westend2'
-}
+// Mock health checker factory
+const mockedHealthChecker = {
+  healthChecker: () => createMockHealthChecker()
+};
 
-const wait = (ms: number) =>
-  new Promise((resolve) =>
-    setTimeout(resolve, ms)
-  );
-
-function healthCheckerMock (): MockedHealthChecker {
-  let cb: (health: SmoldotHealth) => void = () => undefined;
-  let sendJsonRpc: (request: string) => void = () => undefined;
-  let isActive = false;
-
-  return {
-    _isActive: () => isActive,
-    _triggerHealthUpdate: (update: SmoldotHealth) => {
-      cb(update);
-    },
-    responsePassThrough: (response) => response,
-    sendJsonRpc: (...args) => sendJsonRpc(...args),
-    setSendJsonRpc: (cb) => {
-      sendJsonRpc = cb;
-    },
-    start: (x) => {
-      isActive = true;
-      cb = x;
-    },
-    stop: () => {
-      isActive = false;
-    }
-  };
-}
-
-function healthCheckerFactory () {
-  const _healthCheckers: MockedHealthChecker[] = [];
-
-  return {
-    _healthCheckers,
-    _latestHealthChecker: () => _healthCheckers.slice(-1)[0],
-    healthChecker: () => {
-      const result = healthCheckerMock();
-
-      _healthCheckers.push(result);
-
-      return result;
-    }
-  };
-}
-
-function getFakeChain (spec: string, callback: Sc.JsonRpcCallback): MockChain {
-  const _receivedRequests: string[] = [];
-  let _isTerminated = false;
-
-  let terminateInterceptor = Function.prototype;
-  let sendJsonRpcInterceptor = Function.prototype;
-
-  return {
-    _getLatestRequest: () => _receivedRequests[_receivedRequests.length - 1],
-    _isTerminated: () => _isTerminated,
-    _recevedRequests: () => _receivedRequests,
-    _setSendJsonRpcInterceptor: (fn) => {
-      sendJsonRpcInterceptor = fn;
-    },
-    _setTerminateInterceptor: (fn) => {
-      terminateInterceptor = fn;
-    },
-    _spec: () => spec,
-    _triggerCallback: (response) => {
-      callback(
-        typeof response === 'string'
-          ? response
-          : stringify(response)
-      );
-    },
-    addChain: (chainSpec, jsonRpcCallback) =>
-      Promise.resolve(getFakeChain(chainSpec, jsonRpcCallback ?? noop)),
-    remove: () => {
-      terminateInterceptor();
-      _isTerminated = true;
-    },
-    sendJsonRpc: (rpc) => {
-      sendJsonRpcInterceptor(rpc);
-      _receivedRequests.push(rpc);
-    }
-  };
-}
-
-function getFakeClient () {
-  const chains: MockChain[] = [];
-  let addChainInterceptor: Promise<void> = Promise.resolve();
-  let addWellKnownChainInterceptor: Promise<void> = Promise.resolve();
-
-  return {
-    _chains: () => chains,
-    _setAddChainInterceptor: (interceptor: Promise<void>) => {
-      addChainInterceptor = interceptor;
-    },
-    _setAddWellKnownChainInterceptor: (interceptor: Promise<void>) => {
-      addWellKnownChainInterceptor = interceptor;
-    },
-    addChain: (chainSpec: string, cb: Sc.JsonRpcCallback): Promise<MockChain> =>
-      addChainInterceptor.then(() => {
-        const result = getFakeChain(chainSpec, cb);
-
-        chains.push(result);
-
-        return result;
-      }),
-    addWellKnownChain: (
-      wellKnownChain: string,
-      cb: Sc.JsonRpcCallback
-    ): Promise<MockChain> =>
-      addWellKnownChainInterceptor.then(() => {
-        const result = getFakeChain(wellKnownChain, cb);
-
-        chains.push(result);
-
-        return result;
-      })
-  };
-}
-
-function connectorFactory (): MockSc {
-  const clients: ReturnType<typeof getFakeClient>[] = [];
-  const latestClient = () => clients[clients.length - 1];
-
-  return {
-    WellKnownChain,
-    _clients: () => clients,
-    createScClient: () => {
-      const result = getFakeClient();
-
-      clients.push(result);
-
-      return result;
-    },
-    latestChain: () =>
-      latestClient()._chains()[latestClient()._chains().length - 1],
-    latestClient
-  } as unknown as MockSc;
-}
-
-function setChainSyncyingStatus (isSyncing: boolean): void {
-  getCurrentHealthChecker()._triggerHealthUpdate({
+// Helper function to set chain syncing status
+function setChainSyncyingStatus(isSyncing: boolean) {
+  const health: SmoldotHealth = {
     isSyncing,
     peers: 1,
     shouldHavePeers: true
-  });
+  };
+  mockedHealthChecker.healthChecker()._update(health);
 }
 
-let mockSc: MockSc;
-let mockedHealthChecker: ReturnType<typeof healthCheckerFactory>;
-const getCurrentHealthChecker = () => mockedHealthChecker._latestHealthChecker();
+function createMockHealthChecker (): HealthChecker & { _update: (health: SmoldotHealth) => void } {
+  let sendRpc: ((req: string) => void) | null = null;
+  let healthCb: ((health: SmoldotHealth) => void) | null = null;
+
+  return {
+    setSendJsonRpc: (cb) => {
+      sendRpc = cb;
+    },
+    sendJsonRpc: (req) => sendRpc?.(req),
+    responsePassThrough: (res) => res,
+    start: (cb) => {
+      healthCb = cb;
+    },
+    stop: () => {
+      healthCb = null;
+    },
+    _update: (health) => healthCb?.(health)
+  };
+}
 
 describe('ScProvider', () => {
-  beforeAll(() => {
-    mockSc = connectorFactory();
-    mockedHealthChecker = healthCheckerFactory();
+  let provider: ScProvider;
+  let mockClient: ReturnType<typeof createMockClient>;
+  let mockHealthChecker: ReturnType<typeof createMockHealthChecker>;
+
+  beforeEach(async () => {
+    mockClient = createMockClient();
+    mockHealthChecker = createMockHealthChecker();
+    provider = new ScProvider({ createScClient: () => mockClient, WellKnownChain: mockWellKnownChain }, '');
+    await provider.connect(undefined, () => mockHealthChecker);
+  });
+
+  afterEach(async () => {
+    await provider.disconnect();
   });
 
   describe('on', () => {
@@ -372,7 +388,7 @@ describe('ScProvider', () => {
 
       setTimeout(() => {
         chain._triggerCallback({
-          id: 1,
+        id: 1,
           jsonrpc: '2.0'
         });
       }, 0);
@@ -488,8 +504,8 @@ describe('ScProvider', () => {
       });
       setTimeout(() => {
         chain._triggerCallback({
-          id: 1,
-          jsonrpc: '2.0',
+        id: 1,
+        jsonrpc: '2.0',
           result: unsubscribeToken
         });
       }, 0);
@@ -519,8 +535,8 @@ describe('ScProvider', () => {
 
       setTimeout(() => {
         chain._triggerCallback({
-          id: 1,
-          jsonrpc: '2.0',
+        id: 1,
+        jsonrpc: '2.0',
           result: unsubscribeToken
         });
       }, 0);
