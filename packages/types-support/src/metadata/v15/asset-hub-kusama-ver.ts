@@ -86,5 +86,6 @@ export default {
     ]
   ],
   "transactionVersion": 15,
+  "systemVersion": 0,
   "stateVersion": 0
 };
