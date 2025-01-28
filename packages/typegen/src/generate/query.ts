@@ -28,7 +28,6 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
 
     if (storageEntry.type.isPlain) {
       const typeDef = lookup.getTypeDef(storageEntry.type.asPlain);
-
       setImports(allDefs, imports, [
         typeDef.lookupName || typeDef.type,
         storageEntry.modifier.isOptional
@@ -68,6 +67,18 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
   }
 }
 
+function ignoreUnusedImports(usedTypes: string[], imports: TypeImports){
+  let usedStringified = usedTypes.toString();
+
+  let [lookupKey, typeDefinitions] = Object.entries(imports.localTypes).find(([typeModule,_]) => typeModule.includes('/lookup')) || ["", {}];
+
+  Object.keys(typeDefinitions).filter((typeDef) => {
+    if(!(usedStringified.includes(typeDef))) {
+      delete (imports.localTypes[lookupKey])[typeDef]
+    }
+  });
+}
+
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
@@ -82,24 +93,22 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       ...extraTypes
     };
 
-    // Incorrect type assignment in StagingXcmV4Xcm.
-    // Temporarily ignore this type to prevent import errors.
-    //
-    // See https://github.com/polkadot-js/api/issues/5977
-    // for more details
-    const ignoreTypes = { types: { StagingXcmV4Xcm: undefined } };
-
-    const imports = createImports(allTypes, ignoreTypes);
+    const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const { lookup, pallets } = meta.asLatest;
+    let usedTypes = new Set<string>([]);
     const modules = pallets
       .filter(({ storage }) => storage.isSome)
       .map(({ name, storage }) => {
         const items = storage.unwrap().items
           .map((storageEntry) => {
             const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, name.toString(), storageEntry, imports);
+
+            if (!(imports.primitiveTypes[_returnType])){usedTypes.add(_returnType)};
+            if (!(imports.primitiveTypes[args])){usedTypes.add(args)};
+
             const returnType = isOptional
               ? `Option<${_returnType}>`
               : _returnType;
@@ -123,6 +132,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .sort(compareName);
 
     imports.typesTypes['Observable'] = true;
+    ignoreUnusedImports([...usedTypes], imports);
 
     return generateForMetaTemplate({
       headerType: 'chain',
