@@ -29,7 +29,7 @@ export interface SignerPayloadType extends Codec {
 
 const knownTypes: Record<string, string> = {
   address: 'Address',
-  assetId: 'Option<TAssetConversion>',
+  assetId: 'TAssetConversion',
   blockHash: 'Hash',
   blockNumber: 'BlockNumber',
   era: 'ExtrinsicEra',
