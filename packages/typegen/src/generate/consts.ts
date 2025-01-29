@@ -35,7 +35,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const { lookup, pallets, registry } = meta.asLatest;
-    let usedTypes = new Set<string>([]);
+    const usedTypes = new Set<string>([]);
 
     const modules = pallets
       .filter(({ constants }) => constants.length > 0)
@@ -49,8 +49,10 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
             const typeDef = lookup.getTypeDef(type);
             const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
 
-            //Add the type to the list of used types
-            if (!(imports.primitiveTypes[returnType])){usedTypes.add(returnType)};
+            // Add the type to the list of used types
+            if (!(imports.primitiveTypes[returnType])) {
+              usedTypes.add(returnType);
+            }
 
             setImports(allDefs, imports, [returnType]);
 

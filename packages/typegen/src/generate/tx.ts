@@ -47,7 +47,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const { lookup, pallets } = meta.asLatest;
-    let usedTypes = new Set<string>([]);
+    const usedTypes = new Set<string>([]);
     const modules = pallets
       .sort(compareName)
       .filter(({ calls }) => calls.isSome)
@@ -78,8 +78,10 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
                 setImports(allDefs, imports, [typeStr, ...similarTypes]);
 
-                //Add the type to the list of used types
-                if (!(imports.primitiveTypes[typeStr])){usedTypes.add(typeStr)};
+                // Add the type to the list of used types
+                if (!(imports.primitiveTypes[typeStr])) {
+                  usedTypes.add(typeStr);
+                }
 
                 return `${name}: ${similarTypes.join(' | ')}`;
               })

@@ -28,6 +28,7 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
 
     if (storageEntry.type.isPlain) {
       const typeDef = lookup.getTypeDef(storageEntry.type.asPlain);
+
       setImports(allDefs, imports, [
         typeDef.lookupName || typeDef.type,
         storageEntry.modifier.isOptional
@@ -86,7 +87,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const { lookup, pallets } = meta.asLatest;
-    let usedTypes = new Set<string>([]);
+    const usedTypes = new Set<string>([]);
     const modules = pallets
       .filter(({ storage }) => storage.isSome)
       .map(({ name, storage }) => {
@@ -94,9 +95,14 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
           .map((storageEntry) => {
             const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, name.toString(), storageEntry, imports);
 
-            //Add the type and args to the list of used types
-            if (!(imports.primitiveTypes[_returnType])){usedTypes.add(_returnType)};
-            if (!(imports.primitiveTypes[args])){usedTypes.add(args)};
+            // Add the type and args to the list of used types
+            if (!(imports.primitiveTypes[_returnType])) {
+              usedTypes.add(_returnType);
+            }
+
+            if (!(imports.primitiveTypes[args])) {
+              usedTypes.add(args);
+            }
 
             const returnType = isOptional
               ? `Option<${_returnType}>`
@@ -121,6 +127,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .sort(compareName);
 
     imports.typesTypes['Observable'] = true;
+
     // filter out the unused lookup types from imports
     ignoreUnusedLookups([...usedTypes], imports);
 
