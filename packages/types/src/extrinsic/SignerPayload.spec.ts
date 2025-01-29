@@ -130,7 +130,7 @@ describe('SignerPayload', (): void => {
     expect(payload.nonce.eq(TEST.nonce)).toBe(true);
     expect(payload.tip.eq(TEST.tip)).toBe(true);
     expect(u8aToHex(payload.assetId?.toU8a()))
-      .toEqual(u8aToHex(registry.createType('Option<MultiLocation>', {
+      .toEqual(u8aToHex(registry.createType('MultiLocation', {
         // eslint-disable-next-line sort-keys
         parents: 0, interior: { X2: [{ palletInstance: 50 }, { generalIndex: 123 }] }
       }).toU8a()));
