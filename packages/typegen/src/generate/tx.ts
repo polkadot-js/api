@@ -14,6 +14,7 @@ import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
+import { ignoreUnusedLookups } from './lookup.js';
 
 const MAPPED_NAMES: Record<string, string> = {
   class: 'clazz',
@@ -46,6 +47,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const { lookup, pallets } = meta.asLatest;
+    let usedTypes = new Set<string>([]);
     const modules = pallets
       .sort(compareName)
       .filter(({ calls }) => calls.isSome)
@@ -76,6 +78,9 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
                 setImports(allDefs, imports, [typeStr, ...similarTypes]);
 
+                //Add the type to the list of used types
+                if (!(imports.primitiveTypes[typeStr])){usedTypes.add(typeStr)};
+
                 return `${name}: ${similarTypes.join(' | ')}`;
               })
               .join(', ');
@@ -97,6 +102,9 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         };
       })
       .sort(compareName);
+
+    // filter out the unused lookup types from imports
+    ignoreUnusedLookups([...usedTypes], imports);
 
     return generateForMetaTemplate({
       headerType: 'chain',

@@ -13,6 +13,7 @@ import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
+import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('events'));
 
@@ -78,6 +79,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const { lookup, pallets, registry } = meta.asLatest;
+    let usedTypes = new Set<string>([]);
     const modules = pallets
       .filter(({ events }) => events.isSome)
       .map(({ events, name }) => ({
@@ -85,8 +87,17 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
           .map(({ docs, fields, name }) => {
             const args = fields
               .map(({ type }) => lookup.getTypeDef(type))
-              .map((typeDef) => typeDef.lookupName || formatType(registry, allDefs, typeDef, imports));
-            const names = fields
+              .map((typeDef) => {
+                let arg = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports)
+
+                //Add the type to the list of used types
+                if (!(imports.primitiveTypes[arg])){usedTypes.add(arg)};
+
+                return arg
+              });
+
+
+              const names = fields
               .map(({ name }) => registry.lookup.sanitizeField(name)[0])
               .filter((n): n is string => !!n);
 
@@ -104,6 +115,9 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         name: stringCamelCase(name)
       }))
       .sort(compareName);
+
+    // filter out the unused lookup types from imports
+    ignoreUnusedLookups([...usedTypes], imports);
 
     return generateForMetaTemplate({
       headerType: 'chain',

@@ -16,7 +16,7 @@ import staticPolkadot from '@polkadot/types-support/metadata/v15/polkadot-hex';
 import staticSubstrate from '@polkadot/types-support/metadata/v15/substrate-hex';
 import { isString, stringify } from '@polkadot/util';
 
-import { createImports, exportInterface, initMeta, readTemplate, writeFile } from '../util/index.js';
+import { createImports, exportInterface, initMeta, readTemplate, writeFile, type TypeImports } from '../util/index.js';
 import { typeEncoders } from './tsDef.js';
 
 // Record<string, >
@@ -274,4 +274,17 @@ export function generateDefaultLookup (destDir = 'packages/types-augment/src/loo
         ['kusama', staticKusama]
       ]
   );
+}
+
+// Based on a list of types, it filters out the lookup types that are not needed.
+export function ignoreUnusedLookups(usedTypes: string[], imports: TypeImports){
+  let usedStringified = usedTypes.toString();
+
+  let [lookupKey, typeDefinitions] = Object.entries(imports.localTypes).find(([typeModule,_]) => typeModule.includes('/lookup')) || ["", {}];
+
+  Object.keys(typeDefinitions).filter((typeDef) => {
+    if(!(usedStringified.includes(typeDef))) {
+      delete (imports.localTypes[lookupKey])[typeDef]
+    }
+  });
 }

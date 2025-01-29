@@ -5,8 +5,7 @@ import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
 import type { Metadata, PortableRegistry } from '@polkadot/types/metadata';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ModuleTypes } from '../util/imports.js';
-import type { TypeImports } from '../util/index.js';
+import type { ModuleTypes, TypeImports } from '../util/imports.js';
 import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
@@ -17,6 +16,7 @@ import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
+import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
 
@@ -67,18 +67,6 @@ function entrySignature (lookup: PortableRegistry, allDefs: Record<string, Modul
   }
 }
 
-function ignoreUnusedImports(usedTypes: string[], imports: TypeImports){
-  let usedStringified = usedTypes.toString();
-
-  let [lookupKey, typeDefinitions] = Object.entries(imports.localTypes).find(([typeModule,_]) => typeModule.includes('/lookup')) || ["", {}];
-
-  Object.keys(typeDefinitions).filter((typeDef) => {
-    if(!(usedStringified.includes(typeDef))) {
-      delete (imports.localTypes[lookupKey])[typeDef]
-    }
-  });
-}
-
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
@@ -106,6 +94,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
           .map((storageEntry) => {
             const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, name.toString(), storageEntry, imports);
 
+            //Add the type and args to the list of used types
             if (!(imports.primitiveTypes[_returnType])){usedTypes.add(_returnType)};
             if (!(imports.primitiveTypes[args])){usedTypes.add(args)};
 
@@ -132,7 +121,8 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .sort(compareName);
 
     imports.typesTypes['Observable'] = true;
-    ignoreUnusedImports([...usedTypes], imports);
+    // filter out the unused lookup types from imports
+    ignoreUnusedLookups([...usedTypes], imports);
 
     return generateForMetaTemplate({
       headerType: 'chain',
