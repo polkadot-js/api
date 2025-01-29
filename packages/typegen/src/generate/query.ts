@@ -5,8 +5,7 @@ import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
 import type { Metadata, PortableRegistry } from '@polkadot/types/metadata';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ModuleTypes } from '../util/imports.js';
-import type { TypeImports } from '../util/index.js';
+import type { ModuleTypes, TypeImports } from '../util/imports.js';
 import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
@@ -17,6 +16,7 @@ import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
+import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
 
@@ -82,24 +82,28 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       ...extraTypes
     };
 
-    // Incorrect type assignment in StagingXcmV4Xcm.
-    // Temporarily ignore this type to prevent import errors.
-    //
-    // See https://github.com/polkadot-js/api/issues/5977
-    // for more details
-    const ignoreTypes = { types: { StagingXcmV4Xcm: undefined } };
-
-    const imports = createImports(allTypes, ignoreTypes);
+    const imports = createImports(allTypes);
     const allDefs = Object.entries(allTypes).reduce((defs, [path, obj]) => {
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const { lookup, pallets } = meta.asLatest;
+    const usedTypes = new Set<string>([]);
     const modules = pallets
       .filter(({ storage }) => storage.isSome)
       .map(({ name, storage }) => {
         const items = storage.unwrap().items
           .map((storageEntry) => {
             const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, name.toString(), storageEntry, imports);
+
+            // Add the type and args to the list of used types
+            if (!(imports.primitiveTypes[_returnType])) {
+              usedTypes.add(_returnType);
+            }
+
+            if (!(imports.primitiveTypes[args])) {
+              usedTypes.add(args);
+            }
+
             const returnType = isOptional
               ? `Option<${_returnType}>`
               : _returnType;
@@ -123,6 +127,9 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .sort(compareName);
 
     imports.typesTypes['Observable'] = true;
+
+    // filter out the unused lookup types from imports
+    ignoreUnusedLookups([...usedTypes], imports);
 
     return generateForMetaTemplate({
       headerType: 'chain',

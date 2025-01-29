@@ -13,6 +13,7 @@ import lookupDefinitions from '@polkadot/types-augment/lookup/definitions';
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
+import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
 
@@ -34,6 +35,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       return Object.entries(obj).reduce((defs, [key, value]) => ({ ...defs, [`${path}/${key}`]: value }), defs);
     }, {});
     const { lookup, pallets, registry } = meta.asLatest;
+    const usedTypes = new Set<string>([]);
 
     const modules = pallets
       .filter(({ constants }) => constants.length > 0)
@@ -46,6 +48,11 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
           .map(({ docs, name, type }) => {
             const typeDef = lookup.getTypeDef(type);
             const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
+
+            // Add the type to the list of used types
+            if (!(imports.primitiveTypes[returnType])) {
+              usedTypes.add(returnType);
+            }
 
             setImports(allDefs, imports, [returnType]);
 
@@ -63,6 +70,9 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         };
       })
       .sort(compareName);
+
+    // filter out the unused lookup types from imports
+    ignoreUnusedLookups([...usedTypes], imports);
 
     return generateForMetaTemplate({
       headerType: 'chain',
