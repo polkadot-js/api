@@ -29,6 +29,10 @@ export const substrate: Record<string, Creator> = {
     docs: 'Wasm code of the runtime.',
     type: 'Bytes'
   }),
+  defaultChildStorageKeyPrefix: createSubstrateFn('defaultChildStorageKeyPrefix', ':child_storage:default:', {
+    docs: 'Prefix of the default child storage keys in the top trie.',
+    type: 'u32'
+  }),
   extrinsicIndex: createSubstrateFn('extrinsicIndex', ':extrinsic_index', {
     docs: 'Current extrinsic index (u32) is stored under this key.',
     type: 'u32'
