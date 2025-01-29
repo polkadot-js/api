@@ -39,6 +39,33 @@ const PREAMBLES = {
   general: 'ExtrinsicPayloadV5'
 };
 
+/**
+ * HACK: In order to change the assetId from `number | object` to HexString (While maintaining the true type ie Option<TAssetConversion>),
+ * to allow for easier generalization of the SignerPayloadJSON interface the below check is necessary. The ExtrinsicPayloadV4 class does not like
+ * a value passed in as an Option, and can't decode it properly. Therefore, we ensure to convert the following below, and then pass the option as a unwrapped
+ * JSON value.
+ *
+ * ref: https://github.com/polkadot-js/api/pull/5968
+ * ref: https://github.com/polkadot-js/api/pull/5967
+ */
+export function decodeAssetId (registry: Registry, payload?: ExtrinsicPayloadValue | Uint8Array | HexString) {
+  const maybeAsset = (payload as ExtrinsicPayloadValue)?.assetId;
+
+  if (maybeAsset && isHex(maybeAsset)) {
+    const assetId = registry.createType('TAssetConversion', hexToU8a(maybeAsset));
+
+    // we only want to adjust the payload if the hex passed has the option
+    if (maybeAsset === '0x00' || maybeAsset === '0x01' + assetId.toHex().slice(2)) {
+      return {
+        ...(payload as ExtrinsicPayloadValue),
+        assetId: assetId.toJSON()
+      };
+    }
+  }
+
+  return payload;
+}
+
 /** @internal */
 function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPayload | ExtrinsicPayloadValue | Uint8Array | string, version = LATEST_EXTRINSIC_VERSION, preamble: Preamble = DEFAULT_PREAMBLE): ExtrinsicPayloadVx {
   if (value instanceof GenericExtrinsicPayload) {
@@ -46,32 +73,9 @@ function decodeExtrinsicPayload (registry: Registry, value?: GenericExtrinsicPay
   }
 
   const extVersion = version === 5 ? PREAMBLES[preamble] : VERSIONS[version] || VERSIONS[0];
+  const payload = decodeAssetId(registry, value as ExtrinsicPayloadValue);
 
-  /**
-   * HACK: In order to change the assetId from `number | object` to HexString (While maintaining the true type ie Option<TAssetConversion>),
-   * to allow for easier generalization of the SignerPayloadJSON interface the below check is necessary. The ExtrinsicPayloadV4 class does not like
-   * a value passed in as an Option, and can't decode it properly. Therefore, we ensure to convert the following below, and then pass the option as a unwrapped
-   * JSON value.
-   *
-   * ref: https://github.com/polkadot-js/api/pull/5968
-   * ref: https://github.com/polkadot-js/api/pull/5967
-   */
-  if (value && (value as ExtrinsicPayloadValue).assetId && isHex((value as ExtrinsicPayloadValue).assetId)) {
-    const assetId = registry.createType('TAssetConversion', hexToU8a((value as ExtrinsicPayloadValue).assetId));
-
-    // we only want to adjust the payload if the hex passed has the option
-    if ((value as ExtrinsicPayloadValue).assetId === '0x00' ||
-      (value as ExtrinsicPayloadValue).assetId === '0x01' + assetId.toHex().slice(2)) {
-      const adjustedPayload = {
-        ...(value as ExtrinsicPayloadValue),
-        assetId: assetId.toJSON()
-      };
-
-      return registry.createTypeUnsafe(extVersion, [adjustedPayload, { version }]);
-    }
-  }
-
-  return registry.createTypeUnsafe(extVersion, [value, { version }]);
+  return registry.createTypeUnsafe(extVersion, [payload, { version }]);
 }
 
 /**

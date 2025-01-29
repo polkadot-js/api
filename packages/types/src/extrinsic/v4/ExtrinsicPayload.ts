@@ -13,6 +13,7 @@ import type { ExtrinsicPayloadValue, ICompact, IKeyringPair, INumber, IOption } 
 import { Enum, Struct } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
+import { decodeAssetId } from '../ExtrinsicPayload.js';
 import { sign } from '../util.js';
 
 /**
@@ -29,7 +30,7 @@ export class GenericExtrinsicPayloadV4 extends Struct {
       { method: 'Bytes' },
       registry.getSignedExtensionTypes(),
       registry.getSignedExtensionExtra()
-    ), value);
+    ), decodeAssetId(registry, value));
 
     // Do detection for the type of extrinsic, in the case of MultiSignature
     // this is an enum, in the case of AnySignature, this is a Hash only

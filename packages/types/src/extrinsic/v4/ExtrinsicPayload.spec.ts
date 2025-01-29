@@ -38,24 +38,24 @@ describe('ExtrinsicPayload', (): void => {
     });
   });
 
-  it('correctly decodes assetId', () => {
-    const TEST_WITH_ASSET = {
-      address: '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE',
-      assetId: '0x0002043205011f' as `0x${string}`,
-      blockHash: '0xde8f69eeb5e065e18c6950ff708d7e551f68dc9bf59a07c52367c0280f805ec7',
-      era: '0x0703',
-      genesisHash: '0xdcd1346701ca8396496e52aa2785b1748deb6db09551b72159dcb3e08991025b',
-      method: '0x0600ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9e56c',
-      nonce: '0x00001234',
-      specVersion: 123,
-      tip: '0x00000000000000000000000000005678',
-      transactionVersion: '0x00'
+  it('Correctly decodes assetId', () => {
+    const TEST_VALUE = {
+      address: 'J97drEQy6sYPXf2D1uj1hJfeHsxjvwr4tVGKs9o8VDSht8r',
+      assetId: '0x010002043205011f' as `0x${string}`,
+      blockHash: '0x28a464e6b40fccec3b9e7989db97d2627d3653c644a3c801f8239910eaaa58a8',
+      era: '0x4401',
+      genesisHash: '0x48239ef607d7928874027a43a67689209727dfb3d3dc5e5b03a39bdc2eda771a',
+      method: '0x0a0300d27001b334c34489c67b81dfbbdc86eba5b433163bd08226d89b081914e9aa490284d717',
+      nonce: '0x0000000a',
+      specVersion: '0x000f4dfc',
+      tip: '0x00000000000000000000000000000000',
+      transactionVersion: '0x0000000f'
     };
 
     const reg = new TypeRegistry();
 
     reg.setSignedExtensions(fallbackExtensions.concat(['ChargeAssetTxPayment']));
-    const ext = new ExtrinsicPayload(reg, TEST_WITH_ASSET);
+    const ext = new ExtrinsicPayload(reg, TEST_VALUE);
 
     expect(ext.assetId.toJSON()).toEqual({
       interior: {
