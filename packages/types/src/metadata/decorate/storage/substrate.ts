@@ -44,5 +44,13 @@ export const substrate: Record<string, Creator> = {
   intrablockEntropy: createSubstrateFn('intrablockEntropy', ':intrablock_entropy', {
     docs: 'Current intra-block entropy (a universally unique `[u8; 32]` value) is stored here.',
     type: '[u8; 32]'
+  }),
+  storageVersionStorageKeyPostfix: createSubstrateFn('storageVersionStorageKeyPostfix', ":__STORAGE_VERSION__:", {
+    docs: 'The storage key postfix that is used to store the [`StorageVersion`] per pallet.',
+    type: 'u16'
+  }),
+  transactionLevelKey: createSubstrateFn('transactionLevelKey', ':transaction_level:', {
+    docs: 'The key that holds the current number of active layers.',
+    type: 'u32'
   })
 };
