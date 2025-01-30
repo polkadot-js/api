@@ -45,7 +45,7 @@ export const substrate: Record<string, Creator> = {
     docs: 'Current intra-block entropy (a universally unique `[u8; 32]` value) is stored here.',
     type: '[u8; 32]'
   }),
-  storageVersionStorageKeyPostfix: createSubstrateFn('storageVersionStorageKeyPostfix', ":__STORAGE_VERSION__:", {
+  storageVersionStorageKeyPostfix: createSubstrateFn('storageVersionStorageKeyPostfix', ':__STORAGE_VERSION__:', {
     docs: 'The storage key postfix that is used to store the [`StorageVersion`] per pallet.',
     type: 'u16'
   }),
