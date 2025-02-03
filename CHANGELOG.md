@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 15.5.2 Feb 3, 2025
+
+Changes:
+
+- Ensure assetId is handled correctly when addSignature is used ([#6083](https://github.com/polkadot-js/api/pull/6083))
+  - NOTE: This is specific to signers but also extends to `class GenericExtrinsicPayloadV4`.
+- Fix typegen adding invalid imports ([#6082](https://github.com/polkadot-js/api/pull/6082))
+- Include missing known keys ([#6084](https://github.com/polkadot-js/api/pull/6084))
+
+
 ## 15.5.1 Jan 27, 2025
 
 Contributed:
