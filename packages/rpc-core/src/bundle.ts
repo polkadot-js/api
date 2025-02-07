@@ -13,6 +13,7 @@ import { Observable, publishReplay, refCount } from 'rxjs';
 
 import { LRUCache } from '@polkadot/rpc-provider';
 import { rpcDefinitions } from '@polkadot/types';
+import { unwrapStorageSi } from '@polkadot/types/util';
 import { hexToU8a, isFunction, isNull, isUndefined, lazyMethod, logger, memoize, objectSpread, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { drr, refCountDelay } from './util/index.js';
@@ -507,7 +508,7 @@ export class RpcCore {
   private _newType (registry: Registry, blockHash: Uint8Array | string | null | undefined, key: StorageKey, input: string | Uint8Array | null, isEmpty: boolean, entryIndex = -1): Codec {
     // single return value (via state.getStorage), decode the value based on the
     // outputType that we have specified. Fallback to Raw on nothing
-    const type = key.outputType || 'Raw';
+    const type = key.meta ? registry.createLookupType(unwrapStorageSi(key.meta.type)) : (key.outputType || 'Raw');
     const meta = key.meta || EMPTY_META;
     const entryNum = entryIndex === -1
       ? ''
