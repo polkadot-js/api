@@ -185,6 +185,14 @@ export class HttpProvider implements ProviderInterface {
       this.#stats.active.requests--;
       this.#stats.total.errors++;
 
+      // Provide HTTP Request alongside the error
+      const {method, params} = JSON.parse(body);
+      e = (e as Error).message.concat(`
+        Request:
+          method: ${method},
+          params: ${params}
+      `)
+
       throw e;
     }
   }
