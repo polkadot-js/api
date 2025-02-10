@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Class } from '@polkadot/util/types';
+import type RpcError from '../coder/error.js';
 import type { EndpointStats, JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types.js';
 
 import { EventEmitter } from 'eventemitter3';
@@ -14,7 +15,6 @@ import { RpcCoder } from '../coder/index.js';
 import defaults from '../defaults.js';
 import { DEFAULT_CAPACITY, LRUCache } from '../lru.js';
 import { getWSErrorString } from './errors.js';
-import RpcError from '../coder/error.js';
 
 interface SubscriptionHandler {
   callback: ProviderInterfaceCallback;
@@ -374,10 +374,10 @@ export class WsProvider implements ProviderInterface {
         this.#stats.total.errors++;
 
         const rpcError: RpcError = error as RpcError;
-        const failedRequest = `\nFailed WS Request: ${JSON.stringify({method, params})}`
+        const failedRequest = `\nFailed WS Request: ${JSON.stringify({ method, params })}`;
 
         // Provide WS Request alongside the error
-        rpcError.message = `${rpcError.message}${failedRequest}`
+        rpcError.message = `${rpcError.message}${failedRequest}`;
         reject(rpcError);
       }
     });

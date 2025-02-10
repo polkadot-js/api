@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type RpcError from '../coder/error.js';
 import type { JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types.js';
 
 import { logger, noop, stringify } from '@polkadot/util';
@@ -9,7 +10,6 @@ import { fetch } from '@polkadot/x-fetch';
 import { RpcCoder } from '../coder/index.js';
 import defaults from '../defaults.js';
 import { DEFAULT_CAPACITY, LRUCache } from '../lru.js';
-import type RpcError from '../coder/error.js';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
 
@@ -186,12 +186,16 @@ export class HttpProvider implements ProviderInterface {
       this.#stats.active.requests--;
       this.#stats.total.errors++;
 
-      const {method, params} = JSON.parse(body);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const { method, params } = JSON.parse(body);
+
       const rpcError: RpcError = e as RpcError;
-       const failedRequest = `\nFailed HTTP Request: ${JSON.stringify({method, params})}`
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const failedRequest = `\nFailed HTTP Request: ${JSON.stringify({ method, params })}`;
 
       // Provide HTTP Request alongside the error
-      rpcError.message = `${rpcError.message}${failedRequest}`
+      rpcError.message = `${rpcError.message}${failedRequest}`;
 
       throw rpcError;
     }
