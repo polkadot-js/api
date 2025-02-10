@@ -14,6 +14,7 @@ import { RpcCoder } from '../coder/index.js';
 import defaults from '../defaults.js';
 import { DEFAULT_CAPACITY, LRUCache } from '../lru.js';
 import { getWSErrorString } from './errors.js';
+import RpcError from '../coder/error.js';
 
 interface SubscriptionHandler {
   callback: ProviderInterfaceCallback;
@@ -372,7 +373,12 @@ export class WsProvider implements ProviderInterface {
         this.#endpointStats.errors++;
         this.#stats.total.errors++;
 
-        reject(error);
+        const rpcError: RpcError = error as RpcError;
+        const failedRequest = `\nFailed WS Request: ${JSON.stringify({method, params})}`
+
+        // Provide WS Request alongside the error
+        rpcError.message = `${rpcError.message}${failedRequest}`
+        reject(rpcError);
       }
     });
   }

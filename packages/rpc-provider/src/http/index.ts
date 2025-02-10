@@ -9,6 +9,7 @@ import { fetch } from '@polkadot/x-fetch';
 import { RpcCoder } from '../coder/index.js';
 import defaults from '../defaults.js';
 import { DEFAULT_CAPACITY, LRUCache } from '../lru.js';
+import type RpcError from '../coder/error.js';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
 
@@ -185,15 +186,14 @@ export class HttpProvider implements ProviderInterface {
       this.#stats.active.requests--;
       this.#stats.total.errors++;
 
-      // Provide HTTP Request alongside the error
       const {method, params} = JSON.parse(body);
-      e = (e as Error).message.concat(`
-        Request:
-          method: ${method},
-          params: ${params}
-      `)
+      const rpcError: RpcError = e as RpcError;
+       const failedRequest = `\nFailed HTTP Request: ${JSON.stringify({method, params})}`
 
-      throw e;
+      // Provide HTTP Request alongside the error
+      rpcError.message = `${rpcError.message}${failedRequest}`
+
+      throw rpcError;
     }
   }
 
