@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Class } from '@polkadot/util/types';
+import type RpcError from '../coder/error.js';
 import type { EndpointStats, JsonRpcResponse, ProviderInterface, ProviderInterfaceCallback, ProviderInterfaceEmitCb, ProviderInterfaceEmitted, ProviderStats } from '../types.js';
 
 import { EventEmitter } from 'eventemitter3';
@@ -372,7 +373,12 @@ export class WsProvider implements ProviderInterface {
         this.#endpointStats.errors++;
         this.#stats.total.errors++;
 
-        reject(error);
+        const rpcError: RpcError = error as RpcError;
+        const failedRequest = `\nFailed WS Request: ${JSON.stringify({ method, params })}`;
+
+        // Provide WS Request alongside the error
+        rpcError.message = `${rpcError.message}${failedRequest}`;
+        reject(rpcError);
       }
     });
   }
