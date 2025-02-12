@@ -154,16 +154,10 @@ export class Struct<
   }
 
   /**
-   * @description Checks if the value is an empty value
+   * @description Checks if the value is an empty value '{}'
    */
   public get isEmpty (): boolean {
-    for (const v of this.values()) {
-      if (!v.isEmpty) {
-        return false;
-      }
-    }
-
-    return true;
+    return [...this.keys()].length === 0;
   }
 
   /**
