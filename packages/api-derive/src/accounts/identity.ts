@@ -148,7 +148,7 @@ export function identity (instanceId: string, api: DeriveApi): (accountId?: Acco
 function getSubIdentities (identity: DeriveAccountRegistration, api: DeriveApi, accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> {
   const targetAccount = identity.parent || accountId;
 
-  if (!targetAccount) {
+  if (!targetAccount || !api.query.identity) {
     // No valid accountId return the identity as-is
     return of(identity);
   }
