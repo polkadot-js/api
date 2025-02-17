@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 15.6.1 Feb 17, 2025
+
+Changes:
+
+- Log Http/Ws request on error [#6091](https://github.com/polkadot-js/api/pull/6091)
+- Only identify Struct as empty when it has no keys. [#6092](https://github.com/polkadot-js/api/pull/6092)
+- Check for api.query.identity in getSubIdentities [#6093](https://github.com/polkadot-js/api/pull/6093)
+- Upgrade common to 13.4.3 [#6095](https://github.com/polkadot-js/api/pull/6095)
+
+
 ## 15.5.2 Feb 3, 2025
 
 Changes:
@@ -266,7 +276,7 @@ Contributed:
 
 Changes:
 
-- Update Augmented types for polkadot 1002005 
+- Update Augmented types for polkadot 1002005
 - Update Augmented types for kusama 1002006
   - Note: This removes type support for the Identity pallet for Kusama, and stateTrieMigration
 - Update upgrade blocks for {Kusama, Polkadot}
@@ -398,7 +408,7 @@ Contributed:
 Changes:
 
 - Upgrade westend types-known for 1009000
-- Add `disableAscii` option for toHuman, and toPrimitive 
+- Add `disableAscii` option for toHuman, and toPrimitive
 - V14 Update substrate latest metadata
 - V15 Update substrate latest metadata
 - Bump yarn to 4.1.1
@@ -422,7 +432,7 @@ Contributed:
 Changes:
 
 - Upgrade westend types-known for 1009000
-- Add `disableAscii` option for toHuman, and toPrimitive 
+- Add `disableAscii` option for toHuman, and toPrimitive
 - V14 Update substrate latest metadata
 - V15 Update substrate latest metadata
 - Bump yarn to 4.1.1
@@ -458,7 +468,7 @@ Changes:
 - Fix invalid Lookup assignment on augmentation and update polkadot and kusama metadata
 - Update polkadot runtime upgrade per block
 - Update kusama runtime upgrade per block
-- Update westend runtime upgrade per block 
+- Update westend runtime upgrade per block
 
 ## 10.12.2 Mar 11, 2024
 
