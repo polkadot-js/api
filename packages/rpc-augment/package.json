@@ -18,12 +18,12 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "15.5.3-3-x",
+  "version": "15.6.1",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/rpc-core": "15.5.3-3-x",
-    "@polkadot/types": "15.5.3-3-x",
-    "@polkadot/types-codec": "15.5.3-3-x",
+    "@polkadot/rpc-core": "15.6.1",
+    "@polkadot/types": "15.6.1",
+    "@polkadot/types-codec": "15.6.1",
     "@polkadot/util": "^13.4.3",
     "tslib": "^2.8.1"
   }
