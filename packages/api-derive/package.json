@@ -27,8 +27,8 @@
     "@polkadot/rpc-core": "15.5.3-2-x",
     "@polkadot/types": "15.5.3-2-x",
     "@polkadot/types-codec": "15.5.3-2-x",
-    "@polkadot/util": "^13.3.1",
-    "@polkadot/util-crypto": "^13.3.1",
+    "@polkadot/util": "^13.4.3",
+    "@polkadot/util-crypto": "^13.4.3",
     "rxjs": "^7.8.1",
     "tslib": "^2.8.1"
   },
