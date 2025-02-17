@@ -7,25 +7,44 @@ Instead of manually fetching and processing blockchain data, developers can use 
 ## Available Derive Namespaces
 The derive functions are categorized into namespaces based on different common Substrate modules. Accesible by calling `api.derive.NAMESPACE` (E.g. api.derive.balances). The available modules are as follows:
 
-- accounts
-- alliance
-- bagsList
-- balances
-- bounties
-- chain
-- collective
-- contracts
-- council
-- crowdloan
-- democracy
-- elections
-- imOnline
-- membership
-- parachains
-- session
-- society
-- staking
-- technicalCommittee
-- treasury
-- tx
+- #### `accounts:`
+  -
+- #### `alliance:`
+  -
+- #### `bagsList:`
+  -
+- #### `balances:`
+  -
+- #### `bounties:`
+  -
+- #### `chain:`
+  -
+- #### `contracts:`
+  -
+- #### `council:`
+  -
+- #### `crowdloan:`
+  -
+- #### `democracy:`
+  -
+- #### `elections:`
+  -
+- #### `imOnline:`
+  -
+- #### `membership:`
+  -
+- #### `parachains:`
+  -
+- #### `session:`
+  -
+- #### `society:`
+  -
+- #### `staking:`
+  -
+- #### `technicalCommittee:`
+  -
+- #### `treasury:`
+  -
+- #### `tx:`
+  -
 
