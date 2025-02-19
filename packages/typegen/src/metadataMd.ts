@@ -34,6 +34,8 @@ import { isHex, stringCamelCase, stringLowerFirst } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { assertFile, getMetadataViaWs, getRpcMethodsViaWs, getRuntimeVersionViaWs } from './util/index.js';
+import { derive } from '@polkadot/api-derive';
+import { parse, type Spec } from "comment-parser";
 
 interface SectionItem {
   link?: string;
@@ -60,6 +62,20 @@ interface StaticDef {
   meta: HexString;
   rpc?: { methods: string[] };
   ver?: { apis: ApiDef[] }
+}
+
+interface Derive {
+  name: string | null;
+  description: string | null;
+  params: DeriveParam[];
+  returns: string | null;
+  example: string | null;
+}
+
+interface DeriveParam {
+  description: string | null;
+  name: string | null;
+  type: string | null;
 }
 
 const headerFn = (runtimeDesc: string) => `\n\n(NOTE: These were generated from a static/snapshot view of a recent ${runtimeDesc}. Some items may not be available in older nodes, or in any customized implementations.)`;
@@ -547,6 +563,140 @@ function addErrors (runtimeDesc: string, { lookup, pallets }: MetadataLatest): s
   });
 }
 
+const obtainDeriveFiles = (basePath: string, deriveModule: string) => {
+  const filePath = `${basePath}${deriveModule}`;
+  const files = fs.readdirSync(filePath);
+  return files
+    .filter((file) => file.endsWith(".ts") && !file.endsWith(".d.ts"))
+    .map((file) => `${deriveModule}/${file}`);
+};
+
+function extractDeriveDescription(tags: Spec[], name: string) {
+  const descriptionTag = tags.find((tag) => tag.tag === name);
+  return descriptionTag
+    ? `${descriptionTag.name ?? ""} ${descriptionTag.description ?? ""}`.trim()
+    : null;
+}
+
+function extractDeriveParams(tags: Spec[]) {
+  const descriptionTag = tags
+    .filter((tag) => tag.tag === "param")
+    .map((param) => {
+      return {
+        name: param.name ?? null,
+        type: param.type ?? null,
+        description: param.description ?? null,
+      };
+    });
+
+  return descriptionTag;
+}
+
+function extractDeriveExample(tags: Spec[]) {
+  const exampleTag = tags.find((tag) => tag.tag === "example");
+
+  if (!exampleTag) return null;
+
+  let example = "";
+  let inCodeBlock = { found: false, done: false };
+  exampleTag.source.forEach((line) => {
+    if (inCodeBlock.done) return;
+
+    if (line.source.indexOf(`\`\`\``) != -1 && !inCodeBlock.found) {
+      inCodeBlock.found = true;
+    } else if (line.source.indexOf(`\`\`\``) != -1 && inCodeBlock.found) {
+      inCodeBlock.done = true;
+    }
+
+    if (!inCodeBlock.found) return;
+
+    example += line.source.slice(2, line.source.length);
+    !inCodeBlock.done ? (example += `\n`) : null;
+  });
+
+  return example;
+}
+
+const getDeriveDocs = (
+  metadata: Record<string, any[]>,
+  basePath: string,
+  file: string
+) => {
+  const filePath = `${basePath}${file}`;
+  const deriveModule = file.split("/")[0];
+  const fileContent = fs.readFileSync(filePath, "utf8");
+  const comments = parse(fileContent);
+
+  let docs = comments
+    .filter((comment) => comment.tags)
+    .map((comment) => {
+      return {
+        name: comment.tags.find((tag) => tag.tag === "name")?.name || null,
+        description: extractDeriveDescription(comment.tags, "description"),
+        params: extractDeriveParams(comment.tags),
+        returns: extractDeriveDescription(comment.tags, "returns"),
+        example: extractDeriveExample(comment.tags),
+      };
+    });
+
+  metadata[deriveModule]
+    ? (metadata[deriveModule] = [...metadata[deriveModule], ...docs])
+    : (metadata[deriveModule] = [...docs]);
+};
+
+function renderDerives(metadata: Record<string, Derive[]>) {
+  let md = `---\ntitle: Derives\n---\n\nThis page lists the derives that can be encountered in the different modules. On the api, these are exposed via \`api.derive.<module>.<method>()\`.\n\n`;
+  let deriveModules = Object.keys(metadata).filter(
+    (d) => metadata[d].length != 0
+  );
+  // index
+  deriveModules.forEach((deriveModule) => {
+    md += `- **[${deriveModule}](#${deriveModule})**\n\n`;
+  });
+
+  // contents
+  deriveModules.forEach((deriveModule) => {
+    md += `\n___\n## ${deriveModule}\n`;
+
+    metadata[deriveModule]
+      .filter((item) => item.name)
+      .forEach((item) => {
+        const { description, example, name, params, returns } = item;
+        md += ` \n### [${name}](#${name})`;
+
+        description ? (md += `\n${description}`) : null;
+        md += `\n- **interface**: \`api.derive.${deriveModule}.${name}\``;
+
+        if (params.length) {
+          md += `\n- **params**:\n`;
+          params.forEach(
+            (param) =>
+              (md += `  - ${param.name} \`${param.type}\`: ${param.description}`)
+          );
+        }
+
+        returns ? (md += `\n- **returns**: ${returns}`) : null;
+        example ? (md += `\n- **example**: \n${example}`) : null;
+      });
+  });
+
+  return md;
+}
+
+export function generateDerives(){
+  const BASE_PATH = "../api/packages/api-derive/src/";
+  let fileList: string[] = [];
+  Object.keys(derive).forEach((deriveModule) => {
+    fileList = [...fileList, ...obtainDeriveFiles(BASE_PATH, deriveModule)];
+  });
+
+  let metadata = {};
+  fileList.forEach((file) => {
+    getDeriveDocs(metadata, BASE_PATH, file);
+  });
+  return renderDerives(metadata)
+}
+
 /** @internal */
 function writeFile (name: string, ...chunks: any[]): void {
   const writeStream = fs.createWriteStream(name, { encoding: 'utf8', flags: 'w' });
@@ -642,6 +792,7 @@ async function mainPromise (): Promise<void> {
   writeFile(`${docRoot}/extrinsics.md`, addExtrinsics(runtimeDesc, latest));
   writeFile(`${docRoot}/events.md`, addEvents(runtimeDesc, latest));
   writeFile(`${docRoot}/errors.md`, addErrors(runtimeDesc, latest));
+  writeFile(`${docRoot}/derives.md`, generateDerives())
 }
 
 export function main (): void {
