@@ -14,7 +14,7 @@ import { memo } from '../util/index.js';
 
 /**
  * @name accountId
- * @param {(Address | AccountId | AccountIndex | string | null)} address - An accounts address in various formats.
+ * @param {(Address | AccountId | AccountIndex | string | null)} address An accounts address in various formats.
  * @description  An [[AccountId]]
  */
 export function accountId (instanceId: string, api: DeriveApi): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountId> {

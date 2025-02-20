@@ -64,6 +64,9 @@ function parseResult (api: DeriveApi, sessionInfo: DeriveSessionInfo, keys: Deri
 }
 
 /**
+ * @name accounts
+ * @param {(Uint8Array | string)[]} accountIds List of account stashes
+ * @param {StakingQueryFlags} opts optional filtering flag
  * @description From a list of stashes, fill in all the relevant staking details
  */
 export function accounts (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], opts?: StakingQueryFlags) => Observable<DeriveStakingAccount[]> {
@@ -84,6 +87,9 @@ export function accounts (instanceId: string, api: DeriveApi): (accountIds: (Uin
 }
 
 /**
+ * @name account
+ * @param {(Uint8Array | string)} accountId AccountId of the stash
+ * @param {StakingQueryFlags} opts optional filtering flag
  * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
  */
 export const account = /*#__PURE__*/ firstMemo(

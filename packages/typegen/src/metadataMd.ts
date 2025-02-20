@@ -7,12 +7,14 @@ import type { Text } from '@polkadot/types/primitive';
 import type { Codec, DefinitionCall, DefinitionRpcParam, DefinitionsCall, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
+import { parse, type Spec } from 'comment-parser';
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+import { derive } from '@polkadot/api-derive';
 import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
@@ -60,6 +62,20 @@ interface StaticDef {
   meta: HexString;
   rpc?: { methods: string[] };
   ver?: { apis: ApiDef[] }
+}
+
+interface Derive {
+  name: string | null;
+  description: string | null;
+  params: DeriveParam[];
+  returns: string | null;
+  example: string | null;
+}
+
+interface DeriveParam {
+  description: string | null;
+  name: string | null;
+  type: string | null;
 }
 
 const headerFn = (runtimeDesc: string) => `\n\n(NOTE: These were generated from a static/snapshot view of a recent ${runtimeDesc}. Some items may not be available in older nodes, or in any customized implementations.)`;
@@ -547,6 +563,169 @@ function addErrors (runtimeDesc: string, { lookup, pallets }: MetadataLatest): s
   });
 }
 
+const BASE_DERIVE_PATH = '../api/packages/api-derive/src/';
+
+// It finds all typescript file paths withing a given derive module.
+const obtainDeriveFiles = (deriveModule: string) => {
+  const filePath = `${BASE_DERIVE_PATH}${deriveModule}`;
+  const files = fs.readdirSync(filePath);
+
+  return files
+    .filter((file) => file.endsWith('.ts') && !file.endsWith('.d.ts'))
+    .map((file) => `${deriveModule}/${file}`);
+};
+
+function extractDeriveDescription (tags: Spec[], name: string) {
+  const descriptionTag = tags.find((tag) => tag.tag === name);
+
+  return descriptionTag
+    ? `${descriptionTag.name ?? ''} ${descriptionTag.description ?? ''}`.trim()
+    : null;
+}
+
+function extractDeriveParams (tags: Spec[]) {
+  const descriptionTag = tags
+    .filter((tag) => tag.tag === 'param')
+    .map((param) => {
+      return {
+        description: param.description ?? null,
+        name: param.name ?? null,
+        type: param.type ?? null
+      };
+    });
+
+  return descriptionTag;
+}
+
+function extractDeriveExample (tags: Spec[]) {
+  const exampleTag = tags.find((tag) => tag.tag === 'example');
+
+  if (!exampleTag) {
+    return null;
+  }
+
+  let example = '';
+  const inCodeBlock = { done: false, found: false };
+
+  // / Obtain code block from example tag.
+  exampleTag.source.forEach((line) => {
+    if (inCodeBlock.done) {
+      return;
+    }
+
+    if (line.source.indexOf('```') !== -1 && !inCodeBlock.found) {
+      inCodeBlock.found = true;
+    } else if (line.source.indexOf('```') !== -1 && inCodeBlock.found) {
+      inCodeBlock.done = true;
+    }
+
+    if (!inCodeBlock.found) {
+      return;
+    }
+
+    example += line.source.slice(2, line.source.length);
+
+    if (!inCodeBlock.done) {
+      example += '\n';
+    }
+  });
+
+  return example;
+}
+
+// Parses the comments of a given derive file and adds the
+// relevant information (name, description, params, returns, example).
+const getDeriveDocs = (
+  metadata: Record<string, Derive[]>,
+  file: string
+) => {
+  const filePath = `${BASE_DERIVE_PATH}${file}`;
+  const deriveModule = file.split('/')[0];
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+  const comments = parse(fileContent);
+
+  const docs: Derive[] = comments
+    .filter((comment) => comment.tags)
+    .map((comment) => {
+      return {
+        description: extractDeriveDescription(comment.tags, 'description'),
+        example: extractDeriveExample(comment.tags),
+        name: comment.tags.find((tag) => tag.tag === 'name')?.name || null,
+        params: extractDeriveParams(comment.tags),
+        returns: extractDeriveDescription(comment.tags, 'returns')
+      };
+    });
+
+  metadata[deriveModule]
+    ? (metadata[deriveModule] = [...metadata[deriveModule], ...docs])
+    : (metadata[deriveModule] = [...docs]);
+};
+
+function renderDerives (metadata: Record<string, Derive[]>) {
+  let md = '---\ntitle: Derives\n---\n\nThis page lists the derives that can be encountered in the different modules. Designed to simplify the process of querying complex on-chain data by combining multiple RPC calls, storage queries, and runtime logic into a single, callable function. \n\nInstead of manually fetching and processing blockchain data, developers can use `api.derive.<module>.<method>()` to retrieve information.\n\n';
+  const deriveModules = Object.keys(metadata).filter(
+    (d) => metadata[d].length !== 0
+  );
+
+  // index
+  deriveModules.forEach((deriveModule) => {
+    md += `- **[${deriveModule}](#${deriveModule})**\n\n`;
+  });
+
+  // contents
+  deriveModules.forEach((deriveModule) => {
+    md += `\n___\n## ${deriveModule}\n`;
+
+    metadata[deriveModule]
+      .filter((item) => item.name)
+      .forEach((item) => {
+        const { description, example, name, params, returns } = item;
+
+        md += ` \n### [${name}](#${name})`;
+
+        if (description) {
+          md += `\n${description}`;
+        }
+
+        md += `\n- **interface**: \`api.derive.${deriveModule}.${name}\``;
+
+        if (params.length) {
+          md += '\n- **params**:\n';
+          params.forEach(
+            (param) =>
+              (md += `  - ${param.name} \`${param.type}\`: ${param.description}`)
+          );
+        }
+
+        if (returns) {
+          md += `\n- **returns**: ${returns}`;
+        }
+
+        if (example) {
+          md += `\n- **example**: \n${example}`;
+        }
+      });
+  });
+
+  return md;
+}
+
+function generateDerives () {
+  let fileList: string[] = [];
+
+  Object.keys(derive).forEach((deriveModule) => {
+    fileList = [...fileList, ...obtainDeriveFiles(deriveModule)];
+  });
+
+  const metadata = {};
+
+  fileList.forEach((file) => {
+    getDeriveDocs(metadata, file);
+  });
+
+  return renderDerives(metadata);
+}
+
 /** @internal */
 function writeFile (name: string, ...chunks: any[]): void {
   const writeStream = fs.createWriteStream(name, { encoding: 'utf8', flags: 'w' });
@@ -642,6 +821,10 @@ async function mainPromise (): Promise<void> {
   writeFile(`${docRoot}/extrinsics.md`, addExtrinsics(runtimeDesc, latest));
   writeFile(`${docRoot}/events.md`, addEvents(runtimeDesc, latest));
   writeFile(`${docRoot}/errors.md`, addErrors(runtimeDesc, latest));
+
+  if (chainName === 'Substrate') {
+    writeFile('docs/derives/derives.md', generateDerives());
+  }
 }
 
 export function main (): void {
