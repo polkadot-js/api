@@ -563,8 +563,12 @@ function addErrors (runtimeDesc: string, { lookup, pallets }: MetadataLatest): s
   });
 }
 
-const obtainDeriveFiles = (basePath: string, deriveModule: string) => {
-  const filePath = `${basePath}${deriveModule}`;
+
+const BASE_DERIVE_PATH = "../api/packages/api-derive/src/";
+
+// It finds all typescript file paths withing a given derive module.
+const obtainDeriveFiles = (deriveModule: string) => {
+  const filePath = `${BASE_DERIVE_PATH}${deriveModule}`;
   const files = fs.readdirSync(filePath);
   return files
     .filter((file) => file.endsWith(".ts") && !file.endsWith(".d.ts"))
@@ -598,6 +602,8 @@ function extractDeriveExample(tags: Spec[]) {
   if (!exampleTag) return null;
 
   let example = "";
+
+  /// Obtain code block from example tag.
   let inCodeBlock = { found: false, done: false };
   exampleTag.source.forEach((line) => {
     if (inCodeBlock.done) return;
@@ -617,12 +623,13 @@ function extractDeriveExample(tags: Spec[]) {
   return example;
 }
 
+// Parses the comments of a given derive file and adds the
+// relevant information (name, description, params, returns, example).
 const getDeriveDocs = (
   metadata: Record<string, any[]>,
-  basePath: string,
   file: string
 ) => {
-  const filePath = `${basePath}${file}`;
+  const filePath = `${BASE_DERIVE_PATH}${file}`;
   const deriveModule = file.split("/")[0];
   const fileContent = fs.readFileSync(filePath, "utf8");
   const comments = parse(fileContent);
@@ -649,6 +656,7 @@ function renderDerives(metadata: Record<string, Derive[]>) {
   let deriveModules = Object.keys(metadata).filter(
     (d) => metadata[d].length != 0
   );
+
   // index
   deriveModules.forEach((deriveModule) => {
     md += `- **[${deriveModule}](#${deriveModule})**\n\n`;
@@ -684,16 +692,16 @@ function renderDerives(metadata: Record<string, Derive[]>) {
 }
 
 export function generateDerives(){
-  const BASE_PATH = "../api/packages/api-derive/src/";
   let fileList: string[] = [];
   Object.keys(derive).forEach((deriveModule) => {
-    fileList = [...fileList, ...obtainDeriveFiles(BASE_PATH, deriveModule)];
+    fileList = [...fileList, ...obtainDeriveFiles(deriveModule)];
   });
 
   let metadata = {};
   fileList.forEach((file) => {
-    getDeriveDocs(metadata, BASE_PATH, file);
+    getDeriveDocs(metadata, file);
   });
+
   return renderDerives(metadata)
 }
 
