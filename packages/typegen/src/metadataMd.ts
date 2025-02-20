@@ -710,7 +710,7 @@ function renderDerives (metadata: Record<string, Derive[]>) {
   return md;
 }
 
-export function generateDerives () {
+function generateDerives () {
   let fileList: string[] = [];
 
   Object.keys(derive).forEach((deriveModule) => {
