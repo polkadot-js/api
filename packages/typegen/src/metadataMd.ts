@@ -7,12 +7,14 @@ import type { Text } from '@polkadot/types/primitive';
 import type { Codec, DefinitionCall, DefinitionRpcParam, DefinitionsCall, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
+import { parse, type Spec } from 'comment-parser';
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+import { derive } from '@polkadot/api-derive';
 import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
 import * as definitions from '@polkadot/types/interfaces/definitions';
 import { getStorage as getSubstrateStorage } from '@polkadot/types/metadata/decorate/storage/getStorage';
@@ -34,8 +36,6 @@ import { isHex, stringCamelCase, stringLowerFirst } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { assertFile, getMetadataViaWs, getRpcMethodsViaWs, getRuntimeVersionViaWs } from './util/index.js';
-import { derive } from '@polkadot/api-derive';
-import { parse, type Spec } from "comment-parser";
 
 interface SectionItem {
   link?: string;
@@ -563,61 +563,71 @@ function addErrors (runtimeDesc: string, { lookup, pallets }: MetadataLatest): s
   });
 }
 
-
-const BASE_DERIVE_PATH = "../api/packages/api-derive/src/";
+const BASE_DERIVE_PATH = '../api/packages/api-derive/src/';
 
 // It finds all typescript file paths withing a given derive module.
 const obtainDeriveFiles = (deriveModule: string) => {
   const filePath = `${BASE_DERIVE_PATH}${deriveModule}`;
   const files = fs.readdirSync(filePath);
+
   return files
-    .filter((file) => file.endsWith(".ts") && !file.endsWith(".d.ts"))
+    .filter((file) => file.endsWith('.ts') && !file.endsWith('.d.ts'))
     .map((file) => `${deriveModule}/${file}`);
 };
 
-function extractDeriveDescription(tags: Spec[], name: string) {
+function extractDeriveDescription (tags: Spec[], name: string) {
   const descriptionTag = tags.find((tag) => tag.tag === name);
+
   return descriptionTag
-    ? `${descriptionTag.name ?? ""} ${descriptionTag.description ?? ""}`.trim()
+    ? `${descriptionTag.name ?? ''} ${descriptionTag.description ?? ''}`.trim()
     : null;
 }
 
-function extractDeriveParams(tags: Spec[]) {
+function extractDeriveParams (tags: Spec[]) {
   const descriptionTag = tags
-    .filter((tag) => tag.tag === "param")
+    .filter((tag) => tag.tag === 'param')
     .map((param) => {
       return {
-        name: param.name ?? null,
-        type: param.type ?? null,
         description: param.description ?? null,
+        name: param.name ?? null,
+        type: param.type ?? null
       };
     });
 
   return descriptionTag;
 }
 
-function extractDeriveExample(tags: Spec[]) {
-  const exampleTag = tags.find((tag) => tag.tag === "example");
+function extractDeriveExample (tags: Spec[]) {
+  const exampleTag = tags.find((tag) => tag.tag === 'example');
 
-  if (!exampleTag) return null;
+  if (!exampleTag) {
+    return null;
+  }
 
-  let example = "";
+  let example = '';
+  const inCodeBlock = { done: false, found: false };
 
-  /// Obtain code block from example tag.
-  let inCodeBlock = { found: false, done: false };
+  // / Obtain code block from example tag.
   exampleTag.source.forEach((line) => {
-    if (inCodeBlock.done) return;
+    if (inCodeBlock.done) {
+      return;
+    }
 
-    if (line.source.indexOf(`\`\`\``) != -1 && !inCodeBlock.found) {
+    if (line.source.indexOf('```') !== -1 && !inCodeBlock.found) {
       inCodeBlock.found = true;
-    } else if (line.source.indexOf(`\`\`\``) != -1 && inCodeBlock.found) {
+    } else if (line.source.indexOf('```') !== -1 && inCodeBlock.found) {
       inCodeBlock.done = true;
     }
 
-    if (!inCodeBlock.found) return;
+    if (!inCodeBlock.found) {
+      return;
+    }
 
     example += line.source.slice(2, line.source.length);
-    !inCodeBlock.done ? (example += `\n`) : null;
+
+    if (!inCodeBlock.done) {
+      example += '\n';
+    }
   });
 
   return example;
@@ -626,23 +636,23 @@ function extractDeriveExample(tags: Spec[]) {
 // Parses the comments of a given derive file and adds the
 // relevant information (name, description, params, returns, example).
 const getDeriveDocs = (
-  metadata: Record<string, any[]>,
+  metadata: Record<string, Derive[]>,
   file: string
 ) => {
   const filePath = `${BASE_DERIVE_PATH}${file}`;
-  const deriveModule = file.split("/")[0];
-  const fileContent = fs.readFileSync(filePath, "utf8");
+  const deriveModule = file.split('/')[0];
+  const fileContent = fs.readFileSync(filePath, 'utf8');
   const comments = parse(fileContent);
 
-  let docs = comments
+  const docs: Derive[] = comments
     .filter((comment) => comment.tags)
     .map((comment) => {
       return {
-        name: comment.tags.find((tag) => tag.tag === "name")?.name || null,
-        description: extractDeriveDescription(comment.tags, "description"),
-        params: extractDeriveParams(comment.tags),
-        returns: extractDeriveDescription(comment.tags, "returns"),
+        description: extractDeriveDescription(comment.tags, 'description'),
         example: extractDeriveExample(comment.tags),
+        name: comment.tags.find((tag) => tag.tag === 'name')?.name || null,
+        params: extractDeriveParams(comment.tags),
+        returns: extractDeriveDescription(comment.tags, 'returns')
       };
     });
 
@@ -651,10 +661,10 @@ const getDeriveDocs = (
     : (metadata[deriveModule] = [...docs]);
 };
 
-function renderDerives(metadata: Record<string, Derive[]>) {
-  let md = `---\ntitle: Derives\n---\n\nThis page lists the derives that can be encountered in the different modules. On the api, these are exposed via \`api.derive.<module>.<method>()\`.\n\n`;
-  let deriveModules = Object.keys(metadata).filter(
-    (d) => metadata[d].length != 0
+function renderDerives (metadata: Record<string, Derive[]>) {
+  let md = '---\ntitle: Derives\n---\n\nThis page lists the derives that can be encountered in the different modules. On the api, these are exposed via `api.derive.<module>.<method>()`.\n\n';
+  const deriveModules = Object.keys(metadata).filter(
+    (d) => metadata[d].length !== 0
   );
 
   // index
@@ -670,39 +680,50 @@ function renderDerives(metadata: Record<string, Derive[]>) {
       .filter((item) => item.name)
       .forEach((item) => {
         const { description, example, name, params, returns } = item;
+
         md += ` \n### [${name}](#${name})`;
 
-        description ? (md += `\n${description}`) : null;
+        if (description) {
+          md += `\n${description}`;
+        }
+
         md += `\n- **interface**: \`api.derive.${deriveModule}.${name}\``;
 
         if (params.length) {
-          md += `\n- **params**:\n`;
+          md += '\n- **params**:\n';
           params.forEach(
             (param) =>
               (md += `  - ${param.name} \`${param.type}\`: ${param.description}`)
           );
         }
 
-        returns ? (md += `\n- **returns**: ${returns}`) : null;
-        example ? (md += `\n- **example**: \n${example}`) : null;
+        if (returns) {
+          md += `\n- **returns**: ${returns}`;
+        }
+
+        if (example) {
+          md += `\n- **example**: \n${example}`;
+        }
       });
   });
 
   return md;
 }
 
-export function generateDerives(){
+export function generateDerives () {
   let fileList: string[] = [];
+
   Object.keys(derive).forEach((deriveModule) => {
     fileList = [...fileList, ...obtainDeriveFiles(deriveModule)];
   });
 
-  let metadata = {};
+  const metadata = {};
+
   fileList.forEach((file) => {
     getDeriveDocs(metadata, file);
   });
 
-  return renderDerives(metadata)
+  return renderDerives(metadata);
 }
 
 /** @internal */
@@ -801,7 +822,9 @@ async function mainPromise (): Promise<void> {
   writeFile(`${docRoot}/events.md`, addEvents(runtimeDesc, latest));
   writeFile(`${docRoot}/errors.md`, addErrors(runtimeDesc, latest));
 
-  if (chainName == 'Substrate') writeFile(`docs/derives/derives.md`, generateDerives())
+  if (chainName === 'Substrate') {
+    writeFile('docs/derives/derives.md', generateDerives());
+  }
 }
 
 export function main (): void {
