@@ -11,6 +11,9 @@ import { memo } from '../util/index.js';
 
 type ReferendumInfoFinished = PalletDemocracyReferendumInfo['asFinished'];
 
+/**
+ * @name referendumsFinished
+ */
 export function referendumsFinished (instanceId: string, api: DeriveApi): () => Observable<ReferendumInfoFinished[]> {
   return memo(instanceId, (): Observable<ReferendumInfoFinished[]> =>
     api.derive.democracy.referendumIds().pipe(

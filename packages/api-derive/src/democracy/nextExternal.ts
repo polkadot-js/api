@@ -29,6 +29,9 @@ function withImage (api: DeriveApi, nextOpt: Option<ITuple<[H256 | FrameSupportP
   );
 }
 
+/**
+ * @name nextExternal
+ */
 export function nextExternal (instanceId: string, api: DeriveApi): () => Observable<DeriveProposalExternal | null> {
   return memo(instanceId, (): Observable<DeriveProposalExternal | null> =>
     api.query.democracy?.nextExternal

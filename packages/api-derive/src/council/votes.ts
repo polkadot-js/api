@@ -76,6 +76,9 @@ function retrieveCurrent (elections: DeriveApi['query']['elections']): Observabl
   );
 }
 
+/**
+ * @name votes
+ */
 export function votes (instanceId: string, api: DeriveApi): () => Observable<DeriveCouncilVotes> {
   const elections = api.query.elections || api.query['phragmenElection'] || api.query['electionsPhragmen'];
 

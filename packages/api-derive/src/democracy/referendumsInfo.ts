@@ -148,6 +148,10 @@ export function _referendumInfo (instanceId: string, api: DeriveApi): (index: BN
   });
 }
 
+/**
+ * @name referendumsFinished
+ * @param { BN[] } ids
+ */
 export function referendumsInfo (instanceId: string, api: DeriveApi): (ids: BN[]) => Observable<DeriveReferendum[]> {
   return memo(instanceId, (ids: BN[]): Observable<DeriveReferendum[]> =>
     ids.length

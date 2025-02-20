@@ -50,6 +50,9 @@ export function _getIds (instanceId: string, api: DeriveApi): (ids: (BN | number
   });
 }
 
+/**
+ * @name all
+ */
 export function all (instanceId: string, api: DeriveApi): () => Observable<Bag[]> {
   const query = getQueryInterface(api);
 
@@ -65,6 +68,10 @@ export function all (instanceId: string, api: DeriveApi): () => Observable<Bag[]
   );
 }
 
+/**
+ * @name get
+ * @param {(BN | number)} id
+ */
 export function get (instanceId: string, api: DeriveApi): (id: BN | number) => Observable<Bag> {
   return memo(instanceId, (id: BN | number): Observable<Bag> =>
     api.derive.bagsList._getIds([bnToBn(id)]).pipe(

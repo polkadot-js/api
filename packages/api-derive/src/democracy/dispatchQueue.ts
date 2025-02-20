@@ -138,6 +138,9 @@ function queryScheduler (api: DeriveApi): Observable<DeriveDispatch[]> {
   );
 }
 
+/**
+ * @name dispatchQueue
+ */
 export function dispatchQueue (instanceId: string, api: DeriveApi): () => Observable<DeriveDispatch[]> {
   return memo(instanceId, (): Observable<DeriveDispatch[]> =>
     isFunction(api.query.scheduler?.agenda)

@@ -33,6 +33,10 @@ function createChildKey (info: AllInfo): string {
   );
 }
 
+/**
+ * @name childKey
+ * @param {string | number | BN} paraId
+ */
 export function childKey (instanceId: string, api: DeriveApi): (paraId: string | number | BN) => Observable<string | null> {
   return memo(instanceId, (paraId: string | number | BN): Observable<string | null> =>
     api.query['crowdloan']['funds']<Option<PolkadotRuntimeCommonCrowdloanFundInfo>>(paraId).pipe(

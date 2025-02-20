@@ -14,8 +14,8 @@ import { memo } from '../util/index.js';
 
 /**
  * @name idAndIndex
- * @param {(Address | AccountId | AccountIndex | Uint8Array | string | null)} address - An accounts address in various formats.
- * @description  An array containing the [[AccountId]] and [[AccountIndex]] as optional values.
+ * @param {(Address | AccountId | AccountIndex | Uint8Array | string | null)} address An accounts address in various formats.
+ * @description An array containing the [[AccountId]] and [[AccountIndex]] as optional values.
  * @example
  * <BR>
  *

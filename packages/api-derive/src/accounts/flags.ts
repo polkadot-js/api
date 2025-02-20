@@ -68,7 +68,8 @@ export function _flags (instanceId: string, api: DeriveApi): () => Observable<Fl
 }
 
 /**
- * @name info
+ * @name flags
+ * @param {(AccountId | Address | string | null)} address
  * @description Returns account membership flags
  */
 export function flags (instanceId: string, api: DeriveApi): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {

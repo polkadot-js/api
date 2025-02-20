@@ -10,6 +10,9 @@ import { objectSpread } from '@polkadot/util';
 
 import { memo } from '../util/index.js';
 
+/**
+ * @name referendums
+ */
 export function referendums (instanceId: string, api: DeriveApi): () => Observable<DeriveReferendumExt[]> {
   return memo(instanceId, (): Observable<DeriveReferendumExt[]> =>
     api.derive.democracy.referendumsActive().pipe(

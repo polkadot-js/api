@@ -87,6 +87,10 @@ function directLocks (api: DeriveApi, { votes }: VotingDirect): Observable<Deriv
   );
 }
 
+/**
+ * @name dispatchQueue
+ * @param {string | AccountId} accountId
+ */
 export function locks (instanceId: string, api: DeriveApi): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
   return memo(instanceId, (accountId: string | AccountId): Observable<DeriveDemocracyLock[]> =>
     api.query.democracy.votingOf

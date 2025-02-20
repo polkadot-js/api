@@ -57,6 +57,11 @@ function _contributions (api: DeriveApi, paraId: string | number | BN, childKey:
   );
 }
 
+/**
+ * @name ownContributions
+ * @param {string | number | BN} paraId
+ * @param {string[]} keys
+ */
 export function ownContributions (instanceId: string, api: DeriveApi): (paraId: string | number | BN, keys: string[]) => Observable<DeriveOwnContributions> {
   return memo(instanceId, (paraId: string | number | BN, keys: string[]): Observable<DeriveOwnContributions> =>
     api.derive.crowdloan.childKey(paraId).pipe(

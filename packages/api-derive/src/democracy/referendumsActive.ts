@@ -8,6 +8,9 @@ import { of, switchMap } from 'rxjs';
 
 import { memo } from '../util/index.js';
 
+/**
+ * @name referendumsActive
+ */
 export function referendumsActive (instanceId: string, api: DeriveApi): () => Observable<DeriveReferendum[]> {
   return memo(instanceId, (): Observable<DeriveReferendum[]> =>
     api.derive.democracy.referendumIds().pipe(

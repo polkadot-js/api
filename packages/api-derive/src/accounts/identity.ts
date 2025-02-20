@@ -125,6 +125,7 @@ export function _identity (instanceId: string, api: DeriveApi): (accountId?: Acc
 
 /**
  * @name identity
+ * @param {(AccountId | Uint8Array | string)} accoutId
  * @description Returns identity info for an account
  */
 export function identity (instanceId: string, api: DeriveApi): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
@@ -165,11 +166,19 @@ function getSubIdentities (identity: DeriveAccountRegistration, api: DeriveApi, 
   );
 }
 
+/**
+ * @name hasIdentity
+ * @param {(AccountId | Uint8Array | string)} accountId
+ */
 export const hasIdentity = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: AccountId | Uint8Array | string) =>
     api.derive.accounts.hasIdentityMulti([accountId])
 );
 
+/**
+ * @name hasIdentityMulti
+ * @param {(AccountId | Uint8Array | string)[]} accountIds
+ */
 export function hasIdentityMulti (instanceId: string, api: DeriveApi): (accountIds: (AccountId | Uint8Array | string)[]) => Observable<DeriveHasIdentity[]> {
   return memo(instanceId, (accountIds: (AccountId | Uint8Array | string)[]): Observable<DeriveHasIdentity[]> =>
     api.query.identity?.identityOf

@@ -9,6 +9,10 @@ import { combineLatest, of } from 'rxjs';
 
 import { memo } from '../util/index.js';
 
+/**
+ * @name votingBalances
+ * @param {(AccountId | AccountIndex | Address | string)[]} addresses
+ */
 export function votingBalances (instanceId: string, api: DeriveApi): (addresses?: (AccountId | AccountIndex | Address | string)[]) => Observable<DeriveBalancesAccount[]> {
   return memo(instanceId, (addresses?: (AccountId | AccountIndex | Address | string)[]): Observable<DeriveBalancesAccount[]> =>
     !addresses?.length

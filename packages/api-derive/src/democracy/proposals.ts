@@ -48,6 +48,9 @@ function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
     });
 }
 
+/**
+ * @name proposals
+ */
 export function proposals (instanceId: string, api: DeriveApi): () => Observable<DeriveProposal[]> {
   return memo(instanceId, (): Observable<DeriveProposal[]> =>
     isFunction(api.query.democracy?.publicProps)

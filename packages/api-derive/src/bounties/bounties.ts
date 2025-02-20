@@ -33,6 +33,9 @@ function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: 
   return bounties;
 }
 
+/**
+ * @name bounties
+ */
 export function bounties (instanceId: string, api: DeriveApi): () => Observable<DeriveBounties> {
   const bountyBase = api.query.bounties || api.query.treasury;
 

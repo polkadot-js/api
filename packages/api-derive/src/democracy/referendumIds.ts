@@ -10,6 +10,9 @@ import { map, of } from 'rxjs';
 
 import { memo } from '../util/index.js';
 
+/**
+ * @name referendumIds
+ */
 export function referendumIds (instanceId: string, api: DeriveApi): () => Observable<BN[]> {
   return memo(instanceId, (): Observable<BN[]> =>
     api.query.democracy?.lowestUnbaked

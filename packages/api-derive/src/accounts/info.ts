@@ -30,6 +30,7 @@ function retrieveNick (api: DeriveApi, accountId?: AccountId): Observable<string
 /**
  * @name info
  * @description Returns aux. info with regards to an account, current that includes the accountId, accountIndex and nickname
+ * @param {(AccountIndex | AccountId | Address | Uint8Array | string | null)} address
  */
 export function info (instanceId: string, api: DeriveApi): (address?: AccountIndex | AccountId | Address | Uint8Array | string | null) => Observable<DeriveAccountInfo> {
   return memo(instanceId, (address?: AccountIndex | AccountId | Address | Uint8Array | string | null): Observable<DeriveAccountInfo> =>

@@ -119,6 +119,10 @@ function _contributions (api: DeriveApi, paraId: string | number | BN, childKey:
   );
 }
 
+/**
+ * @name contributions
+ * @param {string | number | BN} paraId
+ */
 export function contributions (instanceId: string, api: DeriveApi): (paraId: string | number | BN) => Observable<DeriveContributions> {
   return memo(instanceId, (paraId: string | number | BN): Observable<DeriveContributions> =>
     api.derive.crowdloan.childKey(paraId).pipe(

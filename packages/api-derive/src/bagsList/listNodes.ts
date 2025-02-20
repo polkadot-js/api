@@ -36,6 +36,10 @@ function traverseLinks (api: DeriveApi, head: AccountId32 | string): Observable<
   );
 }
 
+/**
+ * @name listNodes
+ * @param {(PalletBagsListListBag | null)} bag
+ */
 export function listNodes (instanceId: string, api: DeriveApi): (bag: PalletBagsListListBag | null) => Observable<PalletBagsListListNode[]> {
   return memo(instanceId, (bag: PalletBagsListListBag | null): Observable<PalletBagsListListNode[]> =>
     bag && bag.head.isSome

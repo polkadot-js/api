@@ -9,6 +9,10 @@ import { map } from 'rxjs';
 
 import { memo } from '../util/index.js';
 
+/**
+ * @name votesOf
+ * @param {string | Uint8Array | AccountId} accountId
+ */
 export function votesOf (instanceId: string, api: DeriveApi): (accountId: string | Uint8Array | AccountId) => Observable<DeriveCouncilVote> {
   return memo(instanceId, (accountId: string | Uint8Array | AccountId): Observable<DeriveCouncilVote> =>
     api.derive.council.votes().pipe(

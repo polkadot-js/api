@@ -135,6 +135,10 @@ function getImages (api: DeriveApi, bounded: (FrameSupportPreimagesBounded | Uin
   );
 }
 
+/**
+ * @name preimages
+ * @param { (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[] } hashes
+ */
 export function preimages (instanceId: string, api: DeriveApi): (hashes: (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[]) => Observable<(DeriveProposalImage | undefined)[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[]): Observable<(DeriveProposalImage | undefined)[]> =>
     hashes.length
@@ -147,6 +151,10 @@ export function preimages (instanceId: string, api: DeriveApi): (hashes: (Hash |
   );
 }
 
+/**
+ * @name preimage
+ * @param { Hash | Uint8Array | string | FrameSupportPreimagesBounded } hash
+ */
 export const preimage = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, hash: Hash | Uint8Array | string | FrameSupportPreimagesBounded) =>
     api.derive.democracy.preimages([hash])

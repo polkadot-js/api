@@ -210,7 +210,7 @@ function queryCurrent (api: DeriveApi, accountId: AccountId | string, balanceIns
 
 /**
  * @name all
- * @param {( AccountIndex | AccountId | Address | string )} address - An accounts Id in different formats.
+ * @param {( AccountId | string )} address An accounts Id in different formats.
  * @returns An object containing the results of various balance queries
  * @example
  * <BR>
