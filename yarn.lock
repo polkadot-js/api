@@ -712,6 +712,7 @@ __metadata:
   dependencies:
     "@polkadot/api": "npm:15.6.1"
     "@polkadot/api-augment": "npm:15.6.1"
+    "@polkadot/api-derive": "npm:15.6.1"
     "@polkadot/rpc-augment": "npm:15.6.1"
     "@polkadot/rpc-provider": "npm:15.6.1"
     "@polkadot/types": "npm:15.6.1"
