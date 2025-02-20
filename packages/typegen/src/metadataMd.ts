@@ -792,7 +792,8 @@ async function mainPromise (): Promise<void> {
   writeFile(`${docRoot}/extrinsics.md`, addExtrinsics(runtimeDesc, latest));
   writeFile(`${docRoot}/events.md`, addEvents(runtimeDesc, latest));
   writeFile(`${docRoot}/errors.md`, addErrors(runtimeDesc, latest));
-  writeFile(`${docRoot}/derives.md`, generateDerives())
+
+  if (chainName == 'Substrate') writeFile(`docs/derives/derives.md`, generateDerives())
 }
 
 export function main (): void {
