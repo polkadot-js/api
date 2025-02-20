@@ -9,7 +9,7 @@ export default {
   "specName": "kusama",
   "implName": "parity-kusama",
   "authoringVersion": 2,
-  "specVersion": 1003003,
+  "specVersion": 1004000,
   "implVersion": 0,
   "apis": [
     [
@@ -42,7 +42,7 @@ export default {
     ],
     [
       "0x49eaaf1b548a0cb0",
-      3
+      5
     ],
     [
       "0x91d5df18b0d2cf58",

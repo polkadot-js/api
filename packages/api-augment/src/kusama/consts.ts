@@ -240,6 +240,20 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    delegatedStaking: {
+      /**
+       * Injected identifier for the pallet.
+       **/
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Fraction of the slash that is rewarded to the caller of pending slash to the agent.
+       **/
+      slashRewardFraction: Perbill & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     electionProviderMultiPhase: {
       /**
        * The minimum amount of improvement to the solution score that defines a solution as

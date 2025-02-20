@@ -149,9 +149,21 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidConfiguration: AugmentedError<ApiType>;
       /**
-       * An equivocation proof provided as part of an equivocation report is invalid.
+       * A double voting proof provided as part of an equivocation report is invalid.
        **/
-      InvalidEquivocationProof: AugmentedError<ApiType>;
+      InvalidDoubleVotingProof: AugmentedError<ApiType>;
+      /**
+       * The session of the equivocation proof is invalid
+       **/
+      InvalidEquivocationProofSession: AugmentedError<ApiType>;
+      /**
+       * A fork voting proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidForkVotingProof: AugmentedError<ApiType>;
+      /**
+       * A future block voting proof provided as part of an equivocation report is invalid.
+       **/
+      InvalidFutureBlockVotingProof: AugmentedError<ApiType>;
       /**
        * A key ownership proof provided as part of an equivocation report is invalid.
        **/
@@ -467,6 +479,64 @@ declare module '@polkadot/api-base/types/errors' {
        * No contributions allowed during the VRF delay
        **/
       VrfDelayInProgress: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    delegatedStaking: {
+      /**
+       * An existing staker cannot perform this action.
+       **/
+      AlreadyStaking: AugmentedError<ApiType>;
+      /**
+       * Some corruption in internal state.
+       **/
+      BadState: AugmentedError<ApiType>;
+      /**
+       * Delegation conditions are not met.
+       * 
+       * Possible issues are
+       * 1) Cannot delegate to self,
+       * 2) Cannot delegate to multiple delegates.
+       **/
+      InvalidDelegation: AugmentedError<ApiType>;
+      /**
+       * Reward Destination cannot be same as `Agent` account.
+       **/
+      InvalidRewardDestination: AugmentedError<ApiType>;
+      /**
+       * Not an existing `Agent` account.
+       **/
+      NotAgent: AugmentedError<ApiType>;
+      /**
+       * The account cannot perform this operation.
+       **/
+      NotAllowed: AugmentedError<ApiType>;
+      /**
+       * Not a Delegator account.
+       **/
+      NotDelegator: AugmentedError<ApiType>;
+      /**
+       * The account does not have enough funds to perform the operation.
+       **/
+      NotEnoughFunds: AugmentedError<ApiType>;
+      /**
+       * `Agent` has no pending slash to be applied.
+       **/
+      NothingToSlash: AugmentedError<ApiType>;
+      /**
+       * Operation not supported by this pallet.
+       **/
+      NotSupported: AugmentedError<ApiType>;
+      /**
+       * Unapplied pending slash restricts operation on `Agent`.
+       **/
+      UnappliedSlash: AugmentedError<ApiType>;
+      /**
+       * Failed to withdraw amount from Core Staking.
+       **/
+      WithdrawFailed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1211,6 +1281,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       RewardPoolNotFound: AugmentedError<ApiType>;
       /**
+       * The slash amount is too low to be applied.
+       **/
+      SlashTooLow: AugmentedError<ApiType>;
+      /**
        * A sub pool does not exist.
        **/
       SubPoolsNotFound: AugmentedError<ApiType>;
@@ -1285,10 +1359,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Output code is too large
        **/
       NewCodeTooLarge: AugmentedError<ApiType>;
-      /**
-       * Collator did not sign PoV.
-       **/
-      NotCollatorSigned: AugmentedError<ApiType>;
       /**
        * The `para_head` hash in the candidate descriptor doesn't match the hash of the actual
        * para head in the commitments.
@@ -1479,10 +1549,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Preimage has already been noted on-chain.
        **/
       AlreadyNoted: AugmentedError<ApiType>;
-      /**
-       * No ticket with a cost was returned by [`Config::Consideration`] to store the preimage.
-       **/
-      NoCost: AugmentedError<ApiType>;
       /**
        * The user is not authorized to perform this action.
        **/
