@@ -662,7 +662,7 @@ const getDeriveDocs = (
 };
 
 function renderDerives (metadata: Record<string, Derive[]>) {
-  let md = '---\ntitle: Derives\n---\n\nThis page lists the derives that can be encountered in the different modules. On the api, these are exposed via `api.derive.<module>.<method>()`.\n\n';
+  let md = '---\ntitle: Derives\n---\n\nThis page lists the derives that can be encountered in the different modules. Designed to simplify the process of querying complex on-chain data by combining multiple RPC calls, storage queries, and runtime logic into a single, callable function. \n\nInstead of manually fetching and processing blockchain data, developers can use `api.derive.<module>.<method>()` to retrieve information.\n\n';
   const deriveModules = Object.keys(metadata).filter(
     (d) => metadata[d].length !== 0
   );
