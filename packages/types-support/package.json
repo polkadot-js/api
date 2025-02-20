@@ -18,10 +18,10 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "15.5.3-2-x",
+  "version": "15.6.1",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^13.3.1",
+    "@polkadot/util": "^13.4.3",
     "tslib": "^2.8.1"
   }
 }
