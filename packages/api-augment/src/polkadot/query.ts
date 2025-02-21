@@ -10,7 +10,7 @@ import type { BTreeMap, BTreeSet, Bytes, Null, Option, U8aFixed, Vec, bool, u128
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
-import type { BinaryHeapEnqueuedOrder, FrameSupportDispatchPerDispatchClassWeight, FrameSupportTokensMiscIdAmountRuntimeFreezeReason, FrameSupportTokensMiscIdAmountRuntimeHoldReason, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletConvictionVotingVoteVoting, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletFastUnstakeUnstakeRequest, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMultisigMultisig, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsClaimPermission, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletReferendaReferendumInfo, PalletSchedulerRetryConfig, PalletSchedulerScheduled, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingForcing, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTransactionPaymentReleases, PalletTreasuryProposal, PalletTreasurySpendStatus, PalletVestingReleases, PalletVestingVestingInfo, PalletXcmQueryStatus, PalletXcmRemoteLockedFungibleRecord, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV7AssignmentAppPublic, PolkadotPrimitivesV7DisputeState, PolkadotPrimitivesV7ExecutorParams, PolkadotPrimitivesV7ScrapedOnChainVotes, PolkadotPrimitivesV7SessionInfo, PolkadotPrimitivesV7SlashingPendingSlashes, PolkadotPrimitivesV7UpgradeGoAhead, PolkadotPrimitivesV7UpgradeRestriction, PolkadotPrimitivesV7ValidatorAppPublic, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsAssignerCoretimeSchedule, PolkadotRuntimeParachainsAssignerOnDemandTypesCoreAffinityCount, PolkadotRuntimeParachainsAssignerOnDemandTypesEnqueuedOrder, PolkadotRuntimeParachainsAssignerOnDemandTypesQueueStatusType, PolkadotRuntimeParachainsConfigurationHostConfiguration, PolkadotRuntimeParachainsHrmpHrmpChannel, PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, PolkadotRuntimeParachainsInclusionCandidatePendingAvailability, PolkadotRuntimeParachainsInitializerBufferedSessionChange, PolkadotRuntimeParachainsParasParaGenesisArgs, PolkadotRuntimeParachainsParasParaLifecycle, PolkadotRuntimeParachainsParasParaPastCodeMeta, PolkadotRuntimeParachainsParasPvfCheckActiveVoteState, PolkadotRuntimeParachainsSchedulerPalletCoreOccupied, PolkadotRuntimeParachainsSchedulerPalletParasEntry, PolkadotRuntimeParachainsSharedAllowedRelayParentsTracker, PolkadotRuntimeRuntimeParametersKey, PolkadotRuntimeRuntimeParametersValue, PolkadotRuntimeSessionKeys, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusGrandpaAppPublic, SpCoreCryptoKeyTypeId, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingExposure, SpStakingExposurePage, SpStakingOffenceOffenceDetails, SpStakingPagedExposureMetadata, SpWeightsWeightV2Weight, StagingXcmV4Instruction, XcmVersionedAssetId, XcmVersionedLocation } from '@polkadot/types/lookup';
+import type { BinaryHeapEnqueuedOrder, FrameSupportDispatchPerDispatchClassWeight, FrameSupportTokensMiscIdAmountRuntimeFreezeReason, FrameSupportTokensMiscIdAmountRuntimeHoldReason, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletConvictionVotingVoteVoting, PalletDelegatedStakingAgentLedger, PalletDelegatedStakingDelegation, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletFastUnstakeUnstakeRequest, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMultisigMultisig, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsClaimPermission, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletReferendaReferendumInfo, PalletSchedulerRetryConfig, PalletSchedulerScheduled, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingForcing, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTransactionPaymentReleases, PalletTreasuryProposal, PalletTreasurySpendStatus, PalletVestingReleases, PalletVestingVestingInfo, PalletXcmQueryStatus, PalletXcmRemoteLockedFungibleRecord, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV8AssignmentAppPublic, PolkadotPrimitivesV8DisputeState, PolkadotPrimitivesV8ExecutorParams, PolkadotPrimitivesV8ScrapedOnChainVotes, PolkadotPrimitivesV8SessionInfo, PolkadotPrimitivesV8SlashingPendingSlashes, PolkadotPrimitivesV8UpgradeGoAhead, PolkadotPrimitivesV8UpgradeRestriction, PolkadotPrimitivesV8ValidatorAppPublic, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsAssignerCoretimeSchedule, PolkadotRuntimeParachainsConfigurationHostConfiguration, PolkadotRuntimeParachainsHrmpHrmpChannel, PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, PolkadotRuntimeParachainsInclusionCandidatePendingAvailability, PolkadotRuntimeParachainsInitializerBufferedSessionChange, PolkadotRuntimeParachainsOnDemandTypesCoreAffinityCount, PolkadotRuntimeParachainsOnDemandTypesEnqueuedOrder, PolkadotRuntimeParachainsOnDemandTypesQueueStatusType, PolkadotRuntimeParachainsParasParaGenesisArgs, PolkadotRuntimeParachainsParasParaLifecycle, PolkadotRuntimeParachainsParasParaPastCodeMeta, PolkadotRuntimeParachainsParasPvfCheckActiveVoteState, PolkadotRuntimeParachainsSchedulerPalletCoreOccupied, PolkadotRuntimeParachainsSchedulerPalletParasEntry, PolkadotRuntimeParachainsSharedAllowedRelayParentsTracker, PolkadotRuntimeSessionKeys, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusGrandpaAppPublic, SpCoreCryptoKeyTypeId, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingExposure, SpStakingExposurePage, SpStakingOffenceOffenceDetails, SpStakingPagedExposureMetadata, SpWeightsWeightV2Weight, StagingXcmV4Instruction, XcmVersionedAssetId, XcmVersionedLocation } from '@polkadot/types/lookup';
 import type { Observable } from '@polkadot/types/types';
 
 export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType, () => unknown>;
@@ -463,6 +463,31 @@ declare module '@polkadot/api-base/types/storage' {
        * Tracker for the next available fund index
        **/
       nextFundIndex: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    delegatedStaking: {
+      /**
+       * Map of `Agent` to their `Ledger`.
+       **/
+      agents: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletDelegatedStakingAgentLedger>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Counter for the related counted storage map
+       **/
+      counterForAgents: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Counter for the related counted storage map
+       **/
+      counterForDelegators: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Map of Delegators to their `Delegation`.
+       * 
+       * Implementation note: We are not using a double map with `delegator` and `agent` account
+       * as keys since we want to restrict delegators to delegate only to one account at a time.
+       **/
+      delegators: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletDelegatedStakingDelegation>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/
@@ -970,17 +995,17 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Priority queue for all orders which don't yet (or not any more) have any core affinity.
        **/
-      freeEntries: AugmentedQuery<ApiType, () => Observable<Vec<PolkadotRuntimeParachainsAssignerOnDemandTypesEnqueuedOrder>>, []> & QueryableStorageEntry<ApiType, []>;
+      freeEntries: AugmentedQuery<ApiType, () => Observable<Vec<PolkadotRuntimeParachainsOnDemandTypesEnqueuedOrder>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Maps a `ParaId` to `CoreIndex` and keeps track of how many assignments the scheduler has in
        * it's lookahead. Keeping track of this affinity prevents parallel execution of the same
        * `ParaId` on two or more `CoreIndex`es.
        **/
-      paraIdAffinity: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotRuntimeParachainsAssignerOnDemandTypesCoreAffinityCount>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      paraIdAffinity: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotRuntimeParachainsOnDemandTypesCoreAffinityCount>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * Overall status of queue (both free + affinity entries)
        **/
-      queueStatus: AugmentedQuery<ApiType, () => Observable<PolkadotRuntimeParachainsAssignerOnDemandTypesQueueStatusType>, []> & QueryableStorageEntry<ApiType, []>;
+      queueStatus: AugmentedQuery<ApiType, () => Observable<PolkadotRuntimeParachainsOnDemandTypesQueueStatusType>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Keeps track of accumulated revenue from on demand order sales.
        **/
@@ -1017,17 +1042,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Scraped on chain data for extracting resolved disputes as well as backing votes.
        **/
-      onChainVotes: AugmentedQuery<ApiType, () => Observable<Option<PolkadotPrimitivesV7ScrapedOnChainVotes>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Generic query
-       **/
-      [key: string]: QueryableStorageEntry<ApiType>;
-    };
-    parameters: {
-      /**
-       * Stored parameters.
-       **/
-      parameters: AugmentedQuery<ApiType, (arg: PolkadotRuntimeRuntimeParametersKey | { Inflation: any } | string | Uint8Array) => Observable<Option<PolkadotRuntimeRuntimeParametersValue>>, [PolkadotRuntimeRuntimeParametersKey]> & QueryableStorageEntry<ApiType, [PolkadotRuntimeRuntimeParametersKey]>;
+      onChainVotes: AugmentedQuery<ApiType, () => Observable<Option<PolkadotPrimitivesV8ScrapedOnChainVotes>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -1165,7 +1180,7 @@ declare module '@polkadot/api-base/types/storage' {
        * NOTE that this field is used by parachains via merkle storage proofs, therefore changing
        * the format will require migration of parachains.
        **/
-      upgradeGoAheadSignal: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV7UpgradeGoAhead>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      upgradeGoAheadSignal: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV8UpgradeGoAhead>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * This is used by the relay-chain to communicate that there are restrictions for performing
        * an upgrade for this parachain.
@@ -1177,7 +1192,7 @@ declare module '@polkadot/api-base/types/storage' {
        * NOTE that this field is used by parachains via merkle storage proofs, therefore changing
        * the format will require migration of parachains.
        **/
-      upgradeRestrictionSignal: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV7UpgradeRestriction>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      upgradeRestrictionSignal: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV8UpgradeRestriction>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * Generic query
        **/
@@ -1233,7 +1248,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * All ongoing or concluded disputes for the last several sessions.
        **/
-      disputes: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: H256 | string | Uint8Array) => Observable<Option<PolkadotPrimitivesV7DisputeState>>, [u32, H256]> & QueryableStorageEntry<ApiType, [u32, H256]>;
+      disputes: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: H256 | string | Uint8Array) => Observable<Option<PolkadotPrimitivesV8DisputeState>>, [u32, H256]> & QueryableStorageEntry<ApiType, [u32, H256]>;
       /**
        * Whether the chain is frozen. Starts as `None`. When this is `Some`,
        * the chain will not accept any new parachain blocks for backing or inclusion,
@@ -1266,7 +1281,7 @@ declare module '@polkadot/api-base/types/storage' {
        * Note that this API is private due to it being prone to 'off-by-one' at session boundaries.
        * When in doubt, use `Sessions` API instead.
        **/
-      assignmentKeysUnsafe: AugmentedQuery<ApiType, () => Observable<Vec<PolkadotPrimitivesV7AssignmentAppPublic>>, []> & QueryableStorageEntry<ApiType, []>;
+      assignmentKeysUnsafe: AugmentedQuery<ApiType, () => Observable<Vec<PolkadotPrimitivesV8AssignmentAppPublic>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The earliest session for which previous session info is stored.
        **/
@@ -1274,13 +1289,13 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Executor parameter set for a given session index
        **/
-      sessionExecutorParams: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV7ExecutorParams>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      sessionExecutorParams: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV8ExecutorParams>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * Session information in a rolling window.
        * Should have an entry in range `EarliestStoredSession..=CurrentSessionIndex`.
        * Does not have any entries before the session index in the first session change notification.
        **/
-      sessions: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV7SessionInfo>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      sessions: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV8SessionInfo>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * Generic query
        **/
@@ -1296,7 +1311,7 @@ declare module '@polkadot/api-base/types/storage' {
        * The parachain attestation keys of the validators actively participating in parachain
        * consensus. This should be the same length as `ActiveValidatorIndices`.
        **/
-      activeValidatorKeys: AugmentedQuery<ApiType, () => Observable<Vec<PolkadotPrimitivesV7ValidatorAppPublic>>, []> & QueryableStorageEntry<ApiType, []>;
+      activeValidatorKeys: AugmentedQuery<ApiType, () => Observable<Vec<PolkadotPrimitivesV8ValidatorAppPublic>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * All allowed relay-parents.
        **/
@@ -1314,7 +1329,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Validators pending dispute slashes.
        **/
-      unappliedSlashes: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: H256 | string | Uint8Array) => Observable<Option<PolkadotPrimitivesV7SlashingPendingSlashes>>, [u32, H256]> & QueryableStorageEntry<ApiType, [u32, H256]>;
+      unappliedSlashes: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: H256 | string | Uint8Array) => Observable<Option<PolkadotPrimitivesV8SlashingPendingSlashes>>, [u32, H256]> & QueryableStorageEntry<ApiType, [u32, H256]>;
       /**
        * `ValidatorSetCount` per session.
        **/

@@ -5,13 +5,13 @@
 
 export default {
   /**
-   * Lookup125: staging_kusama_runtime::SessionKeys
+   * Lookup127: staging_kusama_runtime::SessionKeys
    **/
   StagingKusamaRuntimeSessionKeys: {
     grandpa: 'SpConsensusGrandpaAppPublic',
     babe: 'SpConsensusBabeAppPublic',
-    paraValidator: 'PolkadotPrimitivesV7ValidatorAppPublic',
-    paraAssignment: 'PolkadotPrimitivesV7AssignmentAppPublic',
+    paraValidator: 'PolkadotPrimitivesV8ValidatorAppPublic',
+    paraAssignment: 'PolkadotPrimitivesV8AssignmentAppPublic',
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic',
     beefy: 'SpConsensusBeefyEcdsaCryptoPublic'
   },
@@ -133,7 +133,8 @@ export default {
    **/
   StagingKusamaRuntimeRuntimeParameters: {
     _enum: {
-      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParameters'
+      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParameters',
+      Treasury: 'StagingKusamaRuntimeDynamicParamsTreasuryParameters'
     }
   },
   /**
@@ -169,13 +170,34 @@ export default {
    **/
   StagingKusamaRuntimeDynamicParamsInflationUseAuctionSlots: 'Null',
   /**
-   * Lookup192: staging_kusama_runtime::ProxyType
+   * Lookup173: staging_kusama_runtime::dynamic_params::treasury::Parameters
    **/
-  StagingKusamaRuntimeProxyType: {
-    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', '__Unused4', 'CancelProxy', 'Auction', 'Society', 'NominationPools', 'Spokesperson']
+  StagingKusamaRuntimeDynamicParamsTreasuryParameters: {
+    _enum: {
+      BurnPortion: '(StagingKusamaRuntimeDynamicParamsTreasuryBurnPortion,Option<Permill>)',
+      BurnDestination: '(StagingKusamaRuntimeDynamicParamsTreasuryBurnDestination,Option<StagingKusamaRuntimeBurnDestinationAccount>)'
+    }
   },
   /**
-   * Lookup202: staging_kusama_runtime::NposCompactSolution24
+   * Lookup174: staging_kusama_runtime::dynamic_params::treasury::BurnPortion
+   **/
+  StagingKusamaRuntimeDynamicParamsTreasuryBurnPortion: 'Null',
+  /**
+   * Lookup177: staging_kusama_runtime::dynamic_params::treasury::BurnDestination
+   **/
+  StagingKusamaRuntimeDynamicParamsTreasuryBurnDestination: 'Null',
+  /**
+   * Lookup179: staging_kusama_runtime::BurnDestinationAccount
+   **/
+  StagingKusamaRuntimeBurnDestinationAccount: 'Option<AccountId32>',
+  /**
+   * Lookup199: staging_kusama_runtime::ProxyType
+   **/
+  StagingKusamaRuntimeProxyType: {
+    _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', '__Unused4', 'CancelProxy', 'Auction', 'Society', 'NominationPools', 'Spokesperson', 'ParaRegistration']
+  },
+  /**
+   * Lookup209: staging_kusama_runtime::NposCompactSolution24
    **/
   StagingKusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -204,29 +226,37 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup479: staging_kusama_runtime::RuntimeParametersKey
+   * Lookup491: staging_kusama_runtime::RuntimeParametersKey
    **/
   StagingKusamaRuntimeRuntimeParametersKey: {
     _enum: {
-      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParametersKey'
+      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParametersKey',
+      Treasury: 'StagingKusamaRuntimeDynamicParamsTreasuryParametersKey'
     }
   },
   /**
-   * Lookup480: staging_kusama_runtime::dynamic_params::inflation::ParametersKey
+   * Lookup492: staging_kusama_runtime::dynamic_params::inflation::ParametersKey
    **/
   StagingKusamaRuntimeDynamicParamsInflationParametersKey: {
     _enum: ['MinInflation', 'MaxInflation', 'IdealStake', 'Falloff', 'UseAuctionSlots']
   },
   /**
-   * Lookup482: staging_kusama_runtime::RuntimeParametersValue
+   * Lookup493: staging_kusama_runtime::dynamic_params::treasury::ParametersKey
+   **/
+  StagingKusamaRuntimeDynamicParamsTreasuryParametersKey: {
+    _enum: ['BurnPortion', 'BurnDestination']
+  },
+  /**
+   * Lookup495: staging_kusama_runtime::RuntimeParametersValue
    **/
   StagingKusamaRuntimeRuntimeParametersValue: {
     _enum: {
-      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParametersValue'
+      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParametersValue',
+      Treasury: 'StagingKusamaRuntimeDynamicParamsTreasuryParametersValue'
     }
   },
   /**
-   * Lookup483: staging_kusama_runtime::dynamic_params::inflation::ParametersValue
+   * Lookup496: staging_kusama_runtime::dynamic_params::inflation::ParametersValue
    **/
   StagingKusamaRuntimeDynamicParamsInflationParametersValue: {
     _enum: {
@@ -238,7 +268,16 @@ export default {
     }
   },
   /**
-   * Lookup570: staging_kusama_runtime::RuntimeHoldReason
+   * Lookup497: staging_kusama_runtime::dynamic_params::treasury::ParametersValue
+   **/
+  StagingKusamaRuntimeDynamicParamsTreasuryParametersValue: {
+    _enum: {
+      BurnPortion: 'Permill',
+      BurnDestination: 'StagingKusamaRuntimeBurnDestinationAccount'
+    }
+  },
+  /**
+   * Lookup585: staging_kusama_runtime::RuntimeHoldReason
    **/
   StagingKusamaRuntimeRuntimeHoldReason: {
     _enum: {
@@ -280,11 +319,20 @@ export default {
       __Unused35: 'Null',
       __Unused36: 'Null',
       __Unused37: 'Null',
-      Nis: 'PalletNisHoldReason'
+      Nis: 'PalletNisHoldReason',
+      __Unused39: 'Null',
+      __Unused40: 'Null',
+      __Unused41: 'Null',
+      __Unused42: 'Null',
+      __Unused43: 'Null',
+      __Unused44: 'Null',
+      __Unused45: 'Null',
+      __Unused46: 'Null',
+      DelegatedStaking: 'PalletDelegatedStakingHoldReason'
     }
   },
   /**
-   * Lookup576: staging_kusama_runtime::RuntimeFreezeReason
+   * Lookup592: staging_kusama_runtime::RuntimeFreezeReason
    **/
   StagingKusamaRuntimeRuntimeFreezeReason: {
     _enum: {
@@ -333,18 +381,18 @@ export default {
     }
   },
   /**
-   * Lookup749: frame_support::traits::tokens::misc::IdAmount<Id, Balance>
+   * Lookup764: frame_support::traits::tokens::misc::IdAmount<Id, Balance>
    **/
   FrameSupportTokensMiscIdAmount: {
     id: 'Null',
     amount: 'u128'
   },
   /**
-   * Lookup928: staging_kusama_runtime::Runtime
+   * Lookup946: staging_kusama_runtime::Runtime
    **/
   StagingKusamaRuntimeRuntime: 'Null',
   /**
-   * Lookup1040: staging_kusama_runtime::RuntimeError
+   * Lookup1059: staging_kusama_runtime::RuntimeError
    **/
   StagingKusamaRuntimeRuntimeError: {
     _enum: {
@@ -395,7 +443,7 @@ export default {
       Whitelist: 'PalletWhitelistError',
       NisCounterpartBalances: 'PalletBalancesError',
       __Unused46: 'Null',
-      __Unused47: 'Null',
+      DelegatedStaking: 'PalletDelegatedStakingError',
       __Unused48: 'Null',
       __Unused49: 'Null',
       __Unused50: 'Null',
@@ -412,7 +460,7 @@ export default {
       __Unused61: 'Null',
       ParasDisputes: 'PolkadotRuntimeParachainsDisputesPalletError',
       ParasSlashing: 'PolkadotRuntimeParachainsDisputesSlashingPalletError',
-      OnDemandAssignmentProvider: 'PolkadotRuntimeParachainsAssignerOnDemandPalletError',
+      OnDemandAssignmentProvider: 'PolkadotRuntimeParachainsOnDemandPalletError',
       CoretimeAssignmentProvider: 'PolkadotRuntimeParachainsAssignerCoretimePalletError',
       __Unused66: 'Null',
       __Unused67: 'Null',

@@ -16,6 +16,7 @@
   "references": [
     { "path": "../api/tsconfig.build.json" },
     { "path": "../api-augment/tsconfig.build.json" },
+    { "path": "../api-derive/tsconfig.build.json" },
     { "path": "../rpc-augment/tsconfig.build.json" },
     { "path": "../rpc-provider/tsconfig.build.json" },
     { "path": "../types/tsconfig.build.json" },
