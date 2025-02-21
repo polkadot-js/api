@@ -16,6 +16,14 @@ export default {
     beefy: 'SpConsensusBeefyEcdsaCryptoPublic'
   },
   /**
+   * Lookup126: polkadot_primitives::v7::validator_app::Public
+   **/
+  PolkadotPrimitivesV7ValidatorAppPublic: '[u8;32]',
+  /**
+   * Lookup127: polkadot_primitives::v7::assignment_app::Public
+   **/
+  PolkadotPrimitivesV7AssignmentAppPublic: '[u8;32]',
+  /**
    * Lookup150: staging_kusama_runtime::OriginCaller
    **/
   StagingKusamaRuntimeOriginCaller: {
@@ -204,6 +212,226 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
+   * Lookup303: polkadot_primitives::v7::async_backing::AsyncBackingParams
+   **/
+  PolkadotPrimitivesV7AsyncBackingAsyncBackingParams: {
+    maxCandidateDepth: 'u32',
+    allowedAncestryLen: 'u32'
+  },
+  /**
+   * Lookup304: polkadot_primitives::v7::executor_params::ExecutorParams
+   **/
+  PolkadotPrimitivesV7ExecutorParams: 'Vec<PolkadotPrimitivesV7ExecutorParamsExecutorParam>',
+  /**
+   * Lookup306: polkadot_primitives::v7::executor_params::ExecutorParam
+   **/
+  PolkadotPrimitivesV7ExecutorParamsExecutorParam: {
+    _enum: {
+      __Unused0: 'Null',
+      MaxMemoryPages: 'u32',
+      StackLogicalMax: 'u32',
+      StackNativeMax: 'u32',
+      PrecheckingMaxMemory: 'u64',
+      PvfPrepTimeout: '(PolkadotPrimitivesV7PvfPrepKind,u64)',
+      PvfExecTimeout: '(PolkadotPrimitivesV7PvfExecKind,u64)',
+      WasmExtBulkMemory: 'Null'
+    }
+  },
+  /**
+   * Lookup307: polkadot_primitives::v7::PvfPrepKind
+   **/
+  PolkadotPrimitivesV7PvfPrepKind: {
+    _enum: ['Precheck', 'Prepare']
+  },
+  /**
+   * Lookup308: polkadot_primitives::v7::PvfExecKind
+   **/
+  PolkadotPrimitivesV7PvfExecKind: {
+    _enum: ['Backing', 'Approval']
+  },
+  /**
+   * Lookup309: polkadot_primitives::v7::ApprovalVotingParams
+   **/
+  PolkadotPrimitivesV7ApprovalVotingParams: {
+    maxApprovalCoalesceCount: 'u32'
+  },
+  /**
+   * Lookup310: polkadot_primitives::vstaging::SchedulerParams<BlockNumber>
+   **/
+  PolkadotPrimitivesVstagingSchedulerParams: {
+    groupRotationFrequency: 'u32',
+    parasAvailabilityPeriod: 'u32',
+    maxValidatorsPerCore: 'Option<u32>',
+    lookahead: 'u32',
+    numCores: 'u32',
+    maxAvailabilityTimeouts: 'u32',
+    onDemandQueueMaxSize: 'u32',
+    onDemandTargetQueueUtilization: 'Perbill',
+    onDemandFeeVariability: 'Perbill',
+    onDemandBaseFee: 'u128',
+    ttl: 'u32'
+  },
+  /**
+   * Lookup314: polkadot_primitives::v7::InherentData<sp_runtime::generic::header::Header<Number, Hash>>
+   **/
+  PolkadotPrimitivesV7InherentData: {
+    bitfields: 'Vec<PolkadotPrimitivesV7SignedUncheckedSigned>',
+    backedCandidates: 'Vec<PolkadotPrimitivesV7BackedCandidate>',
+    disputes: 'Vec<PolkadotPrimitivesV7DisputeStatementSet>',
+    parentHeader: 'SpRuntimeHeader'
+  },
+  /**
+   * Lookup316: polkadot_primitives::v7::signed::UncheckedSigned<polkadot_primitives::v7::AvailabilityBitfield, polkadot_primitives::v7::AvailabilityBitfield>
+   **/
+  PolkadotPrimitivesV7SignedUncheckedSigned: {
+    payload: 'BitVec',
+    validatorIndex: 'u32',
+    signature: 'PolkadotPrimitivesV7ValidatorAppSignature'
+  },
+  /**
+   * Lookup321: polkadot_primitives::v7::validator_app::Signature
+   **/
+  PolkadotPrimitivesV7ValidatorAppSignature: '[u8;64]',
+  /**
+   * Lookup323: polkadot_primitives::v7::BackedCandidate<primitive_types::H256>
+   **/
+  PolkadotPrimitivesV7BackedCandidate: {
+    candidate: 'PolkadotPrimitivesV7CommittedCandidateReceipt',
+    validityVotes: 'Vec<PolkadotPrimitivesV7ValidityAttestation>',
+    validatorIndices: 'BitVec'
+  },
+  /**
+   * Lookup324: polkadot_primitives::v7::CommittedCandidateReceipt<primitive_types::H256>
+   **/
+  PolkadotPrimitivesV7CommittedCandidateReceipt: {
+    descriptor: 'PolkadotPrimitivesV7CandidateDescriptor',
+    commitments: 'PolkadotPrimitivesV7CandidateCommitments'
+  },
+  /**
+   * Lookup325: polkadot_primitives::v7::CandidateDescriptor<primitive_types::H256>
+   **/
+  PolkadotPrimitivesV7CandidateDescriptor: {
+    paraId: 'u32',
+    relayParent: 'H256',
+    collator: 'PolkadotPrimitivesV7CollatorAppPublic',
+    persistedValidationDataHash: 'H256',
+    povHash: 'H256',
+    erasureRoot: 'H256',
+    signature: 'PolkadotPrimitivesV7CollatorAppSignature',
+    paraHead: 'H256',
+    validationCodeHash: 'H256'
+  },
+  /**
+   * Lookup326: polkadot_primitives::v7::collator_app::Public
+   **/
+  PolkadotPrimitivesV7CollatorAppPublic: '[u8;32]',
+  /**
+   * Lookup327: polkadot_primitives::v7::collator_app::Signature
+   **/
+  PolkadotPrimitivesV7CollatorAppSignature: '[u8;64]',
+  /**
+   * Lookup329: polkadot_primitives::v7::CandidateCommitments<N>
+   **/
+  PolkadotPrimitivesV7CandidateCommitments: {
+    upwardMessages: 'Vec<Bytes>',
+    horizontalMessages: 'Vec<PolkadotCorePrimitivesOutboundHrmpMessage>',
+    newValidationCode: 'Option<Bytes>',
+    headData: 'Bytes',
+    processedDownwardMessages: 'u32',
+    hrmpWatermark: 'u32'
+  },
+  /**
+   * Lookup338: polkadot_primitives::v7::ValidityAttestation
+   **/
+  PolkadotPrimitivesV7ValidityAttestation: {
+    _enum: {
+      __Unused0: 'Null',
+      Implicit: 'PolkadotPrimitivesV7ValidatorAppSignature',
+      Explicit: 'PolkadotPrimitivesV7ValidatorAppSignature'
+    }
+  },
+  /**
+   * Lookup340: polkadot_primitives::v7::DisputeStatementSet
+   **/
+  PolkadotPrimitivesV7DisputeStatementSet: {
+    candidateHash: 'H256',
+    session: 'u32',
+    statements: 'Vec<(PolkadotPrimitivesV7DisputeStatement,u32,PolkadotPrimitivesV7ValidatorAppSignature)>'
+  },
+  /**
+   * Lookup344: polkadot_primitives::v7::DisputeStatement
+   **/
+  PolkadotPrimitivesV7DisputeStatement: {
+    _enum: {
+      Valid: 'PolkadotPrimitivesV7ValidDisputeStatementKind',
+      Invalid: 'PolkadotPrimitivesV7InvalidDisputeStatementKind'
+    }
+  },
+  /**
+   * Lookup345: polkadot_primitives::v7::ValidDisputeStatementKind
+   **/
+  PolkadotPrimitivesV7ValidDisputeStatementKind: {
+    _enum: {
+      Explicit: 'Null',
+      BackingSeconded: 'H256',
+      BackingValid: 'H256',
+      ApprovalChecking: 'Null',
+      ApprovalCheckingMultipleCandidates: 'Vec<H256>'
+    }
+  },
+  /**
+   * Lookup347: polkadot_primitives::v7::InvalidDisputeStatementKind
+   **/
+  PolkadotPrimitivesV7InvalidDisputeStatementKind: {
+    _enum: ['Explicit']
+  },
+  /**
+   * Lookup349: polkadot_primitives::v7::PvfCheckStatement
+   **/
+  PolkadotPrimitivesV7PvfCheckStatement: {
+    accept: 'bool',
+    subject: 'H256',
+    sessionIndex: 'u32',
+    validatorIndex: 'u32'
+  },
+  /**
+   * Lookup355: polkadot_primitives::v7::slashing::DisputeProof
+   **/
+  PolkadotPrimitivesV7SlashingDisputeProof: {
+    timeSlot: 'PolkadotPrimitivesV7SlashingDisputesTimeSlot',
+    kind: 'PolkadotPrimitivesV7SlashingSlashingOffenceKind',
+    validatorIndex: 'u32',
+    validatorId: 'PolkadotPrimitivesV7ValidatorAppPublic'
+  },
+  /**
+   * Lookup356: polkadot_primitives::v7::slashing::DisputesTimeSlot
+   **/
+  PolkadotPrimitivesV7SlashingDisputesTimeSlot: {
+    sessionIndex: 'u32',
+    candidateHash: 'H256'
+  },
+  /**
+   * Lookup357: polkadot_primitives::v7::slashing::SlashingOffenceKind
+   **/
+  PolkadotPrimitivesV7SlashingSlashingOffenceKind: {
+    _enum: ['ForInvalid', 'AgainstValid']
+  },
+  /**
+   * Lookup358: polkadot_runtime_parachains::assigner_on_demand::pallet::Call<T>
+   **/
+  PolkadotRuntimeParachainsAssignerOnDemandPalletCall: {
+    _enum: {
+      place_order_allow_death: {
+        maxAmount: 'u128',
+        paraId: 'u32',
+      },
+      place_order_keep_alive: {
+        maxAmount: 'u128',
+        paraId: 'u32'
+      }
+    }
+  },
+  /**
    * Lookup479: staging_kusama_runtime::RuntimeParametersKey
    **/
   StagingKusamaRuntimeRuntimeParametersKey: {
@@ -235,6 +463,28 @@ export default {
       IdealStake: 'Perquintill',
       Falloff: 'Perquintill',
       UseAuctionSlots: 'bool'
+    }
+  },
+  /**
+   * Lookup508: polkadot_primitives::v7::CandidateReceipt<primitive_types::H256>
+   **/
+  PolkadotPrimitivesV7CandidateReceipt: {
+    descriptor: 'PolkadotPrimitivesV7CandidateDescriptor',
+    commitmentsHash: 'H256'
+  },
+  /**
+   * Lookup516: polkadot_runtime_parachains::assigner_on_demand::pallet::Event<T>
+   **/
+  PolkadotRuntimeParachainsAssignerOnDemandPalletEvent: {
+    _enum: {
+      OnDemandOrderPlaced: {
+        paraId: 'u32',
+        spotPrice: 'u128',
+        orderedBy: 'AccountId32',
+      },
+      SpotPriceSet: {
+        spotPrice: 'u128'
+      }
     }
   },
   /**
@@ -340,9 +590,215 @@ export default {
     amount: 'u128'
   },
   /**
+   * Lookup791: polkadot_primitives::v7::ScrapedOnChainVotes<primitive_types::H256>
+   **/
+  PolkadotPrimitivesV7ScrapedOnChainVotes: {
+    session: 'u32',
+    backingValidatorsPerCandidate: 'Vec<(PolkadotPrimitivesV7CandidateReceipt,Vec<(u32,PolkadotPrimitivesV7ValidityAttestation)>)>',
+    disputes: 'Vec<PolkadotPrimitivesV7DisputeStatementSet>'
+  },
+  /**
+   * Lookup818: polkadot_primitives::v7::UpgradeGoAhead
+   **/
+  PolkadotPrimitivesV7UpgradeGoAhead: {
+    _enum: ['Abort', 'GoAhead']
+  },
+  /**
+   * Lookup819: polkadot_primitives::v7::UpgradeRestriction
+   **/
+  PolkadotPrimitivesV7UpgradeRestriction: {
+    _enum: ['Present']
+  },
+  /**
+   * Lookup835: polkadot_primitives::v7::SessionInfo
+   **/
+  PolkadotPrimitivesV7SessionInfo: {
+    activeValidatorIndices: 'Vec<u32>',
+    randomSeed: '[u8;32]',
+    disputePeriod: 'u32',
+    validators: 'PolkadotPrimitivesV7IndexedVecValidatorIndex',
+    discoveryKeys: 'Vec<SpAuthorityDiscoveryAppPublic>',
+    assignmentKeys: 'Vec<PolkadotPrimitivesV7AssignmentAppPublic>',
+    validatorGroups: 'PolkadotPrimitivesV7IndexedVecGroupIndex',
+    nCores: 'u32',
+    zerothDelayTrancheWidth: 'u32',
+    relayVrfModuloSamples: 'u32',
+    nDelayTranches: 'u32',
+    noShowSlots: 'u32',
+    neededApprovals: 'u32'
+  },
+  /**
+   * Lookup836: polkadot_primitives::v7::IndexedVec<polkadot_primitives::v7::ValidatorIndex, polkadot_primitives::v7::validator_app::Public>
+   **/
+  PolkadotPrimitivesV7IndexedVecValidatorIndex: 'Vec<PolkadotPrimitivesV7ValidatorAppPublic>',
+  /**
+   * Lookup837: polkadot_primitives::v7::IndexedVec<polkadot_primitives::v7::GroupIndex, V>
+   **/
+  PolkadotPrimitivesV7IndexedVecGroupIndex: 'Vec<Vec<u32>>',
+  /**
+   * Lookup839: polkadot_primitives::v7::DisputeState<N>
+   **/
+  PolkadotPrimitivesV7DisputeState: {
+    validatorsFor: 'BitVec',
+    validatorsAgainst: 'BitVec',
+    start: 'u32',
+    concludedAt: 'Option<u32>'
+  },
+  /**
+   * Lookup842: polkadot_primitives::v7::slashing::PendingSlashes
+   **/
+  PolkadotPrimitivesV7SlashingPendingSlashes: {
+    _alias: {
+      keys_: 'keys'
+    },
+    keys_: 'BTreeMap<u32, PolkadotPrimitivesV7ValidatorAppPublic>',
+    kind: 'PolkadotPrimitivesV7SlashingSlashingOffenceKind'
+  },
+  /**
+   * Lookup847: polkadot_runtime_parachains::assigner_on_demand::types::CoreAffinityCount
+   **/
+  PolkadotRuntimeParachainsAssignerOnDemandTypesCoreAffinityCount: {
+    coreIndex: 'u32',
+    count: 'u32'
+  },
+  /**
+   * Lookup848: polkadot_runtime_parachains::assigner_on_demand::types::QueueStatusType
+   **/
+  PolkadotRuntimeParachainsAssignerOnDemandTypesQueueStatusType: {
+    traffic: 'u128',
+    nextIndex: 'u32',
+    smallestIndex: 'u32',
+    freedIndices: 'BinaryHeapReverseQueueIndex'
+  },
+  /**
+   * Lookup854: polkadot_runtime_parachains::assigner_on_demand::types::EnqueuedOrder
+   **/
+  PolkadotRuntimeParachainsAssignerOnDemandTypesEnqueuedOrder: {
+    paraId: 'u32',
+    idx: 'u32'
+  },
+  /**
+   * Lookup858: polkadot_runtime_parachains::assigner_on_demand::pallet::Error<T>
+   **/
+  PolkadotRuntimeParachainsAssignerOnDemandPalletError: {
+    _enum: ['QueueFull', 'SpotPriceHigherThanMaxAmount']
+  },
+  /**
    * Lookup928: staging_kusama_runtime::Runtime
    **/
   StagingKusamaRuntimeRuntime: 'Null',
+  /**
+   * Lookup950: polkadot_primitives::v7::GroupRotationInfo<N>
+   **/
+  PolkadotPrimitivesV7GroupRotationInfo: {
+    sessionStartBlock: 'u32',
+    groupRotationFrequency: 'u32',
+    now: 'u32'
+  },
+  /**
+   * Lookup952: polkadot_primitives::v7::CoreState<primitive_types::H256, N>
+   **/
+  PolkadotPrimitivesV7CoreState: {
+    _enum: {
+      Occupied: 'PolkadotPrimitivesV7OccupiedCore',
+      Scheduled: 'PolkadotPrimitivesV7ScheduledCore',
+      Free: 'Null'
+    }
+  },
+  /**
+   * Lookup953: polkadot_primitives::v7::OccupiedCore<primitive_types::H256, N>
+   **/
+  PolkadotPrimitivesV7OccupiedCore: {
+    nextUpOnAvailable: 'Option<PolkadotPrimitivesV7ScheduledCore>',
+    occupiedSince: 'u32',
+    timeOutAt: 'u32',
+    nextUpOnTimeOut: 'Option<PolkadotPrimitivesV7ScheduledCore>',
+    availability: 'BitVec',
+    groupResponsible: 'u32',
+    candidateHash: 'H256',
+    candidateDescriptor: 'PolkadotPrimitivesV7CandidateDescriptor'
+  },
+  /**
+   * Lookup955: polkadot_primitives::v7::ScheduledCore
+   **/
+  PolkadotPrimitivesV7ScheduledCore: {
+    paraId: 'u32',
+    collator: 'Option<PolkadotPrimitivesV7CollatorAppPublic>'
+  },
+  /**
+   * Lookup957: polkadot_primitives::v7::OccupiedCoreAssumption
+   **/
+  PolkadotPrimitivesV7OccupiedCoreAssumption: {
+    _enum: ['Included', 'TimedOut', 'Free']
+  },
+  /**
+   * Lookup959: polkadot_primitives::v7::PersistedValidationData<primitive_types::H256, N>
+   **/
+  PolkadotPrimitivesV7PersistedValidationData: {
+    parentHead: 'Bytes',
+    relayParentNumber: 'u32',
+    relayParentStorageRoot: 'H256',
+    maxPovSize: 'u32'
+  },
+  /**
+   * Lookup964: polkadot_primitives::v7::CandidateEvent<primitive_types::H256>
+   **/
+  PolkadotPrimitivesV7CandidateEvent: {
+    _enum: {
+      CandidateBacked: '(PolkadotPrimitivesV7CandidateReceipt,Bytes,u32,u32)',
+      CandidateIncluded: '(PolkadotPrimitivesV7CandidateReceipt,Bytes,u32,u32)',
+      CandidateTimedOut: '(PolkadotPrimitivesV7CandidateReceipt,Bytes,u32)'
+    }
+  },
+  /**
+   * Lookup980: polkadot_primitives::v7::async_backing::BackingState<primitive_types::H256, N>
+   **/
+  PolkadotPrimitivesV7AsyncBackingBackingState: {
+    constraints: 'PolkadotPrimitivesV7AsyncBackingConstraints',
+    pendingAvailability: 'Vec<PolkadotPrimitivesV7AsyncBackingCandidatePendingAvailability>'
+  },
+  /**
+   * Lookup981: polkadot_primitives::v7::async_backing::Constraints<N>
+   **/
+  PolkadotPrimitivesV7AsyncBackingConstraints: {
+    minRelayParentNumber: 'u32',
+    maxPovSize: 'u32',
+    maxCodeSize: 'u32',
+    umpRemaining: 'u32',
+    umpRemainingBytes: 'u32',
+    maxUmpNumPerCandidate: 'u32',
+    dmpRemainingMessages: 'Vec<u32>',
+    hrmpInbound: 'PolkadotPrimitivesV7AsyncBackingInboundHrmpLimitations',
+    hrmpChannelsOut: 'Vec<(u32,PolkadotPrimitivesV7AsyncBackingOutboundHrmpChannelLimitations)>',
+    maxHrmpNumPerCandidate: 'u32',
+    requiredParent: 'Bytes',
+    validationCodeHash: 'H256',
+    upgradeRestriction: 'Option<PolkadotPrimitivesV7UpgradeRestriction>',
+    futureValidationCode: 'Option<(u32,H256)>'
+  },
+  /**
+   * Lookup982: polkadot_primitives::v7::async_backing::InboundHrmpLimitations<N>
+   **/
+  PolkadotPrimitivesV7AsyncBackingInboundHrmpLimitations: {
+    validWatermarks: 'Vec<u32>'
+  },
+  /**
+   * Lookup985: polkadot_primitives::v7::async_backing::OutboundHrmpChannelLimitations
+   **/
+  PolkadotPrimitivesV7AsyncBackingOutboundHrmpChannelLimitations: {
+    bytesRemaining: 'u32',
+    messagesRemaining: 'u32'
+  },
+  /**
+   * Lookup990: polkadot_primitives::v7::async_backing::CandidatePendingAvailability<primitive_types::H256, N>
+   **/
+  PolkadotPrimitivesV7AsyncBackingCandidatePendingAvailability: {
+    candidateHash: 'H256',
+    descriptor: 'PolkadotPrimitivesV7CandidateDescriptor',
+    commitments: 'PolkadotPrimitivesV7CandidateCommitments',
+    relayParentNumber: 'u32',
+    maxPovSize: 'u32'
+  },
   /**
    * Lookup1040: staging_kusama_runtime::RuntimeError
    **/
