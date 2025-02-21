@@ -14,7 +14,13 @@ import { memo } from '../util/index.js';
 type Result = [Vec<PalletSocietyBid>, Option<AccountId> | undefined, Option<AccountId>, Option<AccountId>, u32 | undefined, BalanceOf]
 
 /**
+ * @name info
  * @description Get the overall info for a society
+ * @example
+ * ```javascript
+ * const societyInfo = await api.derive.society.candidates();
+ * console.log(societyInfo);
+ * ```
  */
 export function info (instanceId: string, api: DeriveApi): () => Observable<DeriveSociety> {
   return memo(instanceId, (): Observable<DeriveSociety> =>

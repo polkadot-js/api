@@ -31,7 +31,7 @@ export const hasProposals = /*#__PURE__*/ collectiveHasProposals('council');
  * @name proposal
  * @description Retrieves details of a specific proposal in the "councilMotion" collective by its hash.
  * @example
- * ```
+ * ```javascript
  * const proposalDetails = await api.derive.council.proposal(PROPOSAL_HASH);
  * console.log(proposalDetails);
  * ```

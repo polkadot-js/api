@@ -82,7 +82,13 @@ export function _members (instanceId: string, api: DeriveApi): (accountIds: Acco
 }
 
 /**
- * @description Get the member info for a society
+ * @name members
+ * @description Get the society members
+ * @example
+ * ```javascript
+ * const members = await api.derive.society.members();
+ * console.log(members);
+ * ```
  */
 export function members (instanceId: string, api: DeriveApi): () => Observable<DeriveSocietyMember[]> {
   return memo(instanceId, (): Observable<DeriveSocietyMember[]> =>

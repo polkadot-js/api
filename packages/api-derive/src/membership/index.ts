@@ -28,7 +28,7 @@ export const hasProposals = /*#__PURE__*/ collectiveHasProposals('membership');
  * @name proposal
  * @description Retrieves details of a specific proposal in the "membership" collective by its hash.
  * @example
- * ```
+ * ```javascript
  * const proposalDetails = await api.derive.membership.proposal(PROPOSAL_HASH);
  * console.log(proposalDetails);
  * ```

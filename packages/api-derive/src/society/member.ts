@@ -10,7 +10,14 @@ import { map } from 'rxjs';
 import { memo } from '../util/index.js';
 
 /**
+ * @name member
  * @description Get the member info for a society
+ * @param { AccountId } accountId
+ * @example
+ * ```javascript
+ * const member = await api.derive.society.member(ALICE);
+ * console.log(member);
+ * ```
  */
 export function member (instanceId: string, api: DeriveApi): (accountId: AccountId) => Observable<DeriveSocietyMember> {
   return memo(instanceId, (accountId: AccountId): Observable<DeriveSocietyMember> =>
