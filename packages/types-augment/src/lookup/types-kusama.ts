@@ -7,15 +7,15 @@ import '@polkadot/types/lookup';
 
 import type { Compact, Enum, Null, Option, Struct, Vec, bool, u128, u16, u32 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { PerU16, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, PerU16, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
-  /** @name StagingKusamaRuntimeSessionKeys (125) */
+  /** @name StagingKusamaRuntimeSessionKeys (127) */
   interface StagingKusamaRuntimeSessionKeys extends Struct {
     readonly grandpa: SpConsensusGrandpaAppPublic;
     readonly babe: SpConsensusBabeAppPublic;
-    readonly paraValidator: PolkadotPrimitivesV7ValidatorAppPublic;
-    readonly paraAssignment: PolkadotPrimitivesV7AssignmentAppPublic;
+    readonly paraValidator: PolkadotPrimitivesV8ValidatorAppPublic;
+    readonly paraAssignment: PolkadotPrimitivesV8AssignmentAppPublic;
     readonly authorityDiscovery: SpAuthorityDiscoveryAppPublic;
     readonly beefy: SpConsensusBeefyEcdsaCryptoPublic;
   }
@@ -71,7 +71,9 @@ declare module '@polkadot/types/lookup' {
   interface StagingKusamaRuntimeRuntimeParameters extends Enum {
     readonly isInflation: boolean;
     readonly asInflation: StagingKusamaRuntimeDynamicParamsInflationParameters;
-    readonly type: 'Inflation';
+    readonly isTreasury: boolean;
+    readonly asTreasury: StagingKusamaRuntimeDynamicParamsTreasuryParameters;
+    readonly type: 'Inflation' | 'Treasury';
   }
 
   /** @name StagingKusamaRuntimeDynamicParamsInflationParameters (164) */
@@ -104,7 +106,25 @@ declare module '@polkadot/types/lookup' {
   /** @name StagingKusamaRuntimeDynamicParamsInflationUseAuctionSlots (171) */
   type StagingKusamaRuntimeDynamicParamsInflationUseAuctionSlots = Null;
 
-  /** @name StagingKusamaRuntimeProxyType (192) */
+  /** @name StagingKusamaRuntimeDynamicParamsTreasuryParameters (173) */
+  interface StagingKusamaRuntimeDynamicParamsTreasuryParameters extends Enum {
+    readonly isBurnPortion: boolean;
+    readonly asBurnPortion: ITuple<[StagingKusamaRuntimeDynamicParamsTreasuryBurnPortion, Option<Permill>]>;
+    readonly isBurnDestination: boolean;
+    readonly asBurnDestination: ITuple<[StagingKusamaRuntimeDynamicParamsTreasuryBurnDestination, Option<StagingKusamaRuntimeBurnDestinationAccount>]>;
+    readonly type: 'BurnPortion' | 'BurnDestination';
+  }
+
+  /** @name StagingKusamaRuntimeDynamicParamsTreasuryBurnPortion (174) */
+  type StagingKusamaRuntimeDynamicParamsTreasuryBurnPortion = Null;
+
+  /** @name StagingKusamaRuntimeDynamicParamsTreasuryBurnDestination (177) */
+  type StagingKusamaRuntimeDynamicParamsTreasuryBurnDestination = Null;
+
+  /** @name StagingKusamaRuntimeBurnDestinationAccount (179) */
+  interface StagingKusamaRuntimeBurnDestinationAccount extends Option<AccountId32> {}
+
+  /** @name StagingKusamaRuntimeProxyType (199) */
   interface StagingKusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isNonTransfer: boolean;
@@ -115,10 +135,11 @@ declare module '@polkadot/types/lookup' {
     readonly isSociety: boolean;
     readonly isNominationPools: boolean;
     readonly isSpokesperson: boolean;
-    readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'CancelProxy' | 'Auction' | 'Society' | 'NominationPools' | 'Spokesperson';
+    readonly isParaRegistration: boolean;
+    readonly type: 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'CancelProxy' | 'Auction' | 'Society' | 'NominationPools' | 'Spokesperson' | 'ParaRegistration';
   }
 
-  /** @name StagingKusamaRuntimeNposCompactSolution24 (202) */
+  /** @name StagingKusamaRuntimeNposCompactSolution24 (209) */
   interface StagingKusamaRuntimeNposCompactSolution24 extends Struct {
     readonly votes1: Vec<ITuple<[Compact<u32>, Compact<u16>]>>;
     readonly votes2: Vec<ITuple<[Compact<u32>, ITuple<[Compact<u16>, Compact<PerU16>]>, Compact<u16>]>>;
@@ -146,14 +167,16 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name StagingKusamaRuntimeRuntimeParametersKey (479) */
+  /** @name StagingKusamaRuntimeRuntimeParametersKey (491) */
   interface StagingKusamaRuntimeRuntimeParametersKey extends Enum {
     readonly isInflation: boolean;
     readonly asInflation: StagingKusamaRuntimeDynamicParamsInflationParametersKey;
-    readonly type: 'Inflation';
+    readonly isTreasury: boolean;
+    readonly asTreasury: StagingKusamaRuntimeDynamicParamsTreasuryParametersKey;
+    readonly type: 'Inflation' | 'Treasury';
   }
 
-  /** @name StagingKusamaRuntimeDynamicParamsInflationParametersKey (480) */
+  /** @name StagingKusamaRuntimeDynamicParamsInflationParametersKey (492) */
   interface StagingKusamaRuntimeDynamicParamsInflationParametersKey extends Enum {
     readonly isMinInflation: boolean;
     readonly isMaxInflation: boolean;
@@ -163,14 +186,23 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'MinInflation' | 'MaxInflation' | 'IdealStake' | 'Falloff' | 'UseAuctionSlots';
   }
 
-  /** @name StagingKusamaRuntimeRuntimeParametersValue (482) */
+  /** @name StagingKusamaRuntimeDynamicParamsTreasuryParametersKey (493) */
+  interface StagingKusamaRuntimeDynamicParamsTreasuryParametersKey extends Enum {
+    readonly isBurnPortion: boolean;
+    readonly isBurnDestination: boolean;
+    readonly type: 'BurnPortion' | 'BurnDestination';
+  }
+
+  /** @name StagingKusamaRuntimeRuntimeParametersValue (495) */
   interface StagingKusamaRuntimeRuntimeParametersValue extends Enum {
     readonly isInflation: boolean;
     readonly asInflation: StagingKusamaRuntimeDynamicParamsInflationParametersValue;
-    readonly type: 'Inflation';
+    readonly isTreasury: boolean;
+    readonly asTreasury: StagingKusamaRuntimeDynamicParamsTreasuryParametersValue;
+    readonly type: 'Inflation' | 'Treasury';
   }
 
-  /** @name StagingKusamaRuntimeDynamicParamsInflationParametersValue (483) */
+  /** @name StagingKusamaRuntimeDynamicParamsInflationParametersValue (496) */
   interface StagingKusamaRuntimeDynamicParamsInflationParametersValue extends Enum {
     readonly isMinInflation: boolean;
     readonly asMinInflation: Perquintill;
@@ -185,32 +217,43 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'MinInflation' | 'MaxInflation' | 'IdealStake' | 'Falloff' | 'UseAuctionSlots';
   }
 
-  /** @name StagingKusamaRuntimeRuntimeHoldReason (570) */
+  /** @name StagingKusamaRuntimeDynamicParamsTreasuryParametersValue (497) */
+  interface StagingKusamaRuntimeDynamicParamsTreasuryParametersValue extends Enum {
+    readonly isBurnPortion: boolean;
+    readonly asBurnPortion: Permill;
+    readonly isBurnDestination: boolean;
+    readonly asBurnDestination: StagingKusamaRuntimeBurnDestinationAccount;
+    readonly type: 'BurnPortion' | 'BurnDestination';
+  }
+
+  /** @name StagingKusamaRuntimeRuntimeHoldReason (585) */
   interface StagingKusamaRuntimeRuntimeHoldReason extends Enum {
     readonly isPreimage: boolean;
     readonly asPreimage: PalletPreimageHoldReason;
     readonly isNis: boolean;
     readonly asNis: PalletNisHoldReason;
-    readonly type: 'Preimage' | 'Nis';
+    readonly isDelegatedStaking: boolean;
+    readonly asDelegatedStaking: PalletDelegatedStakingHoldReason;
+    readonly type: 'Preimage' | 'Nis' | 'DelegatedStaking';
   }
 
-  /** @name StagingKusamaRuntimeRuntimeFreezeReason (576) */
+  /** @name StagingKusamaRuntimeRuntimeFreezeReason (592) */
   interface StagingKusamaRuntimeRuntimeFreezeReason extends Enum {
     readonly isNominationPools: boolean;
     readonly asNominationPools: PalletNominationPoolsFreezeReason;
     readonly type: 'NominationPools';
   }
 
-  /** @name FrameSupportTokensMiscIdAmount (749) */
+  /** @name FrameSupportTokensMiscIdAmount (764) */
   interface FrameSupportTokensMiscIdAmount extends Struct {
     readonly id: Null;
     readonly amount: u128;
   }
 
-  /** @name StagingKusamaRuntimeRuntime (928) */
+  /** @name StagingKusamaRuntimeRuntime (946) */
   type StagingKusamaRuntimeRuntime = Null;
 
-  /** @name StagingKusamaRuntimeRuntimeError (1040) */
+  /** @name StagingKusamaRuntimeRuntimeError (1059) */
   interface StagingKusamaRuntimeRuntimeError extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemError;
@@ -272,6 +315,8 @@ declare module '@polkadot/types/lookup' {
     readonly asWhitelist: PalletWhitelistError;
     readonly isNisCounterpartBalances: boolean;
     readonly asNisCounterpartBalances: PalletBalancesError;
+    readonly isDelegatedStaking: boolean;
+    readonly asDelegatedStaking: PalletDelegatedStakingError;
     readonly isConfiguration: boolean;
     readonly asConfiguration: PolkadotRuntimeParachainsConfigurationPalletError;
     readonly isParaInclusion: boolean;
@@ -287,7 +332,7 @@ declare module '@polkadot/types/lookup' {
     readonly isParasSlashing: boolean;
     readonly asParasSlashing: PolkadotRuntimeParachainsDisputesSlashingPalletError;
     readonly isOnDemandAssignmentProvider: boolean;
-    readonly asOnDemandAssignmentProvider: PolkadotRuntimeParachainsAssignerOnDemandPalletError;
+    readonly asOnDemandAssignmentProvider: PolkadotRuntimeParachainsOnDemandPalletError;
     readonly isCoretimeAssignmentProvider: boolean;
     readonly asCoretimeAssignmentProvider: PolkadotRuntimeParachainsAssignerCoretimePalletError;
     readonly isRegistrar: boolean;
@@ -308,7 +353,7 @@ declare module '@polkadot/types/lookup' {
     readonly asAssetRate: PalletAssetRateError;
     readonly isBeefy: boolean;
     readonly asBeefy: PalletBeefyError;
-    readonly type: 'System' | 'Babe' | 'Indices' | 'Balances' | 'Staking' | 'Session' | 'Grandpa' | 'Treasury' | 'Claims' | 'ConvictionVoting' | 'Referenda' | 'FellowshipCollective' | 'FellowshipReferenda' | 'Utility' | 'Society' | 'Recovery' | 'Vesting' | 'Scheduler' | 'Proxy' | 'Multisig' | 'Preimage' | 'Bounties' | 'ElectionProviderMultiPhase' | 'Nis' | 'VoterList' | 'ChildBounties' | 'NominationPools' | 'FastUnstake' | 'Whitelist' | 'NisCounterpartBalances' | 'Configuration' | 'ParaInclusion' | 'ParaInherent' | 'Paras' | 'Hrmp' | 'ParasDisputes' | 'ParasSlashing' | 'OnDemandAssignmentProvider' | 'CoretimeAssignmentProvider' | 'Registrar' | 'Slots' | 'Auctions' | 'Crowdloan' | 'Coretime' | 'XcmPallet' | 'MessageQueue' | 'AssetRate' | 'Beefy';
+    readonly type: 'System' | 'Babe' | 'Indices' | 'Balances' | 'Staking' | 'Session' | 'Grandpa' | 'Treasury' | 'Claims' | 'ConvictionVoting' | 'Referenda' | 'FellowshipCollective' | 'FellowshipReferenda' | 'Utility' | 'Society' | 'Recovery' | 'Vesting' | 'Scheduler' | 'Proxy' | 'Multisig' | 'Preimage' | 'Bounties' | 'ElectionProviderMultiPhase' | 'Nis' | 'VoterList' | 'ChildBounties' | 'NominationPools' | 'FastUnstake' | 'Whitelist' | 'NisCounterpartBalances' | 'DelegatedStaking' | 'Configuration' | 'ParaInclusion' | 'ParaInherent' | 'Paras' | 'Hrmp' | 'ParasDisputes' | 'ParasSlashing' | 'OnDemandAssignmentProvider' | 'CoretimeAssignmentProvider' | 'Registrar' | 'Slots' | 'Auctions' | 'Crowdloan' | 'Coretime' | 'XcmPallet' | 'MessageQueue' | 'AssetRate' | 'Beefy';
   }
 
 } // declare module
