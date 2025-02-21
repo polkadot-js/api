@@ -31,6 +31,18 @@ function parse ([ids, didUpdate, relayDispatchQueueSizes, infos, pendingSwaps]: 
   }));
 }
 
+/**
+ * @name overview
+ * @description Retrieves an overview of all registered parachains.
+ * @example
+ * ```javascript
+ * await api.derive.parachains.overview((overview) => {
+ *   parachains.forEach(parachain => {
+ *     console.log(`Parachain ${parachain.id.toString()} is registered.`);
+ *   });
+ * });
+ * ```
+ */
 export function overview (instanceId: string, api: DeriveApi): () => Observable<DeriveParachain[]> {
   return memo(instanceId, (): Observable<DeriveParachain[]> =>
     api.query['registrar']?.['parachains'] && api.query['parachains']

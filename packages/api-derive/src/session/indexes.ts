@@ -67,6 +67,18 @@ function empty (api: DeriveApi): Observable<DeriveSessionIndexes> {
   ]));
 }
 
+/**
+ * @name indexes
+ * @description Retrieves session-related index data, adapting to whether
+ * the chain has staking enabled.
+ * @example
+ * ```javascript
+ * api.derive.session.indexes((indexes) => {
+ *   console.log(`Current session index: ${indexes.currentIndex}`);
+ *   console.log(`Validator count: ${indexes.validatorCount}`);
+ * });
+ * ```
+ */
 export function indexes (instanceId: string, api: DeriveApi): () => Observable<DeriveSessionIndexes> {
   return memo(instanceId, (): Observable<DeriveSessionIndexes> =>
     api.query.session

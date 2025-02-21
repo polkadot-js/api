@@ -35,7 +35,8 @@ function mapResult ([result, validators, heartbeats, numBlocks]: Result): Derive
 }
 
 /**
- * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session
+ * @name receivedHeartbeats
+ * @returns Return a boolean array indicating whether the passed accounts had received heartbeats in the current session.
  */
 export function receivedHeartbeats (instanceId: string, api: DeriveApi): () => Observable<DeriveHeartbeats> {
   return memo(instanceId, (): Observable<DeriveHeartbeats> =>
