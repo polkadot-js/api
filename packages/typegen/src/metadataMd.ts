@@ -693,7 +693,7 @@ function renderDerives (metadata: Record<string, Derive[]>) {
           md += '\n- **params**:\n';
           params.forEach(
             (param) =>
-              (md += `  - ${param.name} \`${param.type}\`: ${param.description}`)
+              (md += `  - ${param.name} \`${param.type}\`: ${param.description}\n`)
           );
         }
 

@@ -81,7 +81,13 @@ function retrieveProposals (api: DeriveApi, proposalCount: ProposalIndex, approv
 }
 
 /**
- * @description Retrieve all active and approved treasury proposals, along with their info
+ * @name proposals
+ * @description Retrieve all active and approved treasury proposals, along with their info.
+ * @example
+ * ```javascript
+ * const treasuryProposals = await api.derive.treasury.proposals();
+ * console.log(treasuryProposals);
+ * ```
  */
 export function proposals (instanceId: string, api: DeriveApi): () => Observable<DeriveTreasuryProposals> {
   return memo(instanceId, (): Observable<DeriveTreasuryProposals> =>

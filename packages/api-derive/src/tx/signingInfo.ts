@@ -88,7 +88,7 @@ function babeOrAuraPeriod (api: DeriveApi): BN | undefined {
  * @name signingInfo
  * @description Retrieves signing-related information for an account, including the nonce, block header, and mortal length.
  * @param {string} address The account address for which signing information is needed.
- * @param { BN | bigint | Uint8Array | number | string } nonce (Optional) The nonce to use. If `undefined`, the latest nonce is retrieved.
+ * @param { BN | bigint | Uint8Array | number | string } nonce? (Optional) The nonce to use. If `undefined`, the latest nonce is retrieved.
  * @param { IExtrinsicEra | number } era? (Optional) The transaction era.
  * @example
  * ```javascript

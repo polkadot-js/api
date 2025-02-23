@@ -10,6 +10,7 @@ import { map } from 'rxjs';
 import { memo } from '../util/index.js';
 import { erasHistoricApplyAccount } from './util.js';
 
+
 export function _stakerSlashes (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveStakerSlashes[]> {
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean): Observable<DeriveStakerSlashes[]> => {
     const stakerId = api.registry.createType('AccountId', accountId).toString();
@@ -25,4 +26,11 @@ export function _stakerSlashes (instanceId: string, api: DeriveApi): (accountId:
   });
 }
 
+/**
+ * @name stakerSlashes
+ * @param { Uint8Array | string } accountId
+ * @param { boolean } withActive
+ * @description
+ * @example
+ */
 export const stakerSlashes = /*#__PURE__*/ erasHistoricApplyAccount('_stakerSlashes');
