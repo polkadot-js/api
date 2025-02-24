@@ -71,5 +71,5 @@ export const substrate: ExtDef = {
   LockStakingStatus: emptyCheck,
   SkipCheckIfFeeless: ChargeTransactionPayment,
   ValidateEquivocationReport: emptyCheck,
-  WeightReclaim: emptyCheck,
+  WeightReclaim: emptyCheck
 };
