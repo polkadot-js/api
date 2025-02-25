@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 15.7.1 Feb 25, 2025
+
+Changes:
+
+-  Upgrade Kusama types to 1.4.0 ([#6098](https://github.com/polkadot-js/api/pull/6098))
+- Api-Derives documentation generator ([#6099](https://github.com/polkadot-js/api/pull/6099))
+- Upgrade Polkadot types to v1.4.0 ([#6100](https://github.com/polkadot-js/api/pull/6100))
+- Add WeightReclaim transaction extension to known extensions ([#6102](https://github.com/polkadot-js/api/pull/6102))
+- Add westend code upgrades ([#6103 ](https://github.com/polkadot-js/api/pull/6103))
+
+
 ## 15.6.1 Feb 17, 2025
 
 Changes:
