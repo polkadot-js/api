@@ -47,10 +47,23 @@ export function _eraSlashes (instanceId: string, api: DeriveApi): (era: EraIndex
 
 /**
  * @name eraSlashes
+ * @description Retrieves the slashes for a specific staking era.
+ * @param {EraIndex} eras The staking era to query.
+ * @example
+ * ```javascript
+ * const era = api.createType("EraIndex", 1000);
+ * const slashes = await api.derive.staking.eraSlashes(era);
+ * ```
  */
 export const eraSlashes = /*#__PURE__*/ singleEra('_eraSlashes');
 export const _erasSlashes = /*#__PURE__*/ combineEras('_eraSlashes');
 /**
  * @name erasSlashes
+ * @description Retrieves slashes for historical eras.
+ * @param {boolean} withActive? (Optional) Whether to include the active era in the result.
+ * @example
+ * ```javascript
+ * const slashes = await api.derive.staking.erasSlashes(true);
+ * ```
  */
 export const erasSlashes = /*#__PURE__*/ erasHistoricApply('_erasSlashes');

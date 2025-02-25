@@ -12,7 +12,19 @@ import { memo } from '../util/index.js';
 
 /**
  * @name overview
- * @description Retrieve the staking overview, including elected and points earned
+ * @description Retrieve the staking overview, including elected validators and points earned.
+ * @example
+ * ```javascript
+ * const {
+ *   activeEra,
+ *   activeEraStart,
+ *   currentEra,
+ *   currentIndex,
+ *   nextElected,
+ *   validatorCount,
+ *   validators,
+ * } = await api.derive.staking.overview();
+ * ```
  */
 export function overview (instanceId: string, api: DeriveApi): () => Observable<DeriveStakingOverview> {
   return memo(instanceId, (): Observable<DeriveStakingOverview> =>

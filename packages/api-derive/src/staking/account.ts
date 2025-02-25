@@ -95,9 +95,9 @@ export function accounts (instanceId: string, api: DeriveApi): (accountIds: (Uin
 
 /**
  * @name account
- * @param {(Uint8Array | string)} accountId AccountId of the stash
- * @param {StakingQueryFlags} opts optional filtering flag
- * @description From a stash, retrieve the controllerId and fill in all the relevant staking details
+ * @param {(Uint8Array | string)} accountId AccountId of the stash.
+ * @param {StakingQueryFlags} opts (Optional) filtering flag.
+ * @description From a stash, retrieve the controllerId and fill in all the relevant staking details.
  * @example
  * ```javascript
  * const accountStakingData = await api.derive.staking.account(

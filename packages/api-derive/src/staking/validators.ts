@@ -46,7 +46,7 @@ export function nextElected (instanceId: string, api: DeriveApi): () => Observab
 
 /**
  * @name validators
- * @description Retrieve latest list of validators
+ * @description Retrieve latest list of validators.
  * @example
  * ```javascript
  * const { validators, nextElected } = await api.derive.staking.validators();

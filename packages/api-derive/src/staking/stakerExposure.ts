@@ -38,12 +38,11 @@ export function _stakerExposures (instanceId: string, api: DeriveApi): (accountI
   });
 }
 
-/** 
+/**
  * @name stakerExposures
  * @param { (Uint8Array | string)[] } accountIds List of validator stash accounts.
  * @param { boolean } withActive Whether to include the active era.
  * @description Retrieves staking exposure for multiple accounts across historical eras.
- * 
  * @example
  * ```javascript
  * const exposure = await api.derive.staking.stakerExposures(
@@ -60,12 +59,11 @@ export function stakerExposures (instanceId: string, api: DeriveApi): (accountId
   );
 }
 
-/** 
+/**
  * @name stakerExposure
- * @param { Uint8Array | string } accountId The validator stash account. 
+ * @param { Uint8Array | string } accountId The validator stash account.
  * @param { boolean } withActive Whether to include the active era.
  * @description Retrieves staking exposure for a single account across historical eras. Exposure refers to the total stake associated with a validator.
- * 
  * @example
  * ```javascript
  * const exposure = await api.derive.staking.stakerExposure(

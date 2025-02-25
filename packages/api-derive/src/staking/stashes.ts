@@ -35,7 +35,7 @@ function onBondedEvent (api: DeriveApi): Observable<number> {
 
 /**
  * @name stashes
- * @description Retrieve the list of all validator stashes
+ * @description Retrieve the list of all validator stashes.
  * @example
  * ```javascript
  * const stashes = await api.derive.staking.stashes();
