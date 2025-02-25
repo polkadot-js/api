@@ -37,6 +37,12 @@ export function _eraPrefs (instanceId: string, api: DeriveApi): (era: EraIndex, 
   });
 }
 
+/**
+ * @name eraPrefs
+ */
 export const eraPrefs = /*#__PURE__*/ singleEra('_eraPrefs');
 export const _erasPrefs = /*#__PURE__*/ combineEras('_eraPrefs');
+/**
+ * @name erasPrefs
+ */
 export const erasPrefs = /*#__PURE__*/ erasHistoricApply('_erasPrefs');

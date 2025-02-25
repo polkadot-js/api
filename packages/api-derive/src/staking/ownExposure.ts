@@ -46,9 +46,15 @@ export function _ownExposures (instanceId: string, api: DeriveApi): (accountId: 
   );
 }
 
+/**
+ * @name ownSlash
+ */
 export const ownExposure = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, era: EraIndex, page?: u32 | AnyNumber) =>
     api.derive.staking._ownExposures(accountId, [era], true, page || 0)
 );
 
+/**
+ * @name ownSlash
+ */
 export const ownExposures = /*#__PURE__*/ erasHistoricApplyAccount('_ownExposures');

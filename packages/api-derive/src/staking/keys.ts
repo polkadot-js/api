@@ -26,11 +26,17 @@ function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, Kitc
   };
 }
 
+/**
+ * @name keys
+ */
 export const keys = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, stashId: Uint8Array | string) =>
     api.derive.staking.keysMulti([stashId])
 );
 
+/**
+ * @name keysMulti
+ */
 export function keysMulti (instanceId: string, api: DeriveApi): (stashIds: (Uint8Array | string)[]) => Observable<DeriveStakingKeys[]> {
   return memo(instanceId, (stashIds: (Uint8Array | string)[]): Observable<DeriveStakingKeys[]> =>
     stashIds.length

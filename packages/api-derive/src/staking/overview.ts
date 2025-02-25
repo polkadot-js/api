@@ -11,6 +11,7 @@ import { objectSpread } from '@polkadot/util';
 import { memo } from '../util/index.js';
 
 /**
+ * @name overview
  * @description Retrieve the staking overview, including elected and points earned
  */
 export function overview (instanceId: string, api: DeriveApi): () => Observable<DeriveStakingOverview> {

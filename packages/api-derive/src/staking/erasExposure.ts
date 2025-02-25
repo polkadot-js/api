@@ -81,6 +81,12 @@ export function _eraExposure (instanceId: string, api: DeriveApi): (era: EraInde
   });
 }
 
+/**
+ * @name eraExposure
+ */
 export const eraExposure = /*#__PURE__*/ singleEra('_eraExposure');
 export const _erasExposure = /*#__PURE__*/ combineEras('_eraExposure');
+/**
+ * @name erasExposure
+ */
 export const erasExposure = /*#__PURE__*/ erasHistoricApply('_erasExposure');

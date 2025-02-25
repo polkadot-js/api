@@ -211,6 +211,7 @@ export const query = /*#__PURE__*/ firstMemo(
  * @param { StakingQueryFlags } flags Flags to customize the query.
  * @param { u32 } page (Optional) pagination parameter.
  * @description Retrieves staking details for multiple stash accounts.
+ * @example
  * ```javascript
  * const stakingInfos = await api.derive.staking.queryMulti([stashId1, stashId2], {});
  * ```

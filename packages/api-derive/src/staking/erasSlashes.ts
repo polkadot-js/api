@@ -45,6 +45,12 @@ export function _eraSlashes (instanceId: string, api: DeriveApi): (era: EraIndex
   });
 }
 
+/**
+ * @name eraSlashes
+ */
 export const eraSlashes = /*#__PURE__*/ singleEra('_eraSlashes');
 export const _erasSlashes = /*#__PURE__*/ combineEras('_eraSlashes');
+/**
+ * @name erasSlashes
+ */
 export const erasSlashes = /*#__PURE__*/ erasHistoricApply('_erasSlashes');

@@ -13,6 +13,9 @@ import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { memo } from '../util/index.js';
 
+/**
+ * @name erasHistoric
+ */
 export function erasHistoric (instanceId: string, api: DeriveApi): (withActive?: boolean) => Observable<EraIndex[]> {
   return memo(instanceId, (withActive?: boolean): Observable<EraIndex[]> =>
     combineLatest([
