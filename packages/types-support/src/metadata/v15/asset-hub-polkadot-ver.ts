@@ -9,7 +9,7 @@ export default {
   "specName": "statemint",
   "implName": "statemint",
   "authoringVersion": 1,
-  "specVersion": 1003004,
+  "specVersion": 1004000,
   "implVersion": 0,
   "apis": [
     [
