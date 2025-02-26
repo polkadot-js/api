@@ -15,8 +15,6 @@ import { memo } from '../util/index.js';
  * @param {( BN | bigint | Uint8Array | number | string )} blockNumber
  * @description Get a specific block (e.g. rpc.chain.getBlock) and extend it with the author by block number
  * @example
- * <BR>
- *
  * ```javascript
  * const { author, block } = await api.derive.chain.getBlockByNumber(123);
  *

@@ -12,6 +12,11 @@ import { memo } from '../util/index.js';
 
 /**
  * @name referendumIds
+ * @description Retrieves an array of active referendum IDs.
+ * @example
+ * ```javascript
+ * const referendums = await api.derive.democracy.referendumIds();
+ * ```
  */
 export function referendumIds (instanceId: string, api: DeriveApi): () => Observable<BN[]> {
   return memo(instanceId, (): Observable<BN[]> =>

@@ -50,6 +50,12 @@ function parse ([proposals, images, optDepositors]: Result): DeriveProposal[] {
 
 /**
  * @name proposals
+ * @description Retrieves the list of active public proposals in the democracy module, along with their associated preimage data and deposit information.
+ * @example
+ * ```javascript
+ * const proposals = await api.derive.democracy.proposals();
+ * console.log("proposals:", proposals);
+ * ```
  */
 export function proposals (instanceId: string, api: DeriveApi): () => Observable<DeriveProposal[]> {
   return memo(instanceId, (): Observable<DeriveProposal[]> =>

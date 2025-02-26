@@ -210,16 +210,17 @@ function queryCurrent (api: DeriveApi, accountId: AccountId | string, balanceIns
 
 /**
  * @name all
- * @param {( AccountId | string )} address An accounts Id in different formats.
- * @returns An object containing the results of various balance queries
+ * @description Retrieves the complete balance information for an account, including free balance, locked balance, reserved balance, and more.
+ * @param {( AccountId | string )} address An accountsId in different formats.
  * @example
- * <BR>
- *
  * ```javascript
  * const ALICE = 'F7Hs';
  *
- * api.derive.balances.all(ALICE, ({ accountId, lockedBalance }) => {
- *   console.log(`The account ${accountId} has a locked balance ${lockedBalance} units.`);
+ * api.derive.balances.account(ALICE, (accountInfo) => {
+ *   console.log(
+ *     `${accountInfo.accountId} info:`,
+ *     Object.keys(accountInfo).map((key) => `${key}: ${accountInfo[key]}`)
+ *   );
  * });
  * ```
  */

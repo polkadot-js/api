@@ -10,6 +10,12 @@ import { memo } from '../util/index.js';
 
 /**
  * @name referendumsActive
+ * @description Retrieves information about active referendums.
+ * @example
+ * ```javascript
+ * const referendums = await api.derive.democracy.referendumsActive();
+ * console.log("Active Referendums:", referendums);
+ * ```
  */
 export function referendumsActive (instanceId: string, api: DeriveApi): () => Observable<DeriveReferendum[]> {
   return memo(instanceId, (): Observable<DeriveReferendum[]> =>

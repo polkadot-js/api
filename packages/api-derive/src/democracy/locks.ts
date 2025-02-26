@@ -89,7 +89,13 @@ function directLocks (api: DeriveApi, { votes }: VotingDirect): Observable<Deriv
 
 /**
  * @name locks
- * @param {string | AccountId} accountId
+ * @description Retrieves the democracy voting locks for a given account.
+ * @param { string | AccountId } accountId The accountId for which to retrieve democracy voting locks.
+ * @example
+ * ```javascript
+ * const locks = await api.derive.democracy.locks('5FfFjX...'); // Replace with an actual accountId
+ * console.log("Democracy Locks:", locks);
+ * ```
  */
 export function locks (instanceId: string, api: DeriveApi): (accountId: string | AccountId) => Observable<DeriveDemocracyLock[]> {
   return memo(instanceId, (accountId: string | AccountId): Observable<DeriveDemocracyLock[]> =>

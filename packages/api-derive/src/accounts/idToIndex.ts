@@ -11,11 +11,9 @@ import { memo } from '../util/index.js';
 
 /**
  * @name idToIndex
- * @param {( AccountId | string )} accountId - An accounts Id in different formats.
- * @returns Returns the corresponding AccountIndex.
+ * @description Retrieves the corresponding AccountIndex.
+ * @param {( AccountId | string )} accountId An accounts Id in different formats.
  * @example
- * <BR>
- *
  * ```javascript
  * const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
  * api.derive.accounts.idToIndex(ALICE, (accountIndex) => {

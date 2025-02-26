@@ -137,7 +137,12 @@ function getImages (api: DeriveApi, bounded: (FrameSupportPreimagesBounded | Uin
 
 /**
  * @name preimages
- * @param { (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[] } hashes
+ * @description Retrieves the full details (preimages) of governance proposals using their on-chain hashes.
+ * @param { (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[] } hashes An array of hashes representing governance proposals.
+ * @example
+ * ```javascript
+ * const preimages = await api.derive.democracy.preimages([HASH1, HASH2]);
+ * ```
  */
 export function preimages (instanceId: string, api: DeriveApi): (hashes: (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[]) => Observable<(DeriveProposalImage | undefined)[]> {
   return memo(instanceId, (hashes: (Hash | Uint8Array | string | FrameSupportPreimagesBounded)[]): Observable<(DeriveProposalImage | undefined)[]> =>
@@ -153,7 +158,12 @@ export function preimages (instanceId: string, api: DeriveApi): (hashes: (Hash |
 
 /**
  * @name preimage
- * @param { Hash | Uint8Array | string | FrameSupportPreimagesBounded } hash
+ * @description Retrieves the full details (preimage) of a governance proposal using its on-chain hash.
+ * @param { Hash | Uint8Array | string | FrameSupportPreimagesBounded } hash Hash that represents governance proposals.
+ *  * @example
+ * ```javascript
+ * const preimage = await api.derive.democracy.preimage(HASH);
+ * ```
  */
 export const preimage = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, hash: Hash | Uint8Array | string | FrameSupportPreimagesBounded) =>

@@ -13,6 +13,12 @@ type ReferendumInfoFinished = PalletDemocracyReferendumInfo['asFinished'];
 
 /**
  * @name referendumsFinished
+ * @description Retrieves information about finished referendums.
+ * @example
+ * ```javascript
+ * const referendums = await api.derive.democracy.referendumsFinished();
+ * console.log("Finished Referendums:", referendums);
+ * ```
  */
 export function referendumsFinished (instanceId: string, api: DeriveApi): () => Observable<ReferendumInfoFinished[]> {
   return memo(instanceId, (): Observable<ReferendumInfoFinished[]> =>

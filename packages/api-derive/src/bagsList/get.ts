@@ -50,9 +50,6 @@ export function _getIds (instanceId: string, api: DeriveApi): (ids: (BN | number
   });
 }
 
-/**
- * @name all
- */
 export function all (instanceId: string, api: DeriveApi): () => Observable<Bag[]> {
   const query = getQueryInterface(api);
 
@@ -70,7 +67,8 @@ export function all (instanceId: string, api: DeriveApi): () => Observable<Bag[]
 
 /**
  * @name get
- * @param {(BN | number)} id
+ * @param {(BN | number)} id The id of the bag to retrieve.
+ * @description Retrieves a specific bag from the BagsList pallet by its id.
  */
 export function get (instanceId: string, api: DeriveApi): (id: BN | number) => Observable<Bag> {
   return memo(instanceId, (id: BN | number): Observable<Bag> =>

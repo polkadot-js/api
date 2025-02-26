@@ -69,8 +69,17 @@ export function _flags (instanceId: string, api: DeriveApi): () => Observable<Fl
 
 /**
  * @name flags
- * @param {(AccountId | Address | string | null)} address
- * @description Returns account membership flags
+ * @param {(AccountId | Address | string | null)} address The account identifier.
+ * @description Retrieves the membership flags for a given account.
+ * @example
+ * const ALICE = "F7Hs";
+ *
+ * api.derive.accounts.flags(ALICE, (flags) => {
+ *   console.log(
+ *     `Account Flags:`,
+ *     Object.keys(flags).map((flag) => `${flag}: ${flags[flag]}`)
+ *   );
+ * });
  */
 export function flags (instanceId: string, api: DeriveApi): (address?: AccountId | Address | string | null) => Observable<DeriveAccountFlags> {
   return memo(instanceId, (address?: AccountId | Address | string | null): Observable<DeriveAccountFlags> =>

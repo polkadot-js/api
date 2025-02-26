@@ -78,6 +78,11 @@ function retrieveCurrent (elections: DeriveApi['query']['elections']): Observabl
 
 /**
  * @name votes
+ * @description Retrieves the council election votes for all participants.
+ * @example
+ * ```javascript
+ * const votes = await api.derive.council.votes();
+ * ```
  */
 export function votes (instanceId: string, api: DeriveApi): () => Observable<DeriveCouncilVotes> {
   const elections = api.query.elections || api.query['phragmenElection'] || api.query['electionsPhragmen'];

@@ -125,8 +125,19 @@ export function _identity (instanceId: string, api: DeriveApi): (accountId?: Acc
 
 /**
  * @name identity
- * @param {(AccountId | Uint8Array | string)} accoutId
- * @description Returns identity info for an account
+ * @description Retrieves the on chain identity information for a given account.
+ * @param {(AccountId | Uint8Array | string)} accoutId The account identifier to query the identity for.
+ * @example
+ * ```javascript
+ * const ALICE = "13xAUH";
+ *
+ * api.derive.accounts.identity(ALICE, (identity) => {
+ *   console.log(
+ *     "Account Identity:",
+ *     Object.keys(identity).map((key) => `${key}: ${identity[key]}`)
+ *   );
+ * });
+ * ```
  */
 export function identity (instanceId: string, api: DeriveApi): (accountId?: AccountId | Uint8Array | string) => Observable<DeriveAccountRegistration> {
   return memo(instanceId, (accountId?: AccountId | Uint8Array | string): Observable<DeriveAccountRegistration> =>
@@ -168,7 +179,13 @@ function getSubIdentities (identity: DeriveAccountRegistration, api: DeriveApi, 
 
 /**
  * @name hasIdentity
- * @param {(AccountId | Uint8Array | string)} accountId
+ * @description Checks if a specific account has an identity registered on chain.
+ * @param {(AccountId | Uint8Array | string)} accoutId The account identifier to query.
+ * @example
+ * ```javascript
+ * const ALICE = "13AU";
+ * console.log(await api.derive.accounts.hasIdentity(ALICE));
+ * ```
  */
 export const hasIdentity = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: AccountId | Uint8Array | string) =>
@@ -177,7 +194,14 @@ export const hasIdentity = /*#__PURE__*/ firstMemo(
 
 /**
  * @name hasIdentityMulti
- * @param {(AccountId | Uint8Array | string)[]} accountIds
+ * @description Checks whether multiple accounts have on chain identities registered.
+ * @param {(AccountId | Uint8Array | string)[]} accountIds Array of account identifiers to query.
+ * @example
+ * ```javascript
+ * const ALICE = "13AU";
+ * const BOB = "16WW";
+ * console.log(await api.derive.accounts.hasIdentityMulti([ALICE, BOB]));
+ * ```
  */
 export function hasIdentityMulti (instanceId: string, api: DeriveApi): (accountIds: (AccountId | Uint8Array | string)[]) => Observable<DeriveHasIdentity[]> {
   return memo(instanceId, (accountIds: (AccountId | Uint8Array | string)[]): Observable<DeriveHasIdentity[]> =>

@@ -30,7 +30,7 @@ export function _getHeaderRange (instanceId: string, api: DeriveApi): (startHash
  * chain.subscribeFinalizedHeads this does not skip any headers. Since finalization
  * may skip specific blocks (finalization happens in terms of chains), this version
  * of the derive tracks missing headers (since last retrieved) and provides them
- * to the caller
+ * to the caller.
  * @example
  * ```javascript
  * const unsub = await api.derive.chain.subscribeFinalizedHeads((finalizedHead) => {

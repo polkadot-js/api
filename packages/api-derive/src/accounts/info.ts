@@ -30,7 +30,16 @@ function retrieveNick (api: DeriveApi, accountId?: AccountId): Observable<string
 /**
  * @name info
  * @description Returns aux. info with regards to an account, current that includes the accountId, accountIndex, identity and nickname
- * @param {(AccountIndex | AccountId | Address | Uint8Array | string | null)} address
+ * @param {(AccountIndex | AccountId | Address | Uint8Array | string | null)} address An accounts in different formats.
+ * @example
+ * ```javascript
+ * const ALICE = "13AU";
+ * const info = await api.derive.accounts.info(ALICE);
+ * console.log(
+ *   "Account Info: ",
+ *   Object.keys(info).map((key) => `${key}: ${info[key]}`)
+ * );
+ * ```
  */
 export function info (instanceId: string, api: DeriveApi): (address?: AccountIndex | AccountId | Address | Uint8Array | string | null) => Observable<DeriveAccountInfo> {
   return memo(instanceId, (address?: AccountIndex | AccountId | Address | Uint8Array | string | null): Observable<DeriveAccountInfo> =>

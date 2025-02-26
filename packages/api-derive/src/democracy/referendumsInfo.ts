@@ -149,12 +149,16 @@ export function _referendumInfo (instanceId: string, api: DeriveApi): (index: BN
 }
 
 /**
- * @name referendumsFinished
+ * @name referendumsInfo
  * @description Retrieves information about multiple referendums by their IDs.
  * @param {BN[]} ids An array of referendum IDs to query.
  * @example
  * ```javascript
+ * import { BN } from "@polkadot/util";
  *
+ * const referendumIds = [new BN(1)];
+ * const referendums = await api.derive.democracy.referendumsInfo(referendumIds);
+ * console.log("Referendums Info:", referendums);
  * ```
  */
 export function referendumsInfo (instanceId: string, api: DeriveApi): (ids: BN[]) => Observable<DeriveReferendum[]> {

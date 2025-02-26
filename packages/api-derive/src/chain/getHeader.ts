@@ -17,8 +17,6 @@ import { getAuthorDetails } from './util.js';
  * @returns An array containing the block header and the block author
  * @description Get a specific block header and extend it with the author
  * @example
- * <BR>
- *
  * ```javascript
  * const { author, number } = await api.derive.chain.getHeader('0x123...456');
  *

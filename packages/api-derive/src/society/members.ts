@@ -83,7 +83,7 @@ export function _members (instanceId: string, api: DeriveApi): (accountIds: Acco
 
 /**
  * @name members
- * @description Get the society members
+ * @description Get the society members.
  * @example
  * ```javascript
  * const members = await api.derive.society.members();
