@@ -83,7 +83,6 @@ function babeOrAuraPeriod (api: DeriveApi): BN | undefined {
   return period && period.isZero && !period.isZero() ? period : undefined;
 }
 
-
 /**
  * @name signingInfo
  * @description Retrieves signing-related information for an account, including the nonce, block header, and mortal length.

@@ -73,7 +73,6 @@ function parse (id: ParaId, [active, retryQueue, selectedThreads, didUpdate, inf
   };
 }
 
-
 /**
  * @name info
  * @param {ParaId | number} id A unique numeric (non-negative integer) identifier for a parachain.

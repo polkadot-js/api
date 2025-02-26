@@ -77,5 +77,3 @@ export const proposals = /*#__PURE__*/ collectiveProposals('council');
  * ```
  */
 export const prime = /*#__PURE__*/ collectivePrime('council');
-
-

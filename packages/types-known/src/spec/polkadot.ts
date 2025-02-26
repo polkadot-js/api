@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/types-known authors & contributors
+// Copyright 2017-2025 @polkadot/types-known authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable sort-keys */
@@ -19,8 +19,7 @@ const sharedTypes = {
       UnusedSudoBalances: 4,
       IdentityJudgement: 5,
       CancelProxy: 6,
-      Auction: 7,
-      NominationPools: 8,
+      Auction: 7
     }
   },
   Weight: 'WeightV1'
@@ -99,7 +98,6 @@ export const versioned: OverrideVersionedType[] = [
     // metadata v14
     minmax: [9110, undefined],
     types: {
-      ...sharedTypes,
       Weight: 'WeightV1'
     }
   }

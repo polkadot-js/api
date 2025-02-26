@@ -184,10 +184,9 @@ function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], f
   );
 }
 
-
 /**
  * @name query
- * @param { Uint8Array | string } accountId The stash account to query. 
+ * @param { Uint8Array | string } accountId The stash account to query.
  * @param { StakingQueryFlags } flags Flags to customize the query.
  * @param { u32 } page (Optional) pagination parameter.
  * @description Retrieves staking details for a given stash account.
@@ -204,10 +203,9 @@ export const query = /*#__PURE__*/ firstMemo(
     api.derive.staking.queryMulti([accountId], flags, page)
 );
 
-
 /**
  * @name queryMulti
- * @param { (Uint8Array | string)[] } accountIds List of stash accounts to query. 
+ * @param { (Uint8Array | string)[] } accountIds List of stash accounts to query.
  * @param { StakingQueryFlags } flags Flags to customize the query.
  * @param { u32 } page (Optional) pagination parameter.
  * @description Retrieves staking details for multiple stash accounts.

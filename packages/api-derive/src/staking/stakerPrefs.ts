@@ -23,7 +23,7 @@ export function _stakerPrefs (instanceId: string, api: DeriveApi): (accountId: U
   );
 }
 
-/** 
+/**
  * @name stakerPrefs
  * @param { Uint8Array | string } accountId The stakers AccountId.
  * @param { boolean } withActive Whether to include the active era.

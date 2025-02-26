@@ -76,4 +76,3 @@ export const stakerExposure = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, withActive?: boolean) =>
     api.derive.staking.stakerExposures([accountId], withActive)
 );
-

@@ -255,7 +255,6 @@ export const stakerRewards = /*#__PURE__*/ firstMemo(
     )
 );
 
-
 /**
  * @name stakerRewardsMultiEras
  * @description Staking rewards for multiple stakers over specific eras.
@@ -276,7 +275,6 @@ export function stakerRewardsMultiEras (instanceId: string, api: DeriveApi): (ac
       : of([])
   );
 }
-
 
 /**
  * @name stakerRewardsMulti
