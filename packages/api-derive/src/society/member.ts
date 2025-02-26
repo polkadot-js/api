@@ -11,7 +11,7 @@ import { memo } from '../util/index.js';
 
 /**
  * @name member
- * @description Get the member info for a society
+ * @description Get the member info for a society.
  * @param { AccountId } accountId
  * @example
  * ```javascript

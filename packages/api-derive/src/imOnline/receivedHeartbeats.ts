@@ -36,7 +36,13 @@ function mapResult ([result, validators, heartbeats, numBlocks]: Result): Derive
 
 /**
  * @name receivedHeartbeats
- * @returns Return a boolean array indicating whether the passed accounts had received heartbeats in the current session.
+ * @description Return a boolean array indicating whether the passed accounts had received heartbeats in the current session.
+ * @example
+ * ```javascript
+ * let unsub = await api.derive.imOnline.receivedHeartbeats((heartbeat) => {
+ *   console.log(heartbeat);
+ * });
+ * ```
  */
 export function receivedHeartbeats (instanceId: string, api: DeriveApi): () => Observable<DeriveHeartbeats> {
   return memo(instanceId, (): Observable<DeriveHeartbeats> =>

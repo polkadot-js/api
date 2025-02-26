@@ -15,7 +15,7 @@ type Result = [Vec<PalletSocietyBid>, Option<AccountId> | undefined, Option<Acco
 
 /**
  * @name info
- * @description Get the overall info for a society
+ * @description Get the overall info for a society.
  * @example
  * ```javascript
  * const societyInfo = await api.derive.society.candidates();

@@ -11,7 +11,7 @@ import { memo } from '../util/index.js';
 
 /**
  * @name currentPoints
- * @description Retrieve the staking overview, including elected and points earned
+ * @description Retrieve the staking overview, including elected and points earned.
  * @example
  * ```javascript
  * const currentPoints = await api.derive.staking.currentPoints();
