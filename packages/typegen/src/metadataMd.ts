@@ -563,7 +563,7 @@ function addErrors (runtimeDesc: string, { lookup, pallets }: MetadataLatest): s
   });
 }
 
-const BASE_DERIVE_PATH = '../api/packages/api-derive/src/';
+const BASE_DERIVE_PATH = 'node_modules/@polkadot/api-derive/';
 
 // It finds all typescript file paths withing a given derive module.
 const obtainDeriveFiles = (deriveModule: string) => {
@@ -571,7 +571,7 @@ const obtainDeriveFiles = (deriveModule: string) => {
   const files = fs.readdirSync(filePath);
 
   return files
-    .filter((file) => file.endsWith('.ts') && !file.endsWith('.d.ts'))
+    .filter((file) => file.endsWith('.js'))
     .map((file) => `${deriveModule}/${file}`);
 };
 
