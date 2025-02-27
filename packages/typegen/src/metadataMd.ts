@@ -13,6 +13,8 @@ import path from 'node:path';
 import process from 'node:process';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { derive } from '@polkadot/api-derive';
 import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
@@ -563,11 +565,17 @@ function addErrors (runtimeDesc: string, { lookup, pallets }: MetadataLatest): s
   });
 }
 
-const BASE_DERIVE_PATH = 'node_modules/@polkadot/api-derive/';
+
+async function getDependencyBasePath(moduleName: string): Promise<string>{
+  const modulePath = await import.meta.resolve(moduleName);
+  return resolve(dirname(fileURLToPath(modulePath)));
+}
+
+const BASE_DERIVE_PATH = await getDependencyBasePath("@polkadot/api-derive");
 
 // It finds all typescript file paths withing a given derive module.
 const obtainDeriveFiles = (deriveModule: string) => {
-  const filePath = `${BASE_DERIVE_PATH}${deriveModule}`;
+  const filePath = `${BASE_DERIVE_PATH}/${deriveModule}`;
   const files = fs.readdirSync(filePath);
 
   return files
@@ -639,7 +647,7 @@ const getDeriveDocs = (
   metadata: Record<string, Derive[]>,
   file: string
 ) => {
-  const filePath = `${BASE_DERIVE_PATH}${file}`;
+  const filePath = `${BASE_DERIVE_PATH}/${file}`;
   const deriveModule = file.split('/')[0];
   const fileContent = fs.readFileSync(filePath, 'utf8');
   const comments = parse(fileContent);
