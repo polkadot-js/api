@@ -38,6 +38,19 @@ export function _stakerExposures (instanceId: string, api: DeriveApi): (accountI
   });
 }
 
+/**
+ * @name stakerExposures
+ * @param { (Uint8Array | string)[] } accountIds List of validator stash accounts.
+ * @param { boolean } withActive Whether to include the active era.
+ * @description Retrieves staking exposure for multiple accounts across historical eras.
+ * @example
+ * ```javascript
+ * const exposure = await api.derive.staking.stakerExposures(
+ *   [ALICE, BOB],
+ *   true
+ * );
+ * ```
+*/
 export function stakerExposures (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerExposure[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], withActive = false): Observable<DeriveStakerExposure[][]> =>
     api.derive.staking.erasHistoric(withActive).pipe(
@@ -46,6 +59,19 @@ export function stakerExposures (instanceId: string, api: DeriveApi): (accountId
   );
 }
 
+/**
+ * @name stakerExposure
+ * @param { Uint8Array | string } accountId The validator stash account.
+ * @param { boolean } withActive Whether to include the active era.
+ * @description Retrieves staking exposure for a single account across historical eras. Exposure refers to the total stake associated with a validator.
+ * @example
+ * ```javascript
+ * const exposure = await api.derive.staking.stakerExposure(
+ *   ALICE,
+ *   true
+ * );
+ * ```
+*/
 export const stakerExposure = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, withActive?: boolean) =>
     api.derive.staking.stakerExposures([accountId], withActive)

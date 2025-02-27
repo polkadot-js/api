@@ -13,11 +13,9 @@ import { getAuthorDetails } from './util.js';
 
 /**
  * @name getBlock
- * @param {( Uint8Array | string )} hash - A block hash as U8 array or string.
+ * @param {( Uint8Array | string )} hash A block hash as U8 array or string.
  * @description Get a specific block (e.g. rpc.chain.getBlock) and extend it with the author
  * @example
- * <BR>
- *
  * ```javascript
  * const { author, block } = await api.derive.chain.getBlock('0x123...456');
  *

@@ -81,6 +81,25 @@ export function _eraExposure (instanceId: string, api: DeriveApi): (era: EraInde
   });
 }
 
+/**
+ * @name eraExposure
+ * @description Retrieves the staking exposure (nominators and total stake) for a specific era.
+ * @param {EraIndex} eras The staking era to query.
+ * @example
+ * ```javascript
+ * const era = api.createType("EraIndex", 1000);
+ * const exposure = await api.derive.staking.eraExposure(era);
+ * ```
+ */
 export const eraExposure = /*#__PURE__*/ singleEra('_eraExposure');
 export const _erasExposure = /*#__PURE__*/ combineEras('_eraExposure');
+/**
+ * @name erasExposure
+ * @description Retrieves staking exposure details for multiple past eras.
+ * @param {boolean} withActive? (Optional) Whether to include the active era in the result.
+ * @example
+ * ```javascript
+ * const exposure = await api.derive.staking.erasExposure(true);
+ * ```
+ */
 export const erasExposure = /*#__PURE__*/ erasHistoricApply('_erasExposure');

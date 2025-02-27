@@ -37,6 +37,27 @@ export function _eraPrefs (instanceId: string, api: DeriveApi): (era: EraIndex, 
   });
 }
 
+/**
+ * @name eraPrefs
+ * @description Retrieves the validators commission preferences for a given staking era.
+ * @param {EraIndex} era The staking era to query.
+ * @example
+ * ```javascript
+ * const era = api.createType("EraIndex", 1000);
+ * const prefs = await api.derive.staking.eraPrefs(era);
+ * console.log(JSON.stringify(prefs));
+ * ```
+ */
 export const eraPrefs = /*#__PURE__*/ singleEra('_eraPrefs');
 export const _erasPrefs = /*#__PURE__*/ combineEras('_eraPrefs');
+
+/**
+ * @name erasPrefs
+ * @description Retrieves validators commission preferences for multiple past staking eras
+ * @param {boolean} withActive? (Optional) Whether to include the active era in the result.
+ * @example
+ * ```javascript
+ * const prefs = await api.derive.staking.erasPrefs(true);
+ * ```
+ */
 export const erasPrefs = /*#__PURE__*/ erasHistoricApply('_erasPrefs');

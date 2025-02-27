@@ -184,15 +184,36 @@ function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], f
   );
 }
 
-//
 /**
- * @description From a stash, retrieve the controllerId and all relevant details
+ * @name query
+ * @param { Uint8Array | string } accountId The stash account to query.
+ * @param { StakingQueryFlags } flags Flags to customize the query.
+ * @param { u32 } page (Optional) pagination parameter.
+ * @description Retrieves staking details for a given stash account.
+ * @example
+ * ```javascript
+ * const stakingInfo = await api.derive.staking.query(
+ *   ALICE,
+ *   {}
+ * );
+ * ```
  */
 export const query = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, flags: StakingQueryFlags, page?: u32) =>
     api.derive.staking.queryMulti([accountId], flags, page)
 );
 
+/**
+ * @name queryMulti
+ * @param { (Uint8Array | string)[] } accountIds List of stash accounts to query.
+ * @param { StakingQueryFlags } flags Flags to customize the query.
+ * @param { u32 } page (Optional) pagination parameter.
+ * @description Retrieves staking details for multiple stash accounts.
+ * @example
+ * ```javascript
+ * const stakingInfos = await api.derive.staking.queryMulti([stashId1, stashId2], {});
+ * ```
+ */
 export function queryMulti (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags, page?: u32 | AnyNumber) => Observable<DeriveStakingQuery[]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags, page?: u32 | AnyNumber): Observable<DeriveStakingQuery[]> =>
     api.derive.session.indexes().pipe(

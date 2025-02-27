@@ -138,6 +138,15 @@ function queryScheduler (api: DeriveApi): Observable<DeriveDispatch[]> {
   );
 }
 
+/**
+ * @name dispatchQueue
+ * @description Retrieves the list of scheduled or pending dispatches in the governance system.
+ * @example
+ * ```javascript
+ * const queue = await api.derive.democracy.dispatchQueue();
+ * console.log("Dispatch Queue:", queue);
+ * ```
+ */
 export function dispatchQueue (instanceId: string, api: DeriveApi): () => Observable<DeriveDispatch[]> {
   return memo(instanceId, (): Observable<DeriveDispatch[]> =>
     isFunction(api.query.scheduler?.agenda)

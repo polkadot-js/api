@@ -7,10 +7,8 @@ import { createBlockNumberDerive } from './util.js';
 
 /**
  * @name bestNumber
- * @returns The latest block number.
+ * @descrive Retrieves the latest block number.
  * @example
- * <BR>
- *
  * ```javascript
  * api.derive.chain.bestNumber((blockNumber) => {
  *   console.log(`the current best block is #${blockNumber}`);

@@ -33,6 +33,15 @@ function parseResult ([maybeBounties, maybeDescriptions, ids, bountyProposals]: 
   return bounties;
 }
 
+/**
+ * @name bounties
+ * @descrive Retrieves all active bounties, their descriptions, and associated proposals.
+ * @example
+ * ```javascript
+ * const bounties = await api.derive.bounties();
+ * console.log("Active bounties:", bounties);
+ * ```
+ */
 export function bounties (instanceId: string, api: DeriveApi): () => Observable<DeriveBounties> {
   const bountyBase = api.query.bounties || api.query.treasury;
 

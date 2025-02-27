@@ -46,9 +46,38 @@ export function _ownExposures (instanceId: string, api: DeriveApi): (accountId: 
   );
 }
 
+/**
+ * @name ownExposure
+ * @description Retrieves the staking exposure of a validator for a specific era, including their own stake.
+ * @param { Uint8Array | string } accountId The validator stash account.
+ * @param {EraIndex} era The staking era to query.
+ * @param { u32 | AnyNumber } page? (Optional) The pagination index.
+ * @example
+ * ```javascript
+ * const era = api.createType("EraIndex", 1000);
+ * const exposure = await api.derive.staking.ownExposure(
+ *   "11VR4pF6c7kfBhfmuwwjWY3FodeYBKWx7ix2rsRCU2q6hqJ",
+ *   era
+ * );
+ * console.log(JSON.stringify(exposure));
+ * ```
+ */
 export const ownExposure = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, era: EraIndex, page?: u32 | AnyNumber) =>
     api.derive.staking._ownExposures(accountId, [era], true, page || 0)
 );
 
+/**
+ * @name ownExposures
+ * @description Retrieves staking exposures for a validator across multiple historical eras.
+ * @param { Uint8Array | string } accountId The validator stash account.
+ * @param { boolean } withActive Whether to include the active era.
+ * @example
+ * ```javascript
+ * const exposures = await api.derive.staking.ownExposures(
+ *   ALICE,
+ *   true
+ * );
+ * ```
+ */
 export const ownExposures = /*#__PURE__*/ erasHistoricApplyAccount('_ownExposures');

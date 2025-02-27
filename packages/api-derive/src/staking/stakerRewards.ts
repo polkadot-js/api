@@ -235,6 +235,19 @@ export function _stakerRewards (instanceId: string, api: DeriveApi): (accountIds
   );
 }
 
+/**
+ * @name stakerRewards
+ * @description Staking rewards history for a given staker.
+ * @param { Uint8Array | string } accountId The stakers AccountId.
+ * @param { boolean } withActive Whether to include the active era.
+ * @example
+ * ```javascript
+ * const rewards = await api.derive.staking.stakerRewards(
+ *   ALICE, //Alice accountId
+ *   false
+ * );
+ * ```
+ */
 export const stakerRewards = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, accountId: Uint8Array | string, withActive?: boolean) =>
     api.derive.staking.erasHistoric(withActive).pipe(
@@ -242,6 +255,19 @@ export const stakerRewards = /*#__PURE__*/ firstMemo(
     )
 );
 
+/**
+ * @name stakerRewardsMultiEras
+ * @description Staking rewards for multiple stakers over specific eras.
+ * @param { Uint8Array | string } accountIds List of stakers identified by their AccountId.
+ * @param { EraIndex[] } eras Eras for which to retrieve the data.
+ * @example
+ * ```javascript
+ * const rewards = await api.derive.staking.stakerRewardsMultiEras(
+ *   [ALICE, BOB, CHARLIER], //accountIds
+ *   [100,101]  //eras
+ * );
+ * ```
+ */
 export function stakerRewardsMultiEras (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], eras: EraIndex[]) => Observable<DeriveStakerReward[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], eras: EraIndex[]): Observable<DeriveStakerReward[][]> =>
     accountIds.length && eras.length
@@ -250,6 +276,19 @@ export function stakerRewardsMultiEras (instanceId: string, api: DeriveApi): (ac
   );
 }
 
+/**
+ * @name stakerRewardsMulti
+ * @description Staking rewards for multiple stakers.
+ * @param { Uint8Array | string } accountIds List of stakers identified by their AccountId.
+ * @param { boolean } withActive Whether to include the active era.
+ * @example
+ * ```javascript
+ * const rewards = await api.derive.staking.stakerRewardsMulti(
+ *   [ALICE, BOB, CHARLIER], //accountIds
+ *   true
+ * );
+ * ```
+ */
 export function stakerRewardsMulti (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], withActive?: boolean) => Observable<DeriveStakerReward[][]> {
   return memo(instanceId, (accountIds: (Uint8Array | string)[], withActive = false): Observable<DeriveStakerReward[][]> =>
     api.derive.staking.erasHistoric(withActive).pipe(

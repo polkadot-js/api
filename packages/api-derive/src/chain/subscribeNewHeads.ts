@@ -13,11 +13,9 @@ import { getAuthorDetails } from './util.js';
 
 /**
  * @name subscribeNewHeads
- * @returns A header with the current header (including extracted author)
- * @description An observable of the current block header and it's author
+ * @returns A header with the current header (including extracted author).
+ * @description An observable of the current block header and it's author.
  * @example
- * <BR>
- *
  * ```javascript
  * api.derive.chain.subscribeNewHeads((header) => {
  *   console.log(`block #${header.number} was authored by ${header.author}`);

@@ -10,7 +10,13 @@ import { switchMap } from 'rxjs';
 import { memo } from '../util/index.js';
 
 /**
- * @description Retrieve the staking overview, including elected and points earned
+ * @name currentPoints
+ * @description Retrieve the staking overview, including elected and points earned.
+ * @example
+ * ```javascript
+ * const currentPoints = await api.derive.staking.currentPoints();
+ * console.log(currentPoints.toHuman());
+ * ```
  */
 export function currentPoints (instanceId: string, api: DeriveApi): () => Observable<PalletStakingEraRewardPoints> {
   return memo(instanceId, (): Observable<PalletStakingEraRewardPoints> =>

@@ -9,6 +9,18 @@ import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { memo } from '../util/index.js';
 
+/**
+ * @name nextElected
+ * @description Retrieves the list of accounts that are set to be the next elected validators in the staking system. It provides a preview of who will be validators in the next staking era.
+ * @example
+ * ```javascript
+ * const nextElected = await api.derive.staking.nextElected();
+ * console.log(
+ *   "Next Elected Validators:",
+ *   nextElected.map((acc) => acc.toString())
+ * );
+ * ```
+ */
 export function nextElected (instanceId: string, api: DeriveApi): () => Observable<AccountId[]> {
   return memo(instanceId, (): Observable<AccountId[]> =>
     // Compatibility for future generation changes in staking.
@@ -33,7 +45,20 @@ export function nextElected (instanceId: string, api: DeriveApi): () => Observab
 }
 
 /**
- * @description Retrieve latest list of validators
+ * @name validators
+ * @description Retrieve latest list of validators.
+ * @example
+ * ```javascript
+ * const { validators, nextElected } = await api.derive.staking.validators();
+ * console.log(
+ *   "Current Validators:",
+ *   validators.map((v) => v.toString())
+ * );
+ * console.log(
+ *   "Next Elected Validators:",
+ *   nextElected.map((v) => v.toString())
+ * );
+ * ```
  */
 export function validators (instanceId: string, api: DeriveApi): () => Observable<DeriveStakingValidators> {
   return memo(instanceId, (): Observable<DeriveStakingValidators> =>

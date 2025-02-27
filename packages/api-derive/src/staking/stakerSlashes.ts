@@ -25,4 +25,21 @@ export function _stakerSlashes (instanceId: string, api: DeriveApi): (accountId:
   });
 }
 
+/**
+ * @name stakerSlashes
+ * @param { Uint8Array | string } accountId The stakers AccountId.
+ * @param { boolean } withActive Whether to include the active era.
+ * @description Retrieve the historical slashes (penalties) for a given staker.
+ * @example
+ * ```javascript
+ *  const stakerSlashes = await api.derive.staking.stakerSlashes(
+ *   ALICE, //Alice accountId
+ *   true
+ * );
+ * console.log(
+ *   'Staker Slashes:',
+ *   stakerSlashes.map(({ era, total }) => `Era ${era}: Slashed ${total.toString()}`)
+ * );
+ * ```
+ */
 export const stakerSlashes = /*#__PURE__*/ erasHistoricApplyAccount('_stakerSlashes');

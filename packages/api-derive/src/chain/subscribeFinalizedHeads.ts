@@ -29,8 +29,14 @@ export function _getHeaderRange (instanceId: string, api: DeriveApi): (startHash
  * @description An observable of the finalized block headers. Unlike the base
  * chain.subscribeFinalizedHeads this does not skip any headers. Since finalization
  * may skip specific blocks (finalization happens in terms of chains), this version
- * of the derive tracks missing headers (since last  retrieved) and provides them
- * to the caller
+ * of the derive tracks missing headers (since last retrieved) and provides them
+ * to the caller.
+ * @example
+ * ```javascript
+ * const unsub = await api.derive.chain.subscribeFinalizedHeads((finalizedHead) => {
+ *   console.log(`${finalizedHead.hash}`);
+ * });
+ * ```
  */
 export function subscribeFinalizedHeads (instanceId: string, api: DeriveApi): () => Observable<Header> {
   return memo(instanceId, (): Observable<Header> => {

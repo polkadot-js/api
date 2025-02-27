@@ -167,11 +167,9 @@ function querySystemAccount (api: DeriveApi, accountId: AccountId): Observable<R
 
 /**
  * @name account
- * @param {( AccountIndex | AccountId | Address | string )} address - An accounts Id in different formats.
- * @returns An object containing the results of various balance queries
+ * @description Retrieves the essential balance details for an account, such as free balance and account nonce.
+ * @param {( AccountIndex | AccountId | Address | string )} address An accountsId in different formats.
  * @example
- * <BR>
- *
  * ```javascript
  * const ALICE = 'F7Hs';
  *

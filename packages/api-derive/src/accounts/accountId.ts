@@ -15,7 +15,15 @@ import { memo } from '../util/index.js';
 /**
  * @name accountId
  * @param {(Address | AccountId | AccountIndex | string | null)} address An accounts address in various formats.
- * @description  An [[AccountId]]
+ * @description Resolves an address (in different formats) to its corresponding `AccountId`.
+ * @example
+ * ```javascript
+ * const ALICE = "F7Hs";
+ *
+ * api.derive.accounts.accountId(ALICE, (accountId) => {
+ *   console.log(`Resolved AccountId: ${accountId}`);
+ * });
+ * ```
  */
 export function accountId (instanceId: string, api: DeriveApi): (address?: Address | AccountId | AccountIndex | string | null) => Observable<AccountId> {
   return memo(instanceId, (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountId> => {

@@ -40,4 +40,13 @@ export function _erasRewards (instanceId: string, api: DeriveApi): (eras: EraInd
   });
 }
 
+/**
+ * @name erasRewards
+ * @description Retrieves rewards for historical eras.
+ * @param {boolean} withActive? (Optional) Whether to include the active era in the result.
+ * @example
+ * ```javascript
+ * const rewards = await api.derive.staking.erasRewards(true);
+ * ```
+ */
 export const erasRewards = /*#__PURE__*/ erasHistoricApply('_erasRewards');

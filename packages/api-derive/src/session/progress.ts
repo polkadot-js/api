@@ -74,7 +74,14 @@ function queryBabe (api: DeriveApi): Observable<[DeriveSessionInfo, ResultSlotsF
 }
 
 /**
- * @description Retrieves all the session and era query and calculates specific values on it as the length of the session and eras
+ * @name progress
+ * @description Retrieves session information and progress.
+ * @example
+ * ```javascript
+ * api.derive.session.progress((progress) => {
+ *   console.log(`Session progress ${JSON.stringify(progress)}`);
+ * });
+ * ```
  */
 export function progress (instanceId: string, api: DeriveApi): () => Observable<DeriveSessionProgress> {
   return memo(instanceId, (): Observable<DeriveSessionProgress> =>
@@ -88,6 +95,36 @@ export function progress (instanceId: string, api: DeriveApi): () => Observable<
   );
 }
 
+/**
+ * @name eraLenght
+ * @description Retrieves the total length of the current era.
+ * @example
+ * ```javascript
+ * api.derive.session.eraLength((length) => {
+ *   console.log(`Current era length: ${length} sessions`);
+ * });
+ * ```
+ */
 export const eraLength = /*#__PURE__*/ withProgressField('eraLength');
+/**
+ * @name eraProgress
+ * @description Retrieves the progress of the current era.
+ * @example
+ * ```javascript
+ * api.derive.session.eraProgress((progress) => {
+ *   console.log(`Current era progress: ${progress} sessions`);
+ * });
+ * ```
+ */
 export const eraProgress = /*#__PURE__*/ withProgressField('eraProgress');
+/**
+ * @name sessionProgress
+ * @description Retrieves the progress of the current session.
+ * @example
+ * ```javascript
+ *   api.derive.session.sessionProgress((progress) => {
+ *   console.log(`Current session progress: ${progress} slots`);
+ * });
+ * ```
+ */
 export const sessionProgress = /*#__PURE__*/ withProgressField('sessionProgress');

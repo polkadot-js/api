@@ -26,11 +26,41 @@ function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, Kitc
   };
 }
 
+/**
+ * @name keys
+ * @param { Uint8Array | string } stashId The stash account ID whose session keys are to be retrieved.
+ * @description Retrieves the session keys associated with a given stash account.
+ * @example
+ * ```javascript
+ * const keys = await api.derive.staking.keys(
+ *   ALICE
+ * );
+ * console.log(
+ *   "Session keys:",
+ *   keys.sessionIds.map((key) => `Key: ${key}`)
+ * );
+ * ```
+ */
 export const keys = /*#__PURE__*/ firstMemo(
   (api: DeriveApi, stashId: Uint8Array | string) =>
     api.derive.staking.keysMulti([stashId])
 );
 
+/**
+ * @name keysMulti
+ * @description Retrieves session keys for multiple stash accounts.
+ * @param { (Uint8Array | string)[] } stashIds Array of stash account IDs.
+ * @example
+ * ```javascript
+ * const keysMulti = await api.derive.staking.keysMulti([ ALICE, BOB ]);
+ * keysMulti.forEach((keys) => {
+ *   console.log(
+ *     "Session keys:",
+ *     keys.sessionIds.map((key) => `Key: ${key}`)
+ *   );
+ * });
+ * ```
+ */
 export function keysMulti (instanceId: string, api: DeriveApi): (stashIds: (Uint8Array | string)[]) => Observable<DeriveStakingKeys[]> {
   return memo(instanceId, (stashIds: (Uint8Array | string)[]): Observable<DeriveStakingKeys[]> =>
     stashIds.length

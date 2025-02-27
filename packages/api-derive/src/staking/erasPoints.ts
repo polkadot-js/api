@@ -51,4 +51,17 @@ export function _erasPoints (instanceId: string, api: DeriveApi): (eras: EraInde
   });
 }
 
+/**
+ * @name erasPoints
+ * @description Retrieves historical era points with its validators.
+ * @param {boolean} withActive? (Optional) Whether to include the active era in the result.
+ * @example
+ * ```javascript
+ * const points = await api.derive.staking.erasPoints(true);
+ * console.log(
+ *   "Validator points:",
+ *   points.map(({ era, eraPoints }) => `Era: ${era}, points ${eraPoints}`)
+ * );
+ * ```
+ */
 export const erasPoints = /*#__PURE__*/ erasHistoricApply('_erasPoints');

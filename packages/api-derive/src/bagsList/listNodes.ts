@@ -36,6 +36,11 @@ function traverseLinks (api: DeriveApi, head: AccountId32 | string): Observable<
   );
 }
 
+/**
+ * @name listNodes
+ * @param {(PalletBagsListListBag | null)} bag A reference to a specific bag in the BagsList pallet.
+ * @description Retrieves the list of nodes (accounts) contained in a specific bag within the BagsList pallet.
+ */
 export function listNodes (instanceId: string, api: DeriveApi): (bag: PalletBagsListListBag | null) => Observable<PalletBagsListListNode[]> {
   return memo(instanceId, (bag: PalletBagsListListBag | null): Observable<PalletBagsListListNode[]> =>
     bag && bag.head.isSome

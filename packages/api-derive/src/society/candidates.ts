@@ -54,7 +54,13 @@ function getCurr (api: DeriveApi) {
 }
 
 /**
- * @description Get the candidate info for a society
+ * @name candidate
+ * @description Retrieves the list of candidates for the society module.
+ * @example
+ * ```javascript
+ * const societyCandidates = await api.derive.society.candidates();
+ * console.log(societyCandidates);
+ * ```
  */
 export function candidates (instanceId: string, api: DeriveApi): () => Observable<DeriveSocietyCandidate[]> {
   return memo(instanceId, (): Observable<DeriveSocietyCandidate[]> =>
