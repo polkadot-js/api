@@ -564,13 +564,13 @@ function addErrors (runtimeDesc: string, { lookup, pallets }: MetadataLatest): s
   });
 }
 
-async function getDependencyBasePath (moduleName: string): Promise<string> {
-  const modulePath = await import.meta.resolve(moduleName);
+function getDependencyBasePath (moduleName: string): string {
+  const modulePath = import.meta.resolve(moduleName);
 
   return resolve(dirname(fileURLToPath(modulePath)));
 }
 
-const BASE_DERIVE_PATH = await getDependencyBasePath('@polkadot/api-derive');
+const BASE_DERIVE_PATH = getDependencyBasePath('@polkadot/api-derive');
 
 // It finds all typescript file paths withing a given derive module.
 const obtainDeriveFiles = (deriveModule: string) => {
