@@ -9,12 +9,11 @@ import type { HexString } from '@polkadot/util/types';
 
 import { parse, type Spec } from 'comment-parser';
 import fs from 'node:fs';
-import path from 'node:path';
+import path, { dirname, resolve } from 'node:path';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { derive } from '@polkadot/api-derive';
 import { Metadata, TypeRegistry, Vec } from '@polkadot/types';
@@ -565,13 +564,13 @@ function addErrors (runtimeDesc: string, { lookup, pallets }: MetadataLatest): s
   });
 }
 
-
-async function getDependencyBasePath(moduleName: string): Promise<string>{
+async function getDependencyBasePath (moduleName: string): Promise<string> {
   const modulePath = await import.meta.resolve(moduleName);
+
   return resolve(dirname(fileURLToPath(modulePath)));
 }
 
-const BASE_DERIVE_PATH = await getDependencyBasePath("@polkadot/api-derive");
+const BASE_DERIVE_PATH = await getDependencyBasePath('@polkadot/api-derive');
 
 // It finds all typescript file paths withing a given derive module.
 const obtainDeriveFiles = (deriveModule: string) => {
