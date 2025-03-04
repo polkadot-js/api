@@ -15,12 +15,17 @@ interface ExtrinsicInfo {
   blockNumber: number,
   extrinsic: GenericExtrinsic,
   events: EventRecord[]
+  success: boolean
 }
 
 interface ExtrinsicsInfo {
   blockHash: Hash | string,
   blockNumber: number,
-  extrinsics: {extrinsic: GenericExtrinsic, events: EventRecord[]}[],
+  extrinsics: {
+    events: EventRecord[]
+    extrinsic: GenericExtrinsic,
+    success: boolean
+  }[],
 }
 
 /**
@@ -51,13 +56,16 @@ export function extrinsicInfo (instanceId: string, api: DeriveApi): (at: Hash, t
         return null;
       }
 
+      const extEvents = events.filter(
+        ({ phase }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index)
+      );
+
       return {
         blockHash: block.hash.toHex(),
         blockNumber: block.block.header.number.toNumber(),
-        events: events.filter(
-          ({ phase }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index)
-        ),
-        extrinsic: block.block.extrinsics[index]
+        events: extEvents,
+        extrinsic: block.block.extrinsics[index],
+        success: (extEvents.findIndex((ev) => ev.event.method === 'ExtrinsicSuccess') !== -1)
       };
     }));
   });
@@ -99,11 +107,14 @@ export function accountExtrinsics (instanceId: string, api: DeriveApi): (at: Has
 
           return false;
         }).map((ext, i) => {
+          const extEvents = events.filter(
+            ({ phase }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(indexes[i])
+          );
+
           return {
-            events: events.filter(
-              ({ phase }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(indexes[i])
-            ),
-            extrinsic: ext
+            events: extEvents,
+            extrinsic: ext,
+            success: (extEvents.findIndex((ev) => ev.event.method === 'ExtrinsicSuccess') !== -1)
           };
         })
       };
