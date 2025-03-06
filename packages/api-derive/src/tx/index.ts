@@ -2,4 +2,5 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export * from './events.js';
+export * from './extrinsicInfo.js';
 export * from './signingInfo.js';
