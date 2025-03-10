@@ -1,12 +1,19 @@
 # CHANGELOG
 
+## 15.8.1 Mar 10, 2025
+
+Changes:
+
+- Add derives to obtain Extrinsic Information ([#6113](https://github.com/polkadot-js/api/pull/6113))
+
+
 ## 15.7.2 Mar 3, 2025
 
 Changes:
 
-- Update asset-hub type-support metadata files for v1.4.0 ([#6105](https://github.com/polkadot-js/api/pull/6105)) 
-- Document available Api Derives ([#6106](https://github.com/polkadot-js/api/pull/6106)) 
--  Fix derives base path in typegen ([#6107](https://github.com/polkadot-js/api/pull/6107)) 
+- Update asset-hub type-support metadata files for v1.4.0 ([#6105](https://github.com/polkadot-js/api/pull/6105))
+- Document available Api Derives ([#6106](https://github.com/polkadot-js/api/pull/6106))
+- Fix derives base path in typegen ([#6107](https://github.com/polkadot-js/api/pull/6107))
 
 
 ## 15.7.1 Feb 25, 2025
