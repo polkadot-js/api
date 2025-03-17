@@ -6,11 +6,13 @@ import type { HexString } from '@polkadot/util/types';
 import kusama from '@polkadot/types-support/metadata/v15/kusama-hex';
 import polkadot from '@polkadot/types-support/metadata/v15/polkadot-hex';
 import substrate from '@polkadot/types-support/metadata/v15/substrate-hex';
+import assetHubKusama from '@polkadot/types-support/metadata/v15/asset-hub-kusama-hex';
+import assetHubPolkadot from '@polkadot/types-support/metadata/v15/asset-hub-polkadot-hex';
 
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultInterface, generateDefaultLookup, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTsDef, generateDefaultTx } from './generate/index.js';
 
 const BASE = 'packages/api-augment/src';
-const METAS = Object.entries<HexString>({ kusama, polkadot, substrate });
+const METAS = Object.entries<HexString>({ kusama, polkadot, substrate, assetHubKusama, assetHubPolkadot });
 
 export function main (): void {
   generateDefaultInterface();
