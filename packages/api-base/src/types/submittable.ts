@@ -72,13 +72,6 @@ export interface SubmittableExtrinsic<ApiType extends ApiTypes, R extends ISubmi
    *
    * The result is a signed extrinsic that is ready to be broadcast to the network via `.send()`, `rpc.author.submitExtrinsic()`, or
    * any custom submission logic.
-   *
-   * Note for injected signers:
-   * As of v12.0.1 and up the `SignerResult` return type for `signPayload` allows for the `signedTransaction` field.
-   * This allows the signer to input a signed transaction that will be directly broadcasted. This
-   * bypasses the api adding the signature to the payload. The api will ensure that the Call Data is not changed before it broadcasts the
-   * transaction. This allows for the signer to modify the payload to add things like `mode`, and `metadataHash` for
-   * signedExtensions such as `CheckMetadataHash`.
    */
   signAsync (account: AddressOrPair, _options?: Partial<SignerOptions>): PromiseOrObs<ApiType, this>;
 
