@@ -6,6 +6,7 @@
 // for Kusama/Polkadot/Substrate falls between 600-750K, 2x for estimate)
 
 export const DEFAULT_CAPACITY = 1024;
+export const DEFAULT_TTL = 30000;
 
 class LRUNode {
   readonly key: string;
@@ -46,7 +47,7 @@ export class LRUCache {
 
   readonly #ttl: number;
 
-  constructor (capacity = DEFAULT_CAPACITY, ttl = 30000) {
+  constructor (capacity = DEFAULT_CAPACITY, ttl = DEFAULT_TTL) {
     this.capacity = capacity;
     this.#ttl = ttl;
     this.#head = this.#tail = new LRUNode('<empty>', ttl);
