@@ -110,9 +110,9 @@ export class WsProvider implements ProviderInterface {
    * @param {Record<string, string>} headers The headers provided to the underlying WebSocket
    * @param {number} [timeout] Custom timeout value used per request . Defaults to `DEFAULT_TIMEOUT_MS`
    * @param {number} [cacheCapacity] Custom size of the WsProvider LRUCache. Defaults to `DEFAULT_CAPACITY` (1024)
-   * @param {number} [ttl] Custom TTL of the WsProvider LRUCache. Determines how long an object can live in the cache. Defaults to DEFAULT_TTL` (30000)
+   * @param {number} [cacheTtl] Custom TTL of the WsProvider LRUCache. Determines how long an object can live in the cache. Defaults to DEFAULT_TTL` (30000)
    */
-  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number, cacheCapacity?: number, ttl?: number) {
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number, cacheCapacity?: number, cacheTtl?: number) {
     const endpoints = Array.isArray(endpoint)
       ? endpoint
       : [endpoint];
@@ -126,7 +126,7 @@ export class WsProvider implements ProviderInterface {
         throw new Error(`Endpoint should start with 'ws://', received '${endpoint}'`);
       }
     });
-    this.#callCache = new LRUCache(cacheCapacity || DEFAULT_CAPACITY, ttl || DEFAULT_TTL);
+    this.#callCache = new LRUCache(cacheCapacity || DEFAULT_CAPACITY, cacheTtl || DEFAULT_TTL);
     this.#cacheCapacity = cacheCapacity || DEFAULT_CAPACITY;
     this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;
