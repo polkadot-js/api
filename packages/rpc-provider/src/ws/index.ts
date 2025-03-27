@@ -13,7 +13,7 @@ import { WebSocket } from '@polkadot/x-ws';
 
 import { RpcCoder } from '../coder/index.js';
 import defaults from '../defaults.js';
-import { DEFAULT_CAPACITY,DEFAULT_TTL, LRUCache } from '../lru.js';
+import { DEFAULT_CAPACITY, DEFAULT_TTL, LRUCache } from '../lru.js';
 import { getWSErrorString } from './errors.js';
 
 interface SubscriptionHandler {

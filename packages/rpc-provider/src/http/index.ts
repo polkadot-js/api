@@ -57,7 +57,7 @@ export class HttpProvider implements ProviderInterface {
     this.#coder = new RpcCoder();
     this.#endpoint = endpoint;
     this.#headers = headers;
-    this.#callCache = new LRUCache(cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY,  ttl || DEFAULT_TTL);
+    this.#callCache = new LRUCache(cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY, ttl || DEFAULT_TTL);
     this.#cacheCapacity = cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY;
 
     this.#stats = {
