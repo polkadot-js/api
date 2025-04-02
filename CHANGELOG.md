@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 15.9.1 Mar 27, 2025
+
+Changes:
+
+- Fix signAsync() docs ([#6121](https://github.com/polkadot-js/api/pull/6121))
+- Make TTL configurable on WsProvider & HttpProvider ([#6123](https://github.com/polkadot-js/api/pull/6123))
+
+
 ## 15.8.1 Mar 10, 2025
 
 Changes:
