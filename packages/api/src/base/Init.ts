@@ -200,7 +200,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     );
 
     if (header.parentHash.isEmpty) {
-      throw new Error(`Unable to retrieve header and parent from supplied hash. BlockHash: ${blockHash.toHex()}, Header: ${header.toHuman()}`);
+      l.warn(`Unable to retrieve header ${blockHash.toString()} and parent ${header.parentHash.toString()} from supplied hash`);
+      throw new Error('Unable to retrieve header and parent from supplied hash');
     }
 
     // get the runtime version, either on-chain or via an known upgrade history
