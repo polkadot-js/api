@@ -43,7 +43,7 @@ function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, 
       } else if (typeofMap) {
         assign = jsonKey && value.get(jsonKey);
       } else {
-        assign = jsonKey && value[jsonKey] as unknown;
+        assign = jsonKey && Object.prototype.hasOwnProperty.call(value, jsonKey) ? value[jsonKey] as unknown : undefined;
 
         if (isUndefined(assign)) {
           if (isUndefined(jsonObj)) {
@@ -52,11 +52,13 @@ function decodeStructFromObject (registry: Registry, [Types, keys]: Definition, 
             jsonObj = {};
 
             for (let e = 0, ecount = entries.length; e < ecount; e++) {
-              jsonObj[stringCamelCase(entries[e][0])] = entries[e][1];
+              if (Object.prototype.hasOwnProperty.call(value, entries[e][0])) {
+                jsonObj[stringCamelCase(entries[e][0])] = entries[e][1];
+              }
             }
           }
 
-          assign = jsonKey && jsonObj[jsonKey];
+          assign = jsonKey && Object.prototype.hasOwnProperty.call(jsonObj, jsonKey) ? jsonObj[jsonKey] : undefined;
         }
       }
 
