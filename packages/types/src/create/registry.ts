@@ -180,7 +180,7 @@ export class TypeRegistry implements Registry {
   #unknownTypes = new Map<string, boolean>();
   #userExtensions?: ExtDef | undefined;
 
-  readonly #knownDefaults: Record<string, CodecClass>;
+  readonly #knownDefaults: Map<string, CodecClass>;
   readonly #knownDefaultsEntries: [string, CodecClass][];
   readonly #knownDefinitions: Record<string, Definitions>;
   readonly #metadataCalls: Record<string, Record<string, CallFunction>> = {};
@@ -191,8 +191,8 @@ export class TypeRegistry implements Registry {
   public createdAtHash?: Hash;
 
   constructor (createdAtHash?: Hash | Uint8Array | string) {
-    this.#knownDefaults = objectSpread({ Json, Metadata, PortableRegistry, Raw }, baseTypes);
-    this.#knownDefaultsEntries = Object.entries(this.#knownDefaults);
+    this.#knownDefaults = new Map(Object.entries({ Json, Metadata, PortableRegistry, Raw, ...baseTypes }));
+    this.#knownDefaultsEntries = Array.from(this.#knownDefaults.entries());
     this.#knownDefinitions = definitions;
 
     const allKnown = Object.values(this.#knownDefinitions);
@@ -351,7 +351,7 @@ export class TypeRegistry implements Registry {
   }
 
   public getUnsafe <T extends Codec = Codec, K extends string = string> (name: K, withUnknown?: boolean, knownTypeDef?: TypeDef): CodecClass<T> | undefined {
-    let Type = this.#classes.get(name) || this.#knownDefaults[name];
+    let Type = this.#classes.get(name) || this.#knownDefaults.get(name);
 
     // we have not already created the type, attempt it
     if (!Type) {
@@ -455,7 +455,7 @@ export class TypeRegistry implements Registry {
   }
 
   public hasClass (name: string): boolean {
-    return this.#classes.has(name) || !!this.#knownDefaults[name];
+    return this.#classes.has(name) || !!this.#knownDefaults.has(name);
   }
 
   public hasDef (name: string): boolean {
