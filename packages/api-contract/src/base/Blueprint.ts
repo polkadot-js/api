@@ -4,7 +4,7 @@
 import type { ApiBase } from '@polkadot/api/base';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
+import type { Hash } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { Abi } from '../Abi/index.js';
 import type { AbiConstructor, BlueprintOptions } from '../types.js';
@@ -13,7 +13,7 @@ import type { MapConstructorExec } from './types.js';
 import { SubmittableResult } from '@polkadot/api';
 import { BN_ZERO, isUndefined } from '@polkadot/util';
 
-import { applyOnEvent } from '../util.js';
+// import { applyOnEvent } from '../util.js';
 import { Base } from './Base.js';
 import { Contract } from './Contract.js';
 import { convertWeight, createBluePrintTx, encodeSalt } from './util.js';
@@ -55,7 +55,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
-    return this.api.tx.contracts.instantiate(
+    return this.api.tx.revive.instantiate(
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore jiggle v1 weights, metadata points to latest
@@ -67,9 +67,12 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
       this.abi.findConstructor(constructorOrId).toU8a(params),
       encodeSalt(salt)
     ).withResultTransform((result: ISubmittableResult) =>
-      new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
-        new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
-      ))
+      new BlueprintSubmittableResult(result, (() => {
+        if (result.status.isInBlock || result.status.isFinalized) {
+              return new Contract<ApiType>(this.api, this.abi, "0x075e2a9cfb213a68dfa1f5cf6bf6d515ae212cf8", this._decorateMethod);
+        }
+        return undefined;
+      })())
     );
   };
 }

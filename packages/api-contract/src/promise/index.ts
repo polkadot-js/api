@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { AccountId, Hash } from '@polkadot/types/interfaces';
+import type { AccountId20, Hash } from '@polkadot/types/interfaces';
 import type { Abi } from '../Abi/index.js';
 
 import { toPromiseMethod } from '@polkadot/api';
@@ -22,7 +22,7 @@ export class CodePromise extends Code<'promise'> {
 }
 
 export class ContractPromise extends Contract<'promise'> {
-  constructor (api: ApiPromise, abi: string | Record<string, unknown> | Abi, address: string | AccountId) {
+  constructor (api: ApiPromise, abi: string | Record<string, unknown> | Abi, address: string | AccountId20) {
     super(api, abi, address, toPromiseMethod);
   }
 }
