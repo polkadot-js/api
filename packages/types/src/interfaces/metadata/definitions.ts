@@ -15,6 +15,7 @@ import { v12 } from './v12.js';
 import { v13 } from './v13.js';
 import { v14 } from './v14.js';
 import { v15 } from './v15.js';
+import { v16 } from './v16.js';
 
 export { AllHashers };
 
@@ -30,6 +31,7 @@ export default {
     ...v13,
     ...v14,
     ...v15,
+    ...v16,
 
     // latest mappings
     // NOTE: For v15, we only added the runtime defintions,
@@ -76,7 +78,8 @@ export default {
         V12: 'MetadataV12',
         V13: 'MetadataV13',
         V14: 'MetadataV14',
-        V15: 'MetadataV15'
+        V15: 'MetadataV15',
+        V16: 'MetadataV16'
       }
     }
   }
