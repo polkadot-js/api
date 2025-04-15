@@ -14,6 +14,8 @@ import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
 import staticKusama from '@polkadot/types-support/metadata/v15/kusama-hex';
 import staticPolkadot from '@polkadot/types-support/metadata/v15/polkadot-hex';
 import staticSubstrate from '@polkadot/types-support/metadata/v15/substrate-hex';
+import staticAhPolkadot from '@polkadot/types-support/metadata/v15/asset-hub-polkadot-hex';
+import staticAhKusama from '@polkadot/types-support/metadata/v15/asset-hub-kusama-hex';
 import { isString, stringify } from '@polkadot/util';
 
 import { createImports, exportInterface, initMeta, readTemplate, type TypeImports, writeFile } from '../util/index.js';
@@ -271,7 +273,9 @@ export function generateDefaultLookup (destDir = 'packages/types-augment/src/loo
       : [
         ['substrate', staticSubstrate],
         ['polkadot', staticPolkadot],
-        ['kusama', staticKusama]
+        ['kusama', staticKusama],
+        ['assetHubPolkadot', staticAhPolkadot],
+        ['assetHubKusama', staticAhKusama],
       ]
   );
 }

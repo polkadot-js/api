@@ -1,0 +1,53 @@
+// Auto-generated via `yarn polkadot-types-from-defs`, do not edit
+/* eslint-disable */
+
+// import type lookup before we augment - in some environments
+// this is required to allow for ambient/previous definitions
+import '@polkadot/types/types/registry';
+
+import type { AssetHubPolkadotRuntimeOriginCaller, AssetHubPolkadotRuntimeProxyType, AssetHubPolkadotRuntimeRuntime, AssetHubPolkadotRuntimeRuntimeError, AssetHubPolkadotRuntimeRuntimeHoldReason, AssetHubPolkadotRuntimeSessionKeys, AssetsCommonRuntimeApiFungiblesAccessError, BpXcmBridgeHubRouterBridgeState, CumulusPalletParachainSystemCall, CumulusPalletParachainSystemError, CumulusPalletParachainSystemEvent, CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot, CumulusPalletParachainSystemRelayStateSnapshotRelayDispatchQueueRemainingCapacity, CumulusPalletParachainSystemUnincludedSegmentAncestor, CumulusPalletParachainSystemUnincludedSegmentHrmpChannelUpdate, CumulusPalletParachainSystemUnincludedSegmentSegmentTracker, CumulusPalletParachainSystemUnincludedSegmentUsedBandwidth, CumulusPalletXcmCall, CumulusPalletXcmEvent, CumulusPalletXcmOrigin, CumulusPalletXcmpQueueCall, CumulusPalletXcmpQueueError, CumulusPalletXcmpQueueEvent, CumulusPalletXcmpQueueOutboundChannelDetails, CumulusPalletXcmpQueueOutboundState, CumulusPalletXcmpQueueQueueConfigData, CumulusPrimitivesCoreAggregateMessageOrigin, CumulusPrimitivesCoreCollationInfo, CumulusPrimitivesParachainInherentParachainInherentData, PalletCollatorSelectionCall, PalletCollatorSelectionCandidateInfo, PalletCollatorSelectionError, PalletCollatorSelectionEvent, PalletXcmBridgeHubRouterCall, PalletXcmBridgeHubRouterEvent, PolkadotPrimitivesV8AbridgedHostConfiguration, PolkadotPrimitivesV8AbridgedHrmpChannel, SpConsensusAuraEd25519AppEd25519Public, SpTrieStorageProof, StagingParachainInfoCall } from '@polkadot/types/lookup';
+
+declare module '@polkadot/types/types/registry' {
+  interface InterfaceTypes {
+    AssetHubPolkadotRuntimeOriginCaller: AssetHubPolkadotRuntimeOriginCaller;
+    AssetHubPolkadotRuntimeProxyType: AssetHubPolkadotRuntimeProxyType;
+    AssetHubPolkadotRuntimeRuntime: AssetHubPolkadotRuntimeRuntime;
+    AssetHubPolkadotRuntimeRuntimeError: AssetHubPolkadotRuntimeRuntimeError;
+    AssetHubPolkadotRuntimeRuntimeHoldReason: AssetHubPolkadotRuntimeRuntimeHoldReason;
+    AssetHubPolkadotRuntimeSessionKeys: AssetHubPolkadotRuntimeSessionKeys;
+    AssetsCommonRuntimeApiFungiblesAccessError: AssetsCommonRuntimeApiFungiblesAccessError;
+    BpXcmBridgeHubRouterBridgeState: BpXcmBridgeHubRouterBridgeState;
+    CumulusPalletParachainSystemCall: CumulusPalletParachainSystemCall;
+    CumulusPalletParachainSystemError: CumulusPalletParachainSystemError;
+    CumulusPalletParachainSystemEvent: CumulusPalletParachainSystemEvent;
+    CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot: CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot;
+    CumulusPalletParachainSystemRelayStateSnapshotRelayDispatchQueueRemainingCapacity: CumulusPalletParachainSystemRelayStateSnapshotRelayDispatchQueueRemainingCapacity;
+    CumulusPalletParachainSystemUnincludedSegmentAncestor: CumulusPalletParachainSystemUnincludedSegmentAncestor;
+    CumulusPalletParachainSystemUnincludedSegmentHrmpChannelUpdate: CumulusPalletParachainSystemUnincludedSegmentHrmpChannelUpdate;
+    CumulusPalletParachainSystemUnincludedSegmentSegmentTracker: CumulusPalletParachainSystemUnincludedSegmentSegmentTracker;
+    CumulusPalletParachainSystemUnincludedSegmentUsedBandwidth: CumulusPalletParachainSystemUnincludedSegmentUsedBandwidth;
+    CumulusPalletXcmCall: CumulusPalletXcmCall;
+    CumulusPalletXcmEvent: CumulusPalletXcmEvent;
+    CumulusPalletXcmOrigin: CumulusPalletXcmOrigin;
+    CumulusPalletXcmpQueueCall: CumulusPalletXcmpQueueCall;
+    CumulusPalletXcmpQueueError: CumulusPalletXcmpQueueError;
+    CumulusPalletXcmpQueueEvent: CumulusPalletXcmpQueueEvent;
+    CumulusPalletXcmpQueueOutboundChannelDetails: CumulusPalletXcmpQueueOutboundChannelDetails;
+    CumulusPalletXcmpQueueOutboundState: CumulusPalletXcmpQueueOutboundState;
+    CumulusPalletXcmpQueueQueueConfigData: CumulusPalletXcmpQueueQueueConfigData;
+    CumulusPrimitivesCoreAggregateMessageOrigin: CumulusPrimitivesCoreAggregateMessageOrigin;
+    CumulusPrimitivesCoreCollationInfo: CumulusPrimitivesCoreCollationInfo;
+    CumulusPrimitivesParachainInherentParachainInherentData: CumulusPrimitivesParachainInherentParachainInherentData;
+    PalletCollatorSelectionCall: PalletCollatorSelectionCall;
+    PalletCollatorSelectionCandidateInfo: PalletCollatorSelectionCandidateInfo;
+    PalletCollatorSelectionError: PalletCollatorSelectionError;
+    PalletCollatorSelectionEvent: PalletCollatorSelectionEvent;
+    PalletXcmBridgeHubRouterCall: PalletXcmBridgeHubRouterCall;
+    PalletXcmBridgeHubRouterEvent: PalletXcmBridgeHubRouterEvent;
+    PolkadotPrimitivesV8AbridgedHostConfiguration: PolkadotPrimitivesV8AbridgedHostConfiguration;
+    PolkadotPrimitivesV8AbridgedHrmpChannel: PolkadotPrimitivesV8AbridgedHrmpChannel;
+    SpConsensusAuraEd25519AppEd25519Public: SpConsensusAuraEd25519AppEd25519Public;
+    SpTrieStorageProof: SpTrieStorageProof;
+    StagingParachainInfoCall: StagingParachainInfoCall;
+  } // InterfaceTypes
+} // declare module
