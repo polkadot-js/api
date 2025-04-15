@@ -18,11 +18,11 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "15.9.2-2-x",
+  "version": "15.9.2",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/types": "15.9.2-2-x",
-    "@polkadot/types-codec": "15.9.2-2-x",
+    "@polkadot/types": "15.9.2",
+    "@polkadot/types-codec": "15.9.2",
     "@polkadot/util": "^13.4.4",
     "tslib": "^2.8.1"
   }
