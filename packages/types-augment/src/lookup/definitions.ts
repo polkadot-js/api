@@ -15,5 +15,5 @@ export default {
   rpc: {},
   // Not 100% sure it is relevant, however the order here is the same
   // as exposed in the typegen lookup order
-  types: objectSpread({}, substrate, polkadot, assetHubPolkadot, kusama, assetHubKusama)
+  types: objectSpread({}, substrate, polkadot, kusama, assetHubPolkadot, assetHubKusama)
 } as Definitions;
