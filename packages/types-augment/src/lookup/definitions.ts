@@ -5,12 +5,11 @@ import type { Definitions } from '@polkadot/types/types';
 
 import { objectSpread } from '@polkadot/util';
 
+import assetHubKusama from './assetHubKusama.js';
+import assetHubPolkadot from './assetHubPolkadot.js';
+import kusama from './kusama.js';
 import polkadot from './polkadot.js';
 import substrate from './substrate.js';
-import assetHubPolkadot from './assetHubPolkadot.js';
-import assetHubKusama from './assetHubKusama.js';
-import kusama from './kusama.js';
-
 
 export default {
   rpc: {},

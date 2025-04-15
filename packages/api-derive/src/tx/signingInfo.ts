@@ -77,7 +77,7 @@ interface Aura {
 function babeOrAuraPeriod (api: DeriveApi): BN | undefined {
   const period = api.consts.babe?.expectedBlockTime ||
     // this will be present ones https://github.com/paritytech/polkadot-sdk/pull/3732 is merged
-    (api.consts['aura'] as unknown as Aura)?.slotDuration ||
+    (api.consts.aura as unknown as Aura)?.slotDuration ||
     api.consts.timestamp?.minimumPeriod.muln(2);
 
   return period && period.isZero && !period.isZero() ? period : undefined;
