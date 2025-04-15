@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 15.9.2 Apr 15, 2025
+
+Changes:
+
+- Enhance property access validation in Struct decoding ([#6126](https://github.com/polkadot-js/api/pull/6126))
+- Improve type registry known defaults implementation to a Map ([#6127](https://github.com/polkadot-js/api/pull/6127))
+- bump polkadot/common to 13.4.4 ([#6128](https://github.com/polkadot-js/api/pull/6128))
+
+
 ## 15.9.1 Mar 27, 2025
 
 Changes:
