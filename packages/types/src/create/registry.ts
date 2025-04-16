@@ -605,17 +605,34 @@ export class TypeRegistry implements Registry {
       }
     }
 
-    // setup the available extensions
-    this.setSignedExtensions(
-      signedExtensions || (
-        this.#metadata.extrinsic.version.gt(BN_ZERO)
-          // FIXME Use the extension and their injected types
-          ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
-          : fallbackExtensions
-      ),
-      userExtensions,
-      noInitWarn
-    );
+    console.log(this.#metadataVersion)
+    if (this.#metadataVersion < 16){
+      console.log(this.#metadata.extrinsic)
+      // setup the available extensions
+      this.setSignedExtensions(
+        signedExtensions || (
+          this.#metadata.extrinsic.version.gt(BN_ZERO)
+            // FIXME Use the extension and their injected types
+            ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
+            : fallbackExtensions
+        ),
+        userExtensions,
+        noInitWarn
+      );
+    }/* else {
+      // setup the available extensions
+      this.setSignedExtensions(
+        signedExtensions || (
+          this.#metadata.extrinsic?.versions?.gt(BN_ZERO)
+            // FIXME Use the extension and their injected types
+            ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
+            : fallbackExtensions
+        ),
+        userExtensions,
+        noInitWarn
+      );
+    } */
+
 
     // setup the chain properties with format overrides
     this.setChainProperties(

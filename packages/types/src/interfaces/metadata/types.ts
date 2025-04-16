@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { PortableRegistry } from '@polkadot/types';
-import type { BTreeMap, Bytes, Enum, Option, Struct, Text, Type, Vec, WrapperOpaque, bool, u8 } from '@polkadot/types-codec';
+import type { BTreeMap, Bytes, Compact, Enum, Option, Struct, Text, Type, Vec, WrapperOpaque, bool, u32, u8 } from '@polkadot/types-codec';
 import type { Si1Field, Si1LookupTypeId, Si1Type, SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name CustomMetadata15 */
@@ -14,6 +14,28 @@ export interface CustomMetadata15 extends Struct {
 export interface CustomValueMetadata15 extends Struct {
   readonly type: SiLookupTypeId;
   readonly value: Bytes;
+}
+
+/** @name DeprecationInfoV16 */
+export interface DeprecationInfoV16 extends Enum {
+  readonly isNotDeprecated: boolean;
+  readonly isItemDeprecated: boolean;
+  readonly asItemDeprecated: DeprecationStatusV16;
+  readonly isVariantsDeprecated: boolean;
+  readonly asVariantsDeprecated: BTreeMap<u8,DeprecationStatusV16>;
+  readonly type: 'NotDeprecated' | 'ItemDeprecated' | 'VariantsDeprecated';
+}
+
+/** @name DeprecationStatusV16 */
+export interface DeprecationStatusV16 extends Enum {
+  readonly isNotDeprecated: boolean;
+  readonly isDeprecatedWithoutNote: boolean;
+  readonly isDeprecated: boolean;
+  readonly asDeprecated: {
+    readonly note: Text;
+    readonly since: Option<Text>;
+  } & Struct;
+  readonly type: 'NotDeprecated' | 'DeprecatedWithoutNote' | 'Deprecated';
 }
 
 /** @name ErrorMetadataLatest */
@@ -78,7 +100,7 @@ export interface EventMetadataV9 extends Struct {
 }
 
 /** @name ExtrinsicMetadataLatest */
-export interface ExtrinsicMetadataLatest extends ExtrinsicMetadataV15 {}
+export interface ExtrinsicMetadataLatest extends ExtrinsicMetadataV16 {}
 
 /** @name ExtrinsicMetadataV11 */
 export interface ExtrinsicMetadataV11 extends Struct {
@@ -107,6 +129,15 @@ export interface ExtrinsicMetadataV15 extends Struct {
   readonly signatureType: SiLookupTypeId;
   readonly extraType: SiLookupTypeId;
   readonly signedExtensions: Vec<SignedExtensionMetadataV14>;
+}
+
+/** @name ExtrinsicMetadataV16 */
+export interface ExtrinsicMetadataV16 extends Struct {
+  readonly versions: Bytes;
+  readonly addressType: SiLookupTypeId;
+  readonly signatureType: SiLookupTypeId;
+  readonly transactionExtensionsByVersion: BTreeMap<u8, Vec<Compact<u32>>>;
+  readonly transactionExtensions: Vec<TransactionExtensionMetadataV16>;
 }
 
 /** @name FunctionArgumentMetadataLatest */
@@ -184,11 +215,13 @@ export interface MetadataAll extends Enum {
   readonly asV14: MetadataV14;
   readonly isV15: boolean;
   readonly asV15: MetadataV15;
-  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6' | 'V7' | 'V8' | 'V9' | 'V10' | 'V11' | 'V12' | 'V13' | 'V14' | 'V15';
+  readonly isV16: boolean;
+  readonly asV16: MetadataV16;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6' | 'V7' | 'V8' | 'V9' | 'V10' | 'V11' | 'V12' | 'V13' | 'V14' | 'V15' | 'V16';
 }
 
 /** @name MetadataLatest */
-export interface MetadataLatest extends MetadataV15 {}
+export interface MetadataLatest extends MetadataV16 {}
 
 /** @name MetadataV10 */
 export interface MetadataV10 extends Struct {
@@ -228,6 +261,17 @@ export interface MetadataV15 extends Struct {
   readonly extrinsic: ExtrinsicMetadataV15;
   readonly type: SiLookupTypeId;
   readonly apis: Vec<RuntimeApiMetadataV15>;
+  readonly outerEnums: OuterEnums15;
+  readonly custom: CustomMetadata15;
+}
+
+/** @name MetadataV16 */
+export interface MetadataV16 extends Struct {
+  readonly lookup: PortableRegistry;
+  readonly pallets: Vec<PalletMetadataV16>;
+  readonly extrinsic: ExtrinsicMetadataV16;
+  readonly type: SiLookupTypeId;
+  readonly apis: Vec<RuntimeApiMetadataV16>;
   readonly outerEnums: OuterEnums15;
   readonly custom: CustomMetadata15;
 }
@@ -320,15 +364,21 @@ export interface OuterEnums15 extends Struct {
 }
 
 /** @name PalletCallMetadataLatest */
-export interface PalletCallMetadataLatest extends PalletCallMetadataV14 {}
+export interface PalletCallMetadataLatest extends PalletCallMetadataV16 {}
 
 /** @name PalletCallMetadataV14 */
 export interface PalletCallMetadataV14 extends Struct {
   readonly type: SiLookupTypeId;
 }
 
+/** @name PalletCallMetadataV16 */
+export interface PalletCallMetadataV16 extends Struct {
+  readonly type: SiLookupTypeId;
+  readonly deprecationInfo: DeprecationInfoV16;
+}
+
 /** @name PalletConstantMetadataLatest */
-export interface PalletConstantMetadataLatest extends PalletConstantMetadataV14 {}
+export interface PalletConstantMetadataLatest extends PalletConstantMetadataV16 {}
 
 /** @name PalletConstantMetadataV14 */
 export interface PalletConstantMetadataV14 extends Struct {
@@ -338,24 +388,45 @@ export interface PalletConstantMetadataV14 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name PalletConstantMetadataV16 */
+export interface PalletConstantMetadataV16 extends Struct {
+  readonly name: Text;
+  readonly type: SiLookupTypeId;
+  readonly value: Bytes;
+  readonly docs: Vec<Text>;
+  readonly deprecationInfo: DeprecationInfoV16;
+}
+
 /** @name PalletErrorMetadataLatest */
-export interface PalletErrorMetadataLatest extends PalletErrorMetadataV14 {}
+export interface PalletErrorMetadataLatest extends PalletErrorMetadataV16 {}
 
 /** @name PalletErrorMetadataV14 */
 export interface PalletErrorMetadataV14 extends Struct {
   readonly type: SiLookupTypeId;
 }
 
+/** @name PalletErrorMetadataV16 */
+export interface PalletErrorMetadataV16 extends Struct {
+  readonly type: SiLookupTypeId;
+  readonly deprecationInfo: DeprecationInfoV16;
+}
+
 /** @name PalletEventMetadataLatest */
-export interface PalletEventMetadataLatest extends PalletEventMetadataV14 {}
+export interface PalletEventMetadataLatest extends PalletEventMetadataV16 {}
 
 /** @name PalletEventMetadataV14 */
 export interface PalletEventMetadataV14 extends Struct {
   readonly type: SiLookupTypeId;
 }
 
+/** @name PalletEventMetadataV16 */
+export interface PalletEventMetadataV16 extends Struct {
+  readonly type: SiLookupTypeId;
+  readonly deprecationInfo: DeprecationInfoV16;
+}
+
 /** @name PalletMetadataLatest */
-export interface PalletMetadataLatest extends PalletMetadataV15 {}
+export interface PalletMetadataLatest extends PalletMetadataV16 {}
 
 /** @name PalletMetadataV14 */
 export interface PalletMetadataV14 extends Struct {
@@ -380,13 +451,31 @@ export interface PalletMetadataV15 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name PalletMetadataV16 */
+export interface PalletMetadataV16 extends Struct {
+  readonly name: Text;
+  readonly storage: Option<PalletStorageMetadataV16>;
+  readonly calls: Option<PalletCallMetadataV16>;
+  readonly events: Option<PalletEventMetadataV16>;
+  readonly constants: Vec<PalletConstantMetadataV16>;
+  readonly errors: Option<PalletErrorMetadataV16>;
+  readonly index: u8;
+  readonly docs: Vec<Text>;
+}
+
 /** @name PalletStorageMetadataLatest */
-export interface PalletStorageMetadataLatest extends PalletStorageMetadataV14 {}
+export interface PalletStorageMetadataLatest extends PalletStorageMetadataV16 {}
 
 /** @name PalletStorageMetadataV14 */
 export interface PalletStorageMetadataV14 extends Struct {
   readonly prefix: Text;
   readonly items: Vec<StorageEntryMetadataV14>;
+}
+
+/** @name PalletStorageMetadataV16 */
+export interface PalletStorageMetadataV16 extends Struct {
+  readonly prefix: Text;
+  readonly entries: Vec<StorageEntryMetadataV16>;
 }
 
 /** @name PortableType */
@@ -399,7 +488,7 @@ export interface PortableTypeV14 extends Struct {
 }
 
 /** @name RuntimeApiMetadataLatest */
-export interface RuntimeApiMetadataLatest extends RuntimeApiMetadataV15 {}
+export interface RuntimeApiMetadataLatest extends RuntimeApiMetadataV16 {}
 
 /** @name RuntimeApiMetadataV15 */
 export interface RuntimeApiMetadataV15 extends Struct {
@@ -408,12 +497,30 @@ export interface RuntimeApiMetadataV15 extends Struct {
   readonly docs: Vec<Text>;
 }
 
+/** @name RuntimeApiMetadataV16 */
+export interface RuntimeApiMetadataV16 extends Struct {
+  readonly name: Text;
+  readonly methods: Vec<RuntimeApiMethodMetadataV16>;
+  readonly docs: Vec<Text>;
+  readonly deprecationInfo: DeprecationStatusV16;
+  readonly version: Compact<u32>;
+}
+
 /** @name RuntimeApiMethodMetadataV15 */
 export interface RuntimeApiMethodMetadataV15 extends Struct {
   readonly name: Text;
   readonly inputs: Vec<RuntimeApiMethodParamMetadataV15>;
   readonly output: SiLookupTypeId;
   readonly docs: Vec<Text>;
+}
+
+/** @name RuntimeApiMethodMetadataV16 */
+export interface RuntimeApiMethodMetadataV16 extends Struct {
+  readonly name: Text;
+  readonly inputs: Vec<RuntimeApiMethodParamMetadataV15>;
+  readonly output: SiLookupTypeId;
+  readonly docs: Vec<Text>;
+  readonly deprecationInfo: DeprecationStatusV16;
 }
 
 /** @name RuntimeApiMethodParamMetadataV15 */
@@ -433,7 +540,7 @@ export interface SignedExtensionMetadataV14 extends Struct {
 }
 
 /** @name StorageEntryMetadataLatest */
-export interface StorageEntryMetadataLatest extends StorageEntryMetadataV14 {}
+export interface StorageEntryMetadataLatest extends StorageEntryMetadataV16 {}
 
 /** @name StorageEntryMetadataV10 */
 export interface StorageEntryMetadataV10 extends Struct {
@@ -472,6 +579,16 @@ export interface StorageEntryMetadataV14 extends Struct {
   readonly type: StorageEntryTypeV14;
   readonly fallback: Bytes;
   readonly docs: Vec<Text>;
+}
+
+/** @name StorageEntryMetadataV16 */
+export interface StorageEntryMetadataV16 extends Struct {
+  readonly name: Text;
+  readonly modifier: StorageEntryModifierV14;
+  readonly type: StorageEntryTypeV14;
+  readonly fallback: Bytes;
+  readonly docs: Vec<Text>;
+  readonly deprecationInfo: DeprecationStatusV16;
 }
 
 /** @name StorageEntryMetadataV9 */
@@ -692,6 +809,16 @@ export interface StorageMetadataV13 extends Struct {
 export interface StorageMetadataV9 extends Struct {
   readonly prefix: Text;
   readonly items: Vec<StorageEntryMetadataV9>;
+}
+
+/** @name TransactionExtensionMetadataLatest */
+export interface TransactionExtensionMetadataLatest extends TransactionExtensionMetadataV16 {}
+
+/** @name TransactionExtensionMetadataV16 */
+export interface TransactionExtensionMetadataV16 extends Struct {
+  readonly identifier: Text;
+  readonly type: SiLookupTypeId;
+  readonly implicit: SiLookupTypeId;
 }
 
 export type PHANTOM_METADATA = 'metadata';
