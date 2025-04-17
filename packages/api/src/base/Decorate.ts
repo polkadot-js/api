@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { AugmentedCall, DeriveCustom, QueryableCalls } from '@polkadot/api-base/types';
 import type { RpcInterface } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey, Text, u64, Vec } from '@polkadot/types';
-import type { Call, Hash, RuntimeApiMethodMetadataV15, RuntimeVersion } from '@polkadot/types/interfaces';
+import type { Call, Hash, RuntimeApiMethodMetadataV16, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyJson, AnyTuple, CallFunction, Codec, DefinitionCall, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, DefinitionsCallEntry, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
@@ -494,7 +494,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   }
 
   // Helper for _getRuntimeDefsViaMetadata
-  protected _getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV15>) {
+  protected _getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV16>) {
     const result: Record<string, DefinitionCall> = {};
 
     methods.forEach((m) => {

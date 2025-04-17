@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RuntimeApiMethodMetadataV15, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { RuntimeApiMethodMetadataV16, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { DefinitionCall, DefinitionCallNamed, Definitions, DefinitionsCall, Registry } from '@polkadot/types/types';
 import type { Vec } from '@polkadot/types-codec';
@@ -52,7 +52,7 @@ const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {
 };
 
 /** @internal */
-function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV15>) {
+function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV16>) {
   const result: Record<string, DefinitionCall> = {};
 
   methods.forEach((m) => {

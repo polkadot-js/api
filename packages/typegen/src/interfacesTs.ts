@@ -3,6 +3,7 @@
 
 import type { HexString } from '@polkadot/util/types';
 
+//TODO: replace v15 to v16 once metadata is updated
 import kusama from '@polkadot/types-support/metadata/v15/kusama-hex';
 import polkadot from '@polkadot/types-support/metadata/v15/polkadot-hex';
 import substrate from '@polkadot/types-support/metadata/v15/substrate-hex';

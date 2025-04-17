@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MetadataLatest, RuntimeApiMethodMetadataV15, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { MetadataLatest, RuntimeApiMethodMetadataV16, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { PortableRegistry } from '@polkadot/types/metadata';
 import type { Text } from '@polkadot/types/primitive';
 import type { Codec, DefinitionCall, DefinitionRpcParam, DefinitionsCall, Registry } from '@polkadot/types/types';
@@ -255,7 +255,7 @@ function addRpc (_runtimeDesc: string, rpcMethods?: string[]): string {
 }
 
 /** @internal */
-function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV15>) {
+function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV16>) {
   const result: Record<string, DefinitionCall> = {};
 
   methods.forEach((m) => {
