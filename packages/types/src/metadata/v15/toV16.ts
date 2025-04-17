@@ -22,16 +22,15 @@ function palletsFromV15(registry: Registry, palletV15: PalletMetadataV15): Palle
 function convertStorage(registry: Registry, storage: PalletStorageMetadataV14): PalletStorageMetadataV16 {
   const deprecationInfo: DeprecationStatusV16 = registry.createTypeUnsafe('DeprecationStatusV16', ['NotDeprecated']);
 
-  const entries: StorageEntryMetadataV16[] = storage.items.map((item) =>
-    registry.createTypeUnsafe('StorageEntryMetadataV16', [{
-      ...item,
-      deprecationInfo
-    }])
+  const items: StorageEntryMetadataV16[] = storage.items.map((item) =>
+    registry.createTypeUnsafe('StorageEntryMetadataV16', [
+      objectSpread({}, item, deprecationInfo)
+    ])
   );
 
   return registry.createTypeUnsafe('PalletStorageMetadataV16', [{
     prefix: storage.prefix,
-    entries
+    items: registry.createTypeUnsafe('Vec<StorageEntryMetadataV16>', [items])
   }]);
 }
 
@@ -57,10 +56,9 @@ function convertConstants(registry: Registry, constants: Vec<PalletConstantMetad
   const deprecationInfo: DeprecationInfoV16 = registry.createTypeUnsafe('DeprecationInfoV16', ['NotDeprecated']);
 
   return registry.createTypeUnsafe('Vec<PalletConstantMetadataV16>', [
-    constants.map((constant) => registry.createTypeUnsafe('PalletConstantMetadataV16', [{
-      ...constant,
-      deprecationInfo
-    }]))]
+    constants.map((constant) => registry.createTypeUnsafe('PalletConstantMetadataV16', [
+      objectSpread({}, constant, {deprecationInfo})
+    ]))]
   )
 }
 
@@ -108,17 +106,16 @@ function apisFromV15(registry: Registry, runtimeApiV15: RuntimeApiMetadataV15): 
 
 
   let methods = runtimeApiV15.methods.map((method) =>
-    registry.createTypeUnsafe('RuntimeApiMethodMetadataV16', [{
-      ...method,
-      deprecationInfo
-    }])
+    registry.createTypeUnsafe('RuntimeApiMethodMetadataV16', 
+      [objectSpread({}, method, {deprecationInfo})]
+    )
   );
 
   return registry.createTypeUnsafe('RuntimeApiMetadataV16', [
     objectSpread({}, runtimeApiV15, {
       methods,
+      deprecationInfo,
       version: registry.createTypeUnsafe('Compact<u32>', [0]),
-      deprecationInfo: deprecationInfo
     })
   ])
 }

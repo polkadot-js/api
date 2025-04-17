@@ -31,7 +31,7 @@ export const v16: DefinitionsTypes = {
   },
   PalletStorageMetadataV16: {
     prefix: 'Text',
-    entries: 'Vec<StorageEntryMetadataV16>'
+    items: 'Vec<StorageEntryMetadataV16>'
   },
   StorageEntryMetadataV16: {
     name: 'Text',

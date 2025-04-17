@@ -475,7 +475,7 @@ export interface PalletStorageMetadataV14 extends Struct {
 /** @name PalletStorageMetadataV16 */
 export interface PalletStorageMetadataV16 extends Struct {
   readonly prefix: Text;
-  readonly entries: Vec<StorageEntryMetadataV16>;
+  readonly items: Vec<StorageEntryMetadataV16>;
 }
 
 /** @name PortableType */
