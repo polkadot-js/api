@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BTreeMap, type Vec } from '@polkadot/types-codec';
+import { type Vec } from '@polkadot/types-codec';
 import type { DeprecationInfoV16, DeprecationStatusV16, ExtrinsicMetadataV15, ExtrinsicMetadataV16, MetadataV15, MetadataV16, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataV14, PalletStorageMetadataV16, RuntimeApiMetadataV15, RuntimeApiMetadataV16, StorageEntryMetadataV16, TransactionExtensionMetadataV16 } from '../../interfaces/metadata/index.js';
 import type { Registry } from '../../types/index.js';
 
@@ -88,7 +88,7 @@ function extrinsicFromV15(registry: Registry, extrinsicV15: ExtrinsicMetadataV15
   //FIXME: Metadata: Revise Version, should it match extrinsicV15 latest version?
   const transactionExtensionsByVersion = registry.createTypeUnsafe(
     'BTreeMap<u8, Vec<Compact<u32>>>',
-    [new Map([[registry.createTypeUnsafe('u8', [0]), registry.createTypeUnsafe('Vec<Compact<u32>>', [indexes])]])]
+    [new Map([[registry.createTypeUnsafe('u8', [extrinsicV15.version]), registry.createTypeUnsafe('Vec<Compact<u32>>', [indexes])]])]
   );
 
   return registry.createTypeUnsafe('ExtrinsicMetadataV16', [

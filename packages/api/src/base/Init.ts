@@ -19,6 +19,7 @@ import { assertReturn, BN_ZERO, isUndefined, logger, noop, objectSpread, u8aEq, 
 import { blake2AsHex, cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { Decorate } from './Decorate.js';
+import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/constants';
 
 const KEEPALIVE_INTERVAL = 10000;
 const WITH_VERSION_SHORTCUT = false;
@@ -373,7 +374,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       throw new Error('Invalid initializion order, runtimeVersion is not available');
     }
 
-    this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
+    this._extrinsicType = metadata.asLatest.extrinsic.versions.at(-1) || LATEST_EXTRINSIC_VERSION;
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = runtimeVersion;

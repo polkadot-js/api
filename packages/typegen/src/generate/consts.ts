@@ -14,7 +14,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
-import type { DeprecationInfoV16, DeprecationStatusV16 } from '@polkadot/types/interfaces';
+import type { DeprecationStatusV16 } from '@polkadot/types/interfaces';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
 

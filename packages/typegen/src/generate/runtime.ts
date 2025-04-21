@@ -98,7 +98,7 @@ function getRuntimeDefViaMetadata (registry: Registry) {
   const { apis } = registry.metadata;
 
   for (let i = 0, count = apis.length; i < count; i++) {
-    const { methods, name, deprecationInfo } = apis[i];
+    const { methods, name } = apis[i];
 
     result[name.toString()] = [{
       methods: getMethods(registry, methods),
