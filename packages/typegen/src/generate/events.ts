@@ -14,6 +14,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
+import type { DeprecationStatusV16 } from '@polkadot/types/interfaces';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('events'));
 
@@ -61,6 +62,21 @@ const ALIAS = [
   'yield'
 ];
 
+function getDeprecationNotice(deprecationStatus: DeprecationStatusV16, name: string): string {
+  let deprecationNotice = "@deprecated"
+
+  if (deprecationStatus.isDeprecated) {
+      const { note, since } = deprecationStatus.asDeprecated;
+      const sinceText = since.isSome ? ` Since ${since.unwrap()}.` : "";
+
+      deprecationNotice += ` ${note}${sinceText}`;
+  }else {
+    deprecationNotice += ` Event ${name} has been deprecated`
+  }
+
+  return deprecationNotice
+}
+
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
@@ -82,39 +98,58 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const usedTypes = new Set<string>([]);
     const modules = pallets
       .filter(({ events }) => events.isSome)
-      .map(({ events, name }) => ({
-        items: lookup.getSiType(events.unwrap().type).def.asVariant.variants
-          .map(({ docs, fields, name }) => {
-            const args = fields
-              .map(({ type }) => lookup.getTypeDef(type))
-              .map((typeDef) => {
-                const arg = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
+      .map((data) => {
+        let name = data.name;
+        let events = data.events.unwrap();
 
-                // Add the type to the list of used types
-                if (!(imports.primitiveTypes[arg])) {
-                  usedTypes.add(arg);
+        return {
+          items: lookup.getSiType(events.type).def.asVariant.variants
+            .map(({ docs, fields, name, index }) => {
+              if (events.deprecationInfo.isVariantsDeprecated) {
+                const rawStatus = events.deprecationInfo.asVariantsDeprecated.toJSON()?.[index.toNumber()];
+
+                if (rawStatus) {
+                  const deprecationStatus: DeprecationStatusV16 = meta.registry.createTypeUnsafe("DeprecationStatusV16", [rawStatus]);
+
+                  if (!deprecationStatus.isNotDeprecated) {
+                    const deprecationNotice = getDeprecationNotice(deprecationStatus, name.toString());
+                    const notice = docs.length ? ["", deprecationNotice] : [deprecationNotice];
+                    docs.push(...notice.map(text => meta.registry.createType('Text', text)));
+
+                  }
                 }
+              }
 
-                return arg;
-              });
+              const args = fields
+                .map(({ type }) => lookup.getTypeDef(type))
+                .map((typeDef) => {
+                  const arg = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
 
-            const names = fields
-              .map(({ name }) => registry.lookup.sanitizeField(name)[0])
-              .filter((n): n is string => !!n);
+                  // Add the type to the list of used types
+                  if (!(imports.primitiveTypes[arg])) {
+                    usedTypes.add(arg);
+                  }
 
-            setImports(allDefs, imports, args);
+                  return arg;
+                });
 
-            return {
-              docs,
-              name: name.toString(),
-              type: names.length !== 0 && names.length === args.length
-                ? `[${names.map((n, i) => `${ALIAS.includes(n) ? `${n}_` : n}: ${args[i]}`).join(', ')}], { ${names.map((n, i) => `${n}: ${args[i]}`).join(', ')} }`
-                : `[${args.join(', ')}]`
-            };
-          })
-          .sort(compareName),
-        name: stringCamelCase(name)
-      }))
+              const names = fields
+                .map(({ name }) => registry.lookup.sanitizeField(name)[0])
+                .filter((n): n is string => !!n);
+
+              setImports(allDefs, imports, args);
+
+              return {
+                docs,
+                name: name.toString(),
+                type: names.length !== 0 && names.length === args.length
+                  ? `[${names.map((n, i) => `${ALIAS.includes(n) ? `${n}_` : n}: ${args[i]}`).join(', ')}], { ${names.map((n, i) => `${n}: ${args[i]}`).join(', ')} }`
+                  : `[${args.join(', ')}]`
+              };
+            })
+            .sort(compareName),
+          name: stringCamelCase(name)
+      }})
       .sort(compareName);
 
     // filter out the unused lookup types from imports

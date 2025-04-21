@@ -20,14 +20,16 @@ import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
 
-function getDeprecationNotice(deprecationInfo: DeprecationStatusV16): string {
+function getDeprecationNotice(deprecationStatus: DeprecationStatusV16, name: string): string {
   let deprecationNotice = "@deprecated"
-  
-  if (deprecationInfo.isDeprecated) {
-      const { note, since } = deprecationInfo.asDeprecated;
+
+  if (deprecationStatus.isDeprecated) {
+      const { note, since } = deprecationStatus.asDeprecated;
       const sinceText = since.isSome ? ` Since ${since.unwrap()}.` : "";
 
       deprecationNotice += ` ${note}${sinceText}`;
+  }else {
+    deprecationNotice += ` Storage item ${name} has been deprecated`
   }
 
   return deprecationNotice
@@ -107,15 +109,15 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
         const items = storage.unwrap().items
           .map((storageEntry) => {
 
-            let {deprecationInfo, docs} = storageEntry;
+            let {deprecationInfo, docs, name} = storageEntry;
             const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, name.toString(), storageEntry, imports);
 
             if (!deprecationInfo.isNotDeprecated){
-              const deprecationNotice = getDeprecationNotice(deprecationInfo);
+              const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name));
               const items = docs.length
                 ? ["", deprecationNotice]
                 : [deprecationNotice];
-  
+
               docs.push(...items.map(text => registry.createType('Text', text)));
             }
 

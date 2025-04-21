@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { type Vec } from '@polkadot/types-codec';
+import { BTreeMap, type Vec } from '@polkadot/types-codec';
 import type { DeprecationInfoV16, DeprecationStatusV16, ExtrinsicMetadataV15, ExtrinsicMetadataV16, MetadataV15, MetadataV16, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataV14, PalletStorageMetadataV16, RuntimeApiMetadataV15, RuntimeApiMetadataV16, StorageEntryMetadataV16, TransactionExtensionMetadataV16 } from '../../interfaces/metadata/index.js';
 import type { Registry } from '../../types/index.js';
 
@@ -20,11 +20,11 @@ function palletsFromV15(registry: Registry, palletV15: PalletMetadataV15): Palle
 }
 
 function convertStorage(registry: Registry, storage: PalletStorageMetadataV14): PalletStorageMetadataV16 {
-  const deprecationInfo: DeprecationStatusV16 = registry.createTypeUnsafe('DeprecationStatusV16', ['NotDeprecated']);
+  const deprecationInfo = registry.createTypeUnsafe('DeprecationStatusV16', ["NotDeprecated"]);
 
   const items: StorageEntryMetadataV16[] = storage.items.map((item) =>
     registry.createTypeUnsafe('StorageEntryMetadataV16', [
-      objectSpread({}, item, deprecationInfo)
+      objectSpread({}, item, {deprecationInfo})
     ])
   );
 
@@ -85,7 +85,7 @@ function extrinsicFromV15(registry: Registry, extrinsicV15: ExtrinsicMetadataV15
     registry.createTypeUnsafe('Compact<u32>', [i])
   );
 
-  //TODO: Metadata: Revise Version, should it match extrinsicV15.version?
+  //FIXME: Metadata: Revise Version, should it match extrinsicV15 latest version?
   const transactionExtensionsByVersion = registry.createTypeUnsafe(
     'BTreeMap<u8, Vec<Compact<u32>>>',
     [new Map([[registry.createTypeUnsafe('u8', [0]), registry.createTypeUnsafe('Vec<Compact<u32>>', [indexes])]])]
@@ -107,7 +107,7 @@ function apisFromV15(registry: Registry, runtimeApiV15: RuntimeApiMetadataV15): 
 
 
   let methods = runtimeApiV15.methods.map((method) =>
-    registry.createTypeUnsafe('RuntimeApiMethodMetadataV16', 
+    registry.createTypeUnsafe('RuntimeApiMethodMetadataV16',
       [objectSpread({}, method, {deprecationInfo})]
     )
   );

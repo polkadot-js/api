@@ -14,21 +14,20 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
-import type { DeprecationInfoV16 } from '@polkadot/types/interfaces';
+import type { DeprecationInfoV16, DeprecationStatusV16 } from '@polkadot/types/interfaces';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
 
-//TODO: Figure out how to handle VariantsDeprecated
-function getDeprecationNotice(deprecationInfo: DeprecationInfoV16): string | null {
-  if (deprecationInfo.isNotDeprecated) return null;
- 
+function getDeprecationNotice(deprecationStatus: DeprecationStatusV16, name: string): string {
   let deprecationNotice = "@deprecated"
-  
-  if (deprecationInfo.isItemDeprecated && deprecationInfo.asItemDeprecated.isDeprecated) {
-      const { note, since } = deprecationInfo.asItemDeprecated.asDeprecated;
+
+  if (deprecationStatus.isDeprecated) {
+      const { note, since } = deprecationStatus.asDeprecated;
       const sinceText = since.isSome ? ` Since ${since.unwrap()}.` : "";
 
       deprecationNotice += ` ${note}${sinceText}`;
+  }else {
+    deprecationNotice += ` Const ${name} has been deprecated`
   }
 
   return deprecationNotice
@@ -65,9 +64,10 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
           .map(({ deprecationInfo, docs, name, type }) => {
             const typeDef = lookup.getTypeDef(type);
             const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
-            const deprecationNotice = getDeprecationNotice(deprecationInfo);
 
-            if (deprecationNotice) {
+            if (!deprecationInfo.isNotDeprecated){
+              const deprecationNotice = getDeprecationNotice(deprecationInfo.asItemDeprecated, stringCamelCase(name));
+
               const items = docs.length
                 ? ["", deprecationNotice]
                 : [deprecationNotice];

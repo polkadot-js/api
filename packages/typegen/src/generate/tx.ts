@@ -15,6 +15,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
+import type { DeprecationStatusV16 } from '@polkadot/types/interfaces';
 
 const MAPPED_NAMES: Record<string, string> = {
   class: 'clazz',
@@ -27,6 +28,21 @@ function mapName (_name: Text): string {
   const name = stringCamelCase(_name);
 
   return MAPPED_NAMES[name] || name;
+}
+
+function getDeprecationNotice(deprecationStatus: DeprecationStatusV16, name: string): string {
+  let deprecationNotice = "@deprecated"
+
+  if (deprecationStatus.isDeprecated) {
+      const { note, since } = deprecationStatus.asDeprecated;
+      const sinceText = since.isSome ? ` Since ${since.unwrap()}.` : "";
+
+      deprecationNotice += ` ${note}${sinceText}`;
+  }else {
+    deprecationNotice += ` Call ${name}() has been deprecated`
+  }
+
+  return deprecationNotice
 }
 
 /** @internal */
@@ -51,12 +67,27 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const modules = pallets
       .sort(compareName)
       .filter(({ calls }) => calls.isSome)
-      .map(({ calls, name }) => {
+      .map((data) => {
+        let name = data.name;
+        let calls = data.calls.unwrap()
+
         setImports(allDefs, imports, ['SubmittableExtrinsic']);
 
         const sectionName = stringCamelCase(name);
-        const items = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
-          .map(({ docs, fields, name }) => {
+        const items = lookup.getSiType(calls.type).def.asVariant.variants
+          .map(({ docs, fields, name, index  }) => {
+            if (calls.deprecationInfo.isVariantsDeprecated) {
+              const rawStatus = calls.deprecationInfo.asVariantsDeprecated.toJSON()?.[index.toNumber()];
+              if (rawStatus) {
+                const deprecationStatus: DeprecationStatusV16 = meta.registry.createTypeUnsafe("DeprecationStatusV16", [rawStatus]);
+                if (!deprecationStatus.isNotDeprecated) {
+                  const deprecationNotice = getDeprecationNotice(deprecationStatus, stringCamelCase(name));
+                  const notice = docs.length ? ["", deprecationNotice] : [deprecationNotice];
+                  docs.push(...notice.map(text => meta.registry.createType('Text', text)));
+                }
+              }
+            }
+
             const typesInfo = fields.map(({ name, type, typeName }, index): [string, string, string] => {
               const typeDef = registry.lookup.getTypeDef(type);
 
@@ -72,6 +103,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
                   : typeDef.lookupName || typeDef.type
               ];
             });
+
             const params = typesInfo
               .map(([name,, typeStr]) => {
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);
