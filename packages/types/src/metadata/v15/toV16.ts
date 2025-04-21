@@ -85,6 +85,7 @@ function extrinsicFromV15(registry: Registry, extrinsicV15: ExtrinsicMetadataV15
     registry.createTypeUnsafe('Compact<u32>', [i])
   );
 
+  //TODO: Metadata: Revise Version, should it match extrinsicV15.version?
   const transactionExtensionsByVersion = registry.createTypeUnsafe(
     'BTreeMap<u8, Vec<Compact<u32>>>',
     [new Map([[registry.createTypeUnsafe('u8', [0]), registry.createTypeUnsafe('Vec<Compact<u32>>', [indexes])]])]

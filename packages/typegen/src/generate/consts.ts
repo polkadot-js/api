@@ -14,8 +14,25 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
+import type { DeprecationInfoV16 } from '@polkadot/types/interfaces';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
+
+//TODO: Figure out how to handle VariantsDeprecated
+function getDeprecationNotice(deprecationInfo: DeprecationInfoV16): string | null {
+  if (deprecationInfo.isNotDeprecated) return null;
+ 
+  let deprecationNotice = "@deprecated"
+  
+  if (deprecationInfo.isItemDeprecated && deprecationInfo.asItemDeprecated.isDeprecated) {
+      const { note, since } = deprecationInfo.asItemDeprecated.asDeprecated;
+      const sinceText = since.isSome ? ` Since ${since.unwrap()}.` : "";
+
+      deprecationNotice += ` ${note}${sinceText}`;
+  }
+
+  return deprecationNotice
+}
 
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
@@ -45,9 +62,18 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         }
 
         const items = constants
-          .map(({ docs, name, type }) => {
+          .map(({ deprecationInfo, docs, name, type }) => {
             const typeDef = lookup.getTypeDef(type);
             const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
+            const deprecationNotice = getDeprecationNotice(deprecationInfo);
+
+            if (deprecationNotice) {
+              const items = docs.length
+                ? ["", deprecationNotice]
+                : [deprecationNotice];
+
+              docs.push(...items.map(text => registry.createType('Text', text)));
+            }
 
             // Add the type to the list of used types
             if (!(imports.primitiveTypes[returnType])) {
