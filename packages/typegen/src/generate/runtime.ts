@@ -238,8 +238,6 @@ export function generateCallTypes (registry: Registry, meta: Metadata, dest: str
           return `${param.name}: ${similarTypes.join(' | ')}`;
         });
 
-        console.log(def.description);
-
         return {
           args: args.join(', '),
           docs: [def.description],
