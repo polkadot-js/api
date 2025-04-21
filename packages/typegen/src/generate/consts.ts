@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeprecationStatusV16 } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Definitions } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -14,23 +15,22 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
-import type { DeprecationStatusV16 } from '@polkadot/types/interfaces';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
 
-function getDeprecationNotice(deprecationStatus: DeprecationStatusV16, name: string): string {
-  let deprecationNotice = "@deprecated"
+function getDeprecationNotice (deprecationStatus: DeprecationStatusV16, name: string): string {
+  let deprecationNotice = '@deprecated';
 
   if (deprecationStatus.isDeprecated) {
-      const { note, since } = deprecationStatus.asDeprecated;
-      const sinceText = since.isSome ? ` Since ${since.unwrap()}.` : "";
+    const { note, since } = deprecationStatus.asDeprecated;
+    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
 
-      deprecationNotice += ` ${note}${sinceText}`;
-  }else {
-    deprecationNotice += ` Const ${name} has been deprecated`
+    deprecationNotice += ` ${note.toString()}${sinceText}`;
+  } else {
+    deprecationNotice += ` Const ${name} has been deprecated`;
   }
 
-  return deprecationNotice
+  return deprecationNotice;
 }
 
 /** @internal */
@@ -65,14 +65,14 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
             const typeDef = lookup.getTypeDef(type);
             const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
 
-            if (!deprecationInfo.isNotDeprecated){
+            if (!deprecationInfo.isNotDeprecated) {
               const deprecationNotice = getDeprecationNotice(deprecationInfo.asItemDeprecated, stringCamelCase(name));
 
               const items = docs.length
-                ? ["", deprecationNotice]
+                ? ['', deprecationNotice]
                 : [deprecationNotice];
 
-              docs.push(...items.map(text => registry.createType('Text', text)));
+              docs.push(...items.map((text) => registry.createType('Text', text)));
             }
 
             // Add the type to the list of used types

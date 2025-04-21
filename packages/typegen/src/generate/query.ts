@@ -20,19 +20,19 @@ import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
 
-function getDeprecationNotice(deprecationStatus: DeprecationStatusV16, name: string): string {
-  let deprecationNotice = "@deprecated"
+function getDeprecationNotice (deprecationStatus: DeprecationStatusV16, name: string): string {
+  let deprecationNotice = '@deprecated';
 
   if (deprecationStatus.isDeprecated) {
-      const { note, since } = deprecationStatus.asDeprecated;
-      const sinceText = since.isSome ? ` Since ${since.unwrap()}.` : "";
+    const { note, since } = deprecationStatus.asDeprecated;
+    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
 
-      deprecationNotice += ` ${note}${sinceText}`;
-  }else {
-    deprecationNotice += ` Storage item ${name} has been deprecated`
+    deprecationNotice += ` ${note.toString()}${sinceText}`;
+  } else {
+    deprecationNotice += ` Storage item ${name} has been deprecated`;
   }
 
-  return deprecationNotice
+  return deprecationNotice;
 }
 
 // From a storage entry metadata, we return [args, returnType]
@@ -108,17 +108,16 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .map(({ name, storage }) => {
         const items = storage.unwrap().items
           .map((storageEntry) => {
-
-            let {deprecationInfo, docs, name} = storageEntry;
+            const { deprecationInfo, docs, name } = storageEntry;
             const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, name.toString(), storageEntry, imports);
 
-            if (!deprecationInfo.isNotDeprecated){
+            if (!deprecationInfo.isNotDeprecated) {
               const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name));
               const items = docs.length
-                ? ["", deprecationNotice]
+                ? ['', deprecationNotice]
                 : [deprecationNotice];
 
-              docs.push(...items.map(text => registry.createType('Text', text)));
+              docs.push(...items.map((text) => registry.createType('Text', text)));
             }
 
             // Add the type and args to the list of used types
@@ -136,7 +135,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               args,
-              docs: docs,
+              docs,
               entryType: 'AugmentedQuery',
               name: stringCamelCase(storageEntry.name),
               params,

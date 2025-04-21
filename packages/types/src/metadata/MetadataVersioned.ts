@@ -17,9 +17,9 @@ import { toV13 } from './v12/toV13.js';
 import { toV14 } from './v13/toV14.js';
 import { toV15 } from './v14/toV15.js';
 import { toV16 } from './v15/toV16.js';
+import { toLatest } from './v16/toLatest.js';
 import { MagicNumber } from './MagicNumber.js';
 import { LATEST_VERSION, TO_CALLS_VERSION } from './versions.js';
-import { toLatest } from './v16/toLatest.js';
 
 type MetaMapped = MetadataAll[MetaVersionAsX];
 type MetaVersions = Exclude<MetaVersionAll, 9> | 'latest';
@@ -137,7 +137,7 @@ export class MetadataVersioned extends Struct {
     return this.#getVersion(15, toV15);
   }
 
-   /**
+  /**
   * @description Returns the wrapped values as a V16 object
   */
   public get asV16 (): MetadataV16 {

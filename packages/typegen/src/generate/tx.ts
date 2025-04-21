@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeprecationStatusV16 } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Text } from '@polkadot/types/primitive';
 import type { Definitions, Registry } from '@polkadot/types/types';
@@ -15,7 +16,6 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
-import type { DeprecationStatusV16 } from '@polkadot/types/interfaces';
 
 const MAPPED_NAMES: Record<string, string> = {
   class: 'clazz',
@@ -30,19 +30,19 @@ function mapName (_name: Text): string {
   return MAPPED_NAMES[name] || name;
 }
 
-function getDeprecationNotice(deprecationStatus: DeprecationStatusV16, name: string): string {
-  let deprecationNotice = "@deprecated"
+function getDeprecationNotice (deprecationStatus: DeprecationStatusV16, name: string): string {
+  let deprecationNotice = '@deprecated';
 
   if (deprecationStatus.isDeprecated) {
-      const { note, since } = deprecationStatus.asDeprecated;
-      const sinceText = since.isSome ? ` Since ${since.unwrap()}.` : "";
+    const { note, since } = deprecationStatus.asDeprecated;
+    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
 
-      deprecationNotice += ` ${note}${sinceText}`;
-  }else {
-    deprecationNotice += ` Call ${name}() has been deprecated`
+    deprecationNotice += ` ${note.toString()}${sinceText}`;
+  } else {
+    deprecationNotice += ` Call ${name}() has been deprecated`;
   }
 
-  return deprecationNotice
+  return deprecationNotice;
 }
 
 /** @internal */
@@ -68,22 +68,25 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .sort(compareName)
       .filter(({ calls }) => calls.isSome)
       .map((data) => {
-        let name = data.name;
-        let calls = data.calls.unwrap()
+        const name = data.name;
+        const calls = data.calls.unwrap();
 
         setImports(allDefs, imports, ['SubmittableExtrinsic']);
 
         const sectionName = stringCamelCase(name);
         const items = lookup.getSiType(calls.type).def.asVariant.variants
-          .map(({ docs, fields, name, index  }) => {
+          .map(({ docs, fields, index, name }) => {
             if (calls.deprecationInfo.isVariantsDeprecated) {
               const rawStatus = calls.deprecationInfo.asVariantsDeprecated.toJSON()?.[index.toNumber()];
+
               if (rawStatus) {
-                const deprecationStatus: DeprecationStatusV16 = meta.registry.createTypeUnsafe("DeprecationStatusV16", [rawStatus]);
+                const deprecationStatus: DeprecationStatusV16 = meta.registry.createTypeUnsafe('DeprecationStatusV16', [rawStatus]);
+
                 if (!deprecationStatus.isNotDeprecated) {
                   const deprecationNotice = getDeprecationNotice(deprecationStatus, stringCamelCase(name));
-                  const notice = docs.length ? ["", deprecationNotice] : [deprecationNotice];
-                  docs.push(...notice.map(text => meta.registry.createType('Text', text)));
+                  const notice = docs.length ? ['', deprecationNotice] : [deprecationNotice];
+
+                  docs.push(...notice.map((text) => meta.registry.createType('Text', text)));
                 }
               }
             }

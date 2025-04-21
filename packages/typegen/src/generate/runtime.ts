@@ -51,19 +51,19 @@ const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {
   return typeName;
 };
 
-function getDeprecationNotice(deprecationStatus: DeprecationStatusV16, name: string): string {
-  let deprecationNotice = "@deprecated"
+function getDeprecationNotice (deprecationStatus: DeprecationStatusV16, name: string): string {
+  let deprecationNotice = '@deprecated';
 
   if (deprecationStatus.isDeprecated) {
-      const { note, since } = deprecationStatus.asDeprecated;
-      const sinceText = since.isSome ? ` Since ${since.unwrap()}.` : "";
+    const { note, since } = deprecationStatus.asDeprecated;
+    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
 
-      deprecationNotice += ` ${note}${sinceText}`;
-  }else {
-    deprecationNotice += ` ${name} has been deprecated`
+    deprecationNotice += ` ${note.toString()}${sinceText}`;
+  } else {
+    deprecationNotice += ` ${name} has been deprecated`;
   }
 
-  return deprecationNotice
+  return deprecationNotice;
 }
 
 /** @internal */
@@ -77,6 +77,7 @@ function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV1
     if (!deprecationInfo.isNotDeprecated) {
       const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name));
       const notice = description.length ? `\n * ${deprecationNotice}` : ` * ${deprecationNotice}`;
+
       description += notice;
     }
 
@@ -237,7 +238,8 @@ export function generateCallTypes (registry: Registry, meta: Metadata, dest: str
           return `${param.name}: ${similarTypes.join(' | ')}`;
         });
 
-        console.log(def.description)
+        console.log(def.description);
+
         return {
           args: args.join(', '),
           docs: [def.description],

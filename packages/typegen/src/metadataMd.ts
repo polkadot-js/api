@@ -614,7 +614,7 @@ function extractDeriveExample (tags: Spec[]) {
   let example = '';
   const inCodeBlock = { done: false, found: false };
 
-  // / Obtain code block from example tag.
+  // Obtain code block from example tag.
   exampleTag.source.forEach((line) => {
     if (inCodeBlock.done) {
       return;
