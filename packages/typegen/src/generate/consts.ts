@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeprecationStatusV16 } from '@polkadot/types/interfaces';
+import type { ItemDeprecationInfoV16 } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Definitions } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -18,16 +18,16 @@ import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
 
-function getDeprecationNotice (deprecationStatus: DeprecationStatusV16, name: string): string {
+function getDeprecationNotice (deprecationInfo: ItemDeprecationInfoV16, name: string): string {
   let deprecationNotice = '@deprecated';
 
-  if (deprecationStatus.isDeprecated) {
-    const { note, since } = deprecationStatus.asDeprecated;
+  if (deprecationInfo.isDeprecated) {
+    const { note, since } = deprecationInfo.asDeprecated;
     const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
 
     deprecationNotice += ` ${note.toString()}${sinceText}`;
   } else {
-    deprecationNotice += ` Const ${name} has been deprecated`;
+    deprecationNotice += ` Constant ${name} has been deprecated`;
   }
 
   return deprecationNotice;
@@ -66,7 +66,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
             const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
 
             if (!deprecationInfo.isNotDeprecated) {
-              const deprecationNotice = getDeprecationNotice(deprecationInfo.asItemDeprecated, stringCamelCase(name));
+              const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name));
 
               const items = docs.length
                 ? ['', deprecationNotice]

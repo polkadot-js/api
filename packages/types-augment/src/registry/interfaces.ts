@@ -44,7 +44,7 @@ import type { AuthorityIndex, AuthorityList, AuthoritySet, AuthoritySetChange, A
 import type { IdentityFields, IdentityInfo, IdentityInfoAdditional, IdentityInfoTo198, IdentityJudgement, RegistrarIndex, RegistrarInfo, Registration, RegistrationJudgement, RegistrationTo198 } from '@polkadot/types/interfaces/identity';
 import type { AuthIndex, AuthoritySignature, Heartbeat, HeartbeatTo244, OpaqueMultiaddr, OpaqueNetworkState, OpaquePeerId } from '@polkadot/types/interfaces/imOnline';
 import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lottery';
-import type { CustomMetadata15, CustomValueMetadata15, DeprecationInfoV16, DeprecationStatusV16, ErrorMetadataLatest, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV13, ErrorMetadataV14, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV13, EventMetadataV14, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, ExtrinsicMetadataV13, ExtrinsicMetadataV14, ExtrinsicMetadataV15, ExtrinsicMetadataV16, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV13, FunctionArgumentMetadataV14, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV13, FunctionMetadataV14, FunctionMetadataV9, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV15, MetadataV16, MetadataV9, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV13, ModuleConstantMetadataV9, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV13, ModuleMetadataV9, OpaqueMetadata, OuterEnums15, PalletCallMetadataLatest, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataLatest, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataLatest, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataLatest, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataLatest, PalletMetadataV14, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataLatest, PalletStorageMetadataV14, PalletStorageMetadataV16, PortableType, PortableTypeV14, RuntimeApiMetadataLatest, RuntimeApiMetadataV15, RuntimeApiMetadataV16, RuntimeApiMethodMetadataV15, RuntimeApiMethodMetadataV16, RuntimeApiMethodParamMetadataV15, SignedExtensionMetadataLatest, SignedExtensionMetadataV14, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV13, StorageEntryMetadataV14, StorageEntryMetadataV16, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV13, StorageEntryModifierV14, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV13, StorageEntryTypeV14, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV13, StorageHasherV14, StorageHasherV9, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV13, StorageMetadataV9, TransactionExtensionMetadataLatest, TransactionExtensionMetadataV16 } from '@polkadot/types/interfaces/metadata';
+import type { CustomMetadata15, CustomValueMetadata15, EnumDeprecationInfoV16, ErrorMetadataLatest, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV13, ErrorMetadataV14, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV13, EventMetadataV14, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, ExtrinsicMetadataV13, ExtrinsicMetadataV14, ExtrinsicMetadataV15, ExtrinsicMetadataV16, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV13, FunctionArgumentMetadataV14, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV13, FunctionMetadataV14, FunctionMetadataV9, ItemDeprecationInfoV16, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV15, MetadataV16, MetadataV9, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV13, ModuleConstantMetadataV9, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV13, ModuleMetadataV9, OpaqueMetadata, OuterEnums15, PalletCallMetadataLatest, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataLatest, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataLatest, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataLatest, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataLatest, PalletMetadataV14, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataLatest, PalletStorageMetadataV14, PalletStorageMetadataV16, PortableType, PortableTypeV14, RuntimeApiMetadataLatest, RuntimeApiMetadataV15, RuntimeApiMetadataV16, RuntimeApiMethodMetadataV15, RuntimeApiMethodMetadataV16, RuntimeApiMethodParamMetadataV15, SignedExtensionMetadataLatest, SignedExtensionMetadataV14, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV13, StorageEntryMetadataV14, StorageEntryMetadataV16, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV13, StorageEntryModifierV14, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV13, StorageEntryTypeV14, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV13, StorageHasherV14, StorageHasherV9, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV13, StorageMetadataV9, TransactionExtensionMetadataLatest, TransactionExtensionMetadataV16, VariantDeprecationInfoV16 } from '@polkadot/types/interfaces/metadata';
 import type { Mixnode, MixnodesErr, SessionPhase, SessionStatus } from '@polkadot/types/interfaces/mixnet';
 import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError, MmrHash, MmrLeafBatchProof, MmrLeafIndex, MmrLeafProof, MmrNodeIndex, MmrProof } from '@polkadot/types/interfaces/mmr';
 import type { NftCollectionId, NftItemId } from '@polkadot/types/interfaces/nfts';
@@ -362,8 +362,6 @@ declare module '@polkadot/types/types/registry' {
     DeliveredMessages: DeliveredMessages;
     DepositBalance: DepositBalance;
     DepositBalanceOf: DepositBalanceOf;
-    DeprecationInfoV16: DeprecationInfoV16;
-    DeprecationStatusV16: DeprecationStatusV16;
     DestroyWitness: DestroyWitness;
     Digest: Digest;
     DigestItem: DigestItem;
@@ -410,6 +408,7 @@ declare module '@polkadot/types/types/registry' {
     ElectionStatus: ElectionStatus;
     EncodedFinalityProofs: EncodedFinalityProofs;
     EncodedJustification: EncodedJustification;
+    EnumDeprecationInfoV16: EnumDeprecationInfoV16;
     Epoch: Epoch;
     EpochAuthorship: EpochAuthorship;
     Era: Era;
@@ -650,6 +649,7 @@ declare module '@polkadot/types/types/registry' {
     InvalidTransaction: InvalidTransaction;
     isize: isize;
     ISize: ISize;
+    ItemDeprecationInfoV16: ItemDeprecationInfoV16;
     Json: Json;
     Junction: Junction;
     Junctions: Junctions;
@@ -1257,6 +1257,7 @@ declare module '@polkadot/types/types/registry' {
     ValidDisputeStatementKind: ValidDisputeStatementKind;
     ValidityAttestation: ValidityAttestation;
     ValidTransaction: ValidTransaction;
+    VariantDeprecationInfoV16: VariantDeprecationInfoV16;
     VecInboundHrmpMessage: VecInboundHrmpMessage;
     VersionedMultiAsset: VersionedMultiAsset;
     VersionedMultiAssets: VersionedMultiAssets;

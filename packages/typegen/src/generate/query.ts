@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeprecationStatusV16, StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
+import type { ItemDeprecationInfoV16, StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
 import type { Metadata, PortableRegistry } from '@polkadot/types/metadata';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -20,16 +20,16 @@ import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
 
-function getDeprecationNotice (deprecationStatus: DeprecationStatusV16, name: string): string {
+function getDeprecationNotice (deprecationInfo: ItemDeprecationInfoV16, name: string): string {
   let deprecationNotice = '@deprecated';
 
-  if (deprecationStatus.isDeprecated) {
-    const { note, since } = deprecationStatus.asDeprecated;
+  if (deprecationInfo.isDeprecated) {
+    const { note, since } = deprecationInfo.asDeprecated;
     const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
 
     deprecationNotice += ` ${note.toString()}${sinceText}`;
   } else {
-    deprecationNotice += ` Storage item ${name} has been deprecated`;
+    deprecationNotice += ` ${name} has been deprecated`;
   }
 
   return deprecationNotice;

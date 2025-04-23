@@ -27,7 +27,9 @@ export const v16: DefinitionsTypes = {
     constants: 'Vec<PalletConstantMetadataV16>',
     errors: 'Option<PalletErrorMetadataV16>',
     index: 'u8',
-    docs: 'Vec<Text>'
+    docs: 'Vec<Text>',
+    // Deprecation info
+    deprecationInfo: 'ItemDeprecationInfoV16'
   },
   PalletStorageMetadataV16: {
     prefix: 'Text',
@@ -40,19 +42,19 @@ export const v16: DefinitionsTypes = {
     fallback: 'Bytes',
     docs: 'Vec<Text>',
     // Deprecation info
-    deprecationInfo: 'DeprecationStatusV16'
+    deprecationInfo: 'ItemDeprecationInfoV16'
   },
-  DeprecationStatusV16: {
+  ItemDeprecationInfoV16: {
     _enum: {
-    // Entry is not deprecated
+      // Item is not deprecated.
       NotDeprecated: 'Null',
-      // Deprecated without a note.
+      // Item is fully deprecated without a note.
       DeprecatedWithoutNote: 'Null',
-      // Entry is deprecated with an note and an optional `since` field.
+      // Item is fully deprecated with a note and an optional `since` field.
       Deprecated: {
-      // Note explaining the deprecation
+        // Note explaining the deprecation
         note: 'Text',
-        // Optional value for denoting version when the deprecation occurred.
+        // Optional value for noting the version when the deprecation occurred.
         since: 'Option<Text>'
       }
     }
@@ -60,22 +62,28 @@ export const v16: DefinitionsTypes = {
   PalletCallMetadataV16: {
     type: 'SiLookupTypeId',
     // Deprecation status of the pallet call
-    deprecationInfo: 'DeprecationInfoV16'
+    deprecationInfo: 'EnumDeprecationInfoV16'
   },
-  DeprecationInfoV16: {
+  // Deprecation information for enums in which specific variants can be deprecated.
+  // If the map is empty, then nothing is deprecated.
+  EnumDeprecationInfoV16: '(BTreeMap<u8, VariantDeprecationInfoV16>)',
+  VariantDeprecationInfoV16: {
     _enum: {
-    // Type is not deprecated
-      NotDeprecated: 'Null',
-      // Entry is fully deprecated.
-      ItemDeprecated: 'DeprecationStatusV16',
-      // Entry is partially deprecated.
-      VariantsDeprecated: 'BTreeMap<u8, DeprecationStatusV16>'
+      // Variant is deprecated without a note.
+      DeprecatedWithoutNote: 'Null',
+      // Variant is deprecated with a note and an optional `since` field.
+      Deprecated: {
+        // Note explaining the deprecation
+        note: 'Text',
+        // Optional value for noting the version when the deprecation occurred.
+        since: 'Option<Text>'
+      }
     }
   },
   PalletEventMetadataV16: {
     type: 'SiLookupTypeId',
     // Deprecation info
-    deprecationInfo: 'DeprecationInfoV16'
+    deprecationInfo: 'EnumDeprecationInfoV16'
   },
   PalletConstantMetadataV16: {
     name: 'Text',
@@ -83,12 +91,12 @@ export const v16: DefinitionsTypes = {
     value: 'Bytes',
     docs: 'Vec<Text>',
     // Deprecation info
-    deprecationInfo: 'DeprecationInfoV16'
+    deprecationInfo: 'ItemDeprecationInfoV16'
   },
   PalletErrorMetadataV16: {
     type: 'SiLookupTypeId',
     // Deprecation info
-    deprecationInfo: 'DeprecationInfoV16'
+    deprecationInfo: 'EnumDeprecationInfoV16'
   },
 
   // ---- Extrinsic definitions ----
@@ -121,7 +129,7 @@ export const v16: DefinitionsTypes = {
     methods: 'Vec<RuntimeApiMethodMetadataV16>',
     docs: 'Vec<Text>',
     // Deprecation info
-    deprecationInfo: 'DeprecationStatusV16',
+    deprecationInfo: 'ItemDeprecationInfoV16',
     // Runtime API version.
     version: 'Compact<u32>'
   },
@@ -131,6 +139,6 @@ export const v16: DefinitionsTypes = {
     output: 'SiLookupTypeId',
     docs: 'Vec<Text>',
     // Deprecation info
-    deprecationInfo: 'DeprecationStatusV16'
+    deprecationInfo: 'ItemDeprecationInfoV16'
   }
 };

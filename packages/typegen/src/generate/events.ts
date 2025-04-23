@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeprecationStatusV16 } from '@polkadot/types/interfaces';
+import type { VariantDeprecationInfoV16 } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Definitions } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -62,16 +62,16 @@ const ALIAS = [
   'yield'
 ];
 
-function getDeprecationNotice (deprecationStatus: DeprecationStatusV16, name: string): string {
+function getDeprecationNotice (deprecationInfo: VariantDeprecationInfoV16, name: string): string {
   let deprecationNotice = '@deprecated';
 
-  if (deprecationStatus.isDeprecated) {
-    const { note, since } = deprecationStatus.asDeprecated;
+  if (deprecationInfo.isDeprecated) {
+    const { note, since } = deprecationInfo.asDeprecated;
     const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
 
     deprecationNotice += ` ${note.toString()}${sinceText}`;
   } else {
-    deprecationNotice += ` Event ${name} has been deprecated`;
+    deprecationNotice += ` ${name} has been deprecated`;
   }
 
   return deprecationNotice;
@@ -101,23 +101,19 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       .map((data) => {
         const name = data.name;
         const events = data.events.unwrap();
+        const deprecationInfo = events.deprecationInfo[0].toJSON();
 
         return {
           items: lookup.getSiType(events.type).def.asVariant.variants
             .map(({ docs, fields, index, name }) => {
-              if (events.deprecationInfo.isVariantsDeprecated) {
-                const rawStatus = events.deprecationInfo.asVariantsDeprecated.toJSON()?.[index.toNumber()];
+              const rawStatus = deprecationInfo?.[index.toNumber()];
 
-                if (rawStatus) {
-                  const deprecationStatus: DeprecationStatusV16 = meta.registry.createTypeUnsafe('DeprecationStatusV16', [rawStatus]);
+              if (rawStatus) {
+                const deprecationVariantInfo: VariantDeprecationInfoV16 = meta.registry.createTypeUnsafe('VariantDeprecationInfoV16', [rawStatus]);
+                const deprecationNotice = getDeprecationNotice(deprecationVariantInfo, name.toString());
+                const notice = docs.length ? ['', deprecationNotice] : [deprecationNotice];
 
-                  if (!deprecationStatus.isNotDeprecated) {
-                    const deprecationNotice = getDeprecationNotice(deprecationStatus, name.toString());
-                    const notice = docs.length ? ['', deprecationNotice] : [deprecationNotice];
-
-                    docs.push(...notice.map((text) => meta.registry.createType('Text', text)));
-                  }
-                }
+                docs.push(...notice.map((text) => meta.registry.createType('Text', text)));
               }
 
               const args = fields

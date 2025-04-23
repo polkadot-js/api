@@ -1,17 +1,20 @@
 // Copyright 2017-2025 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeprecationInfoV16, DeprecationStatusV16, ExtrinsicMetadataV15, ExtrinsicMetadataV16, MetadataV15, MetadataV16, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataV14, PalletStorageMetadataV16, RuntimeApiMetadataV15, RuntimeApiMetadataV16, StorageEntryMetadataV16, TransactionExtensionMetadataV16 } from '../../interfaces/metadata/index.js';
+import type { ExtrinsicMetadataV15, ExtrinsicMetadataV16, ItemDeprecationInfoV16, MetadataV15, MetadataV16, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataV14, PalletStorageMetadataV16, RuntimeApiMetadataV15, RuntimeApiMetadataV16, StorageEntryMetadataV16, TransactionExtensionMetadataV16 } from '../../interfaces/metadata/index.js';
 import type { Registry } from '../../types/index.js';
 
 import { type Vec } from '@polkadot/types-codec';
 import { objectSpread } from '@polkadot/util';
 
 function palletsFromV15 (registry: Registry, palletV15: PalletMetadataV15): PalletMetadataV16 {
+  const deprecationInfo: ItemDeprecationInfoV16 = registry.createTypeUnsafe('ItemDeprecationInfoV16', ['NotDeprecated']);
+
   return registry.createTypeUnsafe('PalletMetadataV16', [
     objectSpread({}, palletV15, {
       calls: palletV15.calls.isSome ? convertCalls(registry, palletV15.calls.unwrap()) : null,
       constants: convertConstants(registry, palletV15.constants),
+      deprecationInfo,
       errors: palletV15.errors.isSome ? converErrors(registry, palletV15.errors.unwrap()) : null,
       events: palletV15.events.isSome ? convertEvents(registry, palletV15.events.unwrap()) : null,
       storage: palletV15.storage.isSome ? convertStorage(registry, palletV15.storage.unwrap()) : null
@@ -20,7 +23,7 @@ function palletsFromV15 (registry: Registry, palletV15: PalletMetadataV15): Pall
 }
 
 function convertStorage (registry: Registry, storage: PalletStorageMetadataV14): PalletStorageMetadataV16 {
-  const deprecationInfo = registry.createTypeUnsafe('DeprecationStatusV16', ['NotDeprecated']);
+  const deprecationInfo: ItemDeprecationInfoV16 = registry.createTypeUnsafe('ItemDeprecationInfoV16', ['NotDeprecated']);
 
   const items: StorageEntryMetadataV16[] = storage.items.map((item) =>
     registry.createTypeUnsafe('StorageEntryMetadataV16', [
@@ -35,7 +38,7 @@ function convertStorage (registry: Registry, storage: PalletStorageMetadataV14):
 }
 
 function convertCalls (registry: Registry, calls: PalletCallMetadataV14): PalletCallMetadataV16 {
-  const deprecationInfo: DeprecationInfoV16 = registry.createTypeUnsafe('DeprecationInfoV16', ['NotDeprecated']);
+  const deprecationInfo = registry.createTypeUnsafe('EnumDeprecationInfoV16', []);
 
   return registry.createTypeUnsafe('PalletCallMetadataV16', [{
     deprecationInfo,
@@ -44,7 +47,7 @@ function convertCalls (registry: Registry, calls: PalletCallMetadataV14): Pallet
 }
 
 function convertEvents (registry: Registry, events: PalletEventMetadataV14): PalletEventMetadataV16 {
-  const deprecationInfo: DeprecationInfoV16 = registry.createTypeUnsafe('DeprecationInfoV16', ['NotDeprecated']);
+  const deprecationInfo = registry.createTypeUnsafe('EnumDeprecationInfoV16', []);
 
   return registry.createTypeUnsafe('PalletEventMetadataV16', [{
     deprecationInfo,
@@ -53,7 +56,7 @@ function convertEvents (registry: Registry, events: PalletEventMetadataV14): Pal
 }
 
 function convertConstants (registry: Registry, constants: Vec<PalletConstantMetadataV14>): Vec<PalletConstantMetadataV16> {
-  const deprecationInfo: DeprecationInfoV16 = registry.createTypeUnsafe('DeprecationInfoV16', ['NotDeprecated']);
+  const deprecationInfo: ItemDeprecationInfoV16 = registry.createTypeUnsafe('ItemDeprecationInfoV16', ['NotDeprecated']);
 
   return registry.createTypeUnsafe('Vec<PalletConstantMetadataV16>', [
     constants.map((constant) => registry.createTypeUnsafe('PalletConstantMetadataV16', [
@@ -63,7 +66,7 @@ function convertConstants (registry: Registry, constants: Vec<PalletConstantMeta
 }
 
 function converErrors (registry: Registry, errors: PalletErrorMetadataV14): PalletErrorMetadataV16 {
-  const deprecationInfo: DeprecationInfoV16 = registry.createTypeUnsafe('DeprecationInfoV16', ['NotDeprecated']);
+  const deprecationInfo = registry.createTypeUnsafe('EnumDeprecationInfoV16', []);
 
   return registry.createTypeUnsafe('PalletErrorMetadataV16', [{
     deprecationInfo,
@@ -84,7 +87,6 @@ function extrinsicFromV15 (registry: Registry, extrinsicV15: ExtrinsicMetadataV1
     registry.createTypeUnsafe('Compact<u32>', [i])
   );
 
-  // FIXME: Metadata: Revise Version, should it match extrinsicV15 latest version?
   const transactionExtensionsByVersion = registry.createTypeUnsafe(
     'BTreeMap<u8, Vec<Compact<u32>>>',
     [new Map([[registry.createTypeUnsafe('u8', [extrinsicV15.version]), registry.createTypeUnsafe('Vec<Compact<u32>>', [indexes])]])]
@@ -102,7 +104,7 @@ function extrinsicFromV15 (registry: Registry, extrinsicV15: ExtrinsicMetadataV1
 }
 
 function apisFromV15 (registry: Registry, runtimeApiV15: RuntimeApiMetadataV15): RuntimeApiMetadataV16 {
-  const deprecationInfo: DeprecationStatusV16 = registry.createTypeUnsafe('DeprecationStatusV16', ['NotDeprecated']);
+  const deprecationInfo = registry.createTypeUnsafe('ItemDeprecationInfoV16', ['NotDeprecated']);
 
   const methods = runtimeApiV15.methods.map((method) =>
     registry.createTypeUnsafe('RuntimeApiMethodMetadataV16',

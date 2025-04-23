@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeprecationStatusV16, RuntimeApiMethodMetadataV16, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { ItemDeprecationInfoV16, RuntimeApiMethodMetadataV16, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { DefinitionCall, DefinitionCallNamed, Definitions, DefinitionsCall, Registry } from '@polkadot/types/types';
 import type { Vec } from '@polkadot/types-codec';
@@ -51,11 +51,11 @@ const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {
   return typeName;
 };
 
-function getDeprecationNotice (deprecationStatus: DeprecationStatusV16, name: string): string {
+function getDeprecationNotice (deprecationInfo: ItemDeprecationInfoV16, name: string): string {
   let deprecationNotice = '@deprecated';
 
-  if (deprecationStatus.isDeprecated) {
-    const { note, since } = deprecationStatus.asDeprecated;
+  if (deprecationInfo.isDeprecated) {
+    const { note, since } = deprecationInfo.asDeprecated;
     const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
 
     deprecationNotice += ` ${note.toString()}${sinceText}`;

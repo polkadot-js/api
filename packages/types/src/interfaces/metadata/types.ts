@@ -3,6 +3,7 @@
 
 import type { PortableRegistry } from '@polkadot/types';
 import type { BTreeMap, Bytes, Compact, Enum, Option, Struct, Text, Type, Vec, WrapperOpaque, bool, u32, u8 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { Si1Field, Si1LookupTypeId, Si1Type, SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name CustomMetadata15 */
@@ -16,27 +17,8 @@ export interface CustomValueMetadata15 extends Struct {
   readonly value: Bytes;
 }
 
-/** @name DeprecationInfoV16 */
-export interface DeprecationInfoV16 extends Enum {
-  readonly isNotDeprecated: boolean;
-  readonly isItemDeprecated: boolean;
-  readonly asItemDeprecated: DeprecationStatusV16;
-  readonly isVariantsDeprecated: boolean;
-  readonly asVariantsDeprecated: BTreeMap<u8,DeprecationStatusV16>;
-  readonly type: 'NotDeprecated' | 'ItemDeprecated' | 'VariantsDeprecated';
-}
-
-/** @name DeprecationStatusV16 */
-export interface DeprecationStatusV16 extends Enum {
-  readonly isNotDeprecated: boolean;
-  readonly isDeprecatedWithoutNote: boolean;
-  readonly isDeprecated: boolean;
-  readonly asDeprecated: {
-    readonly note: Text;
-    readonly since: Option<Text>;
-  } & Struct;
-  readonly type: 'NotDeprecated' | 'DeprecatedWithoutNote' | 'Deprecated';
-}
+/** @name EnumDeprecationInfoV16 */
+export interface EnumDeprecationInfoV16 extends ITuple<[BTreeMap<u8, VariantDeprecationInfoV16>]> {}
 
 /** @name ErrorMetadataLatest */
 export interface ErrorMetadataLatest extends ErrorMetadataV14 {}
@@ -197,6 +179,18 @@ export interface FunctionMetadataV9 extends Struct {
   readonly name: Text;
   readonly args: Vec<FunctionArgumentMetadataV9>;
   readonly docs: Vec<Text>;
+}
+
+/** @name ItemDeprecationInfoV16 */
+export interface ItemDeprecationInfoV16 extends Enum {
+  readonly isNotDeprecated: boolean;
+  readonly isDeprecatedWithoutNote: boolean;
+  readonly isDeprecated: boolean;
+  readonly asDeprecated: {
+    readonly note: Text;
+    readonly since: Option<Text>;
+  } & Struct;
+  readonly type: 'NotDeprecated' | 'DeprecatedWithoutNote' | 'Deprecated';
 }
 
 /** @name MetadataAll */
@@ -374,7 +368,7 @@ export interface PalletCallMetadataV14 extends Struct {
 /** @name PalletCallMetadataV16 */
 export interface PalletCallMetadataV16 extends Struct {
   readonly type: SiLookupTypeId;
-  readonly deprecationInfo: DeprecationInfoV16;
+  readonly deprecationInfo: EnumDeprecationInfoV16;
 }
 
 /** @name PalletConstantMetadataLatest */
@@ -394,7 +388,7 @@ export interface PalletConstantMetadataV16 extends Struct {
   readonly type: SiLookupTypeId;
   readonly value: Bytes;
   readonly docs: Vec<Text>;
-  readonly deprecationInfo: DeprecationInfoV16;
+  readonly deprecationInfo: ItemDeprecationInfoV16;
 }
 
 /** @name PalletErrorMetadataLatest */
@@ -408,7 +402,7 @@ export interface PalletErrorMetadataV14 extends Struct {
 /** @name PalletErrorMetadataV16 */
 export interface PalletErrorMetadataV16 extends Struct {
   readonly type: SiLookupTypeId;
-  readonly deprecationInfo: DeprecationInfoV16;
+  readonly deprecationInfo: EnumDeprecationInfoV16;
 }
 
 /** @name PalletEventMetadataLatest */
@@ -422,7 +416,7 @@ export interface PalletEventMetadataV14 extends Struct {
 /** @name PalletEventMetadataV16 */
 export interface PalletEventMetadataV16 extends Struct {
   readonly type: SiLookupTypeId;
-  readonly deprecationInfo: DeprecationInfoV16;
+  readonly deprecationInfo: EnumDeprecationInfoV16;
 }
 
 /** @name PalletMetadataLatest */
@@ -461,6 +455,7 @@ export interface PalletMetadataV16 extends Struct {
   readonly errors: Option<PalletErrorMetadataV16>;
   readonly index: u8;
   readonly docs: Vec<Text>;
+  readonly deprecationInfo: ItemDeprecationInfoV16;
 }
 
 /** @name PalletStorageMetadataLatest */
@@ -502,7 +497,7 @@ export interface RuntimeApiMetadataV16 extends Struct {
   readonly name: Text;
   readonly methods: Vec<RuntimeApiMethodMetadataV16>;
   readonly docs: Vec<Text>;
-  readonly deprecationInfo: DeprecationStatusV16;
+  readonly deprecationInfo: ItemDeprecationInfoV16;
   readonly version: Compact<u32>;
 }
 
@@ -520,7 +515,7 @@ export interface RuntimeApiMethodMetadataV16 extends Struct {
   readonly inputs: Vec<RuntimeApiMethodParamMetadataV15>;
   readonly output: SiLookupTypeId;
   readonly docs: Vec<Text>;
-  readonly deprecationInfo: DeprecationStatusV16;
+  readonly deprecationInfo: ItemDeprecationInfoV16;
 }
 
 /** @name RuntimeApiMethodParamMetadataV15 */
@@ -588,7 +583,7 @@ export interface StorageEntryMetadataV16 extends Struct {
   readonly type: StorageEntryTypeV14;
   readonly fallback: Bytes;
   readonly docs: Vec<Text>;
-  readonly deprecationInfo: DeprecationStatusV16;
+  readonly deprecationInfo: ItemDeprecationInfoV16;
 }
 
 /** @name StorageEntryMetadataV9 */
@@ -819,6 +814,17 @@ export interface TransactionExtensionMetadataV16 extends Struct {
   readonly identifier: Text;
   readonly type: SiLookupTypeId;
   readonly implicit: SiLookupTypeId;
+}
+
+/** @name VariantDeprecationInfoV16 */
+export interface VariantDeprecationInfoV16 extends Enum {
+  readonly isDeprecatedWithoutNote: boolean;
+  readonly isDeprecated: boolean;
+  readonly asDeprecated: {
+    readonly note: Text;
+    readonly since: Option<Text>;
+  } & Struct;
+  readonly type: 'DeprecatedWithoutNote' | 'Deprecated';
 }
 
 export type PHANTOM_METADATA = 'metadata';
