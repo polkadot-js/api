@@ -147,3 +147,4 @@
        1	yjh                           	fix MetadataVersioned.asV12 (#2983)
        1	Yuri                          	fixes #3693 Fix uniques return types (#3694)
        1	Zeke Mostov                   	fix: Allow sudo for polkadot indexed proxy enum (#3286)
+       1	zjb0807                       	Throws detailed error information (#6116)
