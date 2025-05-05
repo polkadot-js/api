@@ -200,6 +200,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     );
 
     if (header.parentHash.isEmpty) {
+      l.warn(`Unable to retrieve header ${blockHash.toString()} and parent ${header.parentHash.toString()} from supplied hash`);
       throw new Error('Unable to retrieve header and parent from supplied hash');
     }
 
