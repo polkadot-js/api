@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { PortableRegistry } from '@polkadot/types';
-import type { BTreeMap, Bytes, Compact, Enum, Option, Struct, Text, Type, Vec, WrapperOpaque, bool, u32, u8 } from '@polkadot/types-codec';
+import type { BTreeMap, Bytes, Compact, Enum, Option, Struct, Text, Type, U8aFixed, Vec, WrapperOpaque, bool, u32, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { Si1Field, Si1LookupTypeId, Si1Type, SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
 
@@ -117,6 +117,7 @@ export interface ExtrinsicMetadataV15 extends Struct {
 export interface ExtrinsicMetadataV16 extends Struct {
   readonly versions: Bytes;
   readonly addressType: SiLookupTypeId;
+  readonly callType: SiLookupTypeId;
   readonly signatureType: SiLookupTypeId;
   readonly transactionExtensionsByVersion: BTreeMap<u8, Vec<Compact<u32>>>;
   readonly transactionExtensions: Vec<TransactionExtensionMetadataV16>;
@@ -357,6 +358,13 @@ export interface OuterEnums15 extends Struct {
   readonly errorType: SiLookupTypeId;
 }
 
+/** @name PalletAssociatedTypeMetadataV16 */
+export interface PalletAssociatedTypeMetadataV16 extends Struct {
+  readonly name: Text;
+  readonly type: SiLookupTypeId;
+  readonly docs: Vec<Text>;
+}
+
 /** @name PalletCallMetadataLatest */
 export interface PalletCallMetadataLatest extends PalletCallMetadataV16 {}
 
@@ -453,6 +461,8 @@ export interface PalletMetadataV16 extends Struct {
   readonly events: Option<PalletEventMetadataV16>;
   readonly constants: Vec<PalletConstantMetadataV16>;
   readonly errors: Option<PalletErrorMetadataV16>;
+  readonly associatedTypes: Vec<PalletAssociatedTypeMetadataV16>;
+  readonly viewFunctions: Vec<PalletViewFunctionMetadataV16>;
   readonly index: u8;
   readonly docs: Vec<Text>;
   readonly deprecationInfo: ItemDeprecationInfoV16;
@@ -471,6 +481,16 @@ export interface PalletStorageMetadataV14 extends Struct {
 export interface PalletStorageMetadataV16 extends Struct {
   readonly prefix: Text;
   readonly items: Vec<StorageEntryMetadataV16>;
+}
+
+/** @name PalletViewFunctionMetadataV16 */
+export interface PalletViewFunctionMetadataV16 extends Struct {
+  readonly id: U8aFixed;
+  readonly name: Text;
+  readonly inputs: Vec<RuntimeApiMethodParamMetadataV15>;
+  readonly output: SiLookupTypeId;
+  readonly docs: Vec<Text>;
+  readonly deprecationInfo: ItemDeprecationInfoV16;
 }
 
 /** @name PortableType */

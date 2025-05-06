@@ -26,6 +26,8 @@ export const v16: DefinitionsTypes = {
     events: 'Option<PalletEventMetadataV16>',
     constants: 'Vec<PalletConstantMetadataV16>',
     errors: 'Option<PalletErrorMetadataV16>',
+    associatedTypes: 'Vec<PalletAssociatedTypeMetadataV16>',
+    viewFunctions: 'Vec<PalletViewFunctionMetadataV16>',
     index: 'u8',
     docs: 'Vec<Text>',
     // Deprecation info
@@ -98,6 +100,24 @@ export const v16: DefinitionsTypes = {
     // Deprecation info
     deprecationInfo: 'EnumDeprecationInfoV16'
   },
+  PalletAssociatedTypeMetadataV16: {
+    name: 'Text',
+    type: 'SiLookupTypeId',
+    docs: 'Vec<Text>'
+  },
+  PalletViewFunctionMetadataV16: {
+    id: '[u8; 32]',
+    // Method name.
+    name: 'Text',
+    // Method par  ameters.
+    inputs: 'Vec<RuntimeApiMethodParamMetadataV15>',
+    // Method output.
+    output: 'SiLookupTypeId',
+    // Method documentation.
+    docs: 'Vec<T::String>',
+    // Deprecation info
+    deprecationInfo: 'ItemDeprecationInfoV16'
+  },
 
   // ---- Extrinsic definitions ----
   ExtrinsicMetadataV16: {
@@ -105,6 +125,8 @@ export const v16: DefinitionsTypes = {
     versions: 'Vec<u8>',
     // The type of the address that signs the extrinsic
     addressType: 'SiLookupTypeId',
+    // The type of the outermost Call enum.
+    callType: 'SiLookupTypeId',
     // The type of the extrinsic's signature.
     signatureType: 'SiLookupTypeId',
     // A mapping of supported transaction extrinsic versions to their respective transaction extension indexes.

@@ -95,6 +95,7 @@ function extrinsicFromV15 (registry: Registry, extrinsicV15: ExtrinsicMetadataV1
   return registry.createTypeUnsafe('ExtrinsicMetadataV16', [
     {
       addressType: extrinsicV15.addressType,
+      callType: extrinsicV15.callType,
       signatureType: extrinsicV15.signatureType,
       transactionExtensions,
       transactionExtensionsByVersion,
