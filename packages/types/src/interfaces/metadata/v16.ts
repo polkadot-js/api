@@ -7,7 +7,7 @@
 import type { DefinitionsTypes } from '../../types/index.js';
 
 export const v16: DefinitionsTypes = {
-// actual v16 definition
+  // actual v16 definition
   MetadataV16: {
     lookup: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV16>',

@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ExtrinsicMetadataV15, ExtrinsicMetadataV16, ItemDeprecationInfoV16, MetadataV15, MetadataV16, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataV14, PalletStorageMetadataV16, RuntimeApiMetadataV15, RuntimeApiMetadataV16, StorageEntryMetadataV16, TransactionExtensionMetadataV16 } from '../../interfaces/metadata/index.js';
+import type { ExtrinsicMetadataV15, ExtrinsicMetadataV16, ItemDeprecationInfoV16, MetadataV15, MetadataV16, PalletAssociatedTypeMetadataV16, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataV14, PalletStorageMetadataV16, RuntimeApiMetadataV15, RuntimeApiMetadataV16, StorageEntryMetadataV16, TransactionExtensionMetadataV16 } from '../../interfaces/metadata/index.js';
 import type { Registry } from '../../types/index.js';
 
 import { type Vec } from '@polkadot/types-codec';
@@ -9,15 +9,19 @@ import { objectSpread } from '@polkadot/util';
 
 function palletsFromV15 (registry: Registry, palletV15: PalletMetadataV15): PalletMetadataV16 {
   const deprecationInfo: ItemDeprecationInfoV16 = registry.createTypeUnsafe('ItemDeprecationInfoV16', ['NotDeprecated']);
+  const associatedTypes: Vec<PalletAssociatedTypeMetadataV16> = registry.createTypeUnsafe('Vec<PalletAssociatedTypeMetadataV16>',[[]]);
+  const viewFunctions: Vec<PalletAssociatedTypeMetadataV16> = registry.createTypeUnsafe('Vec<PalletViewFunctionMetadataV16>',[[]]);
 
   return registry.createTypeUnsafe('PalletMetadataV16', [
     objectSpread({}, palletV15, {
+      associatedTypes,
       calls: palletV15.calls.isSome ? convertCalls(registry, palletV15.calls.unwrap()) : null,
       constants: convertConstants(registry, palletV15.constants),
       deprecationInfo,
       errors: palletV15.errors.isSome ? converErrors(registry, palletV15.errors.unwrap()) : null,
       events: palletV15.events.isSome ? convertEvents(registry, palletV15.events.unwrap()) : null,
-      storage: palletV15.storage.isSome ? convertStorage(registry, palletV15.storage.unwrap()) : null
+      storage: palletV15.storage.isSome ? convertStorage(registry, palletV15.storage.unwrap()) : null,
+      viewFunctions
     })
   ]);
 }
