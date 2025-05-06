@@ -5,7 +5,7 @@
 
 Contributed:
 
--  Throws detailed error information ([#6116](https://github.com/polkadot-js/api/pull/6116))
+- Throws detailed error information ([#6116](https://github.com/polkadot-js/api/pull/6116))
 
 
 ## 15.9.2 Apr 15, 2025
