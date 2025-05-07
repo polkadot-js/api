@@ -5,6 +5,10 @@ import type { AnyTuple, Codec, Registry } from '@polkadot/types-codec/types';
 import type { DispatchErrorModule, DispatchErrorModuleU8, DispatchErrorModuleU8a, ErrorMetadataLatest, EventMetadataLatest, PalletConstantMetadataLatest } from '../../interfaces/index.js';
 import type { StorageEntry } from '../../primitive/types.js';
 import type { CallFunction, IEvent, IEventLike } from '../../types/index.js';
+import type { Text } from '@polkadot/types';
+import type { TypeDef } from '@polkadot/types/types';
+import type { PalletViewFunctionMetadataV16 } from '@polkadot/types/interfaces/metadata/v16';
+import type { PalletConstantMeta, PalletErrorMeta, PalletEventMeta, PalletStorageMeta } from '@polkadot/types/interfaces/metadata/types';
 
 export interface ConstantCodec extends Codec {
   readonly meta: PalletConstantMetadataLatest;
@@ -43,10 +47,31 @@ export type Extrinsics = Record<string, ModuleExtrinsics>
 export type Storage = Record<string, ModuleStorage>;
 
 export interface DecoratedMeta {
-  readonly consts: Constants;
-  readonly errors: Errors;
-  readonly events: Events;
-  readonly query: Storage;
+  readonly consts: Record<string, Record<string, PalletConstantMeta>>;
+  readonly errors: Record<string, Record<string, PalletErrorMeta>>;
+  readonly events: Record<string, Record<string, PalletEventMeta>>;
+  readonly query: Record<string, Record<string, PalletStorageMeta>>;
   readonly registry: Registry;
-  readonly tx: Extrinsics
+  readonly tx: Record<string, Record<string, CallFunction>>;
+  readonly view: DecoratedView;
 }
+
+// New types for View Functions
+export interface DecoratedViewFunctionArg {
+  name: string;
+  typeDef: TypeDef;
+  typeName?: Text; // Optional: May not always be available directly
+}
+
+export interface DecoratedViewFunction {
+  args: DecoratedViewFunctionArg[];
+  docs: string[];
+  meta: PalletViewFunctionMetadataV16;
+  method: string; // camelCase name
+  name: string; // original name
+  pallet: string; // camelCase pallet name
+  returnTypeDef: TypeDef;
+  section: string; // camelCase pallet name
+}
+
+export type DecoratedView = Record<string, Record<string, DecoratedViewFunction>>;

@@ -3,7 +3,7 @@
 
 import type { AnyJson } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
-import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV15 } from '../interfaces/metadata/index.js';
+import type { MetadataAll, MetadataLatest, MetadataV9, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV15, MetadataV16 } from '../interfaces/metadata/index.js';
 import type { Registry } from '../types/index.js';
 import type { MetaVersionAll, MetaVersionAsX } from './versions.js';
 
@@ -16,7 +16,8 @@ import { toV12 } from './v11/toV12.js';
 import { toV13 } from './v12/toV13.js';
 import { toV14 } from './v13/toV14.js';
 import { toV15 } from './v14/toV15.js';
-import { toLatest } from './v15/toLatest.js';
+import { toV16 } from './v15/toV16.js';
+import { toLatest } from './v16/toLatest.js';
 import { MagicNumber } from './MagicNumber.js';
 import { LATEST_VERSION, TO_CALLS_VERSION } from './versions.js';
 
@@ -61,8 +62,12 @@ export class MetadataVersioned extends Struct {
       const asPrev: MetaVersionAsX = version === 'latest'
         ? `asV${LATEST_VERSION}`
         : `asV${(version - 1) as MetaVersionAll}`;
+      
+      const prevInput = version === 'latest'
+        ? this.asV16 as F
+        : this[asPrev] as F;
 
-      this.#converted.set(version, fromPrev(this.registry, this[asPrev] as F, this.version));
+      this.#converted.set(version, fromPrev(this.registry, prevInput, this.version));
     }
 
     return this.#converted.get(version) as T;
@@ -130,17 +135,24 @@ export class MetadataVersioned extends Struct {
   }
 
   /**
-   * @description Returns the wrapped values as a V14 object
+   * @description Returns the wrapped values as a V15 object
    */
   public get asV15 (): MetadataV15 {
     return this.#getVersion(15, toV15);
   }
 
   /**
+   * @description Returns the wrapped values as a V16 object
+   */
+  public get asV16 (): MetadataV16 {
+    return this.#getVersion(16, toV16);
+  }
+
+  /**
    * @description Returns the wrapped values as a latest version object
    */
   public get asLatest (): MetadataLatest {
-    return this.#getVersion('latest', toLatest);
+    return this.#getVersion('latest', toLatest as (registry: Registry, input: MetadataV16, metaVersion: number) => MetadataLatest);
   }
 
   /**
