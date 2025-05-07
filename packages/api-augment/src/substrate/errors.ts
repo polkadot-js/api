@@ -309,6 +309,52 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    assetRewards: {
+      /**
+       * There was an error converting a block number.
+       **/
+      BlockNumberConversionError: AugmentedError<ApiType>;
+      /**
+       * The expiry block must be in the future.
+       **/
+      ExpiryBlockMustBeInTheFuture: AugmentedError<ApiType>;
+      /**
+       * The expiry block can be only extended.
+       **/
+      ExpiryCut: AugmentedError<ApiType>;
+      /**
+       * Insufficient funds to create the freeze.
+       **/
+      InsufficientFunds: AugmentedError<ApiType>;
+      /**
+       * The pool still has staked tokens or rewards.
+       **/
+      NonEmptyPool: AugmentedError<ApiType>;
+      /**
+       * An operation was attempted with a non-existent asset.
+       **/
+      NonExistentAsset: AugmentedError<ApiType>;
+      /**
+       * An operation was attempted on a non-existent pool.
+       **/
+      NonExistentPool: AugmentedError<ApiType>;
+      /**
+       * An operation was attempted for a non-existent staker.
+       **/
+      NonExistentStaker: AugmentedError<ApiType>;
+      /**
+       * The staker does not have enough tokens to perform the operation.
+       **/
+      NotEnoughTokens: AugmentedError<ApiType>;
+      /**
+       * The reward rate per block can be only increased.
+       **/
+      RewardRateCut: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     assets: {
       /**
        * The asset-account already exists.
@@ -338,6 +384,14 @@ declare module '@polkadot/api-base/types/errors' {
        * Callback action resulted in error
        **/
       CallbackFailed: AugmentedError<ApiType>;
+      /**
+       * The asset cannot be destroyed because some accounts for this asset contain freezes.
+       **/
+      ContainsFreezes: AugmentedError<ApiType>;
+      /**
+       * The asset cannot be destroyed because some accounts for this asset contain holds.
+       **/
+      ContainsHolds: AugmentedError<ApiType>;
       /**
        * The origin account is frozen.
        **/
@@ -397,6 +451,16 @@ declare module '@polkadot/api-base/types/errors' {
        * The source account would not survive the transfer and it needs to stay alive.
        **/
       WouldDie: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    assetsFreezer: {
+      /**
+       * Number of freezes on an account would exceed `MaxFreezes`.
+       **/
+      TooManyFreezes: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -569,6 +633,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyExpired: AugmentedError<ApiType>;
       /**
+       * Attempted to force remove an assignment that doesn't exist.
+       **/
+      AssignmentNotFound: AugmentedError<ApiType>;
+      /**
        * Attempted to disable auto-renewal for a core that didn't have it enabled.
        **/
       AutoRenewalNotEnabled: AugmentedError<ApiType>;
@@ -580,6 +648,11 @@ declare module '@polkadot/api-base/types/errors' {
        * The workplan of the pallet's state is invalid. This indicates a state corruption.
        **/
       CorruptWorkplan: AugmentedError<ApiType>;
+      /**
+       * Needed to prevent spam attacks.The amount of credits the user attempted to purchase is
+       * below `T::MinimumCreditPurchase`.
+       **/
+      CreditPurchaseTooSmall: AugmentedError<ApiType>;
       /**
        * The pivot mask for the interlacing is not contained within the region's interlace mask.
        **/
@@ -593,6 +666,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The configuration could not be applied because it is invalid.
        **/
       InvalidConfig: AugmentedError<ApiType>;
+      /**
+       * The lease does not exist.
+       **/
+      LeaseNotFound: AugmentedError<ApiType>;
       /**
        * The revenue must be claimed for 1 or more timeslices.
        **/
@@ -1049,6 +1126,64 @@ declare module '@polkadot/api-base/types/errors' {
        * The given weight bound for the proposal was too low.
        **/
       WrongProposalWeight: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    delegatedStaking: {
+      /**
+       * An existing staker cannot perform this action.
+       **/
+      AlreadyStaking: AugmentedError<ApiType>;
+      /**
+       * Some corruption in internal state.
+       **/
+      BadState: AugmentedError<ApiType>;
+      /**
+       * Delegation conditions are not met.
+       * 
+       * Possible issues are
+       * 1) Cannot delegate to self,
+       * 2) Cannot delegate to multiple delegates.
+       **/
+      InvalidDelegation: AugmentedError<ApiType>;
+      /**
+       * Reward Destination cannot be same as `Agent` account.
+       **/
+      InvalidRewardDestination: AugmentedError<ApiType>;
+      /**
+       * Not an existing `Agent` account.
+       **/
+      NotAgent: AugmentedError<ApiType>;
+      /**
+       * The account cannot perform this operation.
+       **/
+      NotAllowed: AugmentedError<ApiType>;
+      /**
+       * Not a Delegator account.
+       **/
+      NotDelegator: AugmentedError<ApiType>;
+      /**
+       * The account does not have enough funds to perform the operation.
+       **/
+      NotEnoughFunds: AugmentedError<ApiType>;
+      /**
+       * `Agent` has no pending slash to be applied.
+       **/
+      NothingToSlash: AugmentedError<ApiType>;
+      /**
+       * Operation not supported by this pallet.
+       **/
+      NotSupported: AugmentedError<ApiType>;
+      /**
+       * Unapplied pending slash restricts operation on `Agent`.
+       **/
+      UnappliedSlash: AugmentedError<ApiType>;
+      /**
+       * Failed to withdraw amount from Core Staking.
+       **/
+      WithdrawFailed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1630,6 +1765,36 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    metaTx: {
+      /**
+       * The meta transactions's birth block is ancient.
+       **/
+      AncientBirthBlock: AugmentedError<ApiType>;
+      /**
+       * Invalid proof (e.g. signature).
+       **/
+      BadProof: AugmentedError<ApiType>;
+      /**
+       * The meta transaction is not yet valid (e.g. nonce too high).
+       **/
+      Future: AugmentedError<ApiType>;
+      /**
+       * The meta transaction is invalid.
+       **/
+      Invalid: AugmentedError<ApiType>;
+      /**
+       * The meta transaction is outdated (e.g. nonce too low).
+       **/
+      Stale: AugmentedError<ApiType>;
+      /**
+       * The transaction extension did not authorize any origin.
+       **/
+      UnknownOrigin: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     multiBlockMigrations: {
       /**
        * The operation cannot complete since some MBMs are ongoing.
@@ -1662,7 +1827,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoApprovalsNeeded: AugmentedError<ApiType>;
       /**
-       * Multisig operation not found when attempting to cancel.
+       * Multisig operation not found in storage.
        **/
       NotFound: AugmentedError<ApiType>;
       /**
@@ -1670,7 +1835,8 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoTimepoint: AugmentedError<ApiType>;
       /**
-       * Only the account that originally created the multisig is able to cancel it.
+       * Only the account that originally created the multisig is able to cancel it or update
+       * its deposits.
        **/
       NotOwner: AugmentedError<ApiType>;
       /**
@@ -2123,9 +2289,18 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PoolNotFound: AugmentedError<ApiType>;
       /**
+       * Account is restricted from participation in pools. This may happen if the account is
+       * staking in another way already.
+       **/
+      Restricted: AugmentedError<ApiType>;
+      /**
        * A reward pool does not exist. In all cases this is a system logic error.
        **/
       RewardPoolNotFound: AugmentedError<ApiType>;
+      /**
+       * The slash amount is too low to be applied.
+       **/
+      SlashTooLow: AugmentedError<ApiType>;
       /**
        * A sub pool does not exist.
        **/
@@ -2164,6 +2339,14 @@ declare module '@polkadot/api-base/types/errors' {
        * Callback action resulted in error
        **/
       CallbackFailed: AugmentedError<ApiType>;
+      /**
+       * The asset cannot be destroyed because some accounts for this asset contain freezes.
+       **/
+      ContainsFreezes: AugmentedError<ApiType>;
+      /**
+       * The asset cannot be destroyed because some accounts for this asset contain holds.
+       **/
+      ContainsHolds: AugmentedError<ApiType>;
       /**
        * The origin account is frozen.
        **/
@@ -2624,6 +2807,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ContractTrapped: AugmentedError<ApiType>;
       /**
+       * Failed to convert an EVM balance to a native balance.
+       **/
+      DecimalPrecisionLoss: AugmentedError<ApiType>;
+      /**
        * Input passed to a contract API function failed to decode as expected type.
        **/
       DecodingFailed: AugmentedError<ApiType>;
@@ -2651,6 +2838,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Invalid combination of flags supplied to `seal_call` or `seal_delegate_call`.
        **/
       InvalidCallFlags: AugmentedError<ApiType>;
+      /**
+       * The transaction used to dry-run a contract is invalid.
+       **/
+      InvalidGenericTransaction: AugmentedError<ApiType>;
       /**
        * Immutable data can only be set during deploys and only be read during calls.
        * Additionally, it is only valid to set the data once and it must not be empty.
@@ -2700,6 +2891,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       OutOfTransientStorage: AugmentedError<ApiType>;
       /**
+       * Precompile Error
+       **/
+      PrecompileFailure: AugmentedError<ApiType>;
+      /**
        * A contract called into the runtime which then called back into this pallet.
        **/
       ReenteredPallet: AugmentedError<ApiType>;
@@ -2707,6 +2902,10 @@ declare module '@polkadot/api-base/types/errors' {
        * A call tried to invoke a contract that is flagged as non-reentrant.
        **/
       ReentranceDenied: AugmentedError<ApiType>;
+      /**
+       * The refcount of a code either over or underflowed.
+       **/
+      RefcountOverOrUnderflow: AugmentedError<ApiType>;
       /**
        * A contract attempted to invoke a state modifying API while being in read-only mode.
        **/
@@ -2744,6 +2943,10 @@ declare module '@polkadot/api-base/types/errors' {
        * free balance in the sender's account.
        **/
       TransferFailed: AugmentedError<ApiType>;
+      /**
+       * Unsupported precompile address
+       **/
+      UnsupportedPrecompileAddress: AugmentedError<ApiType>;
       /**
        * The size defined in `T::MaxValueSize` was exceeded.
        **/
@@ -3046,6 +3249,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyClaimed: AugmentedError<ApiType>;
       /**
+       * The stake of this account is already migrated to `Fungible` holds.
+       **/
+      AlreadyMigrated: AugmentedError<ApiType>;
+      /**
        * Controller is already paired.
        **/
       AlreadyPaired: AugmentedError<ApiType>;
@@ -3065,6 +3272,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The user has enough bond and thus cannot be chilled forcefully by an external person.
        **/
       CannotChillOther: AugmentedError<ApiType>;
+      /**
+       * Stash could not be reaped as other pallet might depend on it.
+       **/
+      CannotReapStash: AugmentedError<ApiType>;
       /**
        * Cannot reset a ledger.
        **/
@@ -3143,6 +3354,11 @@ declare module '@polkadot/api-base/types/errors' {
        * Can not rebond without unlocking chunks.
        **/
       NoUnlockChunk: AugmentedError<ApiType>;
+      /**
+       * Account is restricted from participation in staking. This may happen if the account is
+       * staking in another way already, such as via pool.
+       **/
+      Restricted: AugmentedError<ApiType>;
       /**
        * Provided reward destination is not allowed.
        **/

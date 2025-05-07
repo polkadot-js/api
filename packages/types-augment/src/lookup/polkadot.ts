@@ -503,6 +503,10 @@ export default {
     }
   },
   /**
+   * Lookup165: sp_core::Void
+   **/
+  SpCoreVoid: 'Null',
+  /**
    * Lookup169: polkadot_runtime_common::claims::pallet::Call<T>
    **/
   PolkadotRuntimeCommonClaimsPalletCall: {
@@ -2357,33 +2361,6 @@ export default {
     }
   },
   /**
-   * Lookup462: pallet_delegated_staking::pallet::Event<T>
-   **/
-  PalletDelegatedStakingEvent: {
-    _enum: {
-      Delegated: {
-        agent: 'AccountId32',
-        delegator: 'AccountId32',
-        amount: 'u128',
-      },
-      Released: {
-        agent: 'AccountId32',
-        delegator: 'AccountId32',
-        amount: 'u128',
-      },
-      Slashed: {
-        agent: 'AccountId32',
-        delegator: 'AccountId32',
-        amount: 'u128',
-      },
-      MigratedDelegation: {
-        agent: 'AccountId32',
-        delegator: 'AccountId32',
-        amount: 'u128'
-      }
-    }
-  },
-  /**
    * Lookup463: polkadot_runtime_parachains::inclusion::pallet::Event<T>
    **/
   PolkadotRuntimeParachainsInclusionPalletEvent: {
@@ -2883,12 +2860,6 @@ export default {
     }
   },
   /**
-   * Lookup546: pallet_delegated_staking::pallet::HoldReason
-   **/
-  PalletDelegatedStakingHoldReason: {
-    _enum: ['StakingDelegation']
-  },
-  /**
    * Lookup551: polkadot_runtime::RuntimeFreezeReason
    **/
   PolkadotRuntimeRuntimeFreezeReason: {
@@ -2965,32 +2936,24 @@ export default {
     alarm: 'Option<(u32,(u32,u32))>'
   },
   /**
+   * Lookup626: pallet_referenda::types::TrackInfo<Balance, Moment>
+   **/
+  PalletReferendaTrackInfo: {
+    name: 'Text',
+    maxDeciding: 'u32',
+    decisionDeposit: 'u128',
+    preparePeriod: 'u32',
+    decisionPeriod: 'u32',
+    confirmPeriod: 'u32',
+    minEnactmentPeriod: 'u32',
+    minApproval: 'PalletReferendaCurve',
+    minSupport: 'PalletReferendaCurve'
+  },
+  /**
    * Lookup632: polkadot_runtime_common::claims::pallet::Error<T>
    **/
   PolkadotRuntimeCommonClaimsPalletError: {
     _enum: ['InvalidEthereumSignature', 'SignerHasNoClaim', 'SenderHasNoClaim', 'PotUnderflow', 'InvalidStatement', 'VestedBalanceExists']
-  },
-  /**
-   * Lookup695: pallet_delegated_staking::types::Delegation<T>
-   **/
-  PalletDelegatedStakingDelegation: {
-    agent: 'AccountId32',
-    amount: 'u128'
-  },
-  /**
-   * Lookup696: pallet_delegated_staking::types::AgentLedger<T>
-   **/
-  PalletDelegatedStakingAgentLedger: {
-    payee: 'AccountId32',
-    totalDelegated: 'Compact<u128>',
-    unclaimedWithdrawals: 'Compact<u128>',
-    pendingSlash: 'Compact<u128>'
-  },
-  /**
-   * Lookup697: pallet_delegated_staking::pallet::Error<T>
-   **/
-  PalletDelegatedStakingError: {
-    _enum: ['NotAllowed', 'AlreadyStaking', 'InvalidRewardDestination', 'InvalidDelegation', 'NotEnoughFunds', 'NotAgent', 'NotDelegator', 'BadState', 'UnappliedSlash', 'NothingToSlash', 'WithdrawFailed', 'NotSupported']
   },
   /**
    * Lookup698: polkadot_runtime_parachains::configuration::HostConfiguration<BlockNumber>
