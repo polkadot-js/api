@@ -26,7 +26,7 @@ export abstract class AbstractArray<T extends Codec> extends Array<T> implements
    * @description This ensures that operators such as clice, filter, map, etc. return
    * new Array instances (without this we need to apply overrides)
    */
-  static get [Symbol.species] (): typeof Array {
+  static override get [Symbol.species] (): typeof Array {
     return Array;
   }
 

@@ -13,11 +13,14 @@ import { EventEmitter } from 'eventemitter3';
 import { createTestKeyring } from '@polkadot/keyring/testing';
 import { decorateStorage, Metadata } from '@polkadot/types';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import rpcHeader from '@polkadot/types-support/json/Header.004.json' assert { type: 'json' };
-import rpcSignedBlock from '@polkadot/types-support/json/SignedBlock.004.immortal.json' assert { type: 'json' };
 import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 import { BN, bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment
+const rpcHeader = require('@polkadot/types-support/json/Header.004.json');
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment
+const rpcSignedBlock = require('@polkadot/types-support/json/SignedBlock.004.immortal.json');
 
 const INTERVAL = 1000;
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(

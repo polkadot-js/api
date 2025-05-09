@@ -5,7 +5,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import json3 from '@polkadot/types-support/json/Header.003.json' assert { type: 'json' };
+import json3 from '@polkadot/types-support/json/Header.003.json' with { type: 'json' };
 
 import { TypeRegistry } from '../../create/index.js';
 
