@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { Raw } from '@polkadot/types-codec';
-import jsonVec from '@polkadot/types-support/json/AccountIdVec.001.json' assert { type: 'json' };
+import jsonVec from '@polkadot/types-support/json/AccountIdVec.001.json' with { type: 'json' };
 
 import { TypeRegistry } from '../create/index.js';
 
