@@ -125,6 +125,7 @@
        1	Qinxuan Chen                  	Add fp_account::AccountId20 mapping (#5551)
        1	qiuhao                        	update DeriveCustom type (#2581)
        1	r0t0r-r0t0r                   	Fix memory leak on raw rpc call (#4505)
+       1	rajk93                        	Update substrate types for polkadot-sdk 2503-2-rc1 (#6137)
        1	Raphael Flechtner             	fix: typegen disconnect ws on success (#4901)
        1	Robert Gabriel Jakabosky      	Fix sorting of `Option` values and error on duplicates from BTreeSet/BTreeMap. (#5731)
        1	Robert Hambrock               	update MMR API (#5479)
