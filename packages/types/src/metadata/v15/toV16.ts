@@ -9,8 +9,8 @@ import { objectSpread } from '@polkadot/util';
 
 function palletsFromV15 (registry: Registry, palletV15: PalletMetadataV15): PalletMetadataV16 {
   const deprecationInfo: ItemDeprecationInfoV16 = registry.createTypeUnsafe('ItemDeprecationInfoV16', ['NotDeprecated']);
-  const associatedTypes: Vec<PalletAssociatedTypeMetadataV16> = registry.createTypeUnsafe('Vec<PalletAssociatedTypeMetadataV16>',[[]]);
-  const viewFunctions: Vec<PalletAssociatedTypeMetadataV16> = registry.createTypeUnsafe('Vec<PalletViewFunctionMetadataV16>',[[]]);
+  const associatedTypes: Vec<PalletAssociatedTypeMetadataV16> = registry.createTypeUnsafe('Vec<PalletAssociatedTypeMetadataV16>', [[]]);
+  const viewFunctions: Vec<PalletAssociatedTypeMetadataV16> = registry.createTypeUnsafe('Vec<PalletViewFunctionMetadataV16>', [[]]);
 
   return registry.createTypeUnsafe('PalletMetadataV16', [
     objectSpread({}, palletV15, {
