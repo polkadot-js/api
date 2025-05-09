@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Bytes, Option, Vec, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec, ITuple } from '@polkadot/types-codec/types';
 import type { Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletReferendaTrackInfo, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight, StagingXcmV4Junctions } from '@polkadot/types/lookup';
+import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletReferendaTrackInfo, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight, StagingXcmV5Junctions } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
@@ -214,7 +214,7 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The coretime chain pot location.
        **/
-      brokerPotLocation: StagingXcmV4Junctions & AugmentedConst<ApiType>;
+      brokerPotLocation: StagingXcmV5Junctions & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -967,6 +967,9 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       burn: Permill & AugmentedConst<ApiType>;
       /**
+       * DEPRECATED: associated with `spend_local` call and will be removed in May 2025.
+       * Refer to <https://github.com/paritytech/polkadot-sdk/pull/5961> for migration to `spend`.
+       * 
        * The maximum number of approvals that can wait in the spending queue.
        * 
        * NOTE: This parameter is also used within the Bounties Pallet extension if enabled.
