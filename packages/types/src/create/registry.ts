@@ -9,7 +9,7 @@ import type { CallFunction, CodecHasher, Definitions, DetectCodec, RegisteredTyp
 
 import { DoNotConstruct, Json, Raw } from '@polkadot/types-codec';
 import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkadot/types-create';
-import { assertReturn, BN_ZERO, formatBalance, isBn, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
+import { assertReturn, formatBalance, isBn, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions/index.js';
@@ -608,9 +608,9 @@ export class TypeRegistry implements Registry {
     // setup the available extensions
     this.setSignedExtensions(
       signedExtensions || (
-        this.#metadata.extrinsic.version.gt(BN_ZERO)
+        this.#metadata.extrinsic.versions.length > 0 && this.#metadata.extrinsic.versions.every((value) => value > 0)
           // FIXME Use the extension and their injected types
-          ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
+          ? this.#metadata.extrinsic.transactionExtensions.map(({ identifier }) => identifier.toString())
           : fallbackExtensions
       ),
       userExtensions,

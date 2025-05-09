@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ItemDeprecationInfoV16 } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Definitions } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -16,6 +17,21 @@ import { compareName, createImports, formatType, initMeta, readTemplate, setImpo
 import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
+
+function getDeprecationNotice (deprecationInfo: ItemDeprecationInfoV16, name: string): string {
+  let deprecationNotice = '@deprecated';
+
+  if (deprecationInfo.isDeprecated) {
+    const { note, since } = deprecationInfo.asDeprecated;
+    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
+
+    deprecationNotice += ` ${note.toString()}${sinceText}`;
+  } else {
+    deprecationNotice += ` Constant ${name} has been deprecated`;
+  }
+
+  return deprecationNotice;
+}
 
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
@@ -45,9 +61,19 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         }
 
         const items = constants
-          .map(({ docs, name, type }) => {
+          .map(({ deprecationInfo, docs, name, type }) => {
             const typeDef = lookup.getTypeDef(type);
             const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
+
+            if (!deprecationInfo.isNotDeprecated) {
+              const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name));
+
+              const items = docs.length
+                ? ['', deprecationNotice]
+                : [deprecationNotice];
+
+              docs.push(...items.map((text) => registry.createType('Text', text)));
+            }
 
             // Add the type to the list of used types
             if (!(imports.primitiveTypes[returnType])) {

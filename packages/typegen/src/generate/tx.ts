@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { VariantDeprecationInfoV16 } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Text } from '@polkadot/types/primitive';
 import type { Definitions, Registry } from '@polkadot/types/types';
@@ -29,6 +30,21 @@ function mapName (_name: Text): string {
   return MAPPED_NAMES[name] || name;
 }
 
+function getDeprecationNotice (deprecationInfo: VariantDeprecationInfoV16, name: string): string {
+  let deprecationNotice = '@deprecated';
+
+  if (deprecationInfo.isDeprecated) {
+    const { note, since } = deprecationInfo.asDeprecated;
+    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
+
+    deprecationNotice += ` ${note.toString()}${sinceText}`;
+  } else {
+    deprecationNotice += ` Call ${name}() has been deprecated`;
+  }
+
+  return deprecationNotice;
+}
+
 /** @internal */
 function generateForMeta (registry: Registry, meta: Metadata, dest: string, extraTypes: ExtraTypes, isStrict: boolean, customLookupDefinitions?: Definitions): void {
   writeFile(dest, (): string => {
@@ -51,12 +67,26 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const modules = pallets
       .sort(compareName)
       .filter(({ calls }) => calls.isSome)
-      .map(({ calls, name }) => {
+      .map((data) => {
+        const name = data.name;
+        const calls = data.calls.unwrap();
+        const deprecationInfo = calls.deprecationInfo[0].toJSON();
+
         setImports(allDefs, imports, ['SubmittableExtrinsic']);
 
         const sectionName = stringCamelCase(name);
-        const items = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
-          .map(({ docs, fields, name }) => {
+        const items = lookup.getSiType(calls.type).def.asVariant.variants
+          .map(({ docs, fields, index, name }) => {
+            const rawStatus = deprecationInfo?.[index.toNumber()];
+
+            if (rawStatus) {
+              const deprecationVariantInfo: VariantDeprecationInfoV16 = meta.registry.createTypeUnsafe('VariantDeprecationInfoV16', [rawStatus]);
+              const deprecationNotice = getDeprecationNotice(deprecationVariantInfo, name.toString());
+              const notice = docs.length ? ['', deprecationNotice] : [deprecationNotice];
+
+              docs.push(...notice.map((text) => meta.registry.createType('Text', text)));
+            }
+
             const typesInfo = fields.map(({ name, type, typeName }, index): [string, string, string] => {
               const typeDef = registry.lookup.getTypeDef(type);
 
@@ -72,6 +102,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
                   : typeDef.lookupName || typeDef.type
               ];
             });
+
             const params = typesInfo
               .map(([name,, typeStr]) => {
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);

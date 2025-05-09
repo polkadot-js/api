@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
+import type { ItemDeprecationInfoV16, StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
 import type { Metadata, PortableRegistry } from '@polkadot/types/metadata';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -19,6 +19,21 @@ import { compareName, createImports, formatType, getSimilarTypes, initMeta, read
 import { ignoreUnusedLookups } from './lookup.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
+
+function getDeprecationNotice (deprecationInfo: ItemDeprecationInfoV16, name: string): string {
+  let deprecationNotice = '@deprecated';
+
+  if (deprecationInfo.isDeprecated) {
+    const { note, since } = deprecationInfo.asDeprecated;
+    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
+
+    deprecationNotice += ` ${note.toString()}${sinceText}`;
+  } else {
+    deprecationNotice += ` ${name} has been deprecated`;
+  }
+
+  return deprecationNotice;
+}
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */
@@ -93,7 +108,17 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .map(({ name, storage }) => {
         const items = storage.unwrap().items
           .map((storageEntry) => {
+            const { deprecationInfo, docs, name } = storageEntry;
             const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, name.toString(), storageEntry, imports);
+
+            if (!deprecationInfo.isNotDeprecated) {
+              const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name));
+              const items = docs.length
+                ? ['', deprecationNotice]
+                : [deprecationNotice];
+
+              docs.push(...items.map((text) => registry.createType('Text', text)));
+            }
 
             // Add the type and args to the list of used types
             if (!(imports.primitiveTypes[_returnType])) {
@@ -110,7 +135,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               args,
-              docs: storageEntry.docs,
+              docs,
               entryType: 'AugmentedQuery',
               name: stringCamelCase(storageEntry.name),
               params,

@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RuntimeApiMethodMetadataV15, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { ItemDeprecationInfoV16, RuntimeApiMethodMetadataV16, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { DefinitionCall, DefinitionCallNamed, Definitions, DefinitionsCall, Registry } from '@polkadot/types/types';
 import type { Vec } from '@polkadot/types-codec';
@@ -51,15 +51,38 @@ const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {
   return typeName;
 };
 
+function getDeprecationNotice (deprecationInfo: ItemDeprecationInfoV16, name: string): string {
+  let deprecationNotice = '@deprecated';
+
+  if (deprecationInfo.isDeprecated) {
+    const { note, since } = deprecationInfo.asDeprecated;
+    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
+
+    deprecationNotice += ` ${note.toString()}${sinceText}`;
+  } else {
+    deprecationNotice += ` ${name} has been deprecated`;
+  }
+
+  return deprecationNotice;
+}
+
 /** @internal */
-function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV15>) {
+function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV16>) {
   const result: Record<string, DefinitionCall> = {};
 
   methods.forEach((m) => {
-    const { docs, inputs, name, output } = m;
+    const { deprecationInfo, docs, inputs, name, output } = m;
+    let description = docs.map((d) => d.toString()).join();
+
+    if (!deprecationInfo.isNotDeprecated) {
+      const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name));
+      const notice = description.length ? `\n * ${deprecationNotice}` : ` * ${deprecationNotice}`;
+
+      description += notice;
+    }
 
     result[name.toString()] = {
-      description: docs.map((d) => d.toString()).join(),
+      description,
       params: inputs.map(({ name, type }) => {
         return { name: name.toString(), type: getTypesViaAlias(registry, type) };
       }),
