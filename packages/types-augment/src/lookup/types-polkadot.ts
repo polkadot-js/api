@@ -5,7 +5,7 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/lookup';
 
-import type { BTreeMap, BitVec, Bytes, Compact, Enum, Null, Option, Result, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
+import type { BTreeMap, BitVec, Bytes, Compact, Enum, Null, Option, Result, Struct, Text, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, PerU16, Perbill, Perquintill } from '@polkadot/types/interfaces/runtime';
@@ -460,6 +460,9 @@ declare module '@polkadot/types/lookup' {
     readonly asResponse: StagingXcmV4Location;
     readonly type: 'Xcm' | 'Response';
   }
+
+  /** @name SpCoreVoid (165) */
+  type SpCoreVoid = Null;
 
   /** @name PolkadotRuntimeCommonClaimsPalletCall (169) */
   interface PolkadotRuntimeCommonClaimsPalletCall extends Enum {
@@ -2345,35 +2348,6 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Claimed';
   }
 
-  /** @name PalletDelegatedStakingEvent (462) */
-  interface PalletDelegatedStakingEvent extends Enum {
-    readonly isDelegated: boolean;
-    readonly asDelegated: {
-      readonly agent: AccountId32;
-      readonly delegator: AccountId32;
-      readonly amount: u128;
-    } & Struct;
-    readonly isReleased: boolean;
-    readonly asReleased: {
-      readonly agent: AccountId32;
-      readonly delegator: AccountId32;
-      readonly amount: u128;
-    } & Struct;
-    readonly isSlashed: boolean;
-    readonly asSlashed: {
-      readonly agent: AccountId32;
-      readonly delegator: AccountId32;
-      readonly amount: u128;
-    } & Struct;
-    readonly isMigratedDelegation: boolean;
-    readonly asMigratedDelegation: {
-      readonly agent: AccountId32;
-      readonly delegator: AccountId32;
-      readonly amount: u128;
-    } & Struct;
-    readonly type: 'Delegated' | 'Released' | 'Slashed' | 'MigratedDelegation';
-  }
-
   /** @name PolkadotRuntimeParachainsInclusionPalletEvent (463) */
   interface PolkadotRuntimeParachainsInclusionPalletEvent extends Enum {
     readonly isCandidateBacked: boolean;
@@ -2825,12 +2799,6 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Preimage' | 'DelegatedStaking' | 'StateTrieMigration';
   }
 
-  /** @name PalletDelegatedStakingHoldReason (546) */
-  interface PalletDelegatedStakingHoldReason extends Enum {
-    readonly isStakingDelegation: boolean;
-    readonly type: 'StakingDelegation';
-  }
-
   /** @name PolkadotRuntimeRuntimeFreezeReason (551) */
   interface PolkadotRuntimeRuntimeFreezeReason extends Enum {
     readonly isNominationPools: boolean;
@@ -2870,6 +2838,19 @@ declare module '@polkadot/types/lookup' {
     readonly alarm: Option<ITuple<[u32, ITuple<[u32, u32]>]>>;
   }
 
+  /** @name PalletReferendaTrackInfo (626) */
+  interface PalletReferendaTrackInfo extends Struct {
+    readonly name: Text;
+    readonly maxDeciding: u32;
+    readonly decisionDeposit: u128;
+    readonly preparePeriod: u32;
+    readonly decisionPeriod: u32;
+    readonly confirmPeriod: u32;
+    readonly minEnactmentPeriod: u32;
+    readonly minApproval: PalletReferendaCurve;
+    readonly minSupport: PalletReferendaCurve;
+  }
+
   /** @name PolkadotRuntimeCommonClaimsPalletError (632) */
   interface PolkadotRuntimeCommonClaimsPalletError extends Enum {
     readonly isInvalidEthereumSignature: boolean;
@@ -2879,37 +2860,6 @@ declare module '@polkadot/types/lookup' {
     readonly isInvalidStatement: boolean;
     readonly isVestedBalanceExists: boolean;
     readonly type: 'InvalidEthereumSignature' | 'SignerHasNoClaim' | 'SenderHasNoClaim' | 'PotUnderflow' | 'InvalidStatement' | 'VestedBalanceExists';
-  }
-
-  /** @name PalletDelegatedStakingDelegation (695) */
-  interface PalletDelegatedStakingDelegation extends Struct {
-    readonly agent: AccountId32;
-    readonly amount: u128;
-  }
-
-  /** @name PalletDelegatedStakingAgentLedger (696) */
-  interface PalletDelegatedStakingAgentLedger extends Struct {
-    readonly payee: AccountId32;
-    readonly totalDelegated: Compact<u128>;
-    readonly unclaimedWithdrawals: Compact<u128>;
-    readonly pendingSlash: Compact<u128>;
-  }
-
-  /** @name PalletDelegatedStakingError (697) */
-  interface PalletDelegatedStakingError extends Enum {
-    readonly isNotAllowed: boolean;
-    readonly isAlreadyStaking: boolean;
-    readonly isInvalidRewardDestination: boolean;
-    readonly isInvalidDelegation: boolean;
-    readonly isNotEnoughFunds: boolean;
-    readonly isNotAgent: boolean;
-    readonly isNotDelegator: boolean;
-    readonly isBadState: boolean;
-    readonly isUnappliedSlash: boolean;
-    readonly isNothingToSlash: boolean;
-    readonly isWithdrawFailed: boolean;
-    readonly isNotSupported: boolean;
-    readonly type: 'NotAllowed' | 'AlreadyStaking' | 'InvalidRewardDestination' | 'InvalidDelegation' | 'NotEnoughFunds' | 'NotAgent' | 'NotDelegator' | 'BadState' | 'UnappliedSlash' | 'NothingToSlash' | 'WithdrawFailed' | 'NotSupported';
   }
 
   /** @name PolkadotRuntimeParachainsConfigurationHostConfiguration (698) */
