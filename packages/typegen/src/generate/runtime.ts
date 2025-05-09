@@ -32,6 +32,7 @@ const aliases: Record<string, string> = {
   PolkadotRuntimeRuntimeCall: 'RuntimeCall',
   PrimitiveTypesH160: 'H160',
   PrimitiveTypesH256: 'H256',
+  PrimitiveTypesU256: 'U256',
   SpConsensusBabeOpaqueKeyOwnershipProof: 'OpaqueKeyOwnershipProof',
   SpConsensusSlotsSlot: 'Slot',
   SpCoreCryptoAccountId32: 'AccountId32',
