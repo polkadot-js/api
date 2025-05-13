@@ -59,8 +59,12 @@ function tsEnum (registry: Registry, definitions: Record<string, ModuleTypes>, {
     // type as the parent we can take the lookupName from the sub.
     // This is specific to `StagingXcmV4Junction`.
     // see: https://github.com/polkadot-js/api/pull/5812
-    if (sub && !Array.isArray(sub) && type.includes(`${sub.type};`) && (sub.lookupName === 'StagingXcmV4Junction' || sub.lookupName === 'StagingXcmV5Junction')) {
-      extractedLookupName = sub.lookupName;
+    if (sub && !Array.isArray(sub) && type.includes(`${sub.type};`)) {
+      if (sub.lookupName === 'StagingXcmV4Junction') {
+        extractedLookupName = sub.lookupName;
+      } else if (sub.lookupName === 'StagingXcmV5Junction') {
+        extractedLookupName = `Vec<${sub.lookupName}>`;
+      }
     }
 
     const asGetter = type === 'Null' || info === TypeDefInfo.DoNotConstruct
