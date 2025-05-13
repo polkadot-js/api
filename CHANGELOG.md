@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 15.10.2 May 13, 2025
+
+Changes:
+
+- Fix StagingXcmV5Junctions generation ([#6145](https://github.com/polkadot-js/api/pull/6145))
+
+
 ## 15.10.1 May 13, 2025
 
 Changes:
