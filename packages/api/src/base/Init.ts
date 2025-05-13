@@ -25,7 +25,7 @@ const KEEPALIVE_INTERVAL = 10000;
 const WITH_VERSION_SHORTCUT = false;
 
 // TODO: Remove U32::MAX when metadata 16 is stabilized.
-const SUPPORTED_METADATA_VERSIONS = [4294967295, 16, 15, 14];
+const SUPPORTED_METADATA_VERSIONS = [16, 15, 14];
 
 const l = logger('api/init');
 
