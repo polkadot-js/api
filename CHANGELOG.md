@@ -1,7 +1,16 @@
 # CHANGELOG
 
+## 15.10.1 May 13, 2025
 
-## 15.9.2 May 6, 2025
+Changes:
+
+- Update Substrate types for polkadot-sdk v2503-2-rc1 ([#6137](https://github.com/polkadot-js/api/pull/6137))
+- Upgrade Kusama types to 1.5.0 ([#6139](https://github.com/polkadot-js/api/pull/6139))
+- Upgrade Polkadot types to 1.5.0 ([#6140](https://github.com/polkadot-js/api/pull/6140))
+- Improve Xcm V5 support ([#6142](https://github.com/polkadot-js/api/pull/6142))
+
+
+## 15.9.3 May 6, 2025
 
 Contributed:
 
