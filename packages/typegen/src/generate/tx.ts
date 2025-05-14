@@ -70,7 +70,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .map((data) => {
         const name = data.name;
         const calls = data.calls.unwrap();
-        const deprecationInfo = calls.deprecationInfo[0].toJSON();
+        const deprecationInfo = calls.deprecationInfo.toJSON();
 
         setImports(allDefs, imports, ['SubmittableExtrinsic']);
 

@@ -101,7 +101,7 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
       .map((data) => {
         const name = data.name;
         const events = data.events.unwrap();
-        const deprecationInfo = events.deprecationInfo[0].toJSON();
+        const deprecationInfo = events.deprecationInfo.toJSON();
 
         return {
           items: lookup.getSiType(events.type).def.asVariant.variants

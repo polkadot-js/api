@@ -3,7 +3,6 @@
 
 import type { PortableRegistry } from '@polkadot/types';
 import type { BTreeMap, Bytes, Compact, Enum, Option, Struct, Text, Type, U8aFixed, Vec, WrapperOpaque, bool, u32, u8 } from '@polkadot/types-codec';
-import type { ITuple } from '@polkadot/types-codec/types';
 import type { Si1Field, Si1LookupTypeId, Si1Type, SiLookupTypeId } from '@polkadot/types/interfaces/scaleInfo';
 
 /** @name CustomMetadata15 */
@@ -18,7 +17,7 @@ export interface CustomValueMetadata15 extends Struct {
 }
 
 /** @name EnumDeprecationInfoV16 */
-export interface EnumDeprecationInfoV16 extends ITuple<[BTreeMap<u8, VariantDeprecationInfoV16>]> {}
+export interface EnumDeprecationInfoV16 extends BTreeMap<u8, VariantDeprecationInfoV16> {}
 
 /** @name ErrorMetadataLatest */
 export interface ErrorMetadataLatest extends ErrorMetadataV14 {}
@@ -265,7 +264,6 @@ export interface MetadataV16 extends Struct {
   readonly lookup: PortableRegistry;
   readonly pallets: Vec<PalletMetadataV16>;
   readonly extrinsic: ExtrinsicMetadataV16;
-  readonly type: SiLookupTypeId;
   readonly apis: Vec<RuntimeApiMetadataV16>;
   readonly outerEnums: OuterEnums15;
   readonly custom: CustomMetadata15;
@@ -517,8 +515,8 @@ export interface RuntimeApiMetadataV16 extends Struct {
   readonly name: Text;
   readonly methods: Vec<RuntimeApiMethodMetadataV16>;
   readonly docs: Vec<Text>;
-  readonly deprecationInfo: ItemDeprecationInfoV16;
   readonly version: Compact<u32>;
+  readonly deprecationInfo: ItemDeprecationInfoV16;
 }
 
 /** @name RuntimeApiMethodMetadataV15 */
@@ -838,13 +836,14 @@ export interface TransactionExtensionMetadataV16 extends Struct {
 
 /** @name VariantDeprecationInfoV16 */
 export interface VariantDeprecationInfoV16 extends Enum {
+  readonly isDummyVariant: boolean;
   readonly isDeprecatedWithoutNote: boolean;
   readonly isDeprecated: boolean;
   readonly asDeprecated: {
     readonly note: Text;
     readonly since: Option<Text>;
   } & Struct;
-  readonly type: 'DeprecatedWithoutNote' | 'Deprecated';
+  readonly type: 'DummyVariant' | 'DeprecatedWithoutNote' | 'Deprecated';
 }
 
 export type PHANTOM_METADATA = 'metadata';

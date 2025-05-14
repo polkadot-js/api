@@ -39,7 +39,7 @@ function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void
       .map((data) => {
         const name = data.name;
         const errors = data.errors.unwrap();
-        const deprecationInfo = errors.deprecationInfo[0].toJSON();
+        const deprecationInfo = errors.deprecationInfo.toJSON();
 
         return {
           items: lookup.getSiType(errors.type).def.asVariant.variants

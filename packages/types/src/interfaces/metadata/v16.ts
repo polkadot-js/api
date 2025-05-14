@@ -12,7 +12,6 @@ export const v16: DefinitionsTypes = {
     lookup: 'PortableRegistry',
     pallets: 'Vec<PalletMetadataV16>',
     extrinsic: 'ExtrinsicMetadataV16',
-    type: 'SiLookupTypeId',
     apis: 'Vec<RuntimeApiMetadataV16>',
     outerEnums: 'OuterEnums15',
     custom: 'CustomMetadata15'
@@ -43,7 +42,6 @@ export const v16: DefinitionsTypes = {
     type: 'StorageEntryTypeV14',
     fallback: 'Bytes',
     docs: 'Vec<Text>',
-    // Deprecation info
     deprecationInfo: 'ItemDeprecationInfoV16'
   },
   ItemDeprecationInfoV16: {
@@ -68,9 +66,12 @@ export const v16: DefinitionsTypes = {
   },
   // Deprecation information for enums in which specific variants can be deprecated.
   // If the map is empty, then nothing is deprecated.
-  EnumDeprecationInfoV16: '(BTreeMap<u8, VariantDeprecationInfoV16>)',
+  EnumDeprecationInfoV16: 'BTreeMap<u8, VariantDeprecationInfoV16>',
   VariantDeprecationInfoV16: {
     _enum: {
+      // Dummy variant, just here to force DeprecatedWithoutNote
+      // to have index 1 and Deprecated to have index 2
+      DummyVariant: 'Null',
       // Variant is deprecated without a note.
       DeprecatedWithoutNote: 'Null',
       // Variant is deprecated with a note and an optional `since` field.
@@ -80,6 +81,7 @@ export const v16: DefinitionsTypes = {
         // Optional value for noting the version when the deprecation occurred.
         since: 'Option<Text>'
       }
+
     }
   },
   PalletEventMetadataV16: {
@@ -150,10 +152,10 @@ export const v16: DefinitionsTypes = {
     name: 'Text',
     methods: 'Vec<RuntimeApiMethodMetadataV16>',
     docs: 'Vec<Text>',
-    // Deprecation info
-    deprecationInfo: 'ItemDeprecationInfoV16',
     // Runtime API version.
-    version: 'Compact<u32>'
+    version: 'Compact<u32>',
+    // Deprecation info
+    deprecationInfo: 'ItemDeprecationInfoV16'
   },
   RuntimeApiMethodMetadataV16: {
     name: 'Text',
