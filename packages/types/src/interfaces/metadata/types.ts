@@ -184,11 +184,13 @@ export interface MetadataAll extends Enum {
   readonly asV14: MetadataV14;
   readonly isV15: boolean;
   readonly asV15: MetadataV15;
-  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6' | 'V7' | 'V8' | 'V9' | 'V10' | 'V11' | 'V12' | 'V13' | 'V14' | 'V15';
+  readonly isV16: boolean;
+  readonly asV16: MetadataV16;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6' | 'V7' | 'V8' | 'V9' | 'V10' | 'V11' | 'V12' | 'V13' | 'V14' | 'V15' | 'V16';
 }
 
 /** @name MetadataLatest */
-export interface MetadataLatest extends MetadataV15 {}
+export interface MetadataLatest extends MetadataV16 {}
 
 /** @name MetadataV10 */
 export interface MetadataV10 extends Struct {
@@ -219,6 +221,9 @@ export interface MetadataV14 extends Struct {
   readonly pallets: Vec<PalletMetadataV14>;
   readonly extrinsic: ExtrinsicMetadataV14;
   readonly type: SiLookupTypeId;
+  readonly apis: Vec<RuntimeApiMetadataLatest>;
+  readonly outerEnums: OuterEnums;
+  readonly custom: CustomMetadata;
 }
 
 /** @name MetadataV15 */
@@ -228,8 +233,17 @@ export interface MetadataV15 extends Struct {
   readonly extrinsic: ExtrinsicMetadataV15;
   readonly type: SiLookupTypeId;
   readonly apis: Vec<RuntimeApiMetadataV15>;
-  readonly outerEnums: OuterEnums15;
-  readonly custom: CustomMetadata15;
+  readonly custom: CustomMetadata;
+}
+
+/** @name MetadataV16 */
+export interface MetadataV16 extends Struct {
+  readonly lookup: PortableRegistry;
+  readonly pallets: Vec<PalletMetadataV16>;
+  readonly extrinsic: ExtrinsicMetadataLatest;
+  readonly type: SiLookupTypeId;
+  readonly apis: Vec<RuntimeApiMetadataLatest>;
+  readonly custom: CustomMetadata;
 }
 
 /** @name MetadataV9 */
@@ -312,11 +326,11 @@ export interface ModuleMetadataV9 extends Struct {
 /** @name OpaqueMetadata */
 export interface OpaqueMetadata extends WrapperOpaque<Bytes> {}
 
-/** @name OuterEnums15 */
-export interface OuterEnums15 extends Struct {
-  readonly callType: SiLookupTypeId;
-  readonly eventType: SiLookupTypeId;
-  readonly errorType: SiLookupTypeId;
+/** @name OuterEnums */
+export interface OuterEnums extends Struct {
+  readonly callEnumType: SiLookupTypeId;
+  readonly errorEnumType: SiLookupTypeId;
+  readonly eventEnumType: SiLookupTypeId;
 }
 
 /** @name PalletCallMetadataLatest */
@@ -355,7 +369,7 @@ export interface PalletEventMetadataV14 extends Struct {
 }
 
 /** @name PalletMetadataLatest */
-export interface PalletMetadataLatest extends PalletMetadataV15 {}
+export interface PalletMetadataLatest extends PalletMetadataV16 {}
 
 /** @name PalletMetadataV14 */
 export interface PalletMetadataV14 extends Struct {
@@ -693,5 +707,80 @@ export interface StorageMetadataV9 extends Struct {
   readonly prefix: Text;
   readonly items: Vec<StorageEntryMetadataV9>;
 }
+
+/** @name CustomMetadata */
+export interface CustomMetadata extends Struct {
+  readonly map: Vec<CustomMetadataTuple>;
+}
+
+/** @name CustomMetadataTuple */
+export type CustomMetadataTuple = [Text, CustomValueMetadata];
+
+/** @name CustomValueMetadata */
+export interface CustomValueMetadata extends Struct {
+  readonly type: SiLookupTypeId;
+  readonly value: Bytes;
+}
+
+/** @name PortableRegistry */
+export interface PortableRegistry extends Struct {
+  readonly types: Vec<PortableType>;
+}
+
+/** @name PortableType */
+export interface PortableType extends Struct {
+  readonly id: SiLookupTypeId;
+  readonly type: SiType;
+}
+
+/** @name RuntimeApiMetadataLatest */
+export interface RuntimeApiMetadataLatest extends RuntimeApiMetadataV15 {}
+
+/** @name RuntimeApiMethodMetadataLatest */
+export interface RuntimeApiMethodMetadataLatest extends RuntimeApiMethodMetadataV15 {}
+
+/** @name RuntimeApiMethodParamMetadataLatest */
+export interface RuntimeApiMethodParamMetadataLatest extends Struct {
+  readonly name: Text;
+  readonly type: SiLookupTypeId;
+}
+
+/** @name SignedExtensionMetadataLatest */
+export interface SignedExtensionMetadataLatest extends SignedExtensionMetadataV14 {}
+
+/** @name StorageEntryModifierLatest */
+export interface StorageEntryModifierLatest extends StorageEntryModifierV14 {}
+
+/** @name StorageEntryTypeLatest */
+export interface StorageEntryTypeLatest extends StorageEntryTypeV14 {}
+
+/** @name StorageHasherLatest */
+export interface StorageHasherLatest extends StorageHasherV14 {}
+
+/** @name MetadataEnum */
+export interface MetadataEnum extends Struct {
+  readonly V0: MetadataV0;
+  readonly V1: MetadataV1;
+  readonly V2: MetadataV2;
+  readonly V3: MetadataV3;
+  readonly V4: MetadataV4;
+  readonly V5: MetadataV5;
+  readonly V6: MetadataV6;
+  readonly V7: MetadataV7;
+  readonly V8: MetadataV8;
+  readonly V9: MetadataV9;
+  readonly V10: MetadataV10;
+  readonly V11: MetadataV11;
+  readonly V12: MetadataV12;
+  readonly V13: MetadataV13;
+  readonly V14: MetadataV14;
+  readonly V15: MetadataV15;
+  readonly V16: MetadataV16;
+}
+
+/** @name MetadataAll */
+export type MetadataAll = MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4 | MetadataV5 | MetadataV6 | MetadataV7 | MetadataV8 | MetadataV9 | MetadataV10 | MetadataV11 | MetadataV12 | MetadataV13 | MetadataV14 | MetadataV15 | MetadataV16;
+
+export interface MetadataLatest extends MetadataV16 {}
 
 export type PHANTOM_METADATA = 'metadata';

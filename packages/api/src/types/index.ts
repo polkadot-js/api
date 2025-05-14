@@ -17,6 +17,12 @@ import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base/index.js';
 import type { SubmittableExtrinsic } from '../types/submittable.js';
 import type { AllDerives } from '../util/decorate.js';
+import type { Observable } from 'rxjs';
+import type { DecoratedMeta } from '@polkadot/types/metadata/decorate/types';
+import type { StorageKey } from '@polkadot/types';
+import type { Codec, IMethod, AnyTuple, IEventLike } from '@polkadot/types/types';
+import type { DecoratedRpc } from './rpc.js';
+import type { DecoratedViewFunction } from '@polkadot/types/metadata/decorate/types';
 
 // types
 export type { Signer, SignerResult } from '@polkadot/types/types';
@@ -43,6 +49,14 @@ export * from '@polkadot/api-base/types';
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx extends ApiInterfaceBase {
   derive: AllDerives<'rxjs'>;
+  readonly query: QueryableStorage<'rxjs'>;
+  readonly queryAt: QueryableStorageAt<'rxjs'>;
+  readonly queryMulti: QueryableStorageMulti<'rxjs'>;
+  readonly registry: Registry;
+  readonly rpc: DecoratedRpc<'rxjs', RpcInterface>;
+  readonly runtimeVersion: RuntimeVersion;
+  readonly tx: SubmittableExtrinsics<'rxjs'>;
+  readonly view: QueryableViewFunctions<'rxjs'>;
 }
 
 export interface ApiOptions extends RegisteredTypes {
@@ -117,6 +131,25 @@ export interface SignerOptions extends SignatureOptions {
   genesisHash: Hash;
 }
 
+export interface QueryableCalls<ApiType extends ApiTypes> {
+  [section: string]: {
+    [method: string]: AugmentedCall<ApiType>;
+  };
+}
+
+// New Type: Represents a single decorated view function
+export interface AugmentedViewFunction<ApiType extends ApiTypes> extends IMethod<AnyTuple> {
+  (...args: any[]): Observable<Codec>;
+  meta: DecoratedViewFunction;
+}
+
+// New Type: Represents the `api.view` section holding all view functions
+export interface QueryableViewFunctions<ApiType extends ApiTypes> {
+  [section: string]: {
+    [method: string]: AugmentedViewFunction<ApiType>;
+  };
+}
+
 export interface ApiDecoration<ApiType extends ApiTypes> {
   call: QueryableCalls<ApiType>;
   consts: QueryableConsts<ApiType>;
@@ -124,12 +157,10 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
   events: DecoratedEvents<ApiType>;
   query: QueryableStorage<ApiType>;
   registry: Registry;
-  runtimeVersion: RuntimeVersionPartial;
-  rx: {
-    call: QueryableCalls<'rxjs'>;
-    query: QueryableStorage<'rxjs'>;
-  };
-  tx: (extrinsic: Call | Extrinsic | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
+  runtimeVersion: RuntimeVersion;
+  rx: ApiInterfaceRx;
+  tx: SubmittableExtrinsics<ApiType>;
+  view: QueryableViewFunctions<ApiType>;
 
   findCall (callIndex: Uint8Array | string): CallFunction;
   findError (errorIndex: Uint8Array | string): RegistryError;
