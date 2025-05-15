@@ -61,7 +61,7 @@ export class BitVec extends Raw {
    * @description The length of the value when encoded as a Uint8Array
    */
   public override get encodedLength (): number {
-    return this.length + compactToU8a(this.#decodedLength).length;
+    return this.length + compactToU8a(this.#decodedLength * 8).length;
   }
 
   /**
