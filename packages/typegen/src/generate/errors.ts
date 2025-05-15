@@ -4,30 +4,15 @@
 import type { VariantDeprecationInfoV16 } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
 import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, initMeta, readTemplate, writeFile } from '../util/index.js';
+import { type ExtraTypes, getDeprecationNotice } from './types.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('errors'));
-
-function getDeprecationNotice (deprecationInfo: VariantDeprecationInfoV16, name: string): string {
-  let deprecationNotice = '@deprecated';
-
-  if (deprecationInfo.isDeprecated) {
-    const { note, since } = deprecationInfo.asDeprecated;
-    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
-
-    deprecationNotice += ` ${note.toString()}${sinceText}`;
-  } else {
-    deprecationNotice += ` ${name} has been deprecated`;
-  }
-
-  return deprecationNotice;
-}
 
 /** @internal */
 function generateForMeta (meta: Metadata, dest: string, isStrict: boolean): void {

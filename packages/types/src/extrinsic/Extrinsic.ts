@@ -332,7 +332,6 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
     const versionsLength = registry.metadata.extrinsic.versions.length;
     const highestSupportedVersion = versionsLength ? registry.metadata.extrinsic.versions[versionsLength - 1] : undefined;
 
-    console.log(registry.metadata.extrinsic.versions);
     super(registry, decodeExtrinsic(registry, value, version || highestSupportedVersion, preamble), undefined, preamble);
   }
 

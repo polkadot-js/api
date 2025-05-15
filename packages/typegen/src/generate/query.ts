@@ -1,12 +1,11 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ItemDeprecationInfoV16, StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
+import type { StorageEntryMetadataLatest } from '@polkadot/types/interfaces';
 import type { Metadata, PortableRegistry } from '@polkadot/types/metadata';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ModuleTypes, TypeImports } from '../util/imports.js';
-import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -17,23 +16,9 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
+import { type ExtraTypes, getDeprecationNotice } from './types.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
-
-function getDeprecationNotice (deprecationInfo: ItemDeprecationInfoV16, name: string): string {
-  let deprecationNotice = '@deprecated';
-
-  if (deprecationInfo.isDeprecated) {
-    const { note, since } = deprecationInfo.asDeprecated;
-    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
-
-    deprecationNotice += ` ${note.toString()}${sinceText}`;
-  } else {
-    deprecationNotice += ` ${name} has been deprecated`;
-  }
-
-  return deprecationNotice;
-}
 
 // From a storage entry metadata, we return [args, returnType]
 /** @internal */

@@ -1,12 +1,11 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ItemDeprecationInfoV16, RuntimeApiMethodMetadataV16, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { RuntimeApiMethodMetadataV16, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { DefinitionCall, DefinitionCallNamed, Definitions, DefinitionsCall, Registry } from '@polkadot/types/types';
 import type { Vec } from '@polkadot/types-codec';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -16,6 +15,7 @@ import { objectSpread, stringCamelCase } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
+import { type ExtraTypes, getDeprecationNotice } from './types.js';
 
 type Apis = [HexString, number][];
 
@@ -50,21 +50,6 @@ const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {
 
   return typeName;
 };
-
-function getDeprecationNotice (deprecationInfo: ItemDeprecationInfoV16, name: string): string {
-  let deprecationNotice = '@deprecated';
-
-  if (deprecationInfo.isDeprecated) {
-    const { note, since } = deprecationInfo.asDeprecated;
-    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
-
-    deprecationNotice += ` ${note.toString()}${sinceText}`;
-  } else {
-    deprecationNotice += ` ${name} has been deprecated`;
-  }
-
-  return deprecationNotice;
-}
 
 /** @internal */
 function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV16>) {

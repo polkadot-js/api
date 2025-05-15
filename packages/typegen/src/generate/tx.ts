@@ -6,7 +6,6 @@ import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Text } from '@polkadot/types/primitive';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -16,6 +15,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
+import { type ExtraTypes, getDeprecationNotice } from './types.js';
 
 const MAPPED_NAMES: Record<string, string> = {
   class: 'clazz',
@@ -28,21 +28,6 @@ function mapName (_name: Text): string {
   const name = stringCamelCase(_name);
 
   return MAPPED_NAMES[name] || name;
-}
-
-function getDeprecationNotice (deprecationInfo: VariantDeprecationInfoV16, name: string): string {
-  let deprecationNotice = '@deprecated';
-
-  if (deprecationInfo.isDeprecated) {
-    const { note, since } = deprecationInfo.asDeprecated;
-    const sinceText = since.isSome ? ` Since ${since.unwrap().toString()}.` : '';
-
-    deprecationNotice += ` ${note.toString()}${sinceText}`;
-  } else {
-    deprecationNotice += ` Call ${name}() has been deprecated`;
-  }
-
-  return deprecationNotice;
 }
 
 /** @internal */
@@ -81,7 +66,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             if (rawStatus) {
               const deprecationVariantInfo: VariantDeprecationInfoV16 = meta.registry.createTypeUnsafe('VariantDeprecationInfoV16', [rawStatus]);
-              const deprecationNotice = getDeprecationNotice(deprecationVariantInfo, name.toString());
+              const deprecationNotice = getDeprecationNotice(deprecationVariantInfo, name.toString(), 'Call');
               const notice = docs.length ? ['', deprecationNotice] : [deprecationNotice];
 
               docs.push(...notice.map((text) => meta.registry.createType('Text', text)));
