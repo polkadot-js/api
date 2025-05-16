@@ -1,10 +1,10 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { VariantDeprecationInfoV16 } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Definitions } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -14,6 +14,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
+import { type ExtraTypes, getDeprecationNotice } from './types.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('events'));
 
@@ -82,39 +83,55 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
     const usedTypes = new Set<string>([]);
     const modules = pallets
       .filter(({ events }) => events.isSome)
-      .map(({ events, name }) => ({
-        items: lookup.getSiType(events.unwrap().type).def.asVariant.variants
-          .map(({ docs, fields, name }) => {
-            const args = fields
-              .map(({ type }) => lookup.getTypeDef(type))
-              .map((typeDef) => {
-                const arg = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
+      .map((data) => {
+        const name = data.name;
+        const events = data.events.unwrap();
+        const deprecationInfo = events.deprecationInfo.toJSON();
 
-                // Add the type to the list of used types
-                if (!(imports.primitiveTypes[arg])) {
-                  usedTypes.add(arg);
-                }
+        return {
+          items: lookup.getSiType(events.type).def.asVariant.variants
+            .map(({ docs, fields, index, name }) => {
+              const rawStatus = deprecationInfo?.[index.toNumber()];
 
-                return arg;
-              });
+              if (rawStatus) {
+                const deprecationVariantInfo: VariantDeprecationInfoV16 = meta.registry.createTypeUnsafe('VariantDeprecationInfoV16', [rawStatus]);
+                const deprecationNotice = getDeprecationNotice(deprecationVariantInfo, name.toString());
+                const notice = docs.length ? ['', deprecationNotice] : [deprecationNotice];
 
-            const names = fields
-              .map(({ name }) => registry.lookup.sanitizeField(name)[0])
-              .filter((n): n is string => !!n);
+                docs.push(...notice.map((text) => meta.registry.createType('Text', text)));
+              }
 
-            setImports(allDefs, imports, args);
+              const args = fields
+                .map(({ type }) => lookup.getTypeDef(type))
+                .map((typeDef) => {
+                  const arg = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
 
-            return {
-              docs,
-              name: name.toString(),
-              type: names.length !== 0 && names.length === args.length
-                ? `[${names.map((n, i) => `${ALIAS.includes(n) ? `${n}_` : n}: ${args[i]}`).join(', ')}], { ${names.map((n, i) => `${n}: ${args[i]}`).join(', ')} }`
-                : `[${args.join(', ')}]`
-            };
-          })
-          .sort(compareName),
-        name: stringCamelCase(name)
-      }))
+                  // Add the type to the list of used types
+                  if (!(imports.primitiveTypes[arg])) {
+                    usedTypes.add(arg);
+                  }
+
+                  return arg;
+                });
+
+              const names = fields
+                .map(({ name }) => registry.lookup.sanitizeField(name)[0])
+                .filter((n): n is string => !!n);
+
+              setImports(allDefs, imports, args);
+
+              return {
+                docs,
+                name: name.toString(),
+                type: names.length !== 0 && names.length === args.length
+                  ? `[${names.map((n, i) => `${ALIAS.includes(n) ? `${n}_` : n}: ${args[i]}`).join(', ')}], { ${names.map((n, i) => `${n}: ${args[i]}`).join(', ')} }`
+                  : `[${args.join(', ')}]`
+              };
+            })
+            .sort(compareName),
+          name: stringCamelCase(name)
+        };
+      })
       .sort(compareName);
 
     // filter out the unused lookup types from imports

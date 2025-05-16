@@ -3,7 +3,7 @@
 
 // Use these to generate all the Meta* types below via template keys
 // NOTE: Keep from latest -> earliest, see the LATEST_VERSION 0 index
-export const KNOWN_VERSIONS = [15, 14, 13, 12, 11, 10, 9] as const;
+export const KNOWN_VERSIONS = [16, 15, 14, 13, 12, 11, 10, 9] as const;
 export const LATEST_VERSION = KNOWN_VERSIONS[0];
 
 // This is part of migration. The toCallsOnly would be usede for esxtensions,

@@ -1,11 +1,11 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { VariantDeprecationInfoV16 } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Text } from '@polkadot/types/primitive';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -15,6 +15,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
+import { type ExtraTypes, getDeprecationNotice } from './types.js';
 
 const MAPPED_NAMES: Record<string, string> = {
   class: 'clazz',
@@ -51,12 +52,26 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
     const modules = pallets
       .sort(compareName)
       .filter(({ calls }) => calls.isSome)
-      .map(({ calls, name }) => {
+      .map((data) => {
+        const name = data.name;
+        const calls = data.calls.unwrap();
+        const deprecationInfo = calls.deprecationInfo.toJSON();
+
         setImports(allDefs, imports, ['SubmittableExtrinsic']);
 
         const sectionName = stringCamelCase(name);
-        const items = lookup.getSiType(calls.unwrap().type).def.asVariant.variants
-          .map(({ docs, fields, name }) => {
+        const items = lookup.getSiType(calls.type).def.asVariant.variants
+          .map(({ docs, fields, index, name }) => {
+            const rawStatus = deprecationInfo?.[index.toNumber()];
+
+            if (rawStatus) {
+              const deprecationVariantInfo: VariantDeprecationInfoV16 = meta.registry.createTypeUnsafe('VariantDeprecationInfoV16', [rawStatus]);
+              const deprecationNotice = getDeprecationNotice(deprecationVariantInfo, name.toString(), 'Call');
+              const notice = docs.length ? ['', deprecationNotice] : [deprecationNotice];
+
+              docs.push(...notice.map((text) => meta.registry.createType('Text', text)));
+            }
+
             const typesInfo = fields.map(({ name, type, typeName }, index): [string, string, string] => {
               const typeDef = registry.lookup.getTypeDef(type);
 
@@ -72,6 +87,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
                   : typeDef.lookupName || typeDef.type
               ];
             });
+
             const params = typesInfo
               .map(([name,, typeStr]) => {
                 const similarTypes = getSimilarTypes(registry, allDefs, typeStr, imports);

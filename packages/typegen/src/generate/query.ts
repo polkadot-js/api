@@ -6,7 +6,6 @@ import type { Metadata, PortableRegistry } from '@polkadot/types/metadata';
 import type { Definitions, Registry } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ModuleTypes, TypeImports } from '../util/imports.js';
-import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -17,6 +16,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
+import { type ExtraTypes, getDeprecationNotice } from './types.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('query'));
 
@@ -93,7 +93,17 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
       .map(({ name, storage }) => {
         const items = storage.unwrap().items
           .map((storageEntry) => {
+            const { deprecationInfo, docs, name } = storageEntry;
             const [isOptional, args, params, _returnType] = entrySignature(lookup, allDefs, registry, name.toString(), storageEntry, imports);
+
+            if (!deprecationInfo.isNotDeprecated) {
+              const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name));
+              const items = docs.length
+                ? ['', deprecationNotice]
+                : [deprecationNotice];
+
+              docs.push(...items.map((text) => registry.createType('Text', text)));
+            }
 
             // Add the type and args to the list of used types
             if (!(imports.primitiveTypes[_returnType])) {
@@ -110,7 +120,7 @@ function generateForMeta (registry: Registry, meta: Metadata, dest: string, extr
 
             return {
               args,
-              docs: storageEntry.docs,
+              docs,
               entryType: 'AugmentedQuery',
               name: stringCamelCase(storageEntry.name),
               params,
