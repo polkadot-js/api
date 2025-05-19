@@ -12,7 +12,7 @@ import substrate from '@polkadot/types-support/metadata/v15/substrate-hex';
 import { generateDefaultConsts, generateDefaultErrors, generateDefaultEvents, generateDefaultInterface, generateDefaultLookup, generateDefaultQuery, generateDefaultRpc, generateDefaultRuntime, generateDefaultTsDef, generateDefaultTx } from './generate/index.js';
 
 const BASE = 'packages/api-augment/src';
-const METAS = Object.entries<HexString>({ kusama, polkadot, substrate, assetHubKusama, assetHubPolkadot });
+const METAS = Object.entries<HexString>({ assetHubKusama, assetHubPolkadot, kusama, polkadot, substrate });
 
 export function main (): void {
   generateDefaultInterface();

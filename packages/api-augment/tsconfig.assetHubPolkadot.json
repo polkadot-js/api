@@ -5,13 +5,12 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
+  "include": [
+    "**/base.ts",
+    "**/assetHubKusama/*.ts"
+  ],
   "exclude": [
-    "**/*.spec.ts",
-    "**/mod.ts",
-    "**/assetHubKusama/*.ts",
-    "**/assetHubPolkadot/*.ts",
-    "**/kusama/*.ts",
-    "**/polkadot/*.ts"
+    "**/assetHubKusama/*.spec.ts"
   ],
   "references": [
     { "path": "../api-base/tsconfig.build.json" },

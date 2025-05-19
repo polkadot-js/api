@@ -8,6 +8,8 @@
     { "path": "./packages/api/tsconfig.build.json" },
     { "path": "./packages/api/tsconfig.spec.json" },
     { "path": "./packages/api-augment/tsconfig.build.json" },
+    { "path": "./packages/api-augment/tsconfig.assetHubKusama.json" },
+    { "path": "./packages/api-augment/tsconfig.assetHubPolkadot.json" },
     { "path": "./packages/api-augment/tsconfig.kusama.json" },
     { "path": "./packages/api-augment/tsconfig.polkadot.json" },
     { "path": "./packages/api-base/tsconfig.build.json" },

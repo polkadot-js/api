@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, Text, Vec, bool, u128, u32 } from '@p
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
-import type { AccountId32, H256, Slot } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, H256, RuntimeCall, Slot, SlotDuration } from '@polkadot/types/interfaces/runtime';
 import type { AssetHubPolkadotRuntimeOriginCaller, AssetsCommonRuntimeApiFungiblesAccessError, CumulusPrimitivesCoreCollationInfo, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpConsensusAuraEd25519AppEd25519Public, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpVersionRuntimeVersion, SpWeightsWeightV2Weight, StagingXcmV4Location, XcmRuntimeApisConversionsError, XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError, XcmRuntimeApisDryRunXcmDryRunEffects, XcmRuntimeApisFeesError, XcmVersionedAssetId, XcmVersionedAssets, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
@@ -58,7 +58,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns the slot duration for Aura.,, Currently, only the value provided by this type at genesis will be used.
        **/
-      slotDuration: AugmentedCall<ApiType, () => Observable<SpConsensusSlotsSlotDuration>>;
+      slotDuration: AugmentedCall<ApiType, () => Observable<SlotDuration>>;
       /**
        * Generic call
        **/
@@ -133,7 +133,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Dry run call.
        **/
-      dryRunCall: AugmentedCall<ApiType, (origin: AssetHubPolkadotRuntimeOriginCaller | { system: any } | { Void: any } | { PolkadotXcm: any } | { CumulusXcm: any } | string | Uint8Array, call: AssetHubPolkadotRuntimeRuntimeCall | IMethod | string | Uint8Array) => Observable<Result<XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError>>>;
+      dryRunCall: AugmentedCall<ApiType, (origin: AssetHubPolkadotRuntimeOriginCaller | { system: any } | { Void: any } | { PolkadotXcm: any } | { CumulusXcm: any } | string | Uint8Array, call: RuntimeCall | IMethod | string | Uint8Array) => Observable<Result<XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError>>>;
       /**
        * Dry run XCM program
        **/
@@ -268,11 +268,11 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Query fee details of a given encoded `Call`.
        **/
-      queryCallFeeDetails: AugmentedCall<ApiType, (call: AssetHubPolkadotRuntimeRuntimeCall | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentFeeDetails>>;
+      queryCallFeeDetails: AugmentedCall<ApiType, (call: RuntimeCall | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentFeeDetails>>;
       /**
        * Query information of a dispatch class, weight, and fee of a given encoded `Call`.
        **/
-      queryCallInfo: AugmentedCall<ApiType, (call: AssetHubPolkadotRuntimeRuntimeCall | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentRuntimeDispatchInfo>>;
+      queryCallInfo: AugmentedCall<ApiType, (call: RuntimeCall | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<PalletTransactionPaymentRuntimeDispatchInfo>>;
       /**
        * Query the output of the current `LengthToFee` given some input.
        **/
