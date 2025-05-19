@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 16.0.1 May 19, 2025
+
+Changes:
+
+- Metadata v16 ([#6130](https://github.com/polkadot-js/api/pull/6130))
+- Add dryRunApi v2 definition ([#6144](https://github.com/polkadot-js/api/pull/6144))
+- Add type augmentation for AssetHub ([#6148](https://github.com/polkadot-js/api/pull/6148))
+- Upgrade polkadot/common to 13.5.1 ([#6150](https://github.com/polkadot-js/api/pull/6150))
+
+
 ## 15.10.2 May 13, 2025
 
 Changes:
