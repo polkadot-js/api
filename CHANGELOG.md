@@ -2,6 +2,13 @@
 
 ## 16.0.1 May 19, 2025
 
+Breaking Changes:
+- With the upgrade to Metadata v16, several fields have been removed or replaced. The following fields no longer exist in the updated metadata definitions:
+  - `type`: This field has been completely removed in Metadata.
+  - `version`: Previously part of `ExtrinsicMetadata`. Replaced by `versions`, which now holds an array `Vec<u8>` of supported extrinsic versions instead of a single value.
+  - `extraType`: This field has been completely removed in `ExtrinsicMetadata`.
+  - `signedExtensions`: Previously part of `ExtrinsicMetadata`. Replaced by `transactionExtensions`, which provides a more structured definition of extensions, and `transactionExtensionsByVersion`, mapping versions to active extensions.
+
 Changes:
 
 - Metadata v16 ([#6130](https://github.com/polkadot-js/api/pull/6130))
