@@ -14,6 +14,7 @@ import type { VersionedRegistry } from './types.js';
 import { firstValueFrom, map, of, switchMap } from 'rxjs';
 
 import { Metadata, TypeRegistry } from '@polkadot/types';
+import { LATEST_EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/constants';
 import { getSpecAlias, getSpecExtensions, getSpecHasher, getSpecRpc, getSpecTypes, getUpgradeVersion } from '@polkadot/types-known';
 import { assertReturn, BN_ZERO, isUndefined, logger, noop, objectSpread, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsHex, cryptoWaitReady } from '@polkadot/util-crypto';
@@ -22,7 +23,8 @@ import { Decorate } from './Decorate.js';
 
 const KEEPALIVE_INTERVAL = 10000;
 const WITH_VERSION_SHORTCUT = false;
-const SUPPORTED_METADATA_VERSIONS = [15, 14];
+
+const SUPPORTED_METADATA_VERSIONS = [16, 15, 14];
 
 const l = logger('api/init');
 
@@ -200,6 +202,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     );
 
     if (header.parentHash.isEmpty) {
+      l.warn(`Unable to retrieve header ${blockHash.toString()} and parent ${header.parentHash.toString()} from supplied hash`);
       throw new Error('Unable to retrieve header and parent from supplied hash');
     }
 
@@ -371,7 +374,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       throw new Error('Invalid initializion order, runtimeVersion is not available');
     }
 
-    this._extrinsicType = metadata.asLatest.extrinsic.version.toNumber();
+    this._extrinsicType = metadata.asLatest.extrinsic.versions.at(-1) || LATEST_EXTRINSIC_VERSION;
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = runtimeVersion;

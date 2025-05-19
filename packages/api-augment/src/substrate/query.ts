@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { BTreeSet, Bytes, Null, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H160, H256, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchPerDispatchClassWeight, FrameSupportPreimagesBounded, FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensMiscIdAmountRuntimeFreezeReason, FrameSupportTokensMiscIdAmountRuntimeHoldReason, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, KitchensinkRuntimeRuntimeParametersKey, KitchensinkRuntimeRuntimeParametersValue, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceMemberRole, PalletAssetConversionPoolInfo, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBountiesBounty, PalletBrokerAutoRenewalRecord, PalletBrokerConfigRecord, PalletBrokerContributionRecord, PalletBrokerInstaPoolHistoryRecord, PalletBrokerLeaseRecordItem, PalletBrokerOnDemandRevenueRecord, PalletBrokerPoolIoRecord, PalletBrokerPotentialRenewalId, PalletBrokerPotentialRenewalRecord, PalletBrokerRegionId, PalletBrokerRegionRecord, PalletBrokerSaleInfoRecord, PalletBrokerScheduleItem, PalletBrokerStatusRecord, PalletChildBountiesChildBounty, PalletCollectiveVotes, PalletContractsStorageContractInfo, PalletContractsStorageDeletionQueueManager, PalletContractsWasmCodeInfo, PalletConvictionVotingVoteVoting, PalletCoreFellowshipMemberStatus, PalletCoreFellowshipParamsTypeU128, PalletCoreFellowshipWish, PalletDemocracyMetadataOwner, PalletDemocracyReferendumInfo, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletFastUnstakeUnstakeRequest, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityAuthorityProperties, PalletIdentityProvider, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletIdentityUsernameInformation, PalletImOnlineSr25519AppSr25519Public, PalletLotteryLotteryConfig, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMigrationsMigrationCursor, PalletMixnetBoundedMixnode, PalletMultisigMultisig, PalletNftFractionalizationDetails, PalletNftsAttributeDeposit, PalletNftsAttributeNamespace, PalletNftsCollectionConfig, PalletNftsCollectionDetails, PalletNftsCollectionMetadata, PalletNftsItemConfig, PalletNftsItemDetails, PalletNftsItemMetadata, PalletNftsPendingSwap, PalletNisBid, PalletNisReceiptRecord, PalletNisSummaryRecord, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsClaimPermission, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRankedCollectiveMemberRecord, PalletRankedCollectiveVoteRecord, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReviveStorageContractInfo, PalletReviveStorageDeletionQueueManager, PalletReviveWasmCodeInfo, PalletSalaryClaimantStatus, PalletSalaryStatusType, PalletSchedulerRetryConfig, PalletSchedulerScheduled, PalletSocietyBid, PalletSocietyCandidacy, PalletSocietyGroupParams, PalletSocietyIntakeRecord, PalletSocietyMemberRecord, PalletSocietyPayoutRecord, PalletSocietyTally, PalletSocietyVote, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingForcing, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTipsOpenTip, PalletTransactionPaymentReleases, PalletTransactionStorageTransactionInfo, PalletTreasuryProposal, PalletTreasurySpendStatus, PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata, PalletUniquesItemDetails, PalletUniquesItemMetadata, PalletVestingReleases, PalletVestingVestingInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusGrandpaAppPublic, SpCoreCryptoKeyTypeId, SpMixnetAppPublic, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingExposure, SpStakingExposurePage, SpStakingOffenceOffenceDetails, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchPerDispatchClassWeight, FrameSupportPreimagesBounded, FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensMiscIdAmountRuntimeFreezeReason, FrameSupportTokensMiscIdAmountRuntimeHoldReason, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, KitchensinkRuntimeRuntimeParametersKey, KitchensinkRuntimeRuntimeParametersValue, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceMemberRole, PalletAssetConversionPoolInfo, PalletAssetRewardsPoolInfo, PalletAssetRewardsPoolStakerInfo, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBountiesBounty, PalletBrokerAutoRenewalRecord, PalletBrokerConfigRecord, PalletBrokerContributionRecord, PalletBrokerInstaPoolHistoryRecord, PalletBrokerLeaseRecordItem, PalletBrokerOnDemandRevenueRecord, PalletBrokerPoolIoRecord, PalletBrokerPotentialRenewalId, PalletBrokerPotentialRenewalRecord, PalletBrokerRegionId, PalletBrokerRegionRecord, PalletBrokerSaleInfoRecord, PalletBrokerScheduleItem, PalletBrokerStatusRecord, PalletChildBountiesChildBounty, PalletCollectiveVotes, PalletContractsStorageContractInfo, PalletContractsStorageDeletionQueueManager, PalletContractsWasmCodeInfo, PalletConvictionVotingVoteVoting, PalletCoreFellowshipMemberStatus, PalletCoreFellowshipParamsTypeU128, PalletCoreFellowshipWish, PalletDelegatedStakingAgentLedger, PalletDelegatedStakingDelegation, PalletDemocracyMetadataOwner, PalletDemocracyReferendumInfo, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenSeatHolder, PalletElectionsPhragmenVoter, PalletFastUnstakeUnstakeRequest, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletIdentityAuthorityProperties, PalletIdentityProvider, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletIdentityUsernameInformation, PalletImOnlineSr25519AppSr25519Public, PalletLotteryLotteryConfig, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMigrationsMigrationCursor, PalletMixnetBoundedMixnode, PalletMultisigMultisig, PalletNftFractionalizationDetails, PalletNftsAttributeDeposit, PalletNftsAttributeNamespace, PalletNftsCollectionConfig, PalletNftsCollectionDetails, PalletNftsCollectionMetadata, PalletNftsItemConfig, PalletNftsItemDetails, PalletNftsItemMetadata, PalletNftsPendingSwap, PalletNisBid, PalletNisReceiptRecord, PalletNisSummaryRecord, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsClaimPermission, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRankedCollectiveMemberRecord, PalletRankedCollectiveVoteRecord, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReviveStorageContractInfo, PalletReviveStorageDeletionQueueManager, PalletReviveWasmCodeInfo, PalletSalaryClaimantStatus, PalletSalaryStatusType, PalletSchedulerRetryConfig, PalletSchedulerScheduled, PalletSocietyBid, PalletSocietyCandidacy, PalletSocietyGroupParams, PalletSocietyIntakeRecord, PalletSocietyMemberRecord, PalletSocietyPayoutRecord, PalletSocietyTally, PalletSocietyVote, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingForcing, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTipsOpenTip, PalletTransactionPaymentReleases, PalletTransactionStorageTransactionInfo, PalletTreasuryProposal, PalletTreasurySpendStatus, PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata, PalletUniquesItemDetails, PalletUniquesItemMetadata, PalletVestingReleases, PalletVestingVestingInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusGrandpaAppPublic, SpCoreCryptoKeyTypeId, SpMixnetAppPublic, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingExposure, SpStakingExposurePage, SpStakingOffenceOffenceDetails, SpStakingPagedExposureMetadata, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 import type { Observable } from '@polkadot/types/types';
 
 export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType, () => unknown>;
@@ -120,6 +120,33 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
+    assetRewards: {
+      /**
+       * Stores the [`PoolId`] to use for the next pool.
+       * 
+       * Incremented when a new pool is created.
+       **/
+      nextPoolId: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The cost associated with storing pool information on-chain which was incurred by the pool
+       * creator.
+       * 
+       * This cost may be [`None`], as determined by [`Config::Consideration`].
+       **/
+      poolCost: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<ITuple<[AccountId32, u128]>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * State and configuration of each staking pool.
+       **/
+      pools: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletAssetRewardsPoolInfo>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * State of pool stakers.
+       **/
+      poolStakers: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Option<PalletAssetRewardsPoolStakerInfo>>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     assets: {
       /**
        * The holdings of a specific account for a specific asset.
@@ -151,6 +178,20 @@ declare module '@polkadot/api-base/types/storage' {
        * [SetNextAssetId](`migration::next_asset_id::SetNextAssetId`) migration.
        **/
       nextAssetId: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    assetsFreezer: {
+      /**
+       * A map that stores freezes applied on an account for a given AssetId.
+       **/
+      freezes: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Vec<FrameSupportTokensMiscIdAmountRuntimeFreezeReason>>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
+      /**
+       * A map that stores the current total frozen balance for every account on a given AssetId.
+       **/
+      frozenBalances: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array) => Observable<Option<u128>>, [u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, AccountId32]>;
       /**
        * Generic query
        **/
@@ -655,6 +696,31 @@ declare module '@polkadot/api-base/types/storage' {
        * Votes on a given proposal, if it is ongoing.
        **/
       voting: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletCollectiveVotes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    delegatedStaking: {
+      /**
+       * Map of `Agent` to their `Ledger`.
+       **/
+      agents: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletDelegatedStakingAgentLedger>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Counter for the related counted storage map
+       **/
+      counterForAgents: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Counter for the related counted storage map
+       **/
+      counterForDelegators: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Map of Delegators to their `Delegation`.
+       * 
+       * Implementation note: We are not using a double map with `delegator` and `agent` account
+       * as keys since we want to restrict delegators to delegate only to one account at a time.
+       **/
+      delegators: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletDelegatedStakingDelegation>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * Generic query
        **/
@@ -1485,7 +1551,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Stored parameters.
        **/
-      parameters: AugmentedQuery<ApiType, (arg: KitchensinkRuntimeRuntimeParametersKey | { Storage: any } | string | Uint8Array) => Observable<Option<KitchensinkRuntimeRuntimeParametersValue>>, [KitchensinkRuntimeRuntimeParametersKey]> & QueryableStorageEntry<ApiType, [KitchensinkRuntimeRuntimeParametersKey]>;
+      parameters: AugmentedQuery<ApiType, (arg: KitchensinkRuntimeRuntimeParametersKey | { Storage: any } | { Referenda: any } | string | Uint8Array) => Observable<Option<KitchensinkRuntimeRuntimeParametersValue>>, [KitchensinkRuntimeRuntimeParametersKey]> & QueryableStorageEntry<ApiType, [KitchensinkRuntimeRuntimeParametersKey]>;
       /**
        * Generic query
        **/
@@ -1724,14 +1790,6 @@ declare module '@polkadot/api-base/types/storage' {
     };
     revive: {
       /**
-       * Map a Ethereum address to its original `AccountId32`.
-       * 
-       * Stores the last 12 byte for addresses that were originally an `AccountId32` instead
-       * of an `H160`. Register your `AccountId32` using [`Pallet::map_account`] in order to
-       * use it with this pallet.
-       **/
-      addressSuffix: AugmentedQuery<ApiType, (arg: H160 | string | Uint8Array) => Observable<Option<U8aFixed>>, [H160]> & QueryableStorageEntry<ApiType, [H160]>;
-      /**
        * A mapping from a contract's code hash to its code info.
        **/
       codeInfoOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletReviveWasmCodeInfo>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
@@ -1755,6 +1813,15 @@ declare module '@polkadot/api-base/types/storage' {
        * The immutable data associated with a given account.
        **/
       immutableDataOf: AugmentedQuery<ApiType, (arg: H160 | string | Uint8Array) => Observable<Option<Bytes>>, [H160]> & QueryableStorageEntry<ApiType, [H160]>;
+      /**
+       * Map a Ethereum address to its original `AccountId32`.
+       * 
+       * When deriving a `H160` from an `AccountId32` we use a hash function. In order to
+       * reconstruct the original account we need to store the reverse mapping here.
+       * Register your `AccountId32` using [`Pallet::map_account`] in order to
+       * use it with this pallet.
+       **/
+      originalAccount: AugmentedQuery<ApiType, (arg: H160 | string | Uint8Array) => Observable<Option<AccountId32>>, [H160]> & QueryableStorageEntry<ApiType, [H160]>;
       /**
        * A mapping from a contract's code hash to its code.
        **/
@@ -1804,6 +1871,9 @@ declare module '@polkadot/api-base/types/storage' {
        * Items to be executed, indexed by the block number that they should be executed on.
        **/
       agenda: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<Option<PalletSchedulerScheduled>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * Block number at which the agenda began incomplete execution.
+       **/
       incompleteSince: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Lookup from a name to the block number and index of the task.
@@ -1833,7 +1903,7 @@ declare module '@polkadot/api-base/types/storage' {
        * disabled using binary search. It gets cleared when `on_session_ending` returns
        * a new set of identities.
        **/
-      disabledValidators: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      disabledValidators: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u32, Perbill]>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The owner of a key. The key is the `KeyTypeId` + the encoded key.
        **/
@@ -2014,16 +2084,6 @@ declare module '@polkadot/api-base/types/storage' {
        * This is basically in sync with the call to [`pallet_session::SessionManager::new_session`].
        **/
       currentPlannedSession: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Indices of validators that have offended in the active era. The offenders are disabled for a
-       * whole era. For this reason they are kept here - only staking pallet knows about eras. The
-       * implementor of [`DisablingStrategy`] defines if a validator should be disabled which
-       * implicitly means that the implementor also controls the max number of disabled validators.
-       * 
-       * The vec is always kept sorted so that we can find whether a given validator has previously
-       * offended using binary search.
-       **/
-      disabledValidators: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Rewards for the last [`Config::HistoryDepth`] eras.
        * If reward hasn't been set or has been removed then 0 reward is returned.
@@ -2345,6 +2405,16 @@ declare module '@polkadot/api-base/types/storage' {
        * Extrinsics data for the current block (maps an extrinsic's index to its data).
        **/
       extrinsicData: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Bytes>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * The weight reclaimed for the extrinsic.
+       * 
+       * This information is available until the end of the extrinsic execution.
+       * More precisely this information is removed in `note_applied_extrinsic`.
+       * 
+       * Logic doing some post dispatch weight reduction must update this storage to avoid duplicate
+       * reduction.
+       **/
+      extrinsicWeightReclaimed: AugmentedQuery<ApiType, () => Observable<SpWeightsWeightV2Weight>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Whether all inherents have been applied.
        **/

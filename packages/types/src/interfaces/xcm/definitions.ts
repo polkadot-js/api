@@ -13,8 +13,9 @@ import { v1 } from './v1.js';
 import { v2 } from './v2.js';
 import { v3 } from './v3.js';
 import { v4 } from './v4.js';
+import { v5 } from './v5.js';
 
-const XCM_LATEST = 'V4';
+const XCM_LATEST = 'V5';
 
 const xcm = {
   XcmOrigin: {
@@ -91,6 +92,7 @@ export default {
     ...v2,
     ...v3,
     ...v4,
+    ...v5,
     ...mapXcmTypes(XCM_LATEST),
     DoubleEncodedCall: {
       encoded: 'Bytes'
@@ -140,7 +142,8 @@ export default {
         V1: 'MultiAssetV1',
         V2: 'MultiAssetV2',
         V3: 'MultiAssetV3',
-        V4: 'MultiAssetV4'
+        V4: 'MultiAssetV4',
+        V5: 'MultiAssetV5'
       }
     },
     VersionedMultiAssets: {
@@ -149,7 +152,8 @@ export default {
         V1: 'MultiAssetsV1',
         V2: 'MultiAssetsV2',
         V3: 'MultiAssetsV3',
-        V4: 'MultiAssetsV4'
+        V4: 'MultiAssetsV4',
+        V5: 'MultiAssetsV5'
       }
     },
     VersionedMultiLocation: {
@@ -158,7 +162,8 @@ export default {
         V1: 'MultiLocationV1',
         V2: 'MultiLocationV2',
         V3: 'MultiLocationV3',
-        V4: 'MultiLocationV4'
+        V4: 'MultiLocationV4',
+        v5: 'MultiLocationV5'
       }
     },
     VersionedResponse: {
@@ -166,7 +171,8 @@ export default {
       V1: 'ResponseV1',
       V2: 'ResponseV2',
       V3: 'ResponseV3',
-      V4: 'ResponseV4'
+      V4: 'ResponseV4',
+      V5: 'ResponseV5'
     },
     VersionedXcm: {
       _enum: {
@@ -174,7 +180,8 @@ export default {
         V1: 'XcmV1',
         V2: 'XcmV2',
         V3: 'XcmV3',
-        V4: 'XcmV4'
+        V4: 'XcmV4',
+        V5: 'XcmV5'
       }
     },
     XcmVersion: 'u32'

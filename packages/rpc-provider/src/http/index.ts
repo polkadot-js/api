@@ -9,7 +9,7 @@ import { fetch } from '@polkadot/x-fetch';
 
 import { RpcCoder } from '../coder/index.js';
 import defaults from '../defaults.js';
-import { DEFAULT_CAPACITY, LRUCache } from '../lru.js';
+import { DEFAULT_CAPACITY, DEFAULT_TTL, LRUCache } from '../lru.js';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
 
@@ -45,8 +45,11 @@ export class HttpProvider implements ProviderInterface {
 
   /**
    * @param {string} endpoint The endpoint url starting with http://
+   * @param {Record<string, string>} headers The headers provided to the underlying Http Endpoint
+   * @param {number} [cacheCapacity] Custom size of the HttpProvider LRUCache. Defaults to `DEFAULT_CAPACITY` (1024)
+   * @param {number} [cacheTtl] Custom TTL of the HttpProvider LRUCache. Determines how long an object can live in the cache. Defaults to `DEFAULT_TTL` (30000)
    */
-  constructor (endpoint: string = defaults.HTTP_URL, headers: Record<string, string> = {}, cacheCapacity?: number) {
+  constructor (endpoint: string = defaults.HTTP_URL, headers: Record<string, string> = {}, cacheCapacity?: number, cacheTtl?: number) {
     if (!/^(https|http):\/\//.test(endpoint)) {
       throw new Error(`Endpoint should start with 'http://' or 'https://', received '${endpoint}'`);
     }
@@ -54,7 +57,7 @@ export class HttpProvider implements ProviderInterface {
     this.#coder = new RpcCoder();
     this.#endpoint = endpoint;
     this.#headers = headers;
-    this.#callCache = new LRUCache(cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY);
+    this.#callCache = new LRUCache(cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY, cacheTtl || DEFAULT_TTL);
     this.#cacheCapacity = cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY;
 
     this.#stats = {

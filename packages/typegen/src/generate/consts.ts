@@ -4,7 +4,6 @@
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { Definitions } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -14,6 +13,7 @@ import { stringCamelCase } from '@polkadot/util';
 
 import { compareName, createImports, formatType, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
 import { ignoreUnusedLookups } from './lookup.js';
+import { type ExtraTypes, getDeprecationNotice } from './types.js';
 
 const generateForMetaTemplate = Handlebars.compile(readTemplate('consts'));
 
@@ -45,9 +45,19 @@ function generateForMeta (meta: Metadata, dest: string, extraTypes: ExtraTypes, 
         }
 
         const items = constants
-          .map(({ docs, name, type }) => {
+          .map(({ deprecationInfo, docs, name, type }) => {
             const typeDef = lookup.getTypeDef(type);
             const returnType = typeDef.lookupName || formatType(registry, allDefs, typeDef, imports);
+
+            if (!deprecationInfo.isNotDeprecated) {
+              const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name), 'Constant');
+
+              const items = docs.length
+                ? ['', deprecationNotice]
+                : [deprecationNotice];
+
+              docs.push(...items.map((text) => registry.createType('Text', text)));
+            }
 
             // Add the type to the list of used types
             if (!(imports.primitiveTypes[returnType])) {

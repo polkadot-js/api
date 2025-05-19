@@ -10,7 +10,7 @@ import type { BTreeMap, BTreeSet, Bytes, Null, Option, Struct, U8aFixed, Vec, bo
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
-import type { BinaryHeapEnqueuedOrder, FrameSupportDispatchPerDispatchClassWeight, FrameSupportTokensMiscIdAmount, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletConvictionVotingVoteVoting, PalletDelegatedStakingAgentLedger, PalletDelegatedStakingDelegation, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletFastUnstakeUnstakeRequest, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMultisigMultisig, PalletNisBid, PalletNisReceiptRecord, PalletNisSummaryRecord, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsClaimPermission, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRankedCollectiveMemberRecord, PalletRankedCollectiveVoteRecord, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletSchedulerRetryConfig, PalletSchedulerScheduled, PalletSocietyBid, PalletSocietyCandidacy, PalletSocietyGroupParams, PalletSocietyIntakeRecord, PalletSocietyMemberRecord, PalletSocietyPayoutRecord, PalletSocietyTally, PalletSocietyVote, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingForcing, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletTransactionPaymentReleases, PalletTreasuryProposal, PalletTreasurySpendStatus, PalletVestingReleases, PalletVestingVestingInfo, PalletXcmQueryStatus, PalletXcmRemoteLockedFungibleRecord, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV8AssignmentAppPublic, PolkadotPrimitivesV8DisputeState, PolkadotPrimitivesV8ExecutorParams, PolkadotPrimitivesV8ScrapedOnChainVotes, PolkadotPrimitivesV8SessionInfo, PolkadotPrimitivesV8SlashingPendingSlashes, PolkadotPrimitivesV8UpgradeGoAhead, PolkadotPrimitivesV8UpgradeRestriction, PolkadotPrimitivesV8ValidatorAppPublic, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsAssignerCoretimeSchedule, PolkadotRuntimeParachainsConfigurationHostConfiguration, PolkadotRuntimeParachainsHrmpHrmpChannel, PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, PolkadotRuntimeParachainsInclusionCandidatePendingAvailability, PolkadotRuntimeParachainsInitializerBufferedSessionChange, PolkadotRuntimeParachainsOnDemandTypesCoreAffinityCount, PolkadotRuntimeParachainsOnDemandTypesEnqueuedOrder, PolkadotRuntimeParachainsOnDemandTypesQueueStatusType, PolkadotRuntimeParachainsParasParaGenesisArgs, PolkadotRuntimeParachainsParasParaLifecycle, PolkadotRuntimeParachainsParasParaPastCodeMeta, PolkadotRuntimeParachainsParasPvfCheckActiveVoteState, PolkadotRuntimeParachainsSchedulerPalletCoreOccupied, PolkadotRuntimeParachainsSchedulerPalletParasEntry, PolkadotRuntimeParachainsSharedAllowedRelayParentsTracker, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusGrandpaAppPublic, SpCoreCryptoKeyTypeId, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingExposure, SpStakingExposurePage, SpStakingOffenceOffenceDetails, SpStakingPagedExposureMetadata, SpWeightsWeightV2Weight, StagingKusamaRuntimeRuntimeFreezeReason, StagingKusamaRuntimeRuntimeHoldReason, StagingKusamaRuntimeRuntimeParametersKey, StagingKusamaRuntimeRuntimeParametersValue, StagingKusamaRuntimeSessionKeys, StagingXcmV4Instruction, XcmVersionedAssetId, XcmVersionedLocation } from '@polkadot/types/lookup';
+import type { BinaryHeapEnqueuedOrder, FrameSupportDispatchPerDispatchClassWeight, FrameSupportTokensMiscIdAmount, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletConvictionVotingVoteVoting, PalletDelegatedStakingAgentLedger, PalletDelegatedStakingDelegation, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletFastUnstakeUnstakeRequest, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMultisigMultisig, PalletNisBid, PalletNisReceiptRecord, PalletNisSummaryRecord, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsClaimPermission, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRankedCollectiveMemberRecord, PalletRankedCollectiveVoteRecord, PalletRecoveryActiveRecovery, PalletRecoveryRecoveryConfig, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletSchedulerRetryConfig, PalletSchedulerScheduled, PalletSocietyBid, PalletSocietyCandidacy, PalletSocietyGroupParams, PalletSocietyIntakeRecord, PalletSocietyMemberRecord, PalletSocietyPayoutRecord, PalletSocietyTally, PalletSocietyVote, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingForcing, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletTransactionPaymentReleases, PalletTreasuryProposal, PalletTreasurySpendStatus, PalletVestingReleases, PalletVestingVestingInfo, PalletXcmQueryStatus, PalletXcmRemoteLockedFungibleRecord, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV8AssignmentAppPublic, PolkadotPrimitivesV8DisputeState, PolkadotPrimitivesV8ExecutorParams, PolkadotPrimitivesV8SessionInfo, PolkadotPrimitivesV8SlashingPendingSlashes, PolkadotPrimitivesV8UpgradeGoAhead, PolkadotPrimitivesV8UpgradeRestriction, PolkadotPrimitivesV8ValidatorAppPublic, PolkadotPrimitivesVstagingScrapedOnChainVotes, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsAssignerCoretimeSchedule, PolkadotRuntimeParachainsConfigurationHostConfiguration, PolkadotRuntimeParachainsHrmpHrmpChannel, PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, PolkadotRuntimeParachainsInclusionCandidatePendingAvailability, PolkadotRuntimeParachainsInitializerBufferedSessionChange, PolkadotRuntimeParachainsOnDemandTypesCoreAffinityCount, PolkadotRuntimeParachainsOnDemandTypesEnqueuedOrder, PolkadotRuntimeParachainsOnDemandTypesQueueStatusType, PolkadotRuntimeParachainsParasParaGenesisArgs, PolkadotRuntimeParachainsParasParaLifecycle, PolkadotRuntimeParachainsParasParaPastCodeMeta, PolkadotRuntimeParachainsParasPvfCheckActiveVoteState, PolkadotRuntimeParachainsSchedulerCommonAssignment, PolkadotRuntimeParachainsSharedAllowedRelayParentsTracker, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusGrandpaAppPublic, SpCoreCryptoKeyTypeId, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingExposure, SpStakingExposurePage, SpStakingOffenceOffenceDetails, SpStakingPagedExposureMetadata, SpWeightsWeightV2Weight, StagingKusamaRuntimeRuntimeFreezeReason, StagingKusamaRuntimeRuntimeHoldReason, StagingKusamaRuntimeRuntimeParametersKey, StagingKusamaRuntimeRuntimeParametersValue, StagingKusamaRuntimeSessionKeys, StagingXcmV5Instruction, XcmVersionedAssetId, XcmVersionedLocation } from '@polkadot/types/lookup';
 import type { Observable } from '@polkadot/types/types';
 
 export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType, () => unknown>;
@@ -24,7 +24,7 @@ declare module '@polkadot/api-base/types/storage' {
        * 
        * E.g. `native_amount = asset_amount * ConversionRateToNative::<T>::get(asset_kind)`
        **/
-      conversionRateToNative: AugmentedQuery<ApiType, (arg: PolkadotRuntimeCommonImplsVersionedLocatableAsset | { V3: any } | { V4: any } | string | Uint8Array) => Observable<Option<u128>>, [PolkadotRuntimeCommonImplsVersionedLocatableAsset]> & QueryableStorageEntry<ApiType, [PolkadotRuntimeCommonImplsVersionedLocatableAsset]>;
+      conversionRateToNative: AugmentedQuery<ApiType, (arg: PolkadotRuntimeCommonImplsVersionedLocatableAsset | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Option<u128>>, [PolkadotRuntimeCommonImplsVersionedLocatableAsset]> & QueryableStorageEntry<ApiType, [PolkadotRuntimeCommonImplsVersionedLocatableAsset]>;
       /**
        * Generic query
        **/
@@ -345,22 +345,37 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       childBounties: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletChildBountiesChildBounty>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
-       * Number of total child bounties.
+       * DEPRECATED: Replaced with `ParentTotalChildBounties` storage item keeping dedicated counts
+       * for each parent bounty. Number of total child bounties. Will be removed in May 2025.
        **/
       childBountyCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * The description of each child-bounty.
+       * The description of each child-bounty. Indexed by `(parent_id, child_id)`.
+       * 
+       * This item replaces the `ChildBountyDescriptions` storage item from the V0 storage version.
        **/
-      childBountyDescriptions: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Bytes>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      childBountyDescriptionsV1: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<Bytes>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
        * The cumulative child-bounty curator fee for each parent bounty.
        **/
       childrenCuratorFees: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<u128>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
-       * Number of child bounties per parent bounty.
+       * Number of active child bounties per parent bounty.
        * Map of parent bounty index to number of child bounties.
        **/
       parentChildBounties: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<u32>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * Number of total child bounties per parent bounty, including completed bounties.
+       **/
+      parentTotalChildBounties: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<u32>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * The mapping of the child bounty ids from storage version `V0` to the new `V1` version.
+       * 
+       * The `V0` ids based on total child bounty count [`ChildBountyCount`]`. The `V1` version ids
+       * based on the child bounty count per parent bounty [`ParentTotalChildBounties`].
+       * The item intended solely for client convenience and not used in the pallet's core logic.
+       **/
+      v0ToV1ChildBountyIds: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<ITuple<[u32, u32]>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
        * Generic query
        **/
@@ -856,7 +871,7 @@ declare module '@polkadot/api-base/types/storage' {
     };
     initializer: {
       /**
-       * Buffered session changes along with the block number at which they should be applied.
+       * Buffered session changes.
        * 
        * Typically this will be empty or one element long. Apart from that this item never hits
        * the storage.
@@ -1202,7 +1217,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Scraped on chain data for extracting resolved disputes as well as backing votes.
        **/
-      onChainVotes: AugmentedQuery<ApiType, () => Observable<Option<PolkadotPrimitivesV8ScrapedOnChainVotes>>, []> & QueryableStorageEntry<ApiType, []>;
+      onChainVotes: AugmentedQuery<ApiType, () => Observable<Option<PolkadotPrimitivesVstagingScrapedOnChainVotes>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -1370,20 +1385,10 @@ declare module '@polkadot/api-base/types/storage' {
     };
     paraScheduler: {
       /**
-       * One entry for each availability core. The i'th parachain belongs to the i'th core, with the
-       * remaining cores all being on demand parachain multiplexers.
-       * 
-       * Bounded by the maximum of either of these two values:
-       * * The number of parachains and parathread multiplexers
-       * * The number of validators divided by `configuration.max_validators_per_core`.
-       **/
-      availabilityCores: AugmentedQuery<ApiType, () => Observable<Vec<PolkadotRuntimeParachainsSchedulerPalletCoreOccupied>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
        * One entry for each availability core. The `VecDeque` represents the assignments to be
-       * scheduled on that core. The value contained here will not be valid after the end of
-       * a block. Runtime APIs should be used to determine scheduled cores for the upcoming block.
+       * scheduled on that core.
        **/
-      claimQueue: AugmentedQuery<ApiType, () => Observable<BTreeMap<u32, Vec<PolkadotRuntimeParachainsSchedulerPalletParasEntry>>>, []> & QueryableStorageEntry<ApiType, []>;
+      claimQueue: AugmentedQuery<ApiType, () => Observable<BTreeMap<u32, Vec<PolkadotRuntimeParachainsSchedulerCommonAssignment>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The block number where the session start occurred. Used to track how many group rotations
        * have occurred.
@@ -2210,6 +2215,9 @@ declare module '@polkadot/api-base/types/storage' {
     };
     treasury: {
       /**
+       * DEPRECATED: associated with `spend_local` call and will be removed in May 2025.
+       * Refer to <https://github.com/paritytech/polkadot-sdk/pull/5961> for migration to `spend`.
+       * 
        * Proposal indices that have been approved but not yet awarded.
        **/
       approvals: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
@@ -2218,10 +2226,20 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       deactivated: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * The blocknumber for the last triggered spend period.
+       **/
+      lastSpendPeriod: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * DEPRECATED: associated with `spend_local` call and will be removed in May 2025.
+       * Refer to <https://github.com/paritytech/polkadot-sdk/pull/5961> for migration to `spend`.
+       * 
        * Number of proposals that have been made.
        **/
       proposalCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * DEPRECATED: associated with `spend_local` call and will be removed in May 2025.
+       * Refer to <https://github.com/paritytech/polkadot-sdk/pull/5961> for migration to `spend`.
+       * 
        * Proposals that have been made.
        **/
       proposals: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletTreasuryProposal>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
@@ -2315,11 +2333,11 @@ declare module '@polkadot/api-base/types/storage' {
        * Only relevant if this pallet is being used as the [`xcm_executor::traits::RecordXcm`]
        * implementation in the XCM executor configuration.
        **/
-      recordedXcm: AugmentedQuery<ApiType, () => Observable<Option<Vec<StagingXcmV4Instruction>>>, []> & QueryableStorageEntry<ApiType, []>;
+      recordedXcm: AugmentedQuery<ApiType, () => Observable<Option<Vec<StagingXcmV5Instruction>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Fungible assets which we know are locked on a remote chain.
        **/
-      remoteLockedFungibles: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array, arg3: XcmVersionedAssetId | { V3: any } | { V4: any } | string | Uint8Array) => Observable<Option<PalletXcmRemoteLockedFungibleRecord>>, [u32, AccountId32, XcmVersionedAssetId]> & QueryableStorageEntry<ApiType, [u32, AccountId32, XcmVersionedAssetId]>;
+      remoteLockedFungibles: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: AccountId32 | string | Uint8Array, arg3: XcmVersionedAssetId | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Option<PalletXcmRemoteLockedFungibleRecord>>, [u32, AccountId32, XcmVersionedAssetId]> & QueryableStorageEntry<ApiType, [u32, AccountId32, XcmVersionedAssetId]>;
       /**
        * Default version to encode XCM when latest version of destination is unknown. If `None`,
        * then the destinations whose XCM version is unknown are considered unreachable.
@@ -2338,7 +2356,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * The Latest versions that we know various locations support.
        **/
-      supportedVersion: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: XcmVersionedLocation | { V2: any } | { V3: any } | { V4: any } | string | Uint8Array) => Observable<Option<u32>>, [u32, XcmVersionedLocation]> & QueryableStorageEntry<ApiType, [u32, XcmVersionedLocation]>;
+      supportedVersion: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Option<u32>>, [u32, XcmVersionedLocation]> & QueryableStorageEntry<ApiType, [u32, XcmVersionedLocation]>;
       /**
        * Destinations whose latest XCM version we would like to know. Duplicates not allowed, and
        * the `u32` counter is the number of times that a send to the destination has been attempted,
@@ -2348,12 +2366,12 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * All locations that we have requested version notifications from.
        **/
-      versionNotifiers: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: XcmVersionedLocation | { V2: any } | { V3: any } | { V4: any } | string | Uint8Array) => Observable<Option<u64>>, [u32, XcmVersionedLocation]> & QueryableStorageEntry<ApiType, [u32, XcmVersionedLocation]>;
+      versionNotifiers: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Option<u64>>, [u32, XcmVersionedLocation]> & QueryableStorageEntry<ApiType, [u32, XcmVersionedLocation]>;
       /**
        * The target locations that are subscribed to our version changes, as well as the most recent
        * of our versions we informed them of.
        **/
-      versionNotifyTargets: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: XcmVersionedLocation | { V2: any } | { V3: any } | { V4: any } | string | Uint8Array) => Observable<Option<ITuple<[u64, SpWeightsWeightV2Weight, u32]>>>, [u32, XcmVersionedLocation]> & QueryableStorageEntry<ApiType, [u32, XcmVersionedLocation]>;
+      versionNotifyTargets: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Option<ITuple<[u64, SpWeightsWeightV2Weight, u32]>>>, [u32, XcmVersionedLocation]> & QueryableStorageEntry<ApiType, [u32, XcmVersionedLocation]>;
       /**
        * Global suspension state of the XCM executor.
        **/

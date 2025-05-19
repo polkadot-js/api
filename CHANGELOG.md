@@ -1,5 +1,46 @@
 # CHANGELOG
 
+## 15.10.2 May 13, 2025
+
+Changes:
+
+- Fix StagingXcmV5Junctions generation ([#6145](https://github.com/polkadot-js/api/pull/6145))
+
+
+## 15.10.1 May 13, 2025
+
+Changes:
+
+- Update Substrate types for polkadot-sdk v2503-2-rc1 ([#6137](https://github.com/polkadot-js/api/pull/6137))
+- Upgrade Kusama types to 1.5.0 ([#6139](https://github.com/polkadot-js/api/pull/6139))
+- Upgrade Polkadot types to 1.5.0 ([#6140](https://github.com/polkadot-js/api/pull/6140))
+- Improve Xcm V5 support ([#6142](https://github.com/polkadot-js/api/pull/6142))
+
+
+## 15.9.3 May 6, 2025
+
+Contributed:
+
+- Throws detailed error information ([#6116](https://github.com/polkadot-js/api/pull/6116))
+
+
+## 15.9.2 Apr 15, 2025
+
+Changes:
+
+- Enhance property access validation in Struct decoding ([#6126](https://github.com/polkadot-js/api/pull/6126))
+- Improve type registry known defaults implementation to a Map ([#6127](https://github.com/polkadot-js/api/pull/6127))
+- bump polkadot/common to 13.4.4 ([#6128](https://github.com/polkadot-js/api/pull/6128))
+
+
+## 15.9.1 Mar 27, 2025
+
+Changes:
+
+- Fix signAsync() docs ([#6121](https://github.com/polkadot-js/api/pull/6121))
+- Make TTL configurable on WsProvider & HttpProvider ([#6123](https://github.com/polkadot-js/api/pull/6123))
+
+
 ## 15.8.1 Mar 10, 2025
 
 Changes:

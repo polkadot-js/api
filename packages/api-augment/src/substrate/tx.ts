@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H160, H256, MultiAddress, Perbill, Percent, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerOnDemandRevenueRecord, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsTypeOption, PalletCoreFellowshipParamsTypeU128, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyForkVotingProofAncestryProof, SpConsensusBeefyFutureBlockVotingProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
+import type { FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime, FrameSupportTokensFungibleUnionOfNativeOrWithId, KitchensinkRuntimeOriginCaller, KitchensinkRuntimeProxyType, KitchensinkRuntimeRuntimeParameters, KitchensinkRuntimeSessionKeys, PalletAllianceCid, PalletAllianceDisbandWitness, PalletAllianceUnscrupulousItem, PalletBalancesAdjustmentDirection, PalletBrokerConfigRecord, PalletBrokerCoreMask, PalletBrokerFinality, PalletBrokerOnDemandRevenueRecord, PalletBrokerRegionId, PalletBrokerScheduleItem, PalletContractsWasmDeterminism, PalletConvictionVotingConviction, PalletConvictionVotingVoteAccountVote, PalletCoreFellowshipParamsTypeOption, PalletCoreFellowshipParamsTypeU128, PalletCoreFellowshipWish, PalletDemocracyConviction, PalletDemocracyMetadataOwner, PalletDemocracyVoteAccountVote, PalletElectionProviderMultiPhaseRawSolution, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletElectionsPhragmenRenouncing, PalletIdentityJudgement, PalletIdentityLegacyIdentityInfo, PalletImOnlineHeartbeat, PalletImOnlineSr25519AppSr25519Signature, PalletMetaTxMetaTx, PalletMigrationsHistoricCleanupSelector, PalletMigrationsMigrationCursor, PalletMixnetRegistration, PalletMultisigTimepoint, PalletNftsAttributeNamespace, PalletNftsCancelAttributesApprovalWitness, PalletNftsCollectionConfig, PalletNftsDestroyWitness, PalletNftsItemConfig, PalletNftsItemTip, PalletNftsMintSettings, PalletNftsMintWitness, PalletNftsPreSignedAttributes, PalletNftsPreSignedMint, PalletNftsPriceWithDirection, PalletNominationPoolsBondExtra, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsConfigOpAccountId32, PalletNominationPoolsConfigOpPerbill, PalletNominationPoolsConfigOpU128, PalletNominationPoolsConfigOpU32, PalletNominationPoolsPoolState, PalletStakingPalletConfigOpPerbill, PalletStakingPalletConfigOpPercent, PalletStakingPalletConfigOpU128, PalletStakingPalletConfigOpU32, PalletStakingRewardDestination, PalletStakingUnlockChunk, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletStateTrieMigrationProgress, PalletUniquesDestroyWitness, PalletVestingVestingInfo, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyForkVotingProofAncestryProof, SpConsensusBeefyFutureBlockVotingProof, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpMixnetAppSignature, SpNposElectionsElectionScore, SpNposElectionsSupport, SpRuntimeMultiSignature, SpSessionMembershipProof, SpTransactionStorageProofTransactionStorageProof, SpWeightsWeightV2Weight } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -355,6 +355,93 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
+    assetRewards: {
+      /**
+       * Cleanup a pool.
+       * 
+       * Origin must be the pool admin.
+       * 
+       * Cleanup storage, release any associated storage cost and return the remaining reward
+       * tokens to the admin.
+       **/
+      cleanupPool: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
+       * Create a new reward pool.
+       * 
+       * Parameters:
+       * - `origin`: must be `Config::CreatePoolOrigin`;
+       * - `staked_asset_id`: the asset to be staked in the pool;
+       * - `reward_asset_id`: the asset to be distributed as rewards;
+       * - `reward_rate_per_block`: the amount of reward tokens distributed per block;
+       * - `expiry`: the block number at which the pool will cease to accumulate rewards. The
+       * [`DispatchTime::After`] variant evaluated at the execution time.
+       * - `admin`: the account allowed to extend the pool expiration, increase the rewards rate
+       * and receive the unutilized reward tokens back after the pool completion. If `None`,
+       * the caller is set as an admin.
+       **/
+      createPool: AugmentedSubmittable<(stakedAssetId: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array, rewardAssetId: FrameSupportTokensFungibleUnionOfNativeOrWithId | { Native: any } | { WithId: any } | string | Uint8Array, rewardRatePerBlock: u128 | AnyNumber | Uint8Array, expiry: FrameSupportScheduleDispatchTime | { At: any } | { After: any } | string | Uint8Array, admin: Option<AccountId32> | null | Uint8Array | AccountId32 | string) => SubmittableExtrinsic<ApiType>, [FrameSupportTokensFungibleUnionOfNativeOrWithId, FrameSupportTokensFungibleUnionOfNativeOrWithId, u128, FrameSupportScheduleDispatchTime, Option<AccountId32>]>;
+      /**
+       * Convenience method to deposit reward tokens into a pool.
+       * 
+       * This method is not strictly necessary (tokens could be transferred directly to the
+       * pool pot address), but is provided for convenience so manual derivation of the
+       * account id is not required.
+       **/
+      depositRewardTokens: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u128]>;
+      /**
+       * Harvest unclaimed pool rewards.
+       * 
+       * Parameters:
+       * - origin: must be the `staker` if the pool is still active. Otherwise, any account.
+       * - pool_id: the pool to harvest from.
+       * - staker: the account for which to harvest rewards. If `None`, the caller is used.
+       **/
+      harvestRewards: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, staker: Option<AccountId32> | null | Uint8Array | AccountId32 | string) => SubmittableExtrinsic<ApiType>, [u32, Option<AccountId32>]>;
+      /**
+       * Modify a pool admin.
+       * 
+       * Only the pool admin may perform this operation.
+       **/
+      setPoolAdmin: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, newAdmin: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, AccountId32]>;
+      /**
+       * Set when the pool should expire.
+       * 
+       * Currently the expiry block can only be extended.
+       * 
+       * Only the pool admin may perform this operation.
+       **/
+      setPoolExpiryBlock: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, newExpiry: FrameSupportScheduleDispatchTime | { At: any } | { After: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, FrameSupportScheduleDispatchTime]>;
+      /**
+       * Modify a pool reward rate.
+       * 
+       * Currently the reward rate can only be increased.
+       * 
+       * Only the pool admin may perform this operation.
+       **/
+      setPoolRewardRatePerBlock: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, newRewardRatePerBlock: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u128]>;
+      /**
+       * Stake additional tokens in a pool.
+       * 
+       * A freeze is placed on the staked tokens.
+       **/
+      stake: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u128]>;
+      /**
+       * Unstake tokens from a pool.
+       * 
+       * Removes the freeze on the staked tokens.
+       * 
+       * Parameters:
+       * - origin: must be the `staker` if the pool is still active. Otherwise, any account.
+       * - pool_id: the pool to unstake from.
+       * - amount: the amount of tokens to unstake.
+       * - staker: the account to unstake from. If `None`, the caller is used.
+       **/
+      unstake: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array, staker: Option<AccountId32> | null | Uint8Array | AccountId32 | string) => SubmittableExtrinsic<ApiType>, [u32, u128, Option<AccountId32>]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
     assets: {
       /**
        * Approve an amount of asset for transfer by a delegated third-party account.
@@ -673,6 +760,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * refunded.
        * - `allow_burn`: If `true` then assets may be destroyed in order to complete the refund.
        * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
+       * 
        * Emits `Refunded` event when successful.
        **/
       refund: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, allowBurn: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, bool]>;
@@ -685,6 +775,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset for the account holding a deposit.
        * - `who`: The account to refund.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
        * 
        * Emits `Refunded` event when successful.
        **/
@@ -748,6 +841,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * an account contains holds or freezes in place.
        **/
       startDestroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
@@ -1302,6 +1398,21 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       enableAutoRenew: AugmentedSubmittable<(core: u16 | AnyNumber | Uint8Array, task: u32 | AnyNumber | Uint8Array, workloadEndHint: Option<u32> | null | Uint8Array | u32 | AnyNumber) => SubmittableExtrinsic<ApiType>, [u16, u32, Option<u32>]>;
       /**
+       * Reserve a core for a workload immediately.
+       * 
+       * - `origin`: Must be Root or pass `AdminOrigin`.
+       * - `workload`: The workload which should be permanently placed on a core starting
+       * immediately.
+       * - `core`: The core to which the assignment should be made until the reservation takes
+       * effect. It is left to the caller to either add this new core or reassign any other
+       * tasks to this existing core.
+       * 
+       * This reserves the workload and then injects the workload into the Workplan for the next
+       * two sale periods. This overwrites any existing assignments for this core at the start of
+       * the next sale period.
+       **/
+      forceReserve: AugmentedSubmittable<(workload: Vec<PalletBrokerScheduleItem> | (PalletBrokerScheduleItem | { mask?: any; assignment?: any } | string | Uint8Array)[], core: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Vec<PalletBrokerScheduleItem>, u16]>;
+      /**
        * Split a Bulk Coretime Region into two wholly-overlapping Regions with complementary
        * interlace masks which together make up the original Region's interlace mask.
        * 
@@ -1350,6 +1461,20 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       purchaseCredit: AugmentedSubmittable<(amount: u128 | AnyNumber | Uint8Array, beneficiary: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, AccountId32]>;
       /**
+       * Remove an assignment from the Workplan.
+       * 
+       * - `origin`: Must be Root or pass `AdminOrigin`.
+       * - `region_id`: The Region to be removed from the workplan.
+       **/
+      removeAssignment: AugmentedSubmittable<(regionId: PalletBrokerRegionId | { begin?: any; core?: any; mask?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletBrokerRegionId]>;
+      /**
+       * Remove a lease.
+       * 
+       * - `origin`: Must be Root or pass `AdminOrigin`.
+       * - `task`: The task id of the lease which should be removed.
+       **/
+      removeLease: AugmentedSubmittable<(task: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
        * Renew Bulk Coretime in the ongoing Sale or its prior Interlude Period.
        * 
        * - `origin`: Must be a Signed origin with at least enough funds to pay the renewal price
@@ -1366,6 +1491,9 @@ declare module '@polkadot/api-base/types/submittable' {
       requestCoreCount: AugmentedSubmittable<(coreCount: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16]>;
       /**
        * Reserve a core for a workload.
+       * 
+       * The workload will be given a reservation, but two sale period boundaries must pass
+       * before the core is actually assigned.
        * 
        * - `origin`: Must be Root or pass `AdminOrigin`.
        * - `workload`: The workload which should be permanently placed on a core.
@@ -1863,15 +1991,28 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       bump: AugmentedSubmittable<(who: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
-       * Introduce an already-ranked individual of the collective into this pallet. The rank may
-       * still be zero.
+       * Introduce an already-ranked individual of the collective into this pallet.
+       * 
+       * The rank may still be zero. This resets `last_proof` to the current block and
+       * `last_promotion` will be set to zero, thereby delaying any automatic demotion but
+       * allowing immediate promotion.
+       * 
+       * - `origin`: A signed origin of a ranked, but not tracked, account.
+       **/
+      import: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Introduce an already-ranked individual of the collective into this pallet.
+       * 
+       * The rank may still be zero. Can be called by anyone on any collective member - including
+       * the sender.
        * 
        * This resets `last_proof` to the current block and `last_promotion` will be set to zero,
        * thereby delaying any automatic demotion but allowing immediate promotion.
        * 
        * - `origin`: A signed origin of a ranked, but not tracked, account.
+       * - `who`: The account ID of the collective member to be inducted.
        **/
-      import: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      importMember: AugmentedSubmittable<(who: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * Introduce a new and unranked candidate (rank zero).
        * 
@@ -3004,6 +3145,19 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       freeze: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
+       * Poke the deposit reserved for an index.
+       * 
+       * The dispatch origin for this call must be _Signed_ and the signing account must have a
+       * non-frozen account `index`.
+       * 
+       * The transaction fees is waived if the deposit is changed after poking/reconsideration.
+       * 
+       * - `index`: the index whose deposit is to be poked/reconsidered.
+       * 
+       * Emits `DepositPoked` if successful.
+       **/
+      pokeDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
        * Assign an index already owned by the sender to another account. The balance reservation
        * is effectively transferred to the new account.
        * 
@@ -3093,6 +3247,19 @@ declare module '@polkadot/api-base/types/submittable' {
        * Remove a page which has no more messages remaining to be processed or is stale.
        **/
       reapPage: AugmentedSubmittable<(messageOrigin: u32 | AnyNumber | Uint8Array, pageIndex: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    metaTx: {
+      /**
+       * Dispatch a given meta transaction.
+       * 
+       * - `_origin`: Can be any kind of origin.
+       * - `meta_tx`: Meta Transaction with a target call to be dispatched.
+       **/
+      dispatch: AugmentedSubmittable<(metaTx: PalletMetaTxMetaTx | { call?: any; extensionVersion?: any; extension?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletMetaTxMetaTx]>;
       /**
        * Generic tx
        **/
@@ -3261,6 +3428,22 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Storage: removes one item.
        **/
       cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], timepoint: PalletMultisigTimepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, PalletMultisigTimepoint, U8aFixed]>;
+      /**
+       * Poke the deposit reserved for an existing multisig operation.
+       * 
+       * The dispatch origin for this call must be _Signed_ and must be the original depositor of
+       * the multisig operation.
+       * 
+       * The transaction fee is waived if the deposit amount has changed.
+       * 
+       * - `threshold`: The total number of approvals needed for this multisig.
+       * - `other_signatories`: The accounts (other than the sender) who are part of the
+       * multisig.
+       * - `call_hash`: The hash of the call this deposit is reserved for.
+       * 
+       * Emits `DepositPoked` if successful.
+       **/
+      pokeDeposit: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, U8aFixed]>;
       /**
        * Generic tx
        **/
@@ -4017,8 +4200,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * Fails unless [`crate::pallet::Config::StakeAdapter`] is of strategy type:
        * [`adapter::StakeStrategyType::Delegate`].
        * 
-       * This call can be dispatched permissionlessly (i.e. by any account). If the member has
-       * slash to be applied, caller may be rewarded with the part of the slash.
+       * The pending slash amount of the member must be equal or more than `ExistentialDeposit`.
+       * This call can be dispatched permissionlessly (i.e. by any account). If the execution
+       * is successful, fee is refunded and caller may be rewarded with a part of the slash
+       * based on the [`crate::pallet::Config::StakeAdapter`] configuration.
        **/
       applySlash: AugmentedSubmittable<(memberAccount: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
       /**
@@ -4049,25 +4234,37 @@ declare module '@polkadot/api-base/types/submittable' {
        * The dispatch origin of this call can be signed by the pool nominator or the pool
        * root role, same as [`Pallet::nominate`].
        * 
+       * This directly forwards the call to an implementation of `StakingInterface` (e.g.,
+       * `pallet-staking`) through [`Config::StakeAdapter`], on behalf of the bonded pool.
+       * 
        * Under certain conditions, this call can be dispatched permissionlessly (i.e. by any
        * account).
        * 
        * # Conditions for a permissionless dispatch:
-       * * When pool depositor has less than `MinNominatorBond` staked, otherwise  pool members
+       * * When pool depositor has less than `MinNominatorBond` staked, otherwise pool members
        * are unable to unbond.
        * 
        * # Conditions for permissioned dispatch:
-       * * The caller has a nominator or root role of the pool.
-       * This directly forward the call to the staking pallet, on behalf of the pool bonded
-       * account.
+       * * The caller is the pool's nominator or root.
        **/
       chill: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Claim pending commission.
        * 
-       * The dispatch origin of this call must be signed by the `root` role of the pool. Pending
-       * commission is paid out and added to total claimed commission`. Total pending commission
-       * is reset to zero. the current.
+       * The `root` role of the pool is _always_ allowed to claim the pool's commission.
+       * 
+       * If the pool has set `CommissionClaimPermission::Permissionless`, then any account can
+       * trigger the process of claiming the pool's commission.
+       * 
+       * If the pool has set its `CommissionClaimPermission` to `Account(acc)`, then only
+       * accounts
+       * * `acc`, and
+       * * the pool's root account
+       * 
+       * may call this extrinsic on behalf of the pool.
+       * 
+       * Pending commissions are paid out and added to the total claimed commission.
+       * The total pending commission is reset to zero.
        **/
       claimCommission: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
@@ -4118,8 +4315,9 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       createWithPoolId: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, bouncer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress, u32]>;
       /**
-       * Stake funds with a pool. The amount to bond is transferred from the member to the pool
-       * account and immediately increases the pools bond.
+       * Stake funds with a pool. The amount to bond is delegated (or transferred based on
+       * [`adapter::StakeStrategyType`]) from the member to the pool account and immediately
+       * increases the pool's bond.
        * 
        * The method of transferring the amount to the pool account is determined by
        * [`adapter::StakeStrategyType`]. If the pool is configured to use
@@ -4165,13 +4363,13 @@ declare module '@polkadot/api-base/types/submittable' {
        * The dispatch origin of this call must be signed by the pool nominator or the pool
        * root role.
        * 
-       * This directly forward the call to the staking pallet, on behalf of the pool bonded
-       * account.
+       * This directly forwards the call to an implementation of `StakingInterface` (e.g.,
+       * `pallet-staking`) through [`Config::StakeAdapter`], on behalf of the bonded pool.
        * 
        * # Note
        * 
-       * In addition to a `root` or `nominator` role of `origin`, pool's depositor needs to have
-       * at least `depositor_min_bond` in the pool to start nominating.
+       * In addition to a `root` or `nominator` role of `origin`, the pool's depositor needs to
+       * have at least `depositor_min_bond` in the pool to start nominating.
        **/
       nominate: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, validators: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [u32, Vec<AccountId32>]>;
       /**
@@ -4338,7 +4536,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * The dispatch origin of this call must be `AdminOrigin` for the given `key`. Values be
        * deleted by setting them to `None`.
        **/
-      setParameter: AugmentedSubmittable<(keyValue: KitchensinkRuntimeRuntimeParameters | { Storage: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeRuntimeParameters]>;
+      setParameter: AugmentedSubmittable<(keyValue: KitchensinkRuntimeRuntimeParameters | { Storage: any } | { Referenda: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeRuntimeParameters]>;
       /**
        * Generic tx
        **/
@@ -4662,6 +4860,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * refunded.
        * - `allow_burn`: If `true` then assets may be destroyed in order to complete the refund.
        * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
+       * 
        * Emits `Refunded` event when successful.
        **/
       refund: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, allowBurn: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, bool]>;
@@ -4674,6 +4875,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset for the account holding a deposit.
        * - `who`: The account to refund.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
        * 
        * Emits `Refunded` event when successful.
        **/
@@ -4737,6 +4941,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * an account contains holds or freezes in place.
        **/
       startDestroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
@@ -4899,7 +5106,7 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     preimage: {
       /**
-       * Ensure that the a bulk of pre-images is upgraded.
+       * Ensure that the bulk of pre-images is upgraded.
        * 
        * The caller pays no fee if at least 90% of pre-images were successfully updated.
        **/
@@ -5009,6 +5216,17 @@ declare module '@polkadot/api-base/types/submittable' {
        * account whose `pure` call has corresponding parameters.
        **/
       killPure: AugmentedSubmittable<(spawner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, proxyType: KitchensinkRuntimeProxyType | 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<u32> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, KitchensinkRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
+      /**
+       * Poke / Adjust deposits made for proxies and announcements based on current values.
+       * This can be used by accounts to possibly lower their locked amount.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * The transaction fee is waived if the deposit amount has changed.
+       * 
+       * Emits `DepositPoked` if successful.
+       **/
+      pokeDeposit: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
        * Dispatch the given `call` from an account that the sender is authorised for through
        * `add_proxy`.
@@ -5254,7 +5472,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Emits `Submitted`.
        **/
-      submit: AugmentedSubmittable<(proposalOrigin: KitchensinkRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | { AllianceMotion: any } | string | Uint8Array, proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array, enactmentMoment: FrameSupportScheduleDispatchTime | { At: any } | { After: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeOriginCaller, FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime]>;
+      submit: AugmentedSubmittable<(proposalOrigin: KitchensinkRuntimeOriginCaller | { system: any } | { Council: any } | { TechnicalCommittee: any } | { AllianceMotion: any } | string | Uint8Array, proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array, enactmentMoment: FrameSupportScheduleDispatchTime | { At: any } | { After: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeOriginCaller, FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime]>;
       /**
        * Generic tx
        **/
@@ -5356,7 +5574,7 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       removeRecovery: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
-       * Allow ROOT to bypass the recovery process and set an a rescuer account
+       * Allow ROOT to bypass the recovery process and set a rescuer account
        * for a lost account directly.
        * 
        * The dispatch origin for this call must be _ROOT_.
@@ -5476,7 +5694,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * Emits `Submitted`.
        **/
-      submit: AugmentedSubmittable<(proposalOrigin: KitchensinkRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | { AllianceMotion: any } | string | Uint8Array, proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array, enactmentMoment: FrameSupportScheduleDispatchTime | { At: any } | { After: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeOriginCaller, FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime]>;
+      submit: AugmentedSubmittable<(proposalOrigin: KitchensinkRuntimeOriginCaller | { system: any } | { Council: any } | { TechnicalCommittee: any } | { AllianceMotion: any } | string | Uint8Array, proposal: FrameSupportPreimagesBounded | { Legacy: any } | { Inline: any } | { Lookup: any } | string | Uint8Array, enactmentMoment: FrameSupportScheduleDispatchTime | { At: any } | { After: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeOriginCaller, FrameSupportPreimagesBounded, FrameSupportScheduleDispatchTime]>;
       /**
        * Generic tx
        **/
@@ -5525,7 +5743,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * # Parameters
        * 
-       * * `payload`: The RLP-encoded [`crate::evm::TransactionLegacySigned`].
+       * * `payload`: The encoded [`crate::evm::TransactionSigned`].
        * * `gas_limit`: The gas limit enforced during contract execution.
        * * `storage_deposit_limit`: The maximum balance that can be charged to the caller for
        * storage usage.
@@ -5537,7 +5755,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * runtime converts it into a [`sp_runtime::generic::CheckedExtrinsic`] by recovering the
        * signer and validating the transaction.
        **/
-      ethTransact: AugmentedSubmittable<(payload: Bytes | string | Uint8Array, gasLimit: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array, storageDepositLimit: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes, SpWeightsWeightV2Weight, Compact<u128>]>;
+      ethTransact: AugmentedSubmittable<(payload: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
       /**
        * Instantiates a contract from a previously deployed wasm binary.
        * 
@@ -6292,6 +6510,40 @@ declare module '@polkadot/api-base/types/submittable' {
        * block any further nominations.
        **/
       kick: AugmentedSubmittable<(who: Vec<MultiAddress> | (MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<MultiAddress>]>;
+      /**
+       * This function allows governance to manually slash a validator and is a
+       * **fallback mechanism**.
+       * 
+       * The dispatch origin must be `T::AdminOrigin`.
+       * 
+       * ## Parameters
+       * - `validator_stash` - The stash account of the validator to slash.
+       * - `era` - The era in which the validator was in the active set.
+       * - `slash_fraction` - The percentage of the stake to slash, expressed as a Perbill.
+       * 
+       * ## Behavior
+       * 
+       * The slash will be applied using the standard slashing mechanics, respecting the
+       * configured `SlashDeferDuration`.
+       * 
+       * This means:
+       * - If the validator was already slashed by a higher percentage for the same era, this
+       * slash will have no additional effect.
+       * - If the validator was previously slashed by a lower percentage, only the difference
+       * will be applied.
+       * - The slash will be deferred by `SlashDeferDuration` eras before being enacted.
+       **/
+      manualSlash: AugmentedSubmittable<(validatorStash: AccountId32 | string | Uint8Array, era: u32 | AnyNumber | Uint8Array, slashFraction: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32, Perbill]>;
+      /**
+       * Removes the legacy Staking locks if they exist.
+       * 
+       * This removes the legacy lock on the stake with [`Config::OldCurrency`] and creates a
+       * hold on it if needed. If all stake cannot be held, the best effort is made to hold as
+       * much as possible. The remaining stake is forced withdrawn from the ledger.
+       * 
+       * The fee is waived if the migration is successful.
+       **/
+      migrateCurrency: AugmentedSubmittable<(stash: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * Declare the desire to nominate `targets` for the origin controller.
        * 
@@ -7741,7 +7993,15 @@ declare module '@polkadot/api-base/types/submittable' {
        * ## Complexity
        * - O(1).
        **/
-      dispatchAs: AugmentedSubmittable<(asOrigin: KitchensinkRuntimeOriginCaller | { system: any } | { Void: any } | { Council: any } | { TechnicalCommittee: any } | { AllianceMotion: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeOriginCaller, Call]>;
+      dispatchAs: AugmentedSubmittable<(asOrigin: KitchensinkRuntimeOriginCaller | { system: any } | { Council: any } | { TechnicalCommittee: any } | { AllianceMotion: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeOriginCaller, Call]>;
+      /**
+       * Dispatches a function call with a provided origin.
+       * 
+       * Almost the same as [`Pallet::dispatch_as`] but forwards any error of the inner call.
+       * 
+       * The dispatch origin for this call must be _Root_.
+       **/
+      dispatchAsFallible: AugmentedSubmittable<(asOrigin: KitchensinkRuntimeOriginCaller | { system: any } | { Council: any } | { TechnicalCommittee: any } | { AllianceMotion: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KitchensinkRuntimeOriginCaller, Call]>;
       /**
        * Send a batch of dispatch calls.
        * Unlike `batch`, it allows errors and won't interrupt.
@@ -7758,6 +8018,32 @@ declare module '@polkadot/api-base/types/submittable' {
        * - O(C) where C is the number of calls to be batched.
        **/
       forceBatch: AugmentedSubmittable<(calls: Vec<Call> | (Call | IMethod | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Call>]>;
+      /**
+       * Dispatch a fallback call in the event the main call fails to execute.
+       * May be called from any origin except `None`.
+       * 
+       * This function first attempts to dispatch the `main` call.
+       * If the `main` call fails, the `fallback` is attemted.
+       * if the fallback is successfully dispatched, the weights of both calls
+       * are accumulated and an event containing the main call error is deposited.
+       * 
+       * In the event of a fallback failure the whole call fails
+       * with the weights returned.
+       * 
+       * - `main`: The main call to be dispatched. This is the primary action to execute.
+       * - `fallback`: The fallback call to be dispatched in case the `main` call fails.
+       * 
+       * ## Dispatch Logic
+       * - If the origin is `root`, both the main and fallback calls are executed without
+       * applying any origin filters.
+       * - If the origin is not `root`, the origin filter is applied to both the `main` and
+       * `fallback` calls.
+       * 
+       * ## Use Case
+       * - Some use cases might involve submitting a `batch` type call in either main, fallback
+       * or both.
+       **/
+      ifElse: AugmentedSubmittable<(main: Call | IMethod | string | Uint8Array, fallback: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call, Call]>;
       /**
        * Dispatch a function call with a specified weight.
        * 

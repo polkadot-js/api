@@ -1,12 +1,11 @@
 // Copyright 2017-2025 @polkadot/typegen authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RuntimeApiMethodMetadataV15, SiLookupTypeId } from '@polkadot/types/interfaces';
+import type { RuntimeApiMethodMetadataV16, SiLookupTypeId } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata/Metadata';
 import type { DefinitionCall, DefinitionCallNamed, Definitions, DefinitionsCall, Registry } from '@polkadot/types/types';
 import type { Vec } from '@polkadot/types-codec';
 import type { HexString } from '@polkadot/util/types';
-import type { ExtraTypes } from './types.js';
 
 import Handlebars from 'handlebars';
 
@@ -16,6 +15,7 @@ import { objectSpread, stringCamelCase } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { createImports, formatType, getSimilarTypes, initMeta, readTemplate, setImports, writeFile } from '../util/index.js';
+import { type ExtraTypes, getDeprecationNotice } from './types.js';
 
 type Apis = [HexString, number][];
 
@@ -34,6 +34,7 @@ const aliases: Record<string, string> = {
   PolkadotRuntimeRuntimeCall: 'RuntimeCall',
   PrimitiveTypesH160: 'H160',
   PrimitiveTypesH256: 'H256',
+  PrimitiveTypesU256: 'U256',
   SpConsensusBabeOpaqueKeyOwnershipProof: 'OpaqueKeyOwnershipProof',
   SpConsensusSlotsSlot: 'Slot',
   SpConsensusSlotsSlotDuration: 'SlotDuration',
@@ -55,14 +56,22 @@ const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {
 };
 
 /** @internal */
-function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV15>) {
+function getMethods (registry: Registry, methods: Vec<RuntimeApiMethodMetadataV16>) {
   const result: Record<string, DefinitionCall> = {};
 
   methods.forEach((m) => {
-    const { docs, inputs, name, output } = m;
+    const { deprecationInfo, docs, inputs, name, output } = m;
+    let description = docs.map((d) => d.toString()).join();
+
+    if (!deprecationInfo.isNotDeprecated) {
+      const deprecationNotice = getDeprecationNotice(deprecationInfo, stringCamelCase(name));
+      const notice = description.length ? `\n * ${deprecationNotice}` : ` * ${deprecationNotice}`;
+
+      description += notice;
+    }
 
     result[name.toString()] = {
-      description: docs.map((d) => d.toString()).join(),
+      description,
       params: inputs.map(({ name, type }) => {
         return { name: name.toString(), type: getTypesViaAlias(registry, type) };
       }),
