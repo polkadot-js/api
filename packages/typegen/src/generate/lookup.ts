@@ -11,6 +11,8 @@ import Handlebars from 'handlebars';
 import path from 'node:path';
 
 import * as defaultDefinitions from '@polkadot/types/interfaces/definitions';
+import staticAhKusama from '@polkadot/types-support/metadata/v15/asset-hub-kusama-hex';
+import staticAhPolkadot from '@polkadot/types-support/metadata/v15/asset-hub-polkadot-hex';
 import staticKusama from '@polkadot/types-support/metadata/v15/kusama-hex';
 import staticPolkadot from '@polkadot/types-support/metadata/v15/polkadot-hex';
 import staticSubstrate from '@polkadot/types-support/metadata/v15/substrate-hex';
@@ -271,7 +273,9 @@ export function generateDefaultLookup (destDir = 'packages/types-augment/src/loo
       : [
         ['substrate', staticSubstrate],
         ['polkadot', staticPolkadot],
-        ['kusama', staticKusama]
+        ['kusama', staticKusama],
+        ['assetHubPolkadot', staticAhPolkadot],
+        ['assetHubKusama', staticAhKusama]
       ]
   );
 }
