@@ -6,7 +6,7 @@ import type { Text } from '@polkadot/types';
 import type { Hash, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { Metadata } from '@polkadot/types/metadata';
 import type { CallFunction, RegistryError } from '@polkadot/types/types';
-import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, SubmittableExtrinsics } from '../types/index.js';
+import type { ApiDecoration, ApiInterfaceRx, ApiTypes, DecoratedErrors, DecoratedEvents, DecoratedRpc, QueryableCalls, QueryableConsts, QueryableStorage, QueryableStorageMulti, QueryableViews, SubmittableExtrinsics } from '../types/index.js';
 
 import { packageInfo } from '../packageInfo.js';
 import { findCall, findError } from './find.js';
@@ -228,6 +228,13 @@ export abstract class Getters<ApiType extends ApiTypes> extends Init<ApiType> im
   public get tx (): SubmittableExtrinsics<ApiType> {
     return assertResult(this._extrinsics);
   }
+
+    /**
+   * @description 
+   */
+    public get views (): QueryableViews<ApiType> {
+      return assertResult(this._views);
+    }
 
   /**
    * @description Finds the definition for a specific [[CallFunction]] based on the index supplied

@@ -11,7 +11,7 @@ import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { AnyFunction, AnyJson, AnyTuple, CallFunction, Codec, DefinitionCall, DefinitionCallNamed, DefinitionRpc, DefinitionRpcSub, DefinitionsCall, DefinitionsCallEntry, DetectCodec, IMethod, IStorageKey, Registry, RegistryError, RegistryTypes } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 import type { SubmittableExtrinsic } from '../submittable/types.js';
-import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types/index.js';
+import type { ApiDecoration, ApiInterfaceRx, ApiOptions, ApiTypes, AugmentedQuery, DecoratedErrors, DecoratedEvents, DecoratedRpc, DecorateMethod, GenericStorageEntryFunction, PaginationOptions, QueryableConsts, QueryableStorage, QueryableStorageEntry, QueryableStorageEntryAt, QueryableStorageMulti, QueryableStorageMultiArg, QueryableViews, SubmittableExtrinsicFunction, SubmittableExtrinsics } from '../types/index.js';
 import type { AllDerives } from '../util/decorate.js';
 import type { VersionedRegistry } from './types.js';
 
@@ -90,6 +90,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
   protected _runtimeMetadata?: Metadata;
   protected _runtimeVersion?: RuntimeVersion;
   protected _rx: ApiInterfaceRx = { call: {} as QueryableCalls<'rxjs'>, consts: {} as QueryableConsts<'rxjs'>, query: {} as QueryableStorage<'rxjs'>, tx: {} as SubmittableExtrinsics<'rxjs'> } as ApiInterfaceRx;
+  protected _views: QueryableViews<ApiType> = {} as QueryableViews<ApiType>;
 
   protected readonly _options: ApiOptions;
 
@@ -209,7 +210,8 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
         call: {},
         query: {}
       },
-      tx: createSubmittable(this._type, this._rx, this._decorateMethod, registry, blockHash)
+      tx: createSubmittable(this._type, this._rx, this._decorateMethod, registry, blockHash),
+      views: {}
     } as ApiDecoration<ApiType>;
   }
 

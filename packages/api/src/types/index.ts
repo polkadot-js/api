@@ -17,6 +17,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base/index.js';
 import type { SubmittableExtrinsic } from '../types/submittable.js';
 import type { AllDerives } from '../util/decorate.js';
+import type { QueryableViews } from '@polkadot/api-base/types/views';
 
 // types
 export type { Signer, SignerResult } from '@polkadot/types/types';
@@ -39,6 +40,8 @@ export * from '@polkadot/api/types/storage';
 export * from '@polkadot/api/types/submittable';
 // eslint-disable-next-line import/export
 export * from '@polkadot/api-base/types';
+// eslint-disable-next-line import/export
+export * from '@polkadot/api/types/views';
 
 // A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterfaceRx extends ApiInterfaceBase {
@@ -130,6 +133,7 @@ export interface ApiDecoration<ApiType extends ApiTypes> {
     query: QueryableStorage<'rxjs'>;
   };
   tx: (extrinsic: Call | Extrinsic | Uint8Array | string) => SubmittableExtrinsic<ApiType>;
+  views: QueryableViews<ApiType>;
 
   findCall (callIndex: Uint8Array | string): CallFunction;
   findError (errorIndex: Uint8Array | string): RegistryError;
