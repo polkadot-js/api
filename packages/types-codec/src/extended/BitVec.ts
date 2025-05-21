@@ -29,7 +29,7 @@ function decodeBitVec (value?: AnyU8a): [number, Uint8Array] {
   if (Array.isArray(value) || isString(value)) {
     const u8a = u8aToU8a(value);
 
-    return [u8a.length / 8, u8a];
+    return [u8a.length * 8, u8a];
   }
 
   return decodeBitVecU8a(value);
