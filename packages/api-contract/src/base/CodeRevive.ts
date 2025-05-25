@@ -4,29 +4,28 @@
 import type { ApiBase } from '@polkadot/api/base';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { AccountId, EventRecord } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
+// @ts-ignore
 import type { Codec } from '@polkadot/types-codec/types';
 import type { Abi } from '../Abi/index.js';
 import type { AbiConstructor, BlueprintOptions } from '../types.js';
 import type { MapConstructorExec } from './types.js';
 
 import { SubmittableResult } from '@polkadot/api';
-import { BN_ZERO, compactAddLength, isRiscV, isUndefined, isWasm, u8aToU8a } from '@polkadot/util';
+import { BN_ZERO, compactAddLength, isRiscV, isUndefined, u8aToU8a } from '@polkadot/util';
 
-import { applyOnEvent } from '../util.js';
-import { Base } from './Base.js';
-import { Blueprint } from './Blueprint.js';
+import { BaseRevive } from './BaseRevive.js';
+import { BlueprintRevive } from './BlueprintRevive.js';
 import { Contract } from './Contract.js';
 import { convertWeight, createBluePrintTx, encodeSalt } from './util.js';
 
-export type CodeConstructor<ApiType extends ApiTypes> = new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined) => Code<ApiType>;
+export type CodeReviveConstructor<ApiType extends ApiTypes> = new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined) => CodeRevive<ApiType>;
 
-export class CodeSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
-  readonly blueprint?: Blueprint<ApiType> | undefined;
+export class CodeReviveSubmittableResult<ApiType extends ApiTypes> extends SubmittableResult {
+  readonly blueprint?: BlueprintRevive<ApiType> | undefined;
   readonly contract?: Contract<ApiType> | undefined;
 
-  constructor (result: ISubmittableResult, blueprint?: Blueprint<ApiType> | undefined, contract?: Contract<ApiType> | undefined) {
+  constructor (result: ISubmittableResult, blueprint?: BlueprintRevive<ApiType> | undefined, contract?: Contract<ApiType> | undefined) {
     super(result);
 
     this.blueprint = blueprint;
@@ -37,10 +36,10 @@ export class CodeSubmittableResult<ApiType extends ApiTypes> extends Submittable
 // checks to see if the code (or at least the header)
 // is a valid/supported format
 function isValidCode (code: Uint8Array): boolean {
-  return isWasm(code) || isRiscV(code);
+  return isRiscV(code);
 }
 
-export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
+export class CodeRevive<ApiType extends ApiTypes> extends BaseRevive<ApiType> {
   readonly code: Uint8Array;
 
   readonly #tx: MapConstructorExec<ApiType> = {};
@@ -67,8 +66,8 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
     return this.#tx;
   }
 
-  #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
-    return this.api.tx.contracts.instantiateWithCode(
+  #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeReviveSubmittableResult<ApiType>> => {
+    return this.api.tx.revive.instantiateWithCode(
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore jiggle v1 weights, metadata points to latest
@@ -80,21 +79,17 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       this.abi.findConstructor(constructorOrId).toU8a(params),
       encodeSalt(salt)
     ).withResultTransform((result: ISubmittableResult) =>
-      new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
-        records.reduce<[Blueprint<ApiType> | undefined, Contract<ApiType> | undefined]>(([blueprint, contract], { event }) =>
-          this.api.events.contracts.Instantiated.is(event)
-            ? [blueprint, new Contract<ApiType>(this.api, this.abi, (event as unknown as { data: [Codec, AccountId] }).data[1], this._decorateMethod)]
-            : this.api.events.contracts.CodeStored.is(event)
-              ? [new Blueprint<ApiType>(this.api, this.abi, (event as unknown as { data: [AccountId] }).data[0], this._decorateMethod), contract]
-              : [blueprint, contract],
-        [undefined, undefined])
-      ) || [undefined, undefined]))
+      new CodeReviveSubmittableResult(
+        result,
+        new BlueprintRevive<ApiType>(this.api, this.abi, this.abi.info.source.wasmHash, this._decorateMethod),
+        new Contract<ApiType>(this.api, this.abi, "0x075e2a9cfb213a68dfa1f5cf6bf6d515ae212cf8", this._decorateMethod)
+      )
     );
   };
 }
 
-export function extendCode <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): CodeConstructor<ApiType> {
-  return class extends Code<ApiType> {
+export function extendCode <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): CodeReviveConstructor<ApiType> {
+  return class extends CodeRevive<ApiType> {
     static __CodeType = type;
 
     constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined) {

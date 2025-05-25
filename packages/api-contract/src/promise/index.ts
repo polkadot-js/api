@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { AccountId20, Hash } from '@polkadot/types/interfaces';
+import type { AccountId, AccountId20, Hash } from '@polkadot/types/interfaces';
 import type { Abi } from '../Abi/index.js';
 
 import { toPromiseMethod } from '@polkadot/api';
 
-import { Blueprint, Code, Contract } from '../base/index.js';
+import { Blueprint, BlueprintRevive, Code, CodeRevive, Contract, ContractRevive } from '../base/index.js';
 
 export class BlueprintPromise extends Blueprint<'promise'> {
   constructor (api: ApiPromise, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash) {
@@ -22,6 +22,24 @@ export class CodePromise extends Code<'promise'> {
 }
 
 export class ContractPromise extends Contract<'promise'> {
+  constructor (api: ApiPromise, abi: string | Record<string, unknown> | Abi, address: string | AccountId) {
+    super(api, abi, address, toPromiseMethod);
+  }
+}
+
+export class BlueprintRevivePromise extends BlueprintRevive<'promise'> {
+  constructor (api: ApiPromise, abi: string | Record<string, unknown> | Abi, codeHash: string | Hash) {
+    super(api, abi, codeHash, toPromiseMethod);
+  }
+}
+
+export class CodeRevivePromise extends CodeRevive<'promise'> {
+  constructor (api: ApiPromise, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined) {
+    super(api, abi, wasm, toPromiseMethod);
+  }
+}
+
+export class ContractRevivePromise extends ContractRevive<'promise'> {
   constructor (api: ApiPromise, abi: string | Record<string, unknown> | Abi, address: string | AccountId20) {
     super(api, abi, address, toPromiseMethod);
   }

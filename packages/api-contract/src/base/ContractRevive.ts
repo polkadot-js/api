@@ -4,7 +4,7 @@
 import type { ApiBase } from '@polkadot/api/base';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { AccountId, ContractExecResult, EventRecord, Weight, WeightV2 } from '@polkadot/types/interfaces';
+import type { AccountId, AccountId20, ContractExecResult, EventRecord, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { Abi } from '../Abi/index.js';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent, WeightAll } from '../types.js';
@@ -16,10 +16,10 @@ import { SubmittableResult } from '@polkadot/api';
 import { BN, BN_HUNDRED, BN_ONE, BN_ZERO, isUndefined, logger } from '@polkadot/util';
 
 import { applyOnEvent } from '../util.js';
-import { Base } from './Base.js';
+import { BaseRevive } from './BaseRevive.js';
 import { convertWeight, withMeta } from './util.js';
 
-export type ContractConstructor<ApiType extends ApiTypes> = new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId) => Contract<ApiType>;
+export type ContractReviveConstructor<ApiType extends ApiTypes> = new(api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId) => ContractRevive<ApiType>;
 
 // As per Rust, 5 * GAS_PER_SEC
 const MAX_CALL_GAS = new BN(5_000_000_000_000).isub(BN_ONE);
@@ -48,19 +48,19 @@ export class ContractSubmittableResult extends SubmittableResult {
   }
 }
 
-export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
+export class ContractRevive<ApiType extends ApiTypes> extends BaseRevive<ApiType> {
   /**
    * @description The on-chain address for this contract
    */
-  readonly address: AccountId;
+  readonly address: AccountId20;
 
   readonly #query: MapMessageQuery<ApiType> = {};
   readonly #tx: MapMessageTx<ApiType> = {};
 
-  constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId20, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.address = this.registry.createType('AccountId', address);
+    this.address = this.registry.createType('AccountId20', address);
 
     this.abi.messages.forEach((m): void => {
       if (isUndefined(this.#tx[m.method])) {
@@ -100,7 +100,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
-    return this.api.tx.contracts.call(
+    return this.api.tx.revive.call(
       this.address,
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -164,8 +164,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 }
 
-export function extendContract <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): ContractConstructor<ApiType> {
-  return class extends Contract<ApiType> {
+export function extendContract <ApiType extends ApiTypes> (type: ApiType, decorateMethod: DecorateMethod<ApiType>): ContractReviveConstructor<ApiType> {
+  return class extends ContractRevive<ApiType> {
     static __ContractType = type;
 
     constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId) {
