@@ -4,7 +4,7 @@
 import type { ApiBase } from '@polkadot/api/base';
 import type { SubmittableExtrinsic } from '@polkadot/api/submittable/types';
 import type { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import type { AccountId, ContractExecResult, EventRecord, Weight, WeightV2 } from '@polkadot/types/interfaces';
+import type { AccountId, AccountId20, ContractExecResult, EventRecord, Weight, WeightV2 } from '@polkadot/types/interfaces';
 import type { ISubmittableResult } from '@polkadot/types/types';
 import type { Abi } from '../Abi/index.js';
 import type { AbiMessage, ContractCallOutcome, ContractOptions, DecodedEvent, WeightAll } from '../types.js';
@@ -52,15 +52,15 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   /**
    * @description The on-chain address for this contract
    */
-  readonly address: AccountId;
+  readonly address: AccountId | AccountId20;
 
   readonly #query: MapMessageQuery<ApiType> = {};
   readonly #tx: MapMessageTx<ApiType> = {};
 
-  constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId, decorateMethod: DecorateMethod<ApiType>) {
+  constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, address: string | AccountId | AccountId20, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.address = this.registry.createType('AccountId', address);
+    this.address = this.registry.createType(this._isRevive ? 'AccountId20' : 'AccountId', address);
 
     this.abi.messages.forEach((m): void => {
       if (isUndefined(this.#tx[m.method])) {
@@ -100,7 +100,8 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
   };
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
-    return this.api.tx.contracts.call(
+    const palletTx = this._isRevive ? this.api.tx.revive : this.api.tx.contracts;
+    return palletTx.call(
       this.address,
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -134,17 +135,19 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       send: this._decorateMethod((origin: string | AccountId | Uint8Array) =>
-        this.api.rx.call.contractsApi.call<ContractExecResult>(
-          origin,
-          this.address,
-          value,
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore jiggle v1 weights, metadata points to latest
-          this._isWeightV1
-            ? this.#getGas(gasLimit, true).v1Weight
-            : this.#getGas(gasLimit, true).v2Weight,
-          storageDepositLimit,
-          message.toU8a(params)
+        (this._isRevive
+          ? this.api.rx.call.reviveApi.call
+          : this.api.rx.call.contractsApi.call)<ContractExecResult>(
+            origin,
+            this.address,
+            value,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore jiggle v1 weights, metadata points to latest
+            this._isWeightV1
+              ? this.#getGas(gasLimit, true).v1Weight
+              : this.#getGas(gasLimit, true).v2Weight,
+            storageDepositLimit,
+            message.toU8a(params)
         ).pipe(
           map(({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }): ContractCallOutcome => ({
             debugMessage,

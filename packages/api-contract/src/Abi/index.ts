@@ -1,8 +1,8 @@
 // Copyright 2017-2025 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes, Vec } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventParamSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataV4, ContractMetadataV5, ContractMetadataV6, ContractProjectInfo, ContractTypeSpec, EventRecord } from '@polkadot/types/interfaces';
+import type { Bytes, Raw, Vec } from '@polkadot/types';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventParamSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataV4, ContractMetadataV5, ContractMetadataV6, ContractProjectInfo, ContractProjectSource, ContractTypeSpec, EventRecord } from '@polkadot/types/interfaces';
 import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiEventParam, AbiMessage, AbiMessageParam, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 

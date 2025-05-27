@@ -119,8 +119,8 @@ describe('Abi', (): void => {
     expect(bundle.source.hash).toEqual(blake2AsHex(bundle.source.wasm));
 
     // the Codec hash
-    expect(bundle.source.hash).toEqual(abi.info.source.wasm.hash.toHex());
-
+    expect(bundle.source.hash).toEqual(abi.info.source.wasm.unwrap().hash.toHex());
+    
     // the hash as per the actual Abi
     expect(bundle.source.hash).toEqual(abi.info.source.wasmHash.toHex());
   });

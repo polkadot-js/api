@@ -48,8 +48,9 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    this.code = isValidCode(this.abi.info.source.wasm)
-      ? this.abi.info.source.wasm
+    const code = this.abi.info.source.wasm.unwrapOr(undefined) ??  this.abi.info.source.contract_binary.unwrapOr(undefined);
+    this.code = code && isValidCode(code)
+      ? code
       : u8aToU8a(wasm);
 
     if (!isValidCode(this.code)) {
@@ -68,7 +69,28 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
-    return this.api.tx.contracts.instantiateWithCode(
+    const palletTx = this._isRevive ? this.api.tx.revive : this.api.tx.contracts;
+    if (this._isRevive) {
+      return palletTx.instantiateWithCode(
+        value,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore jiggle v1 weights, metadata points to latest
+        this._isWeightV1
+          ? convertWeight(gasLimit).v1Weight
+          : convertWeight(gasLimit).v2Weight,
+        storageDepositLimit,
+        compactAddLength(this.code),
+        this.abi.findConstructor(constructorOrId).toU8a(params),
+        encodeSalt(salt)
+      ).withResultTransform((result: ISubmittableResult) =>
+        new CodeSubmittableResult(
+          result,
+          new Blueprint<ApiType>(this.api, this.abi, this.abi.info.source.hash, this._decorateMethod),
+          new Contract<ApiType>(this.api, this.abi, "0x075e2a9cfb213a68dfa1f5cf6bf6d515ae212cf8", this._decorateMethod)
+        )
+      );
+    }
+    return palletTx.instantiateWithCode(
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore jiggle v1 weights, metadata points to latest
@@ -79,7 +101,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       compactAddLength(this.code),
       this.abi.findConstructor(constructorOrId).toU8a(params),
       encodeSalt(salt)
-    ).withResultTransform((result: ISubmittableResult) =>
+    ).withResultTransform((result: ISubmittableResult) => 
       new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
         records.reduce<[Blueprint<ApiType> | undefined, Contract<ApiType> | undefined]>(([blueprint, contract], { event }) =>
           this.api.events.contracts.Instantiated.is(event)

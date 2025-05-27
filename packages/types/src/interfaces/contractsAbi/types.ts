@@ -393,7 +393,8 @@ export interface ContractProjectSource extends Struct {
   readonly wasmHash: U8aFixed;
   readonly language: Text;
   readonly compiler: Text;
-  readonly wasm: Raw;
+  readonly wasm: Option<Raw>;
+  readonly contract_binary: Option<Raw>;
 }
 
 /** @name ContractProjectV0 */

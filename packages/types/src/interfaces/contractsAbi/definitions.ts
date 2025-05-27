@@ -312,7 +312,8 @@ export default {
       wasmHash: '[u8; 32]',
       language: 'Text',
       compiler: 'Text',
-      wasm: 'Raw'
+      wasm: 'Option<Raw>',
+      contract_binary: 'Option<Raw>'
     },
     ContractEnvironmentV4: {
       _alias: {
