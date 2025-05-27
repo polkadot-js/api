@@ -54,6 +54,7 @@ function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSuppor
         ? { [`V${jsonVersion}`]: json }
         : { V0: json }
   );
+
   const converter = convertVersions.find(([v]) => metadata[`is${v}`]);
 
   if (!converter) {
@@ -81,6 +82,7 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
   lookup.types.forEach(({ id }) =>
     lookup.getTypeDef(id)
   );
+  
   return [json, registry, metadata, info];
 }
 

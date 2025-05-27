@@ -203,6 +203,16 @@ describe('v6ToLatestCompatible', (): void => {
     ).toEqual(['total_supply', 'balance_of', 'allowance', 'transfer', 'approve', 'transfer_from']);
   });
 
+  it('has H160 as the type of balance_of argument', (): void => {
+    const arg = latest.spec.messages.find(
+      (m) => m.label.toString() === 'balance_of'
+    )?.args[0];
+
+    const name = arg?.type.displayName?.[0]?.toString();
+
+    expect(name).toBe('H160');
+  });
+
   it('has the latest compatible version number', (): void => {
     expect(latest.version.toString()).toEqual('6');
   });
