@@ -127,6 +127,13 @@ const spec = {
     docs: 'Vec<Text>',
     environment: 'ContractEnvironmentV4'
   },
+  ContractContractSpecV6: {
+    constructors: 'Vec<ContractConstructorSpecV4>',
+    messages: 'Vec<ContractMessageSpecV3>',
+    events: 'Vec<ContractEventSpecV3>',
+    docs: 'Vec<Text>',
+    environment: 'ContractEnvironmentV4'
+  },
 
   ContractDisplayName: 'SiPath',
   ContractEventParamSpecV0: {
@@ -221,7 +228,7 @@ const latest = {
   ContractEventParamSpecLatest: 'ContractEventParamSpecV2',
   ContractMessageParamSpecLatest: 'ContractMessageParamSpecV2',
   ContractMessageSpecLatest: 'ContractMessageSpecV3',
-  ContractMetadataLatest: 'ContractMetadataV5'
+  ContractMetadataLatest: 'ContractMetadataV6'
 };
 
 export default {
@@ -261,6 +268,11 @@ export default {
       spec: 'ContractContractSpecV5',
       version: 'u64'
     },
+    ContractMetadataV6: {
+      types: 'Vec<PortableType>',
+      spec: 'ContractContractSpecV6',
+      version: 'u64'
+    },
     ContractMetadata: {
       _enum: {
         V0: 'ContractMetadataV0',
@@ -268,7 +280,8 @@ export default {
         V2: 'ContractMetadataV2',
         V3: 'ContractMetadataV3',
         V4: 'ContractMetadataV4',
-        V5: 'ContractMetadataV5'
+        V5: 'ContractMetadataV5',
+        V6: 'ContractMetadataV6'
       }
     },
     ContractProjectV0: {

@@ -6,7 +6,7 @@
 import { TypeRegistry } from '@polkadot/types';
 
 import abis from '../test/contracts/index.js';
-import { v0ToLatestCompatible, v1ToLatestCompatible, v2ToLatestCompatible, v3ToLatestCompatible, v4ToLatestCompatible, v5ToLatestCompatible } from './toLatestCompatible.js';
+import { v0ToLatestCompatible, v1ToLatestCompatible, v2ToLatestCompatible, v3ToLatestCompatible, v4ToLatestCompatible, v5ToLatestCompatible, v6ToLatestCompatible } from './toLatestCompatible.js';
 
 describe('v0ToLatestCompatible', (): void => {
   const registry = new TypeRegistry();
@@ -189,5 +189,21 @@ describe('v5ToLatestCompatible', (): void => {
 
   it('has the latest compatible version number', (): void => {
     expect(latest.version.toString()).toEqual('5');
+  });
+});
+
+describe('v6ToLatestCompatible', (): void => {
+  const registry = new TypeRegistry();
+  const contract = registry.createType('ContractMetadata', { V6: abis['ink_v6_erc20Metadata'] });
+  const latest = v6ToLatestCompatible(registry, contract.asV6);
+
+  it('has the correct messages', (): void => {
+    expect(
+      latest.spec.messages.map(({ label }) => label.toString())
+    ).toEqual(['total_supply', 'balance_of', 'allowance', 'transfer', 'approve', 'transfer_from']);
+  });
+
+  it('has the latest compatible version number', (): void => {
+    expect(latest.version.toString()).toEqual('6');
   });
 });
