@@ -42,15 +42,10 @@ function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSuppor
 
   // this was added in V4
   const jsonVersion = json.version;
-  console.log("parsing metadata");
-  console.log(jsonVersion);
-  console.log(enumVersions);
 
   if (!vx && jsonVersion && !enumVersions.find((v) => v === `V${jsonVersion}`)) {
     throw new Error(`Unable to handle version ${jsonVersion}`);
   }
-  console.log("parsed");
-  console.log(vx);
 
   const metadata = registry.createType<ContractMetadata>('ContractMetadata',
     vx
@@ -59,20 +54,17 @@ function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSuppor
         ? { [`V${jsonVersion}`]: json }
         : { V0: json }
   );
-  console.log("m");
   const converter = convertVersions.find(([v]) => metadata[`is${v}`]);
 
   if (!converter) {
     throw new Error(`Unable to convert ABI with version ${metadata.type} to a supported version`);
   }
-  console.log("converter");
+
   const upgradedMetadata = converter[1](registry, metadata[`as${converter[0]}`]);
-  console.log("up");
   return upgradedMetadata;
 }
 
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataSupported, ContractProjectInfo] {
-  console.log("parsing json");
   const registry = new TypeRegistry();
   const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
   const metadata = getMetadata(registry, json as unknown as AbiJson);
@@ -89,7 +81,6 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
   lookup.types.forEach(({ id }) =>
     lookup.getTypeDef(id)
   );
-  console.log("warmed up");
   return [json, registry, metadata, info];
 }
 
@@ -120,14 +111,12 @@ export class Abi {
   readonly environment = new Map<string, TypeDef | Codec>();
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
-    console.log("constructor");
     [this.json, this.registry, this.metadata, this.info] = parseJson(
       isString(abiJson)
         ? JSON.parse(abiJson) as Record<string, unknown>
         : abiJson,
       chainProperties
     );
-    console.log("parsed json");
     this.constructors = this.metadata.spec.constructors.map((spec: ContractConstructorSpecLatest, index) =>
       this.#createMessage(spec, index, {
         isConstructor: true,
@@ -138,11 +127,9 @@ export class Abi {
           : null
       })
     );
-    console.log("created constructors");
     this.events = this.metadata.spec.events.map((_: ContractEventSupported, index: number) =>
       this.#createEvent(index)
     );
-    console.log("created events");
     this.messages = this.metadata.spec.messages.map((spec: ContractMessageSpecLatest, index): AbiMessage =>
       this.#createMessage(spec, index, {
         isDefault: spec.default.isTrue,
@@ -153,7 +140,6 @@ export class Abi {
           : null
       })
     );
-    console.log("created messages");
 
     // NOTE See the rationale for having Option<...> values in the actual
     // ContractEnvironmentV4 structure definition in interfaces/contractsAbi
@@ -175,7 +161,6 @@ export class Abi {
         throw new Error(`Expected Option<*> definition for ${key} in ContractEnvironment`);
       }
     }
-    console.log("created environment");
   }
 
   /**
