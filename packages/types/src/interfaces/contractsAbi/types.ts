@@ -393,8 +393,7 @@ export interface ContractProjectSource extends Struct {
   readonly wasmHash: U8aFixed;
   readonly language: Text;
   readonly compiler: Text;
-  readonly wasm: Option<Raw>;
-  readonly contract_binary: Option<Raw>;
+  readonly wasm: Raw;
 }
 
 /** @name ContractProjectV0 */
@@ -404,6 +403,20 @@ export interface ContractProjectV0 extends Struct {
   readonly contract: ContractProjectContract;
   readonly types: Vec<Si0Type>;
   readonly spec: ContractContractSpecV0;
+}
+
+/** @name ContractReviveProjectInfo */
+export interface ContractReviveProjectInfo extends Struct {
+  readonly source: ContractReviveProjectSource;
+  readonly contract: ContractProjectContract;
+}
+
+/** @name ContractReviveProjectSource */
+export interface ContractReviveProjectSource extends Struct {
+  readonly wasmHash: U8aFixed;
+  readonly language: Text;
+  readonly compiler: Text;
+  readonly wasm: Raw;
 }
 
 /** @name ContractSelector */

@@ -241,6 +241,10 @@ export default {
       source: 'ContractProjectSource',
       contract: 'ContractProjectContract'
     },
+    ContractReviveProjectInfo: {
+      source: 'ContractReviveProjectSource',
+      contract: 'ContractProjectContract'
+    },
     ContractMetadataV0: {
       metadataVersion: 'Text',
       types: 'Vec<Si0Type>',
@@ -312,8 +316,17 @@ export default {
       wasmHash: '[u8; 32]',
       language: 'Text',
       compiler: 'Text',
-      wasm: 'Option<Raw>',
-      contract_binary: 'Option<Raw>'
+      wasm: 'Raw',
+    },
+    ContractReviveProjectSource: {
+      _alias: {
+        wasmHash: 'hash',
+        wasm: 'contract_binary'
+      },
+      wasmHash: '[u8; 32]',
+      language: 'Text',
+      compiler: 'Text',
+      wasm: 'Raw',
     },
     ContractEnvironmentV4: {
       _alias: {

@@ -65,9 +65,13 @@ function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSuppor
   return upgradedMetadata;
 }
 
-function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataSupported, ContractProjectInfo] {
+function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataSupported, ContractProjectInfo, boolean] {
   const registry = new TypeRegistry();
-  const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
+
+  const isRevive = Boolean((json as any)?.source?.contract_binary);
+  const typeName = isRevive ? 'ContractReviveProjectInfo' : 'ContractProjectInfo';
+
+  const info = registry.createType(typeName, json) as unknown as ContractProjectInfo;
   const metadata = getMetadata(registry, json as unknown as AbiJson);
   const lookup = registry.createType('PortableRegistry', { types: metadata.types }, true);
 
@@ -83,7 +87,7 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
     lookup.getTypeDef(id)
   );
 
-  return [json, registry, metadata, info];
+  return [json, registry, metadata, info, isRevive];
 }
 
 /**
@@ -111,9 +115,10 @@ export class Abi {
   readonly metadata: ContractMetadataSupported;
   readonly registry: Registry;
   readonly environment = new Map<string, TypeDef | Codec>();
+  readonly isRevive: boolean;
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
-    [this.json, this.registry, this.metadata, this.info] = parseJson(
+    [this.json, this.registry, this.metadata, this.info, this.isRevive] = parseJson(
       isString(abiJson)
         ? JSON.parse(abiJson) as Record<string, unknown>
         : abiJson,

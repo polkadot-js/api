@@ -48,9 +48,8 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   constructor (api: ApiBase<ApiType>, abi: string | Record<string, unknown> | Abi, wasm: Uint8Array | string | Buffer | null | undefined, decorateMethod: DecorateMethod<ApiType>) {
     super(api, abi, decorateMethod);
 
-    const code = this.abi.info.source.wasm.unwrapOr(undefined) ??  this.abi.info.source.contract_binary.unwrapOr(undefined);
-    this.code = code && isValidCode(code)
-      ? code
+    this.code = isValidCode(this.abi.info.source.wasm)
+      ? this.abi.info.source.wasm
       : u8aToU8a(wasm);
 
     if (!isValidCode(this.code)) {

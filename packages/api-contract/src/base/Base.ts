@@ -29,7 +29,8 @@ export abstract class Base<ApiType extends ApiTypes> {
     this.api = api;
     this._decorateMethod = decorateMethod;
     this._isWeightV1 = !api.registry.createType<WeightV2>('Weight').proofSize;
-    this._isRevive = this.abi.info.source.contract_binary.isSome;
+    this._isRevive = this.abi.isRevive;
+
 
     if (this._isRevive) {
       if (!api.tx.revive || !isFunction(api.tx.revive.instantiateWithCode) || api.tx.revive.instantiateWithCode.meta.args.length !== 6) {
