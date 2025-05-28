@@ -9,7 +9,7 @@ export default {
   "specName": "statemint",
   "implName": "statemint",
   "authoringVersion": 1,
-  "specVersion": 1004000,
+  "specVersion": 1005001,
   "implVersion": 0,
   "apis": [
     [
@@ -62,7 +62,7 @@ export default {
     ],
     [
       "0x91b1c8b16328eb92",
-      1
+      2
     ],
     [
       "0x9ffb505aa738d69c",
@@ -86,6 +86,6 @@ export default {
     ]
   ],
   "transactionVersion": 15,
-  "systemVersion": 0,
-  "stateVersion": 0
+  "systemVersion": 1,
+  "stateVersion": 1
 };
