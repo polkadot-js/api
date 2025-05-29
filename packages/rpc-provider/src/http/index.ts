@@ -50,11 +50,10 @@ export class HttpProvider implements ProviderInterface {
    * @param {number} [cacheCapacity] Custom size of the HttpProvider LRUCache. Defaults to `DEFAULT_CAPACITY` (1024)
    * @param {number} [cacheTtl] Custom TTL of the HttpProvider LRUCache. Determines how long an object can live in the cache. Defaults to `DEFAULT_TTL` (30000)
    */
-  constructor (endpoint: string = defaults.HTTP_URL, headers: Record<string, string> = {}, cacheCapacity?: number, cacheTtl?: number | null ) {
+  constructor (endpoint: string = defaults.HTTP_URL, headers: Record<string, string> = {}, cacheCapacity?: number, cacheTtl?: number | null) {
     if (!/^(https|http):\/\//.test(endpoint)) {
       throw new Error(`Endpoint should start with 'http://' or 'https://', received '${endpoint}'`);
     }
-
 
     this.#coder = new RpcCoder();
     this.#endpoint = endpoint;
@@ -62,6 +61,7 @@ export class HttpProvider implements ProviderInterface {
     this.#cacheCapacity = cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY;
 
     const ttl = cacheTtl === undefined ? DEFAULT_TTL : cacheTtl;
+
     this.#callCache = new LRUCache(cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY, ttl);
     this.#ttl = cacheTtl;
 

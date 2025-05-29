@@ -128,6 +128,7 @@ export class WsProvider implements ProviderInterface {
       }
     });
     const ttl = cacheTtl === undefined ? DEFAULT_TTL : cacheTtl;
+
     this.#callCache = new LRUCache(cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY, ttl);
     this.#ttl = cacheTtl;
     this.#cacheCapacity = cacheCapacity || DEFAULT_CAPACITY;

@@ -10,7 +10,7 @@ export const DEFAULT_TTL = 30000;
 
 // If the user decides to disable the TTL we set the value
 // to a very high number (A year = 365 * 24 * 60 * 60 * 1000).
-const DISABLED_TTL = 31_536_000_000
+const DISABLED_TTL = 31_536_000_000;
 
 class LRUNode {
   readonly key: string;
@@ -49,15 +49,15 @@ export class LRUCache {
   #head: LRUNode;
   #tail: LRUNode;
 
-  readonly #ttl: number ;
+  readonly #ttl: number;
 
   constructor (capacity = DEFAULT_CAPACITY, ttl: number | null = DEFAULT_TTL) {
     this.capacity = capacity;
-    ttl? this.#ttl = ttl : this.#ttl = DISABLED_TTL;
+    ttl ? this.#ttl = ttl : this.#ttl = DISABLED_TTL;
     this.#head = this.#tail = new LRUNode('<empty>', this.#ttl);
   }
 
-  get ttl (): number | null{
+  get ttl (): number | null {
     return this.#ttl;
   }
 

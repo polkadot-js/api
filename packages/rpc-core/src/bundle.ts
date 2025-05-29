@@ -118,7 +118,7 @@ export class RpcCore {
    * @param {ProviderInterface} options.provider An API provider using any of the supported providers (HTTP, SC or WebSocket)
    * @param {number} [options.rpcCacheCapacity] Custom size of the rpc LRUCache capacity. Defaults to `RPC_CORE_DEFAULT_CAPACITY` (1024 * 10 * 10)
    */
-  constructor (instanceId: string, registry: Registry, { isPedantic = true, provider, rpcCacheCapacity, userRpc = {}, ttl }: Options) {
+  constructor (instanceId: string, registry: Registry, { isPedantic = true, provider, rpcCacheCapacity, ttl, userRpc = {} }: Options) {
     if (!provider || !isFunction(provider.send)) {
       throw new Error('Expected Provider to API create');
     }
