@@ -94,6 +94,7 @@ export class WsProvider implements ProviderInterface {
   readonly #stats: ProviderStats;
   readonly #waitingForId: Record<string, JsonRpcResponse<unknown>> = {};
   readonly #cacheCapacity: number;
+  readonly #ttl: number | null | undefined;
 
   #autoConnectMs: number;
   #endpointIndex: number;
@@ -112,7 +113,7 @@ export class WsProvider implements ProviderInterface {
    * @param {number} [cacheCapacity] Custom size of the WsProvider LRUCache. Defaults to `DEFAULT_CAPACITY` (1024)
    * @param {number} [cacheTtl] Custom TTL of the WsProvider LRUCache. Determines how long an object can live in the cache. Defaults to DEFAULT_TTL` (30000)
    */
-  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number, cacheCapacity?: number, cacheTtl?: number) {
+  constructor (endpoint: string | string[] = defaults.WS_URL, autoConnectMs: number | false = RETRY_DELAY, headers: Record<string, string> = {}, timeout?: number, cacheCapacity?: number, cacheTtl?: number | null) {
     const endpoints = Array.isArray(endpoint)
       ? endpoint
       : [endpoint];
@@ -126,7 +127,9 @@ export class WsProvider implements ProviderInterface {
         throw new Error(`Endpoint should start with 'ws://', received '${endpoint}'`);
       }
     });
-    this.#callCache = new LRUCache(cacheCapacity || DEFAULT_CAPACITY, cacheTtl || DEFAULT_TTL);
+    const ttl = cacheTtl === undefined ? DEFAULT_TTL : cacheTtl;
+    this.#callCache = new LRUCache(cacheCapacity === 0 ? 0 : cacheCapacity || DEFAULT_CAPACITY, ttl);
+    this.#ttl = cacheTtl;
     this.#cacheCapacity = cacheCapacity || DEFAULT_CAPACITY;
     this.#eventemitter = new EventEmitter();
     this.#autoConnectMs = autoConnectMs || 0;
@@ -286,6 +289,13 @@ export class WsProvider implements ProviderInterface {
       },
       total: this.#stats.total
     };
+  }
+
+  /**
+  * @description Returns the connection stats
+  */
+  public get ttl (): number | null | undefined {
+    return this.#ttl;
   }
 
   public get endpointStats (): EndpointStats {
