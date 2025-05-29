@@ -37,6 +37,7 @@ interface Options {
    * Custom size of the rpc LRUCache capacity. Defaults to `RPC_CORE_DEFAULT_CAPACITY` (1024 * 10 * 10)
    */
   rpcCacheCapacity?: number;
+  ttl?: number | null;
   userRpc?: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub>>;
 }
 
@@ -117,7 +118,7 @@ export class RpcCore {
    * @param {ProviderInterface} options.provider An API provider using any of the supported providers (HTTP, SC or WebSocket)
    * @param {number} [options.rpcCacheCapacity] Custom size of the rpc LRUCache capacity. Defaults to `RPC_CORE_DEFAULT_CAPACITY` (1024 * 10 * 10)
    */
-  constructor (instanceId: string, registry: Registry, { isPedantic = true, provider, rpcCacheCapacity, userRpc = {} }: Options) {
+  constructor (instanceId: string, registry: Registry, { isPedantic = true, provider, rpcCacheCapacity, ttl, userRpc = {} }: Options) {
     if (!provider || !isFunction(provider.send)) {
       throw new Error('Expected Provider to API create');
     }
@@ -131,7 +132,7 @@ export class RpcCore {
 
     // these are the base keys (i.e. part of jsonrpc)
     this.sections.push(...sectionNames);
-    this.#storageCache = new LRUCache(rpcCacheCapacity || RPC_CORE_DEFAULT_CAPACITY);
+    this.#storageCache = new LRUCache(rpcCacheCapacity || RPC_CORE_DEFAULT_CAPACITY, ttl);
     // decorate all interfaces, defined and user on this instance
     this.addUserInterfaces(userRpc);
   }

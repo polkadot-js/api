@@ -57,6 +57,8 @@ export interface ProviderInterface {
   readonly isConnected: boolean;
   /** (optional) stats for the provider with connections/bytes */
   readonly stats?: ProviderStats;
+  /** (optional) stats for the provider with connections/bytes */
+  readonly ttl?: number | null;
 
   clone (): ProviderInterface;
   connect (): Promise<void>;

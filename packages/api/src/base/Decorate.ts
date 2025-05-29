@@ -154,6 +154,7 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       isPedantic: this._options.isPedantic,
       provider,
       rpcCacheCapacity: this._options.rpcCacheCapacity,
+      ttl: this._options.provider?.ttl,
       userRpc: this._options.rpc
     }) as (RpcCore & RpcInterface);
     this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected);
