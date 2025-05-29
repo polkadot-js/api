@@ -90,7 +90,8 @@ describe('BitVec', (): void => {
     expect(
       new BitVec(registry, '0x0837').inspect()
     ).toEqual({
-      outer: [new Uint8Array([0]), new Uint8Array([0x08, 0x37])]
+      // For input '0x0837' (yields 16 bits): compactToU8a(16) is 16<<2 = 64.
+      outer: [new Uint8Array([64]), new Uint8Array([0x08, 0x37])]
     });
   });
 });
