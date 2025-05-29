@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 16.1.1 May 29, 2025
+
+Changes:
+
+- Update AssetHub types to 1.5.1 release ([#6155](https://github.com/polkadot-js/api/pull/6155))
+- fix: correct BitVec length calculation from bytes to bits in codec ([#6152](https://github.com/polkadot-js/api/pull/6152))
+- Update README with metadata retrieval instructions and testing caveats ([#6156](https://github.com/polkadot-js/api/pull/6156))
+- Initialize RpcCore with configured ttl ([#6160](https://github.com/polkadot-js/api/pull/6160))
+
+
 ## 16.0.1 May 19, 2025
 
 Breaking Changes:
