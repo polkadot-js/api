@@ -5,13 +5,13 @@
 
 export default {
   /**
-   * Lookup130: asset_hub_kusama_runtime::ProxyType
+   * Lookup146: asset_hub_kusama_runtime::ProxyType
    **/
   AssetHubKusamaRuntimeProxyType: {
     _enum: ['Any', 'NonTransfer', 'CancelProxy', 'Assets', 'AssetOwner', 'AssetManager', 'Collator']
   },
   /**
-   * Lookup229: asset_hub_kusama_runtime::RuntimeHoldReason
+   * Lookup248: asset_hub_kusama_runtime::RuntimeHoldReason
    **/
   AssetHubKusamaRuntimeRuntimeHoldReason: {
     _enum: {
@@ -89,24 +89,56 @@ export default {
     }
   },
   /**
-   * Lookup256: asset_hub_kusama_runtime::SessionKeys
+   * Lookup275: asset_hub_kusama_runtime::SessionKeys
    **/
   AssetHubKusamaRuntimeSessionKeys: {
     aura: 'SpConsensusAuraSr25519AppSr25519Public'
   },
   /**
-   * Lookup257: sp_consensus_aura::sr25519::app_sr25519::Public
+   * Lookup276: sp_consensus_aura::sr25519::app_sr25519::Public
    **/
   SpConsensusAuraSr25519AppSr25519Public: '[u8;32]',
   /**
-   * Lookup388: asset_hub_kusama_runtime::OriginCaller
+   * Lookup380: pallet_remote_proxy::pallet::Call<T, I>
+   **/
+  PalletRemoteProxyCall: {
+    _enum: {
+      remote_proxy: {
+        real: 'MultiAddress',
+        forceProxyType: 'Option<AssetHubKusamaRuntimeProxyType>',
+        call: 'Call',
+        proof: 'PalletRemoteProxyRemoteProxyProof',
+      },
+      register_remote_proxy_proof: {
+        proof: 'PalletRemoteProxyRemoteProxyProof',
+      },
+      remote_proxy_with_registered_proof: {
+        real: 'MultiAddress',
+        forceProxyType: 'Option<AssetHubKusamaRuntimeProxyType>',
+        call: 'Call'
+      }
+    }
+  },
+  /**
+   * Lookup381: pallet_remote_proxy::pallet::RemoteProxyProof<RemoteBlockNumber>
+   **/
+  PalletRemoteProxyRemoteProxyProof: {
+    _enum: {
+      RelayChain: {
+        proof: 'Vec<Bytes>',
+        block: 'u32'
+      }
+    }
+  },
+  /**
+   * Lookup419: asset_hub_kusama_runtime::OriginCaller
    **/
   AssetHubKusamaRuntimeOriginCaller: {
     _enum: {
       system: 'FrameSupportDispatchRawOrigin',
       __Unused1: 'Null',
       __Unused2: 'Null',
-      Void: 'SpCoreVoid',
+      __Unused3: 'Null',
       __Unused4: 'Null',
       __Unused5: 'Null',
       __Unused6: 'Null',
@@ -139,11 +171,17 @@ export default {
     }
   },
   /**
-   * Lookup474: asset_hub_kusama_runtime::Runtime
+   * Lookup440: pallet_remote_proxy::pallet::Error<T, I>
+   **/
+  PalletRemoteProxyError: {
+    _enum: ['CouldNotConvertLocalToRemoteAccountId', 'UnknownProofAnchorBlock', 'InvalidProof', 'ProxyDefinitionDecodingFailed', 'Unannounced', 'DidNotFindMatchingProxyDefinition', 'ProxyProofNotRegistered']
+  },
+  /**
+   * Lookup508: asset_hub_kusama_runtime::Runtime
    **/
   AssetHubKusamaRuntimeRuntime: 'Null',
   /**
-   * Lookup533: asset_hub_kusama_runtime::RuntimeError
+   * Lookup567: asset_hub_kusama_runtime::RuntimeError
    **/
   AssetHubKusamaRuntimeRuntimeError: {
     _enum: {
@@ -190,7 +228,7 @@ export default {
       Utility: 'PalletUtilityError',
       Multisig: 'PalletMultisigError',
       Proxy: 'PalletProxyError',
-      __Unused43: 'Null',
+      RemoteProxyRelayChain: 'PalletRemoteProxyError',
       __Unused44: 'Null',
       __Unused45: 'Null',
       __Unused46: 'Null',
@@ -203,7 +241,21 @@ export default {
       ForeignAssets: 'PalletAssetsError',
       NftFractionalization: 'PalletNftFractionalizationError',
       PoolAssets: 'PalletAssetsError',
-      AssetConversion: 'PalletAssetConversionError'
+      AssetConversion: 'PalletAssetConversionError',
+      __Unused57: 'Null',
+      __Unused58: 'Null',
+      __Unused59: 'Null',
+      __Unused60: 'Null',
+      __Unused61: 'Null',
+      __Unused62: 'Null',
+      __Unused63: 'Null',
+      __Unused64: 'Null',
+      __Unused65: 'Null',
+      __Unused66: 'Null',
+      __Unused67: 'Null',
+      __Unused68: 'Null',
+      __Unused69: 'Null',
+      StateTrieMigration: 'PalletStateTrieMigrationError'
     }
   }
 };

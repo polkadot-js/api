@@ -173,7 +173,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 13,
-                    "value": 156
+                    "value": 175
                   }
                 },
                 "fallback": "0x00",
@@ -194,7 +194,7 @@
                 "name": "LastRuntimeUpgrade",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 158
+                  "plain": 177
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -228,7 +228,7 @@
                 "name": "ExecutionPhase",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 154
+                  "plain": 173
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -239,7 +239,7 @@
                 "name": "AuthorizedUpgrade",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 160
+                  "plain": 180
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -249,7 +249,7 @@
             ]
           },
           "calls": {
-            "type": 161
+            "type": 181
           },
           "events": {
             "type": 22
@@ -257,7 +257,7 @@
           "constants": [
             {
               "name": "BlockWeights",
-              "type": 165,
+              "type": 185,
               "value": "0x0700f2052a0100070088526a74020040010265cd1d000107c0d22c76510200e000010700e6bd4f570200f0000100000265cd1d000107c074c1906e0200300101070088526a7402004001010700a2941a1d020050000265cd1d00000000",
               "docs": [
                 " Block & extrinsics weights: base values and limits."
@@ -265,7 +265,7 @@
             },
             {
               "name": "BlockLength",
-              "type": 169,
+              "type": 188,
               "value": "0x00003c000000500000005000",
               "docs": [
                 " The maximum length of a block (in bytes)."
@@ -281,7 +281,7 @@
             },
             {
               "name": "DbWeight",
-              "type": 171,
+              "type": 190,
               "value": "0x40787d010000000000e1f50500000000",
               "docs": [
                 " The weight of runtime database operations the runtime can invoke."
@@ -289,15 +289,15 @@
             },
             {
               "name": "Version",
-              "type": 172,
-              "value": "0x2473746174656d696e742473746174656d696e7401000000e0510f000000000048dd718d5cc53262d401000000d7bdd8a272ca0d6501000000df6acb689907609b0500000037e397fc7c91f5e40200000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a804000000f3ff14d5ab527059030000006ff52ee858e6c5bd0100000091b1c8b16328eb92010000009ffb505aa738d69c01000000de92b8a0426b9bf602000000ea93e3f16f3d696202000000fbc577b9d747efd6010000008a8047a53a8277ec010000000f00000000",
+              "type": 191,
+              "value": "0x2473746174656d696e742473746174656d696e7401000000c9550f000000000048dd718d5cc53262d401000000d7bdd8a272ca0d6501000000df6acb689907609b0500000037e397fc7c91f5e40200000040fe3ad401f8959a06000000d2bc9897eed08f1503000000f78b278be53f454c02000000ab3c0572291feb8b01000000bc9d89904f5b923f0100000037c8bb1350a9a2a804000000f3ff14d5ab527059030000006ff52ee858e6c5bd0100000091b1c8b16328eb92020000009ffb505aa738d69c01000000de92b8a0426b9bf602000000ea93e3f16f3d696202000000fbc577b9d747efd6010000008a8047a53a8277ec010000000f00000001",
               "docs": [
                 " Get the chain's in-code version."
               ]
             },
             {
               "name": "SS58Prefix",
-              "type": 131,
+              "type": 147,
               "value": "0x0000",
               "docs": [
                 " The designated SS58 prefix of this chain.",
@@ -309,7 +309,7 @@
             }
           ],
           "errors": {
-            "type": 176
+            "type": 195
           },
           "index": 0,
           "docs": []
@@ -323,7 +323,7 @@
                 "name": "UnincludedSegment",
                 "modifier": "Default",
                 "type": {
-                  "plain": 177
+                  "plain": 196
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -339,7 +339,7 @@
                 "name": "AggregatedUnincludedSegment",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 187
+                  "plain": 206
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -383,7 +383,7 @@
                 "name": "ValidationData",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 188
+                  "plain": 207
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -420,7 +420,7 @@
                 "name": "UpgradeRestrictionSignal",
                 "modifier": "Default",
                 "type": {
-                  "plain": 190
+                  "plain": 209
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -437,7 +437,7 @@
                 "name": "UpgradeGoAhead",
                 "modifier": "Default",
                 "type": {
-                  "plain": 185
+                  "plain": 204
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -452,7 +452,7 @@
                 "name": "RelayStateProof",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 192
+                  "plain": 211
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -468,7 +468,7 @@
                 "name": "RelevantMessagingState",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 194
+                  "plain": 213
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -485,7 +485,7 @@
                 "name": "HostConfiguration",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 199
+                  "plain": 218
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -501,7 +501,7 @@
                 "name": "LastDmqMqcHead",
                 "modifier": "Default",
                 "type": {
-                  "plain": 201
+                  "plain": 220
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
                 "docs": [
@@ -515,7 +515,7 @@
                 "name": "LastHrmpMqcHeads",
                 "modifier": "Default",
                 "type": {
-                  "plain": 202
+                  "plain": 221
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -555,7 +555,7 @@
                 "name": "HrmpOutboundMessages",
                 "modifier": "Default",
                 "type": {
-                  "plain": 205
+                  "plain": 224
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -568,7 +568,7 @@
                 "name": "UpwardMessages",
                 "modifier": "Default",
                 "type": {
-                  "plain": 164
+                  "plain": 184
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -581,7 +581,7 @@
                 "name": "PendingUpwardMessages",
                 "modifier": "Default",
                 "type": {
-                  "plain": 164
+                  "plain": 184
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -592,7 +592,7 @@
                 "name": "UpwardDeliveryFeeFactor",
                 "modifier": "Default",
                 "type": {
-                  "plain": 119
+                  "plain": 135
                 },
                 "fallback": "0x000064a7b3b6e00d0000000000000000",
                 "docs": [
@@ -651,15 +651,15 @@
             ]
           },
           "calls": {
-            "type": 207
+            "type": 226
           },
           "events": {
-            "type": 31
+            "type": 32
           },
           "constants": [
             {
               "name": "SelfParaId",
-              "type": 122,
+              "type": 138,
               "value": "0xe8030000",
               "docs": [
                 " Returns the parachain ID we are running with."
@@ -667,7 +667,7 @@
             }
           ],
           "errors": {
-            "type": 216
+            "type": 235
           },
           "index": 1,
           "docs": []
@@ -705,7 +705,7 @@
             ]
           },
           "calls": {
-            "type": 217
+            "type": 236
           },
           "events": null,
           "constants": [
@@ -736,7 +736,7 @@
                 "name": "ParachainId",
                 "modifier": "Default",
                 "type": {
-                  "plain": 122
+                  "plain": 138
                 },
                 "fallback": "0x64000000",
                 "docs": []
@@ -744,7 +744,7 @@
             ]
           },
           "calls": {
-            "type": 218
+            "type": 237
           },
           "events": null,
           "constants": [],
@@ -828,7 +828,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 219
+                    "value": 238
                   }
                 },
                 "fallback": "0x00",
@@ -848,7 +848,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 223
+                    "value": 242
                   }
                 },
                 "fallback": "0x00",
@@ -867,7 +867,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 226
+                    "value": 245
                   }
                 },
                 "fallback": "0x00",
@@ -884,7 +884,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 230
+                    "value": 250
                   }
                 },
                 "fallback": "0x00",
@@ -895,10 +895,10 @@
             ]
           },
           "calls": {
-            "type": 233
+            "type": 253
           },
           "events": {
-            "type": 33
+            "type": 34
           },
           "constants": [
             {
@@ -947,7 +947,7 @@
             }
           ],
           "errors": {
-            "type": 237
+            "type": 257
           },
           "index": 10,
           "docs": []
@@ -961,7 +961,7 @@
                 "name": "NextFeeMultiplier",
                 "modifier": "Default",
                 "type": {
-                  "plain": 119
+                  "plain": 135
                 },
                 "fallback": "0x000064a7b3b6e00d0000000000000000",
                 "docs": []
@@ -970,7 +970,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 238
+                  "plain": 258
                 },
                 "fallback": "0x00",
                 "docs": []
@@ -979,7 +979,7 @@
           },
           "calls": null,
           "events": {
-            "type": 35
+            "type": 36
           },
           "constants": [
             {
@@ -1020,7 +1020,7 @@
           "storage": null,
           "calls": null,
           "events": {
-            "type": 36
+            "type": 37
           },
           "constants": [],
           "errors": null,
@@ -1041,7 +1041,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 239
+                    "value": 259
                   }
                 },
                 "fallback": "0x00",
@@ -1053,7 +1053,7 @@
                 "name": "StorageVersion",
                 "modifier": "Default",
                 "type": {
-                  "plain": 242
+                  "plain": 262
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1065,10 +1065,10 @@
             ]
           },
           "calls": {
-            "type": 243
+            "type": 263
           },
           "events": {
-            "type": 55
+            "type": 56
           },
           "constants": [
             {
@@ -1087,7 +1087,7 @@
             }
           ],
           "errors": {
-            "type": 244
+            "type": 264
           },
           "index": 14,
           "docs": []
@@ -1126,7 +1126,7 @@
                 "name": "Invulnerables",
                 "modifier": "Default",
                 "type": {
-                  "plain": 245
+                  "plain": 265
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1137,7 +1137,7 @@
                 "name": "CandidateList",
                 "modifier": "Default",
                 "type": {
-                  "plain": 246
+                  "plain": 266
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1194,14 +1194,14 @@
             ]
           },
           "calls": {
-            "type": 249
+            "type": 269
           },
           "events": {
-            "type": 56
+            "type": 57
           },
           "constants": [],
           "errors": {
-            "type": 250
+            "type": 270
           },
           "index": 21,
           "docs": []
@@ -1215,7 +1215,7 @@
                 "name": "Validators",
                 "modifier": "Default",
                 "type": {
-                  "plain": 57
+                  "plain": 58
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1249,7 +1249,7 @@
                 "name": "QueuedKeys",
                 "modifier": "Default",
                 "type": {
-                  "plain": 251
+                  "plain": 271
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1261,7 +1261,7 @@
                 "name": "DisabledValidators",
                 "modifier": "Default",
                 "type": {
-                  "plain": 135
+                  "plain": 151
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1281,7 +1281,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 253
+                    "value": 273
                   }
                 },
                 "fallback": "0x00",
@@ -1297,7 +1297,7 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 255,
+                    "key": 275,
                     "value": 0
                   }
                 },
@@ -1309,14 +1309,14 @@
             ]
           },
           "calls": {
-            "type": 257
+            "type": 277
           },
           "events": {
-            "type": 58
+            "type": 59
           },
           "constants": [],
           "errors": {
-            "type": 258
+            "type": 278
           },
           "index": 22,
           "docs": []
@@ -1330,7 +1330,7 @@
                 "name": "Authorities",
                 "modifier": "Default",
                 "type": {
-                  "plain": 259
+                  "plain": 279
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1341,7 +1341,7 @@
                 "name": "CurrentSlot",
                 "modifier": "Default",
                 "type": {
-                  "plain": 261
+                  "plain": 281
                 },
                 "fallback": "0x0000000000000000",
                 "docs": [
@@ -1380,7 +1380,7 @@
                 "name": "Authorities",
                 "modifier": "Default",
                 "type": {
-                  "plain": 259
+                  "plain": 279
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1395,7 +1395,7 @@
                 "name": "SlotInfo",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 262
+                  "plain": 282
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1422,7 +1422,7 @@
                 "name": "InboundXcmpSuspended",
                 "modifier": "Default",
                 "type": {
-                  "plain": 263
+                  "plain": 283
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1440,7 +1440,7 @@
                 "name": "OutboundXcmpStatus",
                 "modifier": "Default",
                 "type": {
-                  "plain": 266
+                  "plain": 286
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1461,8 +1461,8 @@
                       "Blake2_128Concat",
                       "Twox64Concat"
                     ],
-                    "key": 270,
-                    "value": 271
+                    "key": 290,
+                    "value": 291
                   }
                 },
                 "fallback": "0x00",
@@ -1478,8 +1478,8 @@
                     "hashers": [
                       "Blake2_128Concat"
                     ],
-                    "key": 122,
-                    "value": 271
+                    "key": 138,
+                    "value": 291
                   }
                 },
                 "fallback": "0x00",
@@ -1491,7 +1491,7 @@
                 "name": "QueueConfig",
                 "modifier": "Default",
                 "type": {
-                  "plain": 272
+                  "plain": 292
                 },
                 "fallback": "0x200000003000000008000000",
                 "docs": [
@@ -1517,8 +1517,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 122,
-                    "value": 119
+                    "key": 138,
+                    "value": 135
                   }
                 },
                 "fallback": "0x000064a7b3b6e00d0000000000000000",
@@ -1529,10 +1529,10 @@
             ]
           },
           "calls": {
-            "type": 273
+            "type": 293
           },
           "events": {
-            "type": 59
+            "type": 60
           },
           "constants": [
             {
@@ -1576,7 +1576,7 @@
             }
           ],
           "errors": {
-            "type": 274
+            "type": 294
           },
           "index": 30,
           "docs": []
@@ -1606,7 +1606,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 12,
-                    "value": 275
+                    "value": 295
                   }
                 },
                 "fallback": "0x00",
@@ -1655,7 +1655,7 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 289,
+                    "key": 313,
                     "value": 4
                   }
                 },
@@ -1673,7 +1673,7 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 289,
+                    "key": 313,
                     "value": 12
                   }
                 },
@@ -1691,8 +1691,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 289,
-                    "value": 290
+                    "key": 313,
+                    "value": 314
                   }
                 },
                 "fallback": "0x00",
@@ -1705,7 +1705,7 @@
                 "name": "VersionDiscoveryQueue",
                 "modifier": "Default",
                 "type": {
-                  "plain": 291
+                  "plain": 315
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1718,7 +1718,7 @@
                 "name": "CurrentMigration",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 294
+                  "plain": 318
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1735,8 +1735,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 296,
-                    "value": 298
+                    "key": 320,
+                    "value": 322
                   }
                 },
                 "fallback": "0x00",
@@ -1753,7 +1753,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 0,
-                    "value": 302
+                    "value": 326
                   }
                 },
                 "fallback": "0x00",
@@ -1793,7 +1793,7 @@
                 "name": "RecordedXcm",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 63
+                  "plain": 77
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1808,14 +1808,14 @@
             ]
           },
           "calls": {
-            "type": 305
+            "type": 329
           },
           "events": {
-            "type": 60
+            "type": 61
           },
           "constants": [],
           "errors": {
-            "type": 335
+            "type": 359
           },
           "index": 31,
           "docs": []
@@ -1824,10 +1824,10 @@
           "name": "CumulusXcm",
           "storage": null,
           "calls": {
-            "type": 336
+            "type": 360
           },
           "events": {
-            "type": 117
+            "type": 133
           },
           "constants": [],
           "errors": null,
@@ -1843,7 +1843,7 @@
                 "name": "Bridge",
                 "modifier": "Default",
                 "type": {
-                  "plain": 337
+                  "plain": 361
                 },
                 "fallback": "0x000064a7b3b6e00d000000000000000000",
                 "docs": [
@@ -1859,10 +1859,10 @@
             ]
           },
           "calls": {
-            "type": 338
+            "type": 362
           },
           "events": {
-            "type": 118
+            "type": 134
           },
           "constants": [],
           "errors": null,
@@ -1882,8 +1882,8 @@
                     "hashers": [
                       "Twox64Concat"
                     ],
-                    "key": 121,
-                    "value": 339
+                    "key": 137,
+                    "value": 363
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000000000000000000000",
@@ -1895,7 +1895,7 @@
                 "name": "ServiceHead",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 121
+                  "plain": 137
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -1911,8 +1911,8 @@
                       "Twox64Concat",
                       "Twox64Concat"
                     ],
-                    "key": 342,
-                    "value": 343
+                    "key": 366,
+                    "value": 367
                   }
                 },
                 "fallback": "0x00",
@@ -1923,10 +1923,10 @@
             ]
           },
           "calls": {
-            "type": 345
+            "type": 369
           },
           "events": {
-            "type": 120
+            "type": 136
           },
           "constants": [
             {
@@ -1953,7 +1953,7 @@
             },
             {
               "name": "ServiceWeight",
-              "type": 168,
+              "type": 99,
               "value": "0x01070016d0be2802007000",
               "docs": [
                 " The amount of weight (if any) which should be provided to the message queue for",
@@ -1966,7 +1966,7 @@
             },
             {
               "name": "IdleMaxServiceWeight",
-              "type": 168,
+              "type": 99,
               "value": "0x010700e876481702004000",
               "docs": [
                 " The maximum amount of weight (if any) to be used from remaining weight `on_idle` which",
@@ -1978,7 +1978,7 @@
             }
           ],
           "errors": {
-            "type": 346
+            "type": 370
           },
           "index": 35,
           "docs": []
@@ -1987,10 +1987,10 @@
           "name": "Utility",
           "storage": null,
           "calls": {
-            "type": 347
+            "type": 371
           },
           "events": {
-            "type": 124
+            "type": 140
           },
           "constants": [
             {
@@ -2003,7 +2003,7 @@
             }
           ],
           "errors": {
-            "type": 389
+            "type": 418
           },
           "index": 40,
           "docs": []
@@ -2022,8 +2022,8 @@
                       "Twox64Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 390,
-                    "value": 391
+                    "key": 419,
+                    "value": 420
                   }
                 },
                 "fallback": "0x00",
@@ -2034,10 +2034,10 @@
             ]
           },
           "calls": {
-            "type": 350
+            "type": 374
           },
           "events": {
-            "type": 127
+            "type": 143
           },
           "constants": [
             {
@@ -2073,7 +2073,7 @@
             }
           ],
           "errors": {
-            "type": 393
+            "type": 422
           },
           "index": 41,
           "docs": []
@@ -2092,7 +2092,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 394
+                    "value": 423
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
@@ -2110,7 +2110,7 @@
                       "Twox64Concat"
                     ],
                     "key": 0,
-                    "value": 398
+                    "value": 427
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000",
@@ -2121,10 +2121,10 @@
             ]
           },
           "calls": {
-            "type": 352
+            "type": 376
           },
           "events": {
-            "type": 129
+            "type": 145
           },
           "constants": [
             {
@@ -2190,7 +2190,7 @@
             }
           ],
           "errors": {
-            "type": 402
+            "type": 431
           },
           "index": 42,
           "docs": []
@@ -2209,7 +2209,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 403
+                    "value": 432
                   }
                 },
                 "fallback": "0x00",
@@ -2226,8 +2226,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 405,
-                    "value": 406
+                    "key": 434,
+                    "value": 435
                   }
                 },
                 "fallback": "0x00",
@@ -2245,8 +2245,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 409,
-                    "value": 410
+                    "key": 438,
+                    "value": 439
                   }
                 },
                 "fallback": "0x00",
@@ -2265,7 +2265,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 411
+                    "value": 440
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000",
@@ -2295,10 +2295,10 @@
             ]
           },
           "calls": {
-            "type": 354
+            "type": 378
           },
           "events": {
-            "type": 132
+            "type": 148
           },
           "constants": [
             {
@@ -2363,7 +2363,7 @@
             }
           ],
           "errors": {
-            "type": 413
+            "type": 442
           },
           "index": 50,
           "docs": []
@@ -2382,7 +2382,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 414
+                    "value": 443
                   }
                 },
                 "fallback": "0x00",
@@ -2417,8 +2417,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 415,
-                    "value": 126
+                    "key": 444,
+                    "value": 142
                   }
                 },
                 "fallback": "0x00",
@@ -2436,8 +2436,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 416,
-                    "value": 126
+                    "key": 445,
+                    "value": 142
                   }
                 },
                 "fallback": "0x00",
@@ -2455,8 +2455,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 157,
-                    "value": 417
+                    "key": 176,
+                    "value": 446
                   }
                 },
                 "fallback": "0x00",
@@ -2473,7 +2473,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 418
+                    "value": 447
                   }
                 },
                 "fallback": "0x00",
@@ -2490,8 +2490,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 157,
-                    "value": 419
+                    "key": 176,
+                    "value": 448
                   }
                 },
                 "fallback": "0x00",
@@ -2509,8 +2509,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 420,
-                    "value": 421
+                    "key": 449,
+                    "value": 450
                   }
                 },
                 "fallback": "0x00",
@@ -2527,8 +2527,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 157,
-                    "value": 422
+                    "key": 176,
+                    "value": 451
                   }
                 },
                 "fallback": "0x00",
@@ -2556,10 +2556,10 @@
             ]
           },
           "calls": {
-            "type": 355
+            "type": 379
           },
           "events": {
-            "type": 133
+            "type": 149
           },
           "constants": [
             {
@@ -2629,7 +2629,7 @@
             }
           ],
           "errors": {
-            "type": 423
+            "type": 452
           },
           "index": 51,
           "docs": []
@@ -2648,7 +2648,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 424
+                    "value": 453
                   }
                 },
                 "fallback": "0x00",
@@ -2683,8 +2683,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 415,
-                    "value": 126
+                    "key": 444,
+                    "value": 142
                   }
                 },
                 "fallback": "0x00",
@@ -2702,8 +2702,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 416,
-                    "value": 126
+                    "key": 445,
+                    "value": 142
                   }
                 },
                 "fallback": "0x00",
@@ -2721,8 +2721,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 405,
-                    "value": 425
+                    "key": 434,
+                    "value": 454
                   }
                 },
                 "fallback": "0x00",
@@ -2740,8 +2740,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 157,
-                    "value": 427
+                    "key": 176,
+                    "value": 456
                   }
                 },
                 "fallback": "0x00",
@@ -2758,7 +2758,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 433
+                    "value": 462
                   }
                 },
                 "fallback": "0x00",
@@ -2775,8 +2775,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 157,
-                    "value": 434
+                    "key": 176,
+                    "value": 463
                   }
                 },
                 "fallback": "0x00",
@@ -2795,8 +2795,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 436,
-                    "value": 437
+                    "key": 465,
+                    "value": 466
                   }
                 },
                 "fallback": "0x00",
@@ -2813,8 +2813,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 157,
-                    "value": 422
+                    "key": 176,
+                    "value": 451
                   }
                 },
                 "fallback": "0x00",
@@ -2831,8 +2831,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 157,
-                    "value": 439
+                    "key": 176,
+                    "value": 468
                   }
                 },
                 "fallback": "0x00",
@@ -2861,8 +2861,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 157,
-                    "value": 441
+                    "key": 176,
+                    "value": 470
                   }
                 },
                 "fallback": "0x00",
@@ -2879,7 +2879,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 360
+                    "value": 384
                   }
                 },
                 "fallback": "0x00",
@@ -2896,8 +2896,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 157,
-                    "value": 370
+                    "key": 176,
+                    "value": 394
                   }
                 },
                 "fallback": "0x00",
@@ -2908,10 +2908,10 @@
             ]
           },
           "calls": {
-            "type": 359
+            "type": 383
           },
           "events": {
-            "type": 140
+            "type": 156
           },
           "constants": [
             {
@@ -3021,7 +3021,7 @@
             },
             {
               "name": "Features",
-              "type": 442,
+              "type": 471,
               "value": "0x0000000000000000",
               "docs": [
                 " Disables some of pallet's features."
@@ -3029,7 +3029,7 @@
             }
           ],
           "errors": {
-            "type": 444
+            "type": 473
           },
           "index": 52,
           "docs": []
@@ -3047,8 +3047,8 @@
                     "hashers": [
                       "Blake2_128Concat"
                     ],
-                    "key": 37,
-                    "value": 403
+                    "key": 38,
+                    "value": 432
                   }
                 },
                 "fallback": "0x00",
@@ -3065,8 +3065,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 445,
-                    "value": 406
+                    "key": 474,
+                    "value": 435
                   }
                 },
                 "fallback": "0x00",
@@ -3084,8 +3084,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 446,
-                    "value": 410
+                    "key": 475,
+                    "value": 439
                   }
                 },
                 "fallback": "0x00",
@@ -3103,8 +3103,8 @@
                     "hashers": [
                       "Blake2_128Concat"
                     ],
-                    "key": 37,
-                    "value": 447
+                    "key": 38,
+                    "value": 476
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000",
@@ -3116,7 +3116,7 @@
                 "name": "NextAssetId",
                 "modifier": "Optional",
                 "type": {
-                  "plain": 37
+                  "plain": 38
                 },
                 "fallback": "0x00",
                 "docs": [
@@ -3134,10 +3134,10 @@
             ]
           },
           "calls": {
-            "type": 380
+            "type": 404
           },
           "events": {
-            "type": 147
+            "type": 163
           },
           "constants": [
             {
@@ -3202,7 +3202,7 @@
             }
           ],
           "errors": {
-            "type": 449
+            "type": 478
           },
           "index": 53,
           "docs": []
@@ -3221,7 +3221,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 403
+                    "value": 432
                   }
                 },
                 "fallback": "0x00",
@@ -3238,8 +3238,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 405,
-                    "value": 406
+                    "key": 434,
+                    "value": 435
                   }
                 },
                 "fallback": "0x00",
@@ -3257,8 +3257,8 @@
                       "Blake2_128Concat",
                       "Blake2_128Concat"
                     ],
-                    "key": 409,
-                    "value": 410
+                    "key": 438,
+                    "value": 439
                   }
                 },
                 "fallback": "0x00",
@@ -3277,7 +3277,7 @@
                       "Blake2_128Concat"
                     ],
                     "key": 4,
-                    "value": 450
+                    "value": 479
                   }
                 },
                 "fallback": "0x0000000000000000000000000000000000000000",
@@ -3307,10 +3307,10 @@
             ]
           },
           "calls": {
-            "type": 381
+            "type": 405
           },
           "events": {
-            "type": 148
+            "type": 164
           },
           "constants": [
             {
@@ -3375,7 +3375,7 @@
             }
           ],
           "errors": {
-            "type": 452
+            "type": 481
           },
           "index": 54,
           "docs": []
@@ -3393,8 +3393,8 @@
                     "hashers": [
                       "Blake2_128Concat"
                     ],
-                    "key": 150,
-                    "value": 453
+                    "key": 166,
+                    "value": 482
                   }
                 },
                 "fallback": "0x00",
@@ -3418,10 +3418,10 @@
             ]
           },
           "calls": {
-            "type": 382
+            "type": 406
           },
           "events": {
-            "type": 149
+            "type": 165
           },
           "constants": [
             {
@@ -3442,7 +3442,7 @@
             },
             {
               "name": "PoolSetupFeeAsset",
-              "type": 37,
+              "type": 38,
               "value": "0x0100",
               "docs": [
                 " Asset class from [`Config::Assets`] used to pay the [`Config::PoolSetupFee`]."
@@ -3450,7 +3450,7 @@
             },
             {
               "name": "LiquidityWithdrawalFee",
-              "type": 151,
+              "type": 167,
               "value": "0x00000000",
               "docs": [
                 " A fee to withdraw the liquidity."
@@ -3474,7 +3474,7 @@
             },
             {
               "name": "PalletId",
-              "type": 454,
+              "type": 483,
               "value": "0x70792f6173636f6e",
               "docs": [
                 " The pallet's id, used for deriving its sovereign account ID."
@@ -3482,67 +3482,156 @@
             }
           ],
           "errors": {
-            "type": 455
+            "type": 484
           },
           "index": 55,
+          "docs": []
+        },
+        {
+          "name": "StateTrieMigration",
+          "storage": {
+            "prefix": "StateTrieMigration",
+            "items": [
+              {
+                "name": "MigrationProcess",
+                "modifier": "Default",
+                "type": {
+                  "plain": 411
+                },
+                "fallback": "0x0000000000000000000000000000",
+                "docs": [
+                  " Migration progress.",
+                  "",
+                  " This stores the snapshot of the last migrated keys. It can be set into motion and move",
+                  " forward by any of the means provided by this pallet."
+                ]
+              },
+              {
+                "name": "AutoLimits",
+                "modifier": "Default",
+                "type": {
+                  "plain": 409
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The limits that are imposed on automatic migrations.",
+                  "",
+                  " If set to None, then no automatic migration happens."
+                ]
+              },
+              {
+                "name": "SignedMigrationMaxLimits",
+                "modifier": "Optional",
+                "type": {
+                  "plain": 410
+                },
+                "fallback": "0x00",
+                "docs": [
+                  " The maximum limits that the signed migration could use.",
+                  "",
+                  " If not set, no signed submission is allowed."
+                ]
+              }
+            ]
+          },
+          "calls": {
+            "type": 408
+          },
+          "events": {
+            "type": 170
+          },
+          "constants": [
+            {
+              "name": "MaxKeyLen",
+              "type": 4,
+              "value": "0x00020000",
+              "docs": [
+                " Maximal number of bytes that a key can have.",
+                "",
+                " FRAME itself does not limit the key length.",
+                " The concrete value must therefore depend on your storage usage.",
+                " A [`frame_support::storage::StorageNMap`] for example can have an arbitrary number of",
+                " keys which are then hashed and concatenated, resulting in arbitrarily long keys.",
+                "",
+                " Use the *state migration RPC* to retrieve the length of the longest key in your",
+                " storage: <https://github.com/paritytech/substrate/issues/11642>",
+                "",
+                " The migration will halt with a `Halted` event if this value is too small.",
+                " Since there is no real penalty from over-estimating, it is advised to use a large",
+                " value. The default is 512 byte.",
+                "",
+                " Some key lengths for reference:",
+                " - [`frame_support::storage::StorageValue`]: 32 byte",
+                " - [`frame_support::storage::StorageMap`]: 64 byte",
+                " - [`frame_support::storage::StorageDoubleMap`]: 96 byte",
+                "",
+                " For more info see",
+                " <https://www.shawntabrizi.com/blog/substrate/querying-substrate-storage-via-rpc/>"
+              ]
+            }
+          ],
+          "errors": {
+            "type": 172
+          },
+          "index": 70,
           "docs": []
         }
       ],
       "extrinsic": {
         "version": 4,
-        "addressType": 234,
-        "callType": 349,
-        "signatureType": 376,
-        "extraType": 456,
+        "addressType": 254,
+        "callType": 373,
+        "signatureType": 400,
+        "extraType": 485,
         "signedExtensions": [
           {
             "identifier": "CheckNonZeroSender",
-            "type": 457,
-            "additionalSigned": 126
+            "type": 486,
+            "additionalSigned": 142
           },
           {
             "identifier": "CheckSpecVersion",
-            "type": 458,
+            "type": 487,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckTxVersion",
-            "type": 459,
+            "type": 488,
             "additionalSigned": 4
           },
           {
             "identifier": "CheckGenesis",
-            "type": 460,
+            "type": 489,
             "additionalSigned": 13
           },
           {
             "identifier": "CheckMortality",
-            "type": 461,
+            "type": 490,
             "additionalSigned": 13
           },
           {
             "identifier": "CheckNonce",
-            "type": 463,
-            "additionalSigned": 126
+            "type": 492,
+            "additionalSigned": 142
           },
           {
             "identifier": "CheckWeight",
-            "type": 464,
-            "additionalSigned": 126
+            "type": 493,
+            "additionalSigned": 142
           },
           {
             "identifier": "ChargeAssetTxPayment",
-            "type": 465,
-            "additionalSigned": 126
+            "type": 494,
+            "additionalSigned": 142
           },
           {
             "identifier": "CheckMetadataHash",
-            "type": 466,
-            "additionalSigned": 32
+            "type": 495,
+            "additionalSigned": 33
           }
         ]
       },
-      "type": 468,
+      "type": 497,
       "apis": [
         {
           "name": "AuraApi",
@@ -3550,7 +3639,7 @@
             {
               "name": "slot_duration",
               "inputs": [],
-              "output": 469,
+              "output": 498,
               "docs": [
                 " Returns the slot duration for Aura.",
                 "",
@@ -3560,7 +3649,7 @@
             {
               "name": "authorities",
               "inputs": [],
-              "output": 260,
+              "output": 280,
               "docs": [
                 " Return the current set of authorities."
               ]
@@ -3582,7 +3671,7 @@
                 },
                 {
                   "name": "slot",
-                  "type": 261
+                  "type": 281
                 }
               ],
               "output": 8,
@@ -3619,7 +3708,7 @@
             {
               "name": "version",
               "inputs": [],
-              "output": 172,
+              "output": 191,
               "docs": [
                 " Returns the version of the runtime."
               ]
@@ -3629,10 +3718,10 @@
               "inputs": [
                 {
                   "name": "block",
-                  "type": 470
+                  "type": 499
                 }
               ],
-              "output": 126,
+              "output": 142,
               "docs": [
                 " Execute the given block."
               ]
@@ -3642,10 +3731,10 @@
               "inputs": [
                 {
                   "name": "header",
-                  "type": 471
+                  "type": 500
                 }
               ],
-              "output": 474,
+              "output": 503,
               "docs": [
                 " Initialize a block with the given header and return the runtime executive mode."
               ]
@@ -3661,7 +3750,7 @@
             {
               "name": "metadata",
               "inputs": [],
-              "output": 475,
+              "output": 504,
               "docs": [
                 " Returns the metadata of a runtime."
               ]
@@ -3674,7 +3763,7 @@
                   "type": 4
                 }
               ],
-              "output": 476,
+              "output": 505,
               "docs": [
                 " Returns the metadata at a given version.",
                 "",
@@ -3685,7 +3774,7 @@
             {
               "name": "metadata_versions",
               "inputs": [],
-              "output": 135,
+              "output": 151,
               "docs": [
                 " Returns the supported metadata versions.",
                 "",
@@ -3705,10 +3794,10 @@
               "inputs": [
                 {
                   "name": "extrinsic",
-                  "type": 472
+                  "type": 501
                 }
               ],
-              "output": 477,
+              "output": 506,
               "docs": [
                 " Apply the given extrinsic.",
                 "",
@@ -3719,7 +3808,7 @@
             {
               "name": "finalize_block",
               "inputs": [],
-              "output": 471,
+              "output": 500,
               "docs": [
                 " Finish the current block."
               ]
@@ -3729,10 +3818,10 @@
               "inputs": [
                 {
                   "name": "inherent",
-                  "type": 481
+                  "type": 510
                 }
               ],
-              "output": 473,
+              "output": 502,
               "docs": [
                 " Generate inherent extrinsics. The inherent data will vary from chain to chain."
               ]
@@ -3742,14 +3831,14 @@
               "inputs": [
                 {
                   "name": "block",
-                  "type": 470
+                  "type": 499
                 },
                 {
                   "name": "data",
-                  "type": 481
+                  "type": 510
                 }
               ],
-              "output": 485,
+              "output": 514,
               "docs": [
                 " Check that the inherents are valid. The inherent data will vary from chain to chain."
               ]
@@ -3767,18 +3856,18 @@
               "inputs": [
                 {
                   "name": "source",
-                  "type": 486
+                  "type": 515
                 },
                 {
                   "name": "tx",
-                  "type": 472
+                  "type": 501
                 },
                 {
                   "name": "block_hash",
                   "type": 13
                 }
               ],
-              "output": 487,
+              "output": 516,
               "docs": [
                 " Validate the transaction.",
                 "",
@@ -3804,10 +3893,10 @@
               "inputs": [
                 {
                   "name": "header",
-                  "type": 471
+                  "type": 500
                 }
               ],
-              "output": 126,
+              "output": 142,
               "docs": [
                 " Starts the off-chain task for given block header."
               ]
@@ -3825,7 +3914,7 @@
               "inputs": [
                 {
                   "name": "seed",
-                  "type": 295
+                  "type": 319
                 }
               ],
               "output": 14,
@@ -3847,7 +3936,7 @@
                   "type": 14
                 }
               ],
-              "output": 489,
+              "output": 518,
               "docs": [
                 " Decode the given public session keys.",
                 "",
@@ -3888,14 +3977,14 @@
               "inputs": [
                 {
                   "name": "uxt",
-                  "type": 472
+                  "type": 501
                 },
                 {
                   "name": "len",
                   "type": 4
                 }
               ],
-              "output": 492,
+              "output": 521,
               "docs": []
             },
             {
@@ -3903,14 +3992,14 @@
               "inputs": [
                 {
                   "name": "uxt",
-                  "type": 472
+                  "type": 501
                 },
                 {
                   "name": "len",
                   "type": 4
                 }
               ],
-              "output": 493,
+              "output": 522,
               "docs": []
             },
             {
@@ -3946,14 +4035,14 @@
               "inputs": [
                 {
                   "name": "call",
-                  "type": 349
+                  "type": 373
                 },
                 {
                   "name": "len",
                   "type": 4
                 }
               ],
-              "output": 492,
+              "output": 521,
               "docs": [
                 " Query information of a dispatch class, weight, and fee of a given encoded `Call`."
               ]
@@ -3963,14 +4052,14 @@
               "inputs": [
                 {
                   "name": "call",
-                  "type": 349
+                  "type": 373
                 },
                 {
                   "name": "len",
                   "type": 4
                 }
               ],
-              "output": 493,
+              "output": 522,
               "docs": [
                 " Query fee details of a given encoded `Call`."
               ]
@@ -4015,7 +4104,7 @@
                   "type": 4
                 }
               ],
-              "output": 496,
+              "output": 525,
               "docs": [
                 " Returns a list of acceptable payment assets.",
                 "",
@@ -4029,10 +4118,10 @@
               "inputs": [
                 {
                   "name": "message",
-                  "type": 306
+                  "type": 330
                 }
               ],
-              "output": 499,
+              "output": 528,
               "docs": [
                 " Returns a weight needed to execute a XCM.",
                 "",
@@ -4050,10 +4139,10 @@
                 },
                 {
                   "name": "asset",
-                  "type": 297
+                  "type": 321
                 }
               ],
-              "output": 500,
+              "output": 529,
               "docs": [
                 " Converts a weight into a fee for the specified `AssetId`.",
                 "",
@@ -4068,14 +4157,14 @@
               "inputs": [
                 {
                   "name": "destination",
-                  "type": 116
+                  "type": 132
                 },
                 {
                   "name": "message",
-                  "type": 306
+                  "type": 330
                 }
               ],
-              "output": 501,
+              "output": 530,
               "docs": [
                 " Get delivery fees for sending a specific `message` to a `destination`.",
                 " These always come in a specific asset, defined by the chain.",
@@ -4110,16 +4199,20 @@
               "inputs": [
                 {
                   "name": "origin",
-                  "type": 384
+                  "type": 414
                 },
                 {
                   "name": "call",
-                  "type": 349
+                  "type": 373
+                },
+                {
+                  "name": "result_xcms_version",
+                  "type": 4
                 }
               ],
-              "output": 502,
+              "output": 531,
               "docs": [
-                " Dry run call."
+                " Dry run call V2."
               ]
             },
             {
@@ -4127,14 +4220,14 @@
               "inputs": [
                 {
                   "name": "origin_location",
-                  "type": 116
+                  "type": 132
                 },
                 {
                   "name": "xcm",
-                  "type": 323
+                  "type": 347
                 }
               ],
-              "output": 513,
+              "output": 542,
               "docs": [
                 " Dry run XCM program"
               ]
@@ -4160,10 +4253,10 @@
               "inputs": [
                 {
                   "name": "location",
-                  "type": 116
+                  "type": 132
                 }
               ],
-              "output": 515,
+              "output": 544,
               "docs": [
                 " Converts `Location` to `AccountId`."
               ]
@@ -4184,7 +4277,7 @@
                   "type": 0
                 }
               ],
-              "output": 517,
+              "output": 546,
               "docs": [
                 " Returns the list of all [`Asset`] that an `AccountId` has."
               ]
@@ -4202,10 +4295,10 @@
               "inputs": [
                 {
                   "name": "header",
-                  "type": 471
+                  "type": 500
                 }
               ],
-              "output": 519,
+              "output": 548,
               "docs": [
                 " Collect information about a collation.",
                 "",
@@ -4229,14 +4322,15 @@
                   "type": 14
                 }
               ],
-              "output": 522,
+              "output": 551,
               "docs": [
                 " Build `RuntimeGenesisConfig` from a JSON blob not using any defaults and store it in the",
                 " storage.",
                 "",
-                " In the case of a FRAME-based runtime, this function deserializes the full `RuntimeGenesisConfig` from the given JSON blob and",
-                " puts it into the storage. If the provided JSON blob is incorrect or incomplete or the",
-                " deserialization fails, an error is returned.",
+                " In the case of a FRAME-based runtime, this function deserializes the full",
+                " `RuntimeGenesisConfig` from the given JSON blob and puts it into the storage. If the",
+                " provided JSON blob is incorrect or incomplete or the deserialization fails, an error",
+                " is returned.",
                 "",
                 " Please note that provided JSON blob must contain all `RuntimeGenesisConfig` fields, no",
                 " defaults will be used."
@@ -4247,15 +4341,15 @@
               "inputs": [
                 {
                   "name": "id",
-                  "type": 523
+                  "type": 552
                 }
               ],
-              "output": 295,
+              "output": 319,
               "docs": [
                 " Returns a JSON blob representation of the built-in `RuntimeGenesisConfig` identified by",
                 " `id`.",
                 "",
-                " If `id` is `None` the function returns JSON blob representation of the default",
+                " If `id` is `None` the function should return JSON blob representation of the default",
                 " `RuntimeGenesisConfig` struct of the runtime. Implementation must provide default",
                 " `RuntimeGenesisConfig`.",
                 "",
@@ -4271,7 +4365,7 @@
             {
               "name": "preset_names",
               "inputs": [],
-              "output": 524,
+              "output": 553,
               "docs": [
                 " Returns a list of identifiers for available builtin `RuntimeGenesisConfig` presets.",
                 "",
@@ -4281,7 +4375,7 @@
             }
           ],
           "docs": [
-            " API to interact with RuntimeGenesisConfig for the runtime"
+            " API to interact with `RuntimeGenesisConfig` for the runtime"
           ]
         },
         {
@@ -4292,11 +4386,11 @@
               "inputs": [
                 {
                   "name": "asset1",
-                  "type": 37
+                  "type": 38
                 },
                 {
                   "name": "asset2",
-                  "type": 37
+                  "type": 38
                 },
                 {
                   "name": "amount",
@@ -4307,7 +4401,7 @@
                   "type": 8
                 }
               ],
-              "output": 358,
+              "output": 382,
               "docs": [
                 " Provides a quote for [`Pallet::swap_tokens_for_exact_tokens`].",
                 "",
@@ -4320,11 +4414,11 @@
               "inputs": [
                 {
                   "name": "asset1",
-                  "type": 37
+                  "type": 38
                 },
                 {
                   "name": "asset2",
-                  "type": 37
+                  "type": 38
                 },
                 {
                   "name": "amount",
@@ -4335,7 +4429,7 @@
                   "type": 8
                 }
               ],
-              "output": 358,
+              "output": 382,
               "docs": [
                 " Provides a quote for [`Pallet::swap_exact_tokens_for_tokens`].",
                 "",
@@ -4348,14 +4442,14 @@
               "inputs": [
                 {
                   "name": "asset1",
-                  "type": 37
+                  "type": 38
                 },
                 {
                   "name": "asset2",
-                  "type": 37
+                  "type": 38
                 }
               ],
-              "output": 525,
+              "output": 554,
               "docs": [
                 " Returns the size of the liquidity pool for the given asset pair."
               ]
@@ -4368,9 +4462,9 @@
         }
       ],
       "outerEnums": {
-        "callType": 349,
+        "callType": 373,
         "eventType": 21,
-        "errorType": 527
+        "errorType": 556
       },
       "custom": {
         "map": {}

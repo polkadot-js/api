@@ -1019,6 +1019,40 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    remoteProxyRelayChain: {
+      /**
+       * The local account id could not converted to the remote account id.
+       **/
+      CouldNotConvertLocalToRemoteAccountId: AugmentedError<ApiType>;
+      /**
+       * Could not find any matching proxy definition in the proof.
+       **/
+      DidNotFindMatchingProxyDefinition: AugmentedError<ApiType>;
+      /**
+       * The proxy definition could not be found in the proof.
+       **/
+      InvalidProof: AugmentedError<ApiType>;
+      /**
+       * Failed to decode the remote proxy definition from the proof.
+       **/
+      ProxyDefinitionDecodingFailed: AugmentedError<ApiType>;
+      /**
+       * Proxy proof not registered.
+       **/
+      ProxyProofNotRegistered: AugmentedError<ApiType>;
+      /**
+       * Announcement, if made at all, was made too recently.
+       **/
+      Unannounced: AugmentedError<ApiType>;
+      /**
+       * The anchor block of the remote proof is unknown.
+       **/
+      UnknownProofAnchorBlock: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     session: {
       /**
        * Registered duplicate key.
@@ -1040,6 +1074,42 @@ declare module '@polkadot/api-base/types/errors' {
        * No keys are associated with this account.
        **/
       NoKeys: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    stateTrieMigration: {
+      /**
+       * Bad child root provided.
+       **/
+      BadChildRoot: AugmentedError<ApiType>;
+      /**
+       * Bad witness data provided.
+       **/
+      BadWitness: AugmentedError<ApiType>;
+      /**
+       * A key was longer than the configured maximum.
+       * 
+       * This means that the migration halted at the current [`Progress`] and
+       * can be resumed with a larger [`crate::Config::MaxKeyLen`] value.
+       * Retrying with the same [`crate::Config::MaxKeyLen`] value will not work.
+       * The value should only be increased to avoid a storage migration for the currently
+       * stored [`crate::Progress::LastKey`].
+       **/
+      KeyTooLong: AugmentedError<ApiType>;
+      /**
+       * Max signed limits not respected.
+       **/
+      MaxSignedLimits: AugmentedError<ApiType>;
+      /**
+       * submitter does not have enough funds.
+       **/
+      NotEnoughFunds: AugmentedError<ApiType>;
+      /**
+       * Signed migration is not allowed because the maximum limit is not set yet.
+       **/
+      SignedMigrationNotAllowed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
