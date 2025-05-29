@@ -68,7 +68,7 @@ function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSuppor
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataSupported, ContractProjectInfo, boolean] {
   const registry = new TypeRegistry();
 
-  const isRevive = Boolean((json as any)?.source?.contract_binary);
+  const isRevive = Boolean((json as any)?.source?.contract_binary) || (json as any)?.version >= 6;
   const typeName = isRevive ? 'ContractReviveProjectInfo' : 'ContractProjectInfo';
 
   const info = registry.createType(typeName, json) as unknown as ContractProjectInfo;
