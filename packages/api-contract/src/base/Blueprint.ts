@@ -55,7 +55,10 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #deploy = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, BlueprintSubmittableResult<ApiType>> => {
-    return this.api.tx.contracts.instantiate(
+    const palletTx = this._isRevive
+      ? this.api.tx.revive
+      : this.api.tx.contracts;
+    return palletTx.instantiate(
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore jiggle v1 weights, metadata points to latest
@@ -67,9 +70,23 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
       this.abi.findConstructor(constructorOrId).toU8a(params),
       encodeSalt(salt)
     ).withResultTransform((result: ISubmittableResult) =>
-      new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
-        new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
-      ))
+      new BlueprintSubmittableResult(result, 
+        this._isRevive 
+          ? (
+              (result.status.isInBlock || result.status.isFinalized)
+                ? new Contract<ApiType>(
+                    this.api,
+                    this.abi,
+                    // your fixed address for revive deployments
+                    this.registry.createType('AccountId', '0x075e2a9cfb213a68dfa1f5cf6bf6d515ae212cf8'),
+                    this._decorateMethod
+                  )
+                : undefined
+            )
+          : applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
+              new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
+            )
+          )
     );
   };
 }

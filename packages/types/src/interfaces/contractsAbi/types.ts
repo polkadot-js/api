@@ -103,6 +103,15 @@ export interface ContractContractSpecV5 extends Struct {
   readonly environment: ContractEnvironmentV4;
 }
 
+/** @name ContractContractSpecV6 */
+export interface ContractContractSpecV6 extends Struct {
+  readonly constructors: Vec<ContractConstructorSpecV4>;
+  readonly messages: Vec<ContractMessageSpecV3>;
+  readonly events: Vec<ContractEventSpecV3>;
+  readonly docs: Vec<Text>;
+  readonly environment: ContractEnvironmentV4;
+}
+
 /** @name ContractCryptoHasher */
 export interface ContractCryptoHasher extends Enum {
   readonly isBlake2x256: boolean;
@@ -304,11 +313,13 @@ export interface ContractMetadata extends Enum {
   readonly asV4: ContractMetadataV4;
   readonly isV5: boolean;
   readonly asV5: ContractMetadataV5;
-  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5';
+  readonly isV6: boolean;
+  readonly asV6: ContractMetadataV6;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6';
 }
 
 /** @name ContractMetadataLatest */
-export interface ContractMetadataLatest extends ContractMetadataV5 {}
+export interface ContractMetadataLatest extends ContractMetadataV6 {}
 
 /** @name ContractMetadataV0 */
 export interface ContractMetadataV0 extends Struct {
@@ -349,6 +360,13 @@ export interface ContractMetadataV5 extends Struct {
   readonly version: u64;
 }
 
+/** @name ContractMetadataV6 */
+export interface ContractMetadataV6 extends Struct {
+  readonly types: Vec<PortableType>;
+  readonly spec: ContractContractSpecV6;
+  readonly version: u64;
+}
+
 /** @name ContractProject */
 export interface ContractProject extends ITuple<[ContractProjectInfo, ContractMetadata]> {}
 
@@ -385,6 +403,20 @@ export interface ContractProjectV0 extends Struct {
   readonly contract: ContractProjectContract;
   readonly types: Vec<Si0Type>;
   readonly spec: ContractContractSpecV0;
+}
+
+/** @name ContractReviveProjectInfo */
+export interface ContractReviveProjectInfo extends Struct {
+  readonly source: ContractReviveProjectSource;
+  readonly contract: ContractProjectContract;
+}
+
+/** @name ContractReviveProjectSource */
+export interface ContractReviveProjectSource extends Struct {
+  readonly wasmHash: U8aFixed;
+  readonly language: Text;
+  readonly compiler: Text;
+  readonly wasm: Raw;
 }
 
 /** @name ContractSelector */
