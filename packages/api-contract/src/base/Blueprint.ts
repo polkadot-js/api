@@ -78,7 +78,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
                     this.api,
                     this.abi,
                     // your fixed address for revive deployments
-                    this.registry.createType('AccountId', '0x075e2a9cfb213a68dfa1f5cf6bf6d515ae212cf8'),
+                    this.registry.createType('AccountId', '0x'),
                     this._decorateMethod
                   )
                 : undefined

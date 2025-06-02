@@ -85,7 +85,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
         new CodeSubmittableResult(
           result,
           new Blueprint<ApiType>(this.api, this.abi, this.abi.info.source.hash, this._decorateMethod),
-          new Contract<ApiType>(this.api, this.abi, "0x075e2a9cfb213a68dfa1f5cf6bf6d515ae212cf8", this._decorateMethod)
+          new Contract<ApiType>(this.api, this.abi, "0x", this._decorateMethod)
         )
       );
     }
