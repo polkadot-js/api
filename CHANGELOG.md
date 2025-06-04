@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 16.1.2 Jun 4, 2025
+
+Changes:
+
+- Use ExtrinsicV4 by default ([#6164](https://github.com/polkadot-js/api/pull/6164))
+
+
 ## 16.1.1 May 29, 2025
 
 Changes:
