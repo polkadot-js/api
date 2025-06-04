@@ -14,7 +14,8 @@ export const UNMASK_VERSION = 0b01111111;
 export const DEFAULT_PREAMBLE = 'bare';
 
 // Latest extrinsic version is v5, which has backwards compatibility for v4 signed extrinsics
-export const LATEST_EXTRINSIC_VERSION = 5;
+// However is not fully supported so LATEST_EXTRINSIC_VERSION is configured as 4 in the meantime.
+export const LATEST_EXTRINSIC_VERSION = 4;
 
 export const VERSION_MASK = 0b00111111;
 
