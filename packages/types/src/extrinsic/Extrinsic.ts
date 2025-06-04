@@ -330,9 +330,11 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
 
   constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { preamble, version }: CreateOptions = {}) {
     const versionsLength = registry.metadata.extrinsic.versions.length;
-    const highestSupportedVersion = versionsLength ? registry.metadata.extrinsic.versions[versionsLength - 1] : undefined;
 
-    super(registry, decodeExtrinsic(registry, value, version || highestSupportedVersion, preamble), undefined, preamble);
+    // TODO: Once ExtrinsicV5 is fully supported update this to use the highest supported verion which is the last item of the array
+    const supportedVersion = versionsLength ? registry.metadata.extrinsic.versions[0] : undefined;
+
+    super(registry, decodeExtrinsic(registry, value, version || supportedVersion, preamble), undefined, preamble);
   }
 
   /**

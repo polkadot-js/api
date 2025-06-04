@@ -374,7 +374,8 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
       throw new Error('Invalid initializion order, runtimeVersion is not available');
     }
 
-    this._extrinsicType = metadata.asLatest.extrinsic.versions.at(-1) || LATEST_EXTRINSIC_VERSION;
+    // ExtrinsicV5 is not fully supported yet, for that reason we default to version 4
+    this._extrinsicType = metadata.asLatest.extrinsic.versions.at(0) || LATEST_EXTRINSIC_VERSION;
     this._rx.extrinsicType = this._extrinsicType;
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = runtimeVersion;
