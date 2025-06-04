@@ -1,0 +1,418 @@
+[
+  {
+    "info": "Plain",
+    "lookupIndex": 0,
+    "type": "U256",
+    "docs": [],
+    "namespace": "primitive_types::U256",
+    "lookupNameRoot": "PrimitiveTypesU256"
+  },
+  {
+    "info": "VecFixed",
+    "lookupIndex": 1,
+    "type": "[u64;4]",
+    "docs": [],
+    "namespace": "",
+    "length": 4,
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 2,
+      "type": "u64",
+      "docs": [],
+      "namespace": ""
+    }
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 2,
+    "type": "u64",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 3,
+    "type": "Null",
+    "docs": [],
+    "namespace": "ink_storage::lazy::mapping::Mapping"
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 4,
+    "type": "H160",
+    "docs": [],
+    "namespace": "primitive_types::H160",
+    "lookupNameRoot": "PrimitiveTypesH160"
+  },
+  {
+    "info": "VecFixed",
+    "lookupIndex": 5,
+    "type": "[u8;20]",
+    "docs": [],
+    "namespace": "",
+    "length": 20,
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 6,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 6,
+    "type": "u8",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 7,
+    "type": "Null",
+    "docs": [],
+    "namespace": "ink_storage_traits::impls::ResolverKey"
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 8,
+    "lookupName": "InkStorageTraitsImplsAutoKey",
+    "type": "Null",
+    "docs": [],
+    "namespace": "ink_storage_traits::impls::AutoKey"
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 9,
+    "lookupName": "InkStorageTraitsImplsManualKey",
+    "type": "Null",
+    "docs": [],
+    "namespace": "ink_storage_traits::impls::ManualKey"
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 10,
+    "type": "Null",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 11,
+    "lookupName": "InkStorageLazyMapping",
+    "type": "Null",
+    "docs": [],
+    "namespace": "ink_storage::lazy::mapping::Mapping"
+  },
+  {
+    "info": "Tuple",
+    "lookupIndex": 12,
+    "type": "(H160,H160)",
+    "docs": [],
+    "namespace": "",
+    "sub": [
+      {
+        "info": "Plain",
+        "lookupIndex": 4,
+        "type": "H160",
+        "docs": [],
+        "namespace": "primitive_types::H160",
+        "lookupNameRoot": "PrimitiveTypesH160"
+      },
+      {
+        "info": "Plain",
+        "lookupIndex": 4,
+        "type": "H160",
+        "docs": [],
+        "namespace": "primitive_types::H160",
+        "lookupNameRoot": "PrimitiveTypesH160"
+      }
+    ]
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 13,
+    "lookupName": "InkStorageTraitsImplsResolverKey",
+    "type": "Null",
+    "docs": [],
+    "namespace": "ink_storage_traits::impls::ResolverKey"
+  },
+  {
+    "info": "Null",
+    "lookupIndex": 14,
+    "lookupName": "InkStorageTraitsImplsManualKey",
+    "type": "Null",
+    "docs": [],
+    "namespace": "ink_storage_traits::impls::ManualKey"
+  },
+  {
+    "info": "Struct",
+    "lookupIndex": 15,
+    "lookupName": "Erc20",
+    "type": "{\"totalSupply\":\"U256\",\"balances\":\"Null\",\"allowances\":\"InkStorageLazyMapping\"}",
+    "docs": [],
+    "namespace": "erc20::erc20::Erc20",
+    "sub": [
+      {
+        "docs": [],
+        "name": "totalSupply",
+        "info": "Plain",
+        "lookupIndex": 0,
+        "type": "U256",
+        "namespace": "primitive_types::U256",
+        "lookupNameRoot": "PrimitiveTypesU256",
+        "typeName": ""
+      },
+      {
+        "docs": [],
+        "name": "balances",
+        "info": "Null",
+        "lookupIndex": 3,
+        "type": "Null",
+        "namespace": "ink_storage::lazy::mapping::Mapping",
+        "typeName": ""
+      },
+      {
+        "docs": [],
+        "name": "allowances",
+        "info": "Null",
+        "lookupIndex": 11,
+        "lookupName": "InkStorageLazyMapping",
+        "type": "Null",
+        "namespace": "ink_storage::lazy::mapping::Mapping",
+        "typeName": ""
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 16,
+    "type": "Result<Null, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 10,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 17,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup17"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 17,
+    "lookupName": "InkPrimitivesLangError",
+    "type": "{\"_enum\":[\"__Unused0\",\"CouldNotReadInput\"]}",
+    "docs": [],
+    "namespace": "ink_primitives::LangError",
+    "sub": [
+      {
+        "index": 0,
+        "info": "Null",
+        "name": "__Unused0",
+        "type": "Null"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "CouldNotReadInput"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 18,
+    "type": "Result<U256, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Plain",
+        "lookupIndex": 0,
+        "type": "U256",
+        "docs": [],
+        "namespace": "primitive_types::U256",
+        "lookupNameRoot": "PrimitiveTypesU256"
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 17,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup17"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 19,
+    "type": "Result<Result<Null, Erc20Error>, InkPrimitivesLangError>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Result",
+        "lookupIndex": 20,
+        "type": "Result<Null, Erc20Error>",
+        "docs": [],
+        "namespace": "Result",
+        "sub": [
+          {
+            "name": "Ok",
+            "info": "Null",
+            "lookupIndex": 10,
+            "type": "Null",
+            "docs": [],
+            "namespace": ""
+          },
+          {
+            "name": "Error",
+            "docs": [],
+            "info": "Si",
+            "lookupIndex": 21,
+            "lookupName": "Erc20Error",
+            "type": "Lookup21"
+          }
+        ]
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 17,
+        "lookupName": "InkPrimitivesLangError",
+        "type": "Lookup17"
+      }
+    ]
+  },
+  {
+    "info": "Result",
+    "lookupIndex": 20,
+    "type": "Result<Null, Erc20Error>",
+    "docs": [],
+    "namespace": "Result",
+    "sub": [
+      {
+        "name": "Ok",
+        "info": "Null",
+        "lookupIndex": 10,
+        "type": "Null",
+        "docs": [],
+        "namespace": ""
+      },
+      {
+        "name": "Error",
+        "docs": [],
+        "info": "Si",
+        "lookupIndex": 21,
+        "lookupName": "Erc20Error",
+        "type": "Lookup21"
+      }
+    ]
+  },
+  {
+    "info": "Enum",
+    "lookupIndex": 21,
+    "lookupName": "Erc20Error",
+    "type": "{\"_enum\":[\"InsufficientBalance\",\"InsufficientAllowance\"]}",
+    "docs": [],
+    "namespace": "erc20::erc20::Error",
+    "sub": [
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 0,
+        "name": "InsufficientBalance"
+      },
+      {
+        "info": "Null",
+        "type": "Null",
+        "index": 1,
+        "name": "InsufficientAllowance"
+      }
+    ]
+  },
+  {
+    "info": "Option",
+    "lookupIndex": 22,
+    "type": "Option<H160>",
+    "docs": [],
+    "namespace": "Option",
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 4,
+      "type": "H160",
+      "docs": [],
+      "namespace": "primitive_types::H160",
+      "lookupNameRoot": "PrimitiveTypesH160"
+    }
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 23,
+    "type": "AccountId",
+    "docs": [],
+    "namespace": "ink_primitives::types::AccountId",
+    "lookupNameRoot": "InkPrimitivesAccountId"
+  },
+  {
+    "info": "VecFixed",
+    "lookupIndex": 24,
+    "type": "[u8;32]",
+    "docs": [],
+    "namespace": "",
+    "length": 32,
+    "sub": {
+      "info": "Plain",
+      "lookupIndex": 6,
+      "type": "u8",
+      "docs": [],
+      "namespace": ""
+    }
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 25,
+    "type": "u128",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 26,
+    "type": "Hash",
+    "docs": [],
+    "namespace": "ink_primitives::types::Hash",
+    "lookupNameRoot": "InkPrimitivesHash"
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 27,
+    "type": "u32",
+    "docs": [],
+    "namespace": ""
+  },
+  {
+    "info": "Plain",
+    "lookupIndex": 28,
+    "type": "NoChainExtension",
+    "docs": [],
+    "namespace": "ink_primitives::types::NoChainExtension",
+    "lookupNameRoot": "InkPrimitivesNoChainExtension"
+  }
+]
