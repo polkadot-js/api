@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes, Vec } from '@polkadot/types';
-import type { ChainProperties, ContractConstructorSpecLatest, ContractEventParamSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataV4, ContractMetadataV5, ContractProjectInfo, ContractTypeSpec, EventRecord } from '@polkadot/types/interfaces';
+import type { ChainProperties, ContractConstructorSpecLatest, ContractEventParamSpecLatest, ContractMessageParamSpecLatest, ContractMessageSpecLatest, ContractMetadata, ContractMetadataV4, ContractMetadataV5, ContractMetadataV6, ContractProjectInfo, ContractTypeSpec, EventRecord } from '@polkadot/types/interfaces';
 import type { Codec, Registry, TypeDef } from '@polkadot/types/types';
 import type { AbiConstructor, AbiEvent, AbiEventParam, AbiMessage, AbiMessageParam, AbiParam, DecodedEvent, DecodedMessage } from '../types.js';
 
@@ -19,12 +19,12 @@ interface AbiJson {
 }
 
 type EventOf<M> = M extends {spec: { events: Vec<infer E>}} ? E : never
-export type ContractMetadataSupported = ContractMetadataV4 | ContractMetadataV5;
+export type ContractMetadataSupported = ContractMetadataV4 | ContractMetadataV5 | ContractMetadataV6;
 type ContractEventSupported = EventOf<ContractMetadataSupported>;
 
 const l = logger('Abi');
 
-const PRIMITIVE_ALWAYS = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
+const PRIMITIVE_ALWAYS = ['AccountId', 'AccountId20', 'AccountIndex', 'Address', 'Balance'];
 
 function findMessage <T extends AbiMessage> (list: T[], messageOrId: T | string | number): T {
   const message = isNumber(messageOrId)
@@ -66,9 +66,28 @@ function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSuppor
   return upgradedMetadata;
 }
 
-function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataSupported, ContractProjectInfo] {
+function isRevive (json: Record<string, unknown>): boolean {
+  const source = json['source'];
+  const version = json['version'];
+
+  const hasContractBinary =
+    typeof source === 'object' &&
+    source !== null &&
+    'contract_binary' in source;
+
+  const hasVersion =
+    typeof version === 'number' && version >= 6;
+
+  return hasContractBinary || hasVersion;
+}
+
+function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataSupported, ContractProjectInfo, boolean] {
   const registry = new TypeRegistry();
-  const info = registry.createType('ContractProjectInfo', json) as unknown as ContractProjectInfo;
+
+  const revive = isRevive(json);
+  const typeName = revive ? 'ContractReviveProjectInfo' : 'ContractProjectInfo';
+
+  const info = registry.createType(typeName, json) as unknown as ContractProjectInfo;
   const metadata = getMetadata(registry, json as unknown as AbiJson);
   const lookup = registry.createType('PortableRegistry', { types: metadata.types }, true);
 
@@ -84,7 +103,7 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
     lookup.getTypeDef(id)
   );
 
-  return [json, registry, metadata, info];
+  return [json, registry, metadata, info, revive];
 }
 
 /**
@@ -112,9 +131,10 @@ export class Abi {
   readonly metadata: ContractMetadataSupported;
   readonly registry: Registry;
   readonly environment = new Map<string, TypeDef | Codec>();
+  readonly isRevive: boolean;
 
   constructor (abiJson: Record<string, unknown> | string, chainProperties?: ChainProperties) {
-    [this.json, this.registry, this.metadata, this.info] = parseJson(
+    [this.json, this.registry, this.metadata, this.info, this.isRevive] = parseJson(
       isString(abiJson)
         ? JSON.parse(abiJson) as Record<string, unknown>
         : abiJson,

@@ -68,7 +68,30 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
   }
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
-    return this.api.tx.contracts.instantiateWithCode(
+    const palletTx = this._isRevive ? this.api.tx.revive : this.api.tx.contracts;
+
+    if (this._isRevive) {
+      return palletTx.instantiateWithCode(
+        value,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore jiggle v1 weights, metadata points to latest
+        this._isWeightV1
+          ? convertWeight(gasLimit).v1Weight
+          : convertWeight(gasLimit).v2Weight,
+        storageDepositLimit,
+        compactAddLength(this.code),
+        this.abi.findConstructor(constructorOrId).toU8a(params),
+        encodeSalt(salt)
+      ).withResultTransform((result: ISubmittableResult) =>
+        new CodeSubmittableResult(
+          result,
+          new Blueprint<ApiType>(this.api, this.abi, this.abi.info.source.hash, this._decorateMethod),
+          new Contract<ApiType>(this.api, this.abi, '0x', this._decorateMethod)
+        )
+      );
+    }
+
+    return palletTx.instantiateWithCode(
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore jiggle v1 weights, metadata points to latest

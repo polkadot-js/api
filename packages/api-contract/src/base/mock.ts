@@ -29,3 +29,20 @@ export const mockApi = {
     }
   }
 } as unknown as ApiBase<'promise'>;
+
+export const mockReviveApi = {
+  call: {
+    reviveApi: {
+      call: (): never => {
+        throw new Error('mock');
+      }
+    }
+  },
+  isConnected: true,
+  registry,
+  tx: {
+    revive: {
+      instantiateWithCode
+    }
+  }
+} as unknown as ApiBase<'promise'>;
