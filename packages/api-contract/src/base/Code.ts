@@ -69,6 +69,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
 
   #instantiate = (constructorOrId: AbiConstructor | string | number, { gasLimit = BN_ZERO, salt, storageDepositLimit = null, value = BN_ZERO }: BlueprintOptions, params: unknown[]): SubmittableExtrinsic<ApiType, CodeSubmittableResult<ApiType>> => {
     const palletTx = this._isRevive ? this.api.tx.revive : this.api.tx.contracts;
+
     if (this._isRevive) {
       return palletTx.instantiateWithCode(
         value,
@@ -85,10 +86,11 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
         new CodeSubmittableResult(
           result,
           new Blueprint<ApiType>(this.api, this.abi, this.abi.info.source.hash, this._decorateMethod),
-          new Contract<ApiType>(this.api, this.abi, "0x", this._decorateMethod)
+          new Contract<ApiType>(this.api, this.abi, '0x', this._decorateMethod)
         )
       );
     }
+
     return palletTx.instantiateWithCode(
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -100,7 +102,7 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       compactAddLength(this.code),
       this.abi.findConstructor(constructorOrId).toU8a(params),
       encodeSalt(salt)
-    ).withResultTransform((result: ISubmittableResult) => 
+    ).withResultTransform((result: ISubmittableResult) =>
       new CodeSubmittableResult(result, ...(applyOnEvent(result, ['CodeStored', 'Instantiated'], (records: EventRecord[]) =>
         records.reduce<[Blueprint<ApiType> | undefined, Contract<ApiType> | undefined]>(([blueprint, contract], { event }) =>
           this.api.events.contracts.Instantiated.is(event)

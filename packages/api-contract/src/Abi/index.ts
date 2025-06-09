@@ -62,14 +62,30 @@ function getMetadata (registry: Registry, json: AbiJson): ContractMetadataSuppor
   }
 
   const upgradedMetadata = converter[1](registry, metadata[`as${converter[0]}`]);
+
   return upgradedMetadata;
+}
+
+function isRevive (json: Record<string, unknown>): boolean {
+  const source = json['source'];
+  const version = json['version'];
+
+  const hasContractBinary =
+    typeof source === 'object' &&
+    source !== null &&
+    'contract_binary' in source;
+
+  const hasVersion =
+    typeof version === 'number' && version >= 6;
+
+  return hasContractBinary || hasVersion;
 }
 
 function parseJson (json: Record<string, unknown>, chainProperties?: ChainProperties): [Record<string, unknown>, Registry, ContractMetadataSupported, ContractProjectInfo, boolean] {
   const registry = new TypeRegistry();
 
-  const isRevive = Boolean((json as any)?.source?.contract_binary) || (json as any)?.version >= 6;
-  const typeName = isRevive ? 'ContractReviveProjectInfo' : 'ContractProjectInfo';
+  const revive = isRevive(json);
+  const typeName = revive ? 'ContractReviveProjectInfo' : 'ContractProjectInfo';
 
   const info = registry.createType(typeName, json) as unknown as ContractProjectInfo;
   const metadata = getMetadata(registry, json as unknown as AbiJson);
@@ -87,7 +103,7 @@ function parseJson (json: Record<string, unknown>, chainProperties?: ChainProper
     lookup.getTypeDef(id)
   );
 
-  return [json, registry, metadata, info, isRevive];
+  return [json, registry, metadata, info, revive];
 }
 
 /**

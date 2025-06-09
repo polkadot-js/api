@@ -101,6 +101,7 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
 
   #exec = (messageOrId: AbiMessage | string | number, { gasLimit = BN_ZERO, storageDepositLimit = null, value = BN_ZERO }: ContractOptions, params: unknown[]): SubmittableExtrinsic<ApiType> => {
     const palletTx = this._isRevive ? this.api.tx.revive : this.api.tx.contracts;
+
     return palletTx.call(
       this.address,
       value,
@@ -138,16 +139,16 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
         (this._isRevive
           ? this.api.rx.call.reviveApi.call
           : this.api.rx.call.contractsApi.call)<ContractExecResult>(
-            origin,
-            this.address,
-            value,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore jiggle v1 weights, metadata points to latest
-            this._isWeightV1
-              ? this.#getGas(gasLimit, true).v1Weight
-              : this.#getGas(gasLimit, true).v2Weight,
-            storageDepositLimit,
-            message.toU8a(params)
+          origin,
+          this.address,
+          value,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore jiggle v1 weights, metadata points to latest
+          this._isWeightV1
+            ? this.#getGas(gasLimit, true).v1Weight
+            : this.#getGas(gasLimit, true).v2Weight,
+          storageDepositLimit,
+          message.toU8a(params)
         ).pipe(
           map(({ debugMessage, gasConsumed, gasRequired, result, storageDeposit }): ContractCallOutcome => ({
             debugMessage,

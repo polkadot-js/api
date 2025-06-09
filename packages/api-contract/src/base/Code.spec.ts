@@ -40,7 +40,7 @@ describe('Code', (): void => {
       () => new Code(mockApi, v6contractErc20 as Record<string, unknown>, null, toPromiseMethod)
     ).toThrow('The runtime does not expose api.tx.revive.instantiateWithCode with storageDepositLimit');
 
-     expect(
+    expect(
       () => new Code(mockReviveApi, v6contractErc20 as Record<string, unknown>, null, toPromiseMethod)
     ).not.toThrow();
   });

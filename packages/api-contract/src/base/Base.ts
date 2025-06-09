@@ -31,15 +31,13 @@ export abstract class Base<ApiType extends ApiTypes> {
     this._isWeightV1 = !api.registry.createType<WeightV2>('Weight').proofSize;
     this._isRevive = this.abi.isRevive;
 
-
     if (this._isRevive) {
       if (!api.tx.revive || !isFunction(api.tx.revive.instantiateWithCode) || api.tx.revive.instantiateWithCode.meta.args.length !== 6) {
         throw new Error('The runtime does not expose api.tx.revive.instantiateWithCode with storageDepositLimit');
       } else if (!api.call.reviveApi || !isFunction(api.call.reviveApi.call)) {
         throw new Error('Your runtime does not expose the api.call.reviveApi.call runtime interfaces');
       }
-    }
-    else {
+    } else {
       if (!api.tx.contracts || !isFunction(api.tx.contracts.instantiateWithCode) || api.tx.contracts.instantiateWithCode.meta.args.length !== 6) {
         throw new Error('The runtime does not expose api.tx.contracts.instantiateWithCode with storageDepositLimit');
       } else if (!api.call.contractsApi || !isFunction(api.call.contractsApi.call)) {

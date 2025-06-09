@@ -316,7 +316,7 @@ export default {
       wasmHash: '[u8; 32]',
       language: 'Text',
       compiler: 'Text',
-      wasm: 'Raw',
+      wasm: 'Raw'
     },
     ContractReviveProjectSource: {
       _alias: {
@@ -326,7 +326,7 @@ export default {
       wasmHash: '[u8; 32]',
       language: 'Text',
       compiler: 'Text',
-      wasm: 'Raw',
+      wasm: 'Raw'
     },
     ContractEnvironmentV4: {
       _alias: {

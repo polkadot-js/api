@@ -58,6 +58,7 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
     const palletTx = this._isRevive
       ? this.api.tx.revive
       : this.api.tx.contracts;
+
     return palletTx.instantiate(
       value,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -70,23 +71,23 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
       this.abi.findConstructor(constructorOrId).toU8a(params),
       encodeSalt(salt)
     ).withResultTransform((result: ISubmittableResult) =>
-      new BlueprintSubmittableResult(result, 
-        this._isRevive 
+      new BlueprintSubmittableResult(result,
+        this._isRevive
           ? (
-              (result.status.isInBlock || result.status.isFinalized)
-                ? new Contract<ApiType>(
-                    this.api,
-                    this.abi,
-                    // your fixed address for revive deployments
-                    this.registry.createType('AccountId', '0x'),
-                    this._decorateMethod
-                  )
-                : undefined
-            )
-          : applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
-              new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
-            )
+            (result.status.isInBlock || result.status.isFinalized)
+              ? new Contract<ApiType>(
+                this.api,
+                this.abi,
+                // your fixed address for revive deployments
+                this.registry.createType('AccountId', '0x'),
+                this._decorateMethod
+              )
+              : undefined
           )
+          : applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
+            new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
+          )
+      )
     );
   };
 }
