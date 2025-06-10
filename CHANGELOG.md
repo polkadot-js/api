@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 16.2.1 Jun 10, 2025
+
+Contributed:
+
+-  feat(api-contract): add support for ink! v6 and pallet-revive compatibility ([#6158](https://github.com/polkadot-js/api/pull/6158))
+
+
 ## 16.1.2 Jun 4, 2025
 
 Changes:
