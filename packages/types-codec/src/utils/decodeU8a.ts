@@ -8,9 +8,10 @@ import { u8aToHex } from '@polkadot/util';
 const MAX_DEPTH = 1024;
 
 /** @internal */
-function isComplexType(Type: CodecClass): boolean {
+function isComplexType (Type: CodecClass): boolean {
   const typeName = Type.name?.toLowerCase() || '';
-  return [ "enum", "hashmap","linkage", "null", "option", "range", "rangeinclusive", "result", "struct", "tuple", "vec", "vecfixed"].includes(typeName);
+
+  return ['enum', 'hashmap', 'linkage', 'null', 'option', 'range', 'rangeinclusive', 'result', 'struct', 'tuple', 'vec', 'vecfixed'].includes(typeName);
 }
 
 /** @internal */
@@ -98,6 +99,7 @@ export function decodeU8aStruct (registry: Registry, result: [string, Codec][], 
  */
 export function decodeU8aVec <T extends Codec = Codec> (registry: Registry, result: unknown[], u8a: Uint8Array, startAt: number, Type: CodecClass<T>): [number, number] {
   const count = result.length;
+
   if (count > MAX_DEPTH && isComplexType(Type)) {
     throw new Error(`decodeU8aVec: Maximum depth exceeded, received ${count} elements, limit ${MAX_DEPTH}`);
   }
