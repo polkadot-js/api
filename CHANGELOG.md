@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 16.2.2 Jun 17, 2025
+
+Changes:
+
+- feat(types-codec): Add maximum depth limit in decodeU8a functions ([#6168](https://github.com/polkadot-js/api/pull/6168))
+- bump polkadotjs/common to 13.5.2 ([#6170](https://github.com/polkadot-js/api/pull/6170))
+
 ## 16.2.1 Jun 10, 2025
 
 Contributed:
