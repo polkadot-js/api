@@ -1,7 +1,7 @@
     3512	Jaco                          	Bump deps (#5785)
      164	Tarik Gul                     	Upgrade polkadot/common to 13.5.1 (#6150)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
-      41	Valentin Fernandez            	bump polkadotjs/common to 13.5.2 (#6170)
+      42	Valentin Fernandez            	16.2.2 (#6171)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
       35	Stefanie Doll                 	Updated child storage parameters (#1709)
       20	Luke Schoen                   	fix: Fixes TypeError: Cannot read property 'vesting' of undefined (#1970)
