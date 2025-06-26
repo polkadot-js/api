@@ -381,6 +381,20 @@ export default {
     }
   },
   /**
+   * Lookup686: pallet_referenda::types::TrackInfo<Balance, Moment>
+   **/
+  PalletReferendaTrackInfo: {
+    name: 'Text',
+    maxDeciding: 'u32',
+    decisionDeposit: 'u128',
+    preparePeriod: 'u32',
+    decisionPeriod: 'u32',
+    confirmPeriod: 'u32',
+    minEnactmentPeriod: 'u32',
+    minApproval: 'PalletReferendaCurve',
+    minSupport: 'PalletReferendaCurve'
+  },
+  /**
    * Lookup783: frame_support::traits::tokens::misc::IdAmount<Id, Balance>
    **/
   FrameSupportTokensMiscIdAmount: {
