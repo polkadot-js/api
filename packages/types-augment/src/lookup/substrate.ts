@@ -7351,7 +7351,7 @@ export default {
     compute: 'PalletElectionProviderMultiPhaseElectionCompute'
   },
   /**
-   * Lookup621: pallet_election_provider_multi_phase::RoundSnapshot<sp_core::crypto::AccountId32, DataProvider>
+   * Lookup621: pallet_election_provider_multi_phase::RoundSnapshot<sp_core::crypto::AccountId32, VoterType>
    **/
   PalletElectionProviderMultiPhaseRoundSnapshot: {
     voters: 'Vec<(AccountId32,u64,Vec<AccountId32>)>',
@@ -9436,17 +9436,30 @@ export default {
     _enum: ['DoesntExist', 'KeyDecodingFailed']
   },
   /**
-   * Lookup1084: pallet_revive::evm::api::debug_rpc_types::TracerConfig
+   * Lookup1084: pallet_revive::evm::api::debug_rpc_types::TracerType
    **/
-  PalletReviveEvmApiDebugRpcTypesTracerConfig: {
+  PalletReviveEvmApiDebugRpcTypesTracerType: {
     _enum: {
-      CallTracer: {
-        withLogs: 'bool'
-      }
+      CallTracer: 'Option<PalletReviveEvmApiDebugRpcTypesCallTracerConfig>'
     }
   },
   /**
-   * Lookup1087: pallet_revive::evm::api::debug_rpc_types::CallTrace<primitive_types::U256>
+   * Lookup1086: pallet_revive::evm::api::debug_rpc_types::CallTracerConfig
+   **/
+  PalletReviveEvmApiDebugRpcTypesCallTracerConfig: {
+    withLogs: 'bool',
+    onlyTopCall: 'bool'
+  },
+  /**
+   * Lookup1089: pallet_revive::evm::api::debug_rpc_types::Trace
+   **/
+  PalletReviveEvmApiDebugRpcTypesTrace: {
+    _enum: {
+      Call: 'PalletReviveEvmApiDebugRpcTypesCallTrace'
+    }
+  },
+  /**
+   * Lookup1090: pallet_revive::evm::api::debug_rpc_types::CallTrace<primitive_types::U256>
    **/
   PalletReviveEvmApiDebugRpcTypesCallTrace: {
     from: 'H160',
@@ -9463,7 +9476,7 @@ export default {
     callType: 'PalletReviveEvmApiDebugRpcTypesCallType'
   },
   /**
-   * Lookup1091: pallet_revive::evm::api::debug_rpc_types::CallLog
+   * Lookup1094: pallet_revive::evm::api::debug_rpc_types::CallLog
    **/
   PalletReviveEvmApiDebugRpcTypesCallLog: {
     address: 'H160',
@@ -9472,13 +9485,13 @@ export default {
     position: 'u32'
   },
   /**
-   * Lookup1092: pallet_revive::evm::api::debug_rpc_types::CallType
+   * Lookup1095: pallet_revive::evm::api::debug_rpc_types::CallType
    **/
   PalletReviveEvmApiDebugRpcTypesCallType: {
     _enum: ['Call', 'StaticCall', 'DelegateCall']
   },
   /**
-   * Lookup1095: pallet_transaction_payment::types::RuntimeDispatchInfo<Balance, sp_weights::weight_v2::Weight>
+   * Lookup1098: pallet_transaction_payment::types::RuntimeDispatchInfo<Balance, sp_weights::weight_v2::Weight>
    **/
   PalletTransactionPaymentRuntimeDispatchInfo: {
     weight: 'SpWeightsWeightV2Weight',
@@ -9486,14 +9499,14 @@ export default {
     partialFee: 'u128'
   },
   /**
-   * Lookup1096: pallet_transaction_payment::types::FeeDetails<Balance>
+   * Lookup1099: pallet_transaction_payment::types::FeeDetails<Balance>
    **/
   PalletTransactionPaymentFeeDetails: {
     inclusionFee: 'Option<PalletTransactionPaymentInclusionFee>',
     tip: 'u128'
   },
   /**
-   * Lookup1098: pallet_transaction_payment::types::InclusionFee<Balance>
+   * Lookup1101: pallet_transaction_payment::types::InclusionFee<Balance>
    **/
   PalletTransactionPaymentInclusionFee: {
     baseFee: 'u128',
@@ -9501,14 +9514,14 @@ export default {
     adjustedWeightFee: 'u128'
   },
   /**
-   * Lookup1102: sp_consensus_beefy::ValidatorSet<sp_consensus_beefy::ecdsa_crypto::Public>
+   * Lookup1105: sp_consensus_beefy::ValidatorSet<sp_consensus_beefy::ecdsa_crypto::Public>
    **/
   SpConsensusBeefyValidatorSet: {
     validators: 'Vec<SpConsensusBeefyEcdsaCryptoPublic>',
     id: 'u64'
   },
   /**
-   * Lookup1103: sp_consensus_beefy::ForkVotingProof<sp_runtime::generic::header::Header<Number, Hash>, sp_consensus_beefy::ecdsa_crypto::Public, sp_runtime::OpaqueValue>
+   * Lookup1106: sp_consensus_beefy::ForkVotingProof<sp_runtime::generic::header::Header<Number, Hash>, sp_consensus_beefy::ecdsa_crypto::Public, sp_runtime::OpaqueValue>
    **/
   SpConsensusBeefyForkVotingProofOpaqueValue: {
     vote: 'SpConsensusBeefyVoteMessage',
@@ -9516,13 +9529,13 @@ export default {
     header: 'SpRuntimeHeader'
   },
   /**
-   * Lookup1105: sp_mmr_primitives::Error
+   * Lookup1108: sp_mmr_primitives::Error
    **/
   SpMmrPrimitivesError: {
     _enum: ['InvalidNumericOp', 'Push', 'GetRoot', 'Commit', 'GenerateProof', 'Verify', 'LeafNotFound', 'PalletNotIncluded', 'InvalidLeafIndex', 'InvalidBestKnownBlock']
   },
   /**
-   * Lookup1111: sp_mmr_primitives::LeafProof<primitive_types::H256>
+   * Lookup1114: sp_mmr_primitives::LeafProof<primitive_types::H256>
    **/
   SpMmrPrimitivesLeafProof: {
     leafIndices: 'Vec<u64>',
@@ -9530,20 +9543,20 @@ export default {
     items: 'Vec<H256>'
   },
   /**
-   * Lookup1113: sp_mixnet::types::SessionStatus
+   * Lookup1116: sp_mixnet::types::SessionStatus
    **/
   SpMixnetSessionStatus: {
     currentIndex: 'u32',
     phase: 'SpMixnetSessionPhase'
   },
   /**
-   * Lookup1114: sp_mixnet::types::SessionPhase
+   * Lookup1117: sp_mixnet::types::SessionPhase
    **/
   SpMixnetSessionPhase: {
     _enum: ['CoverToCurrent', 'RequestsToCurrent', 'CoverToPrev', 'DisconnectFromPrev']
   },
   /**
-   * Lookup1117: sp_mixnet::types::Mixnode
+   * Lookup1120: sp_mixnet::types::Mixnode
    **/
   SpMixnetMixnode: {
     kxPublic: '[u8;32]',
@@ -9551,7 +9564,7 @@ export default {
     externalAddresses: 'Vec<Bytes>'
   },
   /**
-   * Lookup1118: sp_mixnet::types::MixnodesErr
+   * Lookup1121: sp_mixnet::types::MixnodesErr
    **/
   SpMixnetMixnodesErr: {
     _enum: {
@@ -9562,7 +9575,7 @@ export default {
     }
   },
   /**
-   * Lookup1124: kitchensink_runtime::RuntimeError
+   * Lookup1127: kitchensink_runtime::RuntimeError
    **/
   KitchensinkRuntimeRuntimeError: {
     _enum: {
