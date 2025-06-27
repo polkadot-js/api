@@ -81,7 +81,13 @@ export default {
     }
   },
   /**
-   * Lookup133: cumulus_pallet_xcm::pallet::Event<T>
+   * Lookup114: xcm::v3::traits::SendError
+   **/
+  XcmV3TraitsSendError: {
+    _enum: ['NotApplicable', 'Transport', 'Unroutable', 'DestinationUnsupported', 'ExceedsMaxMessageSize', 'MissingArgument', 'Fees']
+  },
+  /**
+   * Lookup135: cumulus_pallet_xcm::pallet::Event<T>
    **/
   CumulusPalletXcmEvent: {
     _enum: {
@@ -91,7 +97,7 @@ export default {
     }
   },
   /**
-   * Lookup134: pallet_xcm_bridge_hub_router::pallet::Event<T, I>
+   * Lookup136: pallet_xcm_bridge_hub_router::pallet::Event<T, I>
    **/
   PalletXcmBridgeHubRouterEvent: {
     _enum: {
@@ -104,7 +110,7 @@ export default {
     }
   },
   /**
-   * Lookup137: cumulus_primitives_core::AggregateMessageOrigin
+   * Lookup139: cumulus_primitives_core::AggregateMessageOrigin
    **/
   CumulusPrimitivesCoreAggregateMessageOrigin: {
     _enum: {
@@ -114,13 +120,13 @@ export default {
     }
   },
   /**
-   * Lookup146: asset_hub_polkadot_runtime::ProxyType
+   * Lookup148: asset_hub_polkadot_runtime::ProxyType
    **/
   AssetHubPolkadotRuntimeProxyType: {
     _enum: ['Any', 'NonTransfer', 'CancelProxy', 'Assets', 'AssetOwner', 'AssetManager', 'Collator']
   },
   /**
-   * Lookup197: cumulus_pallet_parachain_system::unincluded_segment::Ancestor<primitive_types::H256>
+   * Lookup200: cumulus_pallet_parachain_system::unincluded_segment::Ancestor<primitive_types::H256>
    **/
   CumulusPalletParachainSystemUnincludedSegmentAncestor: {
     usedBandwidth: 'CumulusPalletParachainSystemUnincludedSegmentUsedBandwidth',
@@ -128,7 +134,7 @@ export default {
     consumedGoAheadSignal: 'Option<PolkadotPrimitivesV8UpgradeGoAhead>'
   },
   /**
-   * Lookup198: cumulus_pallet_parachain_system::unincluded_segment::UsedBandwidth
+   * Lookup201: cumulus_pallet_parachain_system::unincluded_segment::UsedBandwidth
    **/
   CumulusPalletParachainSystemUnincludedSegmentUsedBandwidth: {
     umpMsgCount: 'u32',
@@ -136,14 +142,14 @@ export default {
     hrmpOutgoing: 'BTreeMap<u32, CumulusPalletParachainSystemUnincludedSegmentHrmpChannelUpdate>'
   },
   /**
-   * Lookup200: cumulus_pallet_parachain_system::unincluded_segment::HrmpChannelUpdate
+   * Lookup203: cumulus_pallet_parachain_system::unincluded_segment::HrmpChannelUpdate
    **/
   CumulusPalletParachainSystemUnincludedSegmentHrmpChannelUpdate: {
     msgCount: 'u32',
     totalBytes: 'u32'
   },
   /**
-   * Lookup206: cumulus_pallet_parachain_system::unincluded_segment::SegmentTracker<primitive_types::H256>
+   * Lookup209: cumulus_pallet_parachain_system::unincluded_segment::SegmentTracker<primitive_types::H256>
    **/
   CumulusPalletParachainSystemUnincludedSegmentSegmentTracker: {
     usedBandwidth: 'CumulusPalletParachainSystemUnincludedSegmentUsedBandwidth',
@@ -151,13 +157,13 @@ export default {
     consumedGoAheadSignal: 'Option<PolkadotPrimitivesV8UpgradeGoAhead>'
   },
   /**
-   * Lookup211: sp_trie::storage_proof::StorageProof
+   * Lookup214: sp_trie::storage_proof::StorageProof
    **/
   SpTrieStorageProof: {
     trieNodes: 'BTreeSet<Bytes>'
   },
   /**
-   * Lookup213: cumulus_pallet_parachain_system::relay_state_snapshot::MessagingStateSnapshot
+   * Lookup216: cumulus_pallet_parachain_system::relay_state_snapshot::MessagingStateSnapshot
    **/
   CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot: {
     dmqMqcHead: 'H256',
@@ -166,14 +172,14 @@ export default {
     egressChannels: 'Vec<(u32,PolkadotPrimitivesV8AbridgedHrmpChannel)>'
   },
   /**
-   * Lookup214: cumulus_pallet_parachain_system::relay_state_snapshot::RelayDispatchQueueRemainingCapacity
+   * Lookup217: cumulus_pallet_parachain_system::relay_state_snapshot::RelayDispatchQueueRemainingCapacity
    **/
   CumulusPalletParachainSystemRelayStateSnapshotRelayDispatchQueueRemainingCapacity: {
     remainingCount: 'u32',
     remainingSize: 'u32'
   },
   /**
-   * Lookup217: polkadot_primitives::v8::AbridgedHrmpChannel
+   * Lookup220: polkadot_primitives::v8::AbridgedHrmpChannel
    **/
   PolkadotPrimitivesV8AbridgedHrmpChannel: {
     maxCapacity: 'u32',
@@ -184,7 +190,7 @@ export default {
     mqcHead: 'Option<H256>'
   },
   /**
-   * Lookup218: polkadot_primitives::v8::AbridgedHostConfiguration
+   * Lookup221: polkadot_primitives::v8::AbridgedHostConfiguration
    **/
   PolkadotPrimitivesV8AbridgedHostConfiguration: {
     maxCodeSize: 'u32',
@@ -199,7 +205,7 @@ export default {
     asyncBackingParams: 'PolkadotPrimitivesV8AsyncBackingAsyncBackingParams'
   },
   /**
-   * Lookup226: cumulus_pallet_parachain_system::pallet::Call<T>
+   * Lookup229: cumulus_pallet_parachain_system::pallet::Call<T>
    **/
   CumulusPalletParachainSystemCall: {
     _enum: {
@@ -212,7 +218,7 @@ export default {
     }
   },
   /**
-   * Lookup227: cumulus_primitives_parachain_inherent::ParachainInherentData
+   * Lookup230: cumulus_primitives_parachain_inherent::ParachainInherentData
    **/
   CumulusPrimitivesParachainInherentParachainInherentData: {
     validationData: 'PolkadotPrimitivesV8PersistedValidationData',
@@ -221,17 +227,17 @@ export default {
     horizontalMessages: 'BTreeMap<u32, Vec<PolkadotCorePrimitivesInboundHrmpMessage>>'
   },
   /**
-   * Lookup235: cumulus_pallet_parachain_system::pallet::Error<T>
+   * Lookup238: cumulus_pallet_parachain_system::pallet::Error<T>
    **/
   CumulusPalletParachainSystemError: {
-    _enum: ['OverlappingUpgrades', 'ProhibitedByPolkadot', 'TooBig', 'ValidationDataNotAvailable', 'HostConfigurationNotAvailable', 'NotScheduled', 'NothingAuthorized', 'Unauthorized']
+    _enum: ['OverlappingUpgrades', 'ProhibitedByPolkadot', 'TooBig', 'ValidationDataNotAvailable', 'HostConfigurationNotAvailable', 'NotScheduled']
   },
   /**
-   * Lookup237: staging_parachain_info::pallet::Call<T>
+   * Lookup240: staging_parachain_info::pallet::Call<T>
    **/
   StagingParachainInfoCall: 'Null',
   /**
-   * Lookup247: asset_hub_polkadot_runtime::RuntimeHoldReason
+   * Lookup250: asset_hub_polkadot_runtime::RuntimeHoldReason
    **/
   AssetHubPolkadotRuntimeRuntimeHoldReason: {
     _enum: {
@@ -266,7 +272,7 @@ export default {
       __Unused28: 'Null',
       __Unused29: 'Null',
       __Unused30: 'Null',
-      __Unused31: 'Null',
+      PolkadotXcm: 'PalletXcmHoldReason',
       __Unused32: 'Null',
       __Unused33: 'Null',
       __Unused34: 'Null',
@@ -309,14 +315,20 @@ export default {
     }
   },
   /**
-   * Lookup267: pallet_collator_selection::pallet::CandidateInfo<sp_core::crypto::AccountId32, Balance>
+   * Lookup251: pallet_xcm::pallet::HoldReason
+   **/
+  PalletXcmHoldReason: {
+    _enum: ['AuthorizeAlias']
+  },
+  /**
+   * Lookup271: pallet_collator_selection::pallet::CandidateInfo<sp_core::crypto::AccountId32, Balance>
    **/
   PalletCollatorSelectionCandidateInfo: {
     who: 'AccountId32',
     deposit: 'u128'
   },
   /**
-   * Lookup269: pallet_collator_selection::pallet::Call<T>
+   * Lookup273: pallet_collator_selection::pallet::Call<T>
    **/
   PalletCollatorSelectionCall: {
     _enum: {
@@ -350,23 +362,23 @@ export default {
     }
   },
   /**
-   * Lookup270: pallet_collator_selection::pallet::Error<T>
+   * Lookup275: pallet_collator_selection::pallet::Error<T>
    **/
   PalletCollatorSelectionError: {
     _enum: ['TooManyCandidates', 'TooFewEligibleCollators', 'AlreadyCandidate', 'NotCandidate', 'TooManyInvulnerables', 'AlreadyInvulnerable', 'NotInvulnerable', 'NoAssociatedValidatorId', 'ValidatorNotRegistered', 'InsertToCandidateListFailed', 'RemoveFromCandidateListFailed', 'DepositTooLow', 'UpdateCandidateListFailed', 'InsufficientBond', 'TargetIsNotCandidate', 'IdenticalDeposit', 'InvalidUnreserve']
   },
   /**
-   * Lookup273: asset_hub_polkadot_runtime::SessionKeys
+   * Lookup278: asset_hub_polkadot_runtime::SessionKeys
    **/
   AssetHubPolkadotRuntimeSessionKeys: {
     aura: 'SpConsensusAuraEd25519AppEd25519Public'
   },
   /**
-   * Lookup274: sp_consensus_aura::ed25519::app_ed25519::Public
+   * Lookup279: sp_consensus_aura::ed25519::app_ed25519::Public
    **/
   SpConsensusAuraEd25519AppEd25519Public: '[u8;32]',
   /**
-   * Lookup287: cumulus_pallet_xcmp_queue::OutboundChannelDetails
+   * Lookup296: cumulus_pallet_xcmp_queue::OutboundChannelDetails
    **/
   CumulusPalletXcmpQueueOutboundChannelDetails: {
     recipient: 'u32',
@@ -376,13 +388,13 @@ export default {
     lastIndex: 'u16'
   },
   /**
-   * Lookup288: cumulus_pallet_xcmp_queue::OutboundState
+   * Lookup297: cumulus_pallet_xcmp_queue::OutboundState
    **/
   CumulusPalletXcmpQueueOutboundState: {
     _enum: ['Ok', 'Suspended']
   },
   /**
-   * Lookup292: cumulus_pallet_xcmp_queue::QueueConfigData
+   * Lookup301: cumulus_pallet_xcmp_queue::QueueConfigData
    **/
   CumulusPalletXcmpQueueQueueConfigData: {
     suspendThreshold: 'u32',
@@ -390,7 +402,7 @@ export default {
     resumeThreshold: 'u32'
   },
   /**
-   * Lookup293: cumulus_pallet_xcmp_queue::pallet::Call<T>
+   * Lookup302: cumulus_pallet_xcmp_queue::pallet::Call<T>
    **/
   CumulusPalletXcmpQueueCall: {
     _enum: {
@@ -418,24 +430,46 @@ export default {
     }
   },
   /**
-   * Lookup294: cumulus_pallet_xcmp_queue::pallet::Error<T>
+   * Lookup303: cumulus_pallet_xcmp_queue::pallet::Error<T>
    **/
   CumulusPalletXcmpQueueError: {
     _enum: ['BadQueueConfig', 'AlreadySuspended', 'AlreadyResumed', 'TooManyActiveOutboundChannels', 'TooBig']
   },
   /**
-   * Lookup360: cumulus_pallet_xcm::pallet::Call<T>
+   * Lookup338: pallet_xcm::AuthorizedAliasesEntry<frame_support::traits::storage::Disabled, pallet_xcm::pallet::MaxAuthorizedAliases>
+   **/
+  PalletXcmAuthorizedAliasesEntry: {
+    aliasers: 'Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>',
+    ticket: 'FrameSupportStorageDisabled'
+  },
+  /**
+   * Lookup339: frame_support::traits::storage::Disabled
+   **/
+  FrameSupportStorageDisabled: 'Null',
+  /**
+   * Lookup340: pallet_xcm::pallet::MaxAuthorizedAliases
+   **/
+  PalletXcmMaxAuthorizedAliases: 'Null',
+  /**
+   * Lookup342: xcm_runtime_apis::authorized_aliases::OriginAliaser
+   **/
+  XcmRuntimeApisAuthorizedAliasesOriginAliaser: {
+    location: 'XcmVersionedLocation',
+    expiry: 'Option<u64>'
+  },
+  /**
+   * Lookup375: cumulus_pallet_xcm::pallet::Call<T>
    **/
   CumulusPalletXcmCall: 'Null',
   /**
-   * Lookup361: bp_xcm_bridge_hub_router::BridgeState
+   * Lookup376: bp_xcm_bridge_hub_router::BridgeState
    **/
   BpXcmBridgeHubRouterBridgeState: {
     deliveryFeeFactor: 'u128',
     isCongested: 'bool'
   },
   /**
-   * Lookup362: pallet_xcm_bridge_hub_router::pallet::Call<T, I>
+   * Lookup377: pallet_xcm_bridge_hub_router::pallet::Call<T, I>
    **/
   PalletXcmBridgeHubRouterCall: {
     _enum: {
@@ -446,7 +480,7 @@ export default {
     }
   },
   /**
-   * Lookup414: asset_hub_polkadot_runtime::OriginCaller
+   * Lookup429: asset_hub_polkadot_runtime::OriginCaller
    **/
   AssetHubPolkadotRuntimeOriginCaller: {
     _enum: {
@@ -486,7 +520,7 @@ export default {
     }
   },
   /**
-   * Lookup417: cumulus_pallet_xcm::pallet::Origin
+   * Lookup432: cumulus_pallet_xcm::pallet::Origin
    **/
   CumulusPalletXcmOrigin: {
     _enum: {
@@ -495,17 +529,17 @@ export default {
     }
   },
   /**
-   * Lookup497: asset_hub_polkadot_runtime::Runtime
+   * Lookup511: asset_hub_polkadot_runtime::Runtime
    **/
   AssetHubPolkadotRuntimeRuntime: 'Null',
   /**
-   * Lookup547: assets_common::runtime_api::FungiblesAccessError
+   * Lookup561: assets_common::runtime_api::FungiblesAccessError
    **/
   AssetsCommonRuntimeApiFungiblesAccessError: {
     _enum: ['AssetIdConversionFailed', 'AmountToBalanceConversionFailed']
   },
   /**
-   * Lookup548: cumulus_primitives_core::CollationInfo
+   * Lookup562: cumulus_primitives_core::CollationInfo
    **/
   CumulusPrimitivesCoreCollationInfo: {
     upwardMessages: 'Vec<Bytes>',
@@ -516,7 +550,7 @@ export default {
     headData: 'Bytes'
   },
   /**
-   * Lookup556: asset_hub_polkadot_runtime::RuntimeError
+   * Lookup570: asset_hub_polkadot_runtime::RuntimeError
    **/
   AssetHubPolkadotRuntimeRuntimeError: {
     _enum: {
