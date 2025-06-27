@@ -55917,7 +55917,7 @@
           "type": 0
         },
         {
-          "name": "DataProvider",
+          "name": "VoterType",
           "type": 622
         }
       ],
@@ -55927,7 +55927,7 @@
             {
               "name": "voters",
               "type": 624,
-              "typeName": "Vec<DataProvider>",
+              "typeName": "Vec<VoterType>",
               "docs": []
             },
             {
@@ -78870,7 +78870,7 @@
         "evm",
         "api",
         "debug_rpc_types",
-        "TracerConfig"
+        "TracerType"
       ],
       "params": [],
       "def": {
@@ -78880,9 +78880,9 @@
               "name": "CallTracer",
               "fields": [
                 {
-                  "name": "with_logs",
-                  "type": 8,
-                  "typeName": "bool",
+                  "name": null,
+                  "type": 1085,
+                  "typeName": "Option<CallTracerConfig>",
                   "docs": []
                 }
               ],
@@ -78898,11 +78898,38 @@
   {
     "id": 1085,
     "type": {
-      "path": [],
-      "params": [],
-      "def": {
-        "sequence": {
+      "path": [
+        "Option"
+      ],
+      "params": [
+        {
+          "name": "T",
           "type": 1086
+        }
+      ],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "None",
+              "fields": [],
+              "index": 0,
+              "docs": []
+            },
+            {
+              "name": "Some",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 1086,
+                  "typeName": null,
+                  "docs": []
+                }
+              ],
+              "index": 1,
+              "docs": []
+            }
+          ]
         }
       },
       "docs": []
@@ -78911,19 +78938,97 @@
   {
     "id": 1086,
     "type": {
-      "path": [],
+      "path": [
+        "pallet_revive",
+        "evm",
+        "api",
+        "debug_rpc_types",
+        "CallTracerConfig"
+      ],
       "params": [],
       "def": {
-        "tuple": [
-          4,
-          1087
-        ]
+        "composite": {
+          "fields": [
+            {
+              "name": "with_logs",
+              "type": 8,
+              "typeName": "bool",
+              "docs": []
+            },
+            {
+              "name": "only_top_call",
+              "type": 8,
+              "typeName": "bool",
+              "docs": []
+            }
+          ]
+        }
       },
       "docs": []
     }
   },
   {
     "id": 1087,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "sequence": {
+          "type": 1088
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 1088,
+    "type": {
+      "path": [],
+      "params": [],
+      "def": {
+        "tuple": [
+          4,
+          1089
+        ]
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 1089,
+    "type": {
+      "path": [
+        "pallet_revive",
+        "evm",
+        "api",
+        "debug_rpc_types",
+        "Trace"
+      ],
+      "params": [],
+      "def": {
+        "variant": {
+          "variants": [
+            {
+              "name": "Call",
+              "fields": [
+                {
+                  "name": null,
+                  "type": 1090,
+                  "typeName": "CallTrace",
+                  "docs": []
+                }
+              ],
+              "index": 0,
+              "docs": []
+            }
+          ]
+        }
+      },
+      "docs": []
+    }
+  },
+  {
+    "id": 1090,
     "type": {
       "path": [
         "pallet_revive",
@@ -78979,25 +79084,25 @@
             },
             {
               "name": "error",
-              "type": 1088,
+              "type": 1091,
               "typeName": "Option<String>",
               "docs": []
             },
             {
               "name": "revert_reason",
-              "type": 1088,
+              "type": 1091,
               "typeName": "Option<String>",
               "docs": []
             },
             {
               "name": "calls",
-              "type": 1089,
+              "type": 1092,
               "typeName": "Vec<CallTrace<Gas>>",
               "docs": []
             },
             {
               "name": "logs",
-              "type": 1090,
+              "type": 1093,
               "typeName": "Vec<CallLog>",
               "docs": []
             },
@@ -79009,7 +79114,7 @@
             },
             {
               "name": "call_type",
-              "type": 1092,
+              "type": 1095,
               "typeName": "CallType",
               "docs": []
             }
@@ -79020,7 +79125,7 @@
     }
   },
   {
-    "id": 1088,
+    "id": 1091,
     "type": {
       "path": [
         "Option"
@@ -79060,33 +79165,33 @@
     }
   },
   {
-    "id": 1089,
+    "id": 1092,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 1087
+          "type": 1090
         }
       },
       "docs": []
     }
   },
   {
-    "id": 1090,
+    "id": 1093,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 1091
+          "type": 1094
         }
       },
       "docs": []
     }
   },
   {
-    "id": 1091,
+    "id": 1094,
     "type": {
       "path": [
         "pallet_revive",
@@ -79130,7 +79235,7 @@
     }
   },
   {
-    "id": 1092,
+    "id": 1095,
     "type": {
       "path": [
         "pallet_revive",
@@ -79168,7 +79273,7 @@
     }
   },
   {
-    "id": 1093,
+    "id": 1096,
     "type": {
       "path": [
         "Option"
@@ -79176,7 +79281,7 @@
       "params": [
         {
           "name": "T",
-          "type": 1087
+          "type": 1089
         }
       ],
       "def": {
@@ -79193,7 +79298,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1087,
+                  "type": 1089,
                   "typeName": null,
                   "docs": []
                 }
@@ -79208,7 +79313,7 @@
     }
   },
   {
-    "id": 1094,
+    "id": 1097,
     "type": {
       "path": [
         "Result"
@@ -79216,7 +79321,7 @@
       "params": [
         {
           "name": "T",
-          "type": 1087
+          "type": 1089
         },
         {
           "name": "E",
@@ -79231,7 +79336,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1087,
+                  "type": 1089,
                   "typeName": null,
                   "docs": []
                 }
@@ -79259,7 +79364,7 @@
     }
   },
   {
-    "id": 1095,
+    "id": 1098,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -79304,7 +79409,7 @@
     }
   },
   {
-    "id": 1096,
+    "id": 1099,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -79322,7 +79427,7 @@
           "fields": [
             {
               "name": "inclusion_fee",
-              "type": 1097,
+              "type": 1100,
               "typeName": "Option<InclusionFee<Balance>>",
               "docs": []
             },
@@ -79339,7 +79444,7 @@
     }
   },
   {
-    "id": 1097,
+    "id": 1100,
     "type": {
       "path": [
         "Option"
@@ -79347,7 +79452,7 @@
       "params": [
         {
           "name": "T",
-          "type": 1098
+          "type": 1101
         }
       ],
       "def": {
@@ -79364,7 +79469,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1098,
+                  "type": 1101,
                   "typeName": null,
                   "docs": []
                 }
@@ -79379,7 +79484,7 @@
     }
   },
   {
-    "id": 1098,
+    "id": 1101,
     "type": {
       "path": [
         "pallet_transaction_payment",
@@ -79420,7 +79525,7 @@
     }
   },
   {
-    "id": 1099,
+    "id": 1102,
     "type": {
       "path": [
         "Option"
@@ -79428,7 +79533,7 @@
       "params": [
         {
           "name": "T",
-          "type": 1100
+          "type": 1103
         }
       ],
       "def": {
@@ -79445,7 +79550,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1100,
+                  "type": 1103,
                   "typeName": null,
                   "docs": []
                 }
@@ -79460,7 +79565,7 @@
     }
   },
   {
-    "id": 1100,
+    "id": 1103,
     "type": {
       "path": [],
       "params": [],
@@ -79474,7 +79579,7 @@
     }
   },
   {
-    "id": 1101,
+    "id": 1104,
     "type": {
       "path": [
         "Option"
@@ -79482,7 +79587,7 @@
       "params": [
         {
           "name": "T",
-          "type": 1102
+          "type": 1105
         }
       ],
       "def": {
@@ -79499,7 +79604,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1102,
+                  "type": 1105,
                   "typeName": null,
                   "docs": []
                 }
@@ -79514,7 +79619,7 @@
     }
   },
   {
-    "id": 1102,
+    "id": 1105,
     "type": {
       "path": [
         "sp_consensus_beefy",
@@ -79548,7 +79653,7 @@
     }
   },
   {
-    "id": 1103,
+    "id": 1106,
     "type": {
       "path": [
         "sp_consensus_beefy",
@@ -79596,7 +79701,7 @@
     }
   },
   {
-    "id": 1104,
+    "id": 1107,
     "type": {
       "path": [
         "Result"
@@ -79608,7 +79713,7 @@
         },
         {
           "name": "E",
-          "type": 1105
+          "type": 1108
         }
       ],
       "def": {
@@ -79632,7 +79737,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1105,
+                  "type": 1108,
                   "typeName": null,
                   "docs": []
                 }
@@ -79647,7 +79752,7 @@
     }
   },
   {
-    "id": 1105,
+    "id": 1108,
     "type": {
       "path": [
         "sp_mmr_primitives",
@@ -79724,7 +79829,7 @@
     }
   },
   {
-    "id": 1106,
+    "id": 1109,
     "type": {
       "path": [
         "Result"
@@ -79736,7 +79841,7 @@
         },
         {
           "name": "E",
-          "type": 1105
+          "type": 1108
         }
       ],
       "def": {
@@ -79760,7 +79865,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1105,
+                  "type": 1108,
                   "typeName": null,
                   "docs": []
                 }
@@ -79775,7 +79880,7 @@
     }
   },
   {
-    "id": 1107,
+    "id": 1110,
     "type": {
       "path": [
         "Result"
@@ -79783,11 +79888,11 @@
       "params": [
         {
           "name": "T",
-          "type": 1108
+          "type": 1111
         },
         {
           "name": "E",
-          "type": 1105
+          "type": 1108
         }
       ],
       "def": {
@@ -79798,7 +79903,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1108,
+                  "type": 1111,
                   "typeName": null,
                   "docs": []
                 }
@@ -79811,7 +79916,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1105,
+                  "type": 1108,
                   "typeName": null,
                   "docs": []
                 }
@@ -79826,34 +79931,34 @@
     }
   },
   {
-    "id": 1108,
+    "id": 1111,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "tuple": [
-          1109,
-          1111
+          1112,
+          1114
         ]
       },
       "docs": []
     }
   },
   {
-    "id": 1109,
+    "id": 1112,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 1110
+          "type": 1113
         }
       },
       "docs": []
     }
   },
   {
-    "id": 1110,
+    "id": 1113,
     "type": {
       "path": [
         "sp_mmr_primitives",
@@ -79876,7 +79981,7 @@
     }
   },
   {
-    "id": 1111,
+    "id": 1114,
     "type": {
       "path": [
         "sp_mmr_primitives",
@@ -79916,7 +80021,7 @@
     }
   },
   {
-    "id": 1112,
+    "id": 1115,
     "type": {
       "path": [
         "Result"
@@ -79928,7 +80033,7 @@
         },
         {
           "name": "E",
-          "type": 1105
+          "type": 1108
         }
       ],
       "def": {
@@ -79952,7 +80057,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1105,
+                  "type": 1108,
                   "typeName": null,
                   "docs": []
                 }
@@ -79967,7 +80072,7 @@
     }
   },
   {
-    "id": 1113,
+    "id": 1116,
     "type": {
       "path": [
         "sp_mixnet",
@@ -79986,7 +80091,7 @@
             },
             {
               "name": "phase",
-              "type": 1114,
+              "type": 1117,
               "typeName": "SessionPhase",
               "docs": []
             }
@@ -79997,7 +80102,7 @@
     }
   },
   {
-    "id": 1114,
+    "id": 1117,
     "type": {
       "path": [
         "sp_mixnet",
@@ -80039,7 +80144,7 @@
     }
   },
   {
-    "id": 1115,
+    "id": 1118,
     "type": {
       "path": [
         "Result"
@@ -80047,11 +80152,11 @@
       "params": [
         {
           "name": "T",
-          "type": 1116
+          "type": 1119
         },
         {
           "name": "E",
-          "type": 1118
+          "type": 1121
         }
       ],
       "def": {
@@ -80062,7 +80167,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1116,
+                  "type": 1119,
                   "typeName": null,
                   "docs": []
                 }
@@ -80075,7 +80180,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1118,
+                  "type": 1121,
                   "typeName": null,
                   "docs": []
                 }
@@ -80090,20 +80195,20 @@
     }
   },
   {
-    "id": 1116,
+    "id": 1119,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 1117
+          "type": 1120
         }
       },
       "docs": []
     }
   },
   {
-    "id": 1117,
+    "id": 1120,
     "type": {
       "path": [
         "sp_mixnet",
@@ -80139,7 +80244,7 @@
     }
   },
   {
-    "id": 1118,
+    "id": 1121,
     "type": {
       "path": [
         "sp_mixnet",
@@ -80176,7 +80281,7 @@
     }
   },
   {
-    "id": 1119,
+    "id": 1122,
     "type": {
       "path": [
         "Option"
@@ -80184,7 +80289,7 @@
       "params": [
         {
           "name": "T",
-          "type": 1120
+          "type": 1123
         }
       ],
       "def": {
@@ -80201,7 +80306,7 @@
               "fields": [
                 {
                   "name": null,
-                  "type": 1120,
+                  "type": 1123,
                   "typeName": null,
                   "docs": []
                 }
@@ -80216,20 +80321,20 @@
     }
   },
   {
-    "id": 1120,
+    "id": 1123,
     "type": {
       "path": [],
       "params": [],
       "def": {
         "sequence": {
-          "type": 1121
+          "type": 1124
         }
       },
       "docs": []
     }
   },
   {
-    "id": 1121,
+    "id": 1124,
     "type": {
       "path": [],
       "params": [],
@@ -80243,7 +80348,7 @@
     }
   },
   {
-    "id": 1122,
+    "id": 1125,
     "type": {
       "path": [
         "Result"
@@ -80294,7 +80399,7 @@
     }
   },
   {
-    "id": 1123,
+    "id": 1126,
     "type": {
       "path": [],
       "params": [],
@@ -80307,7 +80412,7 @@
     }
   },
   {
-    "id": 1124,
+    "id": 1127,
     "type": {
       "path": [
         "kitchensink_runtime",

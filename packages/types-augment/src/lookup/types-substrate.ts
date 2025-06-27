@@ -10309,16 +10309,27 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'DoesntExist' | 'KeyDecodingFailed';
   }
 
-  /** @name PalletReviveEvmApiDebugRpcTypesTracerConfig (1084) */
-  interface PalletReviveEvmApiDebugRpcTypesTracerConfig extends Enum {
+  /** @name PalletReviveEvmApiDebugRpcTypesTracerType (1084) */
+  interface PalletReviveEvmApiDebugRpcTypesTracerType extends Enum {
     readonly isCallTracer: boolean;
-    readonly asCallTracer: {
-      readonly withLogs: bool;
-    } & Struct;
+    readonly asCallTracer: Option<PalletReviveEvmApiDebugRpcTypesCallTracerConfig>;
     readonly type: 'CallTracer';
   }
 
-  /** @name PalletReviveEvmApiDebugRpcTypesCallTrace (1087) */
+  /** @name PalletReviveEvmApiDebugRpcTypesCallTracerConfig (1086) */
+  interface PalletReviveEvmApiDebugRpcTypesCallTracerConfig extends Struct {
+    readonly withLogs: bool;
+    readonly onlyTopCall: bool;
+  }
+
+  /** @name PalletReviveEvmApiDebugRpcTypesTrace (1089) */
+  interface PalletReviveEvmApiDebugRpcTypesTrace extends Enum {
+    readonly isCall: boolean;
+    readonly asCall: PalletReviveEvmApiDebugRpcTypesCallTrace;
+    readonly type: 'Call';
+  }
+
+  /** @name PalletReviveEvmApiDebugRpcTypesCallTrace (1090) */
   interface PalletReviveEvmApiDebugRpcTypesCallTrace extends Struct {
     readonly from: H160;
     readonly gas: U256;
@@ -10334,7 +10345,7 @@ declare module '@polkadot/types/lookup' {
     readonly callType: PalletReviveEvmApiDebugRpcTypesCallType;
   }
 
-  /** @name PalletReviveEvmApiDebugRpcTypesCallLog (1091) */
+  /** @name PalletReviveEvmApiDebugRpcTypesCallLog (1094) */
   interface PalletReviveEvmApiDebugRpcTypesCallLog extends Struct {
     readonly address: H160;
     readonly topics: Vec<H256>;
@@ -10342,7 +10353,7 @@ declare module '@polkadot/types/lookup' {
     readonly position: u32;
   }
 
-  /** @name PalletReviveEvmApiDebugRpcTypesCallType (1092) */
+  /** @name PalletReviveEvmApiDebugRpcTypesCallType (1095) */
   interface PalletReviveEvmApiDebugRpcTypesCallType extends Enum {
     readonly isCall: boolean;
     readonly isStaticCall: boolean;
@@ -10350,40 +10361,40 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Call' | 'StaticCall' | 'DelegateCall';
   }
 
-  /** @name PalletTransactionPaymentRuntimeDispatchInfo (1095) */
+  /** @name PalletTransactionPaymentRuntimeDispatchInfo (1098) */
   interface PalletTransactionPaymentRuntimeDispatchInfo extends Struct {
     readonly weight: SpWeightsWeightV2Weight;
     readonly class: FrameSupportDispatchDispatchClass;
     readonly partialFee: u128;
   }
 
-  /** @name PalletTransactionPaymentFeeDetails (1096) */
+  /** @name PalletTransactionPaymentFeeDetails (1099) */
   interface PalletTransactionPaymentFeeDetails extends Struct {
     readonly inclusionFee: Option<PalletTransactionPaymentInclusionFee>;
     readonly tip: u128;
   }
 
-  /** @name PalletTransactionPaymentInclusionFee (1098) */
+  /** @name PalletTransactionPaymentInclusionFee (1101) */
   interface PalletTransactionPaymentInclusionFee extends Struct {
     readonly baseFee: u128;
     readonly lenFee: u128;
     readonly adjustedWeightFee: u128;
   }
 
-  /** @name SpConsensusBeefyValidatorSet (1102) */
+  /** @name SpConsensusBeefyValidatorSet (1105) */
   interface SpConsensusBeefyValidatorSet extends Struct {
     readonly validators: Vec<SpConsensusBeefyEcdsaCryptoPublic>;
     readonly id: u64;
   }
 
-  /** @name SpConsensusBeefyForkVotingProofOpaqueValue (1103) */
+  /** @name SpConsensusBeefyForkVotingProofOpaqueValue (1106) */
   interface SpConsensusBeefyForkVotingProofOpaqueValue extends Struct {
     readonly vote: SpConsensusBeefyVoteMessage;
     readonly ancestryProof: Bytes;
     readonly header: SpRuntimeHeader;
   }
 
-  /** @name SpMmrPrimitivesError (1105) */
+  /** @name SpMmrPrimitivesError (1108) */
   interface SpMmrPrimitivesError extends Enum {
     readonly isInvalidNumericOp: boolean;
     readonly isPush: boolean;
@@ -10398,20 +10409,20 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'InvalidNumericOp' | 'Push' | 'GetRoot' | 'Commit' | 'GenerateProof' | 'Verify' | 'LeafNotFound' | 'PalletNotIncluded' | 'InvalidLeafIndex' | 'InvalidBestKnownBlock';
   }
 
-  /** @name SpMmrPrimitivesLeafProof (1111) */
+  /** @name SpMmrPrimitivesLeafProof (1114) */
   interface SpMmrPrimitivesLeafProof extends Struct {
     readonly leafIndices: Vec<u64>;
     readonly leafCount: u64;
     readonly items: Vec<H256>;
   }
 
-  /** @name SpMixnetSessionStatus (1113) */
+  /** @name SpMixnetSessionStatus (1116) */
   interface SpMixnetSessionStatus extends Struct {
     readonly currentIndex: u32;
     readonly phase: SpMixnetSessionPhase;
   }
 
-  /** @name SpMixnetSessionPhase (1114) */
+  /** @name SpMixnetSessionPhase (1117) */
   interface SpMixnetSessionPhase extends Enum {
     readonly isCoverToCurrent: boolean;
     readonly isRequestsToCurrent: boolean;
@@ -10420,14 +10431,14 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'CoverToCurrent' | 'RequestsToCurrent' | 'CoverToPrev' | 'DisconnectFromPrev';
   }
 
-  /** @name SpMixnetMixnode (1117) */
+  /** @name SpMixnetMixnode (1120) */
   interface SpMixnetMixnode extends Struct {
     readonly kxPublic: U8aFixed;
     readonly peerId: U8aFixed;
     readonly externalAddresses: Vec<Bytes>;
   }
 
-  /** @name SpMixnetMixnodesErr (1118) */
+  /** @name SpMixnetMixnodesErr (1121) */
   interface SpMixnetMixnodesErr extends Enum {
     readonly isInsufficientRegistrations: boolean;
     readonly asInsufficientRegistrations: {
@@ -10437,7 +10448,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'InsufficientRegistrations';
   }
 
-  /** @name KitchensinkRuntimeRuntimeError (1124) */
+  /** @name KitchensinkRuntimeRuntimeError (1127) */
   interface KitchensinkRuntimeRuntimeError extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemError;
