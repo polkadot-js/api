@@ -11978,7 +11978,7 @@
                   "type": 1084
                 }
               ],
-              "output": 1085,
+              "output": 1087,
               "docs": [
                 " Traces the execution of an entire block and returns call traces.",
                 "",
@@ -12004,7 +12004,7 @@
                   "type": 1084
                 }
               ],
-              "output": 1093,
+              "output": 1096,
               "docs": [
                 " Traces the execution of a specific transaction within a block.",
                 "",
@@ -12026,7 +12026,7 @@
                   "type": 1084
                 }
               ],
-              "output": 1094,
+              "output": 1097,
               "docs": [
                 " Dry run and return the trace of the given call.",
                 "",
@@ -12053,7 +12053,7 @@
                   "type": 4
                 }
               ],
-              "output": 1095,
+              "output": 1098,
               "docs": []
             },
             {
@@ -12068,7 +12068,7 @@
                   "type": 4
                 }
               ],
-              "output": 1096,
+              "output": 1099,
               "docs": []
             },
             {
@@ -12167,7 +12167,7 @@
                   "type": 40
                 }
               ],
-              "output": 1099,
+              "output": 1102,
               "docs": [
                 " Returns the size of the liquidity pool for the given asset pair."
               ]
@@ -12193,7 +12193,7 @@
                   "type": 4
                 }
               ],
-              "output": 1095,
+              "output": 1098,
               "docs": [
                 " Query information of a dispatch class, weight, and fee of a given encoded `Call`."
               ]
@@ -12210,7 +12210,7 @@
                   "type": 4
                 }
               ],
-              "output": 1096,
+              "output": 1099,
               "docs": [
                 " Query fee details of a given encoded `Call`."
               ]
@@ -12366,7 +12366,7 @@
             {
               "name": "validator_set",
               "inputs": [],
-              "output": 1101,
+              "output": 1104,
               "docs": [
                 " Return the current active BEEFY validator set"
               ]
@@ -12400,7 +12400,7 @@
               "inputs": [
                 {
                   "name": "equivocation_proof",
-                  "type": 1103
+                  "type": 1106
                 },
                 {
                   "name": "key_owner_proof",
@@ -12499,7 +12499,7 @@
             {
               "name": "mmr_root",
               "inputs": [],
-              "output": 1104,
+              "output": 1107,
               "docs": [
                 " Return the on-chain MMR root hash."
               ]
@@ -12507,7 +12507,7 @@
             {
               "name": "mmr_leaf_count",
               "inputs": [],
-              "output": 1106,
+              "output": 1109,
               "docs": [
                 " Return the number of MMR blocks in the chain."
               ]
@@ -12524,7 +12524,7 @@
                   "type": 50
                 }
               ],
-              "output": 1107,
+              "output": 1110,
               "docs": [
                 " Generate MMR proof for a series of block numbers. If `best_known_block_number = Some(n)`,",
                 " use historical MMR state at given block height `n`. Else, use current MMR state."
@@ -12535,14 +12535,14 @@
               "inputs": [
                 {
                   "name": "leaves",
-                  "type": 1109
+                  "type": 1112
                 },
                 {
                   "name": "proof",
-                  "type": 1111
+                  "type": 1114
                 }
               ],
-              "output": 1112,
+              "output": 1115,
               "docs": [
                 " Verify MMR proof against on-chain MMR for a batch of leaves.",
                 "",
@@ -12560,14 +12560,14 @@
                 },
                 {
                   "name": "leaves",
-                  "type": 1109
+                  "type": 1112
                 },
                 {
                   "name": "proof",
-                  "type": 1111
+                  "type": 1114
                 }
               ],
-              "output": 1112,
+              "output": 1115,
               "docs": [
                 " Verify MMR proof against given root hash for a batch of leaves.",
                 "",
@@ -12589,7 +12589,7 @@
             {
               "name": "session_status",
               "inputs": [],
-              "output": 1113,
+              "output": 1116,
               "docs": [
                 " Get the index and phase of the current session."
               ]
@@ -12597,7 +12597,7 @@
             {
               "name": "prev_mixnodes",
               "inputs": [],
-              "output": 1115,
+              "output": 1118,
               "docs": [
                 " Get the mixnode set for the previous session."
               ]
@@ -12605,7 +12605,7 @@
             {
               "name": "current_mixnodes",
               "inputs": [],
-              "output": 1115,
+              "output": 1118,
               "docs": [
                 " Get the mixnode set for the current session."
               ]
@@ -12619,7 +12619,7 @@
                 },
                 {
                   "name": "mixnode",
-                  "type": 1117
+                  "type": 1120
                 }
               ],
               "output": 8,
@@ -12676,7 +12676,7 @@
                   "type": 14
                 }
               ],
-              "output": 1119,
+              "output": 1122,
               "docs": [
                 " Decode the given public session keys.",
                 "",
@@ -12717,7 +12717,7 @@
                   "type": 14
                 }
               ],
-              "output": 1122,
+              "output": 1125,
               "docs": [
                 " Build `RuntimeGenesisConfig` from a JSON blob not using any defaults and store it in the",
                 " storage.",
@@ -12736,7 +12736,7 @@
               "inputs": [
                 {
                   "name": "id",
-                  "type": 1088
+                  "type": 1091
                 }
               ],
               "output": 439,
@@ -12760,7 +12760,7 @@
             {
               "name": "preset_names",
               "inputs": [],
-              "output": 1123,
+              "output": 1126,
               "docs": [
                 " Returns a list of identifiers for available builtin `RuntimeGenesisConfig` presets.",
                 "",
@@ -12777,7 +12777,7 @@
       "outerEnums": {
         "callType": 139,
         "eventType": 21,
-        "errorType": 1124
+        "errorType": 1127
       },
       "custom": {
         "map": {}
