@@ -5,9 +5,9 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/lookup';
 
-import type { Compact, Enum, Null, Option, Struct, Vec, bool, u128, u16, u32 } from '@polkadot/types-codec';
+import type { Bytes, Compact, Enum, Null, Option, Struct, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, PerU16, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, H256, PerU16, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
   /** @name StagingKusamaRuntimeSessionKeys (136) */
@@ -166,7 +166,7 @@ declare module '@polkadot/types/lookup' {
     readonly votes24: Vec<ITuple<[Compact<u32>, Vec<ITuple<[Compact<u16>, Compact<PerU16>]>>, Compact<u16>]>>;
   }
 
-  /** @name StagingKusamaRuntimeRuntimeParametersKey (509) */
+  /** @name StagingKusamaRuntimeRuntimeParametersKey (510) */
   interface StagingKusamaRuntimeRuntimeParametersKey extends Enum {
     readonly isInflation: boolean;
     readonly asInflation: StagingKusamaRuntimeDynamicParamsInflationParametersKey;
@@ -175,7 +175,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Inflation' | 'Treasury';
   }
 
-  /** @name StagingKusamaRuntimeDynamicParamsInflationParametersKey (510) */
+  /** @name StagingKusamaRuntimeDynamicParamsInflationParametersKey (511) */
   interface StagingKusamaRuntimeDynamicParamsInflationParametersKey extends Enum {
     readonly isMinInflation: boolean;
     readonly isMaxInflation: boolean;
@@ -185,14 +185,14 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'MinInflation' | 'MaxInflation' | 'IdealStake' | 'Falloff' | 'UseAuctionSlots';
   }
 
-  /** @name StagingKusamaRuntimeDynamicParamsTreasuryParametersKey (511) */
+  /** @name StagingKusamaRuntimeDynamicParamsTreasuryParametersKey (512) */
   interface StagingKusamaRuntimeDynamicParamsTreasuryParametersKey extends Enum {
     readonly isBurnPortion: boolean;
     readonly isBurnDestination: boolean;
     readonly type: 'BurnPortion' | 'BurnDestination';
   }
 
-  /** @name StagingKusamaRuntimeRuntimeParametersValue (513) */
+  /** @name StagingKusamaRuntimeRuntimeParametersValue (514) */
   interface StagingKusamaRuntimeRuntimeParametersValue extends Enum {
     readonly isInflation: boolean;
     readonly asInflation: StagingKusamaRuntimeDynamicParamsInflationParametersValue;
@@ -201,7 +201,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Inflation' | 'Treasury';
   }
 
-  /** @name StagingKusamaRuntimeDynamicParamsInflationParametersValue (514) */
+  /** @name StagingKusamaRuntimeDynamicParamsInflationParametersValue (515) */
   interface StagingKusamaRuntimeDynamicParamsInflationParametersValue extends Enum {
     readonly isMinInflation: boolean;
     readonly asMinInflation: Perquintill;
@@ -216,7 +216,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'MinInflation' | 'MaxInflation' | 'IdealStake' | 'Falloff' | 'UseAuctionSlots';
   }
 
-  /** @name StagingKusamaRuntimeDynamicParamsTreasuryParametersValue (515) */
+  /** @name StagingKusamaRuntimeDynamicParamsTreasuryParametersValue (516) */
   interface StagingKusamaRuntimeDynamicParamsTreasuryParametersValue extends Enum {
     readonly isBurnPortion: boolean;
     readonly asBurnPortion: Permill;
@@ -225,34 +225,93 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'BurnPortion' | 'BurnDestination';
   }
 
-  /** @name StagingKusamaRuntimeRuntimeHoldReason (604) */
+  /** @name XcmV3TraitsSendError (560) */
+  interface XcmV3TraitsSendError extends Enum {
+    readonly isNotApplicable: boolean;
+    readonly isTransport: boolean;
+    readonly isUnroutable: boolean;
+    readonly isDestinationUnsupported: boolean;
+    readonly isExceedsMaxMessageSize: boolean;
+    readonly isMissingArgument: boolean;
+    readonly isFees: boolean;
+    readonly type: 'NotApplicable' | 'Transport' | 'Unroutable' | 'DestinationUnsupported' | 'ExceedsMaxMessageSize' | 'MissingArgument' | 'Fees';
+  }
+
+  /** @name StagingKusamaRuntimeRuntimeHoldReason (608) */
   interface StagingKusamaRuntimeRuntimeHoldReason extends Enum {
+    readonly isStaking: boolean;
+    readonly asStaking: PalletStakingPalletHoldReason;
     readonly isPreimage: boolean;
     readonly asPreimage: PalletPreimageHoldReason;
     readonly isNis: boolean;
     readonly asNis: PalletNisHoldReason;
     readonly isDelegatedStaking: boolean;
     readonly asDelegatedStaking: PalletDelegatedStakingHoldReason;
-    readonly type: 'Preimage' | 'Nis' | 'DelegatedStaking';
+    readonly isXcmPallet: boolean;
+    readonly asXcmPallet: PalletXcmHoldReason;
+    readonly type: 'Staking' | 'Preimage' | 'Nis' | 'DelegatedStaking' | 'XcmPallet';
   }
 
-  /** @name StagingKusamaRuntimeRuntimeFreezeReason (611) */
+  /** @name PalletXcmHoldReason (613) */
+  interface PalletXcmHoldReason extends Enum {
+    readonly isAuthorizeAlias: boolean;
+    readonly type: 'AuthorizeAlias';
+  }
+
+  /** @name StagingKusamaRuntimeRuntimeFreezeReason (617) */
   interface StagingKusamaRuntimeRuntimeFreezeReason extends Enum {
     readonly isNominationPools: boolean;
     readonly asNominationPools: PalletNominationPoolsFreezeReason;
     readonly type: 'NominationPools';
   }
 
-  /** @name FrameSupportTokensMiscIdAmount (783) */
+  /** @name FrameSupportTokensMiscIdAmount (791) */
   interface FrameSupportTokensMiscIdAmount extends Struct {
     readonly id: Null;
     readonly amount: u128;
   }
 
-  /** @name StagingKusamaRuntimeRuntime (970) */
+  /** @name PalletXcmAuthorizedAliasesEntry (952) */
+  interface PalletXcmAuthorizedAliasesEntry extends Struct {
+    readonly aliasers: Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>;
+    readonly ticket: FrameSupportStorageDisabled;
+  }
+
+  /** @name FrameSupportStorageDisabled (953) */
+  type FrameSupportStorageDisabled = Null;
+
+  /** @name PalletXcmMaxAuthorizedAliases (954) */
+  type PalletXcmMaxAuthorizedAliases = Null;
+
+  /** @name XcmRuntimeApisAuthorizedAliasesOriginAliaser (956) */
+  interface XcmRuntimeApisAuthorizedAliasesOriginAliaser extends Struct {
+    readonly location: XcmVersionedLocation;
+    readonly expiry: Option<u64>;
+  }
+
+  /** @name StagingKusamaRuntimeRuntime (983) */
   type StagingKusamaRuntimeRuntime = Null;
 
-  /** @name StagingKusamaRuntimeRuntimeError (1084) */
+  /** @name PolkadotPrimitivesVstagingAsyncBackingConstraints (1052) */
+  interface PolkadotPrimitivesVstagingAsyncBackingConstraints extends Struct {
+    readonly minRelayParentNumber: u32;
+    readonly maxPovSize: u32;
+    readonly maxCodeSize: u32;
+    readonly maxHeadDataSize: u32;
+    readonly umpRemaining: u32;
+    readonly umpRemainingBytes: u32;
+    readonly maxUmpNumPerCandidate: u32;
+    readonly dmpRemainingMessages: Vec<u32>;
+    readonly hrmpInbound: PolkadotPrimitivesV8AsyncBackingInboundHrmpLimitations;
+    readonly hrmpChannelsOut: Vec<ITuple<[u32, PolkadotPrimitivesV8AsyncBackingOutboundHrmpChannelLimitations]>>;
+    readonly maxHrmpNumPerCandidate: u32;
+    readonly requiredParent: Bytes;
+    readonly validationCodeHash: H256;
+    readonly upgradeRestriction: Option<PolkadotPrimitivesV8UpgradeRestriction>;
+    readonly futureValidationCode: Option<ITuple<[u32, H256]>>;
+  }
+
+  /** @name StagingKusamaRuntimeRuntimeError (1099) */
   interface StagingKusamaRuntimeRuntimeError extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemError;
