@@ -5,11 +5,23 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/lookup';
 
-import type { Bytes, Enum, Null, Option, Struct, U8aFixed, Vec, u32 } from '@polkadot/types-codec';
+import type { Bytes, Enum, Null, Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types-codec';
 import type { Call, MultiAddress } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
-  /** @name AssetHubKusamaRuntimeProxyType (146) */
+  /** @name XcmV3TraitsSendError (114) */
+  interface XcmV3TraitsSendError extends Enum {
+    readonly isNotApplicable: boolean;
+    readonly isTransport: boolean;
+    readonly isUnroutable: boolean;
+    readonly isDestinationUnsupported: boolean;
+    readonly isExceedsMaxMessageSize: boolean;
+    readonly isMissingArgument: boolean;
+    readonly isFees: boolean;
+    readonly type: 'NotApplicable' | 'Transport' | 'Unroutable' | 'DestinationUnsupported' | 'ExceedsMaxMessageSize' | 'MissingArgument' | 'Fees';
+  }
+
+  /** @name AssetHubKusamaRuntimeProxyType (148) */
   interface AssetHubKusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isNonTransfer: boolean;
@@ -21,24 +33,52 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Any' | 'NonTransfer' | 'CancelProxy' | 'Assets' | 'AssetOwner' | 'AssetManager' | 'Collator';
   }
 
-  /** @name AssetHubKusamaRuntimeRuntimeHoldReason (248) */
+  /** @name AssetHubKusamaRuntimeRuntimeHoldReason (253) */
   interface AssetHubKusamaRuntimeRuntimeHoldReason extends Enum {
+    readonly isPolkadotXcm: boolean;
+    readonly asPolkadotXcm: PalletXcmHoldReason;
     readonly isNftFractionalization: boolean;
     readonly asNftFractionalization: PalletNftFractionalizationHoldReason;
+    readonly isRevive: boolean;
+    readonly asRevive: PalletReviveHoldReason;
     readonly isStateTrieMigration: boolean;
     readonly asStateTrieMigration: PalletStateTrieMigrationHoldReason;
-    readonly type: 'NftFractionalization' | 'StateTrieMigration';
+    readonly type: 'PolkadotXcm' | 'NftFractionalization' | 'Revive' | 'StateTrieMigration';
   }
 
-  /** @name AssetHubKusamaRuntimeSessionKeys (275) */
+  /** @name PalletXcmHoldReason (254) */
+  interface PalletXcmHoldReason extends Enum {
+    readonly isAuthorizeAlias: boolean;
+    readonly type: 'AuthorizeAlias';
+  }
+
+  /** @name AssetHubKusamaRuntimeSessionKeys (283) */
   interface AssetHubKusamaRuntimeSessionKeys extends Struct {
     readonly aura: SpConsensusAuraSr25519AppSr25519Public;
   }
 
-  /** @name SpConsensusAuraSr25519AppSr25519Public (276) */
+  /** @name SpConsensusAuraSr25519AppSr25519Public (284) */
   interface SpConsensusAuraSr25519AppSr25519Public extends U8aFixed {}
 
-  /** @name PalletRemoteProxyCall (380) */
+  /** @name PalletXcmAuthorizedAliasesEntry (343) */
+  interface PalletXcmAuthorizedAliasesEntry extends Struct {
+    readonly aliasers: Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>;
+    readonly ticket: FrameSupportStorageDisabled;
+  }
+
+  /** @name FrameSupportStorageDisabled (344) */
+  type FrameSupportStorageDisabled = Null;
+
+  /** @name PalletXcmMaxAuthorizedAliases (345) */
+  type PalletXcmMaxAuthorizedAliases = Null;
+
+  /** @name XcmRuntimeApisAuthorizedAliasesOriginAliaser (347) */
+  interface XcmRuntimeApisAuthorizedAliasesOriginAliaser extends Struct {
+    readonly location: XcmVersionedLocation;
+    readonly expiry: Option<u64>;
+  }
+
+  /** @name PalletRemoteProxyCall (398) */
   interface PalletRemoteProxyCall extends Enum {
     readonly isRemoteProxy: boolean;
     readonly asRemoteProxy: {
@@ -60,7 +100,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'RemoteProxy' | 'RegisterRemoteProxyProof' | 'RemoteProxyWithRegisteredProof';
   }
 
-  /** @name PalletRemoteProxyRemoteProxyProof (381) */
+  /** @name PalletRemoteProxyRemoteProxyProof (399) */
   interface PalletRemoteProxyRemoteProxyProof extends Enum {
     readonly isRelayChain: boolean;
     readonly asRelayChain: {
@@ -70,7 +110,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'RelayChain';
   }
 
-  /** @name AssetHubKusamaRuntimeOriginCaller (419) */
+  /** @name AssetHubKusamaRuntimeOriginCaller (438) */
   interface AssetHubKusamaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSupportDispatchRawOrigin;
@@ -81,7 +121,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'System' | 'PolkadotXcm' | 'CumulusXcm';
   }
 
-  /** @name PalletRemoteProxyError (440) */
+  /** @name PalletRemoteProxyError (459) */
   interface PalletRemoteProxyError extends Enum {
     readonly isCouldNotConvertLocalToRemoteAccountId: boolean;
     readonly isUnknownProofAnchorBlock: boolean;
@@ -93,10 +133,10 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'CouldNotConvertLocalToRemoteAccountId' | 'UnknownProofAnchorBlock' | 'InvalidProof' | 'ProxyDefinitionDecodingFailed' | 'Unannounced' | 'DidNotFindMatchingProxyDefinition' | 'ProxyProofNotRegistered';
   }
 
-  /** @name AssetHubKusamaRuntimeRuntime (508) */
+  /** @name AssetHubKusamaRuntimeRuntime (532) */
   type AssetHubKusamaRuntimeRuntime = Null;
 
-  /** @name AssetHubKusamaRuntimeRuntimeError (567) */
+  /** @name AssetHubKusamaRuntimeRuntimeError (634) */
   interface AssetHubKusamaRuntimeRuntimeError extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemError;
@@ -138,9 +178,11 @@ declare module '@polkadot/types/lookup' {
     readonly asPoolAssets: PalletAssetsError;
     readonly isAssetConversion: boolean;
     readonly asAssetConversion: PalletAssetConversionError;
+    readonly isRevive: boolean;
+    readonly asRevive: PalletReviveError;
     readonly isStateTrieMigration: boolean;
     readonly asStateTrieMigration: PalletStateTrieMigrationError;
-    readonly type: 'System' | 'ParachainSystem' | 'Balances' | 'Vesting' | 'CollatorSelection' | 'Session' | 'XcmpQueue' | 'PolkadotXcm' | 'MessageQueue' | 'Utility' | 'Multisig' | 'Proxy' | 'RemoteProxyRelayChain' | 'Assets' | 'Uniques' | 'Nfts' | 'ForeignAssets' | 'NftFractionalization' | 'PoolAssets' | 'AssetConversion' | 'StateTrieMigration';
+    readonly type: 'System' | 'ParachainSystem' | 'Balances' | 'Vesting' | 'CollatorSelection' | 'Session' | 'XcmpQueue' | 'PolkadotXcm' | 'MessageQueue' | 'Utility' | 'Multisig' | 'Proxy' | 'RemoteProxyRelayChain' | 'Assets' | 'Uniques' | 'Nfts' | 'ForeignAssets' | 'NftFractionalization' | 'PoolAssets' | 'AssetConversion' | 'Revive' | 'StateTrieMigration';
   }
 
 } // declare module

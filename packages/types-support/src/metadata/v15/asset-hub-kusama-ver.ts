@@ -9,7 +9,7 @@ export default {
   "specName": "statemine",
   "implName": "statemine",
   "authoringVersion": 1,
-  "specVersion": 1005001,
+  "specVersion": 1006000,
   "implVersion": 0,
   "apis": [
     [
@@ -18,7 +18,7 @@ export default {
     ],
     [
       "0xd7bdd8a272ca0d65",
-      1
+      2
     ],
     [
       "0xdf6acb689907609b",
@@ -82,6 +82,10 @@ export default {
     ],
     [
       "0xfbc577b9d747efd6",
+      1
+    ],
+    [
+      "0x8c403e5c4a9fd442",
       1
     ]
   ],

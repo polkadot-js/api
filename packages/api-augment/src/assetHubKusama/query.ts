@@ -8,8 +8,8 @@ import '@polkadot/api-base/types/storage';
 import type { ApiTypes, AugmentedQuery, QueryableStorageEntry } from '@polkadot/api-base/types';
 import type { BTreeMap, BTreeSet, Bytes, Null, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
-import type { AssetHubKusamaRuntimeRuntimeHoldReason, AssetHubKusamaRuntimeSessionKeys, BpXcmBridgeHubRouterBridgeState, CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot, CumulusPalletParachainSystemUnincludedSegmentAncestor, CumulusPalletParachainSystemUnincludedSegmentSegmentTracker, CumulusPalletXcmpQueueOutboundChannelDetails, CumulusPalletXcmpQueueQueueConfigData, CumulusPrimitivesCoreAggregateMessageOrigin, FrameSupportDispatchPerDispatchClassWeight, FrameSupportTokensMiscIdAmount, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, PalletAssetConversionPoolInfo, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletCollatorSelectionCandidateInfo, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMultisigMultisig, PalletNftFractionalizationDetails, PalletNftsAttributeDeposit, PalletNftsAttributeNamespace, PalletNftsCollectionConfig, PalletNftsCollectionDetails, PalletNftsCollectionMetadata, PalletNftsItemConfig, PalletNftsItemDetails, PalletNftsItemMetadata, PalletNftsPendingSwap, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTransactionPaymentReleases, PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata, PalletUniquesItemDetails, PalletUniquesItemMetadata, PalletVestingReleases, PalletVestingVestingInfo, PalletXcmQueryStatus, PalletXcmRemoteLockedFungibleRecord, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesOutboundHrmpMessage, PolkadotPrimitivesV8AbridgedHostConfiguration, PolkadotPrimitivesV8PersistedValidationData, PolkadotPrimitivesV8UpgradeGoAhead, PolkadotPrimitivesV8UpgradeRestriction, SpConsensusAuraSr25519AppSr25519Public, SpCoreCryptoKeyTypeId, SpRuntimeDigest, SpTrieStorageProof, SpWeightsWeightV2Weight, StagingXcmV4Location, StagingXcmV5Instruction, XcmVersionedAssetId, XcmVersionedLocation } from '@polkadot/types/lookup';
+import type { AccountId32, H160, H256, Perbill } from '@polkadot/types/interfaces/runtime';
+import type { AssetHubKusamaRuntimeRuntimeHoldReason, AssetHubKusamaRuntimeSessionKeys, BpXcmBridgeHubRouterBridgeState, CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot, CumulusPalletParachainSystemUnincludedSegmentAncestor, CumulusPalletParachainSystemUnincludedSegmentSegmentTracker, CumulusPalletXcmpQueueOutboundChannelDetails, CumulusPalletXcmpQueueQueueConfigData, CumulusPrimitivesCoreAggregateMessageOrigin, FrameSupportDispatchPerDispatchClassWeight, FrameSupportTokensMiscIdAmount, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, PalletAssetConversionPoolInfo, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletCollatorSelectionCandidateInfo, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMultisigMultisig, PalletNftFractionalizationDetails, PalletNftsAttributeDeposit, PalletNftsAttributeNamespace, PalletNftsCollectionConfig, PalletNftsCollectionDetails, PalletNftsCollectionMetadata, PalletNftsItemConfig, PalletNftsItemDetails, PalletNftsItemMetadata, PalletNftsPendingSwap, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletReviveStorageContractInfo, PalletReviveStorageDeletionQueueManager, PalletReviveWasmCodeInfo, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTransactionPaymentReleases, PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata, PalletUniquesItemDetails, PalletUniquesItemMetadata, PalletVestingReleases, PalletVestingVestingInfo, PalletXcmAuthorizedAliasesEntry, PalletXcmQueryStatus, PalletXcmRemoteLockedFungibleRecord, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesOutboundHrmpMessage, PolkadotPrimitivesV8AbridgedHostConfiguration, PolkadotPrimitivesV8PersistedValidationData, PolkadotPrimitivesV8UpgradeGoAhead, PolkadotPrimitivesV8UpgradeRestriction, SpConsensusAuraSr25519AppSr25519Public, SpCoreCryptoKeyTypeId, SpRuntimeDigest, SpTrieStorageProof, SpWeightsWeightV2Weight, StagingXcmV4Location, StagingXcmV5Instruction, XcmVersionedAssetId, XcmVersionedLocation } from '@polkadot/types/lookup';
 import type { Observable } from '@polkadot/types/types';
 
 export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType, () => unknown>;
@@ -101,11 +101,12 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       authorities: AugmentedQuery<ApiType, () => Observable<Vec<SpConsensusAuraSr25519AppSr25519Public>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * Current slot paired with a number of authored blocks.
+       * Current relay chain slot paired with a number of authored blocks.
        * 
-       * Updated on each block initialization.
+       * This is updated in [`FixedVelocityConsensusHook::on_state_proof`] with the current relay
+       * chain slot as provided by the relay chain state proof.
        **/
-      slotInfo: AugmentedQuery<ApiType, () => Observable<Option<ITuple<[u64, u32]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      relaySlotInfo: AugmentedQuery<ApiType, () => Observable<Option<ITuple<[u64, u32]>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -553,6 +554,12 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       assetTraps: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<u32>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
       /**
+       * Map of authorized aliasers of local origins. Each local location can authorize a list of
+       * other locations to alias into it. Each aliaser is only valid until its inner `expiry`
+       * block number.
+       **/
+      authorizedAliases: AugmentedQuery<ApiType, (arg: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Option<PalletXcmAuthorizedAliasesEntry>>, [XcmVersionedLocation]> & QueryableStorageEntry<ApiType, [XcmVersionedLocation]>;
+      /**
        * The current migration's stage, if any.
        **/
       currentMigration: AugmentedQuery<ApiType, () => Observable<Option<PalletXcmVersionMigrationStage>>, []> & QueryableStorageEntry<ApiType, []>;
@@ -686,6 +693,49 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
+    revive: {
+      /**
+       * A mapping from a contract's code hash to its code info.
+       **/
+      codeInfoOf: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<PalletReviveWasmCodeInfo>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      /**
+       * The code associated with a given account.
+       **/
+      contractInfoOf: AugmentedQuery<ApiType, (arg: H160 | string | Uint8Array) => Observable<Option<PalletReviveStorageContractInfo>>, [H160]> & QueryableStorageEntry<ApiType, [H160]>;
+      /**
+       * Evicted contracts that await child trie deletion.
+       * 
+       * Child trie deletion is a heavy operation depending on the amount of storage items
+       * stored in said trie. Therefore this operation is performed lazily in `on_idle`.
+       **/
+      deletionQueue: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<Bytes>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * A pair of monotonic counters used to track the latest contract marked for deletion
+       * and the latest deleted contract in queue.
+       **/
+      deletionQueueCounter: AugmentedQuery<ApiType, () => Observable<PalletReviveStorageDeletionQueueManager>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The immutable data associated with a given account.
+       **/
+      immutableDataOf: AugmentedQuery<ApiType, (arg: H160 | string | Uint8Array) => Observable<Option<Bytes>>, [H160]> & QueryableStorageEntry<ApiType, [H160]>;
+      /**
+       * Map a Ethereum address to its original `AccountId32`.
+       * 
+       * When deriving a `H160` from an `AccountId32` we use a hash function. In order to
+       * reconstruct the original account we need to store the reverse mapping here.
+       * Register your `AccountId32` using [`Pallet::map_account`] in order to
+       * use it with this pallet.
+       **/
+      originalAccount: AugmentedQuery<ApiType, (arg: H160 | string | Uint8Array) => Observable<Option<AccountId32>>, [H160]> & QueryableStorageEntry<ApiType, [H160]>;
+      /**
+       * A mapping from a contract's code hash to its code.
+       **/
+      pristineCode: AugmentedQuery<ApiType, (arg: H256 | string | Uint8Array) => Observable<Option<Bytes>>, [H256]> & QueryableStorageEntry<ApiType, [H256]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     session: {
       /**
        * Current index of the session.
@@ -698,7 +748,7 @@ declare module '@polkadot/api-base/types/storage' {
        * disabled using binary search. It gets cleared when `on_session_ending` returns
        * a new set of identities.
        **/
-      disabledValidators: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      disabledValidators: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[u32, Perbill]>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The owner of a key. The key is the `KeyTypeId` + the encoded key.
        **/
@@ -815,6 +865,16 @@ declare module '@polkadot/api-base/types/storage' {
        * Extrinsics data for the current block (maps an extrinsic's index to its data).
        **/
       extrinsicData: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Bytes>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * The weight reclaimed for the extrinsic.
+       * 
+       * This information is available until the end of the extrinsic execution.
+       * More precisely this information is removed in `note_applied_extrinsic`.
+       * 
+       * Logic doing some post dispatch weight reduction must update this storage to avoid duplicate
+       * reduction.
+       **/
+      extrinsicWeightReclaimed: AugmentedQuery<ApiType, () => Observable<SpWeightsWeightV2Weight>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Whether all inherents have been applied.
        **/
