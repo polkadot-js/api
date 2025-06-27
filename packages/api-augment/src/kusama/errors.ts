@@ -954,7 +954,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoApprovalsNeeded: AugmentedError<ApiType>;
       /**
-       * Multisig operation not found when attempting to cancel.
+       * Multisig operation not found in storage.
        **/
       NotFound: AugmentedError<ApiType>;
       /**
@@ -962,7 +962,8 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoTimepoint: AugmentedError<ApiType>;
       /**
-       * Only the account that originally created the multisig is able to cancel it.
+       * Only the account that originally created the multisig is able to cancel it or update
+       * its deposits.
        **/
       NotOwner: AugmentedError<ApiType>;
       /**
@@ -1261,9 +1262,18 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PoolNotFound: AugmentedError<ApiType>;
       /**
+       * Account is restricted from participation in pools. This may happen if the account is
+       * staking in another way already.
+       **/
+      Restricted: AugmentedError<ApiType>;
+      /**
        * A reward pool does not exist. In all cases this is a system logic error.
        **/
       RewardPoolNotFound: AugmentedError<ApiType>;
+      /**
+       * The slash amount is too low to be applied.
+       **/
+      SlashTooLow: AugmentedError<ApiType>;
       /**
        * A sub pool does not exist.
        **/
@@ -1274,6 +1284,10 @@ declare module '@polkadot/api-base/types/errors' {
       [key: string]: AugmentedError<ApiType>;
     };
     onDemandAssignmentProvider: {
+      /**
+       * The account doesn't have enough credits to purchase on-demand coretime.
+       **/
+      InsufficientCredits: AugmentedError<ApiType>;
       /**
        * The order queue is full, `place_order` will not continue.
        **/
@@ -2002,6 +2016,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyClaimed: AugmentedError<ApiType>;
       /**
+       * The stake of this account is already migrated to `Fungible` holds.
+       **/
+      AlreadyMigrated: AugmentedError<ApiType>;
+      /**
        * Controller is already paired.
        **/
       AlreadyPaired: AugmentedError<ApiType>;
@@ -2021,6 +2039,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The user has enough bond and thus cannot be chilled forcefully by an external person.
        **/
       CannotChillOther: AugmentedError<ApiType>;
+      /**
+       * Stash could not be reaped as other pallet might depend on it.
+       **/
+      CannotReapStash: AugmentedError<ApiType>;
       /**
        * Cannot reset a ledger.
        **/
@@ -2099,6 +2121,11 @@ declare module '@polkadot/api-base/types/errors' {
        * Can not rebond without unlocking chunks.
        **/
       NoUnlockChunk: AugmentedError<ApiType>;
+      /**
+       * Account is restricted from participation in staking. This may happen if the account is
+       * staking in another way already, such as via pool.
+       **/
+      Restricted: AugmentedError<ApiType>;
       /**
        * Provided reward destination is not allowed.
        **/
@@ -2302,6 +2329,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountNotSovereign: AugmentedError<ApiType>;
       /**
+       * The alias to remove authorization for was not found.
+       **/
+      AliasNotFound: AugmentedError<ApiType>;
+      /**
        * The location is invalid since it already has a subscription from us.
        **/
       AlreadySubscribed: AugmentedError<ApiType>;
@@ -2330,6 +2361,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The assets to be sent are empty.
        **/
       Empty: AugmentedError<ApiType>;
+      /**
+       * Expiry block number is in the past.
+       **/
+      ExpiresInPast: AugmentedError<ApiType>;
       /**
        * The operation required fees to be paid which the initiator could not meet.
        **/
@@ -2379,6 +2414,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Too many assets have been attempted for transfer.
        **/
       TooManyAssets: AugmentedError<ApiType>;
+      /**
+       * Too many locations authorized to alias origin.
+       **/
+      TooManyAuthorizedAliases: AugmentedError<ApiType>;
       /**
        * The asset owner has too many locks on the asset.
        **/
