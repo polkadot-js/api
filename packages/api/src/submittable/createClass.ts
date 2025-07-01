@@ -212,7 +212,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
               if (info.signedTransaction) {
                 const extrinsic = new Submittable(api.registry, info.signedTransaction);
 
-                extrinsicInfoMap.set(extrinsic, info);
+                extrinsicInfoMap.set(this, info);
 
                 return extrinsic as this;
               }
