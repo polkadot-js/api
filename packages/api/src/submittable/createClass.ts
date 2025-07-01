@@ -191,6 +191,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
       const updatedInfo = extrinsicInfoMap.get(this);
 
+      extrinsicInfoMap.delete(this);
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         isSubscription
