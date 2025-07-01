@@ -22,7 +22,7 @@
   "main": "index.js",
   "dependencies": {
     "@polkadot/types-codec": "16.2.3-0-x",
-    "@polkadot/util": "^13.5.2",
+    "@polkadot/util": "^13.5.3",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
