@@ -93,6 +93,7 @@ function optionsOrNonce (partialOptions: Partial<SignerOptions> = {}): Partial<S
 export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHash, decorateMethod }: SubmittableOptions<ApiType>): CodecClass<SubmittableExtrinsic<ApiType>> {
   // an instance of the base extrinsic for us to extend
   const ExtrinsicBase = api.registry.createClass('Extrinsic');
+  const extrinsicInfoMap = new WeakMap<SubmittableExtrinsic<ApiType>, UpdateInfo>();
 
   class Submittable extends ExtrinsicBase implements SubmittableExtrinsic<ApiType> {
     readonly #ignoreStatusCb: boolean;
@@ -188,24 +189,37 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     // send implementation for both immediate Hash and statusCb variants
     public send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const isSubscription = api.hasSubscriptions && (this.#ignoreStatusCb || !!statusCb);
+      const updatedInfo = extrinsicInfoMap.get(this);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         isSubscription
-          ? this.#observeSubscribe
-          : this.#observeSend
+          ? () => this.#observeSubscribe(updatedInfo)
+          : () => this.#observeSend(updatedInfo)
       )(statusCb);
     }
 
     /**
      * @description Signs a transaction, returning `this` to allow chaining. E.g.: `signAsync(...).send()`. Like `.signAndSend` this will retrieve the nonce and blockHash to send the tx with.
-     */
+    */
     public signAsync (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): PromiseOrObs<ApiType, this> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
       return decorateMethod(
         (): Observable<this> =>
           this.#observeSign(account, partialOptions).pipe(
-            map(() => this)
+            map((info) => {
+              // If we got a full signed transaction from the signer, attach it
+              if (info.signedTransaction) {
+                const extrinsic = new Submittable(api.registry, info.signedTransaction);
+
+                extrinsicInfoMap.set(extrinsic, info);
+
+                return extrinsic as this;
+              }
+
+              // Fallback if signer didn’t return signedTransaction
+              return this;
+            })
           )
       )();
     }
