@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 16.3.1 Jul 1, 2025
+
+- Update Substrate types to Polkadot stable2503-5 ([#6172](https://github.com/polkadot-js/api/pull/6172)) 
+- Update Polkadot types to polkadot-fellows/runtimes release 1.6.0 ([#6173](https://github.com/polkadot-js/api/pull/6173)) 
+- Update AssetHub Polkadot types to 1.6.0 ([#6174](https://github.com/polkadot-js/api/pull/6174)) 
+- Update AssetHub Kusama types to 1.6.0 ([#6176](https://github.com/polkadot-js/api/pull/6176))
+- Fix signature issue in signAsync + send flow [#6177](https://github.com/polkadot-js/api/pull/6177) 
+- Bump @polkadot/common to 13.5.2 ([#6179](https://github.com/polkadot-js/api/pull/6179)) 
+
+
 ## 16.2.2 Jun 17, 2025
 
 Changes:
