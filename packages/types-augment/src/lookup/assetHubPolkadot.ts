@@ -81,12 +81,6 @@ export default {
     }
   },
   /**
-   * Lookup114: xcm::v3::traits::SendError
-   **/
-  XcmV3TraitsSendError: {
-    _enum: ['NotApplicable', 'Transport', 'Unroutable', 'DestinationUnsupported', 'ExceedsMaxMessageSize', 'MissingArgument', 'Fees']
-  },
-  /**
    * Lookup135: cumulus_pallet_xcm::pallet::Event<T>
    **/
   CumulusPalletXcmEvent: {
@@ -315,12 +309,6 @@ export default {
     }
   },
   /**
-   * Lookup251: pallet_xcm::pallet::HoldReason
-   **/
-  PalletXcmHoldReason: {
-    _enum: ['AuthorizeAlias']
-  },
-  /**
    * Lookup271: pallet_collator_selection::pallet::CandidateInfo<sp_core::crypto::AccountId32, Balance>
    **/
   PalletCollatorSelectionCandidateInfo: {
@@ -434,28 +422,6 @@ export default {
    **/
   CumulusPalletXcmpQueueError: {
     _enum: ['BadQueueConfig', 'AlreadySuspended', 'AlreadyResumed', 'TooManyActiveOutboundChannels', 'TooBig']
-  },
-  /**
-   * Lookup338: pallet_xcm::AuthorizedAliasesEntry<frame_support::traits::storage::Disabled, pallet_xcm::pallet::MaxAuthorizedAliases>
-   **/
-  PalletXcmAuthorizedAliasesEntry: {
-    aliasers: 'Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>',
-    ticket: 'FrameSupportStorageDisabled'
-  },
-  /**
-   * Lookup339: frame_support::traits::storage::Disabled
-   **/
-  FrameSupportStorageDisabled: 'Null',
-  /**
-   * Lookup340: pallet_xcm::pallet::MaxAuthorizedAliases
-   **/
-  PalletXcmMaxAuthorizedAliases: 'Null',
-  /**
-   * Lookup342: xcm_runtime_apis::authorized_aliases::OriginAliaser
-   **/
-  XcmRuntimeApisAuthorizedAliasesOriginAliaser: {
-    location: 'XcmVersionedLocation',
-    expiry: 'Option<u64>'
   },
   /**
    * Lookup375: cumulus_pallet_xcm::pallet::Call<T>

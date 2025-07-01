@@ -5,7 +5,7 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/lookup';
 
-import type { BTreeMap, BTreeSet, Bytes, Enum, Null, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types-codec';
+import type { BTreeMap, BTreeSet, Bytes, Enum, Null, Option, Struct, U8aFixed, Vec, bool, u128, u16, u32 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256 } from '@polkadot/types/interfaces/runtime';
 
@@ -90,18 +90,6 @@ declare module '@polkadot/types/lookup' {
       readonly messageHash: U8aFixed;
     } & Struct;
     readonly type: 'XcmpMessageSent';
-  }
-
-  /** @name XcmV3TraitsSendError (114) */
-  interface XcmV3TraitsSendError extends Enum {
-    readonly isNotApplicable: boolean;
-    readonly isTransport: boolean;
-    readonly isUnroutable: boolean;
-    readonly isDestinationUnsupported: boolean;
-    readonly isExceedsMaxMessageSize: boolean;
-    readonly isMissingArgument: boolean;
-    readonly isFees: boolean;
-    readonly type: 'NotApplicable' | 'Transport' | 'Unroutable' | 'DestinationUnsupported' | 'ExceedsMaxMessageSize' | 'MissingArgument' | 'Fees';
   }
 
   /** @name CumulusPalletXcmEvent (135) */
@@ -263,12 +251,6 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'PolkadotXcm' | 'StateTrieMigration';
   }
 
-  /** @name PalletXcmHoldReason (251) */
-  interface PalletXcmHoldReason extends Enum {
-    readonly isAuthorizeAlias: boolean;
-    readonly type: 'AuthorizeAlias';
-  }
-
   /** @name PalletCollatorSelectionCandidateInfo (271) */
   interface PalletCollatorSelectionCandidateInfo extends Struct {
     readonly who: AccountId32;
@@ -391,24 +373,6 @@ declare module '@polkadot/types/lookup' {
     readonly isTooManyActiveOutboundChannels: boolean;
     readonly isTooBig: boolean;
     readonly type: 'BadQueueConfig' | 'AlreadySuspended' | 'AlreadyResumed' | 'TooManyActiveOutboundChannels' | 'TooBig';
-  }
-
-  /** @name PalletXcmAuthorizedAliasesEntry (338) */
-  interface PalletXcmAuthorizedAliasesEntry extends Struct {
-    readonly aliasers: Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>;
-    readonly ticket: FrameSupportStorageDisabled;
-  }
-
-  /** @name FrameSupportStorageDisabled (339) */
-  type FrameSupportStorageDisabled = Null;
-
-  /** @name PalletXcmMaxAuthorizedAliases (340) */
-  type PalletXcmMaxAuthorizedAliases = Null;
-
-  /** @name XcmRuntimeApisAuthorizedAliasesOriginAliaser (342) */
-  interface XcmRuntimeApisAuthorizedAliasesOriginAliaser extends Struct {
-    readonly location: XcmVersionedLocation;
-    readonly expiry: Option<u64>;
   }
 
   /** @name CumulusPalletXcmCall (375) */

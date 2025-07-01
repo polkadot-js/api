@@ -5,12 +5,6 @@
 
 export default {
   /**
-   * Lookup114: xcm::v3::traits::SendError
-   **/
-  XcmV3TraitsSendError: {
-    _enum: ['NotApplicable', 'Transport', 'Unroutable', 'DestinationUnsupported', 'ExceedsMaxMessageSize', 'MissingArgument', 'Fees']
-  },
-  /**
    * Lookup148: asset_hub_kusama_runtime::ProxyType
    **/
   AssetHubKusamaRuntimeProxyType: {
@@ -95,12 +89,6 @@ export default {
     }
   },
   /**
-   * Lookup254: pallet_xcm::pallet::HoldReason
-   **/
-  PalletXcmHoldReason: {
-    _enum: ['AuthorizeAlias']
-  },
-  /**
    * Lookup283: asset_hub_kusama_runtime::SessionKeys
    **/
   AssetHubKusamaRuntimeSessionKeys: {
@@ -110,28 +98,6 @@ export default {
    * Lookup284: sp_consensus_aura::sr25519::app_sr25519::Public
    **/
   SpConsensusAuraSr25519AppSr25519Public: '[u8;32]',
-  /**
-   * Lookup343: pallet_xcm::AuthorizedAliasesEntry<frame_support::traits::storage::Disabled, pallet_xcm::pallet::MaxAuthorizedAliases>
-   **/
-  PalletXcmAuthorizedAliasesEntry: {
-    aliasers: 'Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>',
-    ticket: 'FrameSupportStorageDisabled'
-  },
-  /**
-   * Lookup344: frame_support::traits::storage::Disabled
-   **/
-  FrameSupportStorageDisabled: 'Null',
-  /**
-   * Lookup345: pallet_xcm::pallet::MaxAuthorizedAliases
-   **/
-  PalletXcmMaxAuthorizedAliases: 'Null',
-  /**
-   * Lookup347: xcm_runtime_apis::authorized_aliases::OriginAliaser
-   **/
-  XcmRuntimeApisAuthorizedAliasesOriginAliaser: {
-    location: 'XcmVersionedLocation',
-    expiry: 'Option<u64>'
-  },
   /**
    * Lookup398: pallet_remote_proxy::pallet::Call<T, I>
    **/

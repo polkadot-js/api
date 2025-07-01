@@ -5,22 +5,10 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/lookup';
 
-import type { Bytes, Enum, Null, Option, Struct, U8aFixed, Vec, u32, u64 } from '@polkadot/types-codec';
+import type { Bytes, Enum, Null, Option, Struct, U8aFixed, Vec, u32 } from '@polkadot/types-codec';
 import type { Call, MultiAddress } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
-  /** @name XcmV3TraitsSendError (114) */
-  interface XcmV3TraitsSendError extends Enum {
-    readonly isNotApplicable: boolean;
-    readonly isTransport: boolean;
-    readonly isUnroutable: boolean;
-    readonly isDestinationUnsupported: boolean;
-    readonly isExceedsMaxMessageSize: boolean;
-    readonly isMissingArgument: boolean;
-    readonly isFees: boolean;
-    readonly type: 'NotApplicable' | 'Transport' | 'Unroutable' | 'DestinationUnsupported' | 'ExceedsMaxMessageSize' | 'MissingArgument' | 'Fees';
-  }
-
   /** @name AssetHubKusamaRuntimeProxyType (148) */
   interface AssetHubKusamaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
@@ -46,12 +34,6 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'PolkadotXcm' | 'NftFractionalization' | 'Revive' | 'StateTrieMigration';
   }
 
-  /** @name PalletXcmHoldReason (254) */
-  interface PalletXcmHoldReason extends Enum {
-    readonly isAuthorizeAlias: boolean;
-    readonly type: 'AuthorizeAlias';
-  }
-
   /** @name AssetHubKusamaRuntimeSessionKeys (283) */
   interface AssetHubKusamaRuntimeSessionKeys extends Struct {
     readonly aura: SpConsensusAuraSr25519AppSr25519Public;
@@ -59,24 +41,6 @@ declare module '@polkadot/types/lookup' {
 
   /** @name SpConsensusAuraSr25519AppSr25519Public (284) */
   interface SpConsensusAuraSr25519AppSr25519Public extends U8aFixed {}
-
-  /** @name PalletXcmAuthorizedAliasesEntry (343) */
-  interface PalletXcmAuthorizedAliasesEntry extends Struct {
-    readonly aliasers: Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>;
-    readonly ticket: FrameSupportStorageDisabled;
-  }
-
-  /** @name FrameSupportStorageDisabled (344) */
-  type FrameSupportStorageDisabled = Null;
-
-  /** @name PalletXcmMaxAuthorizedAliases (345) */
-  type PalletXcmMaxAuthorizedAliases = Null;
-
-  /** @name XcmRuntimeApisAuthorizedAliasesOriginAliaser (347) */
-  interface XcmRuntimeApisAuthorizedAliasesOriginAliaser extends Struct {
-    readonly location: XcmVersionedLocation;
-    readonly expiry: Option<u64>;
-  }
 
   /** @name PalletRemoteProxyCall (398) */
   interface PalletRemoteProxyCall extends Enum {
