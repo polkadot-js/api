@@ -277,12 +277,6 @@ export default {
     }
   },
   /**
-   * Lookup560: xcm::v3::traits::SendError
-   **/
-  XcmV3TraitsSendError: {
-    _enum: ['NotApplicable', 'Transport', 'Unroutable', 'DestinationUnsupported', 'ExceedsMaxMessageSize', 'MissingArgument', 'Fees']
-  },
-  /**
    * Lookup608: staging_kusama_runtime::RuntimeHoldReason
    **/
   StagingKusamaRuntimeRuntimeHoldReason: {
@@ -390,12 +384,6 @@ export default {
     }
   },
   /**
-   * Lookup613: pallet_xcm::pallet::HoldReason
-   **/
-  PalletXcmHoldReason: {
-    _enum: ['AuthorizeAlias']
-  },
-  /**
    * Lookup617: staging_kusama_runtime::RuntimeFreezeReason
    **/
   StagingKusamaRuntimeRuntimeFreezeReason: {
@@ -452,51 +440,9 @@ export default {
     amount: 'u128'
   },
   /**
-   * Lookup952: pallet_xcm::AuthorizedAliasesEntry<frame_support::traits::storage::Disabled, pallet_xcm::pallet::MaxAuthorizedAliases>
-   **/
-  PalletXcmAuthorizedAliasesEntry: {
-    aliasers: 'Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>',
-    ticket: 'FrameSupportStorageDisabled'
-  },
-  /**
-   * Lookup953: frame_support::traits::storage::Disabled
-   **/
-  FrameSupportStorageDisabled: 'Null',
-  /**
-   * Lookup954: pallet_xcm::pallet::MaxAuthorizedAliases
-   **/
-  PalletXcmMaxAuthorizedAliases: 'Null',
-  /**
-   * Lookup956: xcm_runtime_apis::authorized_aliases::OriginAliaser
-   **/
-  XcmRuntimeApisAuthorizedAliasesOriginAliaser: {
-    location: 'XcmVersionedLocation',
-    expiry: 'Option<u64>'
-  },
-  /**
    * Lookup983: staging_kusama_runtime::Runtime
    **/
   StagingKusamaRuntimeRuntime: 'Null',
-  /**
-   * Lookup1052: polkadot_primitives::vstaging::async_backing::Constraints<N>
-   **/
-  PolkadotPrimitivesVstagingAsyncBackingConstraints: {
-    minRelayParentNumber: 'u32',
-    maxPovSize: 'u32',
-    maxCodeSize: 'u32',
-    maxHeadDataSize: 'u32',
-    umpRemaining: 'u32',
-    umpRemainingBytes: 'u32',
-    maxUmpNumPerCandidate: 'u32',
-    dmpRemainingMessages: 'Vec<u32>',
-    hrmpInbound: 'PolkadotPrimitivesV8AsyncBackingInboundHrmpLimitations',
-    hrmpChannelsOut: 'Vec<(u32,PolkadotPrimitivesV8AsyncBackingOutboundHrmpChannelLimitations)>',
-    maxHrmpNumPerCandidate: 'u32',
-    requiredParent: 'Bytes',
-    validationCodeHash: 'H256',
-    upgradeRestriction: 'Option<PolkadotPrimitivesV8UpgradeRestriction>',
-    futureValidationCode: 'Option<(u32,H256)>'
-  },
   /**
    * Lookup1099: staging_kusama_runtime::RuntimeError
    **/

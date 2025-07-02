@@ -5,9 +5,9 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/types/lookup';
 
-import type { Bytes, Compact, Enum, Null, Option, Struct, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types-codec';
+import type { Compact, Enum, Null, Option, Struct, Vec, bool, u128, u16, u32 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, H256, PerU16, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, PerU16, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
 
 declare module '@polkadot/types/lookup' {
   /** @name StagingKusamaRuntimeSessionKeys (136) */
@@ -225,18 +225,6 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'BurnPortion' | 'BurnDestination';
   }
 
-  /** @name XcmV3TraitsSendError (560) */
-  interface XcmV3TraitsSendError extends Enum {
-    readonly isNotApplicable: boolean;
-    readonly isTransport: boolean;
-    readonly isUnroutable: boolean;
-    readonly isDestinationUnsupported: boolean;
-    readonly isExceedsMaxMessageSize: boolean;
-    readonly isMissingArgument: boolean;
-    readonly isFees: boolean;
-    readonly type: 'NotApplicable' | 'Transport' | 'Unroutable' | 'DestinationUnsupported' | 'ExceedsMaxMessageSize' | 'MissingArgument' | 'Fees';
-  }
-
   /** @name StagingKusamaRuntimeRuntimeHoldReason (608) */
   interface StagingKusamaRuntimeRuntimeHoldReason extends Enum {
     readonly isStaking: boolean;
@@ -252,12 +240,6 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Staking' | 'Preimage' | 'Nis' | 'DelegatedStaking' | 'XcmPallet';
   }
 
-  /** @name PalletXcmHoldReason (613) */
-  interface PalletXcmHoldReason extends Enum {
-    readonly isAuthorizeAlias: boolean;
-    readonly type: 'AuthorizeAlias';
-  }
-
   /** @name StagingKusamaRuntimeRuntimeFreezeReason (617) */
   interface StagingKusamaRuntimeRuntimeFreezeReason extends Enum {
     readonly isNominationPools: boolean;
@@ -271,45 +253,8 @@ declare module '@polkadot/types/lookup' {
     readonly amount: u128;
   }
 
-  /** @name PalletXcmAuthorizedAliasesEntry (952) */
-  interface PalletXcmAuthorizedAliasesEntry extends Struct {
-    readonly aliasers: Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>;
-    readonly ticket: FrameSupportStorageDisabled;
-  }
-
-  /** @name FrameSupportStorageDisabled (953) */
-  type FrameSupportStorageDisabled = Null;
-
-  /** @name PalletXcmMaxAuthorizedAliases (954) */
-  type PalletXcmMaxAuthorizedAliases = Null;
-
-  /** @name XcmRuntimeApisAuthorizedAliasesOriginAliaser (956) */
-  interface XcmRuntimeApisAuthorizedAliasesOriginAliaser extends Struct {
-    readonly location: XcmVersionedLocation;
-    readonly expiry: Option<u64>;
-  }
-
   /** @name StagingKusamaRuntimeRuntime (983) */
   type StagingKusamaRuntimeRuntime = Null;
-
-  /** @name PolkadotPrimitivesVstagingAsyncBackingConstraints (1052) */
-  interface PolkadotPrimitivesVstagingAsyncBackingConstraints extends Struct {
-    readonly minRelayParentNumber: u32;
-    readonly maxPovSize: u32;
-    readonly maxCodeSize: u32;
-    readonly maxHeadDataSize: u32;
-    readonly umpRemaining: u32;
-    readonly umpRemainingBytes: u32;
-    readonly maxUmpNumPerCandidate: u32;
-    readonly dmpRemainingMessages: Vec<u32>;
-    readonly hrmpInbound: PolkadotPrimitivesV8AsyncBackingInboundHrmpLimitations;
-    readonly hrmpChannelsOut: Vec<ITuple<[u32, PolkadotPrimitivesV8AsyncBackingOutboundHrmpChannelLimitations]>>;
-    readonly maxHrmpNumPerCandidate: u32;
-    readonly requiredParent: Bytes;
-    readonly validationCodeHash: H256;
-    readonly upgradeRestriction: Option<PolkadotPrimitivesV8UpgradeRestriction>;
-    readonly futureValidationCode: Option<ITuple<[u32, H256]>>;
-  }
 
   /** @name StagingKusamaRuntimeRuntimeError (1099) */
   interface StagingKusamaRuntimeRuntimeError extends Enum {

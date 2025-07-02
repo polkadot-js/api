@@ -403,6 +403,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * refunded.
        * - `allow_burn`: If `true` then assets may be destroyed in order to complete the refund.
        * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
+       * 
        * Emits `Refunded` event when successful.
        **/
       refund: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array, allowBurn: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>, bool]>;
@@ -415,6 +418,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset for the account holding a deposit.
        * - `who`: The account to refund.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
        * 
        * Emits `Refunded` event when successful.
        **/
@@ -478,6 +484,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * an account contains holds or freezes in place.
        **/
       startDestroy: AugmentedSubmittable<(id: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u32>]>;
       /**
@@ -1132,6 +1141,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * refunded.
        * - `allow_burn`: If `true` then assets may be destroyed in order to complete the refund.
        * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
+       * 
        * Emits `Refunded` event when successful.
        **/
       refund: AugmentedSubmittable<(id: StagingXcmV4Location | { parents?: any; interior?: any } | string | Uint8Array, allowBurn: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [StagingXcmV4Location, bool]>;
@@ -1144,6 +1156,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset for the account holding a deposit.
        * - `who`: The account to refund.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
        * 
        * Emits `Refunded` event when successful.
        **/
@@ -1207,6 +1222,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * an account contains holds or freezes in place.
        **/
       startDestroy: AugmentedSubmittable<(id: StagingXcmV4Location | { parents?: any; interior?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [StagingXcmV4Location]>;
       /**
@@ -1500,6 +1518,22 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Storage: removes one item.
        **/
       cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], timepoint: PalletMultisigTimepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, PalletMultisigTimepoint, U8aFixed]>;
+      /**
+       * Poke the deposit reserved for an existing multisig operation.
+       * 
+       * The dispatch origin for this call must be _Signed_ and must be the original depositor of
+       * the multisig operation.
+       * 
+       * The transaction fee is waived if the deposit amount has changed.
+       * 
+       * - `threshold`: The total number of approvals needed for this multisig.
+       * - `other_signatories`: The accounts (other than the sender) who are part of the
+       * multisig.
+       * - `call_hash`: The hash of the call this deposit is reserved for.
+       * 
+       * Emits `DepositPoked` if successful.
+       **/
+      pokeDeposit: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, U8aFixed]>;
       /**
        * Generic tx
        **/
@@ -2157,6 +2191,20 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     polkadotXcm: {
       /**
+       * Authorize another `aliaser` location to alias into the local `origin` making this call.
+       * The `aliaser` is only authorized until the provided `expiry` block number.
+       * The call can also be used for a previously authorized alias in order to update its
+       * `expiry` block number.
+       * 
+       * Usually useful to allow your local account to be aliased into from a remote location
+       * also under your control (like your account on another chain).
+       * 
+       * WARNING: make sure the caller `origin` (you) trusts the `aliaser` location to act in
+       * their/your name. Once authorized using this call, the `aliaser` can freely impersonate
+       * `origin` in XCM programs executed on the local chain.
+       **/
+      addAuthorizedAlias: AugmentedSubmittable<(aliaser: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, expires: Option<u64> | null | Uint8Array | u64 | AnyNumber) => SubmittableExtrinsic<ApiType>, [XcmVersionedLocation, Option<u64>]>;
+      /**
        * Claims assets trapped on this pallet because of leftover assets during XCM execution.
        * 
        * - `origin`: Anyone can call this extrinsic.
@@ -2270,6 +2318,16 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `weight_limit`: The remote-side weight limit, if any, for the XCM fee purchase.
        **/
       limitedTeleportAssets: AugmentedSubmittable<(dest: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, beneficiary: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, assets: XcmVersionedAssets | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, feeAssetItem: u32 | AnyNumber | Uint8Array, weightLimit: XcmV3WeightLimit | { Unlimited: any } | { Limited: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [XcmVersionedLocation, XcmVersionedLocation, XcmVersionedAssets, u32, XcmV3WeightLimit]>;
+      /**
+       * Remove all previously authorized `aliaser`s that can alias into the local `origin`
+       * making this call.
+       **/
+      removeAllAuthorizedAliases: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Remove a previously authorized `aliaser` from the list of locations that can alias into
+       * the local `origin` making this call.
+       **/
+      removeAuthorizedAlias: AugmentedSubmittable<(aliaser: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [XcmVersionedLocation]>;
       /**
        * Transfer some assets from the local chain to the destination chain through their local,
        * destination or remote reserve.
@@ -2735,6 +2793,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * refunded.
        * - `allow_burn`: If `true` then assets may be destroyed in order to complete the refund.
        * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
+       * 
        * Emits `Refunded` event when successful.
        **/
       refund: AugmentedSubmittable<(id: u32 | AnyNumber | Uint8Array, allowBurn: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, bool]>;
@@ -2747,6 +2808,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset for the account holding a deposit.
        * - `who`: The account to refund.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * the asset account contains holds or freezes in place.
        * 
        * Emits `Refunded` event when successful.
        **/
@@ -2810,6 +2874,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `id`: The identifier of the asset to be destroyed. This must identify an existing
        * asset.
+       * 
+       * It will fail with either [`Error::ContainsHolds`] or [`Error::ContainsFreezes`] if
+       * an account contains holds or freezes in place.
        **/
       startDestroy: AugmentedSubmittable<(id: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
@@ -3033,6 +3100,17 @@ declare module '@polkadot/api-base/types/submittable' {
        * account whose `pure` call has corresponding parameters.
        **/
       killPure: AugmentedSubmittable<(spawner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, proxyType: AssetHubPolkadotRuntimeProxyType | 'Any' | 'NonTransfer' | 'CancelProxy' | 'Assets' | 'AssetOwner' | 'AssetManager' | 'Collator' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<u32> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, AssetHubPolkadotRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
+      /**
+       * Poke / Adjust deposits made for proxies and announcements based on current values.
+       * This can be used by accounts to possibly lower their locked amount.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * The transaction fee is waived if the deposit amount has changed.
+       * 
+       * Emits `DepositPoked` if successful.
+       **/
+      pokeDeposit: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
        * Dispatch the given `call` from an account that the sender is authorised for through
        * `add_proxy`.
@@ -3817,6 +3895,14 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       dispatchAs: AugmentedSubmittable<(asOrigin: AssetHubPolkadotRuntimeOriginCaller | { system: any } | { PolkadotXcm: any } | { CumulusXcm: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetHubPolkadotRuntimeOriginCaller, Call]>;
       /**
+       * Dispatches a function call with a provided origin.
+       * 
+       * Almost the same as [`Pallet::dispatch_as`] but forwards any error of the inner call.
+       * 
+       * The dispatch origin for this call must be _Root_.
+       **/
+      dispatchAsFallible: AugmentedSubmittable<(asOrigin: AssetHubPolkadotRuntimeOriginCaller | { system: any } | { PolkadotXcm: any } | { CumulusXcm: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetHubPolkadotRuntimeOriginCaller, Call]>;
+      /**
        * Send a batch of dispatch calls.
        * Unlike `batch`, it allows errors and won't interrupt.
        * 
@@ -3832,6 +3918,32 @@ declare module '@polkadot/api-base/types/submittable' {
        * - O(C) where C is the number of calls to be batched.
        **/
       forceBatch: AugmentedSubmittable<(calls: Vec<Call> | (Call | IMethod | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Call>]>;
+      /**
+       * Dispatch a fallback call in the event the main call fails to execute.
+       * May be called from any origin except `None`.
+       * 
+       * This function first attempts to dispatch the `main` call.
+       * If the `main` call fails, the `fallback` is attemted.
+       * if the fallback is successfully dispatched, the weights of both calls
+       * are accumulated and an event containing the main call error is deposited.
+       * 
+       * In the event of a fallback failure the whole call fails
+       * with the weights returned.
+       * 
+       * - `main`: The main call to be dispatched. This is the primary action to execute.
+       * - `fallback`: The fallback call to be dispatched in case the `main` call fails.
+       * 
+       * ## Dispatch Logic
+       * - If the origin is `root`, both the main and fallback calls are executed without
+       * applying any origin filters.
+       * - If the origin is not `root`, the origin filter is applied to both the `main` and
+       * `fallback` calls.
+       * 
+       * ## Use Case
+       * - Some use cases might involve submitting a `batch` type call in either main, fallback
+       * or both.
+       **/
+      ifElse: AugmentedSubmittable<(main: Call | IMethod | string | Uint8Array, fallback: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call, Call]>;
       /**
        * Dispatch a function call with a specified weight.
        * 

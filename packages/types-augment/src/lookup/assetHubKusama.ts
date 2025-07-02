@@ -5,13 +5,13 @@
 
 export default {
   /**
-   * Lookup146: asset_hub_kusama_runtime::ProxyType
+   * Lookup148: asset_hub_kusama_runtime::ProxyType
    **/
   AssetHubKusamaRuntimeProxyType: {
     _enum: ['Any', 'NonTransfer', 'CancelProxy', 'Assets', 'AssetOwner', 'AssetManager', 'Collator']
   },
   /**
-   * Lookup248: asset_hub_kusama_runtime::RuntimeHoldReason
+   * Lookup253: asset_hub_kusama_runtime::RuntimeHoldReason
    **/
   AssetHubKusamaRuntimeRuntimeHoldReason: {
     _enum: {
@@ -46,7 +46,7 @@ export default {
       __Unused28: 'Null',
       __Unused29: 'Null',
       __Unused30: 'Null',
-      __Unused31: 'Null',
+      PolkadotXcm: 'PalletXcmHoldReason',
       __Unused32: 'Null',
       __Unused33: 'Null',
       __Unused34: 'Null',
@@ -75,7 +75,7 @@ export default {
       __Unused57: 'Null',
       __Unused58: 'Null',
       __Unused59: 'Null',
-      __Unused60: 'Null',
+      Revive: 'PalletReviveHoldReason',
       __Unused61: 'Null',
       __Unused62: 'Null',
       __Unused63: 'Null',
@@ -89,17 +89,17 @@ export default {
     }
   },
   /**
-   * Lookup275: asset_hub_kusama_runtime::SessionKeys
+   * Lookup283: asset_hub_kusama_runtime::SessionKeys
    **/
   AssetHubKusamaRuntimeSessionKeys: {
     aura: 'SpConsensusAuraSr25519AppSr25519Public'
   },
   /**
-   * Lookup276: sp_consensus_aura::sr25519::app_sr25519::Public
+   * Lookup284: sp_consensus_aura::sr25519::app_sr25519::Public
    **/
   SpConsensusAuraSr25519AppSr25519Public: '[u8;32]',
   /**
-   * Lookup380: pallet_remote_proxy::pallet::Call<T, I>
+   * Lookup398: pallet_remote_proxy::pallet::Call<T, I>
    **/
   PalletRemoteProxyCall: {
     _enum: {
@@ -120,7 +120,7 @@ export default {
     }
   },
   /**
-   * Lookup381: pallet_remote_proxy::pallet::RemoteProxyProof<RemoteBlockNumber>
+   * Lookup399: pallet_remote_proxy::pallet::RemoteProxyProof<RemoteBlockNumber>
    **/
   PalletRemoteProxyRemoteProxyProof: {
     _enum: {
@@ -131,7 +131,7 @@ export default {
     }
   },
   /**
-   * Lookup419: asset_hub_kusama_runtime::OriginCaller
+   * Lookup438: asset_hub_kusama_runtime::OriginCaller
    **/
   AssetHubKusamaRuntimeOriginCaller: {
     _enum: {
@@ -171,17 +171,17 @@ export default {
     }
   },
   /**
-   * Lookup440: pallet_remote_proxy::pallet::Error<T, I>
+   * Lookup459: pallet_remote_proxy::pallet::Error<T, I>
    **/
   PalletRemoteProxyError: {
     _enum: ['CouldNotConvertLocalToRemoteAccountId', 'UnknownProofAnchorBlock', 'InvalidProof', 'ProxyDefinitionDecodingFailed', 'Unannounced', 'DidNotFindMatchingProxyDefinition', 'ProxyProofNotRegistered']
   },
   /**
-   * Lookup508: asset_hub_kusama_runtime::Runtime
+   * Lookup532: asset_hub_kusama_runtime::Runtime
    **/
   AssetHubKusamaRuntimeRuntime: 'Null',
   /**
-   * Lookup567: asset_hub_kusama_runtime::RuntimeError
+   * Lookup634: asset_hub_kusama_runtime::RuntimeError
    **/
   AssetHubKusamaRuntimeRuntimeError: {
     _enum: {
@@ -245,7 +245,7 @@ export default {
       __Unused57: 'Null',
       __Unused58: 'Null',
       __Unused59: 'Null',
-      __Unused60: 'Null',
+      Revive: 'PalletReviveError',
       __Unused61: 'Null',
       __Unused62: 'Null',
       __Unused63: 'Null',
