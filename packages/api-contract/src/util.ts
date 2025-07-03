@@ -6,9 +6,10 @@ import type { EventRecord } from '@polkadot/types/interfaces';
 
 type ContractEvents = 'CodeStored' | 'ContractEmitted' | 'ContractExecution' | 'Instantiated';
 
-export function applyOnEvent <T> (result: SubmittableResult, types: ContractEvents[], fn: (records: EventRecord[]) => T): T | undefined {
+export function applyOnEvent <T> (result: SubmittableResult, types: ContractEvents[], fn: (records: EventRecord[]) => T, isRevive: boolean): T | undefined {
   if (result.isInBlock || result.isFinalized) {
-    const records = result.filterRecords('contracts', types);
+    const section = isRevive ? 'revive' : 'contracts';
+    const records = result.filterRecords(section, types);
 
     if (records.length) {
       return fn(records);
