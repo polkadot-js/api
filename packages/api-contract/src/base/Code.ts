@@ -110,7 +110,8 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
             : this.api.events.contracts.CodeStored.is(event)
               ? [new Blueprint<ApiType>(this.api, this.abi, (event as unknown as { data: [AccountId] }).data[0], this._decorateMethod), contract]
               : [blueprint, contract],
-        [undefined, undefined])
+        [undefined, undefined]),
+        this._isRevive
       ) || [undefined, undefined]))
     );
   };

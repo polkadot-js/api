@@ -85,7 +85,8 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
               : undefined
           )
           : applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
-            new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod)
+            new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod),
+          this._isRevive
           )
       )
     );

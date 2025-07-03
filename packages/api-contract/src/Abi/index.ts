@@ -194,10 +194,53 @@ export class Abi {
       // earlier version are hoisted to v4
       case '4':
         return this.#decodeEventV4(record);
+      case '5':
+        return this.#decodeEventV5(record);
       // Latest
       default:
-        return this.#decodeEventV5(record);
+        return this.#decodeEventV6(record);
     }
+  }
+
+  #decodeEventV6 = (record: EventRecord): DecodedEvent =>{
+    const topics = record.event.data[2] as unknown as { toHex: () => string }[];
+    // Try to match by signature topic (first topic)
+    const signatureTopic = topics[0];
+    const data = record.event.data[1] as Bytes;
+
+    if (signatureTopic) {
+      const event = this.events.find((e) => e.signatureTopic !== undefined && e.signatureTopic !== null && e.signatureTopic === signatureTopic.toHex());
+
+      // Early return if event found by signature topic
+      if (event) {
+        return event.fromU8a(data);
+      }
+    }
+
+    // If no event returned yet, it might be anonymous
+    const amountOfTopics = topics.length;
+    const potentialEvents = this.events.filter((e) => {
+      // event can't have a signature topic
+      if (e.signatureTopic !== null && e.signatureTopic !== undefined) {
+        return false;
+      }
+
+      // event should have same amount of indexed fields as emitted topics
+      const amountIndexed = e.args.filter((a) => a.indexed).length;
+
+      if (amountIndexed !== amountOfTopics) {
+        return false;
+      }
+
+      // If all conditions met, it's a potential event
+      return true;
+    });
+  
+    if (potentialEvents.length === 1) {
+      return potentialEvents[0].fromU8a(data);
+    }
+  
+    throw new Error('Unable to determine event');
   }
 
   #decodeEventV5 = (record: EventRecord): DecodedEvent => {
