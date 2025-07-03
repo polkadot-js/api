@@ -202,7 +202,7 @@ export class Abi {
     }
   }
 
-  #decodeEventV6 = (record: EventRecord): DecodedEvent =>{
+  #decodeEventV6 = (record: EventRecord): DecodedEvent => {
     const topics = record.event.data[2] as unknown as { toHex: () => string }[];
     // Try to match by signature topic (first topic)
     const signatureTopic = topics[0];
@@ -235,13 +235,13 @@ export class Abi {
       // If all conditions met, it's a potential event
       return true;
     });
-  
+
     if (potentialEvents.length === 1) {
       return potentialEvents[0].fromU8a(data);
     }
-  
+
     throw new Error('Unable to determine event');
-  }
+  };
 
   #decodeEventV5 = (record: EventRecord): DecodedEvent => {
     // Find event by first topic, which potentially is the signature_topic
