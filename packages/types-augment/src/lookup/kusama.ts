@@ -226,7 +226,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup509: staging_kusama_runtime::RuntimeParametersKey
+   * Lookup510: staging_kusama_runtime::RuntimeParametersKey
    **/
   StagingKusamaRuntimeRuntimeParametersKey: {
     _enum: {
@@ -235,19 +235,19 @@ export default {
     }
   },
   /**
-   * Lookup510: staging_kusama_runtime::dynamic_params::inflation::ParametersKey
+   * Lookup511: staging_kusama_runtime::dynamic_params::inflation::ParametersKey
    **/
   StagingKusamaRuntimeDynamicParamsInflationParametersKey: {
     _enum: ['MinInflation', 'MaxInflation', 'IdealStake', 'Falloff', 'UseAuctionSlots']
   },
   /**
-   * Lookup511: staging_kusama_runtime::dynamic_params::treasury::ParametersKey
+   * Lookup512: staging_kusama_runtime::dynamic_params::treasury::ParametersKey
    **/
   StagingKusamaRuntimeDynamicParamsTreasuryParametersKey: {
     _enum: ['BurnPortion', 'BurnDestination']
   },
   /**
-   * Lookup513: staging_kusama_runtime::RuntimeParametersValue
+   * Lookup514: staging_kusama_runtime::RuntimeParametersValue
    **/
   StagingKusamaRuntimeRuntimeParametersValue: {
     _enum: {
@@ -256,7 +256,7 @@ export default {
     }
   },
   /**
-   * Lookup514: staging_kusama_runtime::dynamic_params::inflation::ParametersValue
+   * Lookup515: staging_kusama_runtime::dynamic_params::inflation::ParametersValue
    **/
   StagingKusamaRuntimeDynamicParamsInflationParametersValue: {
     _enum: {
@@ -268,7 +268,7 @@ export default {
     }
   },
   /**
-   * Lookup515: staging_kusama_runtime::dynamic_params::treasury::ParametersValue
+   * Lookup516: staging_kusama_runtime::dynamic_params::treasury::ParametersValue
    **/
   StagingKusamaRuntimeDynamicParamsTreasuryParametersValue: {
     _enum: {
@@ -277,7 +277,7 @@ export default {
     }
   },
   /**
-   * Lookup604: staging_kusama_runtime::RuntimeHoldReason
+   * Lookup608: staging_kusama_runtime::RuntimeHoldReason
    **/
   StagingKusamaRuntimeRuntimeHoldReason: {
     _enum: {
@@ -287,7 +287,7 @@ export default {
       __Unused3: 'Null',
       __Unused4: 'Null',
       __Unused5: 'Null',
-      __Unused6: 'Null',
+      Staking: 'PalletStakingPalletHoldReason',
       __Unused7: 'Null',
       __Unused8: 'Null',
       __Unused9: 'Null',
@@ -328,11 +328,63 @@ export default {
       __Unused44: 'Null',
       __Unused45: 'Null',
       __Unused46: 'Null',
-      DelegatedStaking: 'PalletDelegatedStakingHoldReason'
+      DelegatedStaking: 'PalletDelegatedStakingHoldReason',
+      __Unused48: 'Null',
+      __Unused49: 'Null',
+      __Unused50: 'Null',
+      __Unused51: 'Null',
+      __Unused52: 'Null',
+      __Unused53: 'Null',
+      __Unused54: 'Null',
+      __Unused55: 'Null',
+      __Unused56: 'Null',
+      __Unused57: 'Null',
+      __Unused58: 'Null',
+      __Unused59: 'Null',
+      __Unused60: 'Null',
+      __Unused61: 'Null',
+      __Unused62: 'Null',
+      __Unused63: 'Null',
+      __Unused64: 'Null',
+      __Unused65: 'Null',
+      __Unused66: 'Null',
+      __Unused67: 'Null',
+      __Unused68: 'Null',
+      __Unused69: 'Null',
+      __Unused70: 'Null',
+      __Unused71: 'Null',
+      __Unused72: 'Null',
+      __Unused73: 'Null',
+      __Unused74: 'Null',
+      __Unused75: 'Null',
+      __Unused76: 'Null',
+      __Unused77: 'Null',
+      __Unused78: 'Null',
+      __Unused79: 'Null',
+      __Unused80: 'Null',
+      __Unused81: 'Null',
+      __Unused82: 'Null',
+      __Unused83: 'Null',
+      __Unused84: 'Null',
+      __Unused85: 'Null',
+      __Unused86: 'Null',
+      __Unused87: 'Null',
+      __Unused88: 'Null',
+      __Unused89: 'Null',
+      __Unused90: 'Null',
+      __Unused91: 'Null',
+      __Unused92: 'Null',
+      __Unused93: 'Null',
+      __Unused94: 'Null',
+      __Unused95: 'Null',
+      __Unused96: 'Null',
+      __Unused97: 'Null',
+      __Unused98: 'Null',
+      XcmPallet: 'PalletXcmHoldReason'
     }
   },
   /**
-   * Lookup611: staging_kusama_runtime::RuntimeFreezeReason
+   * Lookup617: staging_kusama_runtime::RuntimeFreezeReason
    **/
   StagingKusamaRuntimeRuntimeFreezeReason: {
     _enum: {
@@ -381,32 +433,18 @@ export default {
     }
   },
   /**
-   * Lookup686: pallet_referenda::types::TrackInfo<Balance, Moment>
-   **/
-  PalletReferendaTrackInfo: {
-    name: 'Text',
-    maxDeciding: 'u32',
-    decisionDeposit: 'u128',
-    preparePeriod: 'u32',
-    decisionPeriod: 'u32',
-    confirmPeriod: 'u32',
-    minEnactmentPeriod: 'u32',
-    minApproval: 'PalletReferendaCurve',
-    minSupport: 'PalletReferendaCurve'
-  },
-  /**
-   * Lookup783: frame_support::traits::tokens::misc::IdAmount<Id, Balance>
+   * Lookup791: frame_support::traits::tokens::misc::IdAmount<Id, Balance>
    **/
   FrameSupportTokensMiscIdAmount: {
     id: 'Null',
     amount: 'u128'
   },
   /**
-   * Lookup970: staging_kusama_runtime::Runtime
+   * Lookup983: staging_kusama_runtime::Runtime
    **/
   StagingKusamaRuntimeRuntime: 'Null',
   /**
-   * Lookup1084: staging_kusama_runtime::RuntimeError
+   * Lookup1099: staging_kusama_runtime::RuntimeError
    **/
   StagingKusamaRuntimeRuntimeError: {
     _enum: {

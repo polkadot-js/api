@@ -8,8 +8,8 @@ import '@polkadot/api-base/types/consts';
 import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Bytes, Option, Vec, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec, ITuple } from '@polkadot/types-codec/types';
-import type { Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletReferendaTrackInfo, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight, StagingXcmV5Junctions } from '@polkadot/types/lookup';
+import type { AccountId32, Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletReferendaTrackDetails, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight, StagingXcmV5Junctions } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
@@ -128,7 +128,12 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       bountyDepositPayoutDelay: u32 & AugmentedConst<ApiType>;
       /**
-       * Bounty duration in blocks.
+       * The time limit for a curator to act before a bounty expires.
+       * 
+       * The period that starts when a curator is approved, during which they must execute or
+       * update the bounty via `extend_bounty_expiry`. If missed, the bounty expires, and the
+       * curator may be slashed. If `BlockNumberFor::MAX`, bounties stay active indefinitely,
+       * removing the need for `extend_bounty_expiry`.
        **/
       bountyUpdatePeriod: u32 & AugmentedConst<ApiType>;
       /**
@@ -348,9 +353,11 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       submissionDeposit: u128 & AugmentedConst<ApiType>;
       /**
-       * Information concerning the different referendum tracks.
+       * A list of tracks.
+       * 
+       * Note: if the tracks are dynamic, the value in the static metadata might be inaccurate.
        **/
-      tracks: Vec<ITuple<[u16, PalletReferendaTrackInfo]>> & AugmentedConst<ApiType>;
+      tracks: Vec<ITuple<[u16, PalletReferendaTrackDetails]>> & AugmentedConst<ApiType>;
       /**
        * The number of blocks after submission that a referendum must begin being decided by.
        * Once this passes, then anyone may cancel the referendum.
@@ -707,9 +714,11 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       submissionDeposit: u128 & AugmentedConst<ApiType>;
       /**
-       * Information concerning the different referendum tracks.
+       * A list of tracks.
+       * 
+       * Note: if the tracks are dynamic, the value in the static metadata might be inaccurate.
        **/
-      tracks: Vec<ITuple<[u16, PalletReferendaTrackInfo]>> & AugmentedConst<ApiType>;
+      tracks: Vec<ITuple<[u16, PalletReferendaTrackDetails]>> & AugmentedConst<ApiType>;
       /**
        * The number of blocks after submission that a referendum must begin being decided by.
        * Once this passes, then anyone may cancel the referendum.
@@ -984,6 +993,10 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       payoutPeriod: u32 & AugmentedConst<ApiType>;
       /**
+       * Gets this pallet's derived pot account.
+       **/
+      potAccount: AccountId32 & AugmentedConst<ApiType>;
+      /**
        * Period between successive spends.
        **/
       spendPeriod: u32 & AugmentedConst<ApiType>;
@@ -1060,6 +1073,17 @@ declare module '@polkadot/api-base/types/consts' {
        * With that `List::migrate` can be called, which will perform the appropriate migration.
        **/
       bagThresholds: Vec<u64> & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    xcmPallet: {
+      /**
+       * The latest supported version that we advertise. Generally just set it to
+       * `pallet_xcm::CurrentXcmVersion`.
+       **/
+      advertisedXcmVersion: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

@@ -13,7 +13,7 @@ import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { ParaId, ValidationCodeHash } from '@polkadot/types/interfaces/parachains';
 import type { AccountId32, H256, RuntimeCall, Slot } from '@polkadot/types/interfaces/runtime';
-import type { PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotPrimitivesV8ApprovalVotingParams, PolkadotPrimitivesV8AsyncBackingAsyncBackingParams, PolkadotPrimitivesV8CandidateCommitments, PolkadotPrimitivesV8DisputeState, PolkadotPrimitivesV8ExecutorParams, PolkadotPrimitivesV8GroupRotationInfo, PolkadotPrimitivesV8OccupiedCoreAssumption, PolkadotPrimitivesV8PersistedValidationData, PolkadotPrimitivesV8PvfCheckStatement, PolkadotPrimitivesV8SessionInfo, PolkadotPrimitivesV8SlashingDisputeProof, PolkadotPrimitivesV8SlashingPendingSlashes, PolkadotPrimitivesV8ValidatorAppPublic, PolkadotPrimitivesV8ValidatorAppSignature, PolkadotPrimitivesVstagingAsyncBackingBackingState, PolkadotPrimitivesVstagingCandidateEvent, PolkadotPrimitivesVstagingCommittedCandidateReceiptV2, PolkadotPrimitivesVstagingCoreState, PolkadotPrimitivesVstagingScrapedOnChainVotes, RelayCommonApisInflationInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeConfiguration, SpConsensusBabeEpoch, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyForkVotingProofOpaqueValue, SpConsensusBeefyFutureBlockVotingProof, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusBeefyValidatorSet, SpConsensusGrandpaAppPublic, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpMmrPrimitivesError, SpMmrPrimitivesLeafProof, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpVersionRuntimeVersion, SpWeightsWeightV2Weight, StagingKusamaRuntimeOriginCaller, XcmRuntimeApisConversionsError, XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError, XcmRuntimeApisDryRunXcmDryRunEffects, XcmRuntimeApisFeesError, XcmVersionedAssetId, XcmVersionedAssets, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotPrimitivesV8ApprovalVotingParams, PolkadotPrimitivesV8AsyncBackingAsyncBackingParams, PolkadotPrimitivesV8CandidateCommitments, PolkadotPrimitivesV8DisputeState, PolkadotPrimitivesV8ExecutorParams, PolkadotPrimitivesV8GroupRotationInfo, PolkadotPrimitivesV8OccupiedCoreAssumption, PolkadotPrimitivesV8PersistedValidationData, PolkadotPrimitivesV8PvfCheckStatement, PolkadotPrimitivesV8SessionInfo, PolkadotPrimitivesV8SlashingDisputeProof, PolkadotPrimitivesV8SlashingPendingSlashes, PolkadotPrimitivesV8ValidatorAppPublic, PolkadotPrimitivesV8ValidatorAppSignature, PolkadotPrimitivesVstagingAsyncBackingBackingState, PolkadotPrimitivesVstagingAsyncBackingConstraints, PolkadotPrimitivesVstagingCandidateEvent, PolkadotPrimitivesVstagingCommittedCandidateReceiptV2, PolkadotPrimitivesVstagingCoreState, PolkadotPrimitivesVstagingScrapedOnChainVotes, RelayCommonApisInflationInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeConfiguration, SpConsensusBabeEpoch, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyForkVotingProofOpaqueValue, SpConsensusBeefyFutureBlockVotingProof, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusBeefyValidatorSet, SpConsensusGrandpaAppPublic, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpMmrPrimitivesError, SpMmrPrimitivesLeafProof, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpVersionRuntimeVersion, SpWeightsWeightV2Weight, StagingKusamaRuntimeOriginCaller, XcmRuntimeApisConversionsError, XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError, XcmRuntimeApisDryRunXcmDryRunEffects, XcmRuntimeApisFeesError, XcmVersionedAssetId, XcmVersionedAssets, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -302,7 +302,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       memberNeedsDelegateMigration: AugmentedCall<ApiType, (member: AccountId32 | string | Uint8Array) => Observable<bool>>;
       /**
-       * Returns the pending slash for a given pool member.
+       * Returns the pending slash for a given pool member.,, If pending slash of the member exceeds `ExistentialDeposit`, it can be reported on, chain.
        **/
       memberPendingSlash: AugmentedCall<ApiType, (member: AccountId32 | string | Uint8Array) => Observable<u128>>;
       /**
@@ -368,6 +368,10 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       availabilityCores: AugmentedCall<ApiType, () => Observable<Vec<PolkadotPrimitivesVstagingCoreState>>>;
       /**
+       * Returns the constraints on the actions that can be taken by a new parachain, block.
+       **/
+      backingConstraints: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesVstagingAsyncBackingConstraints>>>;
+      /**
        * Get a vector of events concerning candidates that occurred within a block.
        **/
       candidateEvents: AugmentedCall<ApiType, () => Observable<Vec<PolkadotPrimitivesVstagingCandidateEvent>>>;
@@ -431,6 +435,10 @@ declare module '@polkadot/api-base/types/calls' {
        * Returns code hashes of PVFs that require pre-checking by validators in the active set.,, NOTE: This function is only available since parachain host version 2.
        **/
       pvfsRequirePrecheck: AugmentedCall<ApiType, () => Observable<Vec<H256>>>;
+      /**
+       * Retrieve the scheduling lookahead
+       **/
+      schedulingLookahead: AugmentedCall<ApiType, () => Observable<u32>>;
       /**
        * Returns execution parameters for the session.
        **/

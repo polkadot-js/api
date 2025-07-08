@@ -1012,6 +1012,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * -`end_hint`: An optional hint as to when this particular set of instructions will end.
        **/
       assignCore: AugmentedSubmittable<(core: u16 | AnyNumber | Uint8Array, begin: u32 | AnyNumber | Uint8Array, assignment: Vec<ITuple<[PalletBrokerCoretimeInterfaceCoreAssignment, u16]>> | ([PalletBrokerCoretimeInterfaceCoreAssignment | { Idle: any } | { Pool: any } | { Task: any } | string | Uint8Array, u16 | AnyNumber | Uint8Array])[], endHint: Option<u32> | null | Uint8Array | u32 | AnyNumber) => SubmittableExtrinsic<ApiType>, [u16, u32, Vec<ITuple<[PalletBrokerCoretimeInterfaceCoreAssignment, u16]>>, Option<u32>]>;
+      creditAccount: AugmentedSubmittable<(who: AccountId32 | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u128]>;
       /**
        * Request the configuration to be updated with the specified number of cores. Warning:
        * Since this only schedules a configuration update, it takes two sessions to come into
@@ -1642,6 +1643,19 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       freeze: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
+       * Poke the deposit reserved for an index.
+       * 
+       * The dispatch origin for this call must be _Signed_ and the signing account must have a
+       * non-frozen account `index`.
+       * 
+       * The transaction fees is waived if the deposit is changed after poking/reconsideration.
+       * 
+       * - `index`: the index whose deposit is to be poked/reconsidered.
+       * 
+       * Emits `DepositPoked` if successful.
+       **/
+      pokeDeposit: AugmentedSubmittable<(index: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
+      /**
        * Assign an index already owned by the sender to another account. The balance reservation
        * is effectively transferred to the new account.
        * 
@@ -1814,6 +1828,22 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Storage: removes one item.
        **/
       cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], timepoint: PalletMultisigTimepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, PalletMultisigTimepoint, U8aFixed]>;
+      /**
+       * Poke the deposit reserved for an existing multisig operation.
+       * 
+       * The dispatch origin for this call must be _Signed_ and must be the original depositor of
+       * the multisig operation.
+       * 
+       * The transaction fee is waived if the deposit amount has changed.
+       * 
+       * - `threshold`: The total number of approvals needed for this multisig.
+       * - `other_signatories`: The accounts (other than the sender) who are part of the
+       * multisig.
+       * - `call_hash`: The hash of the call this deposit is reserved for.
+       * 
+       * Emits `DepositPoked` if successful.
+       **/
+      pokeDeposit: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[], callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId32>, U8aFixed]>;
       /**
        * Generic tx
        **/
@@ -1989,8 +2019,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * Fails unless [`crate::pallet::Config::StakeAdapter`] is of strategy type:
        * [`adapter::StakeStrategyType::Delegate`].
        * 
-       * This call can be dispatched permissionlessly (i.e. by any account). If the member has
-       * slash to be applied, caller may be rewarded with the part of the slash.
+       * The pending slash amount of the member must be equal or more than `ExistentialDeposit`.
+       * This call can be dispatched permissionlessly (i.e. by any account). If the execution
+       * is successful, fee is refunded and caller may be rewarded with a part of the slash
+       * based on the [`crate::pallet::Config::StakeAdapter`] configuration.
        **/
       applySlash: AugmentedSubmittable<(memberAccount: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
       /**
@@ -2021,25 +2053,37 @@ declare module '@polkadot/api-base/types/submittable' {
        * The dispatch origin of this call can be signed by the pool nominator or the pool
        * root role, same as [`Pallet::nominate`].
        * 
+       * This directly forwards the call to an implementation of `StakingInterface` (e.g.,
+       * `pallet-staking`) through [`Config::StakeAdapter`], on behalf of the bonded pool.
+       * 
        * Under certain conditions, this call can be dispatched permissionlessly (i.e. by any
        * account).
        * 
        * # Conditions for a permissionless dispatch:
-       * * When pool depositor has less than `MinNominatorBond` staked, otherwise  pool members
+       * * When pool depositor has less than `MinNominatorBond` staked, otherwise pool members
        * are unable to unbond.
        * 
        * # Conditions for permissioned dispatch:
-       * * The caller has a nominator or root role of the pool.
-       * This directly forward the call to the staking pallet, on behalf of the pool bonded
-       * account.
+       * * The caller is the pool's nominator or root.
        **/
       chill: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
        * Claim pending commission.
        * 
-       * The dispatch origin of this call must be signed by the `root` role of the pool. Pending
-       * commission is paid out and added to total claimed commission`. Total pending commission
-       * is reset to zero. the current.
+       * The `root` role of the pool is _always_ allowed to claim the pool's commission.
+       * 
+       * If the pool has set `CommissionClaimPermission::Permissionless`, then any account can
+       * trigger the process of claiming the pool's commission.
+       * 
+       * If the pool has set its `CommissionClaimPermission` to `Account(acc)`, then only
+       * accounts
+       * * `acc`, and
+       * * the pool's root account
+       * 
+       * may call this extrinsic on behalf of the pool.
+       * 
+       * Pending commissions are paid out and added to the total claimed commission.
+       * The total pending commission is reset to zero.
        **/
       claimCommission: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
@@ -2090,8 +2134,9 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       createWithPoolId: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array, root: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, nominator: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, bouncer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, poolId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, MultiAddress, MultiAddress, MultiAddress, u32]>;
       /**
-       * Stake funds with a pool. The amount to bond is transferred from the member to the pool
-       * account and immediately increases the pools bond.
+       * Stake funds with a pool. The amount to bond is delegated (or transferred based on
+       * [`adapter::StakeStrategyType`]) from the member to the pool account and immediately
+       * increases the pool's bond.
        * 
        * The method of transferring the amount to the pool account is determined by
        * [`adapter::StakeStrategyType`]. If the pool is configured to use
@@ -2137,13 +2182,13 @@ declare module '@polkadot/api-base/types/submittable' {
        * The dispatch origin of this call must be signed by the pool nominator or the pool
        * root role.
        * 
-       * This directly forward the call to the staking pallet, on behalf of the pool bonded
-       * account.
+       * This directly forwards the call to an implementation of `StakingInterface` (e.g.,
+       * `pallet-staking`) through [`Config::StakeAdapter`], on behalf of the bonded pool.
        * 
        * # Note
        * 
-       * In addition to a `root` or `nominator` role of `origin`, pool's depositor needs to have
-       * at least `depositor_min_bond` in the pool to start nominating.
+       * In addition to a `root` or `nominator` role of `origin`, the pool's depositor needs to
+       * have at least `depositor_min_bond` in the pool to start nominating.
        **/
       nominate: AugmentedSubmittable<(poolId: u32 | AnyNumber | Uint8Array, validators: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [u32, Vec<AccountId32>]>;
       /**
@@ -2341,6 +2386,26 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       placeOrderKeepAlive: AugmentedSubmittable<(maxAmount: u128 | AnyNumber | Uint8Array, paraId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u32]>;
       /**
+       * Create a single on demand core order with credits.
+       * Will charge the owner's on-demand credit account the spot price for the current block.
+       * 
+       * Parameters:
+       * - `origin`: The sender of the call, on-demand credits will be withdrawn from this
+       * account.
+       * - `max_amount`: The maximum number of credits to spend from the origin to place an
+       * order.
+       * - `para_id`: A `ParaId` the origin wants to provide blockspace for.
+       * 
+       * Errors:
+       * - `InsufficientCredits`
+       * - `QueueFull`
+       * - `SpotPriceHigherThanMaxAmount`
+       * 
+       * Events:
+       * - `OnDemandOrderPlaced`
+       **/
+      placeOrderWithCredits: AugmentedSubmittable<(maxAmount: u128 | AnyNumber | Uint8Array, paraId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u32]>;
+      /**
        * Generic tx
        **/
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
@@ -2458,7 +2523,7 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     preimage: {
       /**
-       * Ensure that the a bulk of pre-images is upgraded.
+       * Ensure that the bulk of pre-images is upgraded.
        * 
        * The caller pays no fee if at least 90% of pre-images were successfully updated.
        **/
@@ -2568,6 +2633,17 @@ declare module '@polkadot/api-base/types/submittable' {
        * account whose `pure` call has corresponding parameters.
        **/
       killPure: AugmentedSubmittable<(spawner: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, proxyType: KusamaRuntimeConstantsProxyProxyType | 'Any' | 'NonTransfer' | 'Governance' | 'Staking' | 'CancelProxy' | 'Auction' | 'Society' | 'NominationPools' | 'Spokesperson' | 'ParaRegistration' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<u32> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, KusamaRuntimeConstantsProxyProxyType, u16, Compact<u32>, Compact<u32>]>;
+      /**
+       * Poke / Adjust deposits made for proxies and announcements based on current values.
+       * This can be used by accounts to possibly lower their locked amount.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * The transaction fee is waived if the deposit amount has changed.
+       * 
+       * Emits `DepositPoked` if successful.
+       **/
+      pokeDeposit: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
        * Dispatch the given `call` from an account that the sender is authorised for through
        * `add_proxy`.
@@ -2740,7 +2816,7 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       removeRecovery: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
       /**
-       * Allow ROOT to bypass the recovery process and set an a rescuer account
+       * Allow ROOT to bypass the recovery process and set a rescuer account
        * for a lost account directly.
        * 
        * The dispatch origin for this call must be _ROOT_.
@@ -3503,6 +3579,40 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       kick: AugmentedSubmittable<(who: Vec<MultiAddress> | (MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<MultiAddress>]>;
       /**
+       * This function allows governance to manually slash a validator and is a
+       * **fallback mechanism**.
+       * 
+       * The dispatch origin must be `T::AdminOrigin`.
+       * 
+       * ## Parameters
+       * - `validator_stash` - The stash account of the validator to slash.
+       * - `era` - The era in which the validator was in the active set.
+       * - `slash_fraction` - The percentage of the stake to slash, expressed as a Perbill.
+       * 
+       * ## Behavior
+       * 
+       * The slash will be applied using the standard slashing mechanics, respecting the
+       * configured `SlashDeferDuration`.
+       * 
+       * This means:
+       * - If the validator was already slashed by a higher percentage for the same era, this
+       * slash will have no additional effect.
+       * - If the validator was previously slashed by a lower percentage, only the difference
+       * will be applied.
+       * - The slash will be deferred by `SlashDeferDuration` eras before being enacted.
+       **/
+      manualSlash: AugmentedSubmittable<(validatorStash: AccountId32 | string | Uint8Array, era: u32 | AnyNumber | Uint8Array, slashFraction: Perbill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u32, Perbill]>;
+      /**
+       * Removes the legacy Staking locks if they exist.
+       * 
+       * This removes the legacy lock on the stake with [`Config::OldCurrency`] and creates a
+       * hold on it if needed. If all stake cannot be held, the best effort is made to hold as
+       * much as possible. The remaining stake is forced withdrawn from the ledger.
+       * 
+       * The fee is waived if the migration is successful.
+       **/
+      migrateCurrency: AugmentedSubmittable<(stash: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
+      /**
        * Declare the desire to nominate `targets` for the origin controller.
        * 
        * Effects will be felt at the beginning of the next era.
@@ -3719,15 +3829,6 @@ declare module '@polkadot/api-base/types/submittable' {
        * The dispatch origin for this call must be _Signed_ by the controller, not the stash.
        **/
       validate: AugmentedSubmittable<(prefs: PalletStakingValidatorPrefs | { commission?: any; blocked?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [PalletStakingValidatorPrefs]>;
-      /**
-       * Adjusts the staking ledger by withdrawing any excess staked amount.
-       * 
-       * This function corrects cases where a user's recorded stake in the ledger
-       * exceeds their actual staked funds. This situation can arise due to cases such as
-       * external slashing by another pallet, leading to an inconsistency between the ledger
-       * and the actual stake.
-       **/
-      withdrawOverstake: AugmentedSubmittable<(stash: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * Remove any unlocked chunks from the `unlocking` queue from our management.
        * 
@@ -4069,6 +4170,14 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       dispatchAs: AugmentedSubmittable<(asOrigin: StagingKusamaRuntimeOriginCaller | { system: any } | { Origins: any } | { ParachainsOrigin: any } | { XcmPallet: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [StagingKusamaRuntimeOriginCaller, Call]>;
       /**
+       * Dispatches a function call with a provided origin.
+       * 
+       * Almost the same as [`Pallet::dispatch_as`] but forwards any error of the inner call.
+       * 
+       * The dispatch origin for this call must be _Root_.
+       **/
+      dispatchAsFallible: AugmentedSubmittable<(asOrigin: StagingKusamaRuntimeOriginCaller | { system: any } | { Origins: any } | { ParachainsOrigin: any } | { XcmPallet: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [StagingKusamaRuntimeOriginCaller, Call]>;
+      /**
        * Send a batch of dispatch calls.
        * Unlike `batch`, it allows errors and won't interrupt.
        * 
@@ -4084,6 +4193,32 @@ declare module '@polkadot/api-base/types/submittable' {
        * - O(C) where C is the number of calls to be batched.
        **/
       forceBatch: AugmentedSubmittable<(calls: Vec<Call> | (Call | IMethod | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Call>]>;
+      /**
+       * Dispatch a fallback call in the event the main call fails to execute.
+       * May be called from any origin except `None`.
+       * 
+       * This function first attempts to dispatch the `main` call.
+       * If the `main` call fails, the `fallback` is attemted.
+       * if the fallback is successfully dispatched, the weights of both calls
+       * are accumulated and an event containing the main call error is deposited.
+       * 
+       * In the event of a fallback failure the whole call fails
+       * with the weights returned.
+       * 
+       * - `main`: The main call to be dispatched. This is the primary action to execute.
+       * - `fallback`: The fallback call to be dispatched in case the `main` call fails.
+       * 
+       * ## Dispatch Logic
+       * - If the origin is `root`, both the main and fallback calls are executed without
+       * applying any origin filters.
+       * - If the origin is not `root`, the origin filter is applied to both the `main` and
+       * `fallback` calls.
+       * 
+       * ## Use Case
+       * - Some use cases might involve submitting a `batch` type call in either main, fallback
+       * or both.
+       **/
+      ifElse: AugmentedSubmittable<(main: Call | IMethod | string | Uint8Array, fallback: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call, Call]>;
       /**
        * Dispatch a function call with a specified weight.
        * 
@@ -4246,6 +4381,20 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     xcmPallet: {
       /**
+       * Authorize another `aliaser` location to alias into the local `origin` making this call.
+       * The `aliaser` is only authorized until the provided `expiry` block number.
+       * The call can also be used for a previously authorized alias in order to update its
+       * `expiry` block number.
+       * 
+       * Usually useful to allow your local account to be aliased into from a remote location
+       * also under your control (like your account on another chain).
+       * 
+       * WARNING: make sure the caller `origin` (you) trusts the `aliaser` location to act in
+       * their/your name. Once authorized using this call, the `aliaser` can freely impersonate
+       * `origin` in XCM programs executed on the local chain.
+       **/
+      addAuthorizedAlias: AugmentedSubmittable<(aliaser: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, expires: Option<u64> | null | Uint8Array | u64 | AnyNumber) => SubmittableExtrinsic<ApiType>, [XcmVersionedLocation, Option<u64>]>;
+      /**
        * Claims assets trapped on this pallet because of leftover assets during XCM execution.
        * 
        * - `origin`: Anyone can call this extrinsic.
@@ -4359,6 +4508,16 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `weight_limit`: The remote-side weight limit, if any, for the XCM fee purchase.
        **/
       limitedTeleportAssets: AugmentedSubmittable<(dest: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, beneficiary: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, assets: XcmVersionedAssets | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, feeAssetItem: u32 | AnyNumber | Uint8Array, weightLimit: XcmV3WeightLimit | { Unlimited: any } | { Limited: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [XcmVersionedLocation, XcmVersionedLocation, XcmVersionedAssets, u32, XcmV3WeightLimit]>;
+      /**
+       * Remove all previously authorized `aliaser`s that can alias into the local `origin`
+       * making this call.
+       **/
+      removeAllAuthorizedAliases: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Remove a previously authorized `aliaser` from the list of locations that can alias into
+       * the local `origin` making this call.
+       **/
+      removeAuthorizedAlias: AugmentedSubmittable<(aliaser: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [XcmVersionedLocation]>;
       /**
        * Transfer some assets from the local chain to the destination chain through their local,
        * destination or remote reserve.
