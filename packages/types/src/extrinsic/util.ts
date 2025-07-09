@@ -4,6 +4,7 @@
 import type { SignOptions } from '@polkadot/keyring/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { IKeyringPair } from '../types/index.js';
+
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 // a helper function for both types of payloads, Raw and metadata-known
