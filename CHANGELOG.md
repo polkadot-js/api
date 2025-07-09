@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 16.3.2 Jul 8, 2025
+## 16.4.1 Jul 8, 2025
 
 - Update Kusama types to 1.6.0 ([#6175](https://github.com/polkadot-js/api/pull/6175)) 
 - fix(api-contracts): correctly decode pallet_revive events ([#6181](https://github.com/polkadot-js/api/pull/6181)) 
