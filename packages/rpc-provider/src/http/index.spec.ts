@@ -38,7 +38,7 @@ describe('Http', (): void => {
 
     expect(() =>
       new HttpProvider(TEST_HTTP_URL, {}, 1024, -1000)
-    ).toThrow(/'ttl' must be between 0 and 600000 ms or null to disable/);
+    ).toThrow(/'ttl' must be between 0 and 1800000 ms or null to disable/);
   });
 
   it('allow clone', (): void => {
