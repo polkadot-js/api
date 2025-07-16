@@ -7,7 +7,7 @@
 
 export const DEFAULT_CAPACITY = 1024;
 export const DEFAULT_TTL = 30000; // 30 seconds
-const MAX_TTL = 600_000; // 10 minutes
+const MAX_TTL = 1800_000; // 30 minutes
 
 // If the user decides to disable the TTL we set the value
 // to a very high number (A year = 365 * 24 * 60 * 60 * 1000).
