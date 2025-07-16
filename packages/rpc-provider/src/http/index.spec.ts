@@ -31,6 +31,16 @@ describe('Http', (): void => {
     ).not.toThrow();
   });
 
+  it('should throw error on negative cache capacity or TTL', () => {
+    expect(() =>
+      new HttpProvider(TEST_HTTP_URL, {}, -5, 30000)
+    ).toThrow(/'capacity' must be a non-negative integer/);
+
+    expect(() =>
+      new HttpProvider(TEST_HTTP_URL, {}, 1024, -1000)
+    ).toThrow(/'ttl' must be between 0 and 600000 ms or null to disable/);
+  });
+
   it('allow clone', (): void => {
     const clone = http.clone();
     /* eslint-disable */

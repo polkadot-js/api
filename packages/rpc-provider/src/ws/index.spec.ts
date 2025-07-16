@@ -60,6 +60,11 @@ describe('Endpoint Parsing', (): void => {
     new WsProvider(TEST_WS_URL, 0);
   });
 
+  it('should throw error on negative cache capacity or TTL', () => {
+    expect(() => new WsProvider(TEST_WS_URL, false, {}, undefined, -5, 30000)).toThrow(/'capacity' must be a non-negative integer/);
+    expect(() => new WsProvider(TEST_WS_URL, false, {}, undefined, 1024, -1000)).toThrow(/'ttl' must be between 0 and 600000 ms or null to disable/);
+  });
+
   it('Throws when WsProvider endpoint is an invalid string', () => {
     expect(
       () => new WsProvider('http://127.0.0.1:9955', 0)

@@ -6,7 +6,8 @@
 // for Kusama/Polkadot/Substrate falls between 600-750K, 2x for estimate)
 
 export const DEFAULT_CAPACITY = 1024;
-export const DEFAULT_TTL = 30000;
+export const DEFAULT_TTL = 30000; // 30 seconds
+const MAX_TTL = 600_000; // 10 minutes
 
 // If the user decides to disable the TTL we set the value
 // to a very high number (A year = 365 * 24 * 60 * 60 * 1000).
@@ -52,6 +53,16 @@ export class LRUCache {
   readonly #ttl: number;
 
   constructor (capacity = DEFAULT_CAPACITY, ttl: number | null = DEFAULT_TTL) {
+    // Validate capacity
+    if (!Number.isInteger(capacity) || capacity < 0) {
+      throw new Error(`LRUCache initialization error: 'capacity' must be a non-negative integer. Received: ${capacity}`);
+    }
+
+    // Validate ttl
+    if (ttl !== null && (!Number.isFinite(ttl) || ttl < 0 || ttl > MAX_TTL)) {
+      throw new Error(`LRUCache initialization error: 'ttl' must be between 0 and ${MAX_TTL} ms or null to disable. Received: ${ttl}`);
+    }
+
     this.capacity = capacity;
     ttl ? this.#ttl = ttl : this.#ttl = DISABLED_TTL;
     this.#head = this.#tail = new LRUNode('<empty>', this.#ttl);
