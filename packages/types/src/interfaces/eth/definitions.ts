@@ -24,7 +24,7 @@ const V0: DefinitionsTypes = {
     action: 'EthTransactionAction',
     value: 'U256',
     input: 'Bytes',
-    signature: 'EthTransactionSignature'
+    signature: 'EthLegacyTransactionSignature'
   },
   TransactionV0: 'LegacyTransaction'
 };
@@ -44,9 +44,7 @@ const V1: DefinitionsTypes = {
     value: 'U256',
     input: 'Bytes',
     accessList: 'EthAccessList',
-    oddYParity: 'bool',
-    r: 'H256',
-    s: 'H256'
+    signature: 'EthTransactionSignature'
   },
   TransactionV1: {
     _enum: {
@@ -72,9 +70,7 @@ const V2: DefinitionsTypes = {
     value: 'U256',
     input: 'Bytes',
     accessList: 'EthAccessList',
-    oddYParity: 'bool',
-    r: 'H256',
-    s: 'H256'
+    signature: 'EthTransactionSignature'
   },
   TransactionV2: {
     _enum: {
@@ -102,9 +98,7 @@ const V3: DefinitionsTypes = {
     data: 'Bytes',
     accessList: 'EthAccessList',
     authorizationList: 'EthAuthorizationList',
-    oddYParity: 'bool',
-    r: 'H256',
-    s: 'H256'
+    signature: 'EthTransactionSignature'
   },
   TransactionV3: {
     _enum: {
@@ -365,8 +359,13 @@ const types: DefinitionsTypes = {
     accessList: 'Option<Vec<EthAccessListItem>>',
     transactionType: 'Option<U256>'
   },
-  EthTransactionSignature: {
+  EthLegacyTransactionSignature: {
     v: 'u64',
+    r: 'H256',
+    s: 'H256'
+  },
+  EthTransactionSignature: {
+    oddYParity: 'bool',
     r: 'H256',
     s: 'H256'
   },
