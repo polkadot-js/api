@@ -285,6 +285,21 @@ export const runtime: DefinitionsCall = {
         }
       },
       version: 2
+    },
+    {
+      methods: {
+        convert_transaction: {
+          description: 'Converts an Ethereum-style transaction to Extrinsic',
+          params: [
+            {
+              name: 'transaction',
+              type: 'TransactionV3'
+            }
+          ],
+          type: 'Extrinsic'
+        }
+      },
+      version: 3
     }
   ],
   DebugRuntimeApi: [
