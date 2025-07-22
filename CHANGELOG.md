@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 16.4.2 Jul 22, 2025
+
+- Add validation for cache capacity and TTL in LRUCache ([#6187](https://github.com/polkadot-js/api/pull/6187)) 
+
+
 ## 16.4.1 Jul 8, 2025
 
 - Update Kusama types to 1.6.0 ([#6175](https://github.com/polkadot-js/api/pull/6175)) 
