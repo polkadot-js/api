@@ -26,6 +26,13 @@ export interface BlockV2 extends Struct {
   readonly ommers: Vec<EthHeader>;
 }
 
+/** @name BlockV3 */
+export interface BlockV3 extends Struct {
+  readonly header: EthHeader;
+  readonly transactions: Vec<TransactionV3>;
+  readonly ommers: Vec<EthHeader>;
+}
+
 /** @name EIP1559Transaction */
 export interface EIP1559Transaction extends Struct {
   readonly chainId: u64;
@@ -37,9 +44,7 @@ export interface EIP1559Transaction extends Struct {
   readonly value: U256;
   readonly input: Bytes;
   readonly accessList: EthAccessList;
-  readonly oddYParity: bool;
-  readonly r: H256;
-  readonly s: H256;
+  readonly signature: EthTransactionSignature;
 }
 
 /** @name EIP2930Transaction */
@@ -52,9 +57,22 @@ export interface EIP2930Transaction extends Struct {
   readonly value: U256;
   readonly input: Bytes;
   readonly accessList: EthAccessList;
-  readonly oddYParity: bool;
-  readonly r: H256;
-  readonly s: H256;
+  readonly signature: EthTransactionSignature;
+}
+
+/** @name EIP7702Transaction */
+export interface EIP7702Transaction extends Struct {
+  readonly chainId: u64;
+  readonly nonce: U256;
+  readonly maxPriorityFeePerGas: U256;
+  readonly maxFeePerGas: U256;
+  readonly gasLimit: U256;
+  readonly destination: EthTransactionAction;
+  readonly value: U256;
+  readonly data: Bytes;
+  readonly accessList: EthAccessList;
+  readonly authorizationList: EthAuthorizationList;
+  readonly signature: EthTransactionSignature;
 }
 
 /** @name EthAccessList */
@@ -79,6 +97,24 @@ export interface EthAccount extends Struct {
 
 /** @name EthAddress */
 export interface EthAddress extends H160 {}
+
+/** @name EthAuthorizationList */
+export interface EthAuthorizationList extends Vec<EthAuthorizationListItem> {}
+
+/** @name EthAuthorizationListItem */
+export interface EthAuthorizationListItem extends Struct {
+  readonly chainId: u64;
+  readonly address: H160;
+  readonly nonce: U256;
+  readonly signature: EthAuthorizationSignature;
+}
+
+/** @name EthAuthorizationSignature */
+export interface EthAuthorizationSignature extends Struct {
+  readonly oddYParity: bool;
+  readonly r: H256;
+  readonly s: H256;
+}
 
 /** @name EthBlock */
 export interface EthBlock extends Struct {
@@ -192,6 +228,13 @@ export interface EthHeader extends Struct {
   readonly nonce: H64;
 }
 
+/** @name EthLegacyTransactionSignature */
+export interface EthLegacyTransactionSignature extends Struct {
+  readonly v: u64;
+  readonly r: H256;
+  readonly s: H256;
+}
+
 /** @name EthLog */
 export interface EthLog extends Struct {
   readonly address: EthAddress;
@@ -228,6 +271,9 @@ export interface EthReceiptV0 extends EthReceipt {}
 
 /** @name EthReceiptV3 */
 export interface EthReceiptV3 extends EthReceipt {}
+
+/** @name EthReceiptV4 */
+export interface EthReceiptV4 extends EthReceipt {}
 
 /** @name EthRichBlock */
 export interface EthRichBlock extends Struct {
@@ -385,7 +431,7 @@ export interface EthTransactionRequest extends Struct {
 
 /** @name EthTransactionSignature */
 export interface EthTransactionSignature extends Struct {
-  readonly v: u64;
+  readonly oddYParity: bool;
   readonly r: H256;
   readonly s: H256;
 }
@@ -417,7 +463,7 @@ export interface LegacyTransaction extends Struct {
   readonly action: EthTransactionAction;
   readonly value: U256;
   readonly input: Bytes;
-  readonly signature: EthTransactionSignature;
+  readonly signature: EthLegacyTransactionSignature;
 }
 
 /** @name TransactionV0 */
@@ -441,6 +487,19 @@ export interface TransactionV2 extends Enum {
   readonly isEip1559: boolean;
   readonly asEip1559: EIP1559Transaction;
   readonly type: 'Legacy' | 'Eip2930' | 'Eip1559';
+}
+
+/** @name TransactionV3 */
+export interface TransactionV3 extends Enum {
+  readonly isLegacy: boolean;
+  readonly asLegacy: LegacyTransaction;
+  readonly isEip2930: boolean;
+  readonly asEip2930: EIP2930Transaction;
+  readonly isEip1559: boolean;
+  readonly asEip1559: EIP1559Transaction;
+  readonly isEip7702: boolean;
+  readonly asEip7702: EIP7702Transaction;
+  readonly type: 'Legacy' | 'Eip2930' | 'Eip1559' | 'Eip7702';
 }
 
 export type PHANTOM_ETH = 'eth';

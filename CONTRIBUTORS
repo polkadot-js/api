@@ -108,6 +108,7 @@
        1	Lauro Gripa                   	Fix multi call of `defenderVotes` and `isDefenderVoter` flag in `society.members` derivation (#5834)
        1	Lezek123                      	BTreeSet and BTreeMap - encoding and serialization fixes (#3789)
        1	Lovesh Harchandani            	Fix name of "getBlock" in package "api-derive" and export it in "index.ts" (#2857)
+       1	Manuel Mauro                  	Add EIP-7702 transaction type (#6188)
        1	Marc Fornós                   	add beefy compact signed commitment definition (#5781)
        1	Mario Neises                  	fix usage with typescript (#405)
        1	Mario Pino                    	Add PolkaStats to API users (#1593)
