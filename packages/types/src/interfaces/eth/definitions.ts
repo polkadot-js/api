@@ -24,7 +24,7 @@ const V0: DefinitionsTypes = {
     action: 'EthTransactionAction',
     value: 'U256',
     input: 'Bytes',
-    signature: 'EthTransactionSignature'
+    signature: 'EthLegacyTransactionSignature'
   },
   TransactionV0: 'LegacyTransaction'
 };
@@ -44,9 +44,7 @@ const V1: DefinitionsTypes = {
     value: 'U256',
     input: 'Bytes',
     accessList: 'EthAccessList',
-    oddYParity: 'bool',
-    r: 'H256',
-    s: 'H256'
+    signature: 'EthTransactionSignature'
   },
   TransactionV1: {
     _enum: {
@@ -72,9 +70,7 @@ const V2: DefinitionsTypes = {
     value: 'U256',
     input: 'Bytes',
     accessList: 'EthAccessList',
-    oddYParity: 'bool',
-    r: 'H256',
-    s: 'H256'
+    signature: 'EthTransactionSignature'
   },
   TransactionV2: {
     _enum: {
@@ -85,10 +81,40 @@ const V2: DefinitionsTypes = {
   }
 };
 
+const V3: DefinitionsTypes = {
+  BlockV3: {
+    header: 'EthHeader',
+    transactions: 'Vec<TransactionV3>',
+    ommers: 'Vec<EthHeader>'
+  },
+  EIP7702Transaction: {
+    chainId: 'u64',
+    nonce: 'U256',
+    maxPriorityFeePerGas: 'U256',
+    maxFeePerGas: 'U256',
+    gasLimit: 'U256',
+    destination: 'EthTransactionAction',
+    value: 'U256',
+    data: 'Bytes',
+    accessList: 'EthAccessList',
+    authorizationList: 'EthAuthorizationList',
+    signature: 'EthTransactionSignature'
+  },
+  TransactionV3: {
+    _enum: {
+      Legacy: 'LegacyTransaction',
+      EIP2930: 'EIP2930Transaction',
+      EIP1559: 'EIP1559Transaction',
+      EIP7702: 'EIP7702Transaction'
+    }
+  }
+};
+
 const types: DefinitionsTypes = {
   ...V0,
   ...V1,
   ...V2,
+  ...V3,
   EthereumAccountId: 'GenericEthereumAccountId',
   EthereumAddress: 'GenericEthereumAccountId',
   EthereumLookupSource: 'GenericEthereumLookupSource',
@@ -98,6 +124,18 @@ const types: DefinitionsTypes = {
     slots: 'Vec<H256>'
   },
   EthAccessList: 'Vec<EthAccessListItem>',
+  EthAuthorizationList: 'Vec<EthAuthorizationListItem>',
+  EthAuthorizationListItem: {
+    chainId: 'u64',
+    address: 'H160',
+    nonce: 'U256',
+    signature: 'EthAuthorizationSignature'
+  },
+  EthAuthorizationSignature: {
+    oddYParity: 'bool',
+    r: 'H256',
+    s: 'H256'
+  },
   EthAccount: {
     address: 'EthAddress',
     balance: 'U256',
@@ -261,6 +299,7 @@ const types: DefinitionsTypes = {
   // not convinced, however the original commit matches, so... (maybe V3 is incorrect?)
   EthReceiptV0: 'EthReceipt',
   EthReceiptV3: 'EthReceipt',
+  EthReceiptV4: 'EthReceipt',
   EthStorageProof: {
     key: 'U256',
     value: 'U256',
@@ -321,8 +360,13 @@ const types: DefinitionsTypes = {
     accessList: 'Option<Vec<EthAccessListItem>>',
     transactionType: 'Option<U256>'
   },
-  EthTransactionSignature: {
+  EthLegacyTransactionSignature: {
     v: 'u64',
+    r: 'H256',
+    s: 'H256'
+  },
+  EthTransactionSignature: {
+    oddYParity: 'bool',
     r: 'H256',
     s: 'H256'
   },
