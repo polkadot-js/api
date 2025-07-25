@@ -10,7 +10,7 @@ This document summarizes the implementation of ML-DSA (Module-Lattice-Based Digi
 
 Added three ML-DSA parameter sets with their corresponding signature sizes:
 - **ML-DSA-44**: 2,420-byte signatures, 1,312-byte public keys (NIST Level 2)
-- **ML-DSA-65**: 3,309-byte signatures, 1,952-byte public keys (NIST Level 3)  
+- **ML-DSA-65**: 3,309-byte signatures, 1,952-byte public keys (NIST Level 3)
 - **ML-DSA-87**: 4,627-byte signatures, 2,592-byte public keys (NIST Level 5)
 
 ### 2. Modified Files
@@ -48,10 +48,6 @@ Added three ML-DSA parameter sets with their corresponding signature sizes:
   - Comprehensive test suite for ML-DSA functionality
   - Tests for all three parameter sets
   - Integration tests with `MultiSignature` and `MultiSigner`
-
-- `api/packages/types/src/interfaces/extrinsics/MLDSA.md`
-  - Documentation for ML-DSA support
-  - Usage examples and migration guide
 
 ## Implementation Details
 
