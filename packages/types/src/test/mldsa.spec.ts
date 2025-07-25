@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '../create/index.js';
-import { u8aToHex } from '@polkadot/util';
 
 describe('ML-DSA Signatures', (): void => {
   const registry = new TypeRegistry();

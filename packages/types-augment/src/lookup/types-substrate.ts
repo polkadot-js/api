@@ -3708,13 +3708,7 @@ declare module '@polkadot/types/lookup' {
     readonly asSr25519: U8aFixed;
     readonly isEcdsa: boolean;
     readonly asEcdsa: U8aFixed;
-    readonly isMldsa44: boolean;
-    readonly asMldsa44: U8aFixed;
-    readonly isMldsa65: boolean;
-    readonly asMldsa65: U8aFixed;
-    readonly isMldsa87: boolean;
-    readonly asMldsa87: U8aFixed;
-    readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa' | 'Mldsa44' | 'Mldsa65' | 'Mldsa87';
+    readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
   }
 
   /** @name PalletSocietyCall (315) */

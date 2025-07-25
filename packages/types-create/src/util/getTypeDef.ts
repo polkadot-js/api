@@ -166,8 +166,8 @@ function _decodeFixedVec (value: TypeDef, type: string, _: string, count: number
   const [strLength, displayName] = type.substring(index + 1, max).split(';');
   const length = parseInt(strLength.trim(), 10);
 
-  if (length > 2048) {
-    throw new Error(`${type}: Only support for [Type; <length>], where length <= 2048`);
+  if (length > 5000) {
+    throw new Error(`${type}: Only support for [Type; <length>], where length <= 5000`);
   }
 
   value.displayName = displayName;

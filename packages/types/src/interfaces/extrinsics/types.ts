@@ -56,6 +56,15 @@ export interface ExtrinsicV5 extends GenericExtrinsicV5 {}
 /** @name ImmortalEra */
 export interface ImmortalEra extends GenericImmortalEra {}
 
+/** @name Mldsa44Signature */
+export interface Mldsa44Signature extends U8aFixed {}
+
+/** @name Mldsa65Signature */
+export interface Mldsa65Signature extends U8aFixed {}
+
+/** @name Mldsa87Signature */
+export interface Mldsa87Signature extends U8aFixed {}
+
 /** @name MortalEra */
 export interface MortalEra extends GenericMortalEra {}
 
@@ -84,14 +93,5 @@ export interface SignerPayload extends GenericSignerPayload {}
 
 /** @name Sr25519Signature */
 export interface Sr25519Signature extends H512 {}
-
-/** @name Mldsa44Signature */
-export interface Mldsa44Signature extends U8aFixed {}
-
-/** @name Mldsa65Signature */
-export interface Mldsa65Signature extends U8aFixed {}
-
-/** @name Mldsa87Signature */
-export interface Mldsa87Signature extends U8aFixed {}
 
 export type PHANTOM_EXTRINSICS = 'extrinsics';
