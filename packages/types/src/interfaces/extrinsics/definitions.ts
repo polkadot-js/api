@@ -33,13 +33,19 @@ export default {
       _enum: {
         Ed25519: 'Ed25519Signature',
         Sr25519: 'Sr25519Signature',
-        Ecdsa: 'EcdsaSignature'
+        Ecdsa: 'EcdsaSignature',
+        Mldsa44: 'Mldsa44Signature',
+        Mldsa65: 'Mldsa65Signature',
+        Mldsa87: 'Mldsa87Signature'
       }
     },
     Signature: 'H512',
     SignerPayload: 'GenericSignerPayload',
     EcdsaSignature: '[u8; 65]',
     Ed25519Signature: 'H512',
-    Sr25519Signature: 'H512'
+    Sr25519Signature: 'H512',
+    Mldsa44Signature: '[u8; 2420]',
+    Mldsa65Signature: '[u8; 3309]',
+    Mldsa87Signature: '[u8; 4627]'
   }
 } as Definitions;

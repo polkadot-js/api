@@ -140,7 +140,10 @@ export default {
       _enum: {
         Ed25519: '[u8; 32]',
         Sr25519: '[u8; 32]',
-        Ecdsa: '[u8; 33]'
+        Ecdsa: '[u8; 33]',
+        Mldsa44: '[u8; 1312]',
+        Mldsa65: '[u8; 1952]',
+        Mldsa87: '[u8; 2592]'
       }
     },
     Moment: 'UInt<64, Moment>',
