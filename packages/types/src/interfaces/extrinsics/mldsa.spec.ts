@@ -1,11 +1,13 @@
 // Copyright 2017-2025 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeRegistry } from '../create/index.js';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import { TypeRegistry } from '../../create/index.js';
+
+const registry = new TypeRegistry();
 
 describe('ML-DSA Signatures', (): void => {
-  const registry = new TypeRegistry();
-
   describe('Mldsa44Signature', (): void => {
     it('creates a valid Mldsa44Signature', (): void => {
       const signature = new Uint8Array(2420).fill(1);
@@ -17,6 +19,7 @@ describe('ML-DSA Signatures', (): void => {
 
     it('encodes to the correct length', (): void => {
       const sig = registry.createType('Mldsa44Signature');
+
       expect(sig.encodedLength).toEqual(2420);
     });
   });
@@ -32,6 +35,7 @@ describe('ML-DSA Signatures', (): void => {
 
     it('encodes to the correct length', (): void => {
       const sig = registry.createType('Mldsa65Signature');
+
       expect(sig.encodedLength).toEqual(3309);
     });
   });
@@ -47,6 +51,7 @@ describe('ML-DSA Signatures', (): void => {
 
     it('encodes to the correct length', (): void => {
       const sig = registry.createType('Mldsa87Signature');
+
       expect(sig.encodedLength).toEqual(4627);
     });
   });
@@ -93,6 +98,7 @@ describe('ML-DSA Signatures', (): void => {
 
       // MultiSignature encoding: 1 byte for enum variant + signature bytes
       const encoded = multiSig.toU8a();
+
       expect(encoded).toHaveLength(2421); // 1 byte for variant + 2420 bytes for signature
       expect(encoded[0]).toBe(3); // Mldsa44 is the 4th variant (0-indexed)
       expect(encoded.slice(1)).toEqual(signature);
@@ -102,6 +108,7 @@ describe('ML-DSA Signatures', (): void => {
       // Create encoded data: variant byte (3 for Mldsa44) + signature
       const signature = new Uint8Array(2420).fill(8);
       const encoded = new Uint8Array(2421);
+
       encoded[0] = 3; // Mldsa44 variant
       encoded.set(signature, 1);
 
@@ -154,6 +161,7 @@ describe('ML-DSA Signatures', (): void => {
 
       // MultiSigner encoding: 1 byte for enum variant + public key bytes
       const encoded = signer.toU8a();
+
       expect(encoded).toHaveLength(1313); // 1 byte for variant + 1312 bytes for public key
       expect(encoded[0]).toBe(3); // Mldsa44 is the 4th variant (0-indexed)
       expect(encoded.slice(1)).toEqual(publicKey);
@@ -178,6 +186,7 @@ describe('ML-DSA Signatures', (): void => {
       const sig44 = registry.createType('MultiSignature', {
         Mldsa44: new Uint8Array(2420).fill(14)
       });
+
       expect(sig44.isMldsa44).toBe(true);
       expect(sig44.asMldsa44.encodedLength).toBe(2420);
 
@@ -185,6 +194,7 @@ describe('ML-DSA Signatures', (): void => {
       const sig65 = registry.createType('MultiSignature', {
         Mldsa65: new Uint8Array(3309).fill(15)
       });
+
       expect(sig65.isMldsa65).toBe(true);
       expect(sig65.asMldsa65.encodedLength).toBe(3309);
 
@@ -192,6 +202,7 @@ describe('ML-DSA Signatures', (): void => {
       const sig87 = registry.createType('MultiSignature', {
         Mldsa87: new Uint8Array(4627).fill(16)
       });
+
       expect(sig87.isMldsa87).toBe(true);
       expect(sig87.asMldsa87.encodedLength).toBe(4627);
     });
