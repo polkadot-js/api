@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 16.4.3 Jul 29, 2025
+
+- Bump @polkadot/common to 13.5.4 ([#6193](https://github.com/polkadot-js/api/pull/6193))
+
+
 ## 16.4.2 Jul 22, 2025
 
 - Add validation for cache capacity and TTL in LRUCache ([#6187](https://github.com/polkadot-js/api/pull/6187)) 
