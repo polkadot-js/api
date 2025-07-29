@@ -10,7 +10,7 @@
       14	Nikos Kontakis                	Bump substrate connect to 0.7.16 (#5307)
       11	Ian He                        	HttpProvider support clone() (#3949)
       10	Axel Chalon                   	Make Enum/Tuple constructor use value directly if instance (#1954)
-       7	rajk93                        	chore: update polkadot dependencies (#6193)
+       8	rajk93                        	16.4.3 (#6194)
        6	Andreea Eftene                	Update check for contract instantiation (#5699)
        6	Arjun Porwal                  	Add validation for cache capacity and TTL in LRUCache (#6187)
        6	Branislav Kontur              	Fix for fungiblesApi (#5944)
