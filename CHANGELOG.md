@@ -1,29 +1,44 @@
 # CHANGELOG
 
+## 16.4.4 Aug 13, 2025
+
+Changes:
+
+- bump polkadot/common to 13.5.5 ([#6195](https://github.com/polkadot-js/api/pull/6195))
+
+
 ## 16.4.3 Jul 29, 2025
+
+Changes:
 
 - Bump @polkadot/common to 13.5.4 ([#6193](https://github.com/polkadot-js/api/pull/6193))
 
 
 ## 16.4.2 Jul 22, 2025
 
-- Add validation for cache capacity and TTL in LRUCache ([#6187](https://github.com/polkadot-js/api/pull/6187)) 
+Changes:
+
+- Add validation for cache capacity and TTL in LRUCache ([#6187](https://github.com/polkadot-js/api/pull/6187))
 
 
 ## 16.4.1 Jul 8, 2025
 
-- Update Kusama types to 1.6.0 ([#6175](https://github.com/polkadot-js/api/pull/6175)) 
-- fix(api-contracts): correctly decode pallet_revive events ([#6181](https://github.com/polkadot-js/api/pull/6181)) 
+Changes:
+
+- Update Kusama types to 1.6.0 ([#6175](https://github.com/polkadot-js/api/pull/6175))
+- fix(api-contracts): correctly decode pallet_revive events ([#6181](https://github.com/polkadot-js/api/pull/6181))
 
 
 ## 16.3.1 Jul 1, 2025
 
-- Update Substrate types to Polkadot stable2503-5 ([#6172](https://github.com/polkadot-js/api/pull/6172)) 
-- Update Polkadot types to polkadot-fellows/runtimes release 1.6.0 ([#6173](https://github.com/polkadot-js/api/pull/6173)) 
-- Update AssetHub Polkadot types to 1.6.0 ([#6174](https://github.com/polkadot-js/api/pull/6174)) 
+Changes:
+
+- Update Substrate types to Polkadot stable2503-5 ([#6172](https://github.com/polkadot-js/api/pull/6172))
+- Update Polkadot types to polkadot-fellows/runtimes release 1.6.0 ([#6173](https://github.com/polkadot-js/api/pull/6173))
+- Update AssetHub Polkadot types to 1.6.0 ([#6174](https://github.com/polkadot-js/api/pull/6174))
 - Update AssetHub Kusama types to 1.6.0 ([#6176](https://github.com/polkadot-js/api/pull/6176))
-- Fix signature issue in signAsync + send flow [#6177](https://github.com/polkadot-js/api/pull/6177) 
-- Bump @polkadot/common to 13.5.2 ([#6179](https://github.com/polkadot-js/api/pull/6179)) 
+- Fix signature issue in signAsync + send flow [#6177](https://github.com/polkadot-js/api/pull/6177)
+- Bump @polkadot/common to 13.5.2 ([#6179](https://github.com/polkadot-js/api/pull/6179))
 
 
 ## 16.2.2 Jun 17, 2025
