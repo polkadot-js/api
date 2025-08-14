@@ -67,7 +67,7 @@ function calcShared (api: DeriveApi, bestNumber: BlockNumber, data: DeriveBalanc
       'Balance',
       allLocked
         ? 0
-        : freeBalance.sub(bnMax(maybeED, frozenReserveDif))
+        : bnMax(new BN(0), freeBalance.sub(bnMax(maybeED, frozenReserveDif)))
     );
   }
 
