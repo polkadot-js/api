@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 16.4.5 Aug 19, 2025
+
+Changes:
+
+- Fix transferable balance calculation ([#6197](http://github.com/polkadot-js/api/pull/6197)) 
+
+
 ## 16.4.4 Aug 13, 2025
 
 Changes:
