@@ -4,8 +4,8 @@
 /* import assetHubKusamaData from '@polkadot/types-support/metadata/v16/asset-hub-kusama-hex';
 import assetHubPolkadotData from '@polkadot/types-support/metadata/v16/asset-hub-polkadot-hex';
 import kusamaData from '@polkadot/types-support/metadata/v16/kusama-hex';
-import polkadotData from '@polkadot/types-support/metadata/v16/polkadot-hex';
-import substrateData from '@polkadot/types-support/metadata/v16/substrate-hex';*/
+import polkadotData from '@polkadot/types-support/metadata/v16/polkadot-hex';*/
+import substrateData from '@polkadot/types-support/metadata/v16/substrate-hex';
 
 import { testMeta } from '../util/testUtil.js';
 
@@ -23,8 +23,8 @@ testMeta(16, {
   },
   polkadot: {
     data: polkadotData
-  },
+  },*/
   substrate: {
     data: substrateData
-  }*/
+  }
 });
