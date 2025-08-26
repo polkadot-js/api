@@ -1,10 +1,18 @@
 # CHANGELOG
 
+## 16.4.6 Aug 26, 2025
+
+Changes:
+
+- Upgrade substrate types to stable2506-1 ([#6201](https://github.com/polkadot-js/api/pull/6201))
+- Bump @polkadot/common deps ([#6202](https://github.com/polkadot-js/api/pull/6202))
+
+
 ## 16.4.5 Aug 19, 2025
 
 Changes:
 
-- Fix transferable balance calculation ([#6197](http://github.com/polkadot-js/api/pull/6197)) 
+- Fix transferable balance calculation ([#6197](http://github.com/polkadot-js/api/pull/6197))
 
 
 ## 16.4.4 Aug 13, 2025
