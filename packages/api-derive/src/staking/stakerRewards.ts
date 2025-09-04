@@ -23,10 +23,10 @@ function extractCompatRewards (claimedRewardsEras: Vec<u32>, ledger?: PalletStak
     ? (
       ledger.legacyClaimedRewards ||
     (ledger as PalletStakingStakingLedger & { claimedRewards: Vec<u32> }).claimedRewards
-    ).toArray()
+    )?.toArray()
     : [] as unknown as Vec<u32>;
 
-  return claimedRewardsEras.toArray().concat(l);
+  return (claimedRewardsEras.toArray() || []).concat(l);
 }
 
 function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[], claimedRewardsEras: Vec<u32>): DeriveStakerReward[] {
@@ -125,7 +125,7 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
     if (index !== -1) {
       const valLedger = queryValidators[index].stakingLedger;
 
-      if (extractCompatRewards(claimedRewardsEras, valLedger).some((e) => reward.era.eq(e))) {
+      if (extractCompatRewards(claimedRewardsEras, valLedger).some((e) => reward.era?.eq(e))) {
         rm.push(validatorId);
       }
     }
@@ -137,7 +137,7 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
 }
 
 function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][], { claimedRewardsEras, rewards, stakingLedger }: { rewards: DeriveStakerReward[]; stakingLedger: PalletStakingStakingLedger, claimedRewardsEras: Vec<u32> }): DeriveStakerReward[] {
-  const filter = eras.filter((e) => !extractCompatRewards(claimedRewardsEras, stakingLedger).some((s) => s.eq(e)));
+  const filter = eras.filter((e) => !extractCompatRewards(claimedRewardsEras, stakingLedger).some((s) => s?.eq(e)));
   const validators = valInfo.map(([v]) => v);
   const queryValidators = valInfo.map(([, q]) => q);
 
@@ -162,7 +162,7 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
           const info = queryValidators.find((i) => i.accountId.toString() === key);
 
           if (info) {
-            isClaimed = info.claimedRewardsEras.toArray().some((era) => era.eq(reward.era));
+            isClaimed = info.claimedRewardsEras?.toArray().some((era) => era.eq(reward.era));
             break;
           }
         }
