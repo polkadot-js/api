@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 16.4.7 Sep 15, 2025
+
+Changes:
+
+- fix: Set Statemint xcm types to v4 to patch decoding ([#6208](https://github.com/polkadot-js/api/pull/6208))
+- fix: Handle optional chaining for claimed rewards in staker rewards functions ([#6205](https://github.com/polkadot-js/api/pull/6205))
+
+
 ## 16.4.6 Aug 26, 2025
 
 Changes:
