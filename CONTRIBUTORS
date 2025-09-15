@@ -1,5 +1,5 @@
     3512	Jaco                          	Bump deps (#5785)
-     164	Tarik Gul                     	Upgrade polkadot/common to 13.5.1 (#6150)
+     165	Tarik Gul                     	Set Statemint xcm types to v4 to patch decoding (#6208)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       55	Valentin Fernandez            	16.4.6 (#6203)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
