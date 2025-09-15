@@ -56,7 +56,8 @@ export const versioned: OverrideVersionedType[] = [
   {
     minmax: [1002000, undefined],
     types: {
-      Weight: 'WeightV1'
+      Weight: 'WeightV1',
+      ...mapXcmTypes('V4')
     }
   }
   // ,
