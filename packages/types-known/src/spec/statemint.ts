@@ -53,10 +53,14 @@ export const versioned: OverrideVersionedType[] = [
       TAssetConversion: 'Option<AssetId>'
     }
   },
+  // ref: https://github.com/polkadot-js/api/pull/6208
+  // The following patches an issue where polkadot asset hub block 9686187, can't be decoding using xcm v5
+  // mappings.
   {
     minmax: [1002000, undefined],
     types: {
-      Weight: 'WeightV1'
+      Weight: 'WeightV1',
+      ...mapXcmTypes('V4')
     }
   }
   // ,
