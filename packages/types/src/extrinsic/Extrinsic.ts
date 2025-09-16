@@ -38,7 +38,7 @@ const VERSIONS = [
   'ExtrinsicV5'
 ];
 
-const PREAMBLE = {
+export const PREAMBLE = {
   bare: 'ExtrinsicV5',
   general: 'GeneralExtrinsic'
 };
@@ -62,6 +62,7 @@ function newFromValue (registry: Registry, value: any, version: number, preamble
     return value.unwrap();
   }
 
+  console.log(preamble)
   const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
   const type = (version & VERSION_MASK) === 5 ? PREAMBLE[preamble] : VERSIONS[version & VERSION_MASK] || VERSIONS[0];
 
@@ -108,9 +109,8 @@ function decodeU8a (registry: Registry, value: Uint8Array, version: number, prea
 abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicVx | ExtrinsicUnknown> {
   readonly #preamble: Preamble;
 
-  constructor (registry: Registry, value: ExtrinsicVx | ExtrinsicUnknown, initialU8aLength?: number, preamble?: Preamble) {
+  constructor (registry: Registry, value: ExtrinsicVx | ExtrinsicUnknown, initialU8aLength?: number, preamble: Preamble = DEFAULT_PREAMBLE) {
     super(registry, value, initialU8aLength);
-
     const signKeys = Object.keys(registry.getSignedExtensionTypes());
 
     if (this.version === 5 && preamble !== 'general') {
@@ -124,11 +124,12 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
     }
 
     const unmaskedPreamble = this.type & TYPE_MASK;
-
+    console.log("the preamble is",preamble)
     this.#preamble = preamble || preambleUnMask[`${unmaskedPreamble}`];
   }
 
   public isGeneral () {
+    console.log(this.#preamble)
     return this.#preamble === 'general';
   }
 
@@ -180,8 +181,10 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
+    console.log("isSigned")
+    console.log(this.isGeneral())
     return this.isGeneral()
-      ? false
+      ? (this.inner as unknown as GeneralExtrinsic).isSigned
       : (this.inner.signature as unknown as ExtrinsicSignatureV5).isSigned;
   }
 
@@ -218,9 +221,9 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   /**
    * @description The actual [[EcdsaSignature]], [[Ed25519Signature]] or [[Sr25519Signature]]
    */
-  public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature {
+  public get signature (): EcdsaSignature | Ed25519Signature | Sr25519Signature | null {
     if (this.isGeneral()) {
-      throw new Error('Extrinsic: GeneralExtrinsic does not have signature implemented');
+      return (this.inner as unknown as GeneralExtrinsic).signature;
     }
 
     return (this.inner.signature as unknown as ExtrinsicSignatureV5).signature;
@@ -229,9 +232,9 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   /**
    * @description The [[Address]] that signed
    */
-  public get signer (): Address {
+  public get signer (): Address | null {
     if (this.isGeneral()) {
-      throw new Error('Extrinsic: GeneralExtrinsic does not have signer implemented');
+      return (this.inner as unknown as GeneralExtrinsic).signer;
     }
 
     return (this.inner.signature as unknown as ExtrinsicSignatureV5).signer;
@@ -292,7 +295,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
       return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
     } else {
       if (this.isSigned) {
-        throw new Error('Signed Extrinsics are currently only available for ExtrinsicV4');
+        throw new Error('Signed Extrinsics are currently only available for ExtrinsicV4 and ExtrinsicV5');
       }
 
       return this.type | (this.isGeneral() ? PreambleMask.general : PreambleMask.bare);
@@ -331,8 +334,8 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
   constructor (registry: Registry, value?: GenericExtrinsic | ExtrinsicValue | AnyU8a | Call, { preamble, version }: CreateOptions = {}) {
     const versionsLength = registry.metadata.extrinsic.versions.length;
 
-    // TODO: Once ExtrinsicV5 is fully supported update this to use the highest supported verion which is the last item of the array
-    const supportedVersion = versionsLength ? registry.metadata.extrinsic.versions[0] : undefined;
+    // TODO: Once ExtrinsicV6 is fully supported update this to use the highest supported verion which is the last item of the array
+    const supportedVersion = versionsLength ? registry.metadata.extrinsic.versions[versionsLength - 1] : undefined;
 
     super(registry, decodeExtrinsic(registry, value, version || supportedVersion, preamble), undefined, preamble);
   }
@@ -416,8 +419,8 @@ export class GenericExtrinsic<A extends AnyTuple = AnyTuple> extends ExtrinsicBa
           metadataHash: this.metadataHash ? this.metadataHash.toHex() : null,
           mode: this.mode ? this.mode.toHuman() : null,
           nonce: this.nonce.toHuman(isExpanded, disableAscii),
-          signature: this.signature.toHex(),
-          signer: this.signer.toHuman(isExpanded, disableAscii),
+          signature: this.signature?.toHex() || null,
+          signer: this.signer?.toHuman(isExpanded, disableAscii) || null,
           tip: this.tip.toHuman(isExpanded, disableAscii)
         }
         : null

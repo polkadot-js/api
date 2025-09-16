@@ -1,15 +1,17 @@
 // Copyright 2017-2025 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Call, ExtrinsicEra, Hash, MultiLocation } from '@polkadot/types/interfaces';
+import type { Address, Call, EcdsaSignature, Ed25519Signature, ExtrinsicEra, Hash, MultiLocation, Sr25519Signature } from '@polkadot/types/interfaces';
 import type { AnyNumber, AnyU8a, ICompact, IExtrinsicEra, INumber, IOption, Registry } from '@polkadot/types/types';
 import type { AnyTuple, IMethod } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
+import type { ExtrinsicPayloadValue, IKeyringPair, SignatureOptions } from '../../types/index.js';
 
-import { Struct } from '@polkadot/types-codec';
+import { Enum, Struct } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, isHex, isObject, isU8a, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { EMPTY_U8A, UNMASK_VERSION } from '../constants.js';
+import { sign } from '../util.js';
 
 interface TransactionExtensionValues {
   era: AnyU8a | IExtrinsicEra;
@@ -29,6 +31,16 @@ interface GeneralExtrinsicValue {
   payload?: GeneralExtrinsicPayloadValues;
   transactionExtensionVersion?: number;
 }
+
+interface VerifySignature extends Enum {
+    readonly isSigned: boolean;
+    readonly asSigned: {
+      readonly signature: Ed25519Signature | Sr25519Signature | EcdsaSignature;
+      readonly account: Address;
+    } & Struct;
+    readonly isDisabled: boolean;
+    readonly type: 'Signed' | 'Disabled';
+  }
 
 function decodeU8a (u8a: Uint8Array) {
   if (!u8a.length) {
@@ -168,6 +180,36 @@ export class GeneralExtrinsic extends Struct {
     return this.#preamble;
   }
 
+  /**
+   * @description Check if this extrinsic is signed
+   */
+  public get isSigned (): boolean {
+    // Check if VerifySignature extension is present and signed
+    console.log("About to read")
+    const verifySignatureRaw = this.get('VerifySignature') ;
+    console.log("Reading Raw", verifySignatureRaw)
+
+    const verifySignature = verifySignatureRaw as VerifySignature
+    console.log("Reading Casted", verifySignatureRaw)
+    return !!(verifySignature && (verifySignature ).isSigned);
+  }
+
+  /**
+   * @description Get the signature from the VerifySignature extension
+   */
+  public get signature () {
+    const verifySignature = this.get('VerifySignature') as VerifySignature;
+    return verifySignature?.isSigned ? verifySignature.asSigned.signature : null;
+  }
+
+  /**
+   * @description Get the signer from the VerifySignature extension
+   */
+  public get signer () {
+    const verifySignature = this.get('VerifySignature') as VerifySignature;
+    return verifySignature?.isSigned ? verifySignature.asSigned.account as unknown as Address : null;
+  }
+
   public override toHex (isBare?: boolean): HexString {
     return u8aToHex(this.toU8a(isBare));
   }
@@ -190,19 +232,116 @@ export class GeneralExtrinsic extends Struct {
     return u8aConcat(new Uint8Array([this.version | this.preamble]), super.toU8a());
   }
 
-  public signFake () {
-    throw new Error('Extrinsic: Type GeneralExtrinsic does not have signFake implemented');
+  /**
+   * @description Create a payload for signing (excluding VerifySignature extension)
+   */
+  private createSignPayload (options: SignatureOptions): Uint8Array {
+    // Create payload with all transaction extensions except VerifySignature
+    const payloadData = {
+      method: this.method.toHex(),
+      era: options.era?.toHex() || '0x00',
+      nonce: options.nonce,
+      tip: options.tip || 0,
+      transactionVersion: options.runtimeVersion.transactionVersion,
+      specVersion: options.runtimeVersion.specVersion,
+      genesisHash: options.genesisHash,
+      blockHash: options.blockHash,
+      assetId: options.assetId,
+      mode: options.mode,
+      metadataHash: options.metadataHash
+    };
+
+    // Encode the payload data
+    const methodBytes = this.registry.createType('Bytes', payloadData.method);
+    const eraBytes = this.registry.createType('ExtrinsicEra', payloadData.era);
+    const nonceBytes = this.registry.createType('Compact<u32>', payloadData.nonce);
+    const tipBytes = this.registry.createType('Compact<u128>', payloadData.tip);
+    const txVersionBytes = this.registry.createType('u32', payloadData.transactionVersion);
+    const specVersionBytes = this.registry.createType('u32', payloadData.specVersion);
+    const genesisHashBytes = this.registry.createType('Hash', payloadData.genesisHash);
+    const blockHashBytes = this.registry.createType('Hash', payloadData.blockHash);
+
+    // Concatenate all the transaction extension values (excluding VerifySignature)
+    return u8aConcat(
+      methodBytes.toU8a(true), // Critical: method without length prefix
+      eraBytes.toU8a(),
+      nonceBytes.toU8a(),
+      tipBytes.toU8a(),
+      txVersionBytes.toU8a(),
+      specVersionBytes.toU8a(),
+      genesisHashBytes.toU8a(),
+      blockHashBytes.toU8a()
+    );
   }
 
-  public addSignature () {
-    throw new Error('Extrinsic: Type GeneralExtrinsic does not have addSignature implemented');
+  /**
+   * @description Sign the extrinsic with a specific keypair
+   */
+  public sign (account: IKeyringPair, options: SignatureOptions): GeneralExtrinsic {
+    if (!account?.addressRaw) {
+      throw new Error(`Expected a valid keypair for signing, found ${account}`);
+    }
+
+    // Create the payload for signing (excluding VerifySignature)
+    const payload = this.createSignPayload(options);
+
+    // Sign the payload
+    const signature = sign(this.registry, account, payload);
+
+    // Create the VerifySignature extension with the signature
+    const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
+      Signed: {
+        signature: signature,
+        account: account.addressRaw
+      }
+    });
+
+    // Set the VerifySignature extension
+    this.set('VerifySignature', verifySignature);
+
+    return this;
   }
 
-  public sign () {
-    throw new Error('Extrinsic: Type GeneralExtrinsic does not have sign implemented');
+  /**
+   * @description Add a fake signature to the extrinsic
+   */
+  public signFake (signer: string | Uint8Array | Address): GeneralExtrinsic {
+    if (!signer) {
+      throw new Error(`Expected a valid address for signing, found ${signer}`);
+    }
+
+    // Create a fake signature
+    const fakeSignature = new Uint8Array(256).fill(1);
+
+    // Create the VerifySignature extension with the fake signature
+    const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
+      Signed: {
+        signature: fakeSignature,
+        account: signer
+      }
+    });
+
+    // Set the VerifySignature extension
+    this.set('VerifySignature', verifySignature);
+
+    return this;
   }
 
-  public signature () {
-    throw new Error('Extrinsic: Type GeneralExtrinsic does not have the signature getter');
+  /**
+   * @description Add an already-generated signature to the extrinsic
+   */
+  public addSignature (signer: string | Uint8Array | Address, signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): GeneralExtrinsic {
+    // Create the VerifySignature extension with the provided signature
+    const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
+      Signed: {
+        signature: signature,
+        account: signer
+      }
+    });
+
+    // Set the VerifySignature extension
+    this.set('VerifySignature', verifySignature);
+
+    return this;
   }
 }

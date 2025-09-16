@@ -207,8 +207,8 @@ interface ExtrinsicSignatureBase {
   readonly isSigned: boolean;
   readonly era: IExtrinsicEra;
   readonly nonce: ICompact<INumber>;
-  readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature;
-  readonly signer: Address;
+  readonly signature: EcdsaSignature | Ed25519Signature | Sr25519Signature | null;
+  readonly signer: Address | null;
   readonly tip: ICompact<INumber>;
 }
 

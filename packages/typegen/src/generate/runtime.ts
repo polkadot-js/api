@@ -42,7 +42,8 @@ const aliases: Record<string, string> = {
   SpCoreOpaqueMetadata: 'OpaqueMetadata',
   SpRuntimeOpaqueValue: 'Bytes',
   SpRuntimeUncheckedExtrinsic: 'Extrinsic',
-  StagingKusamaRuntimeRuntimeCall: 'RuntimeCall'
+  StagingKusamaRuntimeRuntimeCall: 'RuntimeCall',
+  PalletVerifySignatureExtensionVerifySignature: 'VerifySignature'
 };
 
 const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {

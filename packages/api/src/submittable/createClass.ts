@@ -18,6 +18,7 @@ import { identity, isBn, isFunction, isNumber, isString, isU8a, objectSpread } f
 
 import { filterEvents, isKeyringPair } from '../util/index.js';
 import { SubmittableResult } from './Result.js';
+import { DEFAULT_PREAMBLE } from '@polkadot/types/extrinsic/constants';
 
 interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
@@ -362,7 +363,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         }
 
         if (result.signedTransaction && options.withSignedTransaction) {
-          const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction]);
+          const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [result.signedTransaction, {preamble:DEFAULT_PREAMBLE, version:5}]);
           const newSignerPayload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, {
             address,
             assetId: ext.assetId && ext.assetId.isSome ? ext.assetId.toHex() : null,

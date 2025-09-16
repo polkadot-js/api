@@ -99,7 +99,7 @@ export function accountExtrinsics (instanceId: string, api: DeriveApi): (at: Has
         blockHash: block.hash.toHex(),
         blockNumber: block.block.header.number.toNumber(),
         extrinsics: block.block.extrinsics.filter((ext, index) => {
-          if (ext.signer.toString() === accountId) {
+          if (ext.signer?.toString() === accountId) {
             indexes.push(index);
 
             return true;

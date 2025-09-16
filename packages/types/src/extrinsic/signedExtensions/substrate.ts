@@ -30,8 +30,16 @@ const ChargeTransactionPayment: ExtInfo = {
   payload: {}
 };
 
+const VerifySignature: ExtInfo = {
+  extrinsic: {
+    VerifySignature: 'PalletVerifySignatureExtensionVerifySignature'
+  },
+  payload: {}
+};
+
 export const substrate: ExtDef = {
   ChargeTransactionPayment,
+  VerifySignature,
   CheckBlockGasLimit: emptyCheck,
   CheckEra: CheckMortality,
   CheckGenesis: {

@@ -138,7 +138,7 @@ describe('ApiPromise', (): void => {
     it('signs a transfer using an external signer', async (): Promise<void> => {
       const { api, transfer } = await createTransfer();
 
-      expect(transfer.signature.toHex()).toEqual(TRANSFER_SIG);
+      expect(transfer.signature?.toHex()).toEqual(TRANSFER_SIG);
 
       await api.disconnect();
     });
@@ -148,8 +148,8 @@ describe('ApiPromise', (): void => {
     it('allows construction from existing extrinsic', async (): Promise<void> => {
       const { api, transfer } = await createTransfer();
 
-      expect(api.tx(transfer.toHex()).signature.toHex()).toEqual(TRANSFER_SIG);
-      expect(api.tx(transfer).signature.toHex()).toEqual(TRANSFER_SIG);
+      expect(api.tx(transfer.toHex()).signature?.toHex()).toEqual(TRANSFER_SIG);
+      expect(api.tx(transfer).signature?.toHex()).toEqual(TRANSFER_SIG);
 
       await api.disconnect();
     });
