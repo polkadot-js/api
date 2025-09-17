@@ -71,22 +71,9 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
       this.abi.findConstructor(constructorOrId).toU8a(params),
       encodeSalt(salt)
     ).withResultTransform((result: ISubmittableResult) =>
-      new BlueprintSubmittableResult(result,
-        this._isRevive
-          ? (
-            (result.status.isInBlock || result.status.isFinalized)
-              ? new Contract<ApiType>(
-                this.api,
-                this.abi,
-                // your fixed address for revive deployments
-                this.registry.createType('AccountId', '0x'),
-                this._decorateMethod
-              )
-              : undefined
-          )
-          : applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
-            new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod), this._isRevive
-          )
+      new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
+        new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod), this._isRevive
+      )
       )
     );
   };
