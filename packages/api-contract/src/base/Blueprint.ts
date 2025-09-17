@@ -72,9 +72,9 @@ export class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
       encodeSalt(salt)
     ).withResultTransform((result: ISubmittableResult) =>
       new BlueprintSubmittableResult(result, applyOnEvent(result, ['Instantiated'], ([record]: EventRecord[]) =>
-              new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod), this._isRevive
-            )
-          )
+        new Contract<ApiType>(this.api, this.abi, record.event.data[1] as AccountId, this._decorateMethod), this._isRevive
+      )
+      )
     );
   };
 }

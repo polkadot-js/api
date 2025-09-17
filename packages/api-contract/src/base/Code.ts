@@ -91,17 +91,16 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
                 this.api.events.revive['Instantiated'].is(event)
                   ? [
                     blueprint,
-                      new Contract<ApiType>(
-                        this.api,
-                        this.abi,
-                        (event as unknown as { data: [Codec, AccountId] }).data[1],
-                        this._decorateMethod
-                      )
-                    ]
+                    new Contract<ApiType>(
+                      this.api,
+                      this.abi,
+                      (event as unknown as { data: [Codec, AccountId] }).data[1],
+                      this._decorateMethod
+                    )
+                  ]
                   : [blueprint, contract],
               [undefined, undefined]
-            ),
-            this._isRevive
+            ), this._isRevive
           ) || [undefined, undefined])
         )
       );
