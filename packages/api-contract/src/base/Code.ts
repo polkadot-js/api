@@ -85,8 +85,24 @@ export class Code<ApiType extends ApiTypes> extends Base<ApiType> {
       ).withResultTransform((result: ISubmittableResult) =>
         new CodeSubmittableResult(
           result,
-          new Blueprint<ApiType>(this.api, this.abi, this.abi.info.source.hash, this._decorateMethod),
-          new Contract<ApiType>(this.api, this.abi, '0x', this._decorateMethod)
+          ...(applyOnEvent(result, ['Instantiated'], (records: EventRecord[]) =>
+            records.reduce<[Blueprint<ApiType> | undefined, Contract<ApiType> | undefined]>(
+              ([blueprint, contract], { event }) =>
+                this.api.events.revive['Instantiated'].is(event)
+                  ? [
+                    blueprint,
+                      new Contract<ApiType>(
+                        this.api,
+                        this.abi,
+                        (event as unknown as { data: [Codec, AccountId] }).data[1],
+                        this._decorateMethod
+                      )
+                    ]
+                  : [blueprint, contract],
+              [undefined, undefined]
+            ),
+            this._isRevive
+          ) || [undefined, undefined])
         )
       );
     }
