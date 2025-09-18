@@ -9,6 +9,7 @@ import type { ExtrinsicOptions, Preamble } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
+import { GeneralExtrinsic } from './GeneralExtrinsic.js';
 
 export const EXTRINSIC_VERSION = 5;
 
@@ -101,8 +102,8 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    *
    * [Disabled for ExtrinsicV5]
    */
-  public sign (_account: IKeyringPair, _options: SignatureOptions): GenericExtrinsicV5 {
-    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
+  public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsicV5 {
+    return new GeneralExtrinsic(this.registry ).sign(account, options) as unknown as GenericExtrinsicV5
   }
 
   /**
