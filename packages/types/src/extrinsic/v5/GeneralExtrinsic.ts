@@ -68,7 +68,7 @@ function decodeU8a (u8a: Uint8Array) {
   return data.subarray(1);
 }
 
-export class GeneralExtrinsic extends Struct {
+export class GeneralExtrinsic extends Struct{
   #version: number;
   #preamble: number;
 
@@ -190,12 +190,9 @@ export class GeneralExtrinsic extends Struct {
    */
   public get isSigned (): boolean {
     // Check if VerifySignature extension is present and signed
-    console.log("About to read")
     const verifySignatureRaw = this.get('VerifySignature') ;
-    console.log("Reading Raw", verifySignatureRaw)
 
     const verifySignature = verifySignatureRaw as VerifySignature
-    console.log("Reading Casted", verifySignatureRaw)
     return !!(verifySignature && (verifySignature ).isSigned);
   }
 
@@ -293,16 +290,16 @@ export class GeneralExtrinsic extends Struct {
     // Sign the payload
     const signature = sign(this.registry, account, payload, {withType:true});
     const signatureType =  this.registry.createType('ExtrinsicSignature', signature);
+
     // Create the VerifySignature extension with the signature
-    const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
+    this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
       Signed: {
         signature: signatureType,
         account: toAddress(this.registry, account.addressRaw ).toHex(),
       }
     });
 
-    // Set the VerifySignature extension
-    console.log( "Creation successful:", verifySignature.toHuman())
+    console.log(this.toHuman())
     return this;
   }
 

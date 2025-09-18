@@ -5,7 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { ExtrinsicSignatureV5 } from '../../interfaces/extrinsics/index.js';
 import type { Address, Call } from '../../interfaces/runtime/index.js';
 import type { ExtrinsicPayloadValue, IExtrinsicV5Impl, IKeyringPair, Registry, SignatureOptions } from '../../types/index.js';
-import type { ExtrinsicOptions, Preamble } from '../types.js';
+import type { Preamble } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
@@ -24,12 +24,12 @@ export interface ExtrinsicValueV5 {
  * The fourth generation of compact extrinsics
  */
 export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
-  constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV5 | Call, { isSigned }: Partial<ExtrinsicOptions> = {}) {
+  constructor (registry: Registry, value?: Uint8Array | ExtrinsicValueV5 | Call) {
     super(registry, {
       signature: 'ExtrinsicSignatureV5',
       // eslint-disable-next-line sort-keys
       method: 'Call'
-    }, GenericExtrinsicV5.decodeExtrinsic(registry, value, isSigned));
+    }, GenericExtrinsicV5.decodeExtrinsic(registry, value, false));
   }
 
   /** @internal */
@@ -93,10 +93,8 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    *
    * [Disabled for ExtrinsicV5]
    */
-  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
-    const extrinsic = new GeneralExtrinsic(this.registry);
-    const signed = extrinsic.addSignature(signer,signature,payload);
-    return new GenericExtrinsicV5(this.registry, signed.toU8a());
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GeneralExtrinsic {
+    return new GeneralExtrinsic(this.registry).addSignature(signer,signature,payload);
   }
 
   /**
@@ -104,22 +102,8 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    *
    * [Disabled for ExtrinsicV5]
    */
-  public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsicV5 {
-    // Handle signing for `bare` and `general` in GenericExtrinsicSignatureV5 class
-    // this.signature.sign(this.method, account,options);
-
-    // return this;
-
-
-    // ✅ fixed types
-     const extrinsic = new GeneralExtrinsic(this.registry);
-
-    const signed = extrinsic.sign(account, options);
-
-    return new GenericExtrinsicV5(this.registry, signed.toU8a(), { isSigned: true });
-
-
-   // return new GeneralExtrinsic(this.registry ).sign(account, options) as unknown as GenericExtrinsicV5
+  public sign (account: IKeyringPair, options: SignatureOptions): GeneralExtrinsic {
+    return new GeneralExtrinsic(this.registry).sign(account, options);
   }
 
   /**
@@ -127,9 +111,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    *
    * [Disabled for ExtrinsicV5]
    */
-  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsicV5 {
-    const extrinsic = new GeneralExtrinsic(this.registry);
-    const signed = extrinsic.signFake(signer, options);
-    return new GenericExtrinsicV5(this.registry, signed.toU8a());
+  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GeneralExtrinsic {
+    return new GeneralExtrinsic(this.registry).signFake(signer, options);
   }
 }

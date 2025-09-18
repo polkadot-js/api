@@ -129,7 +129,6 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   }
 
   public isGeneral () {
-    console.log(this.#preamble)
     return this.#preamble === 'general';
   }
 
@@ -181,7 +180,6 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    console.log(this.isGeneral())
     return this.isGeneral()
       ? (this.inner as unknown as GeneralExtrinsic).isSigned
       : (this.inner.signature as unknown as ExtrinsicSignatureV5).isSigned;

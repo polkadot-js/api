@@ -23,7 +23,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
   #signKeys: string[];
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV5 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
-    const signTypes = registry.getSignedExtensionTypes();
+    const signTypes = registry.getTransactionExtensionTypes();
 
     super(
       registry,
@@ -36,6 +36,8 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
     );
 
     this.#signKeys = Object.keys(signTypes);
+    console.log("Sign Keys: ", this.#signKeys)
+
 
     objectProperties(this, this.#signKeys, (k) => this.get(k));
   }

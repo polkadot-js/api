@@ -9,6 +9,7 @@ import type { Address, Call, H256, Hash } from '../interfaces/runtime/index.js';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system/index.js';
 import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } from './interfaces.js';
 import type { Registry } from './registry.js';
+import type { GeneralExtrinsic } from '../index.types.js';
 
 export interface ISubmittableResult {
   readonly dispatchError?: DispatchError | undefined;
@@ -234,10 +235,10 @@ export interface IExtrinsicSignature extends ExtrinsicSignatureBase, Codec {
   readonly registry: Registry;
 }
 
-interface IExtrinsicSignable<T> extends Codec {
-  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): T;
-  sign (account: IKeyringPair, options: SignatureOptions): T;
-  signFake (address: Address | Uint8Array | string, options: SignatureOptions): T;
+interface IExtrinsicSignable<T, R = T> extends Codec {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): R;
+  sign (account: IKeyringPair, options: SignatureOptions): R;
+  signFake (address: Address | Uint8Array | string, options: SignatureOptions): R;
 
   readonly registry: Registry;
 }
@@ -248,7 +249,7 @@ export interface IExtrinsicImpl extends IExtrinsicSignable<IExtrinsicImpl> {
   readonly version: number;
 }
 
-export interface IExtrinsicV5Impl extends IExtrinsicSignable<IExtrinsicV5Impl> {
+export interface IExtrinsicV5Impl extends IExtrinsicSignable<IExtrinsicV5Impl, GeneralExtrinsic> {
   readonly method: Call;
   readonly signature: IExtrinsicSignature;
   readonly version: number;
