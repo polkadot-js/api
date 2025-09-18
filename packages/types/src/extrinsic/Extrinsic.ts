@@ -112,7 +112,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   constructor (registry: Registry, value: ExtrinsicVx | ExtrinsicUnknown, initialU8aLength?: number, preamble: Preamble = DEFAULT_PREAMBLE) {
     super(registry, value, initialU8aLength);
 
-    if (this.version === 5 && preamble !== 'general') {
+    if (this.version === 5 && preamble === 'general') {
       const signKeys = Object.keys(registry.getTransactionExtensionTypes());
       const getter = (key: string) => (this.inner.signature as unknown as ExtrinsicSignatureV5)[key as 'signer'];
 
@@ -124,7 +124,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
     }
 
     const unmaskedPreamble = this.type & TYPE_MASK;
-    console.log("the preamble is",preamble)
+    console.log("the preamble is", preamble)
     this.#preamble = preamble || preambleUnMask[`${unmaskedPreamble}`];
   }
 
@@ -181,7 +181,6 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    console.log("isSigned")
     console.log(this.isGeneral())
     return this.isGeneral()
       ? (this.inner as unknown as GeneralExtrinsic).isSigned
