@@ -306,7 +306,7 @@ export class GeneralExtrinsic extends Struct {
   /**
    * @description Add a fake signature to the extrinsic
    */
-  public signFake (signer: string | Uint8Array | Address): GeneralExtrinsic {
+  public signFake (signer: string | Uint8Array | Address, _options: SignatureOptions): GeneralExtrinsic {
     if (!signer) {
       throw new Error(`Expected a valid address for signing, found ${signer}`);
     }

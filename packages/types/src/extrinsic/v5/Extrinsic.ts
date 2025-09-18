@@ -125,7 +125,9 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    *
    * [Disabled for ExtrinsicV5]
    */
-  public signFake (_signer: Address | Uint8Array | string, _options: SignatureOptions): GenericExtrinsicV5 {
-    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
+  public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsicV5 {
+    const extrinsic = new GeneralExtrinsic(this.registry);
+    const signed = extrinsic.signFake(signer, options);
+    return new GenericExtrinsicV5(this.registry, signed.toU8a(), { isSigned: true });
   }
 }
