@@ -93,8 +93,10 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    *
    * [Disabled for ExtrinsicV5]
    */
-  public addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
-    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
+    const extrinsic = new GeneralExtrinsic(this.registry);
+    const signed = extrinsic.addSignature(signer,signature,payload);
+    return new GenericExtrinsicV5(this.registry, signed.toU8a());    
   }
 
   /**
@@ -128,6 +130,6 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
   public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsicV5 {
     const extrinsic = new GeneralExtrinsic(this.registry);
     const signed = extrinsic.signFake(signer, options);
-    return new GenericExtrinsicV5(this.registry, signed.toU8a(), { isSigned: true });
+    return new GenericExtrinsicV5(this.registry, signed.toU8a());
   }
 }
