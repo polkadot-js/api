@@ -103,6 +103,20 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    * [Disabled for ExtrinsicV5]
    */
   public sign (account: IKeyringPair, options: SignatureOptions): GenericExtrinsicV5 {
+    // Handle signing for `bare` and `general` in GenericExtrinsicSignatureV5 class
+    // this.signature.sign(this.method, account,options);
+
+    // return this;
+
+
+    // ✅ fixed types
+    // const extrinsic = new GeneralExtrinsic(this.registry);
+
+    // const signed = extrinsic.sign(account, options);
+
+    // return new GenericExtrinsicV5(this.registry, signed.toU8a(), { isSigned: true });
+
+   
     return new GeneralExtrinsic(this.registry ).sign(account, options) as unknown as GenericExtrinsicV5
   }
 
