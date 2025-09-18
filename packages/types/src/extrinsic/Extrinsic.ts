@@ -111,9 +111,9 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
 
   constructor (registry: Registry, value: ExtrinsicVx | ExtrinsicUnknown, initialU8aLength?: number, preamble: Preamble = DEFAULT_PREAMBLE) {
     super(registry, value, initialU8aLength);
-    const signKeys = Object.keys(registry.getSignedExtensionTypes());
 
     if (this.version === 5 && preamble !== 'general') {
+      const signKeys = Object.keys(registry.getTransactionExtensionTypes());
       const getter = (key: string) => (this.inner.signature as unknown as ExtrinsicSignatureV5)[key as 'signer'];
 
       // This is on the abstract class, ensuring that hasOwnProperty operates

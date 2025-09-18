@@ -22,8 +22,8 @@ export class GenericExtrinsicPayloadV5 extends Struct {
   constructor (registry: Registry, value?: ExtrinsicPayloadValue | Uint8Array | HexString) {
     super(registry, objectSpread(
       { method: 'Bytes' },
-      registry.getSignedExtensionTypes(),
-      registry.getSignedExtensionExtra()
+      registry.getTransactionExtensionTypes(),
+      registry.getTransactionExtensionExtra()
     ), value);
   }
 

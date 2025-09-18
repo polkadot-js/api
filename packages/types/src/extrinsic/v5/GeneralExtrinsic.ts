@@ -69,7 +69,8 @@ export class GeneralExtrinsic extends Struct {
   #preamble: number;
 
   constructor (registry: Registry, value?: GeneralExtrinsicValue | Uint8Array | HexString, opt?: { version: number }) {
-    const extTypes = registry.getSignedExtensionTypes();
+
+    const extTypes = registry.getTransactionExtensionTypes();
 
     super(registry, objectSpread(
       {

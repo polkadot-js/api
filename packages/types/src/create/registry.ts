@@ -179,6 +179,7 @@ export class TypeRegistry implements Registry {
   #signedExtensions: string[] = fallbackExtensions;
   #unknownTypes = new Map<string, boolean>();
   #userExtensions?: ExtDef | undefined;
+  #transactionExtensions: string[] = ['VerifySignature'];
 
   readonly #knownDefaults: Map<string, CodecClass>;
   readonly #knownDefaultsEntries: [string, CodecClass][];
@@ -451,7 +452,20 @@ export class TypeRegistry implements Registry {
   }
 
   public getSignedExtensionTypes (): Record<string, string> {
-    return expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
+    const ext = expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
+    console.log(ext)
+    return ext
+  }
+
+  public getTransactionExtensionExtra (): Record<string, string> {
+    const ext = expandExtensionTypes(this.#transactionExtensions, 'payload', this.#userExtensions);
+    return ext
+  }
+
+  public getTransactionExtensionTypes (): Record<string, string> {
+    const ext = expandExtensionTypes(this.#transactionExtensions, 'extrinsic', this.#userExtensions);
+    console.log(ext)
+    return ext
   }
 
   public hasClass (name: string): boolean {

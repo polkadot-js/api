@@ -74,6 +74,8 @@ export interface Registry {
   getTransactionExtensionVersion (): number;
   getSignedExtensionExtra (): Record<string, string>;
   getSignedExtensionTypes (): Record<string, string>;
+  getTransactionExtensionTypes (): Record<string, string>;
+  getTransactionExtensionExtra (): Record<string, string>;
 
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;
