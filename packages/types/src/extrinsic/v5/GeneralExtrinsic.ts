@@ -13,6 +13,10 @@ import { compactAddLength, compactFromU8a, isHex, isObject, isU8a, objectSpread,
 import { EMPTY_U8A, UNMASK_VERSION } from '../constants.js';
 import { sign } from '../util.js';
 
+function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
+  return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
+}
+
 interface TransactionExtensionValues {
   era: AnyU8a | IExtrinsicEra;
   nonce: AnyNumber;
@@ -287,19 +291,18 @@ export class GeneralExtrinsic extends Struct {
     const payload = this.createSignPayload(options);
 
     // Sign the payload
-    const signature = sign(this.registry, account, payload);
-
+    const signature = sign(this.registry, account, payload, {withType:true});
+    const signatureType =  this.registry.createType('ExtrinsicSignature', signature);
     // Create the VerifySignature extension with the signature
     const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
       Signed: {
-        signature: signature,
-        account: account.addressRaw
+        signature: signatureType,
+        account: toAddress(this.registry, account.addressRaw ).toHex(),
       }
     });
 
     // Set the VerifySignature extension
-    this.set('VerifySignature', verifySignature);
-
+    console.log( "Creation successful:", verifySignature.toHuman())
     return this;
   }
 

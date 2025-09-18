@@ -453,7 +453,6 @@ export class TypeRegistry implements Registry {
 
   public getSignedExtensionTypes (): Record<string, string> {
     const ext = expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
-    console.log(ext)
     return ext
   }
 
@@ -464,7 +463,6 @@ export class TypeRegistry implements Registry {
 
   public getTransactionExtensionTypes (): Record<string, string> {
     const ext = expandExtensionTypes(this.#transactionExtensions, 'extrinsic', this.#userExtensions);
-    console.log(ext)
     return ext
   }
 

@@ -123,8 +123,8 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
       }
     }
 
-    const unmaskedPreamble = this.type & TYPE_MASK;
     console.log("the preamble is", preamble)
+    const unmaskedPreamble = this.type & TYPE_MASK;
     this.#preamble = preamble || preambleUnMask[`${unmaskedPreamble}`];
   }
 
