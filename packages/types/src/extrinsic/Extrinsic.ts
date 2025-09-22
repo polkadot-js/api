@@ -62,7 +62,6 @@ function newFromValue (registry: Registry, value: any, version: number, preamble
     return value.unwrap();
   }
 
-  console.log(preamble)
   const isSigned = (version & BIT_SIGNED) === BIT_SIGNED;
   const type = (version & VERSION_MASK) === 5 ? PREAMBLE[preamble] : VERSIONS[version & VERSION_MASK] || VERSIONS[0];
 
@@ -129,7 +128,6 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
   }
 
   public isGeneral () {
-    console.log(this.#preamble)
     return this.#preamble === 'general';
   }
 
@@ -181,7 +179,6 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
    * @description `true` id the extrinsic is signed
    */
   public get isSigned (): boolean {
-    console.log(this.isGeneral())
     return this.isGeneral()
       ? (this.inner as unknown as GeneralExtrinsic).isSigned
       : (this.inner.signature as unknown as ExtrinsicSignatureV5).isSigned;

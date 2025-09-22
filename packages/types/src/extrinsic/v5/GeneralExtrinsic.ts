@@ -74,7 +74,7 @@ export class GeneralExtrinsic extends Struct {
 
   constructor (registry: Registry, value?: GeneralExtrinsicValue | Uint8Array | HexString, opt?: { version: number }) {
     const extTypes = registry.getTransactionExtensionTypes();
-    console.log("in general")
+    console.log("In GeneralExtrinsic class")
 
     super(registry, objectSpread(
       {
