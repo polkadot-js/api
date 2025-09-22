@@ -113,6 +113,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
 
     if (this.version === 5 && preamble === 'general') {
       const signKeys = Object.keys(registry.getTransactionExtensionTypes());
+      console.log("sign keys here:", signKeys);
       const getter = (key: string) => (this.inner.signature as unknown as ExtrinsicSignatureV5)[key as 'signer'];
 
       // This is on the abstract class, ensuring that hasOwnProperty operates
@@ -290,7 +291,7 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
     if (this.type <= LOWEST_SUPPORTED_EXTRINSIC_FORMAT_VERSION) {
       return this.type | (this.isSigned ? BIT_SIGNED : BIT_UNSIGNED);
     } else {
-      if (this.isSigned) {
+      if (this.isSigned && this.type > 5) {
         throw new Error('Signed Extrinsics are currently only available for ExtrinsicV4 and ExtrinsicV5');
       }
 

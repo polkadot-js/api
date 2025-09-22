@@ -13,6 +13,7 @@ import { objectProperties, objectSpread } from '@polkadot/util';
 
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants.js';
 import { GenericExtrinsicPayloadV5 } from './ExtrinsicPayload.js';
+import type { VerifySignature } from './GeneralExtrinsic.js';
 
 /**
  * @name GenericExtrinsicSignatureV5
@@ -23,13 +24,15 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
   #signKeys: string[];
 
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV5 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
-    const signTypes = registry.getSignedExtensionTypes();
+    const signTypes = registry.getTransactionExtensionTypes();
+
+    console.log("in ExtrinsicSignature", value, signTypes)
 
     super(
       registry,
       objectSpread(
         // eslint-disable-next-line sort-keys
-        { signer: 'Address', signature: 'ExtrinsicSignature', transactionExtensionVersion: 'u8' },
+        { transactionExtensionVersion: 'u8' },
         signTypes
       ),
       GenericExtrinsicSignatureV5.decodeExtrinsicSignature(value, isSigned)
@@ -47,6 +50,8 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
     } else if (value instanceof GenericExtrinsicSignatureV5) {
       return value;
     }
+
+    console.log('decoding signature here', isSigned, value)
 
     return isSigned
       ? value
@@ -95,14 +100,26 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
    * @description The raw [[ExtrinsicSignature]]
    */
   public get multiSignature (): ExtrinsicSignature {
-    return this.getT('signature');
+    const verifySignature = this.get('VerifySignature') as VerifySignature;
+
+    if (verifySignature.isSigned) {
+      return verifySignature.asSigned.signature as unknown as ExtrinsicSignature;
+    }
+
+    return this.registry.createType('ExtrinsicSignature');
   }
 
   /**
    * @description The [[Address]] that signed
    */
   public get signer (): Address {
-    return this.getT('signer');
+    const verifySignature = this.get('VerifySignature') as VerifySignature;
+
+    if (verifySignature.isSigned) {
+      return verifySignature.asSigned.account;
+    }
+
+    return this.registry.createType('Address');
   }
 
   /**
@@ -193,8 +210,6 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    return this.isSigned
-      ? super.toU8a(isBare)
-      : EMPTY_U8A;
+    return super.toU8a(isBare);
   }
 }

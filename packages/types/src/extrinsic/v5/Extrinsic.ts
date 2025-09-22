@@ -39,10 +39,15 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
     } else if (value instanceof registry.createClassUnsafe<Call>('Call')) {
       return { method: value };
     } else if (isU8a(value)) {
+
+      console.log('lets go 🚀', value)
+
       // here we decode manually since we need to pull through the version information
       const signature = registry.createTypeUnsafe<ExtrinsicSignatureV5>('ExtrinsicSignatureV5', [value, { isSigned }]);
       // We add 2 here since the length of the TransactionExtension Version needs to be accounted for
       const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
+
+      console.log(signature.toHuman(), method.toHuman());
 
       return {
         method,
@@ -115,6 +120,10 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
      const extrinsic = new GeneralExtrinsic(this.registry);
 
     const signed = extrinsic.sign(account, options);
+
+    // signed.delete('method');
+
+    console.log("signed human", signed.toHuman())
 
     return new GenericExtrinsicV5(this.registry, signed.toU8a(), { isSigned: true });
 

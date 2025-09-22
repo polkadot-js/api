@@ -11,7 +11,7 @@ import { Enum, Struct } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, isHex, isObject, isU8a, objectSpread, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { EMPTY_U8A, UNMASK_VERSION } from '../constants.js';
-import { sign } from '../util.js';
+import { signV5 } from '../util.js';
 
 function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
   return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
@@ -36,7 +36,7 @@ interface GeneralExtrinsicValue {
   transactionExtensionVersion?: number;
 }
 
-interface VerifySignature extends Enum {
+export interface VerifySignature extends Enum {
     readonly isSigned: boolean;
     readonly asSigned: {
       readonly signature: Ed25519Signature | Sr25519Signature | EcdsaSignature;
@@ -44,8 +44,8 @@ interface VerifySignature extends Enum {
     } & Struct;
     readonly isDisabled: boolean;
     readonly type: 'Signed' | 'Disabled';
-  }
-
+}
+  
 function decodeU8a (u8a: Uint8Array) {
   if (!u8a.length) {
     return new Uint8Array();
@@ -74,7 +74,7 @@ export class GeneralExtrinsic extends Struct {
 
   constructor (registry: Registry, value?: GeneralExtrinsicValue | Uint8Array | HexString, opt?: { version: number }) {
     const extTypes = registry.getTransactionExtensionTypes();
-    console.log("In GeneralExtrinsic class")
+    console.log("In GeneralExtrinsic class", extTypes)
 
     super(registry, objectSpread(
       {
@@ -291,7 +291,7 @@ export class GeneralExtrinsic extends Struct {
     const payload = this.createSignPayload(options);
 
     // Sign the payload
-    const signature = sign(this.registry, account, payload, {withType:true});
+    const signature = signV5(this.registry, account, payload, {withType:true});
     const signatureType =  this.registry.createType('ExtrinsicSignature', signature);
     // Create the VerifySignature extension with the signature
     const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
@@ -300,6 +300,8 @@ export class GeneralExtrinsic extends Struct {
         account: toAddress(this.registry, account.addressRaw ).toHex(),
       }
     });
+
+    this.set('VerifySignature', verifySignature);
 
     // Set the VerifySignature extension
     console.log( "Creation successful:", verifySignature.toHuman())
@@ -334,7 +336,7 @@ export class GeneralExtrinsic extends Struct {
   /**
    * @description Add an already-generated signature to the extrinsic
    */
-  public addSignature (signer: string | Uint8Array | Address, signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): GeneralExtrinsic {
+  public addSignature (signer: string | Uint8Array | Address, signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): GeneralExtrinsic {    
     // Create the VerifySignature extension with the provided signature
     const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
       Signed: {
