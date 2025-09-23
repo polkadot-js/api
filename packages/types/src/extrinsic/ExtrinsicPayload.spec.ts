@@ -6,7 +6,7 @@
 import { u8aToHex } from '@polkadot/util';
 
 import { TypeRegistry } from '../create/index.js';
-import { fallbackExtensions } from './signedExtensions/index.js';
+import { fallbackSignedExtensions } from './signedExtensions/index.js';
 import { GenericExtrinsicPayload as ExtrinsicPayload } from './index.js';
 
 describe('ExtrinsicPayload', (): void => {
@@ -53,7 +53,7 @@ describe('ExtrinsicPayload', (): void => {
   it('handles assetId correctly', () => {
     const reg = new TypeRegistry();
 
-    reg.setSignedExtensions(fallbackExtensions.concat(['ChargeAssetTxPayment']));
+    reg.setSignedExtensions(fallbackSignedExtensions.concat(['ChargeAssetTxPayment']));
     const ext = new ExtrinsicPayload(reg, TEST_WITH_ASSET, { version: 4 });
     // remove option byte
     const ext2 = new ExtrinsicPayload(reg, { ...TEST_WITH_ASSET, assetId: `0x${TEST_WITH_ASSET.assetId.slice(4)}` }, { version: 4 });
@@ -99,7 +99,7 @@ describe('ExtrinsicPayload', (): void => {
   it('has a sane inspect of an empty value', (): void => {
     const reg = new TypeRegistry();
 
-    reg.setSignedExtensions(fallbackExtensions.concat(['ChargeAssetTxPayment']));
+    reg.setSignedExtensions(fallbackSignedExtensions.concat(['ChargeAssetTxPayment']));
     expect(new ExtrinsicPayload(reg, undefined).inspect()).toEqual({
       inner: [
         { name: 'method', outer: [new Uint8Array()] },

@@ -592,7 +592,7 @@ export class TypeRegistry implements Registry {
   };
 
   // sets the metadata
-  public setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef, noInitWarn?: boolean): void {
+  public setMetadata (metadata: Metadata, extensions?: string[], userExtensions?: ExtDef, noInitWarn?: boolean): void {
     this.#metadata = metadata.asLatest;
     this.#metadataVersion = metadata.version;
     this.#firstCallIndex = null;
@@ -620,17 +620,23 @@ export class TypeRegistry implements Registry {
       }
     }
 
-    // setup the available extensions
-    this.setSignedExtensions(
-      signedExtensions || (
-        this.#metadata.extrinsic.versions.length > 0 && this.#metadata.extrinsic.versions.every((value) => value > 0)
-          // FIXME Use the extension and their injected types
-          ? this.#metadata.extrinsic.transactionExtensions.map(({ identifier }) => identifier.toString())
-          : fallbackExtensions
-      ),
-      userExtensions,
-      noInitWarn
-    );
+    if (metadata.version < 16){
+      // setup the available extensions
+      this.setSignedExtensions(
+        extensions || (
+          this.#metadata.extrinsic.versions.length > 0 && this.#metadata.extrinsic.versions.every((value) => value > 0)
+            // FIXME Use the extension and their injected types
+            ? this.#metadata.extrinsic.transactionExtensions.map(({ identifier }) => identifier.toString())
+            : fallbackSignedExtensions
+        ),
+        userExtensions,
+        noInitWarn
+      );
+    }else {
+      this.setTransactionExtensions( extensions, userExtensions,
+        noInitWarn)
+    }
+
 
     // setup the chain properties with format overrides
     this.setChainProperties(
@@ -639,7 +645,7 @@ export class TypeRegistry implements Registry {
   }
 
   // sets the available signed extensions
-  setSignedExtensions (signedExtensions: string[] = fallbackExtensions, userExtensions?: ExtDef, noInitWarn?: boolean): void {
+  setSignedExtensions (signedExtensions: string[] = fallbackSignedExtensions, userExtensions?: ExtDef, noInitWarn?: boolean): void {
     this.#signedExtensions = signedExtensions;
     this.#userExtensions = userExtensions;
 
@@ -651,4 +657,20 @@ export class TypeRegistry implements Registry {
       }
     }
   }
+
+  //sets the avalilable transaction extensions
+  setTransactionExtensions (transactionExtensions: string[] = fallbackTransactionExtensions, userExtensions?: ExtDef, noInitWarn?: boolean): void {
+    this.#transactionExtensions = transactionExtensions;
+    this.#userExtensions = userExtensions;
+
+    if (!noInitWarn) {
+      const unknown = findUnknownExtensions(this.#signedExtensions, this.#userExtensions);
+
+      if (unknown.length) {
+        l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);
+      }
+    }
+  }
+
+
 }

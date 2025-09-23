@@ -7,7 +7,7 @@ import rpcMetadata from '@polkadot/types-support/metadata/static-substrate';
 
 import { TypeRegistry } from '../../create/index.js';
 import { decorateExtrinsics, Metadata } from '../../metadata/index.js';
-import { fallbackExtensions } from '../signedExtensions/index.js';
+import { fallbackSignedExtensions } from '../signedExtensions/index.js';
 import { GenericExtrinsicPayloadV4 as ExtrinsicPayload } from './index.js';
 
 const registry = new TypeRegistry();
@@ -54,7 +54,7 @@ describe('ExtrinsicPayload', (): void => {
 
     const reg = new TypeRegistry();
 
-    reg.setSignedExtensions(fallbackExtensions.concat(['ChargeAssetTxPayment']));
+    reg.setSignedExtensions(fallbackSignedExtensions.concat(['ChargeAssetTxPayment']));
     const ext = new ExtrinsicPayload(reg, TEST_VALUE);
 
     expect(ext.assetId.toJSON()).toEqual({
