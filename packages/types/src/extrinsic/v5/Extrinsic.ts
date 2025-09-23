@@ -9,6 +9,7 @@ import type { ExtrinsicOptions, Preamble } from '../types.js';
 
 import { Struct } from '@polkadot/types-codec';
 import { isU8a } from '@polkadot/util';
+
 import { GeneralExtrinsic } from './GeneralExtrinsic.js';
 
 export const EXTRINSIC_VERSION = 5;
@@ -39,13 +40,12 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
     } else if (value instanceof registry.createClassUnsafe<Call>('Call')) {
       return { method: value };
     } else if (isU8a(value)) {
-
-      console.log('lets go 🚀', value)
+      console.log('lets go 🚀', value);
 
       // here we decode manually since we need to pull through the version information
       const signature = registry.createTypeUnsafe<ExtrinsicSignatureV5>('ExtrinsicSignatureV5', [value, { isSigned }]);
 
-      console.log(signature, 'signature is working now...')
+      console.log(signature, 'signature is working now...');
 
       // We add 2 here since the length of the TransactionExtension Version needs to be accounted for
       const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
@@ -103,7 +103,8 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
    */
   public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): GenericExtrinsicV5 {
     const extrinsic = new GeneralExtrinsic(this.registry);
-    const signed = extrinsic.addSignature(signer,signature,payload);
+    const signed = extrinsic.addSignature(signer, signature, payload);
+
     return new GenericExtrinsicV5(this.registry, signed.toU8a());
   }
 
@@ -118,30 +119,28 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
 
     // return this;
 
-    console.log(this.method.toHuman(), 'in bare, this.method')
-
+    console.log(this.method.toHuman(), 'in bare, this.method');
 
     // ✅ fixed types
-     const extrinsic = new GeneralExtrinsic(this.registry, {
-        // @ts-ignore
-        payload: {
-          // ...options,
-          // era: this.registry.createType('ExtrinsicEra', options.era?.toHex()),
-          method: this.method.toHex(),
-          // transactionVersion: this.registry.getTransactionExtensionVersion()
-        }
-      });
+    const extrinsic = new GeneralExtrinsic(this.registry, {
+      // @ts-expect-error TODO: fix it later
+      payload: {
+        // ...options,
+        // era: this.registry.createType('ExtrinsicEra', options.era?.toHex()),
+        method: this.method.toHex()
+        // transactionVersion: this.registry.getTransactionExtensionVersion()
+      }
+    });
 
     const signed = extrinsic.sign(account, options);
 
     // signed.delete('method');
 
-    console.log("signed human", signed.toHuman())
+    console.log('signed human', signed.toHuman());
 
     return new GenericExtrinsicV5(this.registry, signed.toU8a(true), { isSigned: true });
 
-
-   // return new GeneralExtrinsic(this.registry ).sign(account, options) as unknown as GenericExtrinsicV5
+    // return new GeneralExtrinsic(this.registry ).sign(account, options) as unknown as GenericExtrinsicV5
   }
 
   /**
@@ -152,6 +151,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
   public signFake (signer: Address | Uint8Array | string, options: SignatureOptions): GenericExtrinsicV5 {
     const extrinsic = new GeneralExtrinsic(this.registry);
     const signed = extrinsic.signFake(signer, options);
+
     return new GenericExtrinsicV5(this.registry, signed.toU8a());
   }
 }

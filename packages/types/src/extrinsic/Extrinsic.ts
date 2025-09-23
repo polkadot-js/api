@@ -113,7 +113,8 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
 
     if (this.version === 5 && preamble === 'general') {
       const signKeys = Object.keys(registry.getTransactionExtensionTypes());
-      console.log("sign keys here:", signKeys);
+
+      console.log('sign keys here:', signKeys);
       const getter = (key: string) => (this.inner.signature as unknown as ExtrinsicSignatureV5)[key as 'signer'];
 
       // This is on the abstract class, ensuring that hasOwnProperty operates
@@ -123,8 +124,9 @@ abstract class ExtrinsicBase<A extends AnyTuple> extends AbstractBase<ExtrinsicV
       }
     }
 
-    console.log("the preamble is", preamble)
+    console.log('the preamble is', preamble);
     const unmaskedPreamble = this.type & TYPE_MASK;
+
     this.#preamble = preamble || preambleUnMask[`${unmaskedPreamble}`];
   }
 

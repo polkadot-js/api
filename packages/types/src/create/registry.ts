@@ -453,17 +453,20 @@ export class TypeRegistry implements Registry {
 
   public getSignedExtensionTypes (): Record<string, string> {
     const ext = expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
-    return ext
+
+    return ext;
   }
 
   public getTransactionExtensionExtra (): Record<string, string> {
     const ext = expandExtensionTypes(this.#transactionExtensions, 'payload', this.#userExtensions);
-    return ext
+
+    return ext;
   }
 
   public getTransactionExtensionTypes (): Record<string, string> {
     const ext = expandExtensionTypes(this.#transactionExtensions, 'extrinsic', this.#userExtensions);
-    return ext
+
+    return ext;
   }
 
   public hasClass (name: string): boolean {

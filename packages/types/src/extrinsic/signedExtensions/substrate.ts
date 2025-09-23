@@ -39,7 +39,6 @@ const VerifySignature: ExtInfo = {
 
 export const substrate: ExtDef = {
   ChargeTransactionPayment,
-  VerifySignature,
   CheckBlockGasLimit: emptyCheck,
   CheckEra: CheckMortality,
   CheckGenesis: {
@@ -79,5 +78,6 @@ export const substrate: ExtDef = {
   LockStakingStatus: emptyCheck,
   SkipCheckIfFeeless: ChargeTransactionPayment,
   ValidateEquivocationReport: emptyCheck,
+  VerifySignature,
   WeightReclaim: emptyCheck
 };

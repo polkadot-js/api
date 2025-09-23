@@ -27,6 +27,7 @@ const aliases: Record<string, string> = {
   AssetHubPolkadotRuntimeRuntimeCall: 'RuntimeCall',
   KitchensinkRuntimeRuntimeCall: 'RuntimeCall',
   OpaqueValue: 'Bytes',
+  PalletVerifySignatureExtensionVerifySignature: 'VerifySignature',
   PolkadotParachainPrimitivesPrimitivesId: 'ParaId',
   PolkadotParachainPrimitivesPrimitivesValidationCodeHash: 'ValidationCodeHash',
   PolkadotPrimitivesV7SlashingOpaqueKeyOwnershipProof: 'OpaqueKeyOwnershipProof',
@@ -42,8 +43,7 @@ const aliases: Record<string, string> = {
   SpCoreOpaqueMetadata: 'OpaqueMetadata',
   SpRuntimeOpaqueValue: 'Bytes',
   SpRuntimeUncheckedExtrinsic: 'Extrinsic',
-  StagingKusamaRuntimeRuntimeCall: 'RuntimeCall',
-  PalletVerifySignatureExtensionVerifySignature: 'VerifySignature'
+  StagingKusamaRuntimeRuntimeCall: 'RuntimeCall'
 };
 
 const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {

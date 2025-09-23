@@ -7,13 +7,17 @@ import type { EcdsaSignature, Ed25519Signature, ExtrinsicEra, ExtrinsicSignature
 import type { Address, Call, Hash } from '../../interfaces/runtime/index.js';
 import type { ExtrinsicPayloadValue, ICompact, IExtrinsicSignature, IKeyringPair, INumber, IOption, Registry, SignatureOptions } from '../../types/index.js';
 import type { ExtrinsicSignatureOptions } from '../types.js';
+import type { VerifySignature } from './GeneralExtrinsic.js';
 
 import { Struct } from '@polkadot/types-codec';
-import { objectProperties, objectSpread } from '@polkadot/util';
+import { isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
 
 import { EMPTY_U8A, IMMORTAL_ERA } from '../constants.js';
 import { GenericExtrinsicPayloadV5 } from './ExtrinsicPayload.js';
-import type { VerifySignature } from './GeneralExtrinsic.js';
+
+function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
+  return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
+}
 
 /**
  * @name GenericExtrinsicSignatureV5
@@ -26,13 +30,13 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
   constructor (registry: Registry, value?: GenericExtrinsicSignatureV5 | Uint8Array, { isSigned }: ExtrinsicSignatureOptions = {}) {
     const signTypes = registry.getTransactionExtensionTypes();
 
-    console.log("in ExtrinsicSignature", value, signTypes)
+    console.log('in ExtrinsicSignature', value, signTypes);
 
     super(
       registry,
       objectSpread(
         { transactionExtensionVersion: 'u8' },
-        signTypes,
+        signTypes
       ),
       GenericExtrinsicSignatureV5.decodeExtrinsicSignature(value, isSigned)
     );
@@ -50,7 +54,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
       return value;
     }
 
-    console.log('decoding signature here', isSigned, value.toString())
+    console.log('decoding signature here', isSigned, value.toString());
 
     return isSigned
       ? value
@@ -159,8 +163,26 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
   /**
    * [Disabled for ExtrinsicV5]
    */
-  protected _injectSignature (_signer: Address, _signature: ExtrinsicSignature, _payload: GenericExtrinsicPayloadV5): IExtrinsicSignature {
-    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
+  protected _injectSignature (signer: Address, signature: ExtrinsicSignature, payload: GenericExtrinsicPayloadV5): IExtrinsicSignature {
+    for (let i = 0, count = this.#signKeys.length; i < count; i++) {
+      const k = this.#signKeys[i];
+      const v = payload.get(k);
+
+      if (!isUndefined(v)) {
+        this.set(k, v);
+      }
+    }
+
+    const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
+      Signed: {
+        account: toAddress(this.registry, signer).toHex(),
+        signature
+      }
+    });
+
+    this.set('VerifySignature', verifySignature);
+
+    return this;
   }
 
   /**
@@ -191,8 +213,34 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
    *
    * [Disabled for ExtrinsicV5]
    */
-  public sign (_method: Call, _account: IKeyringPair, _options: SignatureOptions): IExtrinsicSignature {
-    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
+  public sign (method: Call, account: IKeyringPair, options: SignatureOptions): IExtrinsicSignature {
+    if (!account?.addressRaw) {
+      throw new Error(`Expected a valid keypair for signing, found ${stringify(account)}`);
+    }
+
+    //  // Create the payload for signing (excluding VerifySignature)
+    //     const payload = this.createSignPayload(options);
+
+    //     // Sign the payload
+    //   const signature = signV5(this.registry, account, payload, {withType:true});
+    //   const signatureType =  this.registry.createType('ExtrinsicSignature', signature);
+    //   // Create the VerifySignature extension with the signature
+    //   const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
+    //     Signed: {
+    //       signature: signatureType,
+    //       account: toAddress(this.registry, account.addressRaw ).toHex(),
+    //     }
+    //   });
+
+    //   this.set('VerifySignature', verifySignature);
+
+    const payload = this.createPayload(method, options);
+
+    return this._injectSignature(
+      toAddress(this.registry, account.addressRaw),
+      this.registry.createType('ExtrinsicSignature', [payload.sign(account)]),
+      payload
+    );
   }
 
   /**
