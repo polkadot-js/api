@@ -48,7 +48,8 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
       console.log(signature, 'signature is working now...');
 
       // We add 2 here since the length of the TransactionExtension Version needs to be accounted for
-      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
+      // HACK: Adding +1 does the trick, but I;m not sure why.
+      const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength + 1)]);
 
       console.log(signature.toHuman(), method.toHuman());
 

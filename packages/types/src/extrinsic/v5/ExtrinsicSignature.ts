@@ -10,10 +10,13 @@ import type { ExtrinsicSignatureOptions } from '../types.js';
 import type { VerifySignature } from './GeneralExtrinsic.js';
 
 import { Struct } from '@polkadot/types-codec';
-import { isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aToHex } from '@polkadot/util';
+import { isU8a, isUndefined, objectProperties, objectSpread, stringify, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { EMPTY_U8A, IMMORTAL_ERA } from '../constants.js';
+import { EMPTY_U8A } from '../constants.js';
 import { GenericExtrinsicPayloadV5 } from './ExtrinsicPayload.js';
+
+// Ensure we have enough data for all types of signatures
+const FAKE_SIGNATURE = new Uint8Array(256).fill(1);
 
 function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
   return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
@@ -175,7 +178,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
 
     const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
       Signed: {
-        account: toAddress(this.registry, signer).toHex(),
+        account: signer.toHex(),
         signature
       }
     });
@@ -190,22 +193,53 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
    *
    * [Disabled for ExtrinsicV5]
    */
-  public addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | HexString, _payload: ExtrinsicPayloadValue | Uint8Array | HexString): IExtrinsicSignature {
-    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
+  public addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | HexString, payload: ExtrinsicPayloadValue | Uint8Array | HexString): IExtrinsicSignature {
+    return this._injectSignature(
+      toAddress(this.registry, signer),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [signature]),
+      new GenericExtrinsicPayloadV5(this.registry, payload)
+    );
   }
 
   /**
    * @description Creates a payload from the supplied options
    */
   public createPayload (method: Call, options: SignatureOptions): GenericExtrinsicPayloadV5 {
-    const { era, runtimeVersion: { specVersion, transactionVersion } } = options;
-
-    return new GenericExtrinsicPayloadV5(this.registry, objectSpread<ExtrinsicPayloadValue>({}, options, {
-      era: era || IMMORTAL_ERA,
+    // Create payload with all transaction extensions except VerifySignature
+    const payloadData = {
+      assetId: options.assetId,
+      blockHash: options.blockHash,
+      era: options.era?.toHex() || '0x00',
+      genesisHash: options.genesisHash,
+      metadataHash: options.metadataHash,
       method: method.toHex(),
-      specVersion,
-      transactionVersion
-    }));
+      mode: options.mode,
+      nonce: options.nonce,
+      specVersion: options.runtimeVersion.specVersion,
+      tip: options.tip || 0,
+      transactionVersion: options.runtimeVersion.transactionVersion
+    };
+
+    // Encode the payload data
+    const methodBytes = this.registry.createType('Bytes', payloadData.method);
+    const eraBytes = this.registry.createType('ExtrinsicEra', payloadData.era);
+    const nonceBytes = this.registry.createType('Compact<u32>', payloadData.nonce);
+    const tipBytes = this.registry.createType('Compact<u128>', payloadData.tip);
+    const txVersionBytes = this.registry.createType('u32', payloadData.transactionVersion);
+    const specVersionBytes = this.registry.createType('u32', payloadData.specVersion);
+    const genesisHashBytes = this.registry.createType('Hash', payloadData.genesisHash);
+    const blockHashBytes = this.registry.createType('Hash', payloadData.blockHash);
+
+    return new GenericExtrinsicPayloadV5(this.registry, objectSpread<ExtrinsicPayloadValue>({}, u8aConcat(
+      methodBytes.toU8a(true),
+      eraBytes.toU8a(),
+      nonceBytes.toU8a(),
+      tipBytes.toU8a(),
+      txVersionBytes.toU8a(),
+      specVersionBytes.toU8a(),
+      genesisHashBytes.toU8a(),
+      blockHashBytes.toU8a()
+    )));
   }
 
   /**
@@ -218,27 +252,11 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
       throw new Error(`Expected a valid keypair for signing, found ${stringify(account)}`);
     }
 
-    //  // Create the payload for signing (excluding VerifySignature)
-    //     const payload = this.createSignPayload(options);
-
-    //     // Sign the payload
-    //   const signature = signV5(this.registry, account, payload, {withType:true});
-    //   const signatureType =  this.registry.createType('ExtrinsicSignature', signature);
-    //   // Create the VerifySignature extension with the signature
-    //   const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
-    //     Signed: {
-    //       signature: signatureType,
-    //       account: toAddress(this.registry, account.addressRaw ).toHex(),
-    //     }
-    //   });
-
-    //   this.set('VerifySignature', verifySignature);
-
     const payload = this.createPayload(method, options);
 
     return this._injectSignature(
       toAddress(this.registry, account.addressRaw),
-      this.registry.createType('ExtrinsicSignature', [payload.sign(account)]),
+      this.registry.createType('ExtrinsicSignature', payload.sign(account)),
       payload
     );
   }
@@ -248,8 +266,18 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
    *
    * [Disabled for ExtrinsicV5]
    */
-  public signFake (_method: Call, _address: Address | Uint8Array | string, _options: SignatureOptions): IExtrinsicSignature {
-    throw new Error('Extrinsic: ExtrinsicV5 does not include signing support');
+  public signFake (method: Call, address: Address | Uint8Array | string, options: SignatureOptions): IExtrinsicSignature {
+    if (!address) {
+      throw new Error(`Expected a valid address for signing, found ${stringify(address)}`);
+    }
+
+    const payload = this.createPayload(method, options);
+
+    return this._injectSignature(
+      toAddress(this.registry, address),
+      this.registry.createTypeUnsafe('ExtrinsicSignature', [FAKE_SIGNATURE]),
+      payload
+    );
   }
 
   /**

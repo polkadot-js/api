@@ -11,11 +11,7 @@ import { Struct } from '@polkadot/types-codec';
 import { compactAddLength, compactFromU8a, isHex, isObject, isU8a, objectSpread, stringify, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { EMPTY_U8A, UNMASK_VERSION } from '../constants.js';
-import { signV5 } from '../util.js';
-
-function toAddress (registry: Registry, address: Address | Uint8Array | string): Address {
-  return registry.createTypeUnsafe('Address', [isU8a(address) ? u8aToHex(address) : address]);
-}
+import { GenericExtrinsicSignatureV5 } from './ExtrinsicSignature.js';
 
 interface TransactionExtensionValues {
   era: AnyU8a | IExtrinsicEra;
@@ -102,6 +98,7 @@ export class GeneralExtrinsic extends Struct {
       const { payload, transactionExtensionVersion } = value;
 
       return objectSpread(payload || {}, {
+        VerifySignature: registry.createType('PalletVerifySignatureExtensionVerifySignature'),
         transactionExtensionVersion: transactionExtensionVersion || registry.getTransactionExtensionVersion()
       });
     }
@@ -244,50 +241,6 @@ export class GeneralExtrinsic extends Struct {
   }
 
   /**
-   * @description Create a payload for signing (excluding VerifySignature extension)
-   */
-  private createSignPayload (options: SignatureOptions): Uint8Array {
-    console.log(this.method.toHuman(), 'in general, createSignPayload');
-
-    // Create payload with all transaction extensions except VerifySignature
-    const payloadData = {
-      assetId: options.assetId,
-      blockHash: options.blockHash,
-      era: options.era?.toHex() || '0x00',
-      genesisHash: options.genesisHash,
-      metadataHash: options.metadataHash,
-      method: this.method.toHex(),
-      mode: options.mode,
-      nonce: options.nonce,
-      specVersion: options.runtimeVersion.specVersion,
-      tip: options.tip || 0,
-      transactionVersion: options.runtimeVersion.transactionVersion
-    };
-
-    // Encode the payload data
-    const methodBytes = this.registry.createType('Bytes', payloadData.method);
-    const eraBytes = this.registry.createType('ExtrinsicEra', payloadData.era);
-    const nonceBytes = this.registry.createType('Compact<u32>', payloadData.nonce);
-    const tipBytes = this.registry.createType('Compact<u128>', payloadData.tip);
-    const txVersionBytes = this.registry.createType('u32', payloadData.transactionVersion);
-    const specVersionBytes = this.registry.createType('u32', payloadData.specVersion);
-    const genesisHashBytes = this.registry.createType('Hash', payloadData.genesisHash);
-    const blockHashBytes = this.registry.createType('Hash', payloadData.blockHash);
-
-    // Concatenate all the transaction extension values (excluding VerifySignature)
-    return u8aConcat(
-      methodBytes.toU8a(), // Critical: method without length prefix
-      eraBytes.toU8a(),
-      nonceBytes.toU8a(),
-      tipBytes.toU8a(),
-      txVersionBytes.toU8a(),
-      specVersionBytes.toU8a(),
-      genesisHashBytes.toU8a(),
-      blockHashBytes.toU8a()
-    );
-  }
-
-  /**
    * @description Sign the extrinsic with a specific keypair
    */
   public sign (account: IKeyringPair, options: SignatureOptions): GeneralExtrinsic {
@@ -295,24 +248,14 @@ export class GeneralExtrinsic extends Struct {
       throw new Error(`Expected a valid keypair for signing, found ${stringify(account)}`);
     }
 
-    // Create the payload for signing (excluding VerifySignature)
-    const payload = this.createSignPayload(options);
+    const sigClass = new GenericExtrinsicSignatureV5(this.registry, this.toU8a());
 
-    // Sign the payload
-    const signature = signV5(this.registry, account, payload, { withType: true });
-    const signatureType = this.registry.createType('ExtrinsicSignature', signature);
-    // Create the VerifySignature extension with the signature
-    const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
-      Signed: {
-        account: toAddress(this.registry, account.addressRaw).toHex(),
-        signature: signatureType,
-      }
-    });
+    sigClass.sign(this.method, account, options);
 
-    this.set('VerifySignature', verifySignature);
+    this.set('VerifySignature', sigClass.get('VerifySignature') as VerifySignature);
 
     // Set the VerifySignature extension
-    console.log('Creation successful:', verifySignature.toHuman());
+    console.log('Creation successful:', (this.get('VerifySignature') as VerifySignature).toHuman());
 
     return this;
   }
@@ -332,7 +275,7 @@ export class GeneralExtrinsic extends Struct {
     const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
       Signed: {
         account: signer,
-        signature: fakeSignature,
+        signature: fakeSignature
       }
     });
 
@@ -350,7 +293,7 @@ export class GeneralExtrinsic extends Struct {
     const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
       Signed: {
         account: signer,
-        signature,
+        signature
       }
     });
 
