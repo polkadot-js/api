@@ -241,6 +241,9 @@ export class GeneralExtrinsic extends Struct {
    * @description Create a payload for signing (excluding VerifySignature extension)
    */
   private createSignPayload (options: SignatureOptions): Uint8Array {
+
+    console.log(this.method.toHuman(), 'in general, createSignPayload')
+
     // Create payload with all transaction extensions except VerifySignature
     const payloadData = {
       method: this.method.toHex(),
@@ -268,7 +271,7 @@ export class GeneralExtrinsic extends Struct {
 
     // Concatenate all the transaction extension values (excluding VerifySignature)
     return u8aConcat(
-      methodBytes.toU8a(true), // Critical: method without length prefix
+      methodBytes.toU8a(), // Critical: method without length prefix
       eraBytes.toU8a(),
       nonceBytes.toU8a(),
       tipBytes.toU8a(),

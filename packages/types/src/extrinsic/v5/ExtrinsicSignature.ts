@@ -31,9 +31,8 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
     super(
       registry,
       objectSpread(
-        // eslint-disable-next-line sort-keys
         { transactionExtensionVersion: 'u8' },
-        signTypes
+        signTypes,
       ),
       GenericExtrinsicSignatureV5.decodeExtrinsicSignature(value, isSigned)
     );
@@ -51,7 +50,7 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
       return value;
     }
 
-    console.log('decoding signature here', isSigned, value)
+    console.log('decoding signature here', isSigned, value.toString())
 
     return isSigned
       ? value
@@ -210,6 +209,8 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   public override toU8a (isBare?: boolean): Uint8Array {
-    return super.toU8a(isBare);
+    return this.isSigned
+      ? super.toU8a(isBare)
+      : EMPTY_U8A;
   }
 }

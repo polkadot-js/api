@@ -44,6 +44,9 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
 
       // here we decode manually since we need to pull through the version information
       const signature = registry.createTypeUnsafe<ExtrinsicSignatureV5>('ExtrinsicSignatureV5', [value, { isSigned }]);
+
+      console.log(signature, 'signature is working now...')
+
       // We add 2 here since the length of the TransactionExtension Version needs to be accounted for
       const method = registry.createTypeUnsafe<Call>('Call', [value.subarray(signature.encodedLength)]);
 
@@ -115,9 +118,19 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
 
     // return this;
 
+    console.log(this.method.toHuman(), 'in bare, this.method')
+
 
     // ✅ fixed types
-     const extrinsic = new GeneralExtrinsic(this.registry);
+     const extrinsic = new GeneralExtrinsic(this.registry, {
+        // @ts-ignore
+        payload: {
+          // ...options,
+          // era: this.registry.createType('ExtrinsicEra', options.era?.toHex()),
+          method: this.method.toHex(),
+          // transactionVersion: this.registry.getTransactionExtensionVersion()
+        }
+      });
 
     const signed = extrinsic.sign(account, options);
 
@@ -125,7 +138,7 @@ export class GenericExtrinsicV5 extends Struct implements IExtrinsicV5Impl {
 
     console.log("signed human", signed.toHuman())
 
-    return new GenericExtrinsicV5(this.registry, signed.toU8a(), { isSigned: true });
+    return new GenericExtrinsicV5(this.registry, signed.toU8a(true), { isSigned: true });
 
 
    // return new GeneralExtrinsic(this.registry ).sign(account, options) as unknown as GenericExtrinsicV5
