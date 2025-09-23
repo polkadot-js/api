@@ -176,14 +176,13 @@ export class GenericExtrinsicSignatureV5 extends Struct implements IExtrinsicSig
       }
     }
 
-    const verifySignature = this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
+     this.registry.createType('PalletVerifySignatureExtensionVerifySignature', {
       Signed: {
         account: signer.toHex(),
         signature
       }
     });
 
-    this.set('VerifySignature', verifySignature);
 
     return this;
   }

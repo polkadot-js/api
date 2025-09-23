@@ -81,7 +81,7 @@ function makeSignOptions (api: ApiInterfaceRx, partialOptions: Partial<SignerOpt
     { blockHash: api.genesisHash, genesisHash: api.genesisHash },
     partialOptions,
     extras,
-    { runtimeVersion: api.runtimeVersion, signedExtensions: api.registry.signedExtensions, version: api.extrinsicType }
+    { runtimeVersion: api.runtimeVersion, signedExtensions: api.registry.signedExtensions, transactionExtensions: api.registry.transactionExtensions, version: api.extrinsicType }
   );
 }
 

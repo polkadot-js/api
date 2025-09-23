@@ -28,6 +28,7 @@ declare module '@polkadot/types-codec/types/registry' {
     readonly metadata: MetadataLatest;
     readonly unknownTypes: string[];
     readonly signedExtensions: string[];
+    readonly transactionExtensions: string[];
 
     findMetaCall (callIndex: Uint8Array): CallFunctionExt;
 
@@ -49,5 +50,6 @@ declare module '@polkadot/types-codec/types/registry' {
     setLookup (lookup: PortableRegistry): void;
     setMetadata (metadata: Metadata, signedExtensions?: string[], userExtensions?: ExtDef): void;
     setSignedExtensions (signedExtensions?: string[], userExtensions?: ExtDef): void;
+    setTransactionExtensions (transactionExtensions?: string[], userExtensions?: ExtDef): void;
   }
 }

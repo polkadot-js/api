@@ -279,6 +279,10 @@ export class TypeRegistry implements Registry {
     return this.#signedExtensions;
   }
 
+  public get transactionExtensions (): string[] {
+    return this.#transactionExtensions;
+  }
+
   public clearCache (): void {
     this.#classes = new Map();
   }
