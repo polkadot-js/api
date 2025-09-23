@@ -12,7 +12,7 @@ import { constructTypeClass, createClassUnsafe, createTypeUnsafe } from '@polkad
 import { assertReturn, formatBalance, isBn, isFunction, isNumber, isString, isU8a, lazyMethod, logger, objectSpread, stringCamelCase, stringify } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { expandExtensionTypes, fallbackExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions/index.js';
+import { expandExtensionTypes, fallbackSignedExtensions, fallbackTransactionExtensions, findUnknownExtensions } from '../extrinsic/signedExtensions/index.js';
 import { GenericEventData } from '../generic/Event.js';
 import * as baseTypes from '../index.types.js';
 import * as definitions from '../interfaces/definitions.js';
@@ -176,10 +176,10 @@ export class TypeRegistry implements Registry {
   #lookup?: PortableRegistry;
   #metadata?: MetadataLatest;
   #metadataVersion = 0;
-  #signedExtensions: string[] = fallbackExtensions;
+  #signedExtensions: string[] = fallbackSignedExtensions;
   #unknownTypes = new Map<string, boolean>();
   #userExtensions?: ExtDef | undefined;
-  #transactionExtensions: string[] = ['VerifySignature'];
+  #transactionExtensions: string[] = fallbackTransactionExtensions;
 
   readonly #knownDefaults: Map<string, CodecClass>;
   readonly #knownDefaultsEntries: [string, CodecClass][];

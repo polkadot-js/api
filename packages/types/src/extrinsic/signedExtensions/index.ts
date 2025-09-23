@@ -21,7 +21,7 @@ export const allExtensions: ExtDef = objectSpread({}, substrate, polkadot, shell
 // metadata. This may not match 100% with the current defaults and are used
 // when not specified in the metadata (which is for very old chains). The
 // order is important here, as applied by default
-export const fallbackExtensions = [
+export const fallbackSignedExtensions = [
   'CheckVersion',
   'CheckGenesis',
   'CheckEra',
@@ -30,6 +30,19 @@ export const fallbackExtensions = [
   'ChargeTransactionPayment',
   'CheckBlockGasLimit'
 ];
+
+export const fallbackTransactionExtensions = [
+  'AuthorizeCall',
+  'CheckNonZeroSender',
+  'CheckSpecVersion',
+  'CheckTxVersion',
+  'CheckGenesis',
+  'CheckMortality',
+  'CheckNonce',
+  'CheckWeight',
+  'ChargeAssetTxPayment',
+  'VerifySignature',
+]
 
 export function findUnknownExtensions (extensions: string[], userExtensions: ExtDef = {}): string[] {
   const names = [...Object.keys(allExtensions), ...Object.keys(userExtensions)];
