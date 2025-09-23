@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 16.4.8 Sep 23, 2025
+
+Changes:
+
+- refactor: retrieve contract address from Instantiated event ([#6210](https://github.com/polkadot-js/api/pull/6210))
+
+
 ## 16.4.7 Sep 15, 2025
 
 Changes:
