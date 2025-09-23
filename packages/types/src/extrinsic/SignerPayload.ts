@@ -23,6 +23,7 @@ export interface SignerPayloadType extends Codec {
   nonce: ICompact<INumber>;
   runtimeVersion: IRuntimeVersion;
   signedExtensions: Vec<Text>;
+  transactionExtensions: Vec<Text>;
   tip: ICompact<INumber>;
   version: INumber;
 }
@@ -40,6 +41,7 @@ const knownTypes: Record<string, string> = {
   nonce: 'Compact<Index>',
   runtimeVersion: 'RuntimeVersion',
   signedExtensions: 'Vec<Text>',
+  transactionExtensions: 'Vec<Text>',
   tip: 'Compact<Balance>',
   version: 'u8'
 };
@@ -106,6 +108,10 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
     return this.getT('signedExtensions');
   }
 
+  get transactionExtensions (): Vec<Text> {
+    return this.getT('transactionExtensions');
+  }
+
   get tip (): ICompact<INumber> {
     return this.getT('tip');
   }
@@ -169,6 +175,7 @@ export class GenericSignerPayload extends Struct implements ISignerPayload, Sign
       mode: this.mode.toNumber(),
       nonce: this.nonce.toHex(),
       signedExtensions: this.signedExtensions.map((e) => e.toString()),
+      transactionExtensions: this.transactionExtensions.map((e) => e.toString()),
       specVersion: this.runtimeVersion.specVersion.toHex(),
       tip: this.tip.toHex(),
       transactionVersion: this.runtimeVersion.transactionVersion.toHex(),

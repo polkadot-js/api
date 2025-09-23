@@ -330,7 +330,11 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
     #observeSubscribe = (info?: UpdateInfo): Observable<ISubmittableResult> => {
       const txHash = this.hash;
 
-      return api.rpc.author.submitAndWatchExtrinsic(info?.signedTransaction || this).pipe(
+      console.log('just before submitting...')
+      console.log(info?.options, this.toHex());
+
+
+      return api.rpc.author.submitAndWatchExtrinsic(this).pipe(
         switchMap((status): Observable<ISubmittableResult> =>
           this.#observeStatus(txHash, status)
         ),
@@ -351,7 +355,8 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       const payload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
         address,
         blockNumber: header ? header.number : 0,
-        method: this.method
+        method: this.method,
+        transactionExtensions: options.transactionExtensions
       })]);
       let result: SignerResult;
 
@@ -377,6 +382,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
             nonce: ext.nonce.toHex(),
             runtimeVersion: payload.runtimeVersion,
             signedExtensions: payload.signedExtensions,
+            transactionExtensions: payload.transactionExtensions,
             tip: ext.tip ? ext.tip.toHex() : null,
             version: payload.version
           })]);

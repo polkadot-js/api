@@ -195,6 +195,7 @@ export interface SignatureOptions {
   nonce: AnyNumber;
   runtimeVersion: IRuntimeVersionBase;
   signedExtensions?: string[];
+  transactionExtensions?: string[];
   signer?: Signer;
   tip?: AnyNumber;
   assetId?: AnyNumber | object;
