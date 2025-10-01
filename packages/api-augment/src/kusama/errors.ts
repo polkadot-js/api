@@ -195,6 +195,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidValue: AugmentedError<ApiType>;
       /**
+       * User is not the proposer of the bounty.
+       **/
+      NotProposer: AugmentedError<ApiType>;
+      /**
        * A bounty payout is pending.
        * To cancel the bounty, you must unassign and slash the curator.
        **/
@@ -995,127 +999,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    nis: {
-      /**
-       * The receipt is already communal.
-       **/
-      AlreadyCommunal: AugmentedError<ApiType>;
-      /**
-       * There are enough funds for what is required.
-       **/
-      AlreadyFunded: AugmentedError<ApiType>;
-      /**
-       * The receipt is already private.
-       **/
-      AlreadyPrivate: AugmentedError<ApiType>;
-      /**
-       * The amount of the bid is less than the minimum allowed.
-       **/
-      AmountTooSmall: AugmentedError<ApiType>;
-      /**
-       * The queue for the bid's duration is full and the amount bid is too low to get in
-       * through replacing an existing bid.
-       **/
-      BidTooLow: AugmentedError<ApiType>;
-      /**
-       * The duration is the bid is greater than the number of queues.
-       **/
-      DurationTooBig: AugmentedError<ApiType>;
-      /**
-       * The duration of the bid is less than one.
-       **/
-      DurationTooSmall: AugmentedError<ApiType>;
-      /**
-       * The operation would result in a receipt worth an insignificant value.
-       **/
-      MakesDust: AugmentedError<ApiType>;
-      /**
-       * Bond not yet at expiry date.
-       **/
-      NotExpired: AugmentedError<ApiType>;
-      /**
-       * Not the owner of the receipt.
-       **/
-      NotOwner: AugmentedError<ApiType>;
-      /**
-       * The portion supplied is beyond the value of the receipt.
-       **/
-      PortionTooBig: AugmentedError<ApiType>;
-      /**
-       * The thaw throttle has been reached for this period.
-       **/
-      Throttled: AugmentedError<ApiType>;
-      /**
-       * Not enough funds are held to pay out.
-       **/
-      Unfunded: AugmentedError<ApiType>;
-      /**
-       * The given bid for retraction is not found.
-       **/
-      UnknownBid: AugmentedError<ApiType>;
-      /**
-       * Receipt index is unknown.
-       **/
-      UnknownReceipt: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    nisCounterpartBalances: {
-      /**
-       * Beneficiary account must pre-exist.
-       **/
-      DeadAccount: AugmentedError<ApiType>;
-      /**
-       * The delta cannot be zero.
-       **/
-      DeltaZero: AugmentedError<ApiType>;
-      /**
-       * Value too low to create account due to existential deposit.
-       **/
-      ExistentialDeposit: AugmentedError<ApiType>;
-      /**
-       * A vesting schedule already exists for this account.
-       **/
-      ExistingVestingSchedule: AugmentedError<ApiType>;
-      /**
-       * Transfer/payment would kill account.
-       **/
-      Expendability: AugmentedError<ApiType>;
-      /**
-       * Balance too low to send value.
-       **/
-      InsufficientBalance: AugmentedError<ApiType>;
-      /**
-       * The issuance cannot be modified since it is already deactivated.
-       **/
-      IssuanceDeactivated: AugmentedError<ApiType>;
-      /**
-       * Account liquidity restrictions prevent withdrawal.
-       **/
-      LiquidityRestrictions: AugmentedError<ApiType>;
-      /**
-       * Number of freezes exceed `MaxFreezes`.
-       **/
-      TooManyFreezes: AugmentedError<ApiType>;
-      /**
-       * Number of holds exceed `VariantCountOf<T::RuntimeHoldReason>`.
-       **/
-      TooManyHolds: AugmentedError<ApiType>;
-      /**
-       * Number of named reserves exceed `MaxReserves`.
-       **/
-      TooManyReserves: AugmentedError<ApiType>;
-      /**
-       * Vesting balance too high to send value.
-       **/
-      VestingBalance: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     nominationPools: {
       /**
        * An account is already delegating in another pool. An account may only belong to one
@@ -1425,9 +1308,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CannotUpgradeCode: AugmentedError<ApiType>;
       /**
+       * Invalid block number.
+       **/
+      InvalidBlockNumber: AugmentedError<ApiType>;
+      /**
        * Invalid validation code size.
        **/
       InvalidCode: AugmentedError<ApiType>;
+      /**
+       * No upgrade authorized.
+       **/
+      NothingAuthorized: AugmentedError<ApiType>;
       /**
        * Para is not registered in our system.
        **/
@@ -1456,6 +1347,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Claimed validator index is out of bounds.
        **/
       PvfCheckValidatorIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * The submitted code is not authorized.
+       **/
+      Unauthorized: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1605,6 +1500,80 @@ declare module '@polkadot/api-base/types/errors' {
        * A call which is incompatible with the proxy type's filter was attempted.
        **/
       Unproxyable: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    rcMigrator: {
+      /**
+       * The account is referenced by some other pallet. It might have freezes or holds.
+       **/
+      AccountReferenced: AugmentedError<ApiType>;
+      /**
+       * The AH UMP queue priority configuration is already set.
+       **/
+      AhUmpQueuePriorityAlreadySet: AugmentedError<ApiType>;
+      /**
+       * The XCM version is invalid.
+       **/
+      BadXcmVersion: AugmentedError<ApiType>;
+      /**
+       * Balance accounting overflow.
+       **/
+      BalanceOverflow: AugmentedError<ApiType>;
+      /**
+       * Balance accounting underflow.
+       **/
+      BalanceUnderflow: AugmentedError<ApiType>;
+      /**
+       * Indicates that there is not enough time for staking to lock.
+       * 
+       * Schedule the migration at least two sessions before the current era ends.
+       **/
+      EraEndsTooSoon: AugmentedError<ApiType>;
+      /**
+       * Failed to withdraw account from RC for migration to AH.
+       **/
+      FailedToWithdrawAccount: AugmentedError<ApiType>;
+      /**
+       * The origin is invalid.
+       **/
+      InvalidOrigin: AugmentedError<ApiType>;
+      /**
+       * Invalid parameter.
+       **/
+      InvalidParameter: AugmentedError<ApiType>;
+      /**
+       * The query response is invalid.
+       **/
+      InvalidQueryResponse: AugmentedError<ApiType>;
+      /**
+       * The stage transition is invalid.
+       **/
+      InvalidStageTransition: AugmentedError<ApiType>;
+      OutOfWeight: AugmentedError<ApiType>;
+      /**
+       * Indicates that the specified block number is in the past.
+       **/
+      PastBlockNumber: AugmentedError<ApiType>;
+      /**
+       * The xcm query was not found.
+       **/
+      QueryNotFound: AugmentedError<ApiType>;
+      Unreachable: AugmentedError<ApiType>;
+      /**
+       * The migration stage is not reachable from the current stage.
+       **/
+      UnreachableStage: AugmentedError<ApiType>;
+      /**
+       * Failed to send XCM message to AH.
+       **/
+      XcmError: AugmentedError<ApiType>;
+      /**
+       * Failed to send XCM message.
+       **/
+      XcmSendError: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1938,6 +1907,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoDefender: AugmentedError<ApiType>;
       /**
+       * There is no deposit associated with a bid.
+       **/
+      NoDeposit: AugmentedError<ApiType>;
+      /**
        * Nothing to payout.
        **/
       NoPayout: AugmentedError<ApiType>;
@@ -2153,6 +2126,16 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    stakingAhClient: {
+      /**
+       * Could not process incoming message because incoming messages are blocked.
+       **/
+      Blocked: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     system: {
       /**
        * The origin filter prevent the call to be dispatched.
@@ -2293,6 +2276,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       List: AugmentedError<ApiType>;
       /**
+       * Could not update a node, because the pallet is locked.
+       **/
+      Locked: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -2393,6 +2380,11 @@ declare module '@polkadot/api-base/types/errors' {
        * Local XCM execution incomplete.
        **/
       LocalExecutionIncomplete: AugmentedError<ApiType>;
+      /**
+       * Local XCM execution incomplete with the actual XCM error and the index of the
+       * instruction that caused the error.
+       **/
+      LocalExecutionIncompleteWithError: AugmentedError<ApiType>;
       /**
        * A remote lock with the corresponding data could not be found.
        **/

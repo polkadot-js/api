@@ -56,8 +56,6 @@ export default {
     "childstate_getStorageHash",
     "childstate_getStorageSize",
     "dev_getBlockStats",
-    "engine_createBlock",
-    "engine_finalizeBlock",
     "offchain_localStorageClear",
     "offchain_localStorageGet",
     "offchain_localStorageSet",
