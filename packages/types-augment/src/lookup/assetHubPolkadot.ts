@@ -309,6 +309,13 @@ export default {
     }
   },
   /**
+   * Lookup255: frame_support::traits::tokens::misc::IdAmount<Id, Balance>
+   **/
+  FrameSupportTokensMiscIdAmount: {
+    id: 'Null',
+    amount: 'u128'
+  },
+  /**
    * Lookup271: pallet_collator_selection::pallet::CandidateInfo<sp_core::crypto::AccountId32, Balance>
    **/
   PalletCollatorSelectionCandidateInfo: {

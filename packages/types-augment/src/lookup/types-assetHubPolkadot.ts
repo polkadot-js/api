@@ -251,6 +251,12 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'PolkadotXcm' | 'StateTrieMigration';
   }
 
+  /** @name FrameSupportTokensMiscIdAmount (255) */
+  interface FrameSupportTokensMiscIdAmount extends Struct {
+    readonly id: Null;
+    readonly amount: u128;
+  }
+
   /** @name PalletCollatorSelectionCandidateInfo (271) */
   interface PalletCollatorSelectionCandidateInfo extends Struct {
     readonly who: AccountId32;
