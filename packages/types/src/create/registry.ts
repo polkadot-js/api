@@ -179,7 +179,7 @@ export class TypeRegistry implements Registry {
   #signedExtensions: string[] = fallbackExtensions;
   #unknownTypes = new Map<string, boolean>();
   #userExtensions?: ExtDef | undefined;
-  #transactionExtensions: string[] = ['VerifySignature'];
+  #transactionExtensions: string[] = fallbackExtensions;
 
   readonly #knownDefaults: Map<string, CodecClass>;
   readonly #knownDefaultsEntries: [string, CodecClass][];

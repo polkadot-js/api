@@ -32,7 +32,7 @@ const ChargeTransactionPayment: ExtInfo = {
 
 const VerifySignature: ExtInfo = {
   extrinsic: {
-    VerifySignature: 'PalletVerifySignatureExtensionVerifySignature'
+    signature: 'PalletVerifySignatureExtensionVerifySignature'
   },
   payload: {}
 };

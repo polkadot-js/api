@@ -22,6 +22,7 @@ export const allExtensions: ExtDef = objectSpread({}, substrate, polkadot, shell
 // when not specified in the metadata (which is for very old chains). The
 // order is important here, as applied by default
 export const fallbackExtensions = [
+  "VerifySignature",
   'CheckVersion',
   'CheckGenesis',
   'CheckEra',
