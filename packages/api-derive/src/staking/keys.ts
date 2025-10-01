@@ -2,15 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import type { Option } from '@polkadot/types';
+import type { AugmentedConst } from '@polkadot/api-base/types';
+import type { Option, u128 } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { KitchensinkRuntimeSessionKeys } from '@polkadot/types/lookup';
+import type { Codec } from '@polkadot/types-codec/types';
 import type { DeriveApi } from '../types.js';
 import type { DeriveStakingKeys } from './types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { firstMemo, memo } from '../util/index.js';
+
+interface HistoricSessionAugmentedConsts {
+  [key: string]: Codec;
+  keyDeposit: u128 & AugmentedConst<'rxjs'>;
+}
 
 function extractsIds (stashId: Uint8Array | string, queuedKeys: [AccountId, KitchensinkRuntimeSessionKeys | AccountId[]][], nextKeys: Option<KitchensinkRuntimeSessionKeys>): DeriveStakingKeys {
   const sessionIds = (queuedKeys.find(([currentId]) => currentId.eq(stashId)) || [undefined, [] as AccountId[]])[1];
@@ -69,9 +76,9 @@ export function keysMulti (instanceId: string, api: DeriveApi): (stashIds: (Uint
           combineLatest([
             of(queuedKeys),
             // eslint-disable-next-line @typescript-eslint/dot-notation
-            api.consts.session?.['dedupKeyPrefix']
+            (api.consts['session'] as HistoricSessionAugmentedConsts)?.['dedupKeyPrefix']
             // eslint-disable-next-line @typescript-eslint/dot-notation
-              ? api.query.session.nextKeys.multi(stashIds.map((s) => [api.consts.session['dedupKeyPrefix'], s]))
+              ? api.query.session.nextKeys.multi(stashIds.map((s) => [(api.consts['session'] as HistoricSessionAugmentedConsts)['dedupKeyPrefix'], s]))
               : combineLatest(stashIds.map((s) => api.query.session.nextKeys(s)))
           ])
         ),
