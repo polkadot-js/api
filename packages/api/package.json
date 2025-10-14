@@ -18,21 +18,21 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "16.4.9-0-x",
+  "version": "16.4.9-1-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api-augment": "16.4.9-0-x",
-    "@polkadot/api-base": "16.4.9-0-x",
-    "@polkadot/api-derive": "16.4.9-0-x",
+    "@polkadot/api-augment": "16.4.9-1-x",
+    "@polkadot/api-base": "16.4.9-1-x",
+    "@polkadot/api-derive": "16.4.9-1-x",
     "@polkadot/keyring": "^13.5.7",
-    "@polkadot/rpc-augment": "16.4.9-0-x",
-    "@polkadot/rpc-core": "16.4.9-0-x",
-    "@polkadot/rpc-provider": "16.4.9-0-x",
-    "@polkadot/types": "16.4.9-0-x",
-    "@polkadot/types-augment": "16.4.9-0-x",
-    "@polkadot/types-codec": "16.4.9-0-x",
-    "@polkadot/types-create": "16.4.9-0-x",
-    "@polkadot/types-known": "16.4.9-0-x",
+    "@polkadot/rpc-augment": "16.4.9-1-x",
+    "@polkadot/rpc-core": "16.4.9-1-x",
+    "@polkadot/rpc-provider": "16.4.9-1-x",
+    "@polkadot/types": "16.4.9-1-x",
+    "@polkadot/types-augment": "16.4.9-1-x",
+    "@polkadot/types-codec": "16.4.9-1-x",
+    "@polkadot/types-create": "16.4.9-1-x",
+    "@polkadot/types-known": "16.4.9-1-x",
     "@polkadot/util": "^13.5.7",
     "@polkadot/util-crypto": "^13.5.7",
     "eventemitter3": "^5.0.1",
@@ -40,7 +40,7 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@polkadot/api-augment": "16.4.9-0-x",
-    "@polkadot/types-support": "16.4.9-0-x"
+    "@polkadot/api-augment": "16.4.9-1-x",
+    "@polkadot/types-support": "16.4.9-1-x"
   }
 }
