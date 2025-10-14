@@ -21,7 +21,7 @@
   "version": "16.4.9-0-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^13.5.6",
+    "@polkadot/util": "^13.5.7",
     "tslib": "^2.8.1"
   }
 }
