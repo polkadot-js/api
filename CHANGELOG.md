@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 16.4.9 Oct 14, 2025
+
+Changes:
+
+- Bump @polkadot/common deps to v13.5.7 ([#6216](https://github.com/polkadot-js/api/pull/6216))
+
+Contributions:
+
+- Ensure rpc-core can correctly decode types, even if multiple types share the same name ([#6089](https://github.com/polkadot-js/api/pull/6089))
+
+
 ## 16.4.8 Sep 23, 2025
 
 Changes:
