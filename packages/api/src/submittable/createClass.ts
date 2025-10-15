@@ -5,7 +5,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
-import type { Callback, Codec, CodecClass, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import type { Callback, Codec, CodecClass, ISubmittableResult, SignatureOptions, TxPayloadV1 } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base/index.js';
@@ -260,6 +260,67 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       return this;
     }
 
+    #createTxPayloadV1 = async (payload: SignerPayload): Promise<TxPayloadV1> => {
+      const txPayload: TxPayloadV1 = {
+        version: 1,
+        signer: payload.address.toHex(),
+        callData: payload.method.toHex(),
+        extensions: [], // TODO
+        txExtVersion: 0, // TODO: 0 For Extrinsic v4
+        context: {
+          metadata: this.registry.metadata.toHex(),
+          tokenSymbol: this.registry.chainTokens[0],
+          tokenDecimals: this.registry.chainDecimals[0],
+          bestBlockHeight: this.registry.createType('u32', payload.blockNumber)
+        }
+      };
+
+
+      // const [
+      //   { specVersion, transactionVersion },
+      //   { header: { hash: bestHash, number: bestNumber } }
+      // ] = await Promise.all([
+      //   api.rpc.state.getRuntimeVersion(),
+      //   api.rpc.chain.getHeader()
+      // ]);
+
+      // const metadataExtensions = api.registry.metadata.extrinsic.signedExtensions;
+
+      // for (const ext of metadataExtensions) {
+      //   const id = ext.identifier.toString();
+
+      //   const extraDef = this.registry.lookup.getTypeDef(ext.type);
+      //   const extra = this.registry.createType(extraDef.type);
+
+      //   if (extraDef.fields) {
+      //     for (const field of extraDef.fields) {
+      //       const fieldName = field.name.toString();
+
+      //       extra.set(fieldName, payload.get(fieldName));
+      //     }
+      //   }
+
+      //   const additionalSignedDef = this.registry.lookup.getTypeDef(ext.additionalSigned);
+      //   const additionalSigned = this.registry.createType(additionalSignedDef.type);
+
+      //   if (additionalSignedDef.fields) {
+      //     for (const field of additionalSignedDef.fields) {
+      //       const fieldName = field.name.toString();
+
+      //       additionalSigned.set(fieldName, payload.get(fieldName));
+      //     }
+      //   }
+
+      //   txPayload.extensions.push({
+      //     id,
+      //     extra: extra.toHex(),
+      //     additionalSigned: additionalSigned.toHex()
+      //   });
+      // }
+
+      return txPayload;
+    };
+
     #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<UpdateInfo> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
       const options = optionsOrNonce(partialOptions);
@@ -352,6 +413,13 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         blockNumber: header ? header.number : 0,
         method: this.method
       })]);
+
+      if (isFunction(signer.createTransaction)) {
+        const txPayload = await this.#createTxPayloadV1(payload);
+        const signedTransaction = await signer.createTransaction(txPayload);
+        return signedTransaction;
+      }
+
       let result: SignerResult;
 
       if (isFunction(signer.signPayload)) {

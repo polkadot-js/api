@@ -7,6 +7,7 @@ import type { ExtrinsicStatus } from '../interfaces/author/index.js';
 import type { EcdsaSignature, Ed25519Signature, Sr25519Signature } from '../interfaces/extrinsics/index.js';
 import type { Address, Call, H256, Hash } from '../interfaces/runtime/index.js';
 import type { DispatchError, DispatchInfo, EventRecord } from '../interfaces/system/index.js';
+import type { BlockNumber } from '../interfaces/types.js';
 import type { ICompact, IKeyringPair, IMethod, INumber, IRuntimeVersionBase } from './interfaces.js';
 import type { Registry } from './registry.js';
 
@@ -27,6 +28,81 @@ export interface ISubmittableResult {
   filterRecords (section: string, method: string): EventRecord[];
   findRecord (section: string, method: string): EventRecord | undefined;
   toHuman (isExtended?: boolean): AnyJson;
+}
+
+export interface TxPayloadV1 {
+  /**
+   * @description Payload version. MUST be 1.
+   */
+  version: 1;
+
+  /**
+   * @description Signer selection hint. Allows the implementer to identify which private-key. (e.g., SS58 address, account-name).
+   * The DApp MUST provide the SS58 address of the intended signer.
+   * This is used by the implementer to identify the correct key/account to use.
+   */
+  signer: string | null;
+
+  /**
+   * @description SCALE-encoded Call (module indicator + function indicator + params)
+   */
+  callData: HexString;
+
+  /**
+   * @description Transaction extensions supplied by the caller (order irrelevant).
+   * The consumer (DApp/API) is responsible for calculating and providing all components.
+   * The implementer (Signer) MAY attempt to infer missing ones if necessary.
+   */
+  extensions: {
+    /** Identifier as defined in metadata (e.g., "CheckSpecVersion", "ChargeAssetTxPayment"). */
+    id: string;
+
+    /**
+     * Explicit "extra" to sign (goes into the extrinsic body).
+     * SCALE-encoded per the extension's "extra" type as defined in the metadata.
+     */
+    extra: HexString;
+
+    /**
+     * "Implicit" data to sign (known by the chain, not included into the extrinsic body).
+     * SCALE-encoded per the extension's "additionalSigned" type as defined in the metadata.
+     */
+    additionalSigned: HexString;
+  }[];
+
+  /**
+   * @description Transaction Extension Version
+   * - MUST be 0 for Extrinsic V4 transactions.
+   * - Set to a runtime-supported version (> 0) for Extrinsic V5 transactions.
+   *
+   * The implementer:
+   *  - MUST use this field to determine the required extensions for creating the extrinsic.
+   *  - MAY use this field to infer missing extensions that the implementer could know how to handle.
+   */
+  txExtVersion: number;
+
+  /**
+   * @description Context needed for decoding, display, construction and (optionally) inferring certain extensions.
+   */
+  context: {
+    /**
+     * RuntimeMetadataPrefixed blob (SCALE), starting with ASCII "meta" magic (`0x6d657461`).
+     * Must be V14+. For V5+ versioned extensions, MUST provide V16+.
+     */
+    metadata: HexString;
+
+    /**
+     * Native token display info (used by some implementers), also needed to compute
+     * the `CheckMetadataHash` value.
+     */
+    tokenSymbol: string;
+    tokenDecimals: number;
+
+    /**
+     * Highest known block number to aid mortality UX.
+     */
+    bestBlockHeight: BlockNumber;
+  };
 }
 
 export interface SignerPayloadJSON {
@@ -166,6 +242,11 @@ export interface SignerResult {
 }
 
 export interface Signer {
+  /**
+   * @description The new createTransaction function
+   */
+  createTransaction?: (payload: TxPayloadV1) => Promise<SignerResult>;
+
   /**
    * @description signs an extrinsic payload from a serialized form
    */
