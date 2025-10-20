@@ -618,16 +618,18 @@ export class TypeRegistry implements Registry {
     }
 
     // setup the available extensions
-    this.setSignedExtensions(
-      signedExtensions || (
-        this.#metadata.extrinsic.versions.length > 0 && this.#metadata.extrinsic.versions.every((value) => value > 0)
-          // FIXME Use the extension and their injected types
-          ? this.#metadata.extrinsic.transactionExtensions.map(({ identifier }) => identifier.toString())
+    const extensions = signedExtensions || (
+      // For v16+ metadata, use transaction extensions if available
+      this.#metadata.extrinsic.versions && this.#metadata.extrinsic.versions.length > 0 && this.#metadata.extrinsic.versions.every((value) => value > 0)
+        ? this.#metadata.extrinsic.transactionExtensions.map(({ identifier }) => identifier.toString())
+        // For v14 metadata, use signed extensions if available
+        : this.#metadata.extrinsic.signedExtensions && this.#metadata.extrinsic.signedExtensions.length > 0
+          ? this.#metadata.extrinsic.signedExtensions.map(({ identifier }) => identifier.toString())
           : fallbackExtensions
-      ),
-      userExtensions,
-      noInitWarn
     );
+
+    this.setSignedExtensions(extensions, userExtensions, noInitWarn);
+    this.setTransactionExtensions(extensions, userExtensions, noInitWarn);
 
     // setup the chain properties with format overrides
     this.setChainProperties(
@@ -645,6 +647,20 @@ export class TypeRegistry implements Registry {
 
       if (unknown.length) {
         l.warn(`Unknown signed extensions ${unknown.join(', ')} found, treating them as no-effect`);
+      }
+    }
+  }
+
+  // sets the available transaction extensions
+  setTransactionExtensions (transactionExtensions: string[] = fallbackExtensions, userExtensions?: ExtDef, noInitWarn?: boolean): void {
+    this.#transactionExtensions = transactionExtensions;
+    this.#userExtensions = userExtensions;
+
+    if (!noInitWarn) {
+      const unknown = findUnknownExtensions(this.#transactionExtensions, this.#userExtensions);
+
+      if (unknown.length) {
+        l.warn(`Unknown transaction extensions ${unknown.join(', ')} found, treating them as no-effect`);
       }
     }
   }

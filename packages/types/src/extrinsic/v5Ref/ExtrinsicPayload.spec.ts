@@ -14,6 +14,7 @@ const metadata = new Metadata(registry, rpcMetadata);
 
 import { createWriteStream } from "fs";
 import { BN_ZERO } from '@polkadot/util';
+import { fallbackExtensions } from '../signedExtensions/index.js';
 
 console.log = async (message: any) => {
   const tty = createWriteStream("/dev/tty");
@@ -24,6 +25,8 @@ console.log = async (message: any) => {
 
 
 registry.setMetadata(metadata);
+registry.setTransactionExtensions(fallbackExtensions);
+registry.register({verifySignature: "PalletVerifySignatureExtensionVerifySignature"})
 
 const tx = decorateExtrinsics(registry, metadata.asLatest, metadata.version);
 

@@ -43,7 +43,6 @@ const aliases: Record<string, string> = {
   SpRuntimeOpaqueValue: 'Bytes',
   SpRuntimeUncheckedExtrinsic: 'Extrinsic',
   StagingKusamaRuntimeRuntimeCall: 'RuntimeCall',
-  PalletVerifySignatureExtensionVerifySignature: 'VerifySignature'
 };
 
 const getTypesViaAlias = (registry: Registry, id: SiLookupTypeId) => {

@@ -37,13 +37,13 @@ interface GeneralExtrinsicValue {
 }
 
 interface VerifySignature extends Enum {
-    readonly isSigned: boolean;
-    readonly asSigned: {
-      readonly signature: Ed25519Signature | Sr25519Signature | EcdsaSignature;
-      readonly account: Address;
+    isSigned: boolean;
+    asSigned: {
+      signature: Ed25519Signature | Sr25519Signature | EcdsaSignature;
+      account: Address;
     } & Struct;
-    readonly isDisabled: boolean;
-    readonly type: 'Signed' | 'Disabled';
+    isDisabled: boolean;
+    type: 'Signed' | 'Disabled';
   }
 
 function decodeU8a (u8a: Uint8Array) {
