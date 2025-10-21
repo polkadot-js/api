@@ -54,6 +54,8 @@ function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions
   }
 
   return makeSignOptions(api, partialOptions, {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     blockHash: header.hash,
     era: registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [{
       current: header.number,
@@ -260,63 +262,112 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       return this;
     }
 
-    #createTxPayloadV1 = async (payload: SignerPayload): Promise<TxPayloadV1> => {
-      const txPayload: TxPayloadV1 = {
-        version: 1,
-        signer: payload.address.toHex(),
-        callData: payload.method.toHex(),
-        extensions: [], // TODO
-        txExtVersion: 0, // TODO: 0 For Extrinsic v4
-        context: {
-          metadata: this.registry.metadata.toHex(),
-          tokenSymbol: this.registry.chainTokens[0],
-          tokenDecimals: this.registry.chainDecimals[0],
-          bestBlockHeight: this.registry.createType('u32', payload.blockNumber)
+    /**
+     * @private
+     * Transforms the flat, legacy SignerPayload into the structured TxPayloadV1 'extensions' array.
+     * This logic should match the SignedExtension configuration in the chain's runtime.
+     */
+    #mapPayloadToV1Extensions (payload: SignerPayload): TxPayloadV1['extensions'] {
+      const registry = this.registry;
+      const extensions: TxPayloadV1['extensions'] = [];
+
+      const activeExtensions = payload.signedExtensions.toArray();
+
+      const genesisHash = registry.createType('Hash', payload.genesisHash);
+
+      for (const id of activeExtensions) {
+        let extra: Codec = registry.createType('Null');
+        let additional: Codec = registry.createType('Null');
+
+        switch (id.toString()) {
+          case 'CheckNonZeroSender':
+            extra = registry.createType('Address', payload.address);
+            break;
+
+          case 'CheckMortality': {
+            extra = payload.era;
+            additional = payload.era.isMortalEra
+              ? payload.blockHash || genesisHash
+              : genesisHash;
+            break;
+          }
+
+          case 'CheckNonce':
+            extra = registry.createType('Compact<Index>', payload.nonce);
+            break;
+
+          case 'ChargeTransactionPayment':
+            extra = payload.tip
+              ? registry.createType('Compact<Balance>', payload.tip)
+              : registry.createType('Null');
+            break;
+
+          case 'CheckSpecVersion':
+            additional = registry.createType('u32', payload.runtimeVersion.specVersion);
+            break;
+
+          case 'CheckTxVersion':
+            additional = registry.createType('u32', payload.version);
+            break;
+
+          case 'CheckGenesis':
+            additional = genesisHash;
+            break;
+
+          case 'ChargeAssetTxPayment':
+            extra = payload.assetId
+              ? registry.createType('Option<AssetId>', payload.assetId)
+              : registry.createType('Null');
+            break;
+
+          case 'CheckMetadataHash':
+            additional = this.registry.metadata.hash;
+            break;
+
+          case 'CheckWeight':
+          case 'CheckBlockGasLimit':
+            extra = registry.createType('Null');
+            additional = registry.createType('Null');
+            break;
+
+          default:
+            extra = registry.createType('Null');
+            additional = registry.createType('Null');
+            break;
         }
+
+        extensions.push({
+          additionalSigned: additional.toHex(),
+          extra: extra.toHex(),
+          id: id.toString()
+        });
+      }
+
+      return extensions;
+    }
+
+    #createTxPayloadV1 = (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): TxPayloadV1 => {
+      const payload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
+        address,
+        blockNumber: header ? header.number : 0,
+        method: this.method
+      })]);
+
+      const extensions: TxPayloadV1['extensions'] = this.#mapPayloadToV1Extensions(payload);
+
+      const txPayload: TxPayloadV1 = {
+        callData: payload.method.toHex(),
+        context: {
+          bestBlockHeight: this.registry.createType('u32', payload.blockNumber),
+          metadata: this.registry.metadata.toHex(),
+          tokenDecimals: this.registry.chainDecimals[0],
+          tokenSymbol: this.registry.chainTokens[0]
+        },
+        extensions,
+        signer: payload.address.toString(),
+        txExtVersion: api.extrinsicType === 4 ? 0 : api.runtimeVersion.transactionVersion.toNumber(),
+        version: 1
       };
-
-
-      // const [
-      //   { specVersion, transactionVersion },
-      //   { header: { hash: bestHash, number: bestNumber } }
-      // ] = await Promise.all([
-      //   api.rpc.state.getRuntimeVersion(),
-      //   api.rpc.chain.getHeader()
-      // ]);
-
-      // const metadataExtensions = api.registry.metadata.extrinsic.signedExtensions;
-
-      // for (const ext of metadataExtensions) {
-      //   const id = ext.identifier.toString();
-
-      //   const extraDef = this.registry.lookup.getTypeDef(ext.type);
-      //   const extra = this.registry.createType(extraDef.type);
-
-      //   if (extraDef.fields) {
-      //     for (const field of extraDef.fields) {
-      //       const fieldName = field.name.toString();
-
-      //       extra.set(fieldName, payload.get(fieldName));
-      //     }
-      //   }
-
-      //   const additionalSignedDef = this.registry.lookup.getTypeDef(ext.additionalSigned);
-      //   const additionalSigned = this.registry.createType(additionalSignedDef.type);
-
-      //   if (additionalSignedDef.fields) {
-      //     for (const field of additionalSignedDef.fields) {
-      //       const fieldName = field.name.toString();
-
-      //       additionalSigned.set(fieldName, payload.get(fieldName));
-      //     }
-      //   }
-
-      //   txPayload.extensions.push({
-      //     id,
-      //     extra: extra.toHex(),
-      //     additionalSigned: additionalSigned.toHex()
-      //   });
-      // }
 
       return txPayload;
     };
@@ -415,9 +466,10 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       })]);
 
       if (isFunction(signer.createTransaction)) {
-        const txPayload = await this.#createTxPayloadV1(payload);
+        const txPayload = this.#createTxPayloadV1(address, options, header);
         const signedTransaction = await signer.createTransaction(txPayload);
-        return signedTransaction;
+
+        return { id: Date.now(), signedTransaction };
       }
 
       let result: SignerResult;

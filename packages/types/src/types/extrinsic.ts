@@ -243,9 +243,9 @@ export interface SignerResult {
 
 export interface Signer {
   /**
-   * @description The new createTransaction function
+   * @description The new createTransaction function; Returns ready-to-broadcast extrinsic after internal computation by signer
    */
-  createTransaction?: (payload: TxPayloadV1) => Promise<SignerResult>;
+  createTransaction?: (payload: TxPayloadV1) => Promise<HexString>;
 
   /**
    * @description signs an extrinsic payload from a serialized form
