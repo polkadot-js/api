@@ -17,6 +17,7 @@ import { catchError, first, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { identity, isBn, isFunction, isNumber, isString, isU8a, objectSpread } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util/index.js';
+import { EXTENSION_MATCHER } from './matcher.js';
 import { SubmittableResult } from './Result.js';
 
 interface SubmittableOptions<ApiType extends ApiTypes> {
@@ -273,71 +274,12 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
 
       const activeExtensions = payload.signedExtensions.toArray();
 
-      const genesisHash = registry.createType('Hash', payload.genesisHash);
-
       for (const id of activeExtensions) {
-        let extra: Codec = registry.createType('Null');
-        let additional: Codec = registry.createType('Null');
-
-        switch (id.toString()) {
-          case 'CheckNonZeroSender':
-            extra = registry.createType('Address', payload.address);
-            break;
-
-          case 'CheckMortality': {
-            extra = payload.era;
-            additional = payload.era.isMortalEra
-              ? payload.blockHash || genesisHash
-              : genesisHash;
-            break;
-          }
-
-          case 'CheckNonce':
-            extra = registry.createType('Compact<Index>', payload.nonce);
-            break;
-
-          case 'ChargeTransactionPayment':
-            extra = payload.tip
-              ? registry.createType('Compact<Balance>', payload.tip)
-              : registry.createType('Null');
-            break;
-
-          case 'CheckSpecVersion':
-            additional = registry.createType('u32', payload.runtimeVersion.specVersion);
-            break;
-
-          case 'CheckTxVersion':
-            additional = registry.createType('u32', payload.version);
-            break;
-
-          case 'CheckGenesis':
-            additional = genesisHash;
-            break;
-
-          case 'ChargeAssetTxPayment':
-            extra = payload.assetId
-              ? registry.createType('Option<AssetId>', payload.assetId)
-              : registry.createType('Null');
-            break;
-
-          case 'CheckMetadataHash':
-            additional = this.registry.metadata.hash;
-            break;
-
-          case 'CheckWeight':
-          case 'CheckBlockGasLimit':
-            extra = registry.createType('Null');
-            additional = registry.createType('Null');
-            break;
-
-          default:
-            extra = registry.createType('Null');
-            additional = registry.createType('Null');
-            break;
-        }
+        const { additionalSigned = registry.createType('Null'), extra = registry.createType('Null') } =
+         EXTENSION_MATCHER[id.toString()]?.(payload, registry) ?? {};
 
         extensions.push({
-          additionalSigned: additional.toHex(),
+          additionalSigned: additionalSigned.toHex(),
           extra: extra.toHex(),
           id: id.toString()
         });
