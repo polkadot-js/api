@@ -137,6 +137,49 @@ describe('createTransaction', () => {
     expect(extrinsic.tip.toNumber()).toEqual(0);
     expect(extrinsic.era.isMortalEra).toEqual(true);
 
+    const payloadToSign = api.registry.createType<SignerPayload>(
+      'SignerPayload',
+      {
+        address: alice.address,
+        blockHash,
+        blockNumber: '0x000014fd',
+        era: '0xd607',
+        genesisHash: api.genesisHash,
+        method: extrinsic.method,
+        signedExtensions: api.registry.signedExtensions,
+        specVersion: '0x00000000',
+        transactionVersion: '0x00000000',
+        version: 4
+      }
+    );
+
+    const signatureHex = api.registry
+      .createType('ExtrinsicPayload', payloadToSign.toPayload(), {
+        version: payloadToSign.version
+      })
+      .sign(alice).signature.replace('00', '');
+
+    expect(extrinsic.signature.toString()).toEqual(signatureHex);
+
+    await api.disconnect();
+  });
+
+  it('should create a valid signed transaction, even with invalid blockhash', async (): Promise<void> => {
+    const mockSigner = new MockModernSigner(alice, api);
+    let extrinsic = api.tx.balances.transferKeepAlive('16kVKdv56dtV13tPttUZonKgj7qqkJget5Xkf3yMqEgdwhZK', 1);
+    const blockHash = '0x0000jh930000000000hui3w9200000000000000000'; // some random blockhash
+
+    extrinsic = await extrinsic.signAsync(alice.address, { blockHash, signer: mockSigner });
+    const hash = extrinsic.send();
+
+    expect(extrinsic.isSigned).toEqual(true);
+    expect(extrinsic.signer.toString()).toEqual(alice.address);
+    expect(extrinsic.method.toHex()).toEqual(extrinsic.method.toHex());
+    expect(extrinsic.nonce.toNumber()).toEqual(0);
+    expect(extrinsic.tip.toNumber()).toEqual(0);
+    expect(extrinsic.era.isMortalEra).toEqual(true);
+    expect(hash).toBeDefined();
+
     await api.disconnect();
   });
 });
