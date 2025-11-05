@@ -10,7 +10,7 @@
       14	Nikos Kontakis                	Bump substrate connect to 0.7.16 (#5307)
       11	Ian He                        	HttpProvider support clone() (#3949)
       10	Axel Chalon                   	Make Enum/Tuple constructor use value directly if instance (#1954)
-       8	Arjun Porwal                  	fix: handle optional chaining for claimed rewards in staker rewards functions (#6205)
+       9	Arjun Porwal                  	Upgrade Kusama and Kusama Asset Hub types for 1009003 (#6218)
        8	rajk93                        	16.4.3 (#6194)
        6	Andreea Eftene                	Update check for contract instantiation (#5699)
        6	Branislav Kontur              	Fix for fungiblesApi (#5944)
