@@ -8,7 +8,7 @@ import '@polkadot/api-base/types/consts';
 import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Bytes, Option, Vec, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec, ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, Perbill, Permill, Perquintill } from '@polkadot/types/interfaces/runtime';
+import type { AccountId32, Perbill, Permill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletReferendaTrackDetails, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight, StagingXcmV5Junctions } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
@@ -266,8 +266,13 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       betterSignedThreshold: Perbill & AugmentedConst<ApiType>;
       /**
-       * The maximum number of winners that can be elected by this `ElectionProvider`
-       * implementation.
+       * Maximum number of voters that can support a winner in an election solution.
+       * 
+       * This is needed to ensure election computation is bounded.
+       **/
+      maxBackersPerWinner: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of winners that an election supports.
        * 
        * Note: This must always be greater or equal to `T::DataProvider::desired_targets()`.
        **/
@@ -458,103 +463,6 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum amount of signatories allowed in the multisig.
        **/
       maxSignatories: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    nis: {
-      /**
-       * The base period for the duration queues. This is the common multiple across all
-       * supported freezing durations that can be bid upon.
-       **/
-      basePeriod: u32 & AugmentedConst<ApiType>;
-      /**
-       * Portion of the queue which is free from ordering and just a FIFO.
-       * 
-       * Must be no greater than `MaxQueueLen`.
-       **/
-      fifoQueueLen: u32 & AugmentedConst<ApiType>;
-      /**
-       * The number of blocks between consecutive attempts to dequeue bids and create receipts.
-       * 
-       * A larger value results in fewer storage hits each block, but a slower period to get to
-       * the target.
-       **/
-      intakePeriod: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum amount of bids that can consolidated into receipts in a single intake. A
-       * larger value here means less of the block available for transactions should there be a
-       * glut of bids.
-       **/
-      maxIntakeWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
-      /**
-       * Maximum number of items that may be in each duration queue.
-       * 
-       * Must be larger than zero.
-       **/
-      maxQueueLen: u32 & AugmentedConst<ApiType>;
-      /**
-       * The minimum amount of funds that may be placed in a bid. Note that this
-       * does not actually limit the amount which may be represented in a receipt since bids may
-       * be split up by the system.
-       * 
-       * It should be at least big enough to ensure that there is no possible storage spam attack
-       * or queue-filling attack.
-       **/
-      minBid: u128 & AugmentedConst<ApiType>;
-      /**
-       * The minimum amount of funds which may intentionally be left remaining under a single
-       * receipt.
-       **/
-      minReceipt: Perquintill & AugmentedConst<ApiType>;
-      /**
-       * The treasury's pallet id, used for deriving its sovereign account ID.
-       **/
-      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
-      /**
-       * Number of duration queues in total. This sets the maximum duration supported, which is
-       * this value multiplied by `Period`.
-       **/
-      queueCount: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum proportion which may be thawed and the period over which it is reset.
-       **/
-      thawThrottle: ITuple<[Perquintill, u32]> & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    nisCounterpartBalances: {
-      /**
-       * The minimum amount required to keep an account open. MUST BE GREATER THAN ZERO!
-       * 
-       * If you *really* need it to be zero, you can enable the feature `insecure_zero_ed` for
-       * this pallet. However, you do so at your own risk: this will open up a major DoS vector.
-       * In case you have multiple sources of provider references, you may also get unexpected
-       * behaviour if you set this to zero.
-       * 
-       * Bottom line: Do yourself a favour and make it at least one!
-       **/
-      existentialDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of individual freeze locks that can exist on an account at any time.
-       **/
-      maxFreezes: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of locks that should exist on an account.
-       * Not strictly enforced, but used for weight estimation.
-       * 
-       * Use of locks is deprecated in favour of freezes. See `https://github.com/paritytech/substrate/pull/12951/`
-       **/
-      maxLocks: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of named reserves that can exist on an account.
-       * 
-       * Use of reserves is deprecated in favour of holds. See `https://github.com/paritytech/substrate/pull/12951/`
-       **/
-      maxReserves: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -762,6 +670,16 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    session: {
+      /**
+       * The amount to be held when setting keys.
+       **/
+      keyDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     slots: {
       /**
        * The number of blocks to offset each lease period by.
@@ -778,12 +696,12 @@ declare module '@polkadot/api-base/types/consts' {
     };
     society: {
       /**
-       * The number of blocks between membership challenges.
+       * The number of [Config::BlockNumberProvider] blocks between membership challenges.
        **/
       challengePeriod: u32 & AugmentedConst<ApiType>;
       /**
-       * The number of blocks on which new candidates can claim their membership and be the
-       * named head.
+       * The number of [Config::BlockNumberProvider] blocks on which new candidates can claim
+       * their membership and be the named head.
        **/
       claimPeriod: u32 & AugmentedConst<ApiType>;
       /**
@@ -811,7 +729,8 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       periodSpend: u128 & AugmentedConst<ApiType>;
       /**
-       * The number of blocks on which new candidates should be voted on. Together with
+       * The number of [Config::BlockNumberProvider] blocks on which new candidates should be
+       * voted on. Together with
        * `ClaimPeriod`, this sums to the number of blocks between candidate intake periods.
        **/
       votingPeriod: u32 & AugmentedConst<ApiType>;
@@ -875,6 +794,10 @@ declare module '@polkadot/api-base/types/consts' {
        * this effect.
        **/
       maxUnlockingChunks: u32 & AugmentedConst<ApiType>;
+      /**
+       * The absolute maximum of winner validators this pallet should return.
+       **/
+      maxValidatorSet: u32 & AugmentedConst<ApiType>;
       /**
        * Number of sessions per era.
        **/
@@ -1074,6 +997,13 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       bagThresholds: Vec<u64> & AugmentedConst<ApiType>;
       /**
+       * Maximum number of accounts that may be re-bagged automatically in `on_idle`.
+       * 
+       * A value of `0` (obtained by configuring `type MaxAutoRebagPerBlock = ();`) disables
+       * the feature.
+       **/
+      maxAutoRebagPerBlock: u32 & AugmentedConst<ApiType>;
+      /**
        * Generic const
        **/
       [key: string]: Codec;
@@ -1084,6 +1014,18 @@ declare module '@polkadot/api-base/types/consts' {
        * `pallet_xcm::CurrentXcmVersion`.
        **/
       advertisedXcmVersion: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of local XCM locks that a single account may have.
+       **/
+      maxLockers: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of consumers a single remote lock may have.
+       **/
+      maxRemoteLockConsumers: u32 & AugmentedConst<ApiType>;
+      /**
+       * This chain's Universal Location.
+       **/
+      universalLocation: StagingXcmV5Junctions & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
