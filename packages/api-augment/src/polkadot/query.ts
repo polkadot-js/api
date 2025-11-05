@@ -7,10 +7,10 @@ import '@polkadot/api-base/types/storage';
 
 import type { ApiTypes, AugmentedQuery, QueryableStorageEntry } from '@polkadot/api-base/types';
 import type { BTreeMap, BTreeSet, Bytes, Null, Option, U8aFixed, Vec, bool, u128, u16, u32, u64 } from '@polkadot/types-codec';
-import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
+import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
-import type { AccountId32, H256, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
-import type { BinaryHeapEnqueuedOrder, FrameSupportDispatchPerDispatchClassWeight, FrameSupportTokensMiscIdAmountRuntimeFreezeReason, FrameSupportTokensMiscIdAmountRuntimeHoldReason, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletConvictionVotingVoteVoting, PalletDelegatedStakingAgentLedger, PalletDelegatedStakingDelegation, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletFastUnstakeUnstakeRequest, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMultisigMultisig, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsClaimPermission, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletReferendaReferendumInfo, PalletSchedulerRetryConfig, PalletSchedulerScheduled, PalletStakingActiveEraInfo, PalletStakingEraRewardPoints, PalletStakingForcing, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTransactionPaymentReleases, PalletTreasuryProposal, PalletTreasurySpendStatus, PalletVestingReleases, PalletVestingVestingInfo, PalletXcmAuthorizedAliasesEntry, PalletXcmQueryStatus, PalletXcmRemoteLockedFungibleRecord, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV8AssignmentAppPublic, PolkadotPrimitivesV8DisputeState, PolkadotPrimitivesV8ExecutorParams, PolkadotPrimitivesV8SessionInfo, PolkadotPrimitivesV8SlashingPendingSlashes, PolkadotPrimitivesV8UpgradeGoAhead, PolkadotPrimitivesV8UpgradeRestriction, PolkadotPrimitivesV8ValidatorAppPublic, PolkadotPrimitivesVstagingScrapedOnChainVotes, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsAssignerCoretimeSchedule, PolkadotRuntimeParachainsConfigurationHostConfiguration, PolkadotRuntimeParachainsHrmpHrmpChannel, PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, PolkadotRuntimeParachainsInclusionCandidatePendingAvailability, PolkadotRuntimeParachainsInitializerBufferedSessionChange, PolkadotRuntimeParachainsOnDemandTypesCoreAffinityCount, PolkadotRuntimeParachainsOnDemandTypesEnqueuedOrder, PolkadotRuntimeParachainsOnDemandTypesQueueStatusType, PolkadotRuntimeParachainsParasParaGenesisArgs, PolkadotRuntimeParachainsParasParaLifecycle, PolkadotRuntimeParachainsParasParaPastCodeMeta, PolkadotRuntimeParachainsParasPvfCheckActiveVoteState, PolkadotRuntimeParachainsSchedulerCommonAssignment, PolkadotRuntimeParachainsSharedAllowedRelayParentsTracker, PolkadotRuntimeSessionKeys, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusGrandpaAppPublic, SpCoreCryptoKeyTypeId, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingExposure, SpStakingExposurePage, SpStakingOffenceOffenceDetails, SpStakingPagedExposureMetadata, SpWeightsWeightV2Weight, StagingXcmV5Instruction, XcmVersionedAssetId, XcmVersionedLocation } from '@polkadot/types/lookup';
+import type { AccountId32, Call, H256, Perbill, Percent } from '@polkadot/types/interfaces/runtime';
+import type { BinaryHeapEnqueuedOrder, FrameSupportDispatchPerDispatchClassWeight, FrameSupportScheduleDispatchTime, FrameSupportTokensMiscIdAmountRuntimeFreezeReason, FrameSupportTokensMiscIdAmountRuntimeHoldReason, FrameSystemAccountInfo, FrameSystemCodeUpgradeAuthorization, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, PalletBagsListListBag, PalletBagsListListNode, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBountiesBounty, PalletChildBountiesChildBounty, PalletConvictionVotingVoteVoting, PalletDelegatedStakingAgentLedger, PalletDelegatedStakingDelegation, PalletElectionProviderMultiPhasePhase, PalletElectionProviderMultiPhaseReadySolution, PalletElectionProviderMultiPhaseRoundSnapshot, PalletElectionProviderMultiPhaseSignedSignedSubmission, PalletElectionProviderMultiPhaseSolutionOrSnapshotSize, PalletFastUnstakeUnstakeRequest, PalletGrandpaStoredPendingChange, PalletGrandpaStoredState, PalletMessageQueueBookState, PalletMessageQueuePage, PalletMultisigMultisig, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsClaimPermission, PalletNominationPoolsPoolMember, PalletNominationPoolsRewardPool, PalletNominationPoolsSubPools, PalletPreimageOldRequestStatus, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletRcMigratorAccountsAccountState, PalletRcMigratorAccountsMigratedBalances, PalletRcMigratorMigrationSettings, PalletRcMigratorMigrationStage, PalletRcMigratorQueuePriority, PalletReferendaReferendumInfo, PalletSchedulerRetryConfig, PalletSchedulerScheduled, PalletStakingActiveEraInfo, PalletStakingAsyncAhClientOperatingMode, PalletStakingAsyncRcClientOffence, PalletStakingAsyncRcClientSessionReport, PalletStakingAsyncRcClientValidatorSetReport, PalletStakingEraRewardPoints, PalletStakingForcing, PalletStakingNominations, PalletStakingRewardDestination, PalletStakingSlashingSlashingSpans, PalletStakingSlashingSpanRecord, PalletStakingStakingLedger, PalletStakingUnappliedSlash, PalletStakingValidatorPrefs, PalletStateTrieMigrationMigrationLimits, PalletStateTrieMigrationMigrationTask, PalletTransactionPaymentReleases, PalletTreasuryProposal, PalletTreasurySpendStatus, PalletVestingReleases, PalletVestingVestingInfo, PalletXcmAuthorizedAliasesEntry, PalletXcmQueryStatus, PalletXcmRemoteLockedFungibleRecord, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV8AssignmentAppPublic, PolkadotPrimitivesV8DisputeState, PolkadotPrimitivesV8ExecutorParams, PolkadotPrimitivesV8SessionInfo, PolkadotPrimitivesV8UpgradeGoAhead, PolkadotPrimitivesV8UpgradeRestriction, PolkadotPrimitivesV8ValidatorAppPublic, PolkadotPrimitivesVstagingPendingSlashes, PolkadotPrimitivesVstagingScrapedOnChainVotes, PolkadotRuntimeCommonClaimsStatementKind, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsAssignerCoretimeSchedule, PolkadotRuntimeParachainsConfigurationHostConfiguration, PolkadotRuntimeParachainsHrmpHrmpChannel, PolkadotRuntimeParachainsHrmpHrmpOpenChannelRequest, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, PolkadotRuntimeParachainsInclusionCandidatePendingAvailability, PolkadotRuntimeParachainsInitializerBufferedSessionChange, PolkadotRuntimeParachainsOnDemandTypesCoreAffinityCount, PolkadotRuntimeParachainsOnDemandTypesEnqueuedOrder, PolkadotRuntimeParachainsOnDemandTypesQueueStatusType, PolkadotRuntimeParachainsParasAuthorizedCodeHashAndExpiry, PolkadotRuntimeParachainsParasParaGenesisArgs, PolkadotRuntimeParachainsParasParaLifecycle, PolkadotRuntimeParachainsParasParaPastCodeMeta, PolkadotRuntimeParachainsParasPvfCheckActiveVoteState, PolkadotRuntimeParachainsSchedulerCommonAssignment, PolkadotRuntimeParachainsSharedAllowedRelayParentsTracker, PolkadotRuntimeSessionKeys, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeEpochConfiguration, SpConsensusBabeDigestsNextConfigDescriptor, SpConsensusBabeDigestsPreDigest, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusGrandpaAppPublic, SpCoreCryptoKeyTypeId, SpNposElectionsElectionScore, SpRuntimeDigest, SpStakingExposure, SpStakingExposurePage, SpStakingOffenceOffenceDetails, SpStakingPagedExposureMetadata, SpWeightsWeightV2Weight, StagingXcmV5Instruction, StagingXcmV5Xcm, XcmVersionedAssetId, XcmVersionedLocation } from '@polkadot/types/lookup';
 import type { Observable } from '@polkadot/types/types';
 
 export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType, () => unknown>;
@@ -1073,6 +1073,10 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       actionsQueue: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<u32>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       /**
+       * The code hash authorizations for a para which will expire `expire_at` `BlockNumberFor<T>`.
+       **/
+      authorizedCodeHash: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotRuntimeParachainsParasAuthorizedCodeHashAndExpiry>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
        * Validation code stored by its hash.
        * 
        * This storage is consistent with [`FutureCodeHash`], [`CurrentCodeHash`] and
@@ -1338,7 +1342,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Validators pending dispute slashes.
        **/
-      unappliedSlashes: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: H256 | string | Uint8Array) => Observable<Option<PolkadotPrimitivesV8SlashingPendingSlashes>>, [u32, H256]> & QueryableStorageEntry<ApiType, [u32, H256]>;
+      unappliedSlashes: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: H256 | string | Uint8Array) => Observable<Option<PolkadotPrimitivesVstagingPendingSlashes>>, [u32, H256]> & QueryableStorageEntry<ApiType, [u32, H256]>;
       /**
        * `ValidatorSetCount` per session.
        **/
@@ -1373,6 +1377,141 @@ declare module '@polkadot/api-base/types/storage' {
        * which are being delegated to, together with the amount held on deposit.
        **/
       proxies: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<ITuple<[Vec<PalletProxyProxyDefinition>, u128]>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    rcMigrator: {
+      /**
+       * The priority of the Asset Hub UMP queue during migration.
+       * 
+       * Controls how the Asset Hub UMP (Upward Message Passing) queue is processed relative to other
+       * queues during the migration process. This helps ensure timely processing of migration
+       * messages. The default priority pattern is defined in the pallet configuration, but can be
+       * overridden by a storage value of this type.
+       **/
+      ahUmpQueuePriorityConfig: AugmentedQuery<ApiType, () => Observable<PalletRcMigratorQueuePriority>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * An optional account id of a canceller.
+       * 
+       * This account id can only stop scheduled migration.
+       **/
+      canceller: AugmentedQuery<ApiType, () => Observable<Option<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The duration of the post migration cool-off period.
+       * 
+       * This is the duration of the cool-off period after the data migration is finished. During
+       * this period, the migration will be still in ongoing state and the concerned extrinsics will
+       * be locked.
+       **/
+      coolOffPeriod: AugmentedQuery<ApiType, () => Observable<Option<FrameSupportScheduleDispatchTime>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Counter for the related counted storage map
+       **/
+      counterForPendingXcmMessages: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Counter for the related counted storage map
+       **/
+      counterForRcAccounts: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * An optional account id of a manager.
+       * 
+       * This account id has similar privileges to [`Config::AdminOrigin`] except that it
+       * can not set the manager account id via `set_manager` call.
+       **/
+      manager: AugmentedQuery<ApiType, () => Observable<Option<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The current round of the multisig voting.
+       * 
+       * Votes are only valid for the current round.
+       **/
+      managerMultisigRound: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The multisig AccountIDs that votes to execute a specific call.
+       **/
+      managerMultisigs: AugmentedQuery<ApiType, (arg: Call | IMethod | string | Uint8Array) => Observable<Vec<AccountId32>>, [Call]> & QueryableStorageEntry<ApiType, [Call]>;
+      /**
+       * How often each participant voted in the current round.
+       * 
+       * Will be cleared at the end of each round.
+       **/
+      managerVotesInCurrentRound: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<u32>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Block number when migration finished and extrinsics were unlocked.
+       * 
+       * This is set when entering the `MigrationDone` stage hence when
+       * `RcMigrationStage::is_finished()` becomes `true`.
+       **/
+      migrationEndBlock: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The block number at which the migration began and the pallet's extrinsics were locked.
+       * 
+       * This value is set when entering the `WaitingForAh` stage, i.e., when
+       * `RcMigrationStage::is_ongoing()` becomes `true`.
+       **/
+      migrationStartBlock: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The pending XCM messages.
+       * 
+       * Contains data messages that have been sent to the Asset Hub but not yet confirmed.
+       * 
+       * Unconfirmed messages can be resent by calling the [`Pallet::resend_xcm`] function.
+       **/
+      pendingXcmMessages: AugmentedQuery<ApiType, (arg: ITuple<[u64, H256]> | [u64 | AnyNumber | Uint8Array, H256 | string | Uint8Array]) => Observable<Option<StagingXcmV5Xcm>>, [ITuple<[u64, H256]>]> & QueryableStorageEntry<ApiType, [ITuple<[u64, H256]>]>;
+      /**
+       * The pending XCM response queries and their XCM hash referencing the message in the
+       * [`PendingXcmMessages`] storage.
+       * 
+       * The `QueryId` is the identifier from the [`pallet_xcm`] query handler registry. The XCM
+       * pallet will notify about the status of the message by calling the
+       * [`Pallet::receive_query_response`] function with the `QueryId` and the
+       * response.
+       **/
+      pendingXcmQueries: AugmentedQuery<ApiType, (arg: u64 | AnyNumber | Uint8Array) => Observable<Option<H256>>, [u64]> & QueryableStorageEntry<ApiType, [u64]>;
+      /**
+       * Accounts that use the proxy pallet to delegate permissions and have no nonce.
+       * 
+       * Boolean value is whether they have been migrated to the Asset Hub. Needed for idempotency.
+       **/
+      pureProxyCandidatesMigrated: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<bool>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Helper storage item to obtain and store the known accounts that should be kept partially or
+       * fully on Relay Chain.
+       **/
+      rcAccounts: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletRcMigratorAccountsAccountState>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Helper storage item to store the total balance that should be kept on Relay Chain.
+       **/
+      rcMigratedBalance: AugmentedQuery<ApiType, () => Observable<PalletRcMigratorAccountsMigratedBalances>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Helper storage item to store the total balance that should be kept on Relay Chain after
+       * it is consumed from the `RcMigratedBalance` storage item and sent to the Asset Hub.
+       * 
+       * This let us to take the value from the `RcMigratedBalance` storage item and keep the
+       * `SignalMigrationFinish` stage to be idempotent while preserving these values for tests and
+       * later discoveries.
+       **/
+      rcMigratedBalanceArchive: AugmentedQuery<ApiType, () => Observable<PalletRcMigratorAccountsMigratedBalances>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The Relay Chain migration state.
+       **/
+      rcMigrationStage: AugmentedQuery<ApiType, () => Observable<PalletRcMigratorMigrationStage>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The migration settings.
+       **/
+      settings: AugmentedQuery<ApiType, () => Observable<Option<PalletRcMigratorMigrationSettings>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Manual override for `type UnprocessedMsgBuffer: Get<u32>`. Look there for docs.
+       **/
+      unprocessedMsgBuffer: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The duration of the pre migration warm-up period.
+       * 
+       * This is the duration of the warm-up period before the data migration starts. During this
+       * period, the migration will be in ongoing state and the concerned extrinsics will be locked.
+       **/
+      warmUpPeriod: AugmentedQuery<ApiType, () => Observable<Option<FrameSupportScheduleDispatchTime>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -1811,6 +1950,69 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
+    stakingAhClient: {
+      /**
+       * An incomplete validator set report.
+       **/
+      incompleteValidatorSetReport: AugmentedQuery<ApiType, () => Observable<Option<PalletStakingAsyncRcClientValidatorSetReport>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Indicates the current operating mode of the pallet.
+       * 
+       * This value determines how the pallet behaves in response to incoming and outgoing messages,
+       * particularly whether it should execute logic directly, defer it, or delegate it entirely.
+       **/
+      mode: AugmentedQuery<ApiType, () => Observable<PalletStakingAsyncAhClientOperatingMode>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * A storage value that is set when a `new_session` gives a new validator set to the session
+       * pallet, and is cleared on the next call.
+       * 
+       * The inner u32 is the id of the said activated validator set. While not relevant here, good
+       * to know this is the planning era index of staking-async on AH.
+       * 
+       * Once cleared, we know a validator set has been activated, and therefore we can send a
+       * timestamp to AH.
+       **/
+      nextSessionChangesValidators: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Internal storage item of [`OffenceSendQueue`]. Should not be used manually.
+       **/
+      offenceSendQueueCursor: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Internal storage item of [`OffenceSendQueue`]. Should not be used manually.
+       **/
+      offenceSendQueueOffences: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<ITuple<[u32, PalletStakingAsyncRcClientOffence]>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
+      /**
+       * A session report that is outgoing, and should be sent.
+       * 
+       * This will be attempted to be sent, possibly on every `on_initialize` call, until it is sent,
+       * or the second value reaches zero, at which point we drop it.
+       **/
+      outgoingSessionReport: AugmentedQuery<ApiType, () => Observable<Option<ITuple<[PalletStakingAsyncRcClientSessionReport, u32]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * All of the points of the validators.
+       * 
+       * This is populated during a session, and is flushed and sent over via [`SendToAssetHub`]
+       * at each session end.
+       **/
+      validatorPoints: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<u32>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * The queued validator sets for a given planning session index.
+       * 
+       * This is received via a call from AssetHub.
+       **/
+      validatorSet: AugmentedQuery<ApiType, () => Observable<Option<ITuple<[u32, Vec<AccountId32>]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The session index at which the latest elected validator set was applied.
+       * 
+       * This is used to determine if an offence, given a session index, is in the current active era
+       * or not.
+       **/
+      validatorSetAppliedAt: AugmentedQuery<ApiType, () => Observable<Option<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     stateTrieMigration: {
       /**
        * The limits that are imposed on automatic migrations.
@@ -2041,6 +2243,18 @@ declare module '@polkadot/api-base/types/storage' {
        * Nodes store links forward and back within their respective bags.
        **/
       listNodes: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<PalletBagsListListNode>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      /**
+       * Lock all updates to this pallet.
+       * 
+       * If any nodes needs updating, removal or addition due to a temporary lock, the
+       * [`Call::rebag`] can be used.
+       **/
+      lock: AugmentedQuery<ApiType, () => Observable<Option<Null>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Pointer that remembers the next node that will be auto-rebagged.
+       * When `None`, the next scan will start from the list head again.
+       **/
+      nextNodeAutoRebagged: AugmentedQuery<ApiType, () => Observable<Option<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/

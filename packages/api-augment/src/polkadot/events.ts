@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, FrameSystemDispatchEventInfo, PalletConvictionVotingTally, PalletConvictionVotingVoteAccountVote, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletMultisigTimepoint, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletProxyDepositKind, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesVstagingCandidateReceiptV2, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeConstantsProxyProxyType, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, StagingXcmV5AssetAssets, StagingXcmV5Location, StagingXcmV5Response, StagingXcmV5TraitsOutcome, StagingXcmV5Xcm, XcmV3TraitsSendError, XcmV5TraitsError, XcmVersionedAssets, XcmVersionedLocation } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, FrameSystemDispatchEventInfo, PalletBalancesUnexpectedKind, PalletConvictionVotingTally, PalletConvictionVotingVoteAccountVote, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletMultisigTimepoint, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletProxyDepositKind, PalletRcMigratorMigrationSettings, PalletRcMigratorMigrationStage, PalletRcMigratorQueuePriority, PalletStakingAsyncAhClientUnexpectedKind, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PalletStateTrieMigrationError, PalletStateTrieMigrationMigrationCompute, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesVstagingCandidateReceiptV2, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeConstantsProxyProxyType, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, StagingXcmV5AssetAssets, StagingXcmV5Location, StagingXcmV5Response, StagingXcmV5TraitsOutcome, StagingXcmV5Xcm, XcmV3MaybeErrorCode, XcmV3TraitsSendError, XcmV5TraitsError, XcmVersionedAssets, XcmVersionedLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -139,6 +139,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Transfer: AugmentedEvent<ApiType, [from: AccountId32, to: AccountId32, amount: u128], { from: AccountId32, to: AccountId32, amount: u128 }>;
       /**
+       * An unexpected/defensive event was triggered.
+       **/
+      Unexpected: AugmentedEvent<ApiType, [PalletBalancesUnexpectedKind]>;
+      /**
        * Some balance was unlocked.
        **/
       Unlocked: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
@@ -204,6 +208,10 @@ declare module '@polkadot/api-base/types/events' {
        * A bounty curator is unassigned.
        **/
       CuratorUnassigned: AugmentedEvent<ApiType, [bountyId: u32], { bountyId: u32 }>;
+      /**
+       * A bounty deposit has been poked.
+       **/
+      DepositPoked: AugmentedEvent<ApiType, [bountyId: u32, proposer: AccountId32, oldDeposit: u128, newDeposit: u128], { bountyId: u32, proposer: AccountId32, oldDeposit: u128, newDeposit: u128 }>;
       /**
        * Generic event
        **/
@@ -430,6 +438,20 @@ declare module '@polkadot/api-base/types/events' {
        * Current authority set has been resumed.
        **/
       Resumed: AugmentedEvent<ApiType, []>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    historical: {
+      /**
+       * The merkle roots of up to this session index were pruned
+       **/
+      RootsPruned: AugmentedEvent<ApiType, [upTo: u32], { upTo: u32 }>;
+      /**
+       * The merkle root of the validators of the said session were stored
+       **/
+      RootStored: AugmentedEvent<ApiType, [index: u32], { index: u32 }>;
       /**
        * Generic event
        **/
@@ -716,6 +738,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       ActionQueued: AugmentedEvent<ApiType, [u32, u32]>;
       /**
+       * A new code hash has been authorized for a Para.
+       **/
+      CodeAuthorized: AugmentedEvent<ApiType, [paraId: u32, codeHash: H256, expireAt: u32], { paraId: u32, codeHash: H256, expireAt: u32 }>;
+      /**
        * A code upgrade has been scheduled for a Para. `para_id`
        **/
       CodeUpgradeScheduled: AugmentedEvent<ApiType, [u32]>;
@@ -746,6 +772,10 @@ declare module '@polkadot/api-base/types/events' {
        * code. `code_hash` `para_id`
        **/
       PvfCheckStarted: AugmentedEvent<ApiType, [H256, u32]>;
+      /**
+       * The upgrade cooldown was removed.
+       **/
+      UpgradeCooldownRemoved: AugmentedEvent<ApiType, [paraId: u32], { paraId: u32 }>;
       /**
        * Generic event
        **/
@@ -817,6 +847,109 @@ declare module '@polkadot/api-base/types/events' {
        * disambiguation index and proxy type.
        **/
       PureCreated: AugmentedEvent<ApiType, [pure: AccountId32, who: AccountId32, proxyType: PolkadotRuntimeConstantsProxyProxyType, disambiguationIndex: u16], { pure: AccountId32, who: AccountId32, proxyType: PolkadotRuntimeConstantsProxyProxyType, disambiguationIndex: u16 }>;
+      /**
+       * A pure proxy was killed by its spawner.
+       **/
+      PureKilled: AugmentedEvent<ApiType, [pure: AccountId32, spawner: AccountId32, proxyType: PolkadotRuntimeConstantsProxyProxyType, disambiguationIndex: u16], { pure: AccountId32, spawner: AccountId32, proxyType: PolkadotRuntimeConstantsProxyProxyType, disambiguationIndex: u16 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    rcMigrator: {
+      /**
+       * The accounts to be preserved on Relay Chain were set.
+       **/
+      AccountsPreserved: AugmentedEvent<ApiType, [accounts: Vec<AccountId32>], { accounts: Vec<AccountId32> }>;
+      /**
+       * The AH UMP queue priority config was set.
+       **/
+      AhUmpQueuePriorityConfigSet: AugmentedEvent<ApiType, [old: PalletRcMigratorQueuePriority, new_: PalletRcMigratorQueuePriority], { old: PalletRcMigratorQueuePriority, new_: PalletRcMigratorQueuePriority }>;
+      /**
+       * Whether the AH UMP queue was prioritized for the next block.
+       **/
+      AhUmpQueuePrioritySet: AugmentedEvent<ApiType, [prioritized: bool, cycleBlock: u32, cyclePeriod: u32], { prioritized: bool, cycleBlock: u32, cyclePeriod: u32 }>;
+      /**
+       * The Asset Hub Migration finished.
+       * 
+       * This event is equivalent to `StageTransition { new: MigrationDone, .. }` but is easier
+       * to understand. The finishing is immediate and affects all events happening
+       * afterwards.
+       **/
+      AssetHubMigrationFinished: AugmentedEvent<ApiType, []>;
+      /**
+       * The Asset Hub Migration started and is active until `AssetHubMigrationFinished` is
+       * emitted.
+       * 
+       * This event is equivalent to `StageTransition { new: Initializing, .. }` but is easier
+       * to understand. The activation is immediate and affects all events happening
+       * afterwards.
+       **/
+      AssetHubMigrationStarted: AugmentedEvent<ApiType, []>;
+      /**
+       * The canceller account id was set.
+       **/
+      CancellerSet: AugmentedEvent<ApiType, [old: Option<AccountId32>, new_: Option<AccountId32>], { old: Option<AccountId32>, new_: Option<AccountId32> }>;
+      /**
+       * The manager multisig dispatched something.
+       **/
+      ManagerMultisigDispatched: AugmentedEvent<ApiType, [res: Result<Null, SpRuntimeDispatchError>], { res: Result<Null, SpRuntimeDispatchError> }>;
+      /**
+       * The manager multisig received a vote.
+       **/
+      ManagerMultisigVoted: AugmentedEvent<ApiType, [votes: u32], { votes: u32 }>;
+      /**
+       * The manager account id was set.
+       **/
+      ManagerSet: AugmentedEvent<ApiType, [old: Option<AccountId32>, new_: Option<AccountId32>], { old: Option<AccountId32>, new_: Option<AccountId32> }>;
+      /**
+       * The RC kept balance was consumed.
+       **/
+      MigratedBalanceConsumed: AugmentedEvent<ApiType, [kept: u128, migrated: u128], { kept: u128, migrated: u128 }>;
+      /**
+       * The total issuance was recorded.
+       **/
+      MigratedBalanceRecordSet: AugmentedEvent<ApiType, [kept: u128, migrated: u128], { kept: u128, migrated: u128 }>;
+      /**
+       * The migration was cancelled.
+       **/
+      MigrationCancelled: AugmentedEvent<ApiType, []>;
+      /**
+       * The migration was paused.
+       **/
+      MigrationPaused: AugmentedEvent<ApiType, [pauseStage: PalletRcMigratorMigrationStage], { pauseStage: PalletRcMigratorMigrationStage }>;
+      /**
+       * The migration settings were set.
+       **/
+      MigrationSettingsSet: AugmentedEvent<ApiType, [old: Option<PalletRcMigratorMigrationSettings>, new_: Option<PalletRcMigratorMigrationSettings>], { old: Option<PalletRcMigratorMigrationSettings>, new_: Option<PalletRcMigratorMigrationSettings> }>;
+      /**
+       * Some pure accounts were indexed for possibly receiving free `Any` proxies.
+       **/
+      PureAccountsIndexed: AugmentedEvent<ApiType, [numPureAccounts: u32], { numPureAccounts: u32 }>;
+      /**
+       * A query response has been received.
+       **/
+      QueryResponseReceived: AugmentedEvent<ApiType, [queryId: u64, response: XcmV3MaybeErrorCode], { queryId: u64, response: XcmV3MaybeErrorCode }>;
+      /**
+       * A stage transition has occurred.
+       **/
+      StageTransition: AugmentedEvent<ApiType, [old: PalletRcMigratorMigrationStage, new_: PalletRcMigratorMigrationStage], { old: PalletRcMigratorMigrationStage, new_: PalletRcMigratorMigrationStage }>;
+      /**
+       * The staking elections were paused.
+       **/
+      StakingElectionsPaused: AugmentedEvent<ApiType, []>;
+      /**
+       * The unprocessed message buffer size has been set.
+       **/
+      UnprocessedMsgBufferSet: AugmentedEvent<ApiType, [new_: u32, old: u32], { new_: u32, old: u32 }>;
+      /**
+       * A XCM message has been resent.
+       **/
+      XcmResendAttempt: AugmentedEvent<ApiType, [queryId: u64, sendError: Option<XcmV3TraitsSendError>], { queryId: u64, sendError: Option<XcmV3TraitsSendError> }>;
+      /**
+       * An XCM message was sent.
+       **/
+      XcmSent: AugmentedEvent<ApiType, [origin: StagingXcmV5Location, destination: StagingXcmV5Location, message: StagingXcmV5Xcm, messageId: U8aFixed], { origin: StagingXcmV5Location, destination: StagingXcmV5Location, message: StagingXcmV5Xcm, messageId: U8aFixed }>;
       /**
        * Generic event
        **/
@@ -945,6 +1078,11 @@ declare module '@polkadot/api-base/types/events' {
     };
     session: {
       /**
+       * The `NewSession` event in the current block also implies a new validator set to be
+       * queued.
+       **/
+      NewQueued: AugmentedEvent<ApiType, []>;
+      /**
        * New session has happened. Note that the argument is the session index, not the
        * block number as the type might suggest.
        **/
@@ -1063,6 +1201,33 @@ declare module '@polkadot/api-base/types/events' {
        * from the unlocking queue.
        **/
       Withdrawn: AugmentedEvent<ApiType, [stash: AccountId32, amount: u128], { stash: AccountId32, amount: u128 }>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    stakingAhClient: {
+      /**
+       * We could not merge, and therefore dropped a buffered message.
+       * 
+       * Note that this event is more resembling an error, but we use an event because in this
+       * pallet we need to mutate storage upon some failures.
+       **/
+      CouldNotMergeAndDropped: AugmentedEvent<ApiType, []>;
+      /**
+       * The validator set received is way too small, as per
+       * [`Config::MinimumValidatorSetSize`].
+       **/
+      SetTooSmallAndDropped: AugmentedEvent<ApiType, []>;
+      /**
+       * Something occurred that should never happen under normal operation. Logged as an event
+       * for fail-safe observability.
+       **/
+      Unexpected: AugmentedEvent<ApiType, [PalletStakingAsyncAhClientUnexpectedKind]>;
+      /**
+       * A new validator set has been received.
+       **/
+      ValidatorSetReceived: AugmentedEvent<ApiType, [id: u32, newValidatorSetCount: u32, pruneUpTo: Option<u32>, leftover: bool], { id: u32, newValidatorSetCount: u32, pruneUpTo: Option<u32>, leftover: bool }>;
       /**
        * Generic event
        **/
@@ -1239,6 +1404,10 @@ declare module '@polkadot/api-base/types/events' {
        * An \[account\] has become fully vested.
        **/
       VestingCompleted: AugmentedEvent<ApiType, [account: AccountId32], { account: AccountId32 }>;
+      /**
+       * A vesting schedule has been created.
+       **/
+      VestingCreated: AugmentedEvent<ApiType, [account: AccountId32, scheduleIndex: u32], { account: AccountId32, scheduleIndex: u32 }>;
       /**
        * The amount vested has been updated. This could indicate a change in funds available.
        * The balance given is the amount which is left unvested (and thus locked).

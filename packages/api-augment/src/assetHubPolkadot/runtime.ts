@@ -10,8 +10,9 @@ import type { Bytes, Null, Option, Result, Text, Vec, bool, u128, u32 } from '@p
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
+import type { ParaId } from '@polkadot/types/interfaces/parachains';
 import type { AccountId32, H256, RuntimeCall, Slot, SlotDuration } from '@polkadot/types/interfaces/runtime';
-import type { AssetHubPolkadotRuntimeOriginCaller, AssetsCommonRuntimeApiFungiblesAccessError, CumulusPrimitivesCoreCollationInfo, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpConsensusAuraEd25519AppEd25519Public, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpVersionRuntimeVersion, SpWeightsWeightV2Weight, StagingXcmV4Location, XcmRuntimeApisConversionsError, XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError, XcmRuntimeApisDryRunXcmDryRunEffects, XcmRuntimeApisFeesError, XcmVersionedAssetId, XcmVersionedAssets, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { AssetHubPolkadotRuntimeOriginCaller, AssetsCommonRuntimeApiFungiblesAccessError, CumulusPrimitivesCoreCollationInfo, FrameSupportViewFunctionsViewFunctionDispatchError, FrameSupportViewFunctionsViewFunctionId, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpConsensusAuraEd25519AppEd25519Public, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpVersionRuntimeVersion, SpWeightsWeightV2Weight, StagingXcmV5Location, XcmRuntimeApisAuthorizedAliasesError, XcmRuntimeApisAuthorizedAliasesOriginAliaser, XcmRuntimeApisConversionsError, XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError, XcmRuntimeApisDryRunXcmDryRunEffects, XcmRuntimeApisFeesError, XcmRuntimeApisTrustedQueryError, XcmVersionedAsset, XcmVersionedAssetId, XcmVersionedAssets, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -35,15 +36,15 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns the size of the liquidity pool for the given asset pair.
        **/
-      getReserves: AugmentedCall<ApiType, (asset1: StagingXcmV4Location | { parents?: any; interior?: any } | string | Uint8Array, asset2: StagingXcmV4Location | { parents?: any; interior?: any } | string | Uint8Array) => Observable<Option<ITuple<[u128, u128]>>>>;
+      getReserves: AugmentedCall<ApiType, (asset1: StagingXcmV5Location | { parents?: any; interior?: any } | string | Uint8Array, asset2: StagingXcmV5Location | { parents?: any; interior?: any } | string | Uint8Array) => Observable<Option<ITuple<[u128, u128]>>>>;
       /**
        * Provides a quote for [`Pallet::swap_exact_tokens_for_tokens`].,, Note that the price may have changed by the time the transaction is executed., (Use `amount_out_min` to control slippage.)
        **/
-      quotePriceExactTokensForTokens: AugmentedCall<ApiType, (asset1: StagingXcmV4Location | { parents?: any; interior?: any } | string | Uint8Array, asset2: StagingXcmV4Location | { parents?: any; interior?: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<u128>>>;
+      quotePriceExactTokensForTokens: AugmentedCall<ApiType, (asset1: StagingXcmV5Location | { parents?: any; interior?: any } | string | Uint8Array, asset2: StagingXcmV5Location | { parents?: any; interior?: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<u128>>>;
       /**
        * Provides a quote for [`Pallet::swap_tokens_for_exact_tokens`].,, Note that the price may have changed by the time the transaction is executed., (Use `amount_in_max` to control slippage.)
        **/
-      quotePriceTokensForExactTokens: AugmentedCall<ApiType, (asset1: StagingXcmV4Location | { parents?: any; interior?: any } | string | Uint8Array, asset2: StagingXcmV4Location | { parents?: any; interior?: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<u128>>>;
+      quotePriceTokensForExactTokens: AugmentedCall<ApiType, (asset1: StagingXcmV5Location | { parents?: any; interior?: any } | string | Uint8Array, asset2: StagingXcmV5Location | { parents?: any; interior?: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<u128>>>;
       /**
        * Generic call
        **/
@@ -70,6 +71,21 @@ declare module '@polkadot/api-base/types/calls' {
        * Whether it is legal to extend the chain, assuming the given block is the most, recently included one as-of the relay parent that will be built against, and, the given relay chain slot.,, This should be consistent with the logic the runtime uses when validating blocks to, avoid issues.,, When the unincluded segment is empty, i.e. `included_hash == at`, where at is the block, whose state we are querying against, this must always return `true` as long as the slot, is more recent than the included block itself.
        **/
       canBuildUpon: AugmentedCall<ApiType, (included_hash: H256 | string | Uint8Array, slot: Slot | AnyNumber | Uint8Array) => Observable<bool>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x12c8e3d4d7e06de0/ */
+    authorizedAliasersApi: {
+      /**
+       * Returns locations allowed to alias into and act as `target`.
+       **/
+      authorizedAliasers: AugmentedCall<ApiType, (target: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Result<Vec<XcmRuntimeApisAuthorizedAliasesOriginAliaser>, XcmRuntimeApisAuthorizedAliasesError>>>;
+      /**
+       * Returns whether `origin` is allowed to alias into and act as `target`.
+       **/
+      isAuthorizedAlias: AugmentedCall<ApiType, (origin: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, target: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Result<bool, XcmRuntimeApisAuthorizedAliasesError>>>;
       /**
        * Generic call
        **/
@@ -133,7 +149,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Dry run call V2.
        **/
-      dryRunCall: AugmentedCall<ApiType, (origin: AssetHubPolkadotRuntimeOriginCaller | { system: any } | { PolkadotXcm: any } | { CumulusXcm: any } | string | Uint8Array, call: RuntimeCall | IMethod | string | Uint8Array, result_xcms_version: u32 | AnyNumber | Uint8Array) => Observable<Result<XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError>>>;
+      dryRunCall: AugmentedCall<ApiType, (origin: AssetHubPolkadotRuntimeOriginCaller | { system: any } | { PolkadotXcm: any } | { CumulusXcm: any } | { Origins: any } | string | Uint8Array, call: RuntimeCall | IMethod | string | Uint8Array, result_xcms_version: u32 | AnyNumber | Uint8Array) => Observable<Result<XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError>>>;
       /**
        * Dry run XCM program
        **/
@@ -173,6 +189,17 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0xa2ddb6a58477bf63/ */
+    getParachainInfo: {
+      /**
+       * Retrieve the parachain id used for runtime.
+       **/
+      parachainId: AugmentedCall<ApiType, () => Observable<ParaId>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
     /** 0x9ffb505aa738d69c/ */
     locationToAccountApi: {
       /**
@@ -203,12 +230,81 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
+    /** 0x17a6bc0d0062aeb3/ */
+    nominationPoolsApi: {
+      /**
+       * Returns the equivalent points of `new_funds` for a given pool.
+       **/
+      balanceToPoints: AugmentedCall<ApiType, (pool_id: u32 | AnyNumber | Uint8Array, new_funds: u128 | AnyNumber | Uint8Array) => Observable<u128>>;
+      /**
+       * Returns true if the delegated funds of the pool `member` needs migration.,, Once a pool has successfully migrated to the strategy, [`DelegateStake`](pallet_nomination_pools::adapter::DelegateStake), the funds of the, member can be migrated from pool account to the member's account. Use, [`migrate_delegation`](pallet_nomination_pools::Call::migrate_delegation), to migrate the funds of the pool member.
+       **/
+      memberNeedsDelegateMigration: AugmentedCall<ApiType, (member: AccountId32 | string | Uint8Array) => Observable<bool>>;
+      /**
+       * Returns the pending slash for a given pool member.,, If pending slash of the member exceeds `ExistentialDeposit`, it can be reported on, chain.
+       **/
+      memberPendingSlash: AugmentedCall<ApiType, (member: AccountId32 | string | Uint8Array) => Observable<u128>>;
+      /**
+       * Returns the total contribution of a pool member including any balance that is unbonding.
+       **/
+      memberTotalBalance: AugmentedCall<ApiType, (who: AccountId32 | string | Uint8Array) => Observable<u128>>;
+      /**
+       * Returns the pending rewards for the member that the AccountId was given for.
+       **/
+      pendingRewards: AugmentedCall<ApiType, (who: AccountId32 | string | Uint8Array) => Observable<u128>>;
+      /**
+       * Returns the equivalent balance of `points` for a given pool.
+       **/
+      pointsToBalance: AugmentedCall<ApiType, (pool_id: u32 | AnyNumber | Uint8Array, points: u128 | AnyNumber | Uint8Array) => Observable<u128>>;
+      /**
+       * Returns the bonded account and reward account associated with the pool_id.
+       **/
+      poolAccounts: AugmentedCall<ApiType, (pool_id: u32 | AnyNumber | Uint8Array) => Observable<ITuple<[AccountId32, AccountId32]>>>;
+      /**
+       * Total balance contributed to the pool.
+       **/
+      poolBalance: AugmentedCall<ApiType, (pool_id: u32 | AnyNumber | Uint8Array) => Observable<u128>>;
+      /**
+       * Returns true if the pool with `pool_id` needs migration.,, This can happen when the `pallet-nomination-pools` has switched to using strategy, [`DelegateStake`](pallet_nomination_pools::adapter::DelegateStake) but the pool, still has funds that were staked using the older strategy, [TransferStake](pallet_nomination_pools::adapter::TransferStake). Use, [`migrate_pool_to_delegate_stake`](pallet_nomination_pools::Call::migrate_pool_to_delegate_stake), to migrate the pool.
+       **/
+      poolNeedsDelegateMigration: AugmentedCall<ApiType, (pool_id: u32 | AnyNumber | Uint8Array) => Observable<bool>>;
+      /**
+       * Returns the pending slash for a given pool.
+       **/
+      poolPendingSlash: AugmentedCall<ApiType, (pool_id: u32 | AnyNumber | Uint8Array) => Observable<u128>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
     /** 0xf78b278be53f454c/ */
     offchainWorkerApi: {
       /**
        * Starts the off-chain task for given block header.
        **/
       offchainWorker: AugmentedCall<ApiType, (header: SpRuntimeHeader | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array) => Observable<Null>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x04e70521a0d3d2f8/ */
+    relayParentOffsetApi: {
+      /**
+       * Fetch the slot offset that is expected from the relay chain.
+       **/
+      relayParentOffset: AugmentedCall<ApiType, () => Observable<u32>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0xccd9de6396c899ca/ */
+    runtimeViewFunction: {
+      /**
+       * Execute a view function query.
+       **/
+      executeViewFunction: AugmentedCall<ApiType, (query_id: FrameSupportViewFunctionsViewFunctionId | { prefix?: any; suffix?: any } | string | Uint8Array, input: Bytes | string | Uint8Array) => Observable<Result<Bytes, FrameSupportViewFunctionsViewFunctionDispatchError>>>;
       /**
        * Generic call
        **/
@@ -224,6 +320,25 @@ declare module '@polkadot/api-base/types/calls' {
        * Generate a set of session keys with optionally using the given seed., The keys should be stored within the keystore exposed via runtime, externalities.,, The seed needs to be a valid `utf8` string.,, Returns the concatenated SCALE encoded public keys.
        **/
       generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<Bytes>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x18ef58a3b67ba770/ */
+    stakingApi: {
+      /**
+       * Returns the page count of exposures for a validator `account` in a given era.
+       **/
+      erasStakersPageCount: AugmentedCall<ApiType, (era: u32 | AnyNumber | Uint8Array, account: AccountId32 | string | Uint8Array) => Observable<u32>>;
+      /**
+       * Returns the nominations quota for a nominator with a given balance.
+       **/
+      nominationsQuota: AugmentedCall<ApiType, (balance: u128 | AnyNumber | Uint8Array) => Observable<u32>>;
+      /**
+       * Returns true if validator `account` has pages to be claimed for the given era.
+       **/
+      pendingRewards: AugmentedCall<ApiType, (era: u32 | AnyNumber | Uint8Array, account: AccountId32 | string | Uint8Array) => Observable<bool>>;
       /**
        * Generic call
        **/
@@ -281,6 +396,21 @@ declare module '@polkadot/api-base/types/calls' {
        * Query the output of the current `WeightToFee` given some input.
        **/
       queryWeightToFee: AugmentedCall<ApiType, (weight: SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => Observable<u128>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0x2609be83ac4468dc/ */
+    trustedQueryApi: {
+      /**
+       * Returns if the location is a trusted reserve for the asset.,, # Arguments, * `asset`: `VersionedAsset`., * `location`: `VersionedLocation`.
+       **/
+      isTrustedReserve: AugmentedCall<ApiType, (asset: XcmVersionedAsset | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, location: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Result<bool, XcmRuntimeApisTrustedQueryError>>>;
+      /**
+       * Returns if the asset can be teleported to the location.,, # Arguments, * `asset`: `VersionedAsset`., * `location`: `VersionedLocation`.
+       **/
+      isTrustedTeleporter: AugmentedCall<ApiType, (asset: XcmVersionedAsset | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, location: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Result<bool, XcmRuntimeApisTrustedQueryError>>>;
       /**
        * Generic call
        **/

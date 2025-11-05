@@ -195,6 +195,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidValue: AugmentedError<ApiType>;
       /**
+       * User is not the proposer of the bounty.
+       **/
+      NotProposer: AugmentedError<ApiType>;
+      /**
        * A bounty payout is pending.
        * To cancel the bounty, you must unassign and slash the curator.
        **/
@@ -1192,9 +1196,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CannotUpgradeCode: AugmentedError<ApiType>;
       /**
+       * Invalid block number.
+       **/
+      InvalidBlockNumber: AugmentedError<ApiType>;
+      /**
        * Invalid validation code size.
        **/
       InvalidCode: AugmentedError<ApiType>;
+      /**
+       * No upgrade authorized.
+       **/
+      NothingAuthorized: AugmentedError<ApiType>;
       /**
        * Para is not registered in our system.
        **/
@@ -1223,6 +1235,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Claimed validator index is out of bounds.
        **/
       PvfCheckValidatorIndexOutOfBounds: AugmentedError<ApiType>;
+      /**
+       * The submitted code is not authorized.
+       **/
+      Unauthorized: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1372,6 +1388,84 @@ declare module '@polkadot/api-base/types/errors' {
        * A call which is incompatible with the proxy type's filter was attempted.
        **/
       Unproxyable: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    rcMigrator: {
+      /**
+       * The account is referenced by some other pallet. It might have freezes or holds.
+       **/
+      AccountReferenced: AugmentedError<ApiType>;
+      /**
+       * The AH UMP queue priority configuration is already set.
+       **/
+      AhUmpQueuePriorityAlreadySet: AugmentedError<ApiType>;
+      /**
+       * The XCM version is invalid.
+       **/
+      BadXcmVersion: AugmentedError<ApiType>;
+      /**
+       * Balance accounting overflow.
+       **/
+      BalanceOverflow: AugmentedError<ApiType>;
+      /**
+       * Balance accounting underflow.
+       **/
+      BalanceUnderflow: AugmentedError<ApiType>;
+      /**
+       * Indicates that there is not enough time for staking to lock.
+       * 
+       * Schedule the migration at least two sessions before the current era ends.
+       **/
+      EraEndsTooSoon: AugmentedError<ApiType>;
+      /**
+       * Failed to withdraw account from RC for migration to AH.
+       **/
+      FailedToWithdrawAccount: AugmentedError<ApiType>;
+      /**
+       * The origin is invalid.
+       **/
+      InvalidOrigin: AugmentedError<ApiType>;
+      /**
+       * Invalid parameter.
+       **/
+      InvalidParameter: AugmentedError<ApiType>;
+      /**
+       * The query response is invalid.
+       **/
+      InvalidQueryResponse: AugmentedError<ApiType>;
+      /**
+       * The stage transition is invalid.
+       **/
+      InvalidStageTransition: AugmentedError<ApiType>;
+      OutOfWeight: AugmentedError<ApiType>;
+      /**
+       * Indicates that the specified block number is in the past.
+       **/
+      PastBlockNumber: AugmentedError<ApiType>;
+      /**
+       * The xcm query was not found.
+       **/
+      QueryNotFound: AugmentedError<ApiType>;
+      Unreachable: AugmentedError<ApiType>;
+      /**
+       * The migration stage is not reachable from the current stage.
+       **/
+      UnreachableStage: AugmentedError<ApiType>;
+      /**
+       * Unsigned validation failed.
+       **/
+      UnsignedValidationFailed: AugmentedError<ApiType>;
+      /**
+       * Failed to send XCM message to AH.
+       **/
+      XcmError: AugmentedError<ApiType>;
+      /**
+       * Failed to send XCM message.
+       **/
+      XcmSendError: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1716,6 +1810,16 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    stakingAhClient: {
+      /**
+       * Could not process incoming message because incoming messages are blocked.
+       **/
+      Blocked: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     stateTrieMigration: {
       /**
        * Bad child root provided.
@@ -1892,6 +1996,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       List: AugmentedError<ApiType>;
       /**
+       * Could not update a node, because the pallet is locked.
+       **/
+      Locked: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -1992,6 +2100,11 @@ declare module '@polkadot/api-base/types/errors' {
        * Local XCM execution incomplete.
        **/
       LocalExecutionIncomplete: AugmentedError<ApiType>;
+      /**
+       * Local XCM execution incomplete with the actual XCM error and the index of the
+       * instruction that caused the error.
+       **/
+      LocalExecutionIncompleteWithError: AugmentedError<ApiType>;
       /**
        * A remote lock with the corresponding data could not be found.
        **/
