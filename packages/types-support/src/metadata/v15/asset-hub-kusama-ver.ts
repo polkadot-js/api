@@ -9,11 +9,15 @@ export default {
   "specName": "statemine",
   "implName": "statemine",
   "authoringVersion": 1,
-  "specVersion": 1006000,
+  "specVersion": 1009003,
   "implVersion": 0,
   "apis": [
     [
       "0xdd718d5cc53262d4",
+      1
+    ],
+    [
+      "0x04e70521a0d3d2f8",
       1
     ],
     [
@@ -45,6 +49,10 @@ export default {
       1
     ],
     [
+      "0xccd9de6396c899ca",
+      1
+    ],
+    [
       "0xbc9d89904f5b923f",
       1
     ],
@@ -73,15 +81,35 @@ export default {
       1
     ],
     [
+      "0x2609be83ac4468dc",
+      1
+    ],
+    [
+      "0x12c8e3d4d7e06de0",
+      1
+    ],
+    [
       "0xde92b8a0426b9bf6",
       2
     ],
     [
       "0xea93e3f16f3d6962",
-      2
+      3
     ],
     [
       "0xfbc577b9d747efd6",
+      1
+    ],
+    [
+      "0xa2ddb6a58477bf63",
+      1
+    ],
+    [
+      "0x17a6bc0d0062aeb3",
+      1
+    ],
+    [
+      "0x18ef58a3b67ba770",
       1
     ],
     [

@@ -68,7 +68,9 @@ export function keysMulti (instanceId: string, api: DeriveApi): (stashIds: (Uint
         switchMap((queuedKeys) =>
           combineLatest([
             of(queuedKeys),
+            // eslint-disable-next-line @typescript-eslint/dot-notation
             api.consts['session']?.['dedupKeyPrefix']
+              // eslint-disable-next-line @typescript-eslint/dot-notation
               ? api.query.session.nextKeys.multi(stashIds.map((s) => [api.consts['session']['dedupKeyPrefix'], s]))
               : combineLatest(stashIds.map((s) => api.query.session.nextKeys(s)))
           ])
