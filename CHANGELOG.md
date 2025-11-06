@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 16.5.1 Nov 6, 2025
+
+Changes:
+
+- Upgrade Polkadot and Polkadot Asset Hub types for 2000000 ([#6219](https://github.com/polkadot-js/api/pull/6219))
+- Upgrade Kusama and Kusama Asset Hub types for 1009003 ([#6218](https://github.com/polkadot-js/api/pull/6218))
+
+
 ## 16.4.9 Oct 14, 2025
 
 Changes:
