@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 16.5.2 Nov 11, 2025
+
+Changes:
+
+- Bump @polkadot dependencies ([#6222](https://github.com/polkadot-js/api/pull/6222))
+- Fix: add phantom export to prevent empty types.ts compilation error ([#6221](https://github.com/polkadot-js/api/pull/6221))
+
+
 ## 16.5.1 Nov 6, 2025
 
 Changes:
