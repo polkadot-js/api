@@ -11,7 +11,7 @@
       11	Ian He                        	HttpProvider support clone() (#3949)
       10	Arjun Porwal                  	Upgrade Polkadot and Polkadot Asset Hub types for 2000000 (#6219)
       10	Axel Chalon                   	Make Enum/Tuple constructor use value directly if instance (#1954)
-       9	rajk93                        	16.5.1 (#6220)
+      10	rajk93                        	fix: add phantom export to prevent empty types.ts compilation error (#6221)
        6	Andreea Eftene                	Update check for contract instantiation (#5699)
        6	Branislav Kontur              	Fix for fungiblesApi (#5944)
        5	Alberto Nicolas Penayo        	added use of accountNonceApi (#5915)
