@@ -25,7 +25,7 @@ type DeriveCustomAccount = DeriveApi['derive'] & Record<string, {
 }>
 
 function zeroBalance (api: DeriveApi) {
-  return api.registry.createType('Balance');
+  return api.registry.createType('Balance', 0);
 }
 
 function getBalance (api: DeriveApi, [freeBalance, reservedBalance, frozenFeeOrFrozen, frozenMiscOrFlags]: BalanceResult, accType: AccountType): DeriveBalancesAccountData {
@@ -92,7 +92,7 @@ function queryNonceOnly (api: DeriveApi, accountId: AccountId): Observable<Resul
       ? api.query.system['accountNonce']<Index>(accountId).pipe(
         map((nonce) => fill(nonce))
       )
-      : of(fill(api.registry.createType('Index')));
+      : of(fill(api.registry.createType('Index', 0)));
 }
 
 function queryBalancesAccount (api: DeriveApi, accountId: AccountId, modules: string[] = ['balances']): Observable<Result> {
@@ -199,7 +199,7 @@ export function account (instanceId: string, api: DeriveApi): (address: AccountI
                     : queryNonceOnly(api, accountId)
           ])
           : of([api.registry.createType('AccountId'), [
-            api.registry.createType('Index'),
+            api.registry.createType('Index', 0),
             [[zeroBalance(api), zeroBalance(api), zeroBalance(api), zeroBalance(api)]],
             { isFrameAccountData: false }
           ]])

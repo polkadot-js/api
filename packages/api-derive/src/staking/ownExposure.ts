@@ -15,11 +15,11 @@ import { erasHistoricApplyAccount } from './util.js';
 
 export function _ownExposures (instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean, page: u32 | AnyNumber) => Observable<DeriveOwnExposure[]> {
   return memo(instanceId, (accountId: Uint8Array | string, eras: EraIndex[], _withActive: boolean, page: u32 | AnyNumber): Observable<DeriveOwnExposure[]> => {
-    const emptyStakingExposure = api.registry.createType<SpStakingExposure>('Exposure');
+    const emptyStakingExposure = api.registry.createType<SpStakingExposure>('Exposure', {});
     // The reason we don't explicitly make the actual types is for compatibility. If the chain doesn't have the noted type it will fail
     // on construction. Therefore we just make an empty option.
-    const emptyOptionPage = api.registry.createType<Option<SpStakingExposurePage>>('Option<Null>');
-    const emptyOptionMeta = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<Null>');
+    const emptyOptionPage = api.registry.createType<Option<SpStakingExposurePage>>('Option<Null>', null);
+    const emptyOptionMeta = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<Null>', null);
 
     return eras.length
       ? combineLatest([

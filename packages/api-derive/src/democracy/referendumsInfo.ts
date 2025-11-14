@@ -37,9 +37,9 @@ function votesPrev (api: DeriveApi, referendumId: BN): Observable<DeriveReferend
     map(([votersFor, votes, balances]): DeriveReferendumVote[] =>
       votersFor.map((accountId, index): DeriveReferendumVote => ({
         accountId,
-        balance: balances[index].votingBalance || api.registry.createType('Balance'),
+        balance: balances[index].votingBalance || api.registry.createType('Balance', 0),
         isDelegating: false,
-        vote: votes[index] || api.registry.createType('Vote')
+        vote: votes[index] || api.registry.createType('Vote', {})
       }))
     )
   );

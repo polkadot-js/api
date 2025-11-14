@@ -45,7 +45,7 @@ function retrievePrev (api: DeriveApi, elections: DeriveApi['query']['elections'
       const result: DeriveCouncilVotes = [];
 
       votes.forEach(([voter, votes]): void => {
-        result.push([voter, { stake: api.registry.createType('Balance'), votes }]);
+        result.push([voter, { stake: api.registry.createType('Balance', 0), votes }]);
       });
 
       stakes.forEach(([staker, stake]): void => {

@@ -40,8 +40,8 @@ function queryAura (api: DeriveApi): Observable<DeriveSessionProgress> {
   return api.derive.session.info().pipe(
     map((info): DeriveSessionProgress =>
       objectSpread({
-        eraProgress: api.registry.createType('BlockNumber'),
-        sessionProgress: api.registry.createType('BlockNumber')
+        eraProgress: api.registry.createType('BlockNumber', 0),
+        sessionProgress: api.registry.createType('BlockNumber', 0)
       }, info)
     )
   );

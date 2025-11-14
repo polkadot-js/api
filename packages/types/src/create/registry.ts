@@ -556,14 +556,14 @@ export class TypeRegistry implements Registry {
 
     if (this.hasType('SpWeightsWeightV2Weight')) {
       // detection for WeightV2 type based on latest naming
-      const weightv2 = this.createType<WeightV2>('SpWeightsWeightV2Weight');
+      const weightv2 = this.createType<WeightV2>('SpWeightsWeightV2Weight', {});
 
       Weight = weightv2.refTime && weightv2.proofSize
         // with both refTime & proofSize we use as-is (WeightV2)
         ? 'SpWeightsWeightV2Weight'
         // fallback to WeightV1 (WeightV1.5 is a struct, single field)
         : 'WeightV1';
-    } else if (!isBn(this.createType<WeightV1>('Weight'))) {
+    } else if (!isBn(this.createType<WeightV1>('Weight', {}))) {
       // where we have an already-supplied BN override, we don't clobber
       // it with our detected value (This protects against pre-defines
       // where Weight may be aliassed to WeightV0, e.g. in early Kusama chains)

@@ -18,7 +18,7 @@ export function _stakerSlashes (instanceId: string, api: DeriveApi): (accountId:
       map((slashes): DeriveStakerSlashes[] =>
         slashes.map(({ era, nominators, validators }): DeriveStakerSlashes => ({
           era,
-          total: nominators[stakerId] || validators[stakerId] || api.registry.createType('Balance')
+          total: nominators[stakerId] || validators[stakerId] || api.registry.createType('Balance', 0)
         }))
       )
     );

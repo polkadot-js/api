@@ -42,7 +42,7 @@ function convertStorage (registry: Registry, storage: PalletStorageMetadataV14):
 }
 
 function convertCalls (registry: Registry, calls: PalletCallMetadataV14): PalletCallMetadataV16 {
-  const deprecationInfo = registry.createTypeUnsafe('EnumDeprecationInfoV16', []);
+  const deprecationInfo = registry.createTypeUnsafe('EnumDeprecationInfoV16', [{}]);
 
   return registry.createTypeUnsafe('PalletCallMetadataV16', [{
     deprecationInfo,
@@ -51,7 +51,7 @@ function convertCalls (registry: Registry, calls: PalletCallMetadataV14): Pallet
 }
 
 function convertEvents (registry: Registry, events: PalletEventMetadataV14): PalletEventMetadataV16 {
-  const deprecationInfo = registry.createTypeUnsafe('EnumDeprecationInfoV16', []);
+  const deprecationInfo = registry.createTypeUnsafe('EnumDeprecationInfoV16', [{}]);
 
   return registry.createTypeUnsafe('PalletEventMetadataV16', [{
     deprecationInfo,
@@ -70,7 +70,7 @@ function convertConstants (registry: Registry, constants: Vec<PalletConstantMeta
 }
 
 function converErrors (registry: Registry, errors: PalletErrorMetadataV14): PalletErrorMetadataV16 {
-  const deprecationInfo = registry.createTypeUnsafe('EnumDeprecationInfoV16', []);
+  const deprecationInfo = registry.createTypeUnsafe('EnumDeprecationInfoV16', [{}]);
 
   return registry.createTypeUnsafe('PalletErrorMetadataV16', [{
     deprecationInfo,
