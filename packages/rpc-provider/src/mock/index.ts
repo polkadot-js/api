@@ -60,11 +60,11 @@ export class MockProvider implements ProviderInterface {
     chain_getFinalizedHead: () => this.registry.createType('Header', rpcHeader.result).hash,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     chain_getHeader: () => this.registry.createType('Header', rpcHeader.result).toJSON(),
-    rpc_methods: () => this.registry.createType('RpcMethods').toJSON(),
+    rpc_methods: () => this.registry.createType('RpcMethods', {}).toJSON(),
     state_getKeys: () => [],
     state_getKeysPaged: () => [],
     state_getMetadata: () => rpcMetadata,
-    state_getRuntimeVersion: () => this.registry.createType('RuntimeVersion').toHex(),
+    state_getRuntimeVersion: () => this.registry.createType('RuntimeVersion', {}).toHex(),
     state_getStorage: (storage: MockStateDb, [key]: string[]) => u8aToHex(storage[key]),
     system_chain: () => 'mockChain',
     system_health: () => ({}),

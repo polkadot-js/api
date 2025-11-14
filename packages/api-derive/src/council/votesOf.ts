@@ -27,7 +27,7 @@ export function votesOf (instanceId: string, api: DeriveApi): (accountId: string
       map((votes): DeriveCouncilVote =>
         (
           votes.find(([from]) => from.eq(accountId)) ||
-          [null, { stake: api.registry.createType('Balance'), votes: [] as AccountId[] }]
+          [null, { stake: api.registry.createType('Balance', 0), votes: [] as AccountId[] }]
         )[1]
       )
     )

@@ -117,7 +117,7 @@ export function info (instanceId: string, api: DeriveApi): () => Observable<Deri
           candidates: candidates.map(getCandidate),
           members: members.length
             ? members.map(getAccountTuple).sort(sortAccounts)
-            : councilMembers.map((a): [AccountId32, Balance] => [a, api.registry.createType('Balance')]),
+            : councilMembers.map((a): [AccountId32, Balance] => [a, api.registry.createType('Balance', 0)]),
           runnersUp: runnersUp.map(getAccountTuple).sort(sortAccounts)
         })
       )

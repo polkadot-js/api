@@ -102,7 +102,7 @@ export function proposals (instanceId: string, api: DeriveApi): () => Observable
       )
       : of({
         approvals: [],
-        proposalCount: api.registry.createType('ProposalIndex'),
+        proposalCount: api.registry.createType('ProposalIndex', 0),
         proposals: []
       } as DeriveTreasuryProposals)
   );

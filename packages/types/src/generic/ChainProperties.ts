@@ -52,9 +52,9 @@ function decode (registry: Registry, value?: Map<string, unknown> | Record<strin
     return all;
   }, {
     isEthereum: registry.createTypeUnsafe('Bool', []),
-    ss58Format: registry.createTypeUnsafe('Option<u32>', []),
-    tokenDecimals: registry.createTypeUnsafe('Option<Vec<u32>>', []),
-    tokenSymbol: registry.createTypeUnsafe('Option<Vec<Text>>', [])
+    ss58Format: registry.createTypeUnsafe('Option<u32>', [null]),
+    tokenDecimals: registry.createTypeUnsafe('Option<Vec<u32>>', [null]),
+    tokenSymbol: registry.createTypeUnsafe('Option<Vec<Text>>', [null])
   });
 }
 

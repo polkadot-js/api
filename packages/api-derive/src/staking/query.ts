@@ -98,7 +98,7 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
   const ids = optIds
     .filter((o): o is Option<AccountId> => withLedger && !!o && o.isSome)
     .map((o) => o.unwrap());
-  const emptyLed = api.registry.createType<Option<PalletStakingStakingLedger>>('Option<StakingLedger>');
+  const emptyLed = api.registry.createType<Option<PalletStakingStakingLedger>>('Option<StakingLedger>', null);
 
   return (
     ids.length
@@ -118,14 +118,14 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
 }
 
 function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureErasStakersLegacy, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][], SpStakingExposure[]]> {
-  const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
-  const emptyRewa = api.registry.createType<Option<PalletStakingRewardDestination>>('RewardDestination');
-  const emptyExpoEraStakers = api.registry.createType<SpStakingExposure>('Exposure');
-  const emptyPrefs = api.registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs');
+  const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>', null);
+  const emptyRewa = api.registry.createType<Option<PalletStakingRewardDestination>>('RewardDestination', null);
+  const emptyExpoEraStakers = api.registry.createType<SpStakingExposure>('Exposure', {});
+  const emptyPrefs = api.registry.createType<PalletStakingValidatorPrefs>('ValidatorPrefs', {});
   // The reason we don't explicitly make the actual types is for compatibility. If the chain doesn't have the noted type it will fail
   // on construction. Therefore we just make an empty option.
-  const emptyExpo = api.registry.createType<Option<SpStakingExposurePage>>('Option<Null>');
-  const emptyExpoMeta = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<Null>');
+  const emptyExpo = api.registry.createType<Option<SpStakingExposurePage>>('Option<Null>', null);
+  const emptyExpoMeta = api.registry.createType<Option<SpStakingPagedExposureMetadata>>('Option<Null>', null);
   const emptyClaimedRewards = [-1];
 
   const depth = Number(api.consts.staking.historyDepth.toNumber());

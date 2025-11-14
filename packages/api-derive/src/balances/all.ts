@@ -30,9 +30,9 @@ type DeriveCustomLocks = DeriveApi['derive'] & Record<string, {
 const VESTING_ID = '0x76657374696e6720';
 
 function calcLocked (api: DeriveApi, bestNumber: BlockNumber, locks: (PalletBalancesBalanceLock | BalanceLockTo212)[]): AllLocked {
-  let lockedBalance = api.registry.createType('Balance');
+  let lockedBalance = api.registry.createType('Balance', 0);
   let lockedBreakdown: (PalletBalancesBalanceLock | BalanceLockTo212)[] = [];
-  let vestingLocked = api.registry.createType('Balance');
+  let vestingLocked = api.registry.createType('Balance', 0);
   let allLocked = false;
 
   if (Array.isArray(locks)) {
@@ -178,7 +178,7 @@ function queryCurrent (api: DeriveApi, accountId: AccountId | string, balanceIns
   return combineLatest([
     api.query.vesting?.vesting
       ? api.query.vesting.vesting(accountId)
-      : of(api.registry.createType('Option<VestingInfo>')),
+      : of(api.registry.createType('Option<VestingInfo>', null)),
     lockQueries.length
       ? combineLatest(lockQueries.map((c) => c(accountId)))
       : of([] as Vec<PalletBalancesBalanceLock>[]),

@@ -21,7 +21,7 @@ function _getValues (api: DeriveApi, childKey: string, keys: string[]): Observab
         .map((o) =>
           o.isSome
             ? api.registry.createType('Balance', o.unwrap())
-            : api.registry.createType('Balance')
+            : api.registry.createType('Balance', 0)
         )
         .reduce((all: DeriveOwnContributions, b, index): DeriveOwnContributions =>
           objectSpread(all, { [keys[index]]: b }), {})

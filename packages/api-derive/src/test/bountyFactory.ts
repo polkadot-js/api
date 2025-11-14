@@ -26,7 +26,7 @@ export class BountyFactory {
     this.#registry.createType('BountyIndex', index);
 
   public defaultBounty = (): Bounty =>
-    this.#registry.createType('Bounty');
+    this.#registry.createType('Bounty', {});
 
   public optionOf = <T extends Codec>(value: T): Option<T> => {
     const typeName = this.#registry.getClassName(value.constructor as CodecClass<T>);
