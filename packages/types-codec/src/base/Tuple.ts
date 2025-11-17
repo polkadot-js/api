@@ -106,9 +106,20 @@ export class Tuple extends AbstractArray<Codec> implements ITuple<Codec[]> {
    * @description The types definition of the tuple
    */
   public get Types (): string[] {
-    return this.#Types[1].length
-      ? this.#Types[1]
-      : this.#Types[0].map((T) => new T(this.registry).toRawType());
+    if (this.#Types[1].length) {
+      return this.#Types[1];
+    }
+
+    return this.#Types[0].map((T) => {
+      try {
+        // Force a proper instance creation with explicit undefined parameter
+        const instance = new T(this.registry);
+
+        return instance.toRawType();
+      } catch (error) {
+        return T.name || 'Unknown';
+      }
+    });
   }
 
   /**

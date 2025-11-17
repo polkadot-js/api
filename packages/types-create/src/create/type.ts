@@ -1,11 +1,10 @@
 // Copyright 2017-2025 @polkadot/types-create authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bytes } from '@polkadot/types-codec';
 import type { Codec, CodecClass, IU8a, Registry } from '@polkadot/types-codec/types';
 import type { CreateOptions } from '../types/index.js';
 
-import { Option } from '@polkadot/types-codec';
+import { BTreeMap, BTreeSet, Bytes, CodecSet, Compact, Enum, HashMap, Int, Option, Range, RangeInclusive, Result, Struct, Tuple, U8aFixed, UInt, Vec, VecFixed, WrapperKeepOpaque, WrapperOpaque } from '@polkadot/types-codec';
 import { isHex, isU8a, u8aEq, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { createClassUnsafe } from './class.js';
@@ -46,13 +45,53 @@ function checkPedantic (created: Codec, [value]: unknown[]): void {
 // Initializes a type with a value. This also checks for fallbacks and in the cases
 // where isPedantic is specified (storage decoding), also check the format/structure
 function initType<T extends Codec> (registry: Registry, Type: CodecClass, params: unknown[] = [], { blockHash, isFallback, isOptional, isPedantic }: CreateOptions = {}): T {
+  let initParams = params;
+
+  // Ensure params is always an array
+  if (!Array.isArray(initParams)) {
+    initParams = [];
+  }
+
+  if (initParams.length === 0) {
+    if (
+      Type.prototype instanceof Enum ||
+        Type.prototype instanceof Struct ||
+        Type.prototype instanceof BTreeMap ||
+        Type.prototype instanceof HashMap ||
+        Type.prototype instanceof Vec ||
+        Type.prototype instanceof VecFixed ||
+        Type.prototype instanceof WrapperKeepOpaque
+    ) {
+      initParams = [{}];
+    } else if (Type.prototype instanceof Option || Type.prototype instanceof Result) {
+      initParams = [null];
+    } else if (Type.prototype instanceof Int || Type.prototype instanceof UInt || Type.prototype instanceof Compact) {
+      initParams = [0];
+    } else if (
+      Type.prototype instanceof Bytes ||
+        Type.prototype instanceof U8aFixed ||
+        Type.prototype instanceof Tuple ||
+        Type.prototype instanceof WrapperOpaque
+    ) {
+      initParams = [new Uint8Array()]; // Changed from [[]] to new Uint8Array()
+    } else if (Type.prototype instanceof BTreeSet || Type.prototype instanceof CodecSet) {
+      initParams = [[]];
+    } else if (Type.prototype instanceof Range || Type.prototype instanceof RangeInclusive) {
+      initParams = [{}];
+    }
+    // For anything else, pass undefined explicitly rather than empty array
+    else {
+      initParams = [undefined];
+    }
+  }
+
   const created = new (
     isOptional
       ? Option.with(Type)
       : Type
-  )(registry, ...params);
+  )(registry, ...initParams);
 
-  isPedantic && checkPedantic(created, params);
+  isPedantic && checkPedantic(created, initParams);
 
   if (blockHash) {
     created.createdAtHash = createTypeUnsafe<IU8a>(registry, 'BlockHash', [blockHash]);
