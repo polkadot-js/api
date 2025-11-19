@@ -116,6 +116,24 @@ export class Contract<ApiType extends ApiTypes> extends Base<ApiType> {
       // ContractEmitted is the current generation, ContractExecution is the previous generation
       new ContractSubmittableResult(result, applyOnEvent(result, ['ContractEmitted', 'ContractExecution'], (records: EventRecord[]) =>
         records
+          // Filter to only decode events emitted by this specific contract instance.
+          .filter((record): boolean => {
+            try {
+              const contractAddress = record.event.data[0];
+
+              if (this.address.eq(contractAddress)) {
+                return true;
+              }
+
+              l.debug(`Skipping event from different contract ${contractAddress.toString()} (this contract: ${this.address.toString()})`);
+
+              return false;
+            } catch (error) {
+              l.warn(`Unable to extract contract address from event: ${(error as Error).message}`);
+
+              return false;
+            }
+          })
           .map((record): DecodedEvent | null => {
             try {
               return this.abi.decodeEvent(record);
