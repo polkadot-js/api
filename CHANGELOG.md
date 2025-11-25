@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 16.5.3 Nov 25, 2025
+
+Changes:
+
+- Bump polkadot dependencies ([#6232](https://github.com/polkadot-js/api/pull/6232))
+- fix: resolve incorrect author caused by multiple preRuntime logs ([#6230](https://github.com/polkadot-js/api/pull/6230))
+- fix: filter contract events by address before decoding ([#6224](https://github.com/polkadot-js/api/pull/6224))
+
+
 ## 16.5.2 Nov 11, 2025
 
 Changes:
