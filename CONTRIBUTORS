@@ -8,7 +8,7 @@
       19	Xiliang Chen                  	no warm for unknown signed extensions (#5601)
       15	Jeremías Díaz                 	feat(types): add correct tuple type to storage key (#3054)
       14	Nikos Kontakis                	Bump substrate connect to 0.7.16 (#5307)
-      13	rajk93                        	fix: filter contract events by address before decoding (#6224)
+      14	rajk93                        	fix: iterate through all preRuntime logs and use the first recognized engine (#6230)
       11	Ian He                        	HttpProvider support clone() (#3949)
       10	Arjun Porwal                  	Upgrade Polkadot and Polkadot Asset Hub types for 2000000 (#6219)
       10	Axel Chalon                   	Make Enum/Tuple constructor use value directly if instance (#1954)
