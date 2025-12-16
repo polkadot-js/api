@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 16.5.5 Dec 16, 2025
+
+Changes:
+
+- Improve subscriptions for observable handling ([#6236](https://github.com/polkadot-js/api/pull/6236))
+
+
 ## 16.5.4 Dec 9, 2025
 
 Changes:
