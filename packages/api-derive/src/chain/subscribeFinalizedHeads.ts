@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { Hash, Header } from '@polkadot/types/interfaces';
 import type { DeriveApi } from '../types.js';
 
-import { from, of, switchMap } from 'rxjs';
+import { from, mergeMap, of, switchMap } from 'rxjs';
 
 import { memo } from '../util/index.js';
 
@@ -43,7 +43,7 @@ export function subscribeFinalizedHeads (instanceId: string, api: DeriveApi): ()
     let prevHash: Hash | null = null;
 
     return api.rpc.chain.subscribeFinalizedHeads().pipe(
-      switchMap((header) => {
+      mergeMap((header) => {
         const endHash = prevHash;
         const startHash = header.parentHash;
 
