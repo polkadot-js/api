@@ -5,7 +5,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
-import type { Callback, Codec, CodecClass, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import type { Callback, Codec, CodecClass, ISubmittableResult, SignatureOptions, TxPayloadV1 } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base/index.js';
@@ -17,6 +17,7 @@ import { catchError, first, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { identity, isBn, isFunction, isNumber, isString, isU8a, objectSpread } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util/index.js';
+import { EXTENSION_MATCHER } from './matcher.js';
 import { SubmittableResult } from './Result.js';
 
 interface SubmittableOptions<ApiType extends ApiTypes> {
@@ -54,6 +55,8 @@ function makeEraOptions (api: ApiInterfaceRx, registry: Registry, partialOptions
   }
 
   return makeSignOptions(api, partialOptions, {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     blockHash: header.hash,
     era: registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [{
       current: header.number,
@@ -260,6 +263,57 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       return this;
     }
 
+    /**
+     * @private
+     * Transforms the flat, legacy SignerPayload into the structured TxPayloadV1 'extensions' array.
+     * This logic should match the SignedExtension configuration in the chain's runtime.
+     */
+    #mapPayloadToV1Extensions (payload: SignerPayload): TxPayloadV1['extensions'] {
+      const registry = this.registry;
+      const extensions: TxPayloadV1['extensions'] = [];
+
+      const activeExtensions = payload.signedExtensions.toArray();
+
+      for (const id of activeExtensions) {
+        const { additionalSigned = registry.createType('Null'), extra = registry.createType('Null') } =
+         EXTENSION_MATCHER[id.toString()]?.(payload, registry) ?? {};
+
+        extensions.push({
+          additionalSigned: additionalSigned.toHex(),
+          extra: extra.toHex(),
+          id: id.toString()
+        });
+      }
+
+      return extensions;
+    }
+
+    #createTxPayloadV1 = (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): TxPayloadV1 => {
+      const payload = this.registry.createTypeUnsafe<SignerPayload>('SignerPayload', [objectSpread({}, options, {
+        address,
+        blockNumber: header ? header.number : 0,
+        method: this.method
+      })]);
+
+      const extensions: TxPayloadV1['extensions'] = this.#mapPayloadToV1Extensions(payload);
+
+      const txPayload: TxPayloadV1 = {
+        callData: payload.method.toHex(),
+        context: {
+          bestBlockHeight: this.registry.createType('u32', payload.blockNumber),
+          metadata: this.registry.metadata.toHex(),
+          tokenDecimals: this.registry.chainDecimals[0],
+          tokenSymbol: this.registry.chainTokens[0]
+        },
+        extensions,
+        signer: payload.address.toString(),
+        txExtVersion: api.extrinsicType === 4 ? 0 : api.runtimeVersion.transactionVersion.toNumber(),
+        version: 1
+      };
+
+      return txPayload;
+    };
+
     #observeSign = (account: AddressOrPair, partialOptions?: Partial<SignerOptions>): Observable<UpdateInfo> => {
       const address = isKeyringPair(account) ? account.address : account.toString();
       const options = optionsOrNonce(partialOptions);
@@ -352,6 +406,14 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         blockNumber: header ? header.number : 0,
         method: this.method
       })]);
+
+      if (isFunction(signer.createTransaction)) {
+        const txPayload = this.#createTxPayloadV1(address, options, header);
+        const signedTransaction = await signer.createTransaction(txPayload);
+
+        return { id: Date.now(), signedTransaction };
+      }
+
       let result: SignerResult;
 
       if (isFunction(signer.signPayload)) {
