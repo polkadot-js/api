@@ -381,7 +381,7 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
           })]);
 
           if (!ext.isSigned) {
-            throw new Error(`When using the signedTransaction field, the transaction must be signed. Recieved isSigned: ${ext.isSigned}`);
+            throw new Error(`When using the signedTransaction field, the transaction must be signed. Received isSigned: ${ext.isSigned}`);
           }
 
           if (!allowCallDataAlteration) {
