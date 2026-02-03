@@ -6,7 +6,7 @@ Instead of manually fetching and processing blockchain data, developers can use 
 
 ## Available Derive Namespaces
 
-The derive functions are categorized into namespaces based on different common Substrate modules. Accesible by calling `api.derive.NAMESPACE` (e.g. `api.derive.balances`). The available modules are as follows:
+The derive functions are categorized into namespaces based on different common Substrate modules. Accessible by calling `api.derive.NAMESPACE` (e.g. `api.derive.balances`). The available modules are as follows:
 
 - [accounts](https://github.com/polkadot-js/api/tree/master/packages/api-derive/src/accounts)
 - [alliance](https://github.com/polkadot-js/api/tree/master/packages/api-derive/src/alliance)
