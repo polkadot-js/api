@@ -96,7 +96,7 @@ export function progress (instanceId: string, api: DeriveApi): () => Observable<
 }
 
 /**
- * @name eraLenght
+ * @name eraLength
  * @description Retrieves the total length of the current era.
  * @example
  * ```javascript
