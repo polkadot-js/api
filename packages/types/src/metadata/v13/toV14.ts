@@ -223,7 +223,7 @@ function createMapEntry (specs: TypeSpec[], registry: Registry, sectionTypes: Ov
         : makeTupleType(specs, keys.map((t) => compatType(specs, t))),
       value: isLinked
         // For previous-generation linked-map support, the actual storage result
-        // is a Tuple with the value and the Linkage (Option appears in teh value-part only)
+        // is a Tuple with the value and the Linkage (Option appears in the value-part only)
         ? compatType(specs, `(${isOptional ? `Option<${value.toString()}>` : value.toString()}, Linkage<${keys[0].toString()}>)`)
         : compatType(specs, value)
     }

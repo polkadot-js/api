@@ -160,7 +160,7 @@ export class RpcCore {
   }
 
   /**
-   * @description Returns the underlying core stats, including those from teh provider
+   * @description Returns the underlying core stats, including those from the provider
    */
   public get stats (): RpcCoreStats | undefined {
     const stats = this.provider.stats;
