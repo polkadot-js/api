@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/types-codec authors & contributors
+// Copyright 2017-2026 @polkadot/types-codec authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export { bool as Bool, bool } from './Bool.js';
