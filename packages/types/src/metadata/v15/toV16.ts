@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/types authors & contributors
+// Copyright 2017-2026 @polkadot/types authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExtrinsicMetadataV15, ExtrinsicMetadataV16, ItemDeprecationInfoV16, MetadataV15, MetadataV16, PalletAssociatedTypeMetadataV16, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataV14, PalletStorageMetadataV16, RuntimeApiMetadataV15, RuntimeApiMetadataV16, StorageEntryMetadataV16, TransactionExtensionMetadataV16 } from '../../interfaces/metadata/index.js';
