@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 16.5.6 Mar 23, 2026
+
+Changes:
+
+- Bump common to 14.0.3 ([#6250](https://github.com/polkadot-js/api/pull/6250))
+- Set headers to 2026 ([#6249](https://github.com/polkadot-js/api/pull/6249))
+
+
 ## 16.5.5 Dec 16, 2025
 
 Changes:
