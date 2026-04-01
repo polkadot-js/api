@@ -35,7 +35,7 @@ import type { ApprovalFlag, DefunctVoter, Renouncing, SetIndex, Vote, VoteIndex,
 import type { CreatedBlock, ImportedAux } from '@polkadot/types/interfaces/engine';
 import type { BlockV0, BlockV1, BlockV2, BlockV3, EIP1559Transaction, EIP2930Transaction, EIP7702Transaction, EthAccessList, EthAccessListItem, EthAccount, EthAddress, EthAuthorizationList, EthAuthorizationListItem, EthAuthorizationSignature, EthBlock, EthBloom, EthCallRequest, EthFeeHistory, EthFilter, EthFilterAddress, EthFilterChanges, EthFilterTopic, EthFilterTopicEntry, EthFilterTopicInner, EthHeader, EthLegacyTransactionSignature, EthLog, EthReceipt, EthReceiptV0, EthReceiptV3, EthReceiptV4, EthRichBlock, EthRichHeader, EthStorageProof, EthSubKind, EthSubParams, EthSubResult, EthSyncInfo, EthSyncStatus, EthTransaction, EthTransactionAction, EthTransactionCondition, EthTransactionRequest, EthTransactionSignature, EthTransactionStatus, EthWork, EthereumAccountId, EthereumAddress, EthereumLookupSource, EthereumSignature, LegacyTransaction, TransactionV0, TransactionV1, TransactionV2, TransactionV3 } from '@polkadot/types/interfaces/eth';
 import type { EvmAccount, EvmCallInfo, EvmCallInfoV2, EvmCreateInfo, EvmCreateInfoV2, EvmLog, EvmVicinity, EvmWeightInfo, ExitError, ExitFatal, ExitReason, ExitRevert, ExitSucceed } from '@polkadot/types/interfaces/evm';
-import type { AnySignature, EcdsaSignature, Ed25519Signature, Era, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicPayloadV5, ExtrinsicSignature, ExtrinsicSignatureV4, ExtrinsicSignatureV5, ExtrinsicUnknown, ExtrinsicV4, ExtrinsicV5, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature } from '@polkadot/types/interfaces/extrinsics';
+import type { AnySignature, EcdsaSignature, Ed25519Signature, Era, Extrinsic, ExtrinsicEra, ExtrinsicPayload, ExtrinsicPayloadUnknown, ExtrinsicPayloadV4, ExtrinsicPayloadV5, ExtrinsicSignature, ExtrinsicSignatureV4, ExtrinsicSignatureV5, ExtrinsicUnknown, ExtrinsicV4, ExtrinsicV5, ImmortalEra, MortalEra, MultiSignature, Signature, SignerPayload, Sr25519Signature, VerifyMultiSignature } from '@polkadot/types/interfaces/extrinsics';
 import type { FungiblesAccessError } from '@polkadot/types/interfaces/fungibles';
 import type { AssetOptions, Owner, PermissionLatest, PermissionVersions, PermissionsV1 } from '@polkadot/types/interfaces/genericAsset';
 import type { GenesisBuildErr } from '@polkadot/types/interfaces/genesisBuilder';
@@ -1291,6 +1291,7 @@ declare module '@polkadot/types/types/registry' {
     ValidTransaction: ValidTransaction;
     VariantDeprecationInfoV16: VariantDeprecationInfoV16;
     VecInboundHrmpMessage: VecInboundHrmpMessage;
+    VerifyMultiSignature: VerifyMultiSignature;
     VersionedMultiAsset: VersionedMultiAsset;
     VersionedMultiAssets: VersionedMultiAssets;
     VersionedMultiLocation: VersionedMultiLocation;
