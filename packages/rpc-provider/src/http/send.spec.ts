@@ -8,10 +8,7 @@ import type { Mock } from '../mock/types.js';
 import { mockHttp, TEST_HTTP_URL } from '../mock/mockHttp.js';
 import { HttpProvider } from './index.js';
 
-// Does not work with Node 18 (native fetch)
-// See https://github.com/nock/nock/issues/2397
-// eslint-disable-next-line jest/no-disabled-tests
-describe.skip('send', (): void => {
+describe('send', (): void => {
   let http: HttpProvider;
   let mock: Mock;
 
