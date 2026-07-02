@@ -4,6 +4,28 @@
 import type { DefinitionsRpc } from '../../types/index.js';
 
 export const rpc: DefinitionsRpc = {
+  generateAncestryProof: {
+    description: 'Generate an MMR ancestry proof for the given block number.',
+    params: [
+      {
+        name: 'prevBlockNumber',
+        type: 'u64'
+      },
+      {
+        isOptional: true,
+        name: 'bestKnownBlockNumber',
+        type: 'u64'
+      },
+      {
+        isHistoric: true,
+        isOptional: true,
+        name: 'at',
+        type: 'BlockHash'
+      }
+    ],
+    type: 'MmrAncestryProof'
+  },
+
   generateProof: {
     description: 'Generate MMR proof for the given block numbers.',
     params: [
