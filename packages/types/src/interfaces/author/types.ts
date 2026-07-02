@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Enum, Text, Vec } from '@polkadot/types-codec';
+import type { Bytes, Enum, Option, Struct, Text, Vec } from '@polkadot/types-codec';
 import type { Hash } from '@polkadot/types/interfaces/runtime';
 
 /** @name ExtrinsicOrHash */
@@ -32,6 +32,12 @@ export interface ExtrinsicStatus extends Enum {
   readonly isDropped: boolean;
   readonly isInvalid: boolean;
   readonly type: 'Future' | 'Ready' | 'Broadcast' | 'InBlock' | 'Retracted' | 'FinalityTimeout' | 'Finalized' | 'Usurped' | 'Dropped' | 'Invalid';
+}
+
+/** @name GeneratedSessionKeys */
+export interface GeneratedSessionKeys extends Struct {
+  readonly sessionKeys: Bytes;
+  readonly proof: Option<Bytes>;
 }
 
 export type PHANTOM_AUTHOR = 'author';

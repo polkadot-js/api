@@ -9,7 +9,7 @@ import type { AugmentedRpc } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey } from '@polkadot/types';
 import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, f64, u32, u64 } from '@polkadot/types-codec';
 import type { AnyNumber, Codec } from '@polkadot/types-codec/types';
-import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
+import type { ExtrinsicOrHash, ExtrinsicStatus, GeneratedSessionKeys } from '@polkadot/types/interfaces/author';
 import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
 import type { BeefyVersionedFinalityProof } from '@polkadot/types/interfaces/beefy';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
@@ -59,6 +59,10 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        * Generate new session keys and returns the corresponding public keys
        **/
       rotateKeys: AugmentedRpc<() => Observable<Bytes>>;
+      /**
+       * Generate new session keys and returns the corresponding public keys and owner proof
+       **/
+      rotateKeysWithOwner: AugmentedRpc<(owner: Bytes | string | Uint8Array) => Observable<GeneratedSessionKeys>>;
       /**
        * Submit and subscribe to watch an extrinsic until unsubscribed
        **/
