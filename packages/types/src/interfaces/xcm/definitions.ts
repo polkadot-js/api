@@ -163,16 +163,18 @@ export default {
         V2: 'MultiLocationV2',
         V3: 'MultiLocationV3',
         V4: 'MultiLocationV4',
-        v5: 'MultiLocationV5'
+        V5: 'MultiLocationV5'
       }
     },
     VersionedResponse: {
-      V0: 'ResponseV0',
-      V1: 'ResponseV1',
-      V2: 'ResponseV2',
-      V3: 'ResponseV3',
-      V4: 'ResponseV4',
-      V5: 'ResponseV5'
+      _enum: {
+        V0: 'ResponseV0',
+        V1: 'ResponseV1',
+        V2: 'ResponseV2',
+        V3: 'ResponseV3',
+        V4: 'ResponseV4',
+        V5: 'ResponseV5'
+      }
     },
     VersionedXcm: {
       _enum: {

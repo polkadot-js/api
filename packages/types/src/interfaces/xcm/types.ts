@@ -1940,13 +1940,20 @@ export interface VersionedMultiLocation extends Enum {
 }
 
 /** @name VersionedResponse */
-export interface VersionedResponse extends Struct {
-  readonly V0: ResponseV0;
-  readonly V1: ResponseV1;
-  readonly V2: ResponseV2;
-  readonly V3: ResponseV3;
-  readonly V4: ResponseV4;
-  readonly V5: ResponseV5;
+export interface VersionedResponse extends Enum {
+  readonly isV0: boolean;
+  readonly asV0: ResponseV0;
+  readonly isV1: boolean;
+  readonly asV1: ResponseV1;
+  readonly isV2: boolean;
+  readonly asV2: ResponseV2;
+  readonly isV3: boolean;
+  readonly asV3: ResponseV3;
+  readonly isV4: boolean;
+  readonly asV4: ResponseV4;
+  readonly isV5: boolean;
+  readonly asV5: ResponseV5;
+  readonly type: 'V0' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5';
 }
 
 /** @name VersionedXcm */
