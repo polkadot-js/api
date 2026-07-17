@@ -9,7 +9,7 @@ import type { AugmentedRpc } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey } from '@polkadot/types';
 import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, f64, u32, u64 } from '@polkadot/types-codec';
 import type { AnyNumber, Codec } from '@polkadot/types-codec/types';
-import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
+import type { ExtrinsicOrHash, ExtrinsicStatus, GeneratedSessionKeys } from '@polkadot/types/interfaces/author';
 import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
 import type { BeefyVersionedFinalityProof } from '@polkadot/types/interfaces/beefy';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
@@ -21,7 +21,7 @@ import type { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import type { EthAccount, EthCallRequest, EthFeeHistory, EthFilter, EthFilterChanges, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthTransactionRequest, EthWork } from '@polkadot/types/interfaces/eth';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { EncodedFinalityProofs, JustificationNotification, ReportedRoundStates } from '@polkadot/types/interfaces/grandpa';
-import type { MmrHash, MmrLeafBatchProof } from '@polkadot/types/interfaces/mmr';
+import type { MmrAncestryProof, MmrHash, MmrLeafBatchProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { FeeDetails, RuntimeDispatchInfoV1 } from '@polkadot/types/interfaces/payment';
 import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
@@ -59,6 +59,10 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        * Generate new session keys and returns the corresponding public keys
        **/
       rotateKeys: AugmentedRpc<() => Observable<Bytes>>;
+      /**
+       * Generate new session keys and returns the corresponding public keys and owner proof
+       **/
+      rotateKeysWithOwner: AugmentedRpc<(owner: Bytes | string | Uint8Array) => Observable<GeneratedSessionKeys>>;
       /**
        * Submit and subscribe to watch an extrinsic until unsubscribed
        **/
@@ -372,6 +376,10 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       subscribeJustifications: AugmentedRpc<() => Observable<JustificationNotification>>;
     };
     mmr: {
+      /**
+       * Generate an MMR ancestry proof for the given block number.
+       **/
+      generateAncestryProof: AugmentedRpc<(prevBlockNumber: u64 | AnyNumber | Uint8Array, bestKnownBlockNumber?: u64 | AnyNumber | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<MmrAncestryProof>>;
       /**
        * Generate MMR proof for the given block numbers.
        **/

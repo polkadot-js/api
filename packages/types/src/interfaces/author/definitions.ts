@@ -30,6 +30,13 @@ export default {
         Dropped: 'Null',
         Invalid: 'Null'
       }
+    },
+    GeneratedSessionKeys: {
+      _alias: {
+        sessionKeys: 'keys'
+      },
+      sessionKeys: 'Bytes',
+      proof: 'Option<Bytes>'
     }
   }
 } as Definitions;

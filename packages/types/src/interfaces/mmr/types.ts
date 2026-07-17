@@ -2,8 +2,17 @@
 /* eslint-disable */
 
 import type { Bytes, Enum, Struct, Vec, u64 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { Hash } from '@polkadot/types/interfaces/runtime';
+
+/** @name MmrAncestryProof */
+export interface MmrAncestryProof extends Struct {
+  readonly prevPeaks: Vec<MmrHash>;
+  readonly prevLeafCount: MmrNodeIndex;
+  readonly leafCount: MmrNodeIndex;
+  readonly items: Vec<ITuple<[MmrNodeIndex, MmrHash]>>;
+}
 
 /** @name MmrBatchProof */
 export interface MmrBatchProof extends Struct {

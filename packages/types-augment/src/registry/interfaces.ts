@@ -11,7 +11,7 @@ import type { TAssetConversion } from '@polkadot/types/interfaces/assetConversio
 import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
-import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
+import type { ExtrinsicOrHash, ExtrinsicStatus, GeneratedSessionKeys } from '@polkadot/types/interfaces/author';
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AllowedSlots, BabeAuthorityWeight, BabeBlockWeight, BabeEpochConfiguration, BabeEquivocationProof, BabeGenesisConfiguration, BabeGenesisConfigurationV1, BabeWeight, Epoch, EpochAuthorship, MaybeRandomness, MaybeVrf, NextConfigDescriptor, NextConfigDescriptorV1, OpaqueKeyOwnershipProof, Randomness, RawBabePreDigest, RawBabePreDigestCompat, RawBabePreDigestPrimary, RawBabePreDigestPrimaryTo159, RawBabePreDigestSecondaryPlain, RawBabePreDigestSecondaryTo159, RawBabePreDigestSecondaryVRF, RawBabePreDigestTo159, SlotNumber, VrfData, VrfOutput, VrfProof } from '@polkadot/types/interfaces/babe';
 import type { AccountData, BalanceLock, BalanceLockTo212, BalanceStatus, Reasons, ReserveData, ReserveIdentifier, VestingSchedule, WithdrawReasons } from '@polkadot/types/interfaces/balances';
@@ -46,7 +46,7 @@ import type { AuthIndex, AuthoritySignature, Heartbeat, HeartbeatTo244, OpaqueMu
 import type { CallIndex, LotteryConfig } from '@polkadot/types/interfaces/lottery';
 import type { CustomMetadata15, CustomValueMetadata15, EnumDeprecationInfoV16, ErrorMetadataLatest, ErrorMetadataV10, ErrorMetadataV11, ErrorMetadataV12, ErrorMetadataV13, ErrorMetadataV14, ErrorMetadataV9, EventMetadataLatest, EventMetadataV10, EventMetadataV11, EventMetadataV12, EventMetadataV13, EventMetadataV14, EventMetadataV9, ExtrinsicMetadataLatest, ExtrinsicMetadataV11, ExtrinsicMetadataV12, ExtrinsicMetadataV13, ExtrinsicMetadataV14, ExtrinsicMetadataV15, ExtrinsicMetadataV16, FunctionArgumentMetadataLatest, FunctionArgumentMetadataV10, FunctionArgumentMetadataV11, FunctionArgumentMetadataV12, FunctionArgumentMetadataV13, FunctionArgumentMetadataV14, FunctionArgumentMetadataV9, FunctionMetadataLatest, FunctionMetadataV10, FunctionMetadataV11, FunctionMetadataV12, FunctionMetadataV13, FunctionMetadataV14, FunctionMetadataV9, ItemDeprecationInfoV16, MetadataAll, MetadataLatest, MetadataV10, MetadataV11, MetadataV12, MetadataV13, MetadataV14, MetadataV15, MetadataV16, MetadataV9, ModuleConstantMetadataV10, ModuleConstantMetadataV11, ModuleConstantMetadataV12, ModuleConstantMetadataV13, ModuleConstantMetadataV9, ModuleMetadataV10, ModuleMetadataV11, ModuleMetadataV12, ModuleMetadataV13, ModuleMetadataV9, OpaqueMetadata, OuterEnums15, PalletAssociatedTypeMetadataV16, PalletCallMetadataLatest, PalletCallMetadataV14, PalletCallMetadataV16, PalletConstantMetadataLatest, PalletConstantMetadataV14, PalletConstantMetadataV16, PalletErrorMetadataLatest, PalletErrorMetadataV14, PalletErrorMetadataV16, PalletEventMetadataLatest, PalletEventMetadataV14, PalletEventMetadataV16, PalletMetadataLatest, PalletMetadataV14, PalletMetadataV15, PalletMetadataV16, PalletStorageMetadataLatest, PalletStorageMetadataV14, PalletStorageMetadataV16, PalletViewFunctionMetadataV16, PortableType, PortableTypeV14, RuntimeApiMetadataLatest, RuntimeApiMetadataV15, RuntimeApiMetadataV16, RuntimeApiMethodMetadataV15, RuntimeApiMethodMetadataV16, RuntimeApiMethodParamMetadataV15, SignedExtensionMetadataLatest, SignedExtensionMetadataV14, StorageEntryMetadataLatest, StorageEntryMetadataV10, StorageEntryMetadataV11, StorageEntryMetadataV12, StorageEntryMetadataV13, StorageEntryMetadataV14, StorageEntryMetadataV16, StorageEntryMetadataV9, StorageEntryModifierLatest, StorageEntryModifierV10, StorageEntryModifierV11, StorageEntryModifierV12, StorageEntryModifierV13, StorageEntryModifierV14, StorageEntryModifierV9, StorageEntryTypeLatest, StorageEntryTypeV10, StorageEntryTypeV11, StorageEntryTypeV12, StorageEntryTypeV13, StorageEntryTypeV14, StorageEntryTypeV9, StorageHasher, StorageHasherV10, StorageHasherV11, StorageHasherV12, StorageHasherV13, StorageHasherV14, StorageHasherV9, StorageMetadataV10, StorageMetadataV11, StorageMetadataV12, StorageMetadataV13, StorageMetadataV9, TransactionExtensionMetadataLatest, TransactionExtensionMetadataV16, VariantDeprecationInfoV16 } from '@polkadot/types/interfaces/metadata';
 import type { Mixnode, MixnodesErr, SessionPhase, SessionStatus } from '@polkadot/types/interfaces/mixnet';
-import type { MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError, MmrHash, MmrLeafBatchProof, MmrLeafIndex, MmrLeafProof, MmrNodeIndex, MmrProof } from '@polkadot/types/interfaces/mmr';
+import type { MmrAncestryProof, MmrBatchProof, MmrEncodableOpaqueLeaf, MmrError, MmrHash, MmrLeafBatchProof, MmrLeafIndex, MmrLeafProof, MmrNodeIndex, MmrProof } from '@polkadot/types/interfaces/mmr';
 import type { NftCollectionId, NftItemId } from '@polkadot/types/interfaces/nfts';
 import type { NpApiError, NpPoolId } from '@polkadot/types/interfaces/nompools';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
@@ -569,6 +569,7 @@ declare module '@polkadot/types/types/registry' {
     FungibilityV5: FungibilityV5;
     FungiblesAccessError: FungiblesAccessError;
     Gas: Gas;
+    GeneratedSessionKeys: GeneratedSessionKeys;
     GenesisBuildErr: GenesisBuildErr;
     GiltBid: GiltBid;
     GlobalValidationData: GlobalValidationData;
@@ -735,6 +736,7 @@ declare module '@polkadot/types/types/registry' {
     MigrationStatusResult: MigrationStatusResult;
     Mixnode: Mixnode;
     MixnodesErr: MixnodesErr;
+    MmrAncestryProof: MmrAncestryProof;
     MmrBatchProof: MmrBatchProof;
     MmrEncodableOpaqueLeaf: MmrEncodableOpaqueLeaf;
     MmrError: MmrError;
