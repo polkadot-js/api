@@ -15,7 +15,7 @@ const CMD = {
   'substrate-contracts-node': `${PREAMBLE}// cargo run --release -- purge-chain -y --dev  && cargo run --release -- --dev\n\nexport default`
 };
 
-// V15
+// V16 (0x10000000 is the u32 LE encoding of 16, passed to Metadata_metadata_at_version)
 const META_VERSION_HEX = '0x10000000';
 const META_VERSION = 16;
 
