@@ -12,7 +12,7 @@ import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { ParaId } from '@polkadot/types/interfaces/parachains';
 import type { AccountId32, H160, H256, RuntimeCall, Slot, SlotDuration } from '@polkadot/types/interfaces/runtime';
-import type { AssetHubKusamaRuntimeOriginCaller, AssetsCommonRuntimeApiFungiblesAccessError, CumulusPrimitivesCoreCollationInfo, FrameSupportViewFunctionsViewFunctionDispatchError, FrameSupportViewFunctionsViewFunctionId, PalletReviveEvmApiDebugRpcTypesTrace, PalletReviveEvmApiDebugRpcTypesTracerType, PalletReviveEvmApiRpcTypesGenGenericTransaction, PalletRevivePrimitivesCode, PalletRevivePrimitivesCodeUploadReturnValue, PalletRevivePrimitivesContractAccessError, PalletRevivePrimitivesContractResultExecReturnValue, PalletRevivePrimitivesContractResultInstantiateReturnValue, PalletRevivePrimitivesEthTransactError, PalletRevivePrimitivesEthTransactInfo, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpConsensusAuraSr25519AppSr25519Public, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpVersionRuntimeVersion, SpWeightsWeightV2Weight, StagingXcmV5Location, XcmRuntimeApisAuthorizedAliasesError, XcmRuntimeApisAuthorizedAliasesOriginAliaser, XcmRuntimeApisConversionsError, XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError, XcmRuntimeApisDryRunXcmDryRunEffects, XcmRuntimeApisFeesError, XcmRuntimeApisTrustedQueryError, XcmVersionedAsset, XcmVersionedAssetId, XcmVersionedAssets, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { AssetHubKusamaRuntimeOriginCaller, AssetsCommonRuntimeApiFungiblesAccessError, CumulusPrimitivesCoreCollationInfo, FrameSupportViewFunctionsViewFunctionDispatchError, FrameSupportViewFunctionsViewFunctionId, PalletReviveEvmApiDebugRpcTypesTrace, PalletReviveEvmApiDebugRpcTypesTracerType, PalletReviveEvmApiRpcTypesDryRunConfig, PalletReviveEvmApiRpcTypesGenBlock, PalletReviveEvmApiRpcTypesGenGenericTransaction, PalletReviveEvmApiRpcTypesTracingConfig, PalletReviveEvmBlockHashReceiptGasInfo, PalletRevivePrimitivesBalanceConversionError, PalletRevivePrimitivesCode, PalletRevivePrimitivesCodeUploadReturnValue, PalletRevivePrimitivesContractAccessError, PalletRevivePrimitivesContractResultExecReturnValue, PalletRevivePrimitivesContractResultInstantiateReturnValue, PalletRevivePrimitivesEthTransactError, PalletRevivePrimitivesEthTransactInfo, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, SpConsensusAuraSr25519AppSr25519Public, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpRuntimeBlock, SpRuntimeBlockLazyBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpSessionRuntimeApiOpaqueGeneratedSessionKeys, SpVersionRuntimeVersion, SpWeightsWeightV2Weight, StagingXcmV5Location, SystemParachainsCommonApisInflationInfo, XcmRuntimeApisAuthorizedAliasesError, XcmRuntimeApisAuthorizedAliasesOriginAliaser, XcmRuntimeApisConversionsError, XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError, XcmRuntimeApisDryRunXcmDryRunEffects, XcmRuntimeApisFeesError, XcmRuntimeApisTrustedQueryError, XcmVersionedAsset, XcmVersionedAssetId, XcmVersionedAssets, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -45,6 +45,21 @@ declare module '@polkadot/api-base/types/calls' {
        * Provides a quote for [`Pallet::swap_tokens_for_exact_tokens`].,, Note that the price may have changed by the time the transaction is executed., (Use `amount_in_max` to control slippage.)
        **/
       quotePriceTokensForExactTokens: AugmentedCall<ApiType, (asset1: StagingXcmV5Location | { parents?: any; interior?: any } | string | Uint8Array, asset2: StagingXcmV5Location | { parents?: any; interior?: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, include_fee: bool | boolean | Uint8Array) => Observable<Option<u128>>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0xc1b8f0c037f97de8/ */
+    assetHubMigrationApi: {
+      /**
+       * Returns the block number when the migration ended.
+       **/
+      migrationEndBlock: AugmentedCall<ApiType, () => Observable<u32>>;
+      /**
+       * Returns the block number when the migration started.
+       **/
+      migrationStartBlock: AugmentedCall<ApiType, () => Observable<u32>>;
       /**
        * Generic call
        **/
@@ -100,7 +115,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Check that the inherents are valid. The inherent data will vary from chain to chain.
        **/
-      checkInherents: AugmentedCall<ApiType, (block: SpRuntimeBlock | { header?: any; extrinsics?: any } | string | Uint8Array, data: SpInherentsInherentData | { data?: any } | string | Uint8Array) => Observable<SpInherentsCheckInherentsResult>>;
+      checkInherents: AugmentedCall<ApiType, (block: SpRuntimeBlockLazyBlock | { header?: any; extrinsics?: any } | string | Uint8Array, data: SpInherentsInherentData | { data?: any } | string | Uint8Array) => Observable<SpInherentsCheckInherentsResult>>;
       /**
        * Finish the current block.
        **/
@@ -130,7 +145,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Execute the given block.
        **/
-      executeBlock: AugmentedCall<ApiType, (block: SpRuntimeBlock | { header?: any; extrinsics?: any } | string | Uint8Array) => Observable<Null>>;
+      executeBlock: AugmentedCall<ApiType, (block: SpRuntimeBlockLazyBlock | { header?: any; extrinsics?: any } | string | Uint8Array) => Observable<Null>>;
       /**
        * Initialize a block with the given header and return the runtime executive mode.
        **/
@@ -149,7 +164,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Dry run call V2.
        **/
-      dryRunCall: AugmentedCall<ApiType, (origin: AssetHubKusamaRuntimeOriginCaller | { system: any } | { PolkadotXcm: any } | { CumulusXcm: any } | { Origins: any } | string | Uint8Array, call: RuntimeCall | IMethod | string | Uint8Array, result_xcms_version: u32 | AnyNumber | Uint8Array) => Observable<Result<XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError>>>;
+      dryRunCall: AugmentedCall<ApiType, (origin: AssetHubKusamaRuntimeOriginCaller | { system: any } | { PolkadotXcm: any } | { CumulusXcm: any } | { Revive: any } | { Origins: any } | string | Uint8Array, call: RuntimeCall | IMethod | string | Uint8Array, result_xcms_version: u32 | AnyNumber | Uint8Array) => Observable<Result<XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError>>>;
       /**
        * Dry run XCM program
        **/
@@ -195,6 +210,17 @@ declare module '@polkadot/api-base/types/calls' {
        * Retrieve the parachain id used for runtime.
        **/
       parachainId: AugmentedCall<ApiType, () => Observable<ParaId>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0xc51ff1fa3f5d0cca/ */
+    inflation: {
+      /**
+       * Return the current estimates of the issuance amount.,, This is marked as experimental in light of RFC#89. Nonetheless, its usage is highly, recommended over trying to read-storage, or re-create the onchain logic.
+       **/
+      experimentalIssuancePredictionInfo: AugmentedCall<ApiType, () => Observable<SystemParachainsCommonApisInflationInfo>>;
       /**
        * Generic call
        **/
@@ -302,6 +328,10 @@ declare module '@polkadot/api-base/types/calls' {
     /** 0x8c403e5c4a9fd442/ */
     reviveApi: {
       /**
+       * Get the account id associated to this H160 address.
+       **/
+      accountId: AugmentedCall<ApiType, (address: H160 | string | Uint8Array) => Observable<AccountId32>>;
+      /**
        * Get the H160 address associated to this account id
        **/
       address: AugmentedCall<ApiType, (account_id: AccountId32 | string | Uint8Array) => Observable<H160>>;
@@ -312,7 +342,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * The address of the validator that produced the current block.
        **/
-      blockAuthor: AugmentedCall<ApiType, () => Observable<Option<H160>>>;
+      blockAuthor: AugmentedCall<ApiType, () => Observable<H160>>;
       /**
        * Returns the block gas limit.
        **/
@@ -326,9 +356,33 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       code: AugmentedCall<ApiType, (address: H160 | string | Uint8Array) => Observable<Bytes>>;
       /**
+       * Returns the current ETH block.,, This is one block behind the substrate block.
+       **/
+      ethBlock: AugmentedCall<ApiType, () => Observable<PalletReviveEvmApiRpcTypesGenBlock>>;
+      /**
+       * Returns the ETH block hash for the given block number.
+       **/
+      ethBlockHash: AugmentedCall<ApiType, (number: U256 | AnyNumber | Uint8Array) => Observable<Option<H256>>>;
+      /**
+       * Estimates the amount of gas that a transactions requires.,, This function estimates the gas of the transaction according to the same binary search, algorithm that's implemented in Geth. It stops when with an acceptable error ratio of, 1.5% so that the algorithm terminates early.
+       **/
+      ethEstimateGas: AugmentedCall<ApiType, (tx: PalletReviveEvmApiRpcTypesGenGenericTransaction | { accessList?: any; authorizationList?: any; blobVersionedHashes?: any; blobs?: any; chainId?: any; from?: any; gas?: any; gasPrice?: any; input?: any; maxFeePerBlobGas?: any; maxFeePerGas?: any; maxPriorityFeePerGas?: any; nonce?: any; to?: any; r_type?: any; value?: any } | string | Uint8Array, config: PalletReviveEvmApiRpcTypesDryRunConfig | { timestampOverride?: any; performBalanceChecks?: any; stateOverrides?: any } | string | Uint8Array) => Observable<Result<U256, PalletRevivePrimitivesEthTransactError>>>;
+      /**
+       * Return the pre-dispatch weight booked for the signed Ethereum transaction payload.
+       **/
+      ethPreDispatchWeight: AugmentedCall<ApiType, (tx: Bytes | string | Uint8Array) => Observable<Result<SpWeightsWeightV2Weight, PalletRevivePrimitivesEthTransactError>>>;
+      /**
+       * The details needed to reconstruct the receipt information offchain.,, # Note,, Each entry corresponds to the appropriate Ethereum transaction in the current block.
+       **/
+      ethReceiptData: AugmentedCall<ApiType, () => Observable<Vec<PalletReviveEvmBlockHashReceiptGasInfo>>>;
+      /**
+       * Perform an Ethereum call.,, Deprecated use `v2` version instead., See [`crate::Pallet::dry_run_eth_transact`]
+       **/
+      ethTransact: AugmentedCall<ApiType, (tx: PalletReviveEvmApiRpcTypesGenGenericTransaction | { accessList?: any; authorizationList?: any; blobVersionedHashes?: any; blobs?: any; chainId?: any; from?: any; gas?: any; gasPrice?: any; input?: any; maxFeePerBlobGas?: any; maxFeePerGas?: any; maxPriorityFeePerGas?: any; nonce?: any; to?: any; r_type?: any; value?: any } | string | Uint8Array) => Observable<Result<PalletRevivePrimitivesEthTransactInfo, PalletRevivePrimitivesEthTransactError>>>;
+      /**
        * Perform an Ethereum call.,, See [`crate::Pallet::dry_run_eth_transact`]
        **/
-      ethTransact: AugmentedCall<ApiType, (tx: PalletReviveEvmApiRpcTypesGenGenericTransaction | { accessList?: any; blobVersionedHashes?: any; blobs?: any; chainId?: any; from?: any; gas?: any; gasPrice?: any; input?: any; maxFeePerBlobGas?: any; maxFeePerGas?: any; maxPriorityFeePerGas?: any; nonce?: any; to?: any; r_type?: any; value?: any } | string | Uint8Array) => Observable<Result<PalletRevivePrimitivesEthTransactInfo, PalletRevivePrimitivesEthTransactError>>>;
+      ethTransactWithConfig: AugmentedCall<ApiType, (tx: PalletReviveEvmApiRpcTypesGenGenericTransaction | { accessList?: any; authorizationList?: any; blobVersionedHashes?: any; blobs?: any; chainId?: any; from?: any; gas?: any; gasPrice?: any; input?: any; maxFeePerBlobGas?: any; maxFeePerGas?: any; maxPriorityFeePerGas?: any; nonce?: any; to?: any; r_type?: any; value?: any } | string | Uint8Array, config: PalletReviveEvmApiRpcTypesDryRunConfig | { timestampOverride?: any; performBalanceChecks?: any; stateOverrides?: any } | string | Uint8Array) => Observable<Result<PalletRevivePrimitivesEthTransactInfo, PalletRevivePrimitivesEthTransactError>>>;
       /**
        * Returns the gas price.
        **/
@@ -346,6 +400,14 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       instantiate: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, code: PalletRevivePrimitivesCode | { Upload: any } | { Existing: any } | string | Uint8Array, data: Bytes | string | Uint8Array, salt: Option<U8aFixed> | null | Uint8Array | U8aFixed | string) => Observable<PalletRevivePrimitivesContractResultInstantiateReturnValue>>;
       /**
+       * Returns the block gas limit as calculated from the weights.
+       **/
+      maxExtrinsicWeightInGas: AugmentedCall<ApiType, () => Observable<U256>>;
+      /**
+       * Construct the new balance and dust components of this EVM balance.
+       **/
+      newBalanceWithDust: AugmentedCall<ApiType, (balance: U256 | AnyNumber | Uint8Array) => Observable<Result<ITuple<[u128, u32]>, PalletRevivePrimitivesBalanceConversionError>>>;
+      /**
        * Returns the nonce of the given `[H160]` address.
        **/
       nonce: AugmentedCall<ApiType, (address: H160 | string | Uint8Array) => Observable<u32>>;
@@ -356,15 +418,19 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Traces the execution of an entire block and returns call traces.,, This is intended to be called through `state_call` to replay the block from the, parent block.,, See eth-rpc `debug_traceBlockByNumber` for usage.
        **/
-      traceBlock: AugmentedCall<ApiType, (block: SpRuntimeBlock | { header?: any; extrinsics?: any } | string | Uint8Array, config: PalletReviveEvmApiDebugRpcTypesTracerType | { CallTracer: any } | { PrestateTracer: any } | string | Uint8Array) => Observable<Vec<ITuple<[u32, PalletReviveEvmApiDebugRpcTypesTrace]>>>>;
+      traceBlock: AugmentedCall<ApiType, (block: SpRuntimeBlock | { header?: any; extrinsics?: any } | string | Uint8Array, config: PalletReviveEvmApiDebugRpcTypesTracerType | { CallTracer: any } | { PrestateTracer: any } | { ExecutionTracer: any } | string | Uint8Array) => Observable<Vec<ITuple<[u32, PalletReviveEvmApiDebugRpcTypesTrace]>>>>;
       /**
        * Dry run and return the trace of the given call.,, See eth-rpc `debug_traceCall` for usage.
        **/
-      traceCall: AugmentedCall<ApiType, (tx: PalletReviveEvmApiRpcTypesGenGenericTransaction | { accessList?: any; blobVersionedHashes?: any; blobs?: any; chainId?: any; from?: any; gas?: any; gasPrice?: any; input?: any; maxFeePerBlobGas?: any; maxFeePerGas?: any; maxPriorityFeePerGas?: any; nonce?: any; to?: any; r_type?: any; value?: any } | string | Uint8Array, config: PalletReviveEvmApiDebugRpcTypesTracerType | { CallTracer: any } | { PrestateTracer: any } | string | Uint8Array) => Observable<Result<PalletReviveEvmApiDebugRpcTypesTrace, PalletRevivePrimitivesEthTransactError>>>;
+      traceCall: AugmentedCall<ApiType, (tx: PalletReviveEvmApiRpcTypesGenGenericTransaction | { accessList?: any; authorizationList?: any; blobVersionedHashes?: any; blobs?: any; chainId?: any; from?: any; gas?: any; gasPrice?: any; input?: any; maxFeePerBlobGas?: any; maxFeePerGas?: any; maxPriorityFeePerGas?: any; nonce?: any; to?: any; r_type?: any; value?: any } | string | Uint8Array, config: PalletReviveEvmApiDebugRpcTypesTracerType | { CallTracer: any } | { PrestateTracer: any } | { ExecutionTracer: any } | string | Uint8Array) => Observable<Result<PalletReviveEvmApiDebugRpcTypesTrace, PalletRevivePrimitivesEthTransactError>>>;
+      /**
+       * Dry run and return the trace of the given call with additional configuration.,, Like [`Self::trace_call`], but accepts a [`TracingConfig`] that can carry state, overrides and future extensibility. The config must be the **last argument** for, backwards compatibility — see [`TracingConfig`] documentation.
+       **/
+      traceCallWithConfig: AugmentedCall<ApiType, (tx: PalletReviveEvmApiRpcTypesGenGenericTransaction | { accessList?: any; authorizationList?: any; blobVersionedHashes?: any; blobs?: any; chainId?: any; from?: any; gas?: any; gasPrice?: any; input?: any; maxFeePerBlobGas?: any; maxFeePerGas?: any; maxPriorityFeePerGas?: any; nonce?: any; to?: any; r_type?: any; value?: any } | string | Uint8Array, tracer_type: PalletReviveEvmApiDebugRpcTypesTracerType | { CallTracer: any } | { PrestateTracer: any } | { ExecutionTracer: any } | string | Uint8Array, config: PalletReviveEvmApiRpcTypesTracingConfig | { stateOverrides?: any } | string | Uint8Array) => Observable<Result<PalletReviveEvmApiDebugRpcTypesTrace, PalletRevivePrimitivesEthTransactError>>>;
       /**
        * Traces the execution of a specific transaction within a block.,, This is intended to be called through `state_call` to replay the block from the, parent hash up to the transaction.,, See eth-rpc `debug_traceTransaction` for usage.
        **/
-      traceTx: AugmentedCall<ApiType, (block: SpRuntimeBlock | { header?: any; extrinsics?: any } | string | Uint8Array, tx_index: u32 | AnyNumber | Uint8Array, config: PalletReviveEvmApiDebugRpcTypesTracerType | { CallTracer: any } | { PrestateTracer: any } | string | Uint8Array) => Observable<Option<PalletReviveEvmApiDebugRpcTypesTrace>>>;
+      traceTx: AugmentedCall<ApiType, (block: SpRuntimeBlock | { header?: any; extrinsics?: any } | string | Uint8Array, tx_index: u32 | AnyNumber | Uint8Array, config: PalletReviveEvmApiDebugRpcTypesTracerType | { CallTracer: any } | { PrestateTracer: any } | { ExecutionTracer: any } | string | Uint8Array) => Observable<Option<PalletReviveEvmApiDebugRpcTypesTrace>>>;
       /**
        * Upload new code without instantiating a contract from it.,, See [`crate::Pallet::bare_upload_code`].
        **/
@@ -394,7 +460,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Generate a set of session keys with optionally using the given seed., The keys should be stored within the keystore exposed via runtime, externalities.,, The seed needs to be a valid `utf8` string.,, Returns the concatenated SCALE encoded public keys.
        **/
-      generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<Bytes>>;
+      generateSessionKeys: AugmentedCall<ApiType, (owner: Bytes | string | Uint8Array, seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<SpSessionRuntimeApiOpaqueGeneratedSessionKeys>>;
       /**
        * Generic call
        **/
@@ -411,7 +477,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       nominationsQuota: AugmentedCall<ApiType, (balance: u128 | AnyNumber | Uint8Array) => Observable<u32>>;
       /**
-       * Returns true if validator `account` has pages to be claimed for the given era.
+       * Returns true if a validator `account` has pages to be claimed for the given era.
        **/
       pendingRewards: AugmentedCall<ApiType, (era: u32 | AnyNumber | Uint8Array, account: AccountId32 | string | Uint8Array) => Observable<bool>>;
       /**
@@ -498,9 +564,9 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       queryAcceptablePaymentAssets: AugmentedCall<ApiType, (xcm_version: u32 | AnyNumber | Uint8Array) => Observable<Result<Vec<XcmVersionedAssetId>, XcmRuntimeApisFeesError>>>;
       /**
-       * Get delivery fees for sending a specific `message` to a `destination`., These always come in a specific asset, defined by the chain.,, # Arguments, * `message`: The message that'll be sent, necessary because most delivery fees are based on the,   size of the message., * `destination`: The destination to send the message to. Different destinations may use,   different senders that charge different fees.
+       * Query delivery fees V2.,, Get delivery fees for sending a specific `message` to a `destination`., These always come in a specific asset, defined by the chain.,, # Arguments, * `message`: The message that'll be sent, necessary because most delivery fees are based on the,   size of the message., * `destination`: The destination to send the message to. Different destinations may use,   different senders that charge different fees.
        **/
-      queryDeliveryFees: AugmentedCall<ApiType, (destination: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, message: XcmVersionedXcm | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Result<XcmVersionedAssets, XcmRuntimeApisFeesError>>>;
+      queryDeliveryFees: AugmentedCall<ApiType, (destination: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, message: XcmVersionedXcm | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, asset_id: XcmVersionedAssetId | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Result<XcmVersionedAssets, XcmRuntimeApisFeesError>>>;
       /**
        * Converts a weight into a fee for the specified `AssetId`.,, # Arguments,, * `weight`: convertible `Weight`., * `asset`: `VersionedAssetId`.
        **/

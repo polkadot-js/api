@@ -11,93 +11,23 @@ export type __AugmentedError<ApiType extends ApiTypes> = AugmentedError<ApiType>
 
 declare module '@polkadot/api-base/types/errors' {
   interface AugmentedErrors<ApiType extends ApiTypes> {
-    ahMigrator: {
-      /**
-       * The XCM version is invalid.
-       **/
-      BadXcmVersion: AugmentedError<ApiType>;
-      /**
-       * The DMP queue priority is already set to the same value.
-       **/
-      DmpQueuePriorityAlreadySet: AugmentedError<ApiType>;
-      /**
-       * Failed to bound a call.
-       **/
-      FailedToBoundCall: AugmentedError<ApiType>;
-      /**
-       * Vector did not fit into its compile-time bound.
-       **/
-      FailedToBoundVector: AugmentedError<ApiType>;
-      /**
-       * Checking account overflow or underflow.
-       **/
-      FailedToCalculateCheckingAccount: AugmentedError<ApiType>;
-      /**
-       * Failed to convert RC call to AH call.
-       **/
-      FailedToConvertCall: AugmentedError<ApiType>;
-      /**
-       * Failed to convert RC type to AH type.
-       **/
-      FailedToConvertType: AugmentedError<ApiType>;
-      /**
-       * Failed to integrate a vesting schedule.
-       **/
-      FailedToIntegrateVestingSchedule: AugmentedError<ApiType>;
-      /**
-       * Failed to process an account data from RC.
-       **/
-      FailedToProcessAccount: AugmentedError<ApiType>;
-      /**
-       * Failed to unreserve deposit.
-       **/
-      FailedToUnreserveDeposit: AugmentedError<ApiType>;
-      /**
-       * Some item could not be inserted because it already exists.
-       **/
-      InsertConflict: AugmentedError<ApiType>;
-      /**
-       * The origin is invalid.
-       **/
-      InvalidOrigin: AugmentedError<ApiType>;
-      /**
-       * Invalid parameter.
-       **/
-      InvalidParameter: AugmentedError<ApiType>;
-      /**
-       * Preimage chunk missing.
-       **/
-      PreimageChunkMissing: AugmentedError<ApiType>;
-      /**
-       * Preimage missing.
-       **/
-      PreimageMissing: AugmentedError<ApiType>;
-      /**
-       * Failed to fetch preimage.
-       **/
-      PreimageNotFound: AugmentedError<ApiType>;
-      /**
-       * Preimage status invalid.
-       **/
-      PreimageStatusInvalid: AugmentedError<ApiType>;
-      /**
-       * Preimage too big.
-       **/
-      PreimageTooBig: AugmentedError<ApiType>;
-      /**
-       * Failed to send XCM message.
-       **/
-      XcmError: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     ahOps: {
+      /**
+       * The account has already been translated.
+       **/
+      AlreadyTranslated: AugmentedError<ApiType>;
       /**
        * Not all contributions are withdrawn.
        **/
       ContributionsRemaining: AugmentedError<ApiType>;
+      /**
+       * Failed to force unstake.
+       **/
+      FailedToForceUnstake: AugmentedError<ApiType>;
+      /**
+       * Failed to transfer balance.
+       **/
+      FailedToTransfer: AugmentedError<ApiType>;
       /**
        * Failed to withdraw crowdloan contribution.
        **/
@@ -130,6 +60,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Block number is not yet reached.
        **/
       NotYet: AugmentedError<ApiType>;
+      /**
+       * The derivation path is too long.
+       **/
+      TooLongDerivationPath: AugmentedError<ApiType>;
       /**
        * The account is not a derived account.
        **/
@@ -206,6 +140,10 @@ declare module '@polkadot/api-base/types/errors' {
        * An overflow happened.
        **/
       Overflow: AugmentedError<ApiType>;
+      /**
+       * The pool exists but has no liquidity (at least one of the reserves is zero).
+       **/
+      PoolEmpty: AugmentedError<ApiType>;
       /**
        * Pool already exists.
        **/
@@ -337,6 +275,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotFrozen: AugmentedError<ApiType>;
       /**
+       * Tried setting too many reserves.
+       **/
+      TooManyReserves: AugmentedError<ApiType>;
+      /**
        * No approval exists that would allow the transfer.
        **/
       Unapproved: AugmentedError<ApiType>;
@@ -358,6 +300,44 @@ declare module '@polkadot/api-base/types/errors' {
        * The source account would not survive the transfer and it needs to stay alive.
        **/
       WouldDie: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    assetsPrecompilesPermit: {
+      /**
+       * The owner address is invalid (e.g., zero address).
+       **/
+      InvalidOwner: AugmentedError<ApiType>;
+      /**
+       * The permit signature is invalid.
+       **/
+      InvalidSignature: AugmentedError<ApiType>;
+      /**
+       * The spender address is invalid (e.g., zero address).
+       **/
+      InvalidSpender: AugmentedError<ApiType>;
+      /**
+       * The signature's `v` value is invalid.
+       **/
+      InvalidVValue: AugmentedError<ApiType>;
+      /**
+       * Nonce overflow - account has used too many permits.
+       **/
+      NonceOverflow: AugmentedError<ApiType>;
+      /**
+       * The permit has expired (deadline passed).
+       **/
+      PermitExpired: AugmentedError<ApiType>;
+      /**
+       * The signature's `s` value is too high (malleability protection).
+       **/
+      SignatureSValueTooHigh: AugmentedError<ApiType>;
+      /**
+       * The signer does not match the owner.
+       **/
+      SignerMismatch: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -783,6 +763,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotFrozen: AugmentedError<ApiType>;
       /**
+       * Tried setting too many reserves.
+       **/
+      TooManyReserves: AugmentedError<ApiType>;
+      /**
        * No approval exists that would allow the transfer.
        **/
       Unapproved: AugmentedError<ApiType>;
@@ -878,6 +862,84 @@ declare module '@polkadot/api-base/types/errors' {
        * retrying.
        **/
       TemporarilyUnprocessable: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    multiAssetBounties: {
+      /**
+       * The balance of the asset kind is not convertible to the balance of the native asset for
+       * asserting the origin permissions.
+       **/
+      FailedToConvertBalance: AugmentedError<ApiType>;
+      /**
+       * The child-/bounty or funding source account could not be derived from the indexes and
+       * asset kind.
+       **/
+      FailedToConvertSource: AugmentedError<ApiType>;
+      /**
+       * There was issue with funding the child-/bounty.
+       **/
+      FundingError: AugmentedError<ApiType>;
+      /**
+       * Child-/bounty funding has not concluded yet.
+       **/
+      FundingInconclusive: AugmentedError<ApiType>;
+      /**
+       * The parent bounty cannot be closed because it has active child bounties.
+       **/
+      HasActiveChildBounty: AugmentedError<ApiType>;
+      /**
+       * The parent bounty value is not enough to add new child-bounty.
+       **/
+      InsufficientBountyValue: AugmentedError<ApiType>;
+      /**
+       * The spend origin is valid but the amount it is allowed to spend is lower than the
+       * requested amount.
+       **/
+      InsufficientPermission: AugmentedError<ApiType>;
+      /**
+       * No child-/bounty at that index.
+       **/
+      InvalidIndex: AugmentedError<ApiType>;
+      /**
+       * Invalid child-/bounty value.
+       **/
+      InvalidValue: AugmentedError<ApiType>;
+      PayoutError: AugmentedError<ApiType>;
+      /**
+       * Child-/bounty payout has not concluded yet.
+       **/
+      PayoutInconclusive: AugmentedError<ApiType>;
+      /**
+       * The preimage does not exist.
+       **/
+      PreimageNotExist: AugmentedError<ApiType>;
+      /**
+       * The reason given is just too big.
+       **/
+      ReasonTooBig: AugmentedError<ApiType>;
+      /**
+       * There was issue with refunding the child-/bounty.
+       **/
+      RefundError: AugmentedError<ApiType>;
+      /**
+       * Child-/bounty refund has not concluded yet.
+       **/
+      RefundInconclusive: AugmentedError<ApiType>;
+      /**
+       * Require child-/bounty curator.
+       **/
+      RequireCurator: AugmentedError<ApiType>;
+      /**
+       * Number of child bounties exceeds limit `MaxActiveChildBountyCount`.
+       **/
+      TooManyChildBounties: AugmentedError<ApiType>;
+      /**
+       * The child-/bounty status is unexpected.
+       **/
+      UnexpectedStatus: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1490,6 +1552,8 @@ declare module '@polkadot/api-base/types/errors' {
       InvalidOrigin: AugmentedError<ApiType>;
       /**
        * Local XCM execution incomplete.
+       * 
+       * @deprecated Use `LocalExecutionIncompleteWithError` instead Since 20.0.0.
        **/
       LocalExecutionIncomplete: AugmentedError<ApiType>;
       /**
@@ -1619,6 +1683,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotFrozen: AugmentedError<ApiType>;
       /**
+       * Tried setting too many reserves.
+       **/
+      TooManyReserves: AugmentedError<ApiType>;
+      /**
        * No approval exists that would allow the transfer.
        **/
       Unapproved: AugmentedError<ApiType>;
@@ -1723,69 +1791,97 @@ declare module '@polkadot/api-base/types/errors' {
     };
     recovery: {
       /**
-       * This account is already set up for recovery
+       * This attempt is already fully approved and does not need any more votes.
        **/
-      AlreadyProxy: AugmentedError<ApiType>;
+      AlreadyApproved: AugmentedError<ApiType>;
       /**
-       * This account is already set up for recovery
+       * The recovery attempt has already been initiated.
        **/
-      AlreadyRecoverable: AugmentedError<ApiType>;
+      AlreadyInitiated: AugmentedError<ApiType>;
       /**
-       * A recovery process has already started for this account
+       * The friend already voted for this attempt.
        **/
-      AlreadyStarted: AugmentedError<ApiType>;
+      AlreadyVoted: AugmentedError<ApiType>;
       /**
-       * This user has already vouched for this recovery
+       * Two friend groups have the same set of friends.
        **/
-      AlreadyVouched: AugmentedError<ApiType>;
+      DuplicateFriendGroups: AugmentedError<ApiType>;
       /**
-       * Some internal state is broken.
+       * The friends of a friend group are not sorted or not unique.
        **/
-      BadState: AugmentedError<ApiType>;
+      FriendsNotSortedOrUnique: AugmentedError<ApiType>;
       /**
-       * The friend must wait until the delay period to vouch for this recovery
+       * The lost account has ongoing recovery attempts.
        **/
-      DelayPeriod: AugmentedError<ApiType>;
+      HasOngoingAttempts: AugmentedError<ApiType>;
       /**
-       * Friends list must be less than max friends
+       * The account was already recovered by a group of equal or higher priority.
        **/
-      MaxFriends: AugmentedError<ApiType>;
+      HigherPriorityRecovered: AugmentedError<ApiType>;
       /**
-       * User is not allowed to make a call on behalf of this account
+       * The lost account cannot be a friend of itself.
        **/
-      NotAllowed: AugmentedError<ApiType>;
+      LostAccountInFriendGroup: AugmentedError<ApiType>;
       /**
-       * Friends list must be greater than zero and threshold
+       * Cancel delay must be at least 1.
        **/
-      NotEnoughFriends: AugmentedError<ApiType>;
+      NoCancelDelay: AugmentedError<ApiType>;
       /**
-       * This account is not a friend who can vouch
+       * This account does not have any friend groups.
+       **/
+      NoFriendGroups: AugmentedError<ApiType>;
+      /**
+       * The friend group has no friends.
+       **/
+      NoFriends: AugmentedError<ApiType>;
+      /**
+       * The number of friends needed is zero.
+       **/
+      NoFriendsNeeded: AugmentedError<ApiType>;
+      /**
+       * The lost account does not have any inheritor.
+       **/
+      NoInheritor: AugmentedError<ApiType>;
+      /**
+       * Not enough friends approved this attempt.
+       **/
+      NotApproved: AugmentedError<ApiType>;
+      /**
+       * The referenced recovery attempt was not found.
+       **/
+      NotAttempt: AugmentedError<ApiType>;
+      /**
+       * The caller is not the initiator or the lost account.
+       **/
+      NotCanceller: AugmentedError<ApiType>;
+      /**
+       * The caller is not a friend of the lost account.
        **/
       NotFriend: AugmentedError<ApiType>;
       /**
-       * This account is not set up for recovery
+       * A specific referenced friend group was not found.
        **/
-      NotRecoverable: AugmentedError<ApiType>;
+      NotFriendGroup: AugmentedError<ApiType>;
       /**
-       * Friends list must be sorted and free of duplicates
+       * The caller is not the inheritor of the lost account.
        **/
-      NotSorted: AugmentedError<ApiType>;
+      NotInheritor: AugmentedError<ApiType>;
       /**
-       * A recovery process has not started for this rescuer
+       * The cancel delay since the last approval or initialization has not yet passed.
        **/
-      NotStarted: AugmentedError<ApiType>;
+      NotYetCancelable: AugmentedError<ApiType>;
       /**
-       * There are still active recovery attempts that need to be closed
+       * The inheritance delay of this attempt has not yet passed.
        **/
-      StillActive: AugmentedError<ApiType>;
+      NotYetInheritable: AugmentedError<ApiType>;
       /**
-       * The threshold for recovering this account has not been met
+       * Too many friend groups.
        **/
-      Threshold: AugmentedError<ApiType>;
+      TooManyFriendGroups: AugmentedError<ApiType>;
       /**
-       * Threshold must be greater than zero
+       * The number of friends needed is greater than the number of friends.
        **/
-      ZeroThreshold: AugmentedError<ApiType>;
+      TooManyFriendsNeeded: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1899,6 +1995,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountUnmapped: AugmentedError<ApiType>;
       /**
+       * Manual mapping is disabled when auto-mapping is enabled.
+       **/
+      AutoMappingEnabled: AugmentedError<ApiType>;
+      /**
        * Failed to convert a U256 to a Balance.
        **/
       BalanceConversionFailed: AugmentedError<ApiType>;
@@ -1969,6 +2069,23 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DuplicateContract: AugmentedError<ApiType>;
       /**
+       * ECDSA public key recovery failed. Most probably wrong recovery id or signature.
+       **/
+      EcdsaRecoveryFailed: AugmentedError<ApiType>;
+      /**
+       * Tried to construct an EVM contract via code hash.
+       * 
+       * EVM contracts can only be instantiated via code upload as no initcode is
+       * stored on-chain.
+       **/
+      EvmConstructedFromHash: AugmentedError<ApiType>;
+      /**
+       * When calling an EVM constructor `data` has to be empty.
+       * 
+       * EVM constructors do not accept data. Their input data is part of the code blob itself.
+       **/
+      EvmConstructorNonEmptyData: AugmentedError<ApiType>;
+      /**
        * PolkaVM failed during code execution. Probably due to a malformed program.
        **/
       ExecutionFailed: AugmentedError<ApiType>;
@@ -1993,6 +2110,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The program contains an invalid instruction.
        **/
       InvalidInstruction: AugmentedError<ApiType>;
+      /**
+       * Invalid jump destination. Dynamic jumps points to invalid not jumpdest opcode.
+       **/
+      InvalidJump: AugmentedError<ApiType>;
       /**
        * Invalid schedule supplied, e.g. with zero weight of a basic operation.
        **/
@@ -2027,6 +2148,19 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       OutOfTransientStorage: AugmentedError<ApiType>;
       /**
+       * A contract cannot be created at this address: it still has uncleared
+       * [`NativeDepositOf`] entries from a previously terminated contract that the deletion
+       * queue has not yet drained.
+       **/
+      PendingDepositCleanup: AugmentedError<ApiType>;
+      /**
+       * Called a pre-compile that is not allowed to be delegate called.
+       * 
+       * Some pre-compile functions will trap the caller context if being delegate
+       * called or if their caller was being delegate called.
+       **/
+      PrecompileDelegateDenied: AugmentedError<ApiType>;
+      /**
        * A contract called into the runtime which then called back into this pallet.
        **/
       ReenteredPallet: AugmentedError<ApiType>;
@@ -2043,6 +2177,14 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       ReturnDataTooLarge: AugmentedError<ApiType>;
       /**
+       * Attempting to push a value onto a full stack.
+       **/
+      StackOverflow: AugmentedError<ApiType>;
+      /**
+       * Attempting to pop a value from an empty stack.
+       **/
+      StackUnderflow: AugmentedError<ApiType>;
+      /**
        * A contract attempted to invoke a state modifying API while being in read-only mode.
        **/
       StateChangeDenied: AugmentedError<ApiType>;
@@ -2058,6 +2200,19 @@ declare module '@polkadot/api-base/types/errors' {
        * Origin doesn't have enough balance to pay the required storage deposits.
        **/
       StorageDepositNotEnoughFunds: AugmentedError<ApiType>;
+      /**
+       * This means there are locks on the contracts storage deposit that prevents refunding it.
+       * 
+       * This would be the case if the contract used its storage deposits for governance
+       * or other pallets that allow creating locks over held balance.
+       **/
+      StorageRefundLocked: AugmentedError<ApiType>;
+      /**
+       * The contract does not have enough balance to refund the storage deposit.
+       * 
+       * This is a bug and should never happen. It means the accounting got out of sync.
+       **/
+      StorageRefundNotEnoughFunds: AugmentedError<ApiType>;
       /**
        * A contract self destructed in its constructor.
        * 
@@ -2079,11 +2234,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       TransferFailed: AugmentedError<ApiType>;
       /**
+       * Too much deposit was drawn from the shared txfee and deposit credit.
+       * 
+       * This happens if the passed `gas` inside the ethereum transaction is too low.
+       **/
+      TxFeeOverdraw: AugmentedError<ApiType>;
+      /**
        * Unsupported precompile address.
        **/
       UnsupportedPrecompileAddress: AugmentedError<ApiType>;
       /**
-       * Event body or storage item exceeds [`limits::PAYLOAD_BYTES`].
+       * Event body or storage item exceeds [`limits::STORAGE_BYTES`].
        **/
       ValueTooLarge: AugmentedError<ApiType>;
       /**
@@ -2327,6 +2488,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CannotRestoreLedger: AugmentedError<ApiType>;
       /**
+       * Commission is higher than the allowed maximum `MaxCommission`.
+       **/
+      CommissionTooHigh: AugmentedError<ApiType>;
+      /**
        * Commission is too low. Must be at least `MinCommission`.
        **/
       CommissionTooLow: AugmentedError<ApiType>;
@@ -2401,6 +2566,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoUnlockChunk: AugmentedError<ApiType>;
       /**
+       * Optimum self-stake cannot be greater than hard cap.
+       **/
+      OptimumGreaterThanCap: AugmentedError<ApiType>;
+      /**
        * Account is restricted from participation in staking. This may happen if the account is
        * staking in another way already, such as via pool.
        **/
@@ -2432,6 +2601,36 @@ declare module '@polkadot/api-base/types/errors' {
        * Operation not allowed for virtual stakers.
        **/
       VirtualStakerNotAllowed: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    stakingRcClient: {
+      /**
+       * Delivery fees exceeded the specified maximum.
+       **/
+      FeesExceededMax: AugmentedError<ApiType>;
+      /**
+       * The session keys could not be decoded as the expected RelayChainSessionKeys type.
+       **/
+      InvalidKeys: AugmentedError<ApiType>;
+      /**
+       * Invalid ownership proof for the session keys.
+       **/
+      InvalidProof: AugmentedError<ApiType>;
+      /**
+       * The origin account is not a registered validator.
+       * 
+       * Only accounts that have called `validate()` can set or purge session keys. When called
+       * via a staking proxy, the origin is the delegating account (stash), which must be a
+       * registered validator.
+       **/
+      NotValidator: AugmentedError<ApiType>;
+      /**
+       * Failed to send XCM message to the Relay Chain.
+       **/
+      XcmSendFailed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

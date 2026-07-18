@@ -5,199 +5,11 @@
 
 export default {
   /**
-   * Lookup32: asset_hub_kusama_runtime::RuntimeTask
+   * Lookup15: asset_hub_kusama_runtime::RuntimeTask
    **/
   AssetHubKusamaRuntimeRuntimeTask: 'Null',
   /**
-   * Lookup43: asset_hub_kusama_runtime::RuntimeParametersKey
-   **/
-  AssetHubKusamaRuntimeRuntimeParametersKey: {
-    _enum: {
-      Issuance: 'AssetHubKusamaRuntimeDynamicParamsIssuanceParametersKey',
-      Treasury: 'AssetHubKusamaRuntimeDynamicParamsTreasuryParametersKey',
-      StakingElection: 'AssetHubKusamaRuntimeDynamicParamsStakingElectionParametersKey',
-      Scheduler: 'AssetHubKusamaRuntimeDynamicParamsSchedulerParametersKey',
-      MessageQueue: 'AssetHubKusamaRuntimeDynamicParamsMessageQueueParametersKey'
-    }
-  },
-  /**
-   * Lookup44: asset_hub_kusama_runtime::dynamic_params::issuance::ParametersKey
-   **/
-  AssetHubKusamaRuntimeDynamicParamsIssuanceParametersKey: {
-    _enum: ['MinInflation', 'MaxInflation', 'IdealStake', 'Falloff']
-  },
-  /**
-   * Lookup45: asset_hub_kusama_runtime::dynamic_params::issuance::MinInflation
-   **/
-  AssetHubKusamaRuntimeDynamicParamsIssuanceMinInflation: 'Null',
-  /**
-   * Lookup46: asset_hub_kusama_runtime::dynamic_params::issuance::MaxInflation
-   **/
-  AssetHubKusamaRuntimeDynamicParamsIssuanceMaxInflation: 'Null',
-  /**
-   * Lookup47: asset_hub_kusama_runtime::dynamic_params::issuance::IdealStake
-   **/
-  AssetHubKusamaRuntimeDynamicParamsIssuanceIdealStake: 'Null',
-  /**
-   * Lookup48: asset_hub_kusama_runtime::dynamic_params::issuance::Falloff
-   **/
-  AssetHubKusamaRuntimeDynamicParamsIssuanceFalloff: 'Null',
-  /**
-   * Lookup49: asset_hub_kusama_runtime::dynamic_params::treasury::ParametersKey
-   **/
-  AssetHubKusamaRuntimeDynamicParamsTreasuryParametersKey: {
-    _enum: ['BurnPortion', 'BurnDestination']
-  },
-  /**
-   * Lookup50: asset_hub_kusama_runtime::dynamic_params::treasury::BurnPortion
-   **/
-  AssetHubKusamaRuntimeDynamicParamsTreasuryBurnPortion: 'Null',
-  /**
-   * Lookup51: asset_hub_kusama_runtime::dynamic_params::treasury::BurnDestination
-   **/
-  AssetHubKusamaRuntimeDynamicParamsTreasuryBurnDestination: 'Null',
-  /**
-   * Lookup52: asset_hub_kusama_runtime::dynamic_params::staking_election::ParametersKey
-   **/
-  AssetHubKusamaRuntimeDynamicParamsStakingElectionParametersKey: {
-    _enum: ['SignedPhase', 'MaxSignedSubmissions', 'UnsignedPhase', 'MinerPages', 'MaxElectingVoters', 'TargetSnapshotPerBlock', 'MaxEraDuration']
-  },
-  /**
-   * Lookup53: asset_hub_kusama_runtime::dynamic_params::staking_election::SignedPhase
-   **/
-  AssetHubKusamaRuntimeDynamicParamsStakingElectionSignedPhase: 'Null',
-  /**
-   * Lookup54: asset_hub_kusama_runtime::dynamic_params::staking_election::MaxSignedSubmissions
-   **/
-  AssetHubKusamaRuntimeDynamicParamsStakingElectionMaxSignedSubmissions: 'Null',
-  /**
-   * Lookup55: asset_hub_kusama_runtime::dynamic_params::staking_election::UnsignedPhase
-   **/
-  AssetHubKusamaRuntimeDynamicParamsStakingElectionUnsignedPhase: 'Null',
-  /**
-   * Lookup56: asset_hub_kusama_runtime::dynamic_params::staking_election::MinerPages
-   **/
-  AssetHubKusamaRuntimeDynamicParamsStakingElectionMinerPages: 'Null',
-  /**
-   * Lookup57: asset_hub_kusama_runtime::dynamic_params::staking_election::MaxElectingVoters
-   **/
-  AssetHubKusamaRuntimeDynamicParamsStakingElectionMaxElectingVoters: 'Null',
-  /**
-   * Lookup58: asset_hub_kusama_runtime::dynamic_params::staking_election::TargetSnapshotPerBlock
-   **/
-  AssetHubKusamaRuntimeDynamicParamsStakingElectionTargetSnapshotPerBlock: 'Null',
-  /**
-   * Lookup59: asset_hub_kusama_runtime::dynamic_params::staking_election::MaxEraDuration
-   **/
-  AssetHubKusamaRuntimeDynamicParamsStakingElectionMaxEraDuration: 'Null',
-  /**
-   * Lookup60: asset_hub_kusama_runtime::dynamic_params::scheduler::ParametersKey
-   **/
-  AssetHubKusamaRuntimeDynamicParamsSchedulerParametersKey: {
-    _enum: ['MaxScheduledPerBlock', 'MaximumWeight']
-  },
-  /**
-   * Lookup61: asset_hub_kusama_runtime::dynamic_params::scheduler::MaxScheduledPerBlock
-   **/
-  AssetHubKusamaRuntimeDynamicParamsSchedulerMaxScheduledPerBlock: 'Null',
-  /**
-   * Lookup62: asset_hub_kusama_runtime::dynamic_params::scheduler::MaximumWeight
-   **/
-  AssetHubKusamaRuntimeDynamicParamsSchedulerMaximumWeight: 'Null',
-  /**
-   * Lookup63: asset_hub_kusama_runtime::dynamic_params::message_queue::ParametersKey
-   **/
-  AssetHubKusamaRuntimeDynamicParamsMessageQueueParametersKey: {
-    _enum: ['MaxOnInitWeight', 'MaxOnIdleWeight']
-  },
-  /**
-   * Lookup64: asset_hub_kusama_runtime::dynamic_params::message_queue::MaxOnInitWeight
-   **/
-  AssetHubKusamaRuntimeDynamicParamsMessageQueueMaxOnInitWeight: 'Null',
-  /**
-   * Lookup65: asset_hub_kusama_runtime::dynamic_params::message_queue::MaxOnIdleWeight
-   **/
-  AssetHubKusamaRuntimeDynamicParamsMessageQueueMaxOnIdleWeight: 'Null',
-  /**
-   * Lookup67: asset_hub_kusama_runtime::RuntimeParametersValue
-   **/
-  AssetHubKusamaRuntimeRuntimeParametersValue: {
-    _enum: {
-      Issuance: 'AssetHubKusamaRuntimeDynamicParamsIssuanceParametersValue',
-      Treasury: 'AssetHubKusamaRuntimeDynamicParamsTreasuryParametersValue',
-      StakingElection: 'AssetHubKusamaRuntimeDynamicParamsStakingElectionParametersValue',
-      Scheduler: 'AssetHubKusamaRuntimeDynamicParamsSchedulerParametersValue',
-      MessageQueue: 'AssetHubKusamaRuntimeDynamicParamsMessageQueueParametersValue'
-    }
-  },
-  /**
-   * Lookup68: asset_hub_kusama_runtime::dynamic_params::issuance::ParametersValue
-   **/
-  AssetHubKusamaRuntimeDynamicParamsIssuanceParametersValue: {
-    _enum: {
-      MinInflation: 'Perquintill',
-      MaxInflation: 'Perquintill',
-      IdealStake: 'Perquintill',
-      Falloff: 'Perquintill'
-    }
-  },
-  /**
-   * Lookup70: asset_hub_kusama_runtime::dynamic_params::treasury::ParametersValue
-   **/
-  AssetHubKusamaRuntimeDynamicParamsTreasuryParametersValue: {
-    _enum: {
-      BurnPortion: 'Permill',
-      BurnDestination: 'AssetHubKusamaRuntimeTreasuryBurnDestinationAccount'
-    }
-  },
-  /**
-   * Lookup72: asset_hub_kusama_runtime::treasury::BurnDestinationAccount
-   **/
-  AssetHubKusamaRuntimeTreasuryBurnDestinationAccount: 'Option<AccountId32>',
-  /**
-   * Lookup74: asset_hub_kusama_runtime::dynamic_params::staking_election::ParametersValue
-   **/
-  AssetHubKusamaRuntimeDynamicParamsStakingElectionParametersValue: {
-    _enum: {
-      SignedPhase: 'u32',
-      MaxSignedSubmissions: 'u32',
-      UnsignedPhase: 'u32',
-      MinerPages: 'u32',
-      MaxElectingVoters: 'u32',
-      TargetSnapshotPerBlock: 'u32',
-      MaxEraDuration: 'u64'
-    }
-  },
-  /**
-   * Lookup75: asset_hub_kusama_runtime::dynamic_params::scheduler::ParametersValue
-   **/
-  AssetHubKusamaRuntimeDynamicParamsSchedulerParametersValue: {
-    _enum: {
-      MaxScheduledPerBlock: 'u32',
-      MaximumWeight: 'SpWeightsWeightV2Weight'
-    }
-  },
-  /**
-   * Lookup76: asset_hub_kusama_runtime::dynamic_params::message_queue::ParametersValue
-   **/
-  AssetHubKusamaRuntimeDynamicParamsMessageQueueParametersValue: {
-    _enum: {
-      MaxOnInitWeight: 'Option<SpWeightsWeightV2Weight>',
-      MaxOnIdleWeight: 'Option<SpWeightsWeightV2Weight>'
-    }
-  },
-  /**
-   * Lookup193: asset_hub_kusama_runtime::ProxyType
-   **/
-  AssetHubKusamaRuntimeProxyType: {
-    _enum: ['Any', 'NonTransfer', 'CancelProxy', 'Assets', 'AssetOwner', 'AssetManager', 'Collator', 'Governance', 'Staking', 'NominationPools', 'Auction', 'ParaRegistration', 'Society', 'Spokesperson']
-  },
-  /**
-   * Lookup220: asset_hub_kusama_runtime::Runtime
-   **/
-  AssetHubKusamaRuntimeRuntime: 'Null',
-  /**
-   * Lookup308: asset_hub_kusama_runtime::RuntimeParameters
+   * Lookup65: asset_hub_kusama_runtime::RuntimeParameters
    **/
   AssetHubKusamaRuntimeRuntimeParameters: {
     _enum: {
@@ -209,7 +21,7 @@ export default {
     }
   },
   /**
-   * Lookup309: asset_hub_kusama_runtime::dynamic_params::issuance::Parameters
+   * Lookup66: asset_hub_kusama_runtime::dynamic_params::issuance::Parameters
    **/
   AssetHubKusamaRuntimeDynamicParamsIssuanceParameters: {
     _enum: {
@@ -220,7 +32,23 @@ export default {
     }
   },
   /**
-   * Lookup311: asset_hub_kusama_runtime::dynamic_params::treasury::Parameters
+   * Lookup67: asset_hub_kusama_runtime::dynamic_params::issuance::MinInflation
+   **/
+  AssetHubKusamaRuntimeDynamicParamsIssuanceMinInflation: 'Null',
+  /**
+   * Lookup70: asset_hub_kusama_runtime::dynamic_params::issuance::MaxInflation
+   **/
+  AssetHubKusamaRuntimeDynamicParamsIssuanceMaxInflation: 'Null',
+  /**
+   * Lookup71: asset_hub_kusama_runtime::dynamic_params::issuance::IdealStake
+   **/
+  AssetHubKusamaRuntimeDynamicParamsIssuanceIdealStake: 'Null',
+  /**
+   * Lookup72: asset_hub_kusama_runtime::dynamic_params::issuance::Falloff
+   **/
+  AssetHubKusamaRuntimeDynamicParamsIssuanceFalloff: 'Null',
+  /**
+   * Lookup73: asset_hub_kusama_runtime::dynamic_params::treasury::Parameters
    **/
   AssetHubKusamaRuntimeDynamicParamsTreasuryParameters: {
     _enum: {
@@ -229,7 +57,19 @@ export default {
     }
   },
   /**
-   * Lookup314: asset_hub_kusama_runtime::dynamic_params::staking_election::Parameters
+   * Lookup74: asset_hub_kusama_runtime::dynamic_params::treasury::BurnPortion
+   **/
+  AssetHubKusamaRuntimeDynamicParamsTreasuryBurnPortion: 'Null',
+  /**
+   * Lookup77: asset_hub_kusama_runtime::dynamic_params::treasury::BurnDestination
+   **/
+  AssetHubKusamaRuntimeDynamicParamsTreasuryBurnDestination: 'Null',
+  /**
+   * Lookup79: asset_hub_kusama_runtime::treasury::BurnDestinationAccount
+   **/
+  AssetHubKusamaRuntimeTreasuryBurnDestinationAccount: 'Option<AccountId32>',
+  /**
+   * Lookup81: asset_hub_kusama_runtime::dynamic_params::staking_election::Parameters
    **/
   AssetHubKusamaRuntimeDynamicParamsStakingElectionParameters: {
     _enum: {
@@ -243,7 +83,35 @@ export default {
     }
   },
   /**
-   * Lookup315: asset_hub_kusama_runtime::dynamic_params::scheduler::Parameters
+   * Lookup82: asset_hub_kusama_runtime::dynamic_params::staking_election::SignedPhase
+   **/
+  AssetHubKusamaRuntimeDynamicParamsStakingElectionSignedPhase: 'Null',
+  /**
+   * Lookup83: asset_hub_kusama_runtime::dynamic_params::staking_election::MaxSignedSubmissions
+   **/
+  AssetHubKusamaRuntimeDynamicParamsStakingElectionMaxSignedSubmissions: 'Null',
+  /**
+   * Lookup84: asset_hub_kusama_runtime::dynamic_params::staking_election::UnsignedPhase
+   **/
+  AssetHubKusamaRuntimeDynamicParamsStakingElectionUnsignedPhase: 'Null',
+  /**
+   * Lookup85: asset_hub_kusama_runtime::dynamic_params::staking_election::MinerPages
+   **/
+  AssetHubKusamaRuntimeDynamicParamsStakingElectionMinerPages: 'Null',
+  /**
+   * Lookup86: asset_hub_kusama_runtime::dynamic_params::staking_election::MaxElectingVoters
+   **/
+  AssetHubKusamaRuntimeDynamicParamsStakingElectionMaxElectingVoters: 'Null',
+  /**
+   * Lookup87: asset_hub_kusama_runtime::dynamic_params::staking_election::TargetSnapshotPerBlock
+   **/
+  AssetHubKusamaRuntimeDynamicParamsStakingElectionTargetSnapshotPerBlock: 'Null',
+  /**
+   * Lookup88: asset_hub_kusama_runtime::dynamic_params::staking_election::MaxEraDuration
+   **/
+  AssetHubKusamaRuntimeDynamicParamsStakingElectionMaxEraDuration: 'Null',
+  /**
+   * Lookup90: asset_hub_kusama_runtime::dynamic_params::scheduler::Parameters
    **/
   AssetHubKusamaRuntimeDynamicParamsSchedulerParameters: {
     _enum: {
@@ -252,7 +120,15 @@ export default {
     }
   },
   /**
-   * Lookup316: asset_hub_kusama_runtime::dynamic_params::message_queue::Parameters
+   * Lookup91: asset_hub_kusama_runtime::dynamic_params::scheduler::MaxScheduledPerBlock
+   **/
+  AssetHubKusamaRuntimeDynamicParamsSchedulerMaxScheduledPerBlock: 'Null',
+  /**
+   * Lookup92: asset_hub_kusama_runtime::dynamic_params::scheduler::MaximumWeight
+   **/
+  AssetHubKusamaRuntimeDynamicParamsSchedulerMaximumWeight: 'Null',
+  /**
+   * Lookup95: asset_hub_kusama_runtime::dynamic_params::message_queue::Parameters
    **/
   AssetHubKusamaRuntimeDynamicParamsMessageQueueParameters: {
     _enum: {
@@ -261,17 +137,25 @@ export default {
     }
   },
   /**
-   * Lookup333: asset_hub_kusama_runtime::SessionKeys
+   * Lookup96: asset_hub_kusama_runtime::dynamic_params::message_queue::MaxOnInitWeight
+   **/
+  AssetHubKusamaRuntimeDynamicParamsMessageQueueMaxOnInitWeight: 'Null',
+  /**
+   * Lookup98: asset_hub_kusama_runtime::dynamic_params::message_queue::MaxOnIdleWeight
+   **/
+  AssetHubKusamaRuntimeDynamicParamsMessageQueueMaxOnIdleWeight: 'Null',
+  /**
+   * Lookup117: asset_hub_kusama_runtime::SessionKeys
    **/
   AssetHubKusamaRuntimeSessionKeys: {
     aura: 'SpConsensusAuraSr25519AppSr25519Public'
   },
   /**
-   * Lookup334: sp_consensus_aura::sr25519::app_sr25519::Public
+   * Lookup118: sp_consensus_aura::sr25519::app_sr25519::Public
    **/
   SpConsensusAuraSr25519AppSr25519Public: '[u8;32]',
   /**
-   * Lookup385: asset_hub_kusama_runtime::OriginCaller
+   * Lookup255: asset_hub_kusama_runtime::OriginCaller
    **/
   AssetHubKusamaRuntimeOriginCaller: {
     _enum: {
@@ -335,7 +219,7 @@ export default {
       __Unused57: 'Null',
       __Unused58: 'Null',
       __Unused59: 'Null',
-      __Unused60: 'Null',
+      Revive: 'PalletReviveOrigin',
       __Unused61: 'Null',
       __Unused62: 'Null',
       __Unused63: 'Null',
@@ -372,13 +256,23 @@ export default {
     }
   },
   /**
-   * Lookup389: asset_hub_kusama_runtime::governance::origins::pallet_custom_origins::Origin
+   * Lookup260: asset_hub_kusama_runtime::Runtime
+   **/
+  AssetHubKusamaRuntimeRuntime: 'Null',
+  /**
+   * Lookup261: asset_hub_kusama_runtime::governance::origins::pallet_custom_origins::Origin
    **/
   AssetHubKusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin: {
     _enum: ['StakingAdmin', 'Treasurer', 'FellowshipAdmin', 'GeneralAdmin', 'AuctionAdmin', 'LeaseAdmin', 'ReferendumCanceller', 'ReferendumKiller', 'SmallTipper', 'BigTipper', 'SmallSpender', 'MediumSpender', 'BigSpender', 'WhitelistedCaller', 'FellowshipInitiates', 'Fellows', 'FellowshipExperts', 'FellowshipMasters', 'Fellowship1Dan', 'Fellowship2Dan', 'Fellowship3Dan', 'Fellowship4Dan', 'Fellowship5Dan', 'Fellowship6Dan', 'Fellowship7Dan', 'Fellowship8Dan', 'Fellowship9Dan', 'WishForChange']
   },
   /**
-   * Lookup394: pallet_remote_proxy::pallet::Call<T, I>
+   * Lookup267: asset_hub_kusama_runtime::ProxyType
+   **/
+  AssetHubKusamaRuntimeProxyType: {
+    _enum: ['Any', 'NonTransfer', 'CancelProxy', 'Assets', 'AssetOwner', 'AssetManager', 'Collator', 'Governance', 'Staking', 'NominationPools', 'Auction', 'ParaRegistration', 'Society', 'Spokesperson', 'StakingOperator']
+  },
+  /**
+   * Lookup268: pallet_remote_proxy::pallet::Call<T, I>
    **/
   PalletRemoteProxyCall: {
     _enum: {
@@ -399,7 +293,7 @@ export default {
     }
   },
   /**
-   * Lookup395: pallet_remote_proxy::pallet::RemoteProxyProof<RemoteBlockNumber>
+   * Lookup269: pallet_remote_proxy::pallet::RemoteProxyProof<RemoteBlockNumber>
    **/
   PalletRemoteProxyRemoteProxyProof: {
     _enum: {
@@ -410,7 +304,18 @@ export default {
     }
   },
   /**
-   * Lookup466: asset_hub_kusama_runtime::staking::NposCompactSolution24
+   * Lookup315: pallet_recovery::FriendGroup<ProvidedBlockNumber, sp_core::crypto::AccountId32, bounded_collections::bounded_vec::BoundedVec<sp_core::crypto::AccountId32, S>>
+   **/
+  PalletRecoveryFriendGroup: {
+    friends: 'Vec<AccountId32>',
+    friendsNeeded: 'u32',
+    inheritor: 'AccountId32',
+    inheritanceDelay: 'u32',
+    inheritancePriority: 'u32',
+    cancelDelay: 'u32'
+  },
+  /**
+   * Lookup370: asset_hub_kusama_runtime::staking::NposCompactSolution24
    **/
   AssetHubKusamaRuntimeStakingNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -439,214 +344,113 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup598: pallet_proxy::ProxyDefinition<sp_core::crypto::AccountId32, kusama_runtime_constants::proxy::ProxyType, BlockNumber>
+   * Lookup524: asset_hub_kusama_runtime::RuntimeParametersKey
    **/
-  PalletProxyProxyDefinitionKusamaRuntimeConstantsProxyProxyType: {
-    delegate: 'AccountId32',
-    proxyType: 'KusamaRuntimeConstantsProxyProxyType',
-    delay: 'u32'
-  },
-  /**
-   * Lookup650: asset_hub_kusama_runtime::ah_migration::RcPalletsOrigin
-   **/
-  AssetHubKusamaRuntimeAhMigrationRcPalletsOrigin: {
+  AssetHubKusamaRuntimeRuntimeParametersKey: {
     _enum: {
-      system: 'FrameSupportDispatchRawOrigin',
-      __Unused1: 'Null',
-      __Unused2: 'Null',
-      __Unused3: 'Null',
-      __Unused4: 'Null',
-      __Unused5: 'Null',
-      __Unused6: 'Null',
-      __Unused7: 'Null',
-      __Unused8: 'Null',
-      __Unused9: 'Null',
-      __Unused10: 'Null',
-      __Unused11: 'Null',
-      __Unused12: 'Null',
-      __Unused13: 'Null',
-      __Unused14: 'Null',
-      __Unused15: 'Null',
-      __Unused16: 'Null',
-      __Unused17: 'Null',
-      __Unused18: 'Null',
-      __Unused19: 'Null',
-      __Unused20: 'Null',
-      __Unused21: 'Null',
-      __Unused22: 'Null',
-      __Unused23: 'Null',
-      __Unused24: 'Null',
-      __Unused25: 'Null',
-      __Unused26: 'Null',
-      __Unused27: 'Null',
-      __Unused28: 'Null',
-      __Unused29: 'Null',
-      __Unused30: 'Null',
-      __Unused31: 'Null',
-      __Unused32: 'Null',
-      __Unused33: 'Null',
-      __Unused34: 'Null',
-      __Unused35: 'Null',
-      __Unused36: 'Null',
-      __Unused37: 'Null',
-      __Unused38: 'Null',
-      __Unused39: 'Null',
-      __Unused40: 'Null',
-      __Unused41: 'Null',
-      __Unused42: 'Null',
-      Origins: 'AssetHubKusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin'
+      Issuance: 'AssetHubKusamaRuntimeDynamicParamsIssuanceParametersKey',
+      Treasury: 'AssetHubKusamaRuntimeDynamicParamsTreasuryParametersKey',
+      StakingElection: 'AssetHubKusamaRuntimeDynamicParamsStakingElectionParametersKey',
+      Scheduler: 'AssetHubKusamaRuntimeDynamicParamsSchedulerParametersKey',
+      MessageQueue: 'AssetHubKusamaRuntimeDynamicParamsMessageQueueParametersKey'
     }
   },
   /**
-   * Lookup746: pallet_rc_migrator::recovery::PortableRecoveryMessage
+   * Lookup525: asset_hub_kusama_runtime::dynamic_params::issuance::ParametersKey
    **/
-  PalletRcMigratorRecoveryPortableRecoveryMessage: {
+  AssetHubKusamaRuntimeDynamicParamsIssuanceParametersKey: {
+    _enum: ['MinInflation', 'MaxInflation', 'IdealStake', 'Falloff']
+  },
+  /**
+   * Lookup526: asset_hub_kusama_runtime::dynamic_params::treasury::ParametersKey
+   **/
+  AssetHubKusamaRuntimeDynamicParamsTreasuryParametersKey: {
+    _enum: ['BurnPortion', 'BurnDestination']
+  },
+  /**
+   * Lookup527: asset_hub_kusama_runtime::dynamic_params::staking_election::ParametersKey
+   **/
+  AssetHubKusamaRuntimeDynamicParamsStakingElectionParametersKey: {
+    _enum: ['SignedPhase', 'MaxSignedSubmissions', 'UnsignedPhase', 'MinerPages', 'MaxElectingVoters', 'TargetSnapshotPerBlock', 'MaxEraDuration']
+  },
+  /**
+   * Lookup528: asset_hub_kusama_runtime::dynamic_params::scheduler::ParametersKey
+   **/
+  AssetHubKusamaRuntimeDynamicParamsSchedulerParametersKey: {
+    _enum: ['MaxScheduledPerBlock', 'MaximumWeight']
+  },
+  /**
+   * Lookup529: asset_hub_kusama_runtime::dynamic_params::message_queue::ParametersKey
+   **/
+  AssetHubKusamaRuntimeDynamicParamsMessageQueueParametersKey: {
+    _enum: ['MaxOnInitWeight', 'MaxOnIdleWeight']
+  },
+  /**
+   * Lookup531: asset_hub_kusama_runtime::RuntimeParametersValue
+   **/
+  AssetHubKusamaRuntimeRuntimeParametersValue: {
     _enum: {
-      Recoverable: '(AccountId32,PalletRcMigratorRecoveryPortableRecoveryConfig)',
-      ActiveRecoveries: '(AccountId32,AccountId32,PalletRcMigratorRecoveryPortableActiveRecovery)',
-      Proxy: '(AccountId32,AccountId32)'
+      Issuance: 'AssetHubKusamaRuntimeDynamicParamsIssuanceParametersValue',
+      Treasury: 'AssetHubKusamaRuntimeDynamicParamsTreasuryParametersValue',
+      StakingElection: 'AssetHubKusamaRuntimeDynamicParamsStakingElectionParametersValue',
+      Scheduler: 'AssetHubKusamaRuntimeDynamicParamsSchedulerParametersValue',
+      MessageQueue: 'AssetHubKusamaRuntimeDynamicParamsMessageQueueParametersValue'
     }
   },
   /**
-   * Lookup748: pallet_rc_migrator::recovery::PortableRecoveryConfig
+   * Lookup532: asset_hub_kusama_runtime::dynamic_params::issuance::ParametersValue
    **/
-  PalletRcMigratorRecoveryPortableRecoveryConfig: {
-    delayPeriod: 'u32',
-    deposit: 'u128',
-    friends: 'PalletRcMigratorRecoveryPortableRecoveryFriends',
-    threshold: 'u16'
-  },
-  /**
-   * Lookup749: pallet_rc_migrator::recovery::PortableRecoveryFriends
-   **/
-  PalletRcMigratorRecoveryPortableRecoveryFriends: {
-    friends: 'Vec<AccountId32>'
-  },
-  /**
-   * Lookup752: pallet_rc_migrator::recovery::PortableActiveRecovery
-   **/
-  PalletRcMigratorRecoveryPortableActiveRecovery: {
-    created: 'u32',
-    deposit: 'u128',
-    friends: 'PalletRcMigratorRecoveryPortableRecoveryFriends'
-  },
-  /**
-   * Lookup755: pallet_rc_migrator::society::PortableSocietyMessage
-   **/
-  PalletRcMigratorSocietyPortableSocietyMessage: {
+  AssetHubKusamaRuntimeDynamicParamsIssuanceParametersValue: {
     _enum: {
-      Values: 'PalletRcMigratorSocietySocietyValues',
-      Member: '(AccountId32,PalletRcMigratorSocietyPortableMemberRecord)',
-      Payout: '(AccountId32,PalletRcMigratorSocietyPortablePayoutRecord)',
-      MemberByIndex: '(u32,AccountId32)',
-      SuspendedMembers: '(AccountId32,PalletRcMigratorSocietyPortableMemberRecord)',
-      Candidates: '(AccountId32,PalletRcMigratorSocietyPortableCandidacy)',
-      Votes: '(AccountId32,AccountId32,PalletRcMigratorSocietyPortableVote)',
-      VoteClearCursor: '(AccountId32,Bytes)',
-      DefenderVotes: '(u32,AccountId32,PalletRcMigratorSocietyPortableVote)'
+      MinInflation: 'Perquintill',
+      MaxInflation: 'Perquintill',
+      IdealStake: 'Perquintill',
+      Falloff: 'Perquintill'
     }
   },
   /**
-   * Lookup756: pallet_rc_migrator::society::SocietyValues
+   * Lookup533: asset_hub_kusama_runtime::dynamic_params::treasury::ParametersValue
    **/
-  PalletRcMigratorSocietySocietyValues: {
-    parameters: 'Option<PalletRcMigratorSocietyPortableGroupParams>',
-    pot: 'Option<u128>',
-    founder: 'Option<AccountId32>',
-    head: 'Option<AccountId32>',
-    rules: 'Option<H256>',
-    memberCount: 'Option<u32>',
-    roundCount: 'Option<u32>',
-    bids: 'Option<Vec<PalletRcMigratorSocietyPortableBid>>',
-    sceptic: 'Option<AccountId32>',
-    nextHead: 'Option<PalletRcMigratorSocietyPortableIntakeRecord>',
-    challengeRoundCount: 'Option<u32>',
-    defending: 'Option<(AccountId32,AccountId32,PalletRcMigratorSocietyPortableTally)>',
-    nextIntakeAt: 'Option<u32>',
-    nextChallengeAt: 'Option<u32>'
-  },
-  /**
-   * Lookup758: pallet_rc_migrator::society::PortableGroupParams
-   **/
-  PalletRcMigratorSocietyPortableGroupParams: {
-    maxMembers: 'u32',
-    maxIntake: 'u32',
-    maxStrikes: 'u32',
-    candidateDeposit: 'u128'
-  },
-  /**
-   * Lookup761: pallet_rc_migrator::society::PortableBid
-   **/
-  PalletRcMigratorSocietyPortableBid: {
-    who: 'AccountId32',
-    kind: 'PalletRcMigratorSocietyPortableBidKind',
-    value: 'u128'
-  },
-  /**
-   * Lookup762: pallet_rc_migrator::society::PortableBidKind
-   **/
-  PalletRcMigratorSocietyPortableBidKind: {
+  AssetHubKusamaRuntimeDynamicParamsTreasuryParametersValue: {
     _enum: {
-      Deposit: 'u128',
-      Vouch: '(AccountId32,u128)'
+      BurnPortion: 'Permill',
+      BurnDestination: 'AssetHubKusamaRuntimeTreasuryBurnDestinationAccount'
     }
   },
   /**
-   * Lookup764: pallet_rc_migrator::society::PortableIntakeRecord
+   * Lookup534: asset_hub_kusama_runtime::dynamic_params::staking_election::ParametersValue
    **/
-  PalletRcMigratorSocietyPortableIntakeRecord: {
-    who: 'AccountId32',
-    bid: 'u128',
-    round: 'u32'
+  AssetHubKusamaRuntimeDynamicParamsStakingElectionParametersValue: {
+    _enum: {
+      SignedPhase: 'u32',
+      MaxSignedSubmissions: 'u32',
+      UnsignedPhase: 'u32',
+      MinerPages: 'u32',
+      MaxElectingVoters: 'u32',
+      TargetSnapshotPerBlock: 'u32',
+      MaxEraDuration: 'u64'
+    }
   },
   /**
-   * Lookup767: pallet_rc_migrator::society::PortableTally
+   * Lookup535: asset_hub_kusama_runtime::dynamic_params::scheduler::ParametersValue
    **/
-  PalletRcMigratorSocietyPortableTally: {
-    approvals: 'u32',
-    rejections: 'u32'
+  AssetHubKusamaRuntimeDynamicParamsSchedulerParametersValue: {
+    _enum: {
+      MaxScheduledPerBlock: 'u32',
+      MaximumWeight: 'SpWeightsWeightV2Weight'
+    }
   },
   /**
-   * Lookup768: pallet_rc_migrator::society::PortableMemberRecord
+   * Lookup536: asset_hub_kusama_runtime::dynamic_params::message_queue::ParametersValue
    **/
-  PalletRcMigratorSocietyPortableMemberRecord: {
-    rank: 'u32',
-    strikes: 'u32',
-    vouching: 'Option<PalletRcMigratorSocietyPortableVouchingStatus>',
-    index: 'u32'
+  AssetHubKusamaRuntimeDynamicParamsMessageQueueParametersValue: {
+    _enum: {
+      MaxOnInitWeight: 'Option<SpWeightsWeightV2Weight>',
+      MaxOnIdleWeight: 'Option<SpWeightsWeightV2Weight>'
+    }
   },
   /**
-   * Lookup770: pallet_rc_migrator::society::PortableVouchingStatus
-   **/
-  PalletRcMigratorSocietyPortableVouchingStatus: {
-    _enum: ['Vouching', 'Banned']
-  },
-  /**
-   * Lookup771: pallet_rc_migrator::society::PortablePayoutRecord
-   **/
-  PalletRcMigratorSocietyPortablePayoutRecord: {
-    paid: 'u128',
-    payouts: 'Vec<(u32,u128)>'
-  },
-  /**
-   * Lookup772: pallet_rc_migrator::society::PortableCandidacy
-   **/
-  PalletRcMigratorSocietyPortableCandidacy: {
-    round: 'u32',
-    kind: 'PalletRcMigratorSocietyPortableBidKind',
-    bid: 'u128',
-    tally: 'PalletRcMigratorSocietyPortableTally',
-    skepticStruck: 'bool'
-  },
-  /**
-   * Lookup773: pallet_rc_migrator::society::PortableVote
-   **/
-  PalletRcMigratorSocietyPortableVote: {
-    approve: 'bool',
-    weight: 'u32'
-  },
-  /**
-   * Lookup853: asset_hub_kusama_runtime::RuntimeHoldReason
+   * Lookup539: asset_hub_kusama_runtime::RuntimeHoldReason
    **/
   AssetHubKusamaRuntimeRuntimeHoldReason: {
     _enum: {
@@ -707,7 +511,7 @@ export default {
       NftFractionalization: 'PalletNftFractionalizationHoldReason',
       __Unused55: 'Null',
       __Unused56: 'Null',
-      __Unused57: 'Null',
+      Recovery: 'PalletRecoveryHoldReason',
       __Unused58: 'Null',
       __Unused59: 'Null',
       Revive: 'PalletReviveHoldReason',
@@ -734,16 +538,31 @@ export default {
       __Unused81: 'Null',
       __Unused82: 'Null',
       DelegatedStaking: 'PalletDelegatedStakingHoldReason',
-      __Unused84: 'Null',
+      StakingRcClient: 'PalletStakingAsyncRcClientHoldReason',
       __Unused85: 'Null',
       __Unused86: 'Null',
       __Unused87: 'Null',
       MultiBlockElectionSigned: 'PalletElectionProviderMultiBlockSignedPalletHoldReason',
-      Staking: 'PalletStakingAsyncPalletHoldReason'
+      Staking: 'PalletStakingAsyncPalletHoldReason',
+      __Unused90: 'Null',
+      __Unused91: 'Null',
+      __Unused92: 'Null',
+      __Unused93: 'Null',
+      __Unused94: 'Null',
+      __Unused95: 'Null',
+      __Unused96: 'Null',
+      __Unused97: 'Null',
+      MultiAssetBounties: 'PalletMultiAssetBountiesHoldReason'
     }
   },
   /**
-   * Lookup861: asset_hub_kusama_runtime::RuntimeFreezeReason
+   * Lookup544: pallet_recovery::pallet::HoldReason
+   **/
+  PalletRecoveryHoldReason: {
+    _enum: ['FriendGroupsStorage', 'AttemptStorage', 'InheritorStorage', 'SecurityDeposit']
+  },
+  /**
+   * Lookup704: asset_hub_kusama_runtime::RuntimeFreezeReason
    **/
   AssetHubKusamaRuntimeRuntimeFreezeReason: {
     _enum: {
@@ -807,7 +626,7 @@ export default {
       __Unused57: 'Null',
       __Unused58: 'Null',
       __Unused59: 'Null',
-      __Unused60: 'Null',
+      Revive: 'PalletReviveFreezeReason',
       __Unused61: 'Null',
       __Unused62: 'Null',
       __Unused63: 'Null',
@@ -831,76 +650,44 @@ export default {
     }
   },
   /**
-   * Lookup939: pallet_proxy::ProxyDefinition<sp_core::crypto::AccountId32, asset_hub_kusama_runtime::ProxyType, BlockNumber>
-   **/
-  PalletProxyProxyDefinitionAssetHubKusamaRuntimeProxyType: {
-    delegate: 'AccountId32',
-    proxyType: 'AssetHubKusamaRuntimeProxyType',
-    delay: 'u32'
-  },
-  /**
-   * Lookup947: pallet_remote_proxy::pallet::Error<T, I>
+   * Lookup798: pallet_remote_proxy::pallet::Error<T, I>
    **/
   PalletRemoteProxyError: {
     _enum: ['CouldNotConvertLocalToRemoteAccountId', 'UnknownProofAnchorBlock', 'InvalidProof', 'ProxyDefinitionDecodingFailed', 'Unannounced', 'DidNotFindMatchingProxyDefinition', 'ProxyProofNotRegistered']
   },
   /**
-   * Lookup1023: pallet_revive::vm::CodeInfo<T>
+   * Lookup864: pallet_recovery::Attempt<ProvidedBlockNumber, pallet_recovery::types::Bitfield<MaxEntries>, sp_core::crypto::AccountId32>
    **/
-  PalletReviveVmCodeInfo: {
-    owner: 'AccountId32',
-    deposit: 'Compact<u128>',
-    refcount: 'Compact<u64>',
-    codeLen: 'u32',
-    behaviourVersion: 'u32'
+  PalletRecoveryAttempt: {
+    friendGroupIndex: 'u32',
+    initiator: 'AccountId32',
+    initBlock: 'u32',
+    lastApprovalBlock: 'u32',
+    approvals: 'PalletRecoveryBitfield'
   },
   /**
-   * Lookup1024: pallet_revive::storage::AccountInfo<T>
+   * Lookup865: pallet_recovery::types::Bitfield<MaxEntries>
    **/
-  PalletReviveStorageAccountInfo: {
-    accountType: 'PalletReviveStorageAccountType',
-    dust: 'u32'
+  PalletRecoveryBitfield: 'Vec<u16>',
+  /**
+   * Lookup868: frame_support::traits::storage::Footprint
+   **/
+  FrameSupportStorageFootprint: {
+    _alias: {
+      size_: 'size'
+    },
+    count: 'u64',
+    size_: 'u64'
   },
   /**
-   * Lookup1025: pallet_revive::storage::AccountType<T>
+   * Lookup872: pallet_recovery::types::IdentifiedConsideration<sp_core::crypto::AccountId32, frame_support::traits::storage::Footprint, frame_support::traits::tokens::fungible::HoldConsideration<A, F, R, D, Fp>>
    **/
-  PalletReviveStorageAccountType: {
-    _enum: {
-      Contract: 'PalletReviveStorageContractInfo',
-      EOA: 'Null'
-    }
+  PalletRecoveryIdentifiedConsideration: {
+    depositor: 'AccountId32',
+    ticket: 'Option<u128>'
   },
   /**
-   * Lookup1233: pallet_revive::evm::api::debug_rpc_types::PrestateTracerConfig
-   **/
-  PalletReviveEvmApiDebugRpcTypesPrestateTracerConfig: {
-    diffMode: 'bool',
-    disableStorage: 'bool',
-    disableCode: 'bool'
-  },
-  /**
-   * Lookup1242: pallet_revive::evm::api::debug_rpc_types::PrestateTrace
-   **/
-  PalletReviveEvmApiDebugRpcTypesPrestateTrace: {
-    _enum: {
-      Prestate: 'BTreeMap<H160, PalletReviveEvmApiDebugRpcTypesPrestateTraceInfo>',
-      DiffMode: {
-        pre: 'BTreeMap<H160, PalletReviveEvmApiDebugRpcTypesPrestateTraceInfo>',
-        post: 'BTreeMap<H160, PalletReviveEvmApiDebugRpcTypesPrestateTraceInfo>'
-      }
-    }
-  },
-  /**
-   * Lookup1244: pallet_revive::evm::api::debug_rpc_types::PrestateTraceInfo
-   **/
-  PalletReviveEvmApiDebugRpcTypesPrestateTraceInfo: {
-    balance: 'Option<U256>',
-    nonce: 'Option<u32>',
-    code: 'Option<Bytes>',
-    storage: 'BTreeMap<Bytes, Option<Bytes>>'
-  },
-  /**
-   * Lookup1252: asset_hub_kusama_runtime::RuntimeError
+   * Lookup1209: asset_hub_kusama_runtime::RuntimeError
    **/
   AssetHubKusamaRuntimeRuntimeError: {
     _enum: {
@@ -966,7 +753,7 @@ export default {
       __Unused59: 'Null',
       Revive: 'PalletReviveError',
       __Unused61: 'Null',
-      __Unused62: 'Null',
+      AssetsPrecompilesPermit: 'PalletAssetsPrecompilesPermitPalletError',
       __Unused63: 'Null',
       __Unused64: 'Null',
       __Unused65: 'Null',
@@ -988,7 +775,7 @@ export default {
       __Unused81: 'Null',
       VoterList: 'PalletBagsListError',
       DelegatedStaking: 'PalletDelegatedStakingError',
-      __Unused84: 'Null',
+      StakingRcClient: 'PalletStakingAsyncRcClientError',
       MultiBlockElection: 'PalletElectionProviderMultiBlockError',
       __Unused86: 'Null',
       __Unused87: 'Null',
@@ -1002,7 +789,7 @@ export default {
       Bounties: 'PalletBountiesError',
       ChildBounties: 'PalletChildBountiesError',
       AssetRate: 'PalletAssetRateError',
-      __Unused98: 'Null',
+      MultiAssetBounties: 'PalletMultiAssetBountiesError',
       __Unused99: 'Null',
       __Unused100: 'Null',
       __Unused101: 'Null',
@@ -1158,8 +945,7 @@ export default {
       __Unused251: 'Null',
       __Unused252: 'Null',
       __Unused253: 'Null',
-      AhOps: 'PalletAhOpsError',
-      AhMigrator: 'PalletAhMigratorError'
+      AhOps: 'PalletAhOpsError'
     }
   }
 };

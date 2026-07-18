@@ -10,7 +10,7 @@ import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, 
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces/eth';
 import type { AccountId32, H256, Perbill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, FrameSystemDispatchEventInfo, KusamaRuntimeConstantsProxyProxyType, PalletBalancesUnexpectedKind, PalletConvictionVotingTally, PalletConvictionVotingVoteAccountVote, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletMultisigTimepoint, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletProxyDepositKind, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletRcMigratorMigrationStage, PalletRcMigratorQueuePriority, PalletRecoveryDepositKind, PalletSocietyGroupParams, PalletStakingAsyncAhClientUnexpectedKind, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesVstagingCandidateReceiptV2, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, StagingKusamaRuntimeRuntimeParametersKey, StagingKusamaRuntimeRuntimeParametersValue, StagingXcmV5AssetAssets, StagingXcmV5Location, StagingXcmV5Response, StagingXcmV5TraitsOutcome, StagingXcmV5Xcm, XcmV3MaybeErrorCode, XcmV3TraitsSendError, XcmV5TraitsError, XcmVersionedAssets, XcmVersionedLocation } from '@polkadot/types/lookup';
+import type { FrameSupportDispatchPostDispatchInfo, FrameSupportMessagesProcessMessageError, FrameSupportPreimagesBounded, FrameSupportTokensMiscBalanceStatus, FrameSystemDispatchEventInfo, KusamaRuntimeConstantsProxyProxyType, PalletBalancesUnexpectedKind, PalletConvictionVotingTally, PalletConvictionVotingVoteAccountVote, PalletElectionProviderMultiPhaseElectionCompute, PalletElectionProviderMultiPhasePhase, PalletMultisigTimepoint, PalletNominationPoolsClaimPermission, PalletNominationPoolsCommissionChangeRate, PalletNominationPoolsCommissionClaimPermission, PalletNominationPoolsPoolState, PalletProxyDepositKind, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord, PalletSocietyGroupParams, PalletStakingAsyncAhClientSessionKeysUpdate, PalletStakingAsyncAhClientUnexpectedKind, PalletStakingForcing, PalletStakingRewardDestination, PalletStakingValidatorPrefs, PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotPrimitivesV9CandidateReceiptV2, PolkadotRuntimeCommonImplsVersionedLocatableAsset, PolkadotRuntimeParachainsDisputesDisputeLocation, PolkadotRuntimeParachainsDisputesDisputeResult, PolkadotRuntimeParachainsInclusionAggregateMessageOrigin, SpConsensusGrandpaAppPublic, SpNposElectionsElectionScore, SpRuntimeDispatchError, SpRuntimeDispatchErrorWithPostInfo, SpWeightsWeightV2Weight, StagingKusamaRuntimeRuntimeHoldReason, StagingKusamaRuntimeRuntimeParametersKey, StagingKusamaRuntimeRuntimeParametersValue, StagingXcmV5AssetAssets, StagingXcmV5Location, StagingXcmV5Response, StagingXcmV5TraitsOutcome, StagingXcmV5Xcm, XcmV3TraitsSendError, XcmV5TraitsError, XcmVersionedAssets, XcmVersionedLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -73,6 +73,14 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Burned: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
+       * Some debt has been dropped from the Total Issuance.
+       **/
+      BurnedDebt: AugmentedEvent<ApiType, [amount: u128], { amount: u128 }>;
+      /**
+       * Held balance was burned from an account.
+       **/
+      BurnedHeld: AugmentedEvent<ApiType, [reason: StagingKusamaRuntimeRuntimeHoldReason, who: AccountId32, amount: u128], { reason: StagingKusamaRuntimeRuntimeHoldReason, who: AccountId32, amount: u128 }>;
+      /**
        * Some amount was deposited (e.g. for transaction fees).
        **/
       Deposit: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
@@ -90,6 +98,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Frozen: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
       /**
+       * Some balance was placed on hold.
+       **/
+      Held: AugmentedEvent<ApiType, [reason: StagingKusamaRuntimeRuntimeHoldReason, who: AccountId32, amount: u128], { reason: StagingKusamaRuntimeRuntimeHoldReason, who: AccountId32, amount: u128 }>;
+      /**
        * Total issuance was increased by `amount`, creating a credit to be balanced.
        **/
       Issued: AugmentedEvent<ApiType, [amount: u128], { amount: u128 }>;
@@ -101,6 +113,14 @@ declare module '@polkadot/api-base/types/events' {
        * Some amount was minted into an account.
        **/
       Minted: AugmentedEvent<ApiType, [who: AccountId32, amount: u128], { who: AccountId32, amount: u128 }>;
+      /**
+       * Some credit was balanced and added to the TotalIssuance.
+       **/
+      MintedCredit: AugmentedEvent<ApiType, [amount: u128], { amount: u128 }>;
+      /**
+       * Some balance was released from hold.
+       **/
+      Released: AugmentedEvent<ApiType, [reason: StagingKusamaRuntimeRuntimeHoldReason, who: AccountId32, amount: u128], { reason: StagingKusamaRuntimeRuntimeHoldReason, who: AccountId32, amount: u128 }>;
       /**
        * Total issuance was decreased by `amount`, creating a debt to be balanced.
        **/
@@ -138,6 +158,14 @@ declare module '@polkadot/api-base/types/events' {
        * Transfer succeeded.
        **/
       Transfer: AugmentedEvent<ApiType, [from: AccountId32, to: AccountId32, amount: u128], { from: AccountId32, to: AccountId32, amount: u128 }>;
+      /**
+       * The `transferred` balance is placed on hold at the `dest` account.
+       **/
+      TransferAndHold: AugmentedEvent<ApiType, [reason: StagingKusamaRuntimeRuntimeHoldReason, source: AccountId32, dest: AccountId32, transferred: u128], { reason: StagingKusamaRuntimeRuntimeHoldReason, source: AccountId32, dest: AccountId32, transferred: u128 }>;
+      /**
+       * A transfer of `amount` on hold from `source` to `dest` was initiated.
+       **/
+      TransferOnHold: AugmentedEvent<ApiType, [reason: StagingKusamaRuntimeRuntimeHoldReason, source: AccountId32, dest: AccountId32, amount: u128], { reason: StagingKusamaRuntimeRuntimeHoldReason, source: AccountId32, dest: AccountId32, amount: u128 }>;
       /**
        * An unexpected/defensive event was triggered.
        **/
@@ -253,19 +281,19 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * An account has delegated their vote to another account. \[who, target\]
        **/
-      Delegated: AugmentedEvent<ApiType, [AccountId32, AccountId32]>;
+      Delegated: AugmentedEvent<ApiType, [AccountId32, AccountId32, u16]>;
       /**
        * An \[account\] has cancelled a previous delegation operation.
        **/
-      Undelegated: AugmentedEvent<ApiType, [AccountId32]>;
+      Undelegated: AugmentedEvent<ApiType, [AccountId32, u16]>;
       /**
        * An account has voted
        **/
-      Voted: AugmentedEvent<ApiType, [who: AccountId32, vote: PalletConvictionVotingVoteAccountVote], { who: AccountId32, vote: PalletConvictionVotingVoteAccountVote }>;
+      Voted: AugmentedEvent<ApiType, [who: AccountId32, vote: PalletConvictionVotingVoteAccountVote, pollIndex: u32], { who: AccountId32, vote: PalletConvictionVotingVoteAccountVote, pollIndex: u32 }>;
       /**
        * A vote has been removed
        **/
-      VoteRemoved: AugmentedEvent<ApiType, [who: AccountId32, vote: PalletConvictionVotingVoteAccountVote], { who: AccountId32, vote: PalletConvictionVotingVoteAccountVote }>;
+      VoteRemoved: AugmentedEvent<ApiType, [who: AccountId32, vote: PalletConvictionVotingVoteAccountVote, pollIndex: u32], { who: AccountId32, vote: PalletConvictionVotingVoteAccountVote, pollIndex: u32 }>;
       /**
        * The lockup period of a conviction vote expired, and the funds have been unlocked.
        **/
@@ -805,15 +833,15 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A candidate was backed. `[candidate, head_data]`
        **/
-      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesVstagingCandidateReceiptV2, Bytes, u32, u32]>;
+      CandidateBacked: AugmentedEvent<ApiType, [PolkadotPrimitivesV9CandidateReceiptV2, Bytes, u32, u32]>;
       /**
        * A candidate was included. `[candidate, head_data]`
        **/
-      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesVstagingCandidateReceiptV2, Bytes, u32, u32]>;
+      CandidateIncluded: AugmentedEvent<ApiType, [PolkadotPrimitivesV9CandidateReceiptV2, Bytes, u32, u32]>;
       /**
        * A candidate timed out. `[candidate, head_data]`
        **/
-      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesVstagingCandidateReceiptV2, Bytes, u32]>;
+      CandidateTimedOut: AugmentedEvent<ApiType, [PolkadotPrimitivesV9CandidateReceiptV2, Bytes, u32]>;
       /**
        * Some upward messages have been received and will be processed.
        **/
@@ -949,140 +977,11 @@ declare module '@polkadot/api-base/types/events' {
        * A pure account has been created by new proxy with given
        * disambiguation index and proxy type.
        **/
-      PureCreated: AugmentedEvent<ApiType, [pure: AccountId32, who: AccountId32, proxyType: KusamaRuntimeConstantsProxyProxyType, disambiguationIndex: u16], { pure: AccountId32, who: AccountId32, proxyType: KusamaRuntimeConstantsProxyProxyType, disambiguationIndex: u16 }>;
+      PureCreated: AugmentedEvent<ApiType, [pure: AccountId32, who: AccountId32, proxyType: KusamaRuntimeConstantsProxyProxyType, disambiguationIndex: u16, at: u32, extrinsicIndex: u32], { pure: AccountId32, who: AccountId32, proxyType: KusamaRuntimeConstantsProxyProxyType, disambiguationIndex: u16, at: u32, extrinsicIndex: u32 }>;
       /**
        * A pure proxy was killed by its spawner.
        **/
       PureKilled: AugmentedEvent<ApiType, [pure: AccountId32, spawner: AccountId32, proxyType: KusamaRuntimeConstantsProxyProxyType, disambiguationIndex: u16], { pure: AccountId32, spawner: AccountId32, proxyType: KusamaRuntimeConstantsProxyProxyType, disambiguationIndex: u16 }>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    rcMigrator: {
-      /**
-       * The accounts to be preserved on Relay Chain were set.
-       **/
-      AccountsPreserved: AugmentedEvent<ApiType, [accounts: Vec<AccountId32>], { accounts: Vec<AccountId32> }>;
-      /**
-       * The AH UMP queue priority config was set.
-       **/
-      AhUmpQueuePriorityConfigSet: AugmentedEvent<ApiType, [old: PalletRcMigratorQueuePriority, new_: PalletRcMigratorQueuePriority], { old: PalletRcMigratorQueuePriority, new_: PalletRcMigratorQueuePriority }>;
-      /**
-       * Whether the AH UMP queue was prioritized for the next block.
-       **/
-      AhUmpQueuePrioritySet: AugmentedEvent<ApiType, [prioritized: bool, cycleBlock: u32, cyclePeriod: u32], { prioritized: bool, cycleBlock: u32, cyclePeriod: u32 }>;
-      /**
-       * The Asset Hub Migration finished.
-       * 
-       * This event is equivalent to `StageTransition { new: MigrationDone, .. }` but is easier
-       * to understand. The finishing is immediate and affects all events happening
-       * afterwards.
-       **/
-      AssetHubMigrationFinished: AugmentedEvent<ApiType, []>;
-      /**
-       * The Asset Hub Migration started and is active until `AssetHubMigrationFinished` is
-       * emitted.
-       * 
-       * This event is equivalent to `StageTransition { new: Initializing, .. }` but is easier
-       * to understand. The activation is immediate and affects all events happening
-       * afterwards.
-       **/
-      AssetHubMigrationStarted: AugmentedEvent<ApiType, []>;
-      /**
-       * The canceller account id was set.
-       **/
-      CancellerSet: AugmentedEvent<ApiType, [old: Option<AccountId32>, new_: Option<AccountId32>], { old: Option<AccountId32>, new_: Option<AccountId32> }>;
-      /**
-       * The manager multisig dispatched something.
-       **/
-      ManagerMultisigDispatched: AugmentedEvent<ApiType, [res: Result<Null, SpRuntimeDispatchError>], { res: Result<Null, SpRuntimeDispatchError> }>;
-      /**
-       * The manager multisig received a vote.
-       **/
-      ManagerMultisigVoted: AugmentedEvent<ApiType, [votes: u32], { votes: u32 }>;
-      /**
-       * The manager account id was set.
-       **/
-      ManagerSet: AugmentedEvent<ApiType, [old: Option<AccountId32>, new_: Option<AccountId32>], { old: Option<AccountId32>, new_: Option<AccountId32> }>;
-      /**
-       * The RC kept balance was consumed.
-       **/
-      MigratedBalanceConsumed: AugmentedEvent<ApiType, [kept: u128, migrated: u128], { kept: u128, migrated: u128 }>;
-      /**
-       * The total issuance was recorded.
-       **/
-      MigratedBalanceRecordSet: AugmentedEvent<ApiType, [kept: u128, migrated: u128], { kept: u128, migrated: u128 }>;
-      /**
-       * The migration was cancelled.
-       **/
-      MigrationCancelled: AugmentedEvent<ApiType, []>;
-      /**
-       * The migration was paused.
-       **/
-      MigrationPaused: AugmentedEvent<ApiType, [pauseStage: PalletRcMigratorMigrationStage], { pauseStage: PalletRcMigratorMigrationStage }>;
-      /**
-       * Some pure accounts were indexed for possibly receiving free `Any` proxies.
-       **/
-      PureAccountsIndexed: AugmentedEvent<ApiType, [numPureAccounts: u32], { numPureAccounts: u32 }>;
-      /**
-       * A query response has been received.
-       **/
-      QueryResponseReceived: AugmentedEvent<ApiType, [queryId: u64, response: XcmV3MaybeErrorCode], { queryId: u64, response: XcmV3MaybeErrorCode }>;
-      /**
-       * A stage transition has occurred.
-       **/
-      StageTransition: AugmentedEvent<ApiType, [old: PalletRcMigratorMigrationStage, new_: PalletRcMigratorMigrationStage], { old: PalletRcMigratorMigrationStage, new_: PalletRcMigratorMigrationStage }>;
-      /**
-       * The staking elections were paused.
-       **/
-      StakingElectionsPaused: AugmentedEvent<ApiType, []>;
-      /**
-       * The unprocessed message buffer size has been set.
-       **/
-      UnprocessedMsgBufferSet: AugmentedEvent<ApiType, [new_: u32, old: u32], { new_: u32, old: u32 }>;
-      /**
-       * A XCM message has been resent.
-       **/
-      XcmResendAttempt: AugmentedEvent<ApiType, [queryId: u64, sendError: Option<XcmV3TraitsSendError>], { queryId: u64, sendError: Option<XcmV3TraitsSendError> }>;
-      /**
-       * An XCM message was sent.
-       **/
-      XcmSent: AugmentedEvent<ApiType, [origin: StagingXcmV5Location, destination: StagingXcmV5Location, message: StagingXcmV5Xcm, messageId: U8aFixed], { origin: StagingXcmV5Location, destination: StagingXcmV5Location, message: StagingXcmV5Xcm, messageId: U8aFixed }>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    recovery: {
-      /**
-       * Lost account has been successfully recovered by rescuer account.
-       **/
-      AccountRecovered: AugmentedEvent<ApiType, [lostAccount: AccountId32, rescuerAccount: AccountId32], { lostAccount: AccountId32, rescuerAccount: AccountId32 }>;
-      /**
-       * A deposit has been updated.
-       **/
-      DepositPoked: AugmentedEvent<ApiType, [who: AccountId32, kind: PalletRecoveryDepositKind, oldDeposit: u128, newDeposit: u128], { who: AccountId32, kind: PalletRecoveryDepositKind, oldDeposit: u128, newDeposit: u128 }>;
-      /**
-       * A recovery process for lost account by rescuer account has been closed.
-       **/
-      RecoveryClosed: AugmentedEvent<ApiType, [lostAccount: AccountId32, rescuerAccount: AccountId32], { lostAccount: AccountId32, rescuerAccount: AccountId32 }>;
-      /**
-       * A recovery process has been set up for an account.
-       **/
-      RecoveryCreated: AugmentedEvent<ApiType, [account: AccountId32], { account: AccountId32 }>;
-      /**
-       * A recovery process has been initiated for lost account by rescuer account.
-       **/
-      RecoveryInitiated: AugmentedEvent<ApiType, [lostAccount: AccountId32, rescuerAccount: AccountId32], { lostAccount: AccountId32, rescuerAccount: AccountId32 }>;
-      /**
-       * A recovery process has been removed for an account.
-       **/
-      RecoveryRemoved: AugmentedEvent<ApiType, [lostAccount: AccountId32], { lostAccount: AccountId32 }>;
-      /**
-       * A recovery process for lost account by rescuer account has been vouched for by sender.
-       **/
-      RecoveryVouched: AugmentedEvent<ApiType, [lostAccount: AccountId32, rescuerAccount: AccountId32, sender: AccountId32], { lostAccount: AccountId32, rescuerAccount: AccountId32, sender: AccountId32 }>;
       /**
        * Generic event
        **/
@@ -1293,6 +1192,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Inducted: AugmentedEvent<ApiType, [primary: AccountId32, candidates: Vec<AccountId32>], { primary: AccountId32, candidates: Vec<AccountId32> }>;
       /**
+       * A member was kicked by the founder.
+       **/
+      MemberKicked: AugmentedEvent<ApiType, [member: AccountId32], { member: AccountId32 }>;
+      /**
        * A member has been suspended
        **/
       MemberSuspended: AugmentedEvent<ApiType, [member: AccountId32], { member: AccountId32 }>;
@@ -1429,6 +1332,15 @@ declare module '@polkadot/api-base/types/events' {
        **/
       CouldNotMergeAndDropped: AugmentedEvent<ApiType, []>;
       /**
+       * Session keys updated for a validator.
+       **/
+      SessionKeysUpdated: AugmentedEvent<ApiType, [stash: AccountId32, update: PalletStakingAsyncAhClientSessionKeysUpdate], { stash: AccountId32, update: PalletStakingAsyncAhClientSessionKeysUpdate }>;
+      /**
+       * Session key update from AssetHub failed on the relay chain.
+       * Logged as an event for fail-safe observability.
+       **/
+      SessionKeysUpdateFailed: AugmentedEvent<ApiType, [stash: AccountId32, update: PalletStakingAsyncAhClientSessionKeysUpdate, error: SpRuntimeDispatchError], { stash: AccountId32, update: PalletStakingAsyncAhClientSessionKeysUpdate, error: SpRuntimeDispatchError }>;
+      /**
        * The validator set received is way too small, as per
        * [`Config::MinimumValidatorSetSize`].
        **/
@@ -1449,9 +1361,9 @@ declare module '@polkadot/api-base/types/events' {
     };
     system: {
       /**
-       * `:code` was updated.
+       * `:code` was updated to the code with the given hash.
        **/
-      CodeUpdated: AugmentedEvent<ApiType, []>;
+      CodeUpdated: AugmentedEvent<ApiType, [hash_: H256], { hash_: H256 }>;
       /**
        * An extrinsic failed.
        **/
