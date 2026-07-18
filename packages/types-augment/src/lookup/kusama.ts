@@ -5,18 +5,18 @@
 
 export default {
   /**
-   * Lookup138: staging_kusama_runtime::SessionKeys
+   * Lookup59: staging_kusama_runtime::SessionKeys
    **/
   StagingKusamaRuntimeSessionKeys: {
     grandpa: 'SpConsensusGrandpaAppPublic',
     babe: 'SpConsensusBabeAppPublic',
-    paraValidator: 'PolkadotPrimitivesV8ValidatorAppPublic',
-    paraAssignment: 'PolkadotPrimitivesV8AssignmentAppPublic',
+    paraValidator: 'PolkadotPrimitivesV9ValidatorAppPublic',
+    paraAssignment: 'PolkadotPrimitivesV9AssignmentAppPublic',
     authorityDiscovery: 'SpAuthorityDiscoveryAppPublic',
     beefy: 'SpConsensusBeefyEcdsaCryptoPublic'
   },
   /**
-   * Lookup160: staging_kusama_runtime::OriginCaller
+   * Lookup124: staging_kusama_runtime::OriginCaller
    **/
   StagingKusamaRuntimeOriginCaller: {
     _enum: {
@@ -123,22 +123,23 @@ export default {
     }
   },
   /**
-   * Lookup162: staging_kusama_runtime::governance::origins::pallet_custom_origins::Origin
+   * Lookup126: staging_kusama_runtime::governance::origins::pallet_custom_origins::Origin
    **/
   StagingKusamaRuntimeGovernanceOriginsPalletCustomOriginsOrigin: {
     _enum: ['StakingAdmin', 'Treasurer', 'FellowshipAdmin', 'GeneralAdmin', 'AuctionAdmin', 'LeaseAdmin', 'ReferendumCanceller', 'ReferendumKiller', 'SmallTipper', 'BigTipper', 'SmallSpender', 'MediumSpender', 'BigSpender', 'WhitelistedCaller', 'FellowshipInitiates', 'Fellows', 'FellowshipExperts', 'FellowshipMasters', 'Fellowship1Dan', 'Fellowship2Dan', 'Fellowship3Dan', 'Fellowship4Dan', 'Fellowship5Dan', 'Fellowship6Dan', 'Fellowship7Dan', 'Fellowship8Dan', 'Fellowship9Dan', 'WishForChange']
   },
   /**
-   * Lookup172: staging_kusama_runtime::RuntimeParameters
+   * Lookup140: staging_kusama_runtime::RuntimeParameters
    **/
   StagingKusamaRuntimeRuntimeParameters: {
     _enum: {
       Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParameters',
-      Treasury: 'StagingKusamaRuntimeDynamicParamsTreasuryParameters'
+      Treasury: 'StagingKusamaRuntimeDynamicParamsTreasuryParameters',
+      AhClient: 'StagingKusamaRuntimeDynamicParamsAhClientParameters'
     }
   },
   /**
-   * Lookup173: staging_kusama_runtime::dynamic_params::inflation::Parameters
+   * Lookup141: staging_kusama_runtime::dynamic_params::inflation::Parameters
    **/
   StagingKusamaRuntimeDynamicParamsInflationParameters: {
     _enum: {
@@ -150,27 +151,27 @@ export default {
     }
   },
   /**
-   * Lookup174: staging_kusama_runtime::dynamic_params::inflation::MinInflation
+   * Lookup142: staging_kusama_runtime::dynamic_params::inflation::MinInflation
    **/
   StagingKusamaRuntimeDynamicParamsInflationMinInflation: 'Null',
   /**
-   * Lookup177: staging_kusama_runtime::dynamic_params::inflation::MaxInflation
+   * Lookup145: staging_kusama_runtime::dynamic_params::inflation::MaxInflation
    **/
   StagingKusamaRuntimeDynamicParamsInflationMaxInflation: 'Null',
   /**
-   * Lookup178: staging_kusama_runtime::dynamic_params::inflation::IdealStake
+   * Lookup146: staging_kusama_runtime::dynamic_params::inflation::IdealStake
    **/
   StagingKusamaRuntimeDynamicParamsInflationIdealStake: 'Null',
   /**
-   * Lookup179: staging_kusama_runtime::dynamic_params::inflation::Falloff
+   * Lookup147: staging_kusama_runtime::dynamic_params::inflation::Falloff
    **/
   StagingKusamaRuntimeDynamicParamsInflationFalloff: 'Null',
   /**
-   * Lookup180: staging_kusama_runtime::dynamic_params::inflation::UseAuctionSlots
+   * Lookup148: staging_kusama_runtime::dynamic_params::inflation::UseAuctionSlots
    **/
   StagingKusamaRuntimeDynamicParamsInflationUseAuctionSlots: 'Null',
   /**
-   * Lookup182: staging_kusama_runtime::dynamic_params::treasury::Parameters
+   * Lookup150: staging_kusama_runtime::dynamic_params::treasury::Parameters
    **/
   StagingKusamaRuntimeDynamicParamsTreasuryParameters: {
     _enum: {
@@ -179,25 +180,37 @@ export default {
     }
   },
   /**
-   * Lookup183: staging_kusama_runtime::dynamic_params::treasury::BurnPortion
+   * Lookup151: staging_kusama_runtime::dynamic_params::treasury::BurnPortion
    **/
   StagingKusamaRuntimeDynamicParamsTreasuryBurnPortion: 'Null',
   /**
-   * Lookup186: staging_kusama_runtime::dynamic_params::treasury::BurnDestination
+   * Lookup154: staging_kusama_runtime::dynamic_params::treasury::BurnDestination
    **/
   StagingKusamaRuntimeDynamicParamsTreasuryBurnDestination: 'Null',
   /**
-   * Lookup188: staging_kusama_runtime::BurnDestinationAccount
+   * Lookup156: staging_kusama_runtime::BurnDestinationAccount
    **/
   StagingKusamaRuntimeBurnDestinationAccount: 'Option<AccountId32>',
   /**
-   * Lookup209: kusama_runtime_constants::proxy::ProxyType
+   * Lookup157: staging_kusama_runtime::dynamic_params::ah_client::Parameters
+   **/
+  StagingKusamaRuntimeDynamicParamsAhClientParameters: {
+    _enum: {
+      MinimumValidatorSetSize: '(StagingKusamaRuntimeDynamicParamsAhClientMinimumValidatorSetSize,Option<u32>)'
+    }
+  },
+  /**
+   * Lookup158: staging_kusama_runtime::dynamic_params::ah_client::MinimumValidatorSetSize
+   **/
+  StagingKusamaRuntimeDynamicParamsAhClientMinimumValidatorSetSize: 'Null',
+  /**
+   * Lookup177: kusama_runtime_constants::proxy::ProxyType
    **/
   KusamaRuntimeConstantsProxyProxyType: {
     _enum: ['Any', 'NonTransfer', 'Governance', 'Staking', '__Unused4', 'CancelProxy', 'Auction', 'Society', 'NominationPools', 'Spokesperson', 'ParaRegistration']
   },
   /**
-   * Lookup219: staging_kusama_runtime::NposCompactSolution24
+   * Lookup187: staging_kusama_runtime::NposCompactSolution24
    **/
   StagingKusamaRuntimeNposCompactSolution24: {
     votes1: 'Vec<(Compact<u32>,Compact<u16>)>',
@@ -226,99 +239,7 @@ export default {
     votes24: 'Vec<(Compact<u32>,[(Compact<u16>,Compact<PerU16>);23],Compact<u16>)>'
   },
   /**
-   * Lookup539: pallet_rc_migrator::recovery::RecoveryStage
-   **/
-  PalletRcMigratorRecoveryRecoveryStage: {
-    _enum: {
-      Recoverable: 'Option<AccountId32>',
-      ActiveRecoveries: 'Option<(AccountId32,AccountId32)>',
-      Proxy: 'Option<AccountId32>',
-      Finished: 'Null'
-    }
-  },
-  /**
-   * Lookup543: pallet_rc_migrator::society::SocietyStage
-   **/
-  PalletRcMigratorSocietySocietyStage: {
-    _enum: {
-      Values: 'Null',
-      Members: 'Option<AccountId32>',
-      Payouts: 'Option<AccountId32>',
-      MemberByIndex: 'Option<u32>',
-      SuspendedMembers: 'Option<AccountId32>',
-      Candidates: 'Option<AccountId32>',
-      Votes: 'Option<(AccountId32,AccountId32)>',
-      VoteClearCursor: 'Option<AccountId32>',
-      DefenderVotes: 'Option<(u32,AccountId32)>',
-      Finished: 'Null'
-    }
-  },
-  /**
-   * Lookup566: staging_kusama_runtime::RuntimeParametersKey
-   **/
-  StagingKusamaRuntimeRuntimeParametersKey: {
-    _enum: {
-      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParametersKey',
-      Treasury: 'StagingKusamaRuntimeDynamicParamsTreasuryParametersKey'
-    }
-  },
-  /**
-   * Lookup567: staging_kusama_runtime::dynamic_params::inflation::ParametersKey
-   **/
-  StagingKusamaRuntimeDynamicParamsInflationParametersKey: {
-    _enum: ['MinInflation', 'MaxInflation', 'IdealStake', 'Falloff', 'UseAuctionSlots']
-  },
-  /**
-   * Lookup568: staging_kusama_runtime::dynamic_params::treasury::ParametersKey
-   **/
-  StagingKusamaRuntimeDynamicParamsTreasuryParametersKey: {
-    _enum: ['BurnPortion', 'BurnDestination']
-  },
-  /**
-   * Lookup570: staging_kusama_runtime::RuntimeParametersValue
-   **/
-  StagingKusamaRuntimeRuntimeParametersValue: {
-    _enum: {
-      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParametersValue',
-      Treasury: 'StagingKusamaRuntimeDynamicParamsTreasuryParametersValue'
-    }
-  },
-  /**
-   * Lookup571: staging_kusama_runtime::dynamic_params::inflation::ParametersValue
-   **/
-  StagingKusamaRuntimeDynamicParamsInflationParametersValue: {
-    _enum: {
-      MinInflation: 'Perquintill',
-      MaxInflation: 'Perquintill',
-      IdealStake: 'Perquintill',
-      Falloff: 'Perquintill',
-      UseAuctionSlots: 'bool'
-    }
-  },
-  /**
-   * Lookup572: staging_kusama_runtime::dynamic_params::treasury::ParametersValue
-   **/
-  StagingKusamaRuntimeDynamicParamsTreasuryParametersValue: {
-    _enum: {
-      BurnPortion: 'Permill',
-      BurnDestination: 'StagingKusamaRuntimeBurnDestinationAccount'
-    }
-  },
-  /**
-   * Lookup579: pallet_recovery::DepositKind<staging_kusama_runtime::Runtime>
-   **/
-  PalletRecoveryDepositKind: {
-    _enum: {
-      RecoveryConfig: 'Null',
-      ActiveRecoveryFor: 'AccountId32'
-    }
-  },
-  /**
-   * Lookup580: staging_kusama_runtime::Runtime
-   **/
-  StagingKusamaRuntimeRuntime: 'Null',
-  /**
-   * Lookup668: staging_kusama_runtime::RuntimeHoldReason
+   * Lookup504: staging_kusama_runtime::RuntimeHoldReason
    **/
   StagingKusamaRuntimeRuntimeHoldReason: {
     _enum: {
@@ -425,7 +346,74 @@ export default {
     }
   },
   /**
-   * Lookup677: staging_kusama_runtime::RuntimeFreezeReason
+   * Lookup533: staging_kusama_runtime::RuntimeParametersKey
+   **/
+  StagingKusamaRuntimeRuntimeParametersKey: {
+    _enum: {
+      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParametersKey',
+      Treasury: 'StagingKusamaRuntimeDynamicParamsTreasuryParametersKey',
+      AhClient: 'StagingKusamaRuntimeDynamicParamsAhClientParametersKey'
+    }
+  },
+  /**
+   * Lookup534: staging_kusama_runtime::dynamic_params::inflation::ParametersKey
+   **/
+  StagingKusamaRuntimeDynamicParamsInflationParametersKey: {
+    _enum: ['MinInflation', 'MaxInflation', 'IdealStake', 'Falloff', 'UseAuctionSlots']
+  },
+  /**
+   * Lookup535: staging_kusama_runtime::dynamic_params::treasury::ParametersKey
+   **/
+  StagingKusamaRuntimeDynamicParamsTreasuryParametersKey: {
+    _enum: ['BurnPortion', 'BurnDestination']
+  },
+  /**
+   * Lookup536: staging_kusama_runtime::dynamic_params::ah_client::ParametersKey
+   **/
+  StagingKusamaRuntimeDynamicParamsAhClientParametersKey: {
+    _enum: ['MinimumValidatorSetSize']
+  },
+  /**
+   * Lookup538: staging_kusama_runtime::RuntimeParametersValue
+   **/
+  StagingKusamaRuntimeRuntimeParametersValue: {
+    _enum: {
+      Inflation: 'StagingKusamaRuntimeDynamicParamsInflationParametersValue',
+      Treasury: 'StagingKusamaRuntimeDynamicParamsTreasuryParametersValue',
+      AhClient: 'StagingKusamaRuntimeDynamicParamsAhClientParametersValue'
+    }
+  },
+  /**
+   * Lookup539: staging_kusama_runtime::dynamic_params::inflation::ParametersValue
+   **/
+  StagingKusamaRuntimeDynamicParamsInflationParametersValue: {
+    _enum: {
+      MinInflation: 'Perquintill',
+      MaxInflation: 'Perquintill',
+      IdealStake: 'Perquintill',
+      Falloff: 'Perquintill',
+      UseAuctionSlots: 'bool'
+    }
+  },
+  /**
+   * Lookup540: staging_kusama_runtime::dynamic_params::treasury::ParametersValue
+   **/
+  StagingKusamaRuntimeDynamicParamsTreasuryParametersValue: {
+    _enum: {
+      BurnPortion: 'Permill',
+      BurnDestination: 'StagingKusamaRuntimeBurnDestinationAccount'
+    }
+  },
+  /**
+   * Lookup541: staging_kusama_runtime::dynamic_params::ah_client::ParametersValue
+   **/
+  StagingKusamaRuntimeDynamicParamsAhClientParametersValue: {
+    _enum: {
+      MinimumValidatorSetSize: 'u32'
+    }
+  },
+  /**
+   * Lookup640: staging_kusama_runtime::RuntimeFreezeReason
    **/
   StagingKusamaRuntimeRuntimeFreezeReason: {
     _enum: {
@@ -474,7 +462,7 @@ export default {
     }
   },
   /**
-   * Lookup1159: staging_kusama_runtime::RuntimeError
+   * Lookup1115: staging_kusama_runtime::RuntimeError
    **/
   StagingKusamaRuntimeRuntimeError: {
     _enum: {
@@ -505,7 +493,7 @@ export default {
       Utility: 'PalletUtilityError',
       __Unused25: 'Null',
       Society: 'PalletSocietyError',
-      Recovery: 'PalletRecoveryError',
+      __Unused27: 'Null',
       Vesting: 'PalletVestingError',
       Scheduler: 'PalletSchedulerError',
       Proxy: 'PalletProxyError',
@@ -533,7 +521,7 @@ export default {
       __Unused52: 'Null',
       ParaInclusion: 'PolkadotRuntimeParachainsInclusionPalletError',
       ParaInherent: 'PolkadotRuntimeParachainsParasInherentPalletError',
-      __Unused55: 'Null',
+      ParaScheduler: 'PolkadotRuntimeParachainsSchedulerPalletError',
       Paras: 'PolkadotRuntimeParachainsParasPalletError',
       __Unused57: 'Null',
       __Unused58: 'Null',
@@ -543,7 +531,7 @@ export default {
       ParasDisputes: 'PolkadotRuntimeParachainsDisputesPalletError',
       ParasSlashing: 'PolkadotRuntimeParachainsDisputesSlashingPalletError',
       OnDemandAssignmentProvider: 'PolkadotRuntimeParachainsOnDemandPalletError',
-      CoretimeAssignmentProvider: 'PolkadotRuntimeParachainsAssignerCoretimePalletError',
+      __Unused65: 'Null',
       __Unused66: 'Null',
       __Unused67: 'Null',
       __Unused68: 'Null',

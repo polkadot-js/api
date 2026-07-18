@@ -31,6 +31,7 @@ const aliases: Record<string, string> = {
   PolkadotParachainPrimitivesPrimitivesValidationCodeHash: 'ValidationCodeHash',
   PolkadotPrimitivesV7SlashingOpaqueKeyOwnershipProof: 'OpaqueKeyOwnershipProof',
   PolkadotPrimitivesV8SlashingOpaqueKeyOwnershipProof: 'OpaqueKeyOwnershipProof',
+  PolkadotPrimitivesV9SlashingOpaqueKeyOwnershipProof: 'OpaqueKeyOwnershipProof',
   PolkadotRuntimeRuntimeCall: 'RuntimeCall',
   PrimitiveTypesH160: 'H160',
   PrimitiveTypesH256: 'H256',
