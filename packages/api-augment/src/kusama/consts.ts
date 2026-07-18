@@ -566,46 +566,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    recovery: {
-      /**
-       * The base amount of currency needed to reserve for creating a recovery configuration.
-       * 
-       * This is held for an additional storage item whose value size is
-       * `2 + sizeof(BlockNumber, Balance)` bytes.
-       **/
-      configDepositBase: u128 & AugmentedConst<ApiType>;
-      /**
-       * The amount of currency needed per additional user when creating a recovery
-       * configuration.
-       * 
-       * This is held for adding `sizeof(AccountId)` bytes more into a pre-existing storage
-       * value.
-       **/
-      friendDepositFactor: u128 & AugmentedConst<ApiType>;
-      /**
-       * The maximum amount of friends allowed in a recovery configuration.
-       * 
-       * NOTE: The threshold programmed in this Pallet uses u16, so it does
-       * not really make sense to have a limit here greater than u16::MAX.
-       * But also, that is a lot more than you should probably set this value
-       * to anyway...
-       **/
-      maxFriends: u32 & AugmentedConst<ApiType>;
-      /**
-       * The base amount of currency needed to reserve for starting a recovery.
-       * 
-       * This is primarily held for deterring malicious recovery attempts, and should
-       * have a value large enough that a bad actor would choose not to place this
-       * deposit. It also acts to fund additional storage item whose value size is
-       * `sizeof(BlockNumber, Balance + T * AccountId)` bytes. Where T is a configurable
-       * threshold.
-       **/
-      recoveryDeposit: u128 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     referenda: {
       /**
        * Quantization level for the referendum wakeup scheduler. A higher number will result in

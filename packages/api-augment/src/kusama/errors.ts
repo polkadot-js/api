@@ -157,6 +157,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidEquivocationProofSession: AugmentedError<ApiType>;
       /**
+       * The session of the equivocation proof is not in the mapping (anymore)
+       **/
+      InvalidEquivocationProofSessionMember: AugmentedError<ApiType>;
+      /**
        * A fork voting proof provided as part of an equivocation report is invalid.
        **/
       InvalidForkVotingProof: AugmentedError<ApiType>;
@@ -356,18 +360,6 @@ declare module '@polkadot/api-base/types/errors' {
        * block height.
        **/
       RequestedFutureRevenue: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    coretimeAssignmentProvider: {
-      AssignmentsEmpty: AugmentedError<ApiType>;
-      /**
-       * assign_core is only allowed to append new assignments at the end of already existing
-       * ones or update the last entry.
-       **/
-      DisallowedInsert: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1192,6 +1184,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DisallowedRelayParent: AugmentedError<ApiType>;
       /**
+       * The candidate's scheduling-parent was not allowed.
+       **/
+      DisallowedSchedulingParent: AugmentedError<ApiType>;
+      /**
        * Head data exceeds the configured maximum.
        **/
       HeadDataTooLarge: AugmentedError<ApiType>;
@@ -1209,7 +1205,7 @@ declare module '@polkadot/api-base/types/errors' {
       InsufficientBacking: AugmentedError<ApiType>;
       /**
        * Failed to compute group index for the core: either it's out of bounds
-       * or the relay parent doesn't belong to the current session.
+       * or the scheduling parent doesn't belong to the current session.
        **/
       InvalidAssignment: AugmentedError<ApiType>;
       /**
@@ -1351,6 +1347,20 @@ declare module '@polkadot/api-base/types/errors' {
        * The submitted code is not authorized.
        **/
       Unauthorized: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    paraScheduler: {
+      /**
+       * assign_core was called with no assignments.
+       **/
+      AssignmentsEmpty: AugmentedError<ApiType>;
+      /**
+       * assign_core with non allowed insertion.
+       **/
+      DisallowedInsert: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1506,144 +1516,6 @@ declare module '@polkadot/api-base/types/errors' {
       [key: string]: AugmentedError<ApiType>;
     };
     rcMigrator: {
-      /**
-       * The account is referenced by some other pallet. It might have freezes or holds.
-       **/
-      AccountReferenced: AugmentedError<ApiType>;
-      /**
-       * The AH UMP queue priority configuration is already set.
-       **/
-      AhUmpQueuePriorityAlreadySet: AugmentedError<ApiType>;
-      /**
-       * The XCM version is invalid.
-       **/
-      BadXcmVersion: AugmentedError<ApiType>;
-      /**
-       * Balance accounting overflow.
-       **/
-      BalanceOverflow: AugmentedError<ApiType>;
-      /**
-       * Balance accounting underflow.
-       **/
-      BalanceUnderflow: AugmentedError<ApiType>;
-      /**
-       * Indicates that there is not enough time for staking to lock.
-       * 
-       * Schedule the migration at least two sessions before the current era ends.
-       **/
-      EraEndsTooSoon: AugmentedError<ApiType>;
-      /**
-       * Failed to withdraw account from RC for migration to AH.
-       **/
-      FailedToWithdrawAccount: AugmentedError<ApiType>;
-      /**
-       * The origin is invalid.
-       **/
-      InvalidOrigin: AugmentedError<ApiType>;
-      /**
-       * Invalid parameter.
-       **/
-      InvalidParameter: AugmentedError<ApiType>;
-      /**
-       * The query response is invalid.
-       **/
-      InvalidQueryResponse: AugmentedError<ApiType>;
-      /**
-       * The stage transition is invalid.
-       **/
-      InvalidStageTransition: AugmentedError<ApiType>;
-      OutOfWeight: AugmentedError<ApiType>;
-      /**
-       * Indicates that the specified block number is in the past.
-       **/
-      PastBlockNumber: AugmentedError<ApiType>;
-      /**
-       * The xcm query was not found.
-       **/
-      QueryNotFound: AugmentedError<ApiType>;
-      Unreachable: AugmentedError<ApiType>;
-      /**
-       * The migration stage is not reachable from the current stage.
-       **/
-      UnreachableStage: AugmentedError<ApiType>;
-      /**
-       * Failed to send XCM message to AH.
-       **/
-      XcmError: AugmentedError<ApiType>;
-      /**
-       * Failed to send XCM message.
-       **/
-      XcmSendError: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    recovery: {
-      /**
-       * This account is already set up for recovery
-       **/
-      AlreadyProxy: AugmentedError<ApiType>;
-      /**
-       * This account is already set up for recovery
-       **/
-      AlreadyRecoverable: AugmentedError<ApiType>;
-      /**
-       * A recovery process has already started for this account
-       **/
-      AlreadyStarted: AugmentedError<ApiType>;
-      /**
-       * This user has already vouched for this recovery
-       **/
-      AlreadyVouched: AugmentedError<ApiType>;
-      /**
-       * Some internal state is broken.
-       **/
-      BadState: AugmentedError<ApiType>;
-      /**
-       * The friend must wait until the delay period to vouch for this recovery
-       **/
-      DelayPeriod: AugmentedError<ApiType>;
-      /**
-       * Friends list must be less than max friends
-       **/
-      MaxFriends: AugmentedError<ApiType>;
-      /**
-       * User is not allowed to make a call on behalf of this account
-       **/
-      NotAllowed: AugmentedError<ApiType>;
-      /**
-       * Friends list must be greater than zero and threshold
-       **/
-      NotEnoughFriends: AugmentedError<ApiType>;
-      /**
-       * This account is not a friend who can vouch
-       **/
-      NotFriend: AugmentedError<ApiType>;
-      /**
-       * This account is not set up for recovery
-       **/
-      NotRecoverable: AugmentedError<ApiType>;
-      /**
-       * Friends list must be sorted and free of duplicates
-       **/
-      NotSorted: AugmentedError<ApiType>;
-      /**
-       * A recovery process has not started for this rescuer
-       **/
-      NotStarted: AugmentedError<ApiType>;
-      /**
-       * There are still active recovery attempts that need to be closed
-       **/
-      StillActive: AugmentedError<ApiType>;
-      /**
-       * The threshold for recovering this account has not been met
-       **/
-      Threshold: AugmentedError<ApiType>;
-      /**
-       * Threshold must be greater than zero
-       **/
-      ZeroThreshold: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -2378,6 +2250,8 @@ declare module '@polkadot/api-base/types/errors' {
       InvalidOrigin: AugmentedError<ApiType>;
       /**
        * Local XCM execution incomplete.
+       * 
+       * @deprecated Use `LocalExecutionIncompleteWithError` instead Since 20.0.0.
        **/
       LocalExecutionIncomplete: AugmentedError<ApiType>;
       /**

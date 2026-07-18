@@ -13,7 +13,7 @@ import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { ParaId, ValidationCodeHash } from '@polkadot/types/interfaces/parachains';
 import type { AccountId32, H256, RuntimeCall, Slot } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportViewFunctionsViewFunctionDispatchError, FrameSupportViewFunctionsViewFunctionId, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotPrimitivesV8ApprovalVotingParams, PolkadotPrimitivesV8AsyncBackingAsyncBackingParams, PolkadotPrimitivesV8CandidateCommitments, PolkadotPrimitivesV8DisputeState, PolkadotPrimitivesV8ExecutorParams, PolkadotPrimitivesV8GroupRotationInfo, PolkadotPrimitivesV8OccupiedCoreAssumption, PolkadotPrimitivesV8PersistedValidationData, PolkadotPrimitivesV8PvfCheckStatement, PolkadotPrimitivesV8SessionInfo, PolkadotPrimitivesV8SlashingDisputeProof, PolkadotPrimitivesV8SlashingPendingSlashes, PolkadotPrimitivesV8ValidatorAppPublic, PolkadotPrimitivesV8ValidatorAppSignature, PolkadotPrimitivesVstagingAsyncBackingBackingState, PolkadotPrimitivesVstagingAsyncBackingConstraints, PolkadotPrimitivesVstagingCandidateEvent, PolkadotPrimitivesVstagingCommittedCandidateReceiptV2, PolkadotPrimitivesVstagingCoreState, PolkadotPrimitivesVstagingScrapedOnChainVotes, PolkadotRuntimeOriginCaller, RelayCommonApisInflationInfo, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeConfiguration, SpConsensusBabeEpoch, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyForkVotingProofOpaqueValue, SpConsensusBeefyFutureBlockVotingProof, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusBeefyValidatorSet, SpConsensusGrandpaAppPublic, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpMmrPrimitivesError, SpMmrPrimitivesLeafProof, SpRuntimeBlock, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpVersionRuntimeVersion, SpWeightsWeightV2Weight, XcmRuntimeApisConversionsError, XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError, XcmRuntimeApisDryRunXcmDryRunEffects, XcmRuntimeApisFeesError, XcmVersionedAssetId, XcmVersionedAssets, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { FrameSupportViewFunctionsViewFunctionDispatchError, FrameSupportViewFunctionsViewFunctionId, PalletTransactionPaymentFeeDetails, PalletTransactionPaymentRuntimeDispatchInfo, PolkadotCorePrimitivesInboundDownwardMessage, PolkadotCorePrimitivesInboundHrmpMessage, PolkadotRuntimeOriginCaller, SpAuthorityDiscoveryAppPublic, SpConsensusBabeAppPublic, SpConsensusBabeBabeConfiguration, SpConsensusBabeEpoch, SpConsensusBeefyDoubleVotingProof, SpConsensusBeefyEcdsaCryptoPublic, SpConsensusBeefyForkVotingProofOpaqueValue, SpConsensusBeefyFutureBlockVotingProof, SpConsensusBeefyMmrBeefyAuthoritySet, SpConsensusBeefyValidatorSet, SpConsensusGrandpaAppPublic, SpConsensusGrandpaEquivocationProof, SpConsensusSlotsEquivocationProof, SpCoreCryptoKeyTypeId, SpInherentsCheckInherentsResult, SpInherentsInherentData, SpMmrPrimitivesAncestryProof, SpMmrPrimitivesError, SpMmrPrimitivesLeafProof, SpRuntimeDispatchError, SpRuntimeExtrinsicInclusionMode, SpRuntimeHeader, SpRuntimeTransactionValidityTransactionSource, SpRuntimeTransactionValidityTransactionValidityError, SpRuntimeTransactionValidityValidTransaction, SpVersionRuntimeVersion, SpWeightsWeightV2Weight, XcmRuntimeApisConversionsError, XcmRuntimeApisDryRunCallDryRunEffects, XcmRuntimeApisDryRunError, XcmRuntimeApisDryRunXcmDryRunEffects, XcmRuntimeApisFeesError, XcmVersionedAssetId, XcmVersionedAssets, XcmVersionedLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
 export type __AugmentedCall<ApiType extends ApiTypes> = AugmentedCall<ApiType>;
@@ -27,6 +27,21 @@ declare module '@polkadot/api-base/types/calls' {
        * Get current account nonce of given `AccountId`.
        **/
       accountNonce: AugmentedCall<ApiType, (account: AccountId32 | string | Uint8Array) => Observable<u32>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0xc1b8f0c037f97de8/ */
+    assetHubMigrationApi: {
+      /**
+       * Returns the block number when the migration ended.
+       **/
+      migrationEndBlock: AugmentedCall<ApiType, () => Observable<u32>>;
+      /**
+       * Returns the block number when the migration started.
+       **/
+      migrationStartBlock: AugmentedCall<ApiType, () => Observable<u32>>;
       /**
        * Generic call
        **/
@@ -81,10 +96,6 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       beefyGenesis: AugmentedCall<ApiType, () => Observable<Option<u32>>>;
       /**
-       * Generates a proof that the `prev_block_number` is part of the canonical chain at, `best_known_block_number`.
-       **/
-      generateAncestryProof: AugmentedCall<ApiType, (prev_block_number: u32 | AnyNumber | Uint8Array, best_known_block_number: Option<u32> | null | Uint8Array | u32 | AnyNumber) => Observable<Option<Bytes>>>;
-      /**
        * Generates a proof of key ownership for the given authority in the, given set. An example usage of this module is coupled with the, session historical module to prove that a given authority key is, tied to a given staking identity during a specific session. Proofs, of key ownership are necessary for submitting equivocation reports., NOTE: even though the API takes a `set_id` as parameter the current, implementations ignores this parameter and instead relies on this, method being called at the correct block height, i.e. any point at, which the given set id is live on-chain. Future implementations will, instead use indexed data through an offchain worker, not requiring, older states to be available.
        **/
       generateKeyOwnershipProof: AugmentedCall<ApiType, (set_id: u64 | AnyNumber | Uint8Array, authority_id: SpConsensusBeefyEcdsaCryptoPublic | string | Uint8Array) => Observable<Option<Bytes>>>;
@@ -133,7 +144,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Check that the inherents are valid. The inherent data will vary from chain to chain.
        **/
-      checkInherents: AugmentedCall<ApiType, (block: SpRuntimeBlock | { header?: any; extrinsics?: any } | string | Uint8Array, data: SpInherentsInherentData | { data?: any } | string | Uint8Array) => Observable<SpInherentsCheckInherentsResult>>;
+      checkInherents: AugmentedCall<ApiType, (block: SpRuntimeBlockLazyBlock | { header?: any; extrinsics?: any } | string | Uint8Array, data: SpInherentsInherentData | { data?: any } | string | Uint8Array) => Observable<SpInherentsCheckInherentsResult>>;
       /**
        * Finish the current block.
        **/
@@ -152,7 +163,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Execute the given block.
        **/
-      executeBlock: AugmentedCall<ApiType, (block: SpRuntimeBlock | { header?: any; extrinsics?: any } | string | Uint8Array) => Observable<Null>>;
+      executeBlock: AugmentedCall<ApiType, (block: SpRuntimeBlockLazyBlock | { header?: any; extrinsics?: any } | string | Uint8Array) => Observable<Null>>;
       /**
        * Initialize a block with the given header and return the runtime executive mode.
        **/
@@ -223,17 +234,6 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0xc51ff1fa3f5d0cca/ */
-    inflation: {
-      /**
-       * Return the current estimates of the inflation amount.,, This is marked as experimental in light of RFC#89. Nonetheless, its usage is highly, recommended over trying to read-storage, or re-create the onchain logic.
-       **/
-      experimentalInflationPredictionInfo: AugmentedCall<ApiType, () => Observable<RelayCommonApisInflationInfo>>;
-      /**
-       * Generic call
-       **/
-      [key: string]: DecoratedCallBase<ApiType>;
-    };
     /** 0x9ffb505aa738d69c/ */
     locationToAccountApi: {
       /**
@@ -266,6 +266,10 @@ declare module '@polkadot/api-base/types/calls' {
     };
     /** 0x91d5df18b0d2cf58/ */
     mmrApi: {
+      /**
+       * Generates a proof that the `prev_block_number` is part of the canonical chain at, `best_known_block_number`.
+       **/
+      generateAncestryProof: AugmentedCall<ApiType, (prev_block_number: u32 | AnyNumber | Uint8Array, best_known_block_number: Option<u32> | null | Uint8Array | u32 | AnyNumber) => Observable<Result<SpMmrPrimitivesAncestryProof, SpMmrPrimitivesError>>>;
       /**
        * Generate MMR proof for a series of block numbers. If `best_known_block_number = Some(n)`,, use historical MMR state at given block height `n`. Else, use current MMR state.
        **/
@@ -352,41 +356,45 @@ declare module '@polkadot/api-base/types/calls' {
     /** 0xaf2c0297a23e6d3d/ */
     parachainHost: {
       /**
+       * Look up relay parent info for a block that is an **ancestor** of the block, this API is called at. Returns `None` if the relay parent is not found, in the allowed relay parents for the given session.,, NOTE: A block is not in its own `AllowedRelayParents` storage (it gets, added during the next block's inherent). Querying a block about itself, will always return `None`. Use the node-side `check_relay_parent_session`, utility for a general-purpose check that handles both the self and, ancestor cases.
+       **/
+      ancestorRelayParentInfo: AugmentedCall<ApiType, (session_index: u32 | AnyNumber | Uint8Array, relay_parent: H256 | string | Uint8Array) => Observable<Option<PolkadotPrimitivesVstagingRelayParentInfo>>>;
+      /**
        * Approval voting configuration parameters
        **/
-      approvalVotingParams: AugmentedCall<ApiType, () => Observable<PolkadotPrimitivesV8ApprovalVotingParams>>;
+      approvalVotingParams: AugmentedCall<ApiType, () => Observable<PolkadotPrimitivesV9ApprovalVotingParams>>;
       /**
        * Returns the persisted validation data for the given `ParaId` along with the corresponding, validation code hash. Instead of accepting assumption about the para, matches the validation, data hash against an expected one and yields `None` if they're not equal.
        **/
-      assumedValidationData: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, expected_persisted_validation_data_hash: H256 | string | Uint8Array) => Observable<Option<ITuple<[PolkadotPrimitivesV8PersistedValidationData, H256]>>>>;
+      assumedValidationData: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, expected_persisted_validation_data_hash: H256 | string | Uint8Array) => Observable<Option<ITuple<[PolkadotPrimitivesV9PersistedValidationData, H256]>>>>;
       /**
        * Returns candidate's acceptance limitations for asynchronous backing for a relay parent.
        **/
-      asyncBackingParams: AugmentedCall<ApiType, () => Observable<PolkadotPrimitivesV8AsyncBackingAsyncBackingParams>>;
+      asyncBackingParams: AugmentedCall<ApiType, () => Observable<PolkadotPrimitivesV9AsyncBackingAsyncBackingParams>>;
       /**
        * Yields information on all availability cores as relevant to the child block., Cores are either free or occupied. Free cores can have paras assigned to them.
        **/
-      availabilityCores: AugmentedCall<ApiType, () => Observable<Vec<PolkadotPrimitivesVstagingCoreState>>>;
+      availabilityCores: AugmentedCall<ApiType, () => Observable<Vec<PolkadotPrimitivesV9CoreState>>>;
       /**
        * Returns the constraints on the actions that can be taken by a new parachain, block.
        **/
-      backingConstraints: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesVstagingAsyncBackingConstraints>>>;
+      backingConstraints: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV9AsyncBackingConstraints>>>;
       /**
        * Get a vector of events concerning candidates that occurred within a block.
        **/
-      candidateEvents: AugmentedCall<ApiType, () => Observable<Vec<PolkadotPrimitivesVstagingCandidateEvent>>>;
+      candidateEvents: AugmentedCall<ApiType, () => Observable<Vec<PolkadotPrimitivesV9CandidateEvent>>>;
       /**
        * Get the receipt of a candidate pending availability. This returns `Some` for any paras, assigned to occupied cores in `availability_cores` and `None` otherwise.
        **/
-      candidatePendingAvailability: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesVstagingCommittedCandidateReceiptV2>>>;
+      candidatePendingAvailability: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV9CommittedCandidateReceiptV2>>>;
       /**
        * Elastic scaling support
        **/
-      candidatesPendingAvailability: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array) => Observable<Vec<PolkadotPrimitivesVstagingCommittedCandidateReceiptV2>>>;
+      candidatesPendingAvailability: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array) => Observable<Vec<PolkadotPrimitivesV9CommittedCandidateReceiptV2>>>;
       /**
        * Checks if the given validation outputs pass the acceptance criteria.
        **/
-      checkValidationOutputs: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, outputs: PolkadotPrimitivesV8CandidateCommitments | { upwardMessages?: any; horizontalMessages?: any; newValidationCode?: any; headData?: any; processedDownwardMessages?: any; hrmpWatermark?: any } | string | Uint8Array) => Observable<bool>>;
+      checkValidationOutputs: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, outputs: PolkadotPrimitivesV9CandidateCommitments | { upwardMessages?: any; horizontalMessages?: any; newValidationCode?: any; headData?: any; processedDownwardMessages?: any; hrmpWatermark?: any } | string | Uint8Array) => Observable<bool>>;
       /**
        * Claim queue
        **/
@@ -398,7 +406,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns all onchain disputes.
        **/
-      disputes: AugmentedCall<ApiType, () => Observable<Vec<ITuple<[u32, H256, PolkadotPrimitivesV8DisputeState]>>>>;
+      disputes: AugmentedCall<ApiType, () => Observable<Vec<ITuple<[u32, H256, PolkadotPrimitivesV9DisputeState]>>>>;
       /**
        * Get all the pending inbound messages in the downward message queue for a para.
        **/
@@ -410,7 +418,11 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns a merkle proof of a validator session key., NOTE: This function is only available since parachain host version 5.
        **/
-      keyOwnershipProof: AugmentedCall<ApiType, (validator_id: PolkadotPrimitivesV8ValidatorAppPublic | string | Uint8Array) => Observable<Option<Bytes>>>;
+      keyOwnershipProof: AugmentedCall<ApiType, (validator_id: PolkadotPrimitivesV9ValidatorAppPublic | string | Uint8Array) => Observable<Option<Bytes>>>;
+      /**
+       * Retrieve the maximum relay parent session age allowed for parachain blocks.
+       **/
+      maxRelayParentSessionAge: AugmentedCall<ApiType, () => Observable<u32>>;
       /**
        * Get the minimum number of backing votes for a parachain candidate., This is a staging method! Do not use on production runtimes!
        **/
@@ -422,15 +434,19 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Scrape dispute relevant from on-chain, backing votes and resolved disputes.
        **/
-      onChainVotes: AugmentedCall<ApiType, () => Observable<Option<PolkadotPrimitivesVstagingScrapedOnChainVotes>>>;
+      onChainVotes: AugmentedCall<ApiType, () => Observable<Option<PolkadotPrimitivesV9ScrapedOnChainVotes>>>;
       /**
        * Returns the state of parachain backing for a given para.
        **/
-      paraBackingState: AugmentedCall<ApiType, (__runtime_api_generated_name_0__: ParaId | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesVstagingAsyncBackingBackingState>>>;
+      paraBackingState: AugmentedCall<ApiType, (__runtime_api_generated_name_0__: ParaId | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV9AsyncBackingBackingState>>>;
+      /**
+       * Retrieve paraids at relay parent
+       **/
+      paraIds: AugmentedCall<ApiType, () => Observable<Vec<u32>>>;
       /**
        * Yields the persisted validation data for the given `ParaId` along with an assumption that, should be used if the para currently occupies a core.,, Returns `None` if either the para is not registered or the assumption is `Freed`, and the para already occupies a core.
        **/
-      persistedValidationData: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, assumption: PolkadotPrimitivesV8OccupiedCoreAssumption | 'Included' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<Option<PolkadotPrimitivesV8PersistedValidationData>>>;
+      persistedValidationData: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, assumption: PolkadotPrimitivesV9OccupiedCoreAssumption | 'Included' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<Option<PolkadotPrimitivesV9PersistedValidationData>>>;
       /**
        * Returns code hashes of PVFs that require pre-checking by validators in the active set.,, NOTE: This function is only available since parachain host version 2.
        **/
@@ -442,7 +458,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns execution parameters for the session.
        **/
-      sessionExecutorParams: AugmentedCall<ApiType, (session_index: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV8ExecutorParams>>>;
+      sessionExecutorParams: AugmentedCall<ApiType, (session_index: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV9ExecutorParams>>>;
       /**
        * Returns the session index expected at a child of the block.,, This can be used to instantiate a `SigningContext`.
        **/
@@ -450,23 +466,27 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Get the session info for the given session, if stored.,, NOTE: This function is only available since parachain host version 2.
        **/
-      sessionInfo: AugmentedCall<ApiType, (index: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV8SessionInfo>>>;
+      sessionInfo: AugmentedCall<ApiType, (index: u32 | AnyNumber | Uint8Array) => Observable<Option<PolkadotPrimitivesV9SessionInfo>>>;
       /**
        * Submits a PVF pre-checking statement into the transaction pool.,, NOTE: This function is only available since parachain host version 2.
        **/
-      submitPvfCheckStatement: AugmentedCall<ApiType, (stmt: PolkadotPrimitivesV8PvfCheckStatement | { accept?: any; subject?: any; sessionIndex?: any; validatorIndex?: any } | string | Uint8Array, signature: PolkadotPrimitivesV8ValidatorAppSignature | string | Uint8Array) => Observable<Null>>;
+      submitPvfCheckStatement: AugmentedCall<ApiType, (stmt: PolkadotPrimitivesV9PvfCheckStatement | { accept?: any; subject?: any; sessionIndex?: any; validatorIndex?: any } | string | Uint8Array, signature: PolkadotPrimitivesV9ValidatorAppSignature | string | Uint8Array) => Observable<Null>>;
       /**
        * Submit an unsigned extrinsic to slash validators who lost a dispute about, a candidate of a past session., NOTE: This function is only available since parachain host version 5.
        **/
-      submitReportDisputeLost: AugmentedCall<ApiType, (dispute_proof: PolkadotPrimitivesV8SlashingDisputeProof | { timeSlot?: any; kind?: any; validatorIndex?: any; validatorId?: any } | string | Uint8Array, key_ownership_proof: OpaqueKeyOwnershipProof | string | Uint8Array) => Observable<Option<Null>>>;
+      submitReportDisputeLost: AugmentedCall<ApiType, (dispute_proof: PolkadotPrimitivesV9SlashingDisputeProof | { timeSlot?: any; kind?: any; validatorIndex?: any; validatorId?: any } | string | Uint8Array, key_ownership_proof: PolkadotPrimitivesV9SlashingOpaqueKeyOwnershipProof | string | Uint8Array) => Observable<Option<Null>>>;
       /**
-       * Returns a list of validators that lost a past session dispute and need to be slashed., NOTE: This function is only available since parachain host version 5.
+       * Returns a list of validators that lost a past session dispute and need to be slashed.,, Deprecated. Use `unapplied_slashes_v2` instead.
        **/
-      unappliedSlashes: AugmentedCall<ApiType, () => Observable<Vec<ITuple<[u32, H256, PolkadotPrimitivesV8SlashingPendingSlashes]>>>>;
+      unappliedSlashes: AugmentedCall<ApiType, () => Observable<Vec<ITuple<[u32, H256, PolkadotPrimitivesV9SlashingLegacyPendingSlashes]>>>>;
+      /**
+       * Returns a list of validators that lost a past session dispute and need to be slashed.
+       **/
+      unappliedSlashesV2: AugmentedCall<ApiType, () => Observable<Vec<ITuple<[u32, H256, PolkadotPrimitivesV9SlashingPendingSlashes]>>>>;
       /**
        * Fetch the validation code used by a para, making the given `OccupiedCoreAssumption`.,, Returns `None` if either the para is not registered or the assumption is `Freed`, and the para already occupies a core.
        **/
-      validationCode: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, assumption: PolkadotPrimitivesV8OccupiedCoreAssumption | 'Included' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<Option<Bytes>>>;
+      validationCode: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, assumption: PolkadotPrimitivesV9OccupiedCoreAssumption | 'Included' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<Option<Bytes>>>;
       /**
        * Retrieve the maximum uncompressed code size.
        **/
@@ -478,15 +498,15 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Fetch the hash of the validation code used by a para, making the given `OccupiedCoreAssumption`.,, NOTE: This function is only available since parachain host version 2.
        **/
-      validationCodeHash: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, assumption: PolkadotPrimitivesV8OccupiedCoreAssumption | 'Included' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<Option<H256>>>;
+      validationCodeHash: AugmentedCall<ApiType, (para_id: ParaId | AnyNumber | Uint8Array, assumption: PolkadotPrimitivesV9OccupiedCoreAssumption | 'Included' | 'TimedOut' | 'Free' | number | Uint8Array) => Observable<Option<H256>>>;
       /**
        * Returns the validator groups and rotation info localized based on the hypothetical child,  of a block whose state  this is invoked on. Note that `now` in the `GroupRotationInfo`, should be the successor of the number of the block.
        **/
-      validatorGroups: AugmentedCall<ApiType, () => Observable<ITuple<[Vec<Vec<u32>>, PolkadotPrimitivesV8GroupRotationInfo]>>>;
+      validatorGroups: AugmentedCall<ApiType, () => Observable<ITuple<[Vec<Vec<u32>>, PolkadotPrimitivesV9GroupRotationInfo]>>>;
       /**
        * Get the current validators.
        **/
-      validators: AugmentedCall<ApiType, () => Observable<Vec<PolkadotPrimitivesV8ValidatorAppPublic>>>;
+      validators: AugmentedCall<ApiType, () => Observable<Vec<PolkadotPrimitivesV9ValidatorAppPublic>>>;
       /**
        * Generic call
        **/
@@ -512,7 +532,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Generate a set of session keys with optionally using the given seed., The keys should be stored within the keystore exposed via runtime, externalities.,, The seed needs to be a valid `utf8` string.,, Returns the concatenated SCALE encoded public keys.
        **/
-      generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<Bytes>>;
+      generateSessionKeys: AugmentedCall<ApiType, (owner: Bytes | string | Uint8Array, seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<SpSessionRuntimeApiOpaqueGeneratedSessionKeys>>;
       /**
        * Generic call
        **/
@@ -529,7 +549,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       nominationsQuota: AugmentedCall<ApiType, (balance: u128 | AnyNumber | Uint8Array) => Observable<u32>>;
       /**
-       * Returns true if validator `account` has pages to be claimed for the given era.
+       * Returns true if a validator `account` has pages to be claimed for the given era.
        **/
       pendingRewards: AugmentedCall<ApiType, (era: u32 | AnyNumber | Uint8Array, account: AccountId32 | string | Uint8Array) => Observable<bool>>;
       /**
@@ -601,9 +621,9 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       queryAcceptablePaymentAssets: AugmentedCall<ApiType, (xcm_version: u32 | AnyNumber | Uint8Array) => Observable<Result<Vec<XcmVersionedAssetId>, XcmRuntimeApisFeesError>>>;
       /**
-       * Get delivery fees for sending a specific `message` to a `destination`., These always come in a specific asset, defined by the chain.,, # Arguments, * `message`: The message that'll be sent, necessary because most delivery fees are based on the,   size of the message., * `destination`: The destination to send the message to. Different destinations may use,   different senders that charge different fees.
+       * Query delivery fees V2.,, Get delivery fees for sending a specific `message` to a `destination`., These always come in a specific asset, defined by the chain.,, # Arguments, * `message`: The message that'll be sent, necessary because most delivery fees are based on the,   size of the message., * `destination`: The destination to send the message to. Different destinations may use,   different senders that charge different fees.
        **/
-      queryDeliveryFees: AugmentedCall<ApiType, (destination: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, message: XcmVersionedXcm | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Result<XcmVersionedAssets, XcmRuntimeApisFeesError>>>;
+      queryDeliveryFees: AugmentedCall<ApiType, (destination: XcmVersionedLocation | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, message: XcmVersionedXcm | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array, asset_id: XcmVersionedAssetId | { V3: any } | { V4: any } | { V5: any } | string | Uint8Array) => Observable<Result<XcmVersionedAssets, XcmRuntimeApisFeesError>>>;
       /**
        * Converts a weight into a fee for the specified `AssetId`.,, # Arguments,, * `weight`: convertible `Weight`., * `asset`: `VersionedAssetId`.
        **/

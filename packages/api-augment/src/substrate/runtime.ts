@@ -436,7 +436,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       call: AugmentedCall<ApiType, (origin: AccountId32 | string | Uint8Array, dest: H160 | string | Uint8Array, value: u128 | AnyNumber | Uint8Array, gas_limit: Option<SpWeightsWeightV2Weight> | null | Uint8Array | SpWeightsWeightV2Weight | { refTime?: any; proofSize?: any } | string, storage_deposit_limit: Option<u128> | null | Uint8Array | u128 | AnyNumber, input_data: Bytes | string | Uint8Array) => Observable<PalletRevivePrimitivesContractResultExecReturnValue>>;
       /**
-       * Perform an Ethereum call.,, See [`crate::Pallet::bare_eth_transact`]
+       * Perform an Ethereum call.,, See [`crate::Pallet::dry_run_eth_transact`]
        **/
       ethTransact: AugmentedCall<ApiType, (tx: PalletReviveEvmApiRpcTypesGenGenericTransaction | { accessList?: any; blobVersionedHashes?: any; blobs?: any; chainId?: any; from?: any; gas?: any; gasPrice?: any; input?: any; maxFeePerBlobGas?: any; maxFeePerGas?: any; maxPriorityFeePerGas?: any; nonce?: any; to?: any; r_type?: any; value?: any } | string | Uint8Array) => Observable<Result<PalletRevivePrimitivesEthTransactInfo, PalletRevivePrimitivesEthTransactError>>>;
       /**
@@ -447,6 +447,10 @@ declare module '@polkadot/api-base/types/calls' {
        * Query a given storage key in a given contract.,, Returns `Ok(Some(Vec<u8>))` if the storage value exists under the given key in the, specified account and `Ok(None)` if it doesn't. If the account specified by the address, doesn't exist, or doesn't have a contract then `Err` is returned.
        **/
       getStorage: AugmentedCall<ApiType, (address: H160 | string | Uint8Array, key: U8aFixed | string | Uint8Array) => Observable<Result<Option<Bytes>, PalletRevivePrimitivesContractAccessError>>>;
+      /**
+       * Query a given variable-sized storage key in a given contract.,, Returns `Ok(Some(Vec<u8>))` if the storage value exists under the given key in the, specified account and `Ok(None)` if it doesn't. If the account specified by the address, doesn't exist, or doesn't have a contract then `Err` is returned.
+       **/
+      getStorageVarKey: AugmentedCall<ApiType, (address: H160 | string | Uint8Array, key: Bytes | string | Uint8Array) => Observable<Result<Option<Bytes>, PalletRevivePrimitivesContractAccessError>>>;
       /**
        * Instantiate a new contract.,, See `[crate::Pallet::bare_instantiate]`.
        **/

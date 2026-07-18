@@ -101,6 +101,7 @@ function getImages (api: DeriveApi, bounded: (FrameSupportPreimagesBounded | Uin
   const hashes = bounded.map((b) => getImageHashBounded(b));
   const bytesType = api.registry.lookup.getTypeDef(api.query.preimage.preimageFor.creator.meta.type.asMap.key).type;
 
+  // eslint-disable-next-line deprecation/deprecation
   return api.query.preimage.statusFor.multi(hashes).pipe(
     switchMap((optStatus) => {
       const statuses = optStatus.map((o) => o.unwrapOr(null));

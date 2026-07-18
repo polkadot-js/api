@@ -598,6 +598,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidValue: AugmentedError<ApiType>;
       /**
+       * User is not the proposer of the bounty.
+       **/
+      NotProposer: AugmentedError<ApiType>;
+      /**
        * A bounty payout is pending.
        * To cancel the bounty, you must unassign and slash the curator.
        **/
@@ -2873,12 +2877,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       MaxDelegateDependenciesReached: AugmentedError<ApiType>;
       /**
-       * The chain does not provide a chain extension. Calling the chain extension results
-       * in this error. Note that this usually  shouldn't happen as deploying such contracts
-       * is rejected.
-       **/
-      NoChainExtension: AugmentedError<ApiType>;
-      /**
        * A buffer outside of sandbox memory was passed to a contract API function.
        **/
       OutOfBounds: AugmentedError<ApiType>;
@@ -2890,10 +2888,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Can not add more data to transient storage.
        **/
       OutOfTransientStorage: AugmentedError<ApiType>;
-      /**
-       * Precompile Error
-       **/
-      PrecompileFailure: AugmentedError<ApiType>;
       /**
        * A contract called into the runtime which then called back into this pallet.
        **/
@@ -2951,10 +2945,6 @@ declare module '@polkadot/api-base/types/errors' {
        * The size defined in `T::MaxValueSize` was exceeded.
        **/
       ValueTooLarge: AugmentedError<ApiType>;
-      /**
-       * Failed to decode the XCM program.
-       **/
-      XCMDecodeFailed: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -3170,6 +3160,10 @@ declare module '@polkadot/api-base/types/errors' {
        * There is no defender currently.
        **/
       NoDefender: AugmentedError<ApiType>;
+      /**
+       * There is no deposit associated with a bid.
+       **/
+      NoDeposit: AugmentedError<ApiType>;
       /**
        * Nothing to payout.
        **/
@@ -3724,6 +3718,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AlreadyExists: AugmentedError<ApiType>;
       /**
+       * An attribute is not found.
+       **/
+      AttributeNotFound: AugmentedError<ApiType>;
+      /**
        * Invalid witness data given.
        **/
       BadWitness: AugmentedError<ApiType>;
@@ -3760,6 +3758,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NoDelegate: AugmentedError<ApiType>;
       /**
+       * No metadata is found.
+       **/
+      NoMetadata: AugmentedError<ApiType>;
+      /**
        * The signing account has no permission to do the operation.
        **/
       NoPermission: AugmentedError<ApiType>;
@@ -3784,9 +3786,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       UnknownItem: AugmentedError<ApiType>;
       /**
+       * Wrong attribute key/value bytes supplied.
+       **/
+      WrongAttribute: AugmentedError<ApiType>;
+      /**
        * The delegate turned out to be different to what was expected.
        **/
       WrongDelegate: AugmentedError<ApiType>;
+      /**
+       * Wrong metadata key/value bytes supplied.
+       **/
+      WrongMetadata: AugmentedError<ApiType>;
       /**
        * The owner turned out to be different to what was expected.
        **/
@@ -3838,6 +3848,10 @@ declare module '@polkadot/api-base/types/errors' {
        * A error in the list interface implementation.
        **/
       List: AugmentedError<ApiType>;
+      /**
+       * Could not update a node, because the pallet is locked.
+       **/
+      Locked: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

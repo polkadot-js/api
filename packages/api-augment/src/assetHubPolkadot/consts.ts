@@ -6,7 +6,7 @@
 import '@polkadot/api-base/types/consts';
 
 import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
-import type { Bytes, Option, Vec, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
+import type { Bytes, Option, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Perbill, Permill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, PalletReferendaTrackDetails, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight, StagingXcmV5Junctions, StagingXcmV5Location } from '@polkadot/types/lookup';
@@ -21,9 +21,9 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       liquidityWithdrawalFee: Permill & AugmentedConst<ApiType>;
       /**
-       * A % the liquidity providers will take of every swap. Represents 10ths of a percent.
+       * The fraction of every swap that the liquidity providers take as a fee.
        **/
-      lpFee: u32 & AugmentedConst<ApiType>;
+      lpFee: Permill & AugmentedConst<ApiType>;
       /**
        * The max number of hops in a swap.
        **/
@@ -87,10 +87,21 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    assetsPrecompilesPermit: {
+      /**
+       * The chain ID used in EIP-712 domain separator.
+       **/
+      chainId: u64 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     aura: {
       /**
        * The slot duration Aura should run with, expressed in milliseconds.
-       * The effective value of this type should not change while the chain is running.
+       * 
+       * The effective value of this type can be changed with a runtime upgrade.
        * 
        * For backwards compatibility either use [`MinimumPeriodTimesTwo`] or a const.
        **/
@@ -258,6 +269,33 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    dap: {
+      /**
+       * Minimum elapsed time (ms) between issuance drips.
+       * 
+       * - `0` = drip every block
+       * - `60_000` = drip every minute (Recommended)
+       * 
+       * Should be small relative to era length.
+       **/
+      issuanceCadence: u64 & AugmentedConst<ApiType>;
+      /**
+       * Safety ceiling: maximum elapsed time (ms) considered in a single drip.
+       * 
+       * If more time has passed than this, elapsed is clamped to this value.
+       * Prevents accidental over-minting from bugs, misconfiguration, or long
+       * periods without blocks.
+       **/
+      maxElapsedPerDrip: u64 & AugmentedConst<ApiType>;
+      /**
+       * The pallet ID used to derive the buffer account.
+       **/
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     delegatedStaking: {
       /**
        * Injected identifier for the pallet.
@@ -357,6 +395,24 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    multiAssetBounties: {
+      /**
+       * Minimum value for a bounty.
+       **/
+      bountyValueMinimum: u128 & AugmentedConst<ApiType>;
+      /**
+       * Minimum value for a child-bounty.
+       **/
+      childBountyValueMinimum: u128 & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of child bounties that can be added to a parent bounty.
+       **/
+      maxActiveChildBountyCount: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     multiBlockElection: {
       /**
        * The number of pages.
@@ -375,8 +431,7 @@ declare module '@polkadot/api-base/types/consts' {
        * Duration of the singed validation phase.
        * 
        * The duration of this should not be less than `T::Pages`, and there is no point in it
-       * being more than `SignedPhase::MaxSubmission::get() * T::Pages`. TODO: integrity test for
-       * it.
+       * being more than `SignedPhase::MaxSubmission::get() * T::Pages`.
        **/
       signedValidationPhase: u32 & AugmentedConst<ApiType>;
       /**
@@ -415,10 +470,25 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       maxWinnersPerPage: u32 & AugmentedConst<ApiType>;
       /**
-       * The minimum amount of improvement to the solution score that defines a solution as
-       * "better".
+       * Generic const
        **/
-      solutionImprovementThreshold: Perbill & AugmentedConst<ApiType>;
+      [key: string]: Codec;
+    };
+    multiBlockMigrations: {
+      /**
+       * The maximal length of an encoded cursor.
+       * 
+       * A good default needs to selected such that no migration will ever have a cursor with MEL
+       * above this limit. This is statically checked in `integrity_test`.
+       **/
+      cursorMaxLen: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximal length of an encoded identifier.
+       * 
+       * A good default needs to selected such that no migration will ever have an identifier
+       * with MEL above this limit. This is statically checked in `integrity_test`.
+       **/
+      identifierMaxLen: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -686,6 +756,109 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    revive: {
+      /**
+       * Allow EVM bytecode to be uploaded and instantiated.
+       **/
+      allowEVMBytecode: bool & AugmentedConst<ApiType>;
+      /**
+       * When enabled, accounts are automatically mapped on creation and unmapped on
+       * kill via [`AutoMapper`]. This removes the need for explicit `map_account` calls.
+       * 
+       * Requires `frame_system::Config::OnNewAccount` and `OnKilledAccount` to be set
+       * to [`AutoMapper`]. When enabled, the `map_account` and `unmap_account`
+       * dispatchables are disabled.
+       **/
+      autoMap: bool & AugmentedConst<ApiType>;
+      /**
+       * The [EIP-155](https://eips.ethereum.org/EIPS/eip-155) chain ID.
+       * 
+       * This is a unique identifier assigned to each blockchain network,
+       * preventing replay attacks.
+       **/
+      chainId: u64 & AugmentedConst<ApiType>;
+      /**
+       * The percentage of the storage deposit that should be held for using a code hash.
+       * Instantiating a contract, protects the code from being removed. In order to prevent
+       * abuse these actions are protected with a percentage of the code deposit.
+       **/
+      codeHashLockupDepositPercent: Perbill & AugmentedConst<ApiType>;
+      /**
+       * Allows debug-mode configuration, such as enabling unlimited contract size.
+       **/
+      debugEnabled: bool & AugmentedConst<ApiType>;
+      /**
+       * The amount of balance a caller has to pay for each byte of storage.
+       * 
+       * # Note
+       * 
+       * It is safe to change this value on a live chain as all refunds are pro rata.
+       **/
+      depositPerByte: u128 & AugmentedConst<ApiType>;
+      /**
+       * The amount of balance a caller has to pay for each child trie storage item.
+       * 
+       * Those are the items created by a contract. In Solidity each value is a single
+       * storage item. This is why we need to set a lower value here than for the main
+       * trie items. Otherwise the storage deposit is too high.
+       * 
+       * # Note
+       * 
+       * It is safe to change this value on a live chain as all refunds are pro rata.
+       **/
+      depositPerChildTrieItem: u128 & AugmentedConst<ApiType>;
+      /**
+       * The amount of balance a caller has to pay for each storage item.
+       * 
+       * # Note
+       * 
+       * It is safe to change this value on a live chain as all refunds are pro rata.
+       **/
+      depositPerItem: u128 & AugmentedConst<ApiType>;
+      /**
+       * This determines the relative scale of our gas price and gas estimates.
+       * 
+       * By default, the gas price (in wei) is `FeeInfo::next_fee_multiplier()` multiplied by
+       * `NativeToEthRatio`. `GasScale` allows to scale this value: the actual gas price is the
+       * default gas price multiplied by `GasScale`.
+       * 
+       * As a consequence, gas cost (gas estimates and actual gas usage during transaction) is
+       * scaled down by the same factor. Thus, the total transaction cost is not affected by
+       * `GasScale` – apart from rounding differences: the transaction cost is always a multiple
+       * of the gas price and is derived by rounded up, so that with higher `GasScales` this can
+       * lead to higher gas cost as the rounding difference would be larger.
+       * 
+       * The main purpose of changing the `GasScale` is to tune the gas cost so that it is closer
+       * to standard EVM gas cost and contracts will not run out of gas when tools or code
+       * assume hard coded gas limits.
+       * 
+       * Requirement: `GasScale` must not be 0
+       **/
+      gasScale: u32 & AugmentedConst<ApiType>;
+      /**
+       * The fraction the maximum extrinsic weight `eth_transact` extrinsics are capped to.
+       * 
+       * This is not a security measure but a requirement due to how we map gas to `(Weight,
+       * StorageDeposit)`. The mapping might derive a `Weight` that is too large to fit into an
+       * extrinsic. In this case we cap it to the limit specified here.
+       * 
+       * `eth_transact` transactions that use more weight than specified will fail with an out of
+       * gas error during execution. Larger fractions will allow more transactions to run.
+       * Smaller values waste less block space: Choose as small as possible and as large as
+       * necessary.
+       * 
+       * Default: `0.5`.
+       **/
+      maxEthExtrinsicWeight: u128 & AugmentedConst<ApiType>;
+      /**
+       * The ratio between the decimal representation of the native token and the ETH token.
+       **/
+      nativeToEthRatio: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     scheduler: {
       /**
        * The maximum weight that may be scheduled per block for any dispatchables.
@@ -717,8 +890,25 @@ declare module '@polkadot/api-base/types/consts' {
     staking: {
       /**
        * Number of eras that staked funds must remain bonded for.
+       * 
+       * This is the bonding duration for validators. Nominators may have a shorter bonding
+       * duration when [`AreNominatorsSlashable`] is set to `false` (see
+       * [`StakingInterface::nominator_bonding_duration`]).
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
+      /**
+       * When `true`, staking does not mint. It expects an external source to fund
+       * the general reward pot. At era boundary, rewards are snapshotted from
+       * the pot. `EraPayout` is not called.
+       * 
+       * When `false`, staking uses the legacy path: `EraPayout` computes inflation,
+       * tokens are minted on-the-fly during payout.
+       * 
+       * **Irreversible**: once set to `true`, must never be switched back. Eras
+       * created in non-minting mode have funded reward pots — switching to legacy
+       * would orphan those pots and cause double-minting.
+       **/
+      disableMinting: bool & AugmentedConst<ApiType>;
       /**
        * Number of eras to keep in history.
        * 
@@ -744,6 +934,8 @@ declare module '@polkadot/api-base/types/consts' {
        * 
        * Example: For an ideal era duration of 24 hours (86,400,000 ms),
        * this can be set to 604,800,000 ms (7 days).
+       * 
+       * Only used in legacy minting mode (`DisableMinting = false`).
        **/
       maxEraDuration: u64 & AugmentedConst<ApiType>;
       /**
@@ -760,10 +952,6 @@ declare module '@polkadot/api-base/types/consts' {
        * reduce without handling it in a migration.
        **/
       maxExposurePageSize: u32 & AugmentedConst<ApiType>;
-      /**
-       * Maximum number of invulnerable validators.
-       **/
-      maxInvulnerables: u32 & AugmentedConst<ApiType>;
       /**
        * Maximum number of storage items that can be pruned in a single call.
        * 
@@ -792,6 +980,17 @@ declare module '@polkadot/api-base/types/consts' {
        * election* is bounded by this type.
        **/
       maxValidatorSet: u32 & AugmentedConst<ApiType>;
+      /**
+       * Number of eras nominators must wait to unbond when they are not slashable.
+       * 
+       * This duration is used for nominators when [`AreNominatorsSlashable`] is `false`.
+       * When nominators are slashable, they use the full [`Config::BondingDuration`] to ensure
+       * slashes can be applied during the unbonding period.
+       * 
+       * Setting this to a lower value (e.g., 1 era) allows for faster withdrawals when
+       * nominators are not subject to slashing risk.
+       **/
+      nominatorFastUnbondDuration: u32 & AugmentedConst<ApiType>;
       /**
        * Number of sessions before the end of an era when the election for the next era will
        * start.
@@ -825,6 +1024,16 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    stakingRcClient: {
+      /**
+       * Deposit held when a validator sets session keys. Released on `purge_keys`.
+       **/
+      keyDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     stateTrieMigration: {
       /**
        * Maximal number of bytes that a key can have.
@@ -847,7 +1056,7 @@ declare module '@polkadot/api-base/types/consts' {
        * - [`frame_support::storage::StorageDoubleMap`]: 96 byte
        * 
        * For more info see
-       * <https://www.shawntabrizi.com/blog/substrate/querying-substrate-storage-via-rpc/>
+       * <https://www.shawntabrizi.com/blog/interacting-with-the-substrate-rpc-endpoint/>
        **/
       maxKeyLen: u32 & AugmentedConst<ApiType>;
       /**

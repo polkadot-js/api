@@ -436,7 +436,7 @@ declare module '@polkadot/api-base/types/consts' {
        * 
        * Increasing this value is supported, but decreasing it may lead to a broken state.
        **/
-      maxRank: u32 & AugmentedConst<ApiType>;
+      maxRank: u16 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -539,8 +539,13 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       betterSignedThreshold: Perbill & AugmentedConst<ApiType>;
       /**
-       * The maximum number of winners that can be elected by this `ElectionProvider`
-       * implementation.
+       * Maximum number of voters that can support a winner in an election solution.
+       * 
+       * This is needed to ensure election computation is bounded.
+       **/
+      maxBackersPerWinner: u32 & AugmentedConst<ApiType>;
+      /**
+       * Maximum number of winners that an election supports.
        * 
        * Note: This must always be greater or equal to `T::DataProvider::desired_targets()`.
        **/
@@ -1524,6 +1529,10 @@ declare module '@polkadot/api-base/types/consts' {
        * this effect.
        **/
       maxUnlockingChunks: u32 & AugmentedConst<ApiType>;
+      /**
+       * The absolute maximum of winner validators this pallet should return.
+       **/
+      maxValidatorSet: u32 & AugmentedConst<ApiType>;
       /**
        * Number of sessions per era.
        **/
