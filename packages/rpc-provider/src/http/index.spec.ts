@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { TEST_HTTP_URL } from '../mock/mockHttp.js';
+import { TEST_HTTP_URL } from '../mock/mockHttp.manual.js';
 import { HttpProvider } from './index.js';
 
 describe('Http', (): void => {

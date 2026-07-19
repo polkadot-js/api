@@ -3,10 +3,10 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import type { Request } from '../mock/mockWs.js';
-import type { Mock } from '../mock/types.js';
+import type { Request } from '../mock/mockWs.manual.js';
+import type { Mock } from '../mock/testTypes.manual.js';
 
-import { mockWs } from '../mock/mockWs.js';
+import { mockWs } from '../mock/mockWs.manual.js';
 import { WsProvider } from './index.js';
 
 const TEST_WS_URL = 'ws://localhost-index.spec.ts:9977';

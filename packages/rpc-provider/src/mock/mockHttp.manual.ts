@@ -1,7 +1,7 @@
 // Copyright 2017-2026 @polkadot/rpc-provider authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Mock } from './types.js';
+import type { Mock } from './testTypes.manual.js';
 
 import nock from 'nock';
 
