@@ -1,5 +1,5 @@
     3512	Jaco                          	Bump deps (#5785)
-     172	Tarik Gul                     	chore(metadata): update chain metadata and regenerate types to v16 (#6265)
+     173	Tarik Gul                     	fix(rpc-provider)!: move nock to devDependencies so it no longer ships (#6266)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       58	Valentin Fernandez            	16.4.9 (#6217)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
