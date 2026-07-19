@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import type { Mock } from '../mock/types.js';
+import type { Mock } from '../mock/testTypes.manual.js';
 
 import { mockHttp, TEST_HTTP_URL } from '../mock/mockHttp.manual.js';
 import { HttpProvider } from './index.js';
