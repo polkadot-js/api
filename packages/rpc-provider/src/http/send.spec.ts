@@ -5,7 +5,7 @@
 
 import type { Mock } from '../mock/types.js';
 
-import { mockHttp, TEST_HTTP_URL } from '../mock/mockHttp.js';
+import { mockHttp, TEST_HTTP_URL } from '../mock/mockHttp.manual.js';
 import { HttpProvider } from './index.js';
 
 // Does not work with Node 18 (native fetch)
