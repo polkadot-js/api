@@ -454,6 +454,19 @@ export class TypeRegistry implements Registry {
     return expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
   }
 
+  /**
+   * @description Returns the signed extensions broken down per-extension (preserving the
+   * metadata order), each with its `extra` (in-extrinsic) and `additional` (implicit)
+   * field->type maps. Used to assemble the explicit per-extension `TxPayloadV1` view.
+   */
+  public getSignedExtensionsPerExtension (): { additional: Record<string, string>; extra: Record<string, string>; identifier: string; }[] {
+    return this.#signedExtensions.map((identifier): { additional: Record<string, string>; extra: Record<string, string>; identifier: string; } => ({
+      additional: expandExtensionTypes([identifier], 'payload', this.#userExtensions),
+      extra: expandExtensionTypes([identifier], 'extrinsic', this.#userExtensions),
+      identifier
+    }));
+  }
+
   public hasClass (name: string): boolean {
     return this.#classes.has(name) || !!this.#knownDefaults.has(name);
   }

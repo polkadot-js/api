@@ -165,6 +165,96 @@ export interface SignerResult {
   signedTransaction?: HexString | Uint8Array;
 }
 
+/**
+ * @name TxPayloadV1
+ * @description
+ * The forward-compatible signing payload consumed by a signer's `createTransaction`
+ * method (RFC: https://github.com/polkadot-js/api/issues/6213). Unlike the legacy
+ * `signPayload`/`SignerPayloadJSON`, every signed extension is described explicitly
+ * (via its metadata-defined `extra` and `additionalSigned`), so it is resilient to
+ * custom extensions and forward-compatible with Extrinsic V5 and RFC-99 versioned
+ * transaction extensions.
+ */
+export interface TxPayloadV1 {
+  /**
+   * @description Payload version. MUST be `1`.
+   */
+  version: 1;
+
+  /**
+   * @description Signer selection hint. Allows the implementer to identify which
+   * private-key/scheme to use (e.g. an SS58 address or account-name). Set to `null`
+   * to let the implementer pick the signer (or when the signer is implied).
+   */
+  signer: string | null;
+
+  /**
+   * @description SCALE-encoded Call (module index + method index + params).
+   */
+  callData: HexString;
+
+  /**
+   * @description Transaction extensions supplied by the caller (order irrelevant).
+   * The consumer SHOULD provide every extension that is relevant to it; the
+   * implementer MAY infer/append any missing ones required by the runtime.
+   */
+  extensions: {
+    /** Identifier as defined in the metadata (e.g. `CheckSpecVersion`, `ChargeAssetTxPayment`). */
+    id: string;
+
+    /**
+     * Explicit "extra" to sign (goes into the extrinsic body). SCALE-encoded per the
+     * extension's `extra` type as defined in the metadata.
+     */
+    extra: HexString;
+
+    /**
+     * "Implicit" data to sign (known by the chain, not included in the extrinsic body).
+     * SCALE-encoded per the extension's `additionalSigned` type as defined in the metadata.
+     */
+    additionalSigned: HexString;
+  }[];
+
+  /**
+   * @description Transaction Extension Version (RFC-99).
+   * - MUST be `0` for Extrinsic V4 transactions.
+   * - Set to a runtime-supported version (`> 0`) for Extrinsic V5 transactions.
+   *
+   * The implementer MUST use this to determine the required extension set, and MAY use
+   * it to infer missing extensions it knows how to handle.
+   */
+  txExtVersion: number;
+
+  /**
+   * @description Context needed for decoding, display, construction and (optionally)
+   * inferring certain extensions.
+   */
+  context: {
+    /**
+     * RuntimeMetadataPrefixed blob (SCALE), starting with the ASCII "meta" magic
+     * (`0x6d657461`). MUST be V14+. For V5+ versioned extensions, MUST be V16+.
+     */
+    metadata: HexString;
+
+    /**
+     * The chain's genesis block hash.
+     */
+    genesisHash: HexString;
+
+    /**
+     * Native token display info (used by some implementers, also needed to compute
+     * the `CheckMetadataHash` value).
+     */
+    tokenSymbol: string;
+    tokenDecimals: number;
+
+    /**
+     * Highest known block number, to aid mortality UX.
+     */
+    bestBlockHeight: number;
+  };
+}
+
 export interface Signer {
   /**
    * @description signs an extrinsic payload from a serialized form
@@ -175,6 +265,14 @@ export interface Signer {
    * @description signs a raw payload, only the bytes data as supplied
    */
   signRaw?: (raw: SignerPayloadRaw) => Promise<SignerResult>;
+
+  /**
+   * @description Creates a complete, SCALE-encoded extrinsic (ready to broadcast) from
+   * a `TxPayloadV1`. When present, this is preferred over `signPayload`: the signer is
+   * responsible for resolving/composing the full extension set (including signature-carrying
+   * extensions), signing, and final assembly. Falls back to `signPayload` when not implemented.
+   */
+  createTransaction?: (payload: TxPayloadV1) => Promise<HexString>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
