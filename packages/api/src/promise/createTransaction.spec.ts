@@ -84,7 +84,6 @@ describe('Signer.createTransaction', (): void => {
 
     // context (RFC-faithful)
     expect(payload.context.metadata.startsWith('0x6d657461')).toBe(true); // "meta" magic
-    expect(payload.context.genesisHash).toBe(api.genesisHash.toHex());
     expect(typeof payload.context.bestBlockHeight).toBe('number');
     expect(typeof payload.context.tokenSymbol).toBe('string');
     expect(typeof payload.context.tokenDecimals).toBe('number');

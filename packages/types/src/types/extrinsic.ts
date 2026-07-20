@@ -237,11 +237,6 @@ export interface TxPayloadV1 {
     metadata: HexString;
 
     /**
-     * The chain's genesis block hash.
-     */
-    genesisHash: HexString;
-
-    /**
      * Native token display info (used by some implementers, also needed to compute
      * the `CheckMetadataHash` value).
      */
@@ -254,6 +249,14 @@ export interface TxPayloadV1 {
     bestBlockHeight: number;
   };
 }
+
+/**
+ * @name TxCreator
+ * @description
+ * Creates a complete, SCALE-encoded extrinsic (ready to broadcast) from a `TxPayloadV1`.
+ * See {@link Signer.createTransaction} (RFC: https://github.com/polkadot-js/api/issues/6213).
+ */
+export type TxCreator = (input: TxPayloadV1) => Promise<HexString>;
 
 export interface Signer {
   /**
@@ -272,7 +275,7 @@ export interface Signer {
    * responsible for resolving/composing the full extension set (including signature-carrying
    * extensions), signing, and final assembly. Falls back to `signPayload` when not implemented.
    */
-  createTransaction?: (payload: TxPayloadV1) => Promise<HexString>;
+  createTransaction?: TxCreator;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`

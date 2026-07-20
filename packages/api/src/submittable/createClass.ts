@@ -367,7 +367,6 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         callData: payload.method.toHex(),
         context: {
           bestBlockHeight: payload.blockNumber.toNumber(),
-          genesisHash: payload.genesisHash.toHex(),
           metadata: api.runtimeMetadata.toHex(),
           tokenDecimals: registry.chainDecimals[0],
           tokenSymbol: registry.chainTokens[0]

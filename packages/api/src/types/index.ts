@@ -19,7 +19,7 @@ import type { SubmittableExtrinsic } from '../types/submittable.js';
 import type { AllDerives } from '../util/decorate.js';
 
 // types
-export type { Signer, SignerResult, TxPayloadV1 } from '@polkadot/types/types';
+export type { Signer, SignerResult, TxCreator, TxPayloadV1 } from '@polkadot/types/types';
 
 // all named
 export { ApiBase } from '../base/index.js';
