@@ -53,10 +53,15 @@ export const versioned: OverrideVersionedType[] = [
       TAssetConversion: 'Option<AssetId>'
     }
   },
+  // ref: https://github.com/polkadot-js/api/issues/6239 (see also #6206 / #6208)
+  // Foreign-asset `ChargeAssetTxPayment` uses an XCM v4 `Location` as its assetId; the
+  // default (latest) XCM mapping decodes it as v5 and misaligns the extrinsic stream.
+  // Pin the XCM types to v4, matching the Statemint (Polkadot Asset Hub) patch.
   {
     minmax: [9435, undefined],
     types: {
-      Weight: 'WeightV1'
+      Weight: 'WeightV1',
+      ...mapXcmTypes('V4')
     }
   }
 ];
