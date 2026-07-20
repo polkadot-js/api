@@ -186,8 +186,20 @@ export class LRUCache {
 
     if (ref && ref !== this.#head) {
       ref.refresh();
-      ref.prev.next = ref.next;
-      ref.next.prev = ref.prev;
+
+      if (ref === this.#tail) {
+        // when the node being moved to the head is the tail, the tail itself
+        // needs to be retargeted to the previous node, closing the list behind
+        // the moved node (the generic unlink below would also dereference the
+        // tail's next pointer, which is not guaranteed to be valid - the first
+        // node inserted is created with next = prev = this)
+        this.#tail = ref.prev;
+        this.#tail.next = ref;
+      } else {
+        ref.prev.next = ref.next;
+        ref.next.prev = ref.prev;
+      }
+
       ref.next = this.#head;
 
       this.#head.prev = ref;
