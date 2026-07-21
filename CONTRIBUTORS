@@ -63,6 +63,7 @@
        1	Alan Sapede                   	Adds Eth feeHistory & maxPriorityFeePerGas rpc (#4956)
        1	Aleš Ferlan                   	fix: use H160 for address in getTransactionCount (#5472)
        1	Alisher A. Khassanov          	Add `offchain_localStorageClear` RPC method (#6070)
+       1	Andrew Carpenter              	fix(rpc-provider): repair LRU list corruption when the tail entry is retrieved (#6270)
        1	Brad Larson                   	[NEW] Support for custom headers with providers (#2423)
        1	Btwiuse Arch                  	Add side effect check workaround (#4994) (#5009)
        1	Cameron Marshall              	implement xcm dry run api (#5970)
