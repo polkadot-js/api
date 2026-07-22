@@ -4,7 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 import type { AnyJson, Codec, CodecClass, DefinitionSetter, Inspect, IOption, IU8a, Registry } from '../types/index.js';
 
-import { identity, isCodec, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { identity, isCodec, isNull, isU8a, isUndefined } from '@polkadot/util';
 
 import { typeToConstructor } from '../utils/index.js';
 import { Null } from './Null.js';
@@ -177,7 +177,7 @@ export class Option<T extends Codec> implements IOption<T> {
     // the isSome value is correct, however the `isNone` may be problematic
     return this.isNone
       ? '0x'
-      : u8aToHex(this.toU8a().subarray(1));
+      : this.#raw.toHex();
   }
 
   /**
