@@ -42,6 +42,10 @@ export interface ToBn {
   toBn: () => BN;
 }
 
+export interface ToBigInt {
+  toBigInt: () => bigint;
+}
+
 export interface DefinitionSetter <T> {
   definition?: T | undefined;
   setDefinition?: (d: T) => T;
