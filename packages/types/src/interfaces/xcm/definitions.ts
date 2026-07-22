@@ -24,7 +24,7 @@ const xcm = {
     }
   },
   XcmpMessageFormat: {
-    _enum: ['ConcatenatedVersionedXcm', 'ConcatenatedEncodedBlob', 'Signals']
+    _enum: ['ConcatenatedVersionedXcm', 'ConcatenatedEncodedBlob', 'Signals', 'ConcatenatedOpaqueVersionedXcm']
   },
   XcmAssetId: {
     _enum: {
