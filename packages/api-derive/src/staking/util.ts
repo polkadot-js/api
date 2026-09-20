@@ -43,15 +43,13 @@ function chunkEras <T> (eras: EraIndex[], fn: (eras: EraIndex[]) => Observable<T
   );
 }
 
-// The stashes elected for an era. Taking the era as a parameter keeps it in step with whichever
-// era the caller resolved, rather than re-reading the indexes and racing against them.
+// The stashes elected for an era.
 export function electedKeysAt (api: DeriveApi, era: EraIndex): Observable<AccountId[]> {
   // Compatibility for future generation changes in staking.
   const elected = api.query.staking.erasStakersOverview || api.query.staking.erasStakers;
 
   return elected
     ? elected.keys(era).pipe(
-      // Dedupe any duplicates
       map((keys) => [...new Set(keys.map(({ args: [, accountId] }) => accountId.toString()))].map((a) => api.registry.createType('AccountId', a)))
     )
     : api.query.staking['currentElected']<AccountId[]>();

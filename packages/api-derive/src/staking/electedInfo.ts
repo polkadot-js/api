@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { DeriveApi, DeriveStakingElected, StakingQueryFlags } from '../types.js';
 
-import { combineLatest, map, switchMap } from 'rxjs';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { arrayFlatten } from '@polkadot/util';
 
@@ -13,10 +13,6 @@ import { memo } from '../util/index.js';
 import { electedKeysAt } from './util.js';
 
 const DEFAULT_FLAGS = { withController: true, withExposure: true, withPrefs: true };
-
-function combineAccounts (nextElected: AccountId[], validators: AccountId[]): AccountId[] {
-  return arrayFlatten([nextElected, validators.filter((v) => !nextElected.find((n) => n.eq(v)))]);
-}
 
 /**
  * @name electedInfo
@@ -43,20 +39,24 @@ export function electedInfo (instanceId: string, api: DeriveApi): (flags?: Staki
     api.derive.session.indexes().pipe(
       switchMap(({ activeEra, currentEra }): Observable<DeriveStakingElected> =>
         combineLatest([
-          api.derive.staking.validators(),
+          api.query.session
+            ? api.query.session.validators()
+            : of([] as AccountId[]),
           electedKeysAt(api, currentEra)
         ]).pipe(
-          switchMap(([{ nextElected, validators }, plannedElected]): Observable<DeriveStakingElected> => {
-            // a stash is only exposed against the era it was elected for - the planned era has no
-            // exposure at all until the election result for it has been stored, hence we resolve
-            // against it for the stashes found there and against the active era for the rest
+          switchMap(([validators, plannedElected]): Observable<DeriveStakingElected> => {
+            // a stash is only exposed against the era it was elected for, so the stashes elected
+            // for the planned era resolve against it and the validators it drops against the
+            // active era - until the election result is stored the planned era has none at all,
+            // and the current validators are the best answer for the next set as well
             const plannedIds = new Set(plannedElected.map((a) => a.toString()));
-            const combined = combineAccounts(nextElected, validators);
-            const planned = combined.filter((a) => plannedIds.has(a.toString()));
-            const active = combined.filter((a) => !plannedIds.has(a.toString()));
+            const active = validators.filter((v) => !plannedIds.has(v.toString()));
+            const nextElected = plannedElected.length
+              ? plannedElected
+              : validators;
 
             return combineLatest([
-              api.derive.staking.queryMulti(planned, flags, page, currentEra),
+              api.derive.staking.queryMulti(plannedElected, flags, page, currentEra),
               api.derive.staking.queryMulti(active, flags, page, activeEra)
             ]).pipe(
               map(([plannedInfo, activeInfo]): DeriveStakingElected => ({

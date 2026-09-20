@@ -38,11 +38,7 @@ describe('staking electedInfo', () => {
     return addresses.map((a) => ({ args: [api.registry.createType('EraIndex', PLANNED_ERA), accountId(a)] }));
   }
 
-  // nextElected is what validators() reports, which lags the storage it is derived from and
-  // collapses onto the session validators when the planned era holds no election result
-  function mockApi (elected: string[], nextElected: string[], calls: QueryCall[]): DeriveApi {
-    const validators = [LEAVING, STAYING].map(accountId);
-
+  function mockApi (plannedKeys: string[], calls: QueryCall[]): DeriveApi {
     return {
       derive: {
         session: {
@@ -53,13 +49,13 @@ describe('staking electedInfo', () => {
             calls.push({ era: era.toNumber(), stashes: stashes.map((s) => s.toString()) });
 
             return of(stashes.map((accountId): DeriveStakingQuery => ({ accountId }) as DeriveStakingQuery));
-          },
-          validators: () => of({ nextElected: nextElected.map(accountId), validators })
+          }
         }
       },
       query: {
+        session: { validators: () => of([LEAVING, STAYING].map(accountId)) },
         staking: {
-          erasStakersOverview: { keys: (era: EraIndex) => of(era.eq(PLANNED_ERA) ? storageKeys(elected) : []) }
+          erasStakersOverview: { keys: (era: EraIndex) => of(era.eq(PLANNED_ERA) ? storageKeys(plannedKeys) : []) }
         }
       },
       registry: api.registry
@@ -67,53 +63,42 @@ describe('staking electedInfo', () => {
   }
 
   it('resolves the planned set at the planned era and the rest at the active era', async () => {
-    // GIVEN an election stored for the planned era, dropping one validator and adding another
+    // GIVEN an election stored for the planned era, dropping one validator and adding a stash that
+    // is not validating yet
     const calls: QueryCall[] = [];
-    const mock = mockApi([STAYING, ENTERING], [STAYING, ENTERING], calls);
+    const mock = mockApi([STAYING, ENTERING], calls);
 
     // WHEN the elected info is retrieved
-    const { info } = await firstValueFrom(electedInfo('', mock)());
+    const { info, nextElected, validators } = await firstValueFrom(electedInfo('', mock)());
 
-    // THEN only the stashes exposed at the planned era are read against it, and the validator that
-    // is not being re-elected is read against the era it is actually serving
+    // THEN each stash is read against the era it was elected for, the entrant included, and the
+    // validator that is not re-elected against the era it is still serving
     expect(calls).toEqual([
       { era: PLANNED_ERA, stashes: [STAYING, ENTERING] },
       { era: ACTIVE_ERA, stashes: [LEAVING] }
     ]);
     expect(info.map((i) => i.accountId.toString())).toEqual([STAYING, ENTERING, LEAVING]);
+
+    // AND the set reported back is the one the split was taken from
+    expect(nextElected.map((a) => a.toString())).toEqual([STAYING, ENTERING]);
+    expect(validators.map((a) => a.toString())).toEqual([LEAVING, STAYING]);
   });
 
   it('resolves everything at the active era while the planned era has no exposure', async () => {
-    // GIVEN a planned era whose election result has not been stored yet - nextElected is empty and
-    // validators() hands back the session validators instead
+    // GIVEN a planned era whose election result has not been stored yet
     const calls: QueryCall[] = [];
-    const mock = mockApi([], [LEAVING, STAYING], calls);
+    const mock = mockApi([], calls);
 
     // WHEN the elected info is retrieved
-    const { info } = await firstValueFrom(electedInfo('', mock)());
+    const { info, nextElected } = await firstValueFrom(electedInfo('', mock)());
 
-    // THEN nothing is read against the planned era, where every stash would come back unexposed
+    // THEN nothing is read against the planned era, where every stash would come back unexposed,
+    // and the current validators stand in for the next set
     expect(calls).toEqual([
       { era: PLANNED_ERA, stashes: [] },
       { era: ACTIVE_ERA, stashes: [LEAVING, STAYING] }
     ]);
     expect(info.map((i) => i.accountId.toString())).toEqual([LEAVING, STAYING]);
-  });
-
-  it('splits on the elected set of the era it resolves against, not on a stale one', async () => {
-    // GIVEN validators() still replaying the previous era's elected set, as it does for a beat
-    // after the era rotates, while the planned era holds a different one
-    const calls: QueryCall[] = [];
-    const mock = mockApi([STAYING, ENTERING], [STAYING, LEAVING], calls);
-
-    // WHEN the elected info is retrieved
-    await firstValueFrom(electedInfo('', mock)());
-
-    // THEN the stale member is read against the active era, where it does have an exposure, rather
-    // than against the planned era it is no longer part of
-    expect(calls).toEqual([
-      { era: PLANNED_ERA, stashes: [STAYING] },
-      { era: ACTIVE_ERA, stashes: [LEAVING] }
-    ]);
+    expect(nextElected.map((a) => a.toString())).toEqual([LEAVING, STAYING]);
   });
 });
