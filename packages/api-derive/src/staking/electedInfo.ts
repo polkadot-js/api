@@ -45,10 +45,10 @@ export function electedInfo (instanceId: string, api: DeriveApi): (flags?: Staki
           electedKeysAt(api, currentEra)
         ]).pipe(
           switchMap(([validators, plannedElected]): Observable<DeriveStakingElected> => {
-            // a stash is only exposed against the era it was elected for, so the stashes elected
-            // for the planned era resolve against it and the validators it drops against the
-            // active era - until the election result is stored the planned era has none at all,
-            // and the current validators are the best answer for the next set as well
+            // a stash is only exposed at the era it was elected for: the planned set against the
+            // planned era, the validators left out of it against the active era. Until the
+            // election result is stored the planned era holds nothing, so the current validators
+            // stand in as the next set.
             const plannedIds = new Set(plannedElected.map((a) => a.toString()));
             const active = validators.filter((v) => !plannedIds.has(v.toString()));
             const nextElected = plannedElected.length
