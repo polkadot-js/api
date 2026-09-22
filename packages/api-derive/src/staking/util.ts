@@ -4,7 +4,7 @@
 import type { Observable } from 'rxjs';
 import type { ObsInnerType } from '@polkadot/api-base/types';
 import type { u32 } from '@polkadot/types';
-import type { EraIndex } from '@polkadot/types/interfaces';
+import type { AccountId, EraIndex } from '@polkadot/types/interfaces';
 import type { AnyNumber } from '@polkadot/types-codec/types';
 import type { ExactDerive } from '../derive.js';
 import type { DeriveApi } from '../types.js';
@@ -41,6 +41,18 @@ function chunkEras <T> (eras: EraIndex[], fn: (eras: EraIndex[]) => Observable<T
     toArray(),
     map(arrayFlatten)
   );
+}
+
+// The stashes elected for an era.
+export function electedKeysAt (api: DeriveApi, era: EraIndex): Observable<AccountId[]> {
+  // Compatibility for future generation changes in staking.
+  const elected = api.query.staking.erasStakersOverview || api.query.staking.erasStakers;
+
+  return elected
+    ? elected.keys(era).pipe(
+      map((keys) => [...new Set(keys.map(({ args: [, accountId] }) => accountId.toString()))].map((a) => api.registry.createType('AccountId', a)))
+    )
+    : api.query.staking['currentElected']<AccountId[]>();
 }
 
 export function filterEras <T extends { era: EraIndex }> (eras: EraIndex[], list: T[]): EraIndex[] {

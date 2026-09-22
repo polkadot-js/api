@@ -119,6 +119,8 @@ export interface DeriveStakingValidators {
 
 export interface DeriveStakingStash {
   controllerId: AccountId | null;
+  // The era the exposure fields were resolved at, always populated by queryMulti
+  era?: EraIndex;
   // Legacy Support for erasStakers
   exposureEraStakers: SpStakingExposure;
   exposurePaged: Option<SpStakingExposurePage>;

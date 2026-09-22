@@ -7,7 +7,10 @@ import type { DeriveApi, DeriveStakingValidators } from '../types.js';
 
 import { combineLatest, map, of, switchMap } from 'rxjs';
 
+import { isFunction } from '@polkadot/util';
+
 import { memo } from '../util/index.js';
+import { electedKeysAt } from './util.js';
 
 /**
  * @name nextElected
@@ -24,23 +27,13 @@ import { memo } from '../util/index.js';
 export function nextElected (instanceId: string, api: DeriveApi): () => Observable<AccountId[]> {
   return memo(instanceId, (): Observable<AccountId[]> =>
     // Compatibility for future generation changes in staking.
-    api.query.staking.erasStakersOverview
+    isFunction(api.query.staking.erasStakersOverview) || isFunction(api.query.staking.erasStakers)
       ? api.derive.session.indexes().pipe(
         // only populate for next era in the last session, so track both here - entries are not
         // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
-        switchMap(({ currentEra }) => api.query.staking.erasStakersOverview.keys(currentEra)),
-        // Dedupe any duplicates
-        map((keys) => [...new Set(keys.map(({ args: [, accountId] }) => accountId.toString()))].map((a) => api.registry.createType('AccountId', a)))
+        switchMap(({ currentEra }) => electedKeysAt(api, currentEra))
       )
-      : api.query.staking.erasStakers
-        ? api.derive.session.indexes().pipe(
-          // only populate for next era in the last session, so track both here - entries are not
-          // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
-          switchMap(({ currentEra }) => api.query.staking.erasStakers.keys(currentEra)),
-          // Dedupe any duplicates
-          map((keys) => [...new Set(keys.map(({ args: [, accountId] }) => accountId.toString()))].map((a) => api.registry.createType('AccountId', a)))
-        )
-        : api.query.staking['currentElected']<AccountId[]>()
+      : api.query.staking['currentElected']<AccountId[]>()
   );
 }
 

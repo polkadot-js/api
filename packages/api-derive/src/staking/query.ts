@@ -76,11 +76,12 @@ function filterRewards (stashIds: AccountId[], eras: number[], claimedRewards: [
   });
 }
 
-function parseDetails (api: DeriveApi, stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[], exposureEraStakers: SpStakingExposure): DeriveStakingQuery {
+function parseDetails (api: DeriveApi, stashId: AccountId, controllerIdOpt: Option<AccountId> | null, nominatorsOpt: Option<PalletStakingNominations>, rewardDestinationOpts: Option<PalletStakingRewardDestination> | PalletStakingRewardDestination, validatorPrefs: PalletStakingValidatorPrefs, exposure: Option<SpStakingExposurePage>, stakingLedgerOpt: Option<PalletStakingStakingLedger>, exposureMeta: Option<SpStakingPagedExposureMetadata>, claimedRewards: number[], exposureEraStakers: SpStakingExposure, era: EraIndex): DeriveStakingQuery {
   return {
     accountId: stashId,
     claimedRewardsEras: filterClaimedRewards(api, claimedRewards),
     controllerId: controllerIdOpt?.unwrapOr(null) || null,
+    era,
     exposureEraStakers,
     exposureMeta,
     exposurePaged: exposure,
@@ -117,7 +118,7 @@ function getLedgers (api: DeriveApi, optIds: (Option<AccountId> | null)[], { wit
   );
 }
 
-function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureErasStakersLegacy, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][], SpStakingExposure[]]> {
+function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraIndex, exposureEra: EraIndex, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureErasStakersLegacy, withExposureMeta, withLedger, withNominations, withPrefs }: StakingQueryFlags, page: u32 | AnyNumber): Observable<[(Option<AccountId> | null)[], Option<PalletStakingNominations>[], Option<PalletStakingRewardDestination>[], PalletStakingValidatorPrefs[], Option<SpStakingExposurePage>[], Option<SpStakingPagedExposureMetadata>[], number[][], SpStakingExposure[]]> {
   const emptyNoms = api.registry.createType<Option<PalletStakingNominations>>('Option<Nominations>');
   const emptyRewa = api.registry.createType<Option<PalletStakingRewardDestination>>('RewardDestination');
   const emptyExpoEraStakers = api.registry.createType<SpStakingExposure>('Exposure');
@@ -151,10 +152,10 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
       ? combineLatest(stashIds.map((s) => api.query.staking.validators(s)))
       : of(stashIds.map(() => emptyPrefs)),
     withExposure && api.query.staking.erasStakersPaged
-      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersPaged<Option<SpStakingExposurePage>>(activeEra, s, page)))
+      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersPaged<Option<SpStakingExposurePage>>(exposureEra, s, page)))
       : of(stashIds.map(() => emptyExpo)),
     withExposureMeta && api.query.staking.erasStakersOverview
-      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview(activeEra, s)))
+      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview(exposureEra, s)))
       : of(stashIds.map(() => emptyExpoMeta)),
     withClaimedRewardsEras && api.query.staking.claimedRewards
       ? combineLatest([
@@ -165,18 +166,18 @@ function getStashInfo (api: DeriveApi, stashIds: AccountId[], activeEra: EraInde
       )
       : of(stashIds.map(() => emptyClaimedRewards)),
     withExposureErasStakersLegacy && api.query.staking.erasStakers
-      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakers(activeEra, s)))
+      ? combineLatest(stashIds.map((s) => api.query.staking.erasStakers(exposureEra, s)))
       : of(stashIds.map(() => emptyExpoEraStakers))
   ]);
 }
 
-function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags, page: u32 | AnyNumber): Observable<DeriveStakingQuery[]> {
-  return getStashInfo(api, stashIds, activeEra, flags, page).pipe(
+function getBatch (api: DeriveApi, activeEra: EraIndex, exposureEra: EraIndex, stashIds: AccountId[], flags: StakingQueryFlags, page: u32 | AnyNumber): Observable<DeriveStakingQuery[]> {
+  return getStashInfo(api, stashIds, activeEra, exposureEra, flags, page).pipe(
     switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta, claimedRewardsEras, exposureEraStakers]): Observable<DeriveStakingQuery[]> =>
       getLedgers(api, controllerIdOpt, flags).pipe(
         map((stakingLedgerOpts) =>
           stashIds.map((stashId, index) =>
-            parseDetails(api, stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index], exposureEraStakers[index])
+            parseDetails(api, stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index], exposureEraStakers[index], exposureEra)
           )
         )
       )
@@ -189,6 +190,7 @@ function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], f
  * @param { Uint8Array | string } accountId The stash account to query.
  * @param { StakingQueryFlags } flags Flags to customize the query.
  * @param { u32 } page (Optional) pagination parameter.
+ * @param { EraIndex } era (Optional) era to resolve the exposure against, defaults to the active era.
  * @description Retrieves staking details for a given stash account.
  * @example
  * ```javascript
@@ -199,8 +201,8 @@ function getBatch (api: DeriveApi, activeEra: EraIndex, stashIds: AccountId[], f
  * ```
  */
 export const query = /*#__PURE__*/ firstMemo(
-  (api: DeriveApi, accountId: Uint8Array | string, flags: StakingQueryFlags, page?: u32) =>
-    api.derive.staking.queryMulti([accountId], flags, page)
+  (api: DeriveApi, accountId: Uint8Array | string, flags: StakingQueryFlags, page?: u32, era?: EraIndex) =>
+    api.derive.staking.queryMulti([accountId], flags, page, era)
 );
 
 /**
@@ -208,21 +210,22 @@ export const query = /*#__PURE__*/ firstMemo(
  * @param { (Uint8Array | string)[] } accountIds List of stash accounts to query.
  * @param { StakingQueryFlags } flags Flags to customize the query.
  * @param { u32 } page (Optional) pagination parameter.
+ * @param { EraIndex } era (Optional) era to resolve the exposure against, defaults to the active era.
  * @description Retrieves staking details for multiple stash accounts.
  * @example
  * ```javascript
  * const stakingInfos = await api.derive.staking.queryMulti([stashId1, stashId2], {});
  * ```
  */
-export function queryMulti (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags, page?: u32 | AnyNumber) => Observable<DeriveStakingQuery[]> {
-  return memo(instanceId, (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags, page?: u32 | AnyNumber): Observable<DeriveStakingQuery[]> =>
+export function queryMulti (instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags, page?: u32 | AnyNumber, era?: EraIndex) => Observable<DeriveStakingQuery[]> {
+  return memo(instanceId, (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags, page?: u32 | AnyNumber, era?: EraIndex): Observable<DeriveStakingQuery[]> =>
     api.derive.session.indexes().pipe(
       switchMap(({ activeEra }): Observable<DeriveStakingQuery[]> => {
         const stashIds = accountIds.map((a) => api.registry.createType('AccountId', a));
         const p = page || 0;
 
         return stashIds.length
-          ? getBatch(api, activeEra, stashIds, flags, p)
+          ? getBatch(api, activeEra, era || activeEra, stashIds, flags, p)
           : of([]);
       })
     )
