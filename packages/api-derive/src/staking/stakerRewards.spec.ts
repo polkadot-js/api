@@ -16,6 +16,15 @@ const PAID = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 const OWED = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
 const ERA = 100;
 
+// Both generations are live across the chains we support, so every case runs against each.
+//  - paged:  staking.claimedRewards records the paid eras (surfaced as claimedRewardsEras)
+//            and exposure is SpStakingExposurePage
+//  - legacy: claimedRewardsEras is always empty, the paid eras live on the validator's
+//            ledger.legacyClaimedRewards, and exposure is SpStakingExposure
+const GENERATIONS = ['paged', 'legacy'] as const;
+
+type Generation = typeof GENERATIONS[number];
+
 describe('staking _stakerRewards', () => {
   let api: ApiPromise;
 
@@ -23,15 +32,17 @@ describe('staking _stakerRewards', () => {
     api = createApiWithAugmentations();
   });
 
-  // A nominator backing `backing` in ERA. Any validator in `paid` has had every page of
-  // the era paid out, i.e. it appears in its own claimedRewardsEras.
-  function mockApi (backing: string[], paid: string[]): DeriveApi {
+  function exposureFor (generation: Generation) {
+    const others = [{ value: 1_000_000, who: NOMINATOR }];
+
+    return generation === 'paged'
+      ? api.registry.createType('SpStakingExposurePage', { others, pageTotal: 6_000_000 })
+      : api.registry.createType('Exposure', { others, own: 5_000_000, total: 6_000_000 });
+  }
+
+  // `backing` is who the nominator backs in ERA, `paid` is who has fully paid it out
+  function mockApi (generation: Generation, backing: string[], paid: string[]): DeriveApi {
     const era = api.registry.createType('EraIndex', ERA);
-    const exposure = () => api.registry.createType('Exposure', {
-      others: [{ value: 1_000_000, who: NOMINATOR }],
-      own: 5_000_000,
-      total: 6_000_000
-    });
 
     return {
       derive: {
@@ -41,8 +52,10 @@ describe('staking _stakerRewards', () => {
             isEmpty: false,
             isValidator: false,
             nominating: backing.map((validatorId) => ({ validatorId, validatorIndex: 0 })),
-            validators: Object.fromEntries(backing.map((v) => [v, exposure()]))
+            validators: Object.fromEntries(backing.map((v) => [v, exposureFor(generation)]))
           }]]),
+          // the era amounts are nominal - nothing here asserts a computed reward, they only
+          // need to be non-zero so parseRewards does not treat the era as empty
           _stakerRewardsEras: () => of([
             [{ era, eraPoints: api.registry.createType('u32', 100), validators: Object.fromEntries(backing.map((v) => [v, api.registry.createType('u32', 50)])) }],
             [{ era, validators: Object.fromEntries(backing.map((v) => [v, { commission: api.registry.createType('Compact<Perbill>', 0) }])) }],
@@ -51,12 +64,18 @@ describe('staking _stakerRewards', () => {
           queryMulti: (ids: (Uint8Array | string)[]) => of(ids.map((id) => {
             const accountId = api.registry.createType('AccountId', id);
             const address = accountId.toString();
+            const isPaid = paid.includes(address);
 
             return {
               accountId,
-              // a nominator has no claimedRewards of its own, the validators carry them
-              claimedRewardsEras: api.registry.createType('Vec<u32>', paid.includes(address) ? [ERA] : []),
-              stakingLedger: api.registry.createType('PalletStakingStakingLedger', { active: 1, stash: address, total: 1 }),
+              // a nominator never has claimed eras of its own, the validators carry them
+              claimedRewardsEras: api.registry.createType('Vec<u32>', (generation === 'paged') && isPaid ? [ERA] : []),
+              stakingLedger: api.registry.createType('PalletStakingStakingLedger', {
+                active: 1,
+                legacyClaimedRewards: (generation === 'legacy') && isPaid ? [ERA] : [],
+                stash: address,
+                total: 1
+              }),
               stashId: accountId
             };
           }))
@@ -66,47 +85,49 @@ describe('staking _stakerRewards', () => {
     } as unknown as DeriveApi;
   }
 
-  function rewardsFor (backing: string[], paid: string[]): Promise<DeriveStakerReward[]> {
+  function rewardsFor (generation: Generation, backing: string[], paid: string[]): Promise<DeriveStakerReward[]> {
     return firstValueFrom(
-      _stakerRewards('', mockApi(backing, paid))([NOMINATOR], [api.registry.createType('EraIndex', ERA)], false)
+      _stakerRewards('', mockApi(generation, backing, paid))([NOMINATOR], [api.registry.createType('EraIndex', ERA)], false)
     ).then(([rewards]) => rewards);
   }
 
-  it('keeps an era unclaimed while any backed validator still owes it', async () => {
-    const rewards = await rewardsFor([PAID, OWED], [PAID]);
+  for (const generation of GENERATIONS) {
+    describe(`${generation} rewards`, () => {
+      it('keeps an era unclaimed while any backed validator still owes it', async () => {
+        const rewards = await rewardsFor(generation, [PAID, OWED], [PAID]);
 
-    expect(rewards).toHaveLength(1);
-    expect(rewards[0].isClaimed).toBe(false);
-  });
+        expect(rewards).toHaveLength(1);
+        expect(rewards[0].isClaimed).toBe(false);
+      });
 
-  it('does not depend on the order the validators are listed in', async () => {
-    const rewards = await rewardsFor([OWED, PAID], [PAID]);
+      it('does not depend on the order the validators are listed in', async () => {
+        const rewards = await rewardsFor(generation, [OWED, PAID], [PAID]);
 
-    expect(rewards).toHaveLength(1);
-    expect(rewards[0].isClaimed).toBe(false);
-  });
+        expect(rewards).toHaveLength(1);
+        expect(Object.keys(rewards[0].validators)).toEqual([OWED]);
+      });
 
-  it('drops the validators that have already paid, so only what is owed is reported', async () => {
-    const rewards = await rewardsFor([PAID, OWED], [PAID]);
+      it('drops the validators that have already paid, so only what is owed is reported', async () => {
+        const rewards = await rewardsFor(generation, [PAID, OWED], [PAID]);
+        // NOTE nominators is attached by filterRewards, it is not on DeriveStakerReward
+        const { nominators } = rewards[0] as unknown as { nominators: DeriveEraExposureNominating[] };
 
-    // NOTE nominators is attached by filterRewards, it is not on DeriveStakerReward
-    const { nominators } = rewards[0] as unknown as { nominators: DeriveEraExposureNominating[] };
+        expect(Object.keys(rewards[0].validators)).toEqual([OWED]);
+        expect(nominators.map(({ validatorId }) => validatorId)).toEqual([OWED]);
+      });
 
-    expect(Object.keys(rewards[0].validators)).toEqual([OWED]);
-    expect(nominators.map(({ validatorId }) => validatorId)).toEqual([OWED]);
-  });
+      it('drops the era entirely once every backed validator has paid', async () => {
+        const rewards = await rewardsFor(generation, [PAID, OWED], [PAID, OWED]);
 
-  it('drops the era entirely once every backed validator has paid', async () => {
-    const rewards = await rewardsFor([PAID, OWED], [PAID, OWED]);
+        expect(rewards).toHaveLength(0);
+      });
 
-    expect(rewards).toHaveLength(0);
-  });
+      it('reports the era when no validator has paid', async () => {
+        const rewards = await rewardsFor(generation, [PAID, OWED], []);
 
-  it('reports the era when no validator has paid', async () => {
-    const rewards = await rewardsFor([PAID, OWED], []);
-
-    expect(rewards).toHaveLength(1);
-    expect(rewards[0].isClaimed).toBe(false);
-    expect(Object.keys(rewards[0].validators).sort()).toEqual([PAID, OWED].sort());
-  });
+        expect(rewards).toHaveLength(1);
+        expect(Object.keys(rewards[0].validators).sort()).toEqual([PAID, OWED].sort());
+      });
+    });
+  }
 });
