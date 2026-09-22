@@ -123,9 +123,13 @@ function removeClaimed (validators: string[], queryValidators: DeriveStakingQuer
     const index = validators.indexOf(validatorId);
 
     if (index !== -1) {
-      const valLedger = queryValidators[index].stakingLedger;
+      const info = queryValidators[index];
+      // a validator is done with the era once every page has been paid out, which is what
+      // claimedRewardsEras reflects - fall back to the ledger for pre-paged-rewards chains
+      const isEraPaid = info.claimedRewardsEras?.toArray().some((e) => reward.era?.eq(e)) ||
+        extractCompatRewards(claimedRewardsEras, info.stakingLedger).some((e) => reward.era?.eq(e));
 
-      if (extractCompatRewards(claimedRewardsEras, valLedger).some((e) => reward.era?.eq(e))) {
+      if (isEraPaid) {
         rm.push(validatorId);
       }
     }
@@ -153,26 +157,14 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
       return true;
     })
     .filter(({ validators }) => Object.keys(validators).length !== 0)
-    .map((reward) => {
-      let isClaimed = reward.isClaimed;
-      const valKeys = Object.keys(reward.validators);
-
-      if (!reward.isClaimed && valKeys.length) {
-        for (const key of valKeys) {
-          const info = queryValidators.find((i) => i.accountId.toString() === key);
-
-          if (info) {
-            isClaimed = info.claimedRewardsEras?.toArray().some((era) => era.eq(reward.era));
-            break;
-          }
-        }
-      }
-
-      return objectSpread({}, reward, {
-        isClaimed,
+    .map((reward) =>
+      objectSpread({}, reward, {
+        // removeClaimed has dropped every validator that has paid the era, so anything
+        // left here is still owed - a fully paid era is filtered out above
+        isClaimed: Object.keys(reward.validators).length === 0,
         nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
-      });
-    });
+      })
+    );
 }
 
 export function _stakerRewardsEras (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive?: boolean) => Observable<ErasResult> {
