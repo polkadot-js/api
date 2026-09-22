@@ -122,6 +122,7 @@
        1	Nikolay Volf                  	Fix typo (#1730)
        1	Noah Corona                   	Add rpc error fields (#4637)
        1	Oleksandr Mykhailenko         	Add more complex namespaced contracts & test cases for them (#4472)
+       1	Paolo La Camera               	fix(api-derive): resolve staking exposure at the era the stash was elected for (#6278)
        1	Paul M Fox                    	Basic BTreeMaps codec support (#1474)
        1	philipstanislaus              	Update types for centrifuge chain v1.2.0 (#2424)
        1	Pierre Krieger                	Update substrate/connect to 0.7.6 (#4940)
