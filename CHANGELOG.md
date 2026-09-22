@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 17.0.1 Sep 22, 2026
+
+Breaking Changes:
+- `nock` and `mock-socket` are no longer production dependencies of `@polkadot/rpc-provider`, so they are no longer installed transitively by `@polkadot/api` consumers. This also clears nock's `url.parse()` deprecation (DEP0169) on Node 22+.
+- The undocumented internal test helpers deep-importable as `@polkadot/rpc-provider/mock/mockHttp` and `@polkadot/rpc-provider/mock/mockWs` are no longer published. The public `MockProvider` (`@polkadot/rpc-provider/mock`) is unaffected.
+
+Changes:
+
+- Only mark a nominator era claimed once every validator has paid ([#6280](https://github.com/polkadot-js/api/pull/6280))
+- fix(types-known): decode foreign-asset ChargeAssetTxPayment on Westend Asset Hub ([#6268](https://github.com/polkadot-js/api/pull/6268))
+- fix(rpc-provider)!: move nock to devDependencies so it no longer ships ([#6266](https://github.com/polkadot-js/api/pull/6266))
+- chore(metadata): update chain metadata and regenerate types to v16 ([#6265](https://github.com/polkadot-js/api/pull/6265))
+- fix: correct XCM VersionedMultiLocation V5 key and VersionedResponse enum ([#6264](https://github.com/polkadot-js/api/pull/6264))
+
+Contributions:
+
+- fix(api-derive): resolve staking exposure at the era the stash was elected for ([#6278](https://github.com/polkadot-js/api/pull/6278))
+- fix(rpc-provider): repair LRU list corruption when the tail entry is retrieved ([#6270](https://github.com/polkadot-js/api/pull/6270))
+- Add missing RPC methods for author_rotateKeysWithOwner and mmr_generateAncestryProof ([#6263](https://github.com/polkadot-js/api/pull/6263))
+
+
 ## 16.5.6 Mar 23, 2026
 
 Changes:
