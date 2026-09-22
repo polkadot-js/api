@@ -17,16 +17,20 @@ import { firstMemo, memo } from '../util/index.js';
 
 type ErasResult = [DeriveEraPoints[], DeriveEraPrefs[], DeriveEraRewards[]];
 
-// handle compatibility between generations of structures
-function extractCompatRewards (claimedRewardsEras: Vec<u32>, ledger?: PalletStakingStakingLedger): u32[] {
-  const l = ledger
+// the eras a ledger records as claimed - chains from before paged rewards keep them
+// here rather than in staking.claimedRewards
+function ledgerClaimedRewards (ledger?: PalletStakingStakingLedger): u32[] {
+  return (ledger
     ? (
       ledger.legacyClaimedRewards ||
     (ledger as PalletStakingStakingLedger & { claimedRewards: Vec<u32> }).claimedRewards
     )?.toArray()
-    : [] as unknown as Vec<u32>;
+    : [] as unknown as Vec<u32>) as u32[];
+}
 
-  return (claimedRewardsEras.toArray() || []).concat(l);
+// handle compatibility between generations of structures
+function extractCompatRewards (claimedRewardsEras: Vec<u32>, ledger?: PalletStakingStakingLedger): u32[] {
+  return (claimedRewardsEras.toArray() || []).concat(ledgerClaimedRewards(ledger));
 }
 
 function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPrefs, erasRewards]: ErasResult, exposures: DeriveStakerExposure[], claimedRewardsEras: Vec<u32>): DeriveStakerReward[] {
@@ -84,8 +88,8 @@ function parseRewards (api: DeriveApi, stashId: AccountId, [erasPoints, erasPref
     return {
       era,
       eraReward,
-      // This might not always be accurate as you need validator account information in order to see if the rewards have been claimed.
-      // This is possibly adjusted in `filterRewards` when need be.
+      // Only meaningful on the withActive path. Otherwise filterRewards drops any era the
+      // stash itself has claimed and recomputes this from the validators that still owe it.
       isClaimed: claimedRewardsEras.some((c) => c.eq(era)),
       isEmpty,
       isValidator,
@@ -116,16 +120,20 @@ function allUniqValidators (rewards: DeriveStakerReward[][]): [string[], string[
   }, [[], []]);
 }
 
-function removeClaimed (validators: string[], queryValidators: DeriveStakingQuery[], reward: DeriveStakerReward, claimedRewardsEras: Vec<u32>): void {
+function removeClaimed (validators: string[], queryValidators: DeriveStakingQuery[], reward: DeriveStakerReward): void {
   const rm: string[] = [];
 
   Object.keys(reward.validators).forEach((validatorId): void => {
     const index = validators.indexOf(validatorId);
 
     if (index !== -1) {
-      const valLedger = queryValidators[index].stakingLedger;
+      const info = queryValidators[index];
+      // a validator is done with the era once every page has been paid out, which is what
+      // claimedRewardsEras reflects - fall back to the ledger for pre-paged-rewards chains
+      const isEraPaid = info.claimedRewardsEras?.toArray().some((e) => reward.era?.eq(e)) ||
+        ledgerClaimedRewards(info.stakingLedger).some((e) => reward.era?.eq(e));
 
-      if (extractCompatRewards(claimedRewardsEras, valLedger).some((e) => reward.era?.eq(e))) {
+      if (isEraPaid) {
         rm.push(validatorId);
       }
     }
@@ -148,31 +156,19 @@ function filterRewards (eras: EraIndex[], valInfo: [string, DeriveStakingQuery][
         return false;
       }
 
-      removeClaimed(validators, queryValidators, reward, claimedRewardsEras);
+      removeClaimed(validators, queryValidators, reward);
 
       return true;
     })
     .filter(({ validators }) => Object.keys(validators).length !== 0)
-    .map((reward) => {
-      let isClaimed = reward.isClaimed;
-      const valKeys = Object.keys(reward.validators);
-
-      if (!reward.isClaimed && valKeys.length) {
-        for (const key of valKeys) {
-          const info = queryValidators.find((i) => i.accountId.toString() === key);
-
-          if (info) {
-            isClaimed = info.claimedRewardsEras?.toArray().some((era) => era.eq(reward.era));
-            break;
-          }
-        }
-      }
-
-      return objectSpread({}, reward, {
-        isClaimed,
+    .map((reward) =>
+      objectSpread({}, reward, {
+        // removeClaimed has dropped every validator that paid the era and the filter above
+        // removed any reward left with none, so whatever reaches here is still owed
+        isClaimed: false,
         nominators: reward.nominating.filter((n) => reward.validators[n.validatorId])
-      });
-    });
+      })
+    );
 }
 
 export function _stakerRewardsEras (instanceId: string, api: DeriveApi): (eras: EraIndex[], withActive?: boolean) => Observable<ErasResult> {
