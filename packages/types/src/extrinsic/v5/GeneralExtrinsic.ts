@@ -57,7 +57,13 @@ export class GeneralExtrinsic extends Struct {
   #preamble: number;
 
   constructor (registry: Registry, value?: GeneralExtrinsicValue | Uint8Array | HexString, opt?: { version: number }) {
-    const extTypes = registry.getSignedExtensionTypes();
+    const decoded = GeneralExtrinsic.decodeExtrinsic(registry, value);
+    const transactionExtensionVersion = isU8a(decoded)
+      ? decoded[0]
+      : isObject(decoded) && 'transactionExtensionVersion' in decoded
+        ? Number(decoded['transactionExtensionVersion'])
+        : undefined;
+    const extTypes = registry.getSignedExtensionTypes(transactionExtensionVersion);
 
     super(registry, objectSpread(
       {
@@ -67,7 +73,7 @@ export class GeneralExtrinsic extends Struct {
       {
         method: 'Call'
       }
-    ), GeneralExtrinsic.decodeExtrinsic(registry, value));
+    ), decoded);
 
     this.#version = opt?.version || 0b00000101;
     this.#preamble = 0b01000000;
