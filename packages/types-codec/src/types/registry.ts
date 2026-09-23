@@ -73,7 +73,7 @@ export interface Registry {
   getOrUnknown <T extends Codec = Codec, K extends string = string> (name: K): CodecClass<T>;
   getTransactionExtensionVersion (): number;
   getSignedExtensionExtra (): Record<string, string>;
-  getSignedExtensionTypes (): Record<string, string>;
+  getSignedExtensionTypes (transactionExtensionVersion?: number): Record<string, string>;
 
   hasClass (name: string): boolean;
   hasDef (name: string): boolean;

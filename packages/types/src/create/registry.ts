@@ -450,7 +450,27 @@ export class TypeRegistry implements Registry {
     return expandExtensionTypes(this.#signedExtensions, 'payload', this.#userExtensions);
   }
 
-  public getSignedExtensionTypes (): Record<string, string> {
+  public getSignedExtensionTypes (transactionExtensionVersion?: number): Record<string, string> {
+    const extrinsic = this.#metadata?.extrinsic;
+    const extensionIndexes = transactionExtensionVersion === undefined
+      ? undefined
+      : [...(extrinsic?.transactionExtensionsByVersion || [])]
+        .find(([version]) => version.toNumber() === transactionExtensionVersion)?.[1];
+
+    if (extensionIndexes && extrinsic) {
+      return extensionIndexes.reduce<Record<string, string>>((result, index) => {
+        const { identifier, type } = extrinsic.transactionExtensions[index.toNumber()];
+        const extension = identifier.toString();
+
+        return objectSpread(
+          result,
+          findUnknownExtensions([extension], this.#userExtensions).length
+            ? { [extension]: this.createLookupType(type) }
+            : expandExtensionTypes([extension], 'extrinsic', this.#userExtensions)
+        );
+      }, {});
+    }
+
     return expandExtensionTypes(this.#signedExtensions, 'extrinsic', this.#userExtensions);
   }
 
