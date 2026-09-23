@@ -1,5 +1,5 @@
     3512	Jaco                          	Bump deps (#5785)
-     175	Tarik Gul                     	Only mark a nominator era claimed once every validator has paid (#6280)
+     176	Tarik Gul                     	17.0.1 (#6281)
       83	Amaury Martiny                	StatementKind: Regular and Saft (#2303)
       58	Valentin Fernandez            	16.4.9 (#6217)
       37	Keith Ingram                  	Update contract types and rpc (#4541)
