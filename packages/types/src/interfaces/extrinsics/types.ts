@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { GenericExtrinsic, GenericExtrinsicEra, GenericExtrinsicPayload, GenericExtrinsicPayloadUnknown, GenericExtrinsicPayloadV4, GenericExtrinsicPayloadV5, GenericExtrinsicSignatureV4, GenericExtrinsicSignatureV5, GenericExtrinsicUnknown, GenericExtrinsicV4, GenericExtrinsicV5, GenericImmortalEra, GenericMortalEra, GenericSignerPayload } from '@polkadot/types';
-import type { Enum, U8aFixed } from '@polkadot/types-codec';
-import type { H512 } from '@polkadot/types/interfaces/runtime';
+import type { Enum, Struct, U8aFixed } from '@polkadot/types-codec';
+import type { AccountId, H512 } from '@polkadot/types/interfaces/runtime';
 
 /** @name AnySignature */
 export interface AnySignature extends H512 {}
@@ -78,5 +78,16 @@ export interface SignerPayload extends GenericSignerPayload {}
 
 /** @name Sr25519Signature */
 export interface Sr25519Signature extends H512 {}
+
+/** @name VerifyMultiSignature */
+export interface VerifyMultiSignature extends Enum {
+  readonly isSigned: boolean;
+  readonly asSigned: {
+    readonly signature: MultiSignature;
+    readonly account: AccountId;
+  } & Struct;
+  readonly isDisabled: boolean;
+  readonly type: 'Signed' | 'Disabled';
+}
 
 export type PHANTOM_EXTRINSICS = 'extrinsics';
