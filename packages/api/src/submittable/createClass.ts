@@ -5,7 +5,7 @@
 
 import type { Observable } from 'rxjs';
 import type { Address, ApplyExtrinsicResult, Call, Extrinsic, ExtrinsicEra, ExtrinsicStatus, Hash, Header, Index, RuntimeDispatchInfo, SignerPayload } from '@polkadot/types/interfaces';
-import type { Callback, Codec, CodecClass, ISubmittableResult, SignatureOptions } from '@polkadot/types/types';
+import type { Callback, Codec, CodecClass, ISubmittableResult, SignatureOptions, SignerPayloadJSON, TxPayloadV1 } from '@polkadot/types/types';
 import type { Registry } from '@polkadot/types-codec/types';
 import type { HexString } from '@polkadot/util/types';
 import type { ApiBase } from '../base/index.js';
@@ -14,10 +14,23 @@ import type { AddressOrPair, SignerOptions, SubmittableDryRunResult, Submittable
 
 import { catchError, first, map, mergeMap, of, switchMap, tap } from 'rxjs';
 
-import { identity, isBn, isFunction, isNumber, isString, isU8a, objectSpread } from '@polkadot/util';
+import { identity, isBn, isFunction, isNumber, isString, isU8a, objectSpread, u8aConcatStrict, u8aToHex } from '@polkadot/util';
 
 import { filterEvents, isKeyringPair } from '../util/index.js';
 import { SubmittableResult } from './Result.js';
+
+// Assembles the SCALE-encoded `extra`/`additionalSigned` hex for a single signed
+// extension from the resolved SignerPayload JSON. Each field is encoded per its
+// metadata-defined type, using the exact same values (and resolution, e.g.
+// specVersion/transactionVersion from the runtime version) that go into the signed
+// ExtrinsicPayload - so the emitted bytes can never diverge from the actual signing.
+function encodeExtensionFields (registry: Registry, json: SignerPayloadJSON, fields: Record<string, string>): HexString {
+  return u8aToHex(u8aConcatStrict(
+    Object
+      .entries(fields)
+      .map(([name, type]) => registry.createTypeUnsafe(type, [(json as unknown as Record<string, unknown>)[name]]).toU8a())
+  ));
+}
 
 interface SubmittableOptions<ApiType extends ApiTypes> {
   api: ApiInterfaceRx;
@@ -339,6 +352,37 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
       );
     };
 
+    /**
+     * @description Builds the forward-compatible `TxPayloadV1` (RFC #6213) from the
+     * already-constructed `SignerPayload`. Every signed extension is described
+     * explicitly via its metadata-defined `extra`/`additionalSigned` (assembled
+     * generically from the same payload used for signing), so it stays resilient to
+     * custom extensions and forward-compatible with Extrinsic V5.
+     */
+    #createTxPayloadV1 = (payload: SignerPayload): TxPayloadV1 => {
+      const registry = this.registry;
+      const json = payload.toPayload();
+
+      return {
+        callData: payload.method.toHex(),
+        context: {
+          bestBlockHeight: payload.blockNumber.toNumber(),
+          metadata: api.runtimeMetadata.toHex(),
+          tokenDecimals: registry.chainDecimals[0],
+          tokenSymbol: registry.chainTokens[0]
+        },
+        extensions: registry.getSignedExtensionsPerExtension().map(({ additional, extra, identifier }) => ({
+          additionalSigned: encodeExtensionFields(registry, json, additional),
+          extra: encodeExtensionFields(registry, json, extra),
+          id: identifier
+        })),
+        signer: payload.address.toString(),
+        // V4 has no transaction extension version; for V5 use the runtime-supported version
+        txExtVersion: api.extrinsicType === 4 ? 0 : registry.getTransactionExtensionVersion(),
+        version: 1
+      };
+    };
+
     #signViaSigner = async (address: Address | string | Uint8Array, options: SignatureOptions, header: Header | null): Promise<SignerInfo> => {
       const signer = options.signer || api.signer;
       const allowCallDataAlteration = options.allowCallDataAlteration ?? true;
@@ -352,6 +396,24 @@ export function createClass <ApiType extends ApiTypes> ({ api, apiType, blockHas
         blockNumber: header ? header.number : 0,
         method: this.method
       })]);
+
+      // Prefer the new, forward-compatible `createTransaction` interface when the signer
+      // exposes it. The signer resolves/composes the full extension set, signs, and returns
+      // the finished, SCALE-encoded extrinsic - which we submit as-is (reusing the same
+      // `signedTransaction` path as `withSignedTransaction`).
+      if (isFunction(signer.createTransaction)) {
+        const signedTransaction = await signer.createTransaction(this.#createTxPayloadV1(payload));
+        // decode to ensure the signer returned a well-formed extrinsic; when call-data
+        // alteration is disallowed, also verify the signer did not change the call
+        const ext = this.registry.createTypeUnsafe<Extrinsic>('Extrinsic', [signedTransaction]);
+
+        if (!allowCallDataAlteration) {
+          this.#validateSignedTransaction(payload, ext);
+        }
+
+        return { id: Date.now(), signedTransaction };
+      }
+
       let result: SignerResult;
 
       if (isFunction(signer.signPayload)) {
