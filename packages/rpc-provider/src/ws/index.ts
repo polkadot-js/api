@@ -453,7 +453,14 @@ export class WsProvider implements ProviderInterface {
   };
 
   #onSocketClose = (event: CloseEvent): void => {
-    const error = new Error(`disconnected from ${this.endpoint}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`);
+    const error = new Error(`disconnected from ${this.endpoint}: ${event.code}:: ${event.reason || getWSErrorString(event.code)}`) as Error & { isNormalClose?: boolean };
+
+    // a normal (1000) close - e.g. a user-initiated `disconnect()` - is a
+    // deliberate teardown, not an error. Mark it so that downstream consumers
+    // (e.g. rpc-core) don't error-log the rejection of pending requests
+    if (event.code === 1000) {
+      error.isNormalClose = true;
+    }
 
     if (this.#autoConnectMs > 0) {
       l.error(error.message);
