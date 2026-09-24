@@ -59,7 +59,7 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
 
     if (this.supportMulti) {
       this._queryMulti = this._decorateMulti(this._decorateMethod);
-      this._rx.queryMulti = this._decorateMulti(this._rxDecorateMethod);
+      this._rx.queryMulti = this._decorateMulti<'rxjs'>(this._rxDecorateMethod);
     }
 
     this._rx.signer = options.signer;
