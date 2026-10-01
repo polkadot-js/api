@@ -18,22 +18,22 @@
     "./packageDetect.cjs"
   ],
   "type": "module",
-  "version": "17.0.2-1-x",
+  "version": "17.0.2-2-x",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api": "17.0.2-1-x",
-    "@polkadot/api-augment": "17.0.2-1-x",
-    "@polkadot/types": "17.0.2-1-x",
-    "@polkadot/types-codec": "17.0.2-1-x",
-    "@polkadot/types-create": "17.0.2-1-x",
+    "@polkadot/api": "17.0.2-2-x",
+    "@polkadot/api-augment": "17.0.2-2-x",
+    "@polkadot/types": "17.0.2-2-x",
+    "@polkadot/types-codec": "17.0.2-2-x",
+    "@polkadot/types-create": "17.0.2-2-x",
     "@polkadot/util": "^14.0.3",
     "@polkadot/util-crypto": "^14.0.3",
     "rxjs": "^7.8.1",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@polkadot/api-augment": "17.0.2-1-x",
+    "@polkadot/api-augment": "17.0.2-2-x",
     "@polkadot/keyring": "^14.0.3",
-    "@polkadot/types-support": "17.0.2-1-x"
+    "@polkadot/types-support": "17.0.2-2-x"
   }
 }
