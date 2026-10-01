@@ -5,13 +5,14 @@
 
 import '@polkadot/api-augment';
 
+import type { QueryableStorageMultiArg } from '@polkadot/api-base/types';
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { TestKeyringMapSubstrate } from '@polkadot/keyring/testingPairs';
-import type { StorageKey } from '@polkadot/types';
+import type { StorageKey, u64, Vec } from '@polkadot/types';
 import type { AccountId, Balance, DispatchErrorModule, Event, Header, Index } from '@polkadot/types/interfaces';
-import type { FrameSystemAccountInfo } from '@polkadot/types/lookup';
-import type { AnyTuple, IExtrinsic, IMethod } from '@polkadot/types/types';
-import type { SubmittableResult } from './index.js';
+import type { FrameSystemAccountInfo, FrameSystemEventRecord } from '@polkadot/types/lookup';
+import type { AnyTuple, Codec, IExtrinsic, IMethod } from '@polkadot/types/types';
+import type { ApiRx, SubmittableResult } from './index.js';
 
 import { ApiPromise } from '@polkadot/api';
 import { createTestPairs } from '@polkadot/keyring/testingPairs';
@@ -173,32 +174,135 @@ async function queryExtra (api: ApiPromise): Promise<void> {
 async function queryMulti (api: ApiPromise, pairs: TestKeyringMapSubstrate): Promise<void> {
   // check multi for unsub
   const multiUnsub = await api.queryMulti([
-    [api.query.staking.validators],
-    [api.query.system.events]
-  ], (values): void => {
-    console.log('values', values);
+    api.query.timestamp.now,
+    [api.query.system.account, pairs.eve.address],
+    api.query.system.events
+  ], ([now, account, events]): void => {
+    const typedNow: u64 = now;
+    const typedAccount: FrameSystemAccountInfo = account;
+    const typedEvents: Vec<FrameSystemEventRecord> = events;
+
+    console.log(typedNow, typedAccount, typedEvents);
 
     multiUnsub();
   });
 
   // check multi , Promise result
-  const multiRes = await api.queryMulti([
+  const [now, account, events] = await api.queryMulti([
+    api.query.timestamp.now,
     [api.query.system.account, pairs.eve.address],
-    // older chains only
-    [api.query.system['accountNonce'], pairs.eve.address]
+    api.query.system.events
   ]);
 
-  console.log(multiRes);
+  const typedNow: u64 = now;
+  const typedAccount: FrameSystemAccountInfo = account;
+  const typedEvents: Vec<FrameSystemEventRecord> = events;
+
+  console.log(typedNow, typedAccount, typedEvents);
+
+  // check explicit result overrides
+  const [totalIssuance] = await api.queryMulti<[Balance]>([
+    api.query.balances.totalIssuance
+  ]);
+
+  console.log(totalIssuance.toBn());
+
+  const explicitUnsub = await api.queryMulti<[Balance]>([
+    api.query.balances.totalIssuance
+  ], ([issuance]): void => {
+    console.log(issuance.toBn());
+  });
+
+  explicitUnsub();
+
+  // check mutable arrays retain generic Codec results
+  const mutableCalls: QueryableStorageMultiArg<'promise'>[] = [
+    api.query.timestamp.now,
+    [api.query.system.account, pairs.eve.address]
+  ];
+  const mutableResults: Codec[] = await api.queryMulti(mutableCalls);
+
+  console.log(mutableResults);
+
+  // check tuple unions retain generic Codec results
+  const tupleUnion: [typeof api.query.timestamp.now] | [typeof api.query.system.events] = api.runtimeVersion.specVersion.isZero()
+    ? [api.query.timestamp.now]
+    : [api.query.system.events];
+  const readonlyTupleUnion: readonly [typeof api.query.timestamp.now] | readonly [typeof api.query.system.events] = tupleUnion;
+  const tupleUnionResults: Codec[] = await api.queryMulti(tupleUnion);
+  const readonlyTupleUnionResults: Codec[] = await api.queryMulti(readonlyTupleUnion);
+  const tupleUnionUnsub = await api.queryMulti(tupleUnion, (values: Codec[]): void => {
+    console.log(values);
+  });
+
+  tupleUnionUnsub();
+  console.log(tupleUnionResults, readonlyTupleUnionResults);
+
+  // check mutable tuples retain positional inference
+  const tupleCalls: [
+    typeof api.query.timestamp.now,
+    [typeof api.query.system.account, string]
+  ] = [
+    api.query.timestamp.now,
+    [api.query.system.account, pairs.eve.address]
+  ];
+  const [tupleNow, tupleAccount] = await api.queryMulti(tupleCalls);
+  const typedTupleNow: u64 = tupleNow;
+  const typedTupleAccount: FrameSystemAccountInfo = tupleAccount;
+
+  console.log(typedTupleNow, typedTupleAccount);
+
+  // check readonly tuples retain positional inference
+  const readonlyCalls = [
+    api.query.timestamp.now,
+    [api.query.system.account, pairs.eve.address]
+  ] as const;
+  const readonlyResults: [u64, FrameSystemAccountInfo] = await api.queryMulti(readonlyCalls);
+  const emptyResults: [] = await api.queryMulti([]);
+
+  console.log(readonlyResults, emptyResults);
 
   // check multi, via at
   const apiAt = await api.at('0x12345678');
-  const multiResAt = await apiAt.queryMulti([
-    api.query.timestamp.now,
-    [apiAt.query.staking.validators],
-    [apiAt.query.system.account, pairs.eve.address]
+  const [nowAt, accountAt, eventsAt] = await apiAt.queryMulti([
+    apiAt.query.timestamp.now,
+    [apiAt.query.system.account, pairs.eve.address],
+    apiAt.query.system.events
   ]);
 
-  console.log(multiResAt);
+  const typedNowAt: u64 = nowAt;
+  const typedAccountAt: FrameSystemAccountInfo = accountAt;
+  const typedEventsAt: Vec<FrameSystemEventRecord> = eventsAt;
+
+  console.log(typedNowAt, typedAccountAt, typedEventsAt);
+}
+
+export function queryMultiRx (api: ApiRx, pairs: TestKeyringMapSubstrate): void {
+  api.queryMulti([
+    api.query.timestamp.now,
+    [api.query.system.account, pairs.eve.address],
+    api.query.system.events
+  ]).subscribe(([now, account, events]): void => {
+    const typedNow: u64 = now;
+    const typedAccount: FrameSystemAccountInfo = account;
+    const typedEvents: Vec<FrameSystemEventRecord> = events;
+
+    console.log(typedNow, typedAccount, typedEvents);
+  });
+
+  api.queryMulti<[Balance]>([
+    api.query.balances.totalIssuance
+  ]).subscribe(([issuance]): void => {
+    console.log(issuance.toBn());
+  });
+
+  const tupleUnion: [typeof api.query.timestamp.now] | [typeof api.query.system.events] = api.runtimeVersion.specVersion.isZero()
+    ? [api.query.timestamp.now]
+    : [api.query.system.events];
+
+  api.queryMulti(tupleUnion).subscribe((values: Codec[]): void => {
+    console.log(values);
+  });
 }
 
 async function rpc (api: ApiPromise): Promise<void> {
