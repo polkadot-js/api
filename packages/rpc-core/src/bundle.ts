@@ -58,7 +58,9 @@ const RPC_CORE_DEFAULT_CAPACITY = 1024 * 10 * 10;
 // utility method to create a nicely-formatted error
 /** @internal */
 function logErrorMessage (method: string, { noErrorLog, params, type }: DefinitionRpc, error: Error): void {
-  if (noErrorLog) {
+  // a normal (1000) close - e.g. a user-initiated `disconnect()` - is a deliberate
+  // teardown, not a genuine error. Skip the error-log for pending request rejections
+  if (noErrorLog || (error as Error & { isNormalClose?: boolean }).isNormalClose) {
     return;
   }
 
