@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 17.0.2 Oct 1, 2026
+
+Changes:
+
+- Drop the duplicate queryMulti arg type, `QueryableStorageMultiArg` is now a `readonly` tuple ([#6284](https://github.com/polkadot-js/api/pull/6284))
+
+Contributions:
+
+- fix(api): infer queryMulti result types ([#6275](https://github.com/polkadot-js/api/pull/6275))
+- fix(api-derive): include erasValidatorIncentiveBudget in staking era rewards ([#6273](https://github.com/polkadot-js/api/pull/6273))
+- fix(types): decode versioned GeneralExtrinsic extensions ([#6282](https://github.com/polkadot-js/api/pull/6282))
+
+
 ## 17.0.1 Sep 22, 2026
 
 Breaking Changes:
