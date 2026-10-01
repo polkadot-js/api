@@ -89,10 +89,6 @@ export type QueryableModuleStorageAt<ApiType extends ApiTypes> = Record<string, 
 
 export type QueryableStorageMultiArg<ApiType extends ApiTypes> =
   QueryableStorageEntry<ApiType> |
-  [QueryableStorageEntry<ApiType>, ...unknown[]];
-
-type QueryableStorageMultiInput<ApiType extends ApiTypes> =
-  QueryableStorageEntry<ApiType> |
   readonly [QueryableStorageEntry<ApiType>, ...unknown[]];
 
 type QueryableStorageMultiCallResult<Call> =
@@ -104,11 +100,11 @@ type QueryableStorageMultiCallResult<Call> =
       ? R
       : Codec;
 
-type QueryableStorageMultiResult<ApiType extends ApiTypes, Calls extends readonly QueryableStorageMultiInput<ApiType>[]> = {
+type QueryableStorageMultiResult<ApiType extends ApiTypes, Calls extends readonly QueryableStorageMultiArg<ApiType>[]> = {
   -readonly [Index in keyof Calls]: QueryableStorageMultiCallResult<Calls[Index]>;
 };
 
-type QueryableStorageMultiReturn<ApiType extends ApiTypes, T extends Codec[], Calls extends readonly QueryableStorageMultiInput<ApiType>[]> =
+type QueryableStorageMultiReturn<ApiType extends ApiTypes, T extends Codec[], Calls extends readonly QueryableStorageMultiArg<ApiType>[]> =
   [T] extends [never]
     ? QueryableStorageMultiResult<ApiType, Calls>
     : T;
@@ -116,22 +112,22 @@ type QueryableStorageMultiReturn<ApiType extends ApiTypes, T extends Codec[], Ca
 export interface QueryableStorageMultiBase<ApiType extends ApiTypes> {
   <
     T extends Codec[] = never,
-    Calls extends readonly QueryableStorageMultiInput<ApiType>[] = readonly QueryableStorageMultiInput<ApiType>[]
+    Calls extends readonly QueryableStorageMultiArg<ApiType>[] = readonly QueryableStorageMultiArg<ApiType>[]
   >(calls: readonly [...Calls]): Observable<QueryableStorageMultiReturn<ApiType, T, Calls>>;
-  <T extends Codec[] = Codec[]>(calls: readonly QueryableStorageMultiInput<ApiType>[]): Observable<T>;
+  <T extends Codec[] = Codec[]>(calls: readonly QueryableStorageMultiArg<ApiType>[]): Observable<T>;
 }
 
 export interface QueryableStorageMultiPromise<ApiType extends ApiTypes> {
   <
     T extends Codec[] = never,
-    Calls extends readonly QueryableStorageMultiInput<ApiType>[] = readonly QueryableStorageMultiInput<ApiType>[]
+    Calls extends readonly QueryableStorageMultiArg<ApiType>[] = readonly QueryableStorageMultiArg<ApiType>[]
   >(calls: readonly [...Calls], callback: Callback<QueryableStorageMultiReturn<ApiType, T, Calls>>): UnsubscribePromise;
-  <T extends Codec[] = Codec[]>(calls: readonly QueryableStorageMultiInput<ApiType>[], callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec[] = Codec[]>(calls: readonly QueryableStorageMultiArg<ApiType>[], callback: Callback<T>): UnsubscribePromise;
   <
     T extends Codec[] = never,
-    Calls extends readonly QueryableStorageMultiInput<ApiType>[] = readonly QueryableStorageMultiInput<ApiType>[]
+    Calls extends readonly QueryableStorageMultiArg<ApiType>[] = readonly QueryableStorageMultiArg<ApiType>[]
   >(calls: readonly [...Calls]): Promise<QueryableStorageMultiReturn<ApiType, T, Calls>>;
-  <T extends Codec[] = Codec[]>(calls: readonly QueryableStorageMultiInput<ApiType>[]): Promise<T>;
+  <T extends Codec[] = Codec[]>(calls: readonly QueryableStorageMultiArg<ApiType>[]): Promise<T>;
 }
 
 export type QueryableStorageMulti<ApiType extends ApiTypes> =
