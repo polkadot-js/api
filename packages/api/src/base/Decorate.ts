@@ -666,13 +666,13 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
           ? this._rpcCore.state.subscribeStorage
           : this._rpcCore.state.queryStorageAt
         )(keys.map((args: QueryableStorageMultiArg<ApiType>): [StorageEntry, ...unknown[]] =>
-          Array.isArray(args)
-            ? args[0].creator.meta.type.isPlain
+          'creator' in args
+            ? [args.creator]
+            : args[0].creator.meta.type.isPlain
               ? [args[0].creator]
               : args[0].creator.meta.type.asMap.hashers.length === 1
                 ? [args[0].creator, args.slice(1)]
                 : [args[0].creator, ...args.slice(1)]
-            : [args.creator]
         ))
         : of([])
     );
@@ -684,17 +684,17 @@ export abstract class Decorate<ApiType extends ApiTypes> extends Events {
       calls.length
         ? this._rpcCore.state.queryStorageAt(
           calls.map((args: QueryableStorageMultiArg<ApiType>) => {
-            if (Array.isArray(args)) {
-              const { creator } = getAtQueryFn(atApi, args[0].creator);
-
-              return creator.meta.type.isPlain
-                ? [creator]
-                : creator.meta.type.asMap.hashers.length === 1
-                  ? [creator, args.slice(1)]
-                  : [creator, ...args.slice(1)];
+            if ('creator' in args) {
+              return [getAtQueryFn(atApi, args.creator).creator];
             }
 
-            return [getAtQueryFn(atApi, args.creator).creator];
+            const { creator } = getAtQueryFn(atApi, args[0].creator);
+
+            return creator.meta.type.isPlain
+              ? [creator]
+              : creator.meta.type.asMap.hashers.length === 1
+                ? [creator, args.slice(1)]
+                : [creator, ...args.slice(1)];
           }),
           blockHash)
         : of([])
