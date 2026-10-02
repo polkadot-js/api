@@ -37,6 +37,15 @@ export default {
       }
     },
     Signature: 'H512',
+    VerifyMultiSignature: {
+      _enum: {
+        Signed: {
+          signature: 'MultiSignature',
+          account: 'AccountId'
+        },
+        Disabled: 'Null'
+      }
+    },
     SignerPayload: 'GenericSignerPayload',
     EcdsaSignature: '[u8; 65]',
     Ed25519Signature: 'H512',

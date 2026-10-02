@@ -71,5 +71,11 @@ export const substrate: ExtDef = {
   LockStakingStatus: emptyCheck,
   SkipCheckIfFeeless: ChargeTransactionPayment,
   ValidateEquivocationReport: emptyCheck,
+  VerifyMultiSignature: {
+    extrinsic: {
+      verifySignature: 'VerifyMultiSignature'
+    },
+    payload: {}
+  },
   WeightReclaim: emptyCheck
 };
