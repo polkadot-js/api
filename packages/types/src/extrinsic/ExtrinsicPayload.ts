@@ -51,10 +51,11 @@ const PREAMBLES = {
 export function decodeAssetId (registry: Registry, payload?: ExtrinsicPayloadValue | Uint8Array | HexString) {
   const maybeAsset = (payload as ExtrinsicPayloadValue)?.assetId;
 
-  if (maybeAsset && isHex(maybeAsset)) {
+  // we only want to adjust the payload if the hex passed has the option,
+  // i.e. it starts with a valid 0x00 (None) or 0x01 (Some) prefix
+  if (maybeAsset && isHex(maybeAsset) && (maybeAsset.startsWith('0x00') || maybeAsset.startsWith('0x01'))) {
     const assetId = registry.createType('TAssetConversion', hexToU8a(maybeAsset));
 
-    // we only want to adjust the payload if the hex passed has the option
     if (maybeAsset === '0x00' || maybeAsset === '0x01' + assetId.toHex().slice(2)) {
       return {
         ...(payload as ExtrinsicPayloadValue),
