@@ -125,6 +125,13 @@ describe('Option', (): void => {
   testDecode('Uint8Array (with)', Uint8Array.from([1, 12, 102, 111, 111]), 'foo');
   testDecode('Uint8Array (without)', Uint8Array.from([0]), '');
 
+  it('rejects an Option prefix other than 0x00/0x01', (): void => {
+    expect(() => new Option(registry, Text, Uint8Array.from([2, 12, 102, 111, 111]))).toThrow(/Invalid Option encoding/);
+    expect(() => new Option(registry, U32, Uint8Array.from([0xff, 1, 0, 0, 0]))).toThrow(/Invalid Option encoding/);
+    expect(() => registry.createType('Option<u32>', new Uint8Array([5, 1, 0, 0, 0]))).toThrow(/Invalid Option encoding/);
+    expect(() => registry.createType('(Option<u8>, u8)', new Uint8Array([2, 1, 7]))).toThrow(/Invalid Option encoding/);
+  });
+
   testEncode('toHex', '0x0c666f6f');
   testEncode('toString', 'foo');
   testEncode('toU8a', Uint8Array.from([1, 12, 102, 111, 111]));

@@ -19,6 +19,16 @@ class None extends Null {
 }
 
 /** @internal */
+function decodeSome (value: Uint8Array): Uint8Array {
+  // SCALE only defines 0x00 (None) and 0x01 (Some) as the Option prefix
+  if (value[0] !== 1) {
+    throw new Error(`Invalid Option encoding, expected 0x00 or 0x01 as the first byte, found 0x${value[0].toString(16).padStart(2, '0')}`);
+  }
+
+  return value.subarray(1);
+}
+
+/** @internal */
 function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): Codec {
   if (value instanceof Type) {
     // don't re-create, use as it (which also caters for derived types)
@@ -42,7 +52,7 @@ function decodeOption (registry: Registry, Type: CodecClass, value?: unknown): C
     // may be an instance of it, so Type and Option checks go in first
     return !value.length || value[0] === 0
       ? new None(registry)
-      : new Type(registry, value.subarray(1));
+      : new Type(registry, decodeSome(value));
   }
 
   return new Type(registry, value);
@@ -71,7 +81,7 @@ export class Option<T extends Codec> implements IOption<T> {
     const decoded = isU8a(value) && value.length && !isCodec(value)
       ? value[0] === 0
         ? new None(registry)
-        : new Type(registry, value.subarray(1))
+        : new Type(registry, decodeSome(value))
       : decodeOption(registry, Type, value);
 
     this.registry = registry;

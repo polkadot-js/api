@@ -74,6 +74,18 @@ describe('ExtrinsicPayload', (): void => {
     expect(ext.assetId.toJSON()).toEqual(ext2.assetId.toJSON());
   });
 
+  it('handles assetId without option byte that does not start with 0x00/0x01', () => {
+    const reg = new TypeRegistry();
+
+    reg.setSignedExtensions(fallbackExtensions.concat(['ChargeAssetTxPayment']));
+    // parents: 2, interior: Here
+    const ext = new ExtrinsicPayload(reg, { ...TEST_WITH_ASSET, assetId: '0x010200' }, { version: 4 });
+    const ext2 = new ExtrinsicPayload(reg, { ...TEST_WITH_ASSET, assetId: '0x0200' }, { version: 4 });
+
+    expect(ext.assetId.toJSON()).toEqual({ interior: { here: null }, parents: 2 });
+    expect(ext.assetId.toJSON()).toEqual(ext2.assetId.toJSON());
+  });
+
   it('handles toU8a(true) correctly', (): void => {
     expect(
       u8aToHex(

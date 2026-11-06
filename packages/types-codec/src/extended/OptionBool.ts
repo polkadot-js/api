@@ -14,6 +14,10 @@ function decodeU8a (registry: Registry, value: Uint8Array): null | Bool {
   //  - 0 = None
   //  - 1 = True
   //  - 2 = False
+  if (value.length && value[0] > 2) {
+    throw new Error(`Invalid Option<bool> encoding, expected 0x00, 0x01 or 0x02, found 0x${value[0].toString(16).padStart(2, '0')}`);
+  }
+
   return value[0] === 0
     ? null
     : new Bool(registry, value[0] === 1);

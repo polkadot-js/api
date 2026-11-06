@@ -21,6 +21,17 @@ describe('OptionBool', (): void => {
     it('decodes false', (): void => {
       expect(new OptionBool(registry, false).toJSON()).toEqual(false);
     });
+
+    it('decodes from Uint8Array', (): void => {
+      expect(new OptionBool(registry, new Uint8Array([0])).toJSON()).toEqual(null);
+      expect(new OptionBool(registry, new Uint8Array([1])).toJSON()).toEqual(true);
+      expect(new OptionBool(registry, new Uint8Array([2])).toJSON()).toEqual(false);
+    });
+
+    it('rejects Uint8Array values above 0x02', (): void => {
+      expect(() => new OptionBool(registry, new Uint8Array([3]))).toThrow(/Invalid Option<bool> encoding/);
+      expect(() => new OptionBool(registry, new Uint8Array([0xff]))).toThrow(/Invalid Option<bool> encoding/);
+    });
   });
 
   describe('encodes', (): void => {
