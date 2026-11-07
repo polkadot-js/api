@@ -177,7 +177,6 @@ export class HttpProvider implements ProviderInterface {
         body,
         headers: {
           Accept: 'application/json',
-          'Content-Length': `${body.length}`,
           'Content-Type': 'application/json',
           ...this.#headers
         },
