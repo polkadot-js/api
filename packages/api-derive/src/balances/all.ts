@@ -102,7 +102,7 @@ function calcVesting (bestNumber: BlockNumber, shared: DeriveBalancesAllAccountD
       : BN_ZERO,
     vesting: vesting
       .map(({ locked, perBlock, startingBlock }, index) => ({
-        endBlock: locked.div(perBlock).iadd(startingBlock),
+        endBlock: locked.add(perBlock).isubn(1).div(perBlock).iadd(startingBlock),
         locked,
         perBlock,
         startingBlock,
