@@ -171,7 +171,9 @@ export abstract class Init<ApiType extends ApiTypes> extends Decorate<ApiType> {
     if (version) {
       // check for pre-existing registries. We also check specName, e.g. it
       // could be changed like in Westmint with upgrade from shell -> westmint
-      const existingViaVersion = this.#registries.find(({ runtimeVersion: { specName, specVersion } }) =>
+      // Runtime upgrades mutate the default registry in place. Historical blocks need their own registry.
+      const existingViaVersion = this.#registries.find(({ isDefault, runtimeVersion: { specName, specVersion } }) =>
+        !isDefault &&
         specName.eq(version.specName) &&
         specVersion.eq(version.specVersion)
       );
