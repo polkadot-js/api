@@ -110,6 +110,39 @@ describe('ApiPromise', (): void => {
     });
   });
 
+  describe('historical block registry', (): void => {
+    it('retains the execution runtime after the live runtime is upgraded', async (): Promise<void> => {
+      provider.isUpdating = false;
+
+      const api = await ApiPromise.create({ provider, registry, throwOnConnect: true });
+
+      try {
+        const blockHash = hexToU8a(`0x${'11'.repeat(32)}`);
+        const oldSpecVersion = api.runtimeVersion.specVersion.toNumber();
+        const before = await api.getBlockRegistry(blockHash);
+        const version = registry.createType('RuntimeVersion', { specVersion: oldSpecVersion + 1 });
+        const updated = new Promise<void>((resolve): void => {
+          api.once('decorated', resolve);
+        });
+
+        for (const callback of Object.values(provider.subscriptions.state_subscribeRuntimeVersion.callbacks)) {
+          callback(null, version.toHex());
+        }
+
+        await updated;
+
+        const after = await api.getBlockRegistry(blockHash);
+
+        expect(api.runtimeVersion.specVersion.toNumber()).toBe(oldSpecVersion + 1);
+        expect(after.runtimeVersion.specVersion.toNumber()).toBe(oldSpecVersion);
+        expect(after).toBe(before);
+        expect(after.registry).not.toBe(api.registry);
+      } finally {
+        await api.disconnect();
+      }
+    });
+  });
+
   describe('api.sign', (): void => {
     const ADDR = '5FA9nQDVg267DEd8m1ZypXLBnvN7SFxYwV7ndqSYGiN9TTpu';
     const TEST = { data: '0x0102030405060708090a0b0c0d0e0f112233445566778899aabbccddeeff' };
